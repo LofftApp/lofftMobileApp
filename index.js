@@ -11,10 +11,10 @@ import {Provider} from 'react-redux';
 
 export default function Main() {
   return (
-    <Provider>
+    <Provider store={store}>
       <App />
     </Provider>
   );
 }
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => Main);
