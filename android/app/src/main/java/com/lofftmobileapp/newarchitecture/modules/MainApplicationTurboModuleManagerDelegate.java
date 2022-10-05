@@ -1,4 +1,4 @@
-package com.lofftmobileapp.newarchitecture.modules;
+package app.lofft.lofft.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

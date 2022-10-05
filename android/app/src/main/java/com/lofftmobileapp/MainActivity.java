@@ -1,4 +1,4 @@
-package com.lofftmobileapp;
+package app.lofft.lofft;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
