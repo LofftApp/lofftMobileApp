@@ -1,4 +1,4 @@
-package com.lofftmobileapp.newarchitecture.components;
+package app.lofft.lofft.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
