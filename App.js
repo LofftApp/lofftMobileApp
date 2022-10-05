@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './src/RootNavigation';
 import WelcomeScreen from './src/screens/WelcomeScreen';
+import AnotherScreen from './src/screens/AnotherScreen';
 
 const Stack = createStackNavigator();
 
@@ -10,6 +11,7 @@ const App = () => {
   return (
     <Stack.Navigator initialRouteName="WelcomeScreen">
       <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+      <Stack.Screen name="AnotherScreen" component={AnotherScreen} />
     </Stack.Navigator>
   );
 };
