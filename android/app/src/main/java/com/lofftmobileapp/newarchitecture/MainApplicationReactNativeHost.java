@@ -1,4 +1,4 @@
-package com.lofftmobileapp.newarchitecture;
+package app.lofft.lofft.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.lofftmobileapp.BuildConfig;
-import com.lofftmobileapp.newarchitecture.components.MainComponentsRegistry;
-import com.lofftmobileapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import app.lofft.lofft.BuildConfig;
+import app.lofft.lofft.newarchitecture.components.MainComponentsRegistry;
+import app.lofft.lofft.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
