@@ -9,6 +9,15 @@ const WelcomeScreen = ({navigation}) => {
       <Text style={fontStyles.headerDisplay}>
         This is the Screen with a back button
       </Text>
+      <Counter />
+      <Button
+        onPress={() => navigation.navigate('AnotherScreen')}
+        title="Another Screen =>"
+      />
+      <Button
+        onPress={() => navigation.navigate('SignUpScreen')}
+        title="Sign Up Screen =>"
+      />
     </ScreenBackButton>
   );
 };
