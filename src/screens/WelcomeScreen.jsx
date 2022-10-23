@@ -21,6 +21,10 @@ const WelcomeScreen = ({navigation}) => {
         value={switchV}
         onValueChange={() => setSwitchV(!switchV)}
       />
+      <Button
+        onPress={() => navigation.navigate('SignUpScreen')}
+        title="Sign Up Screen =>"
+      />
     </ScreenBackButton>
   );
 };
