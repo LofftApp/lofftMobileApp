@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import Counter from '../features/counter/counter';
+import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
 
 const WelcomeScreen = ({navigation}) => {
   return (
-    <View style={styles.mainView}>
+    <ScreenBackButton>
       <Text>
         Hello, This is the Lofft welcome screen for version 3 of the mobile
         applicaiton MVP.
@@ -14,15 +15,10 @@ const WelcomeScreen = ({navigation}) => {
         onPress={() => navigation.navigate('AnotherScreen')}
         title="Another Screen =>"
       />
-    </View>
+    </ScreenBackButton>
   );
 };
 
-const styles = StyleSheet.create({
-  mainView: {
-    height: '100%',
-    width: '100%',
-  },
-});
+const styles = StyleSheet.create({});
 
 export default WelcomeScreen;
