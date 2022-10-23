@@ -14,6 +14,10 @@ const WelcomeScreen = ({navigation}) => {
         onPress={() => navigation.navigate('AnotherScreen')}
         title="Another Screen =>"
       />
+      <Button
+        onPress={() => navigation.navigate('SignUpScreen')}
+        title="Sign Up Screen =>"
+      />
     </View>
   );
 };
