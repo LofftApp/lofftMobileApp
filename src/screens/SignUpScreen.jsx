@@ -24,6 +24,11 @@ const SignUpScreen = () => {
         <Button title="Sign Up"></Button>
         <View>
           <Text>Or sign in with</Text>
+          <Button title="Apple logo"></Button>
+          <Button title="Google logo"></Button>
+          <Text>
+            Already have an account? <Text>Sign in</Text>
+          </Text>
         </View>
       </View>
     </View>
