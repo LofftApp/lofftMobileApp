@@ -340,8 +340,11 @@ PODS:
     - React-jsi (= 0.70.3)
     - React-logger (= 0.70.3)
     - React-perflogger (= 0.70.3)
+<<<<<<< HEAD
   - RNCCheckbox (0.5.12):
     - React-Core
+=======
+>>>>>>> a9d680b7672d197175aaed997d0b8d0ccbfbde76
   - RNFBApp (15.7.0):
     - Firebase/CoreOnly (= 9.6.0)
     - React-Core
@@ -350,6 +353,8 @@ PODS:
   - RNScreens (3.18.0):
     - React-Core
     - React-RCTImage
+  - RNVectorIcons (9.2.0):
+    - React-Core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -393,6 +398,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -485,6 +491,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -533,10 +541,17 @@ SPEC CHECKSUMS:
   React-RCTVibration: b9a58ffdd18446f43d493a4b0ecd603ee86be847
   React-runtimeexecutor: e9b1f9310158a1e265bcdfdfd8c62d6174b947a2
   ReactCommon: 01064177e66d652192c661de899b1076da962fd9
+<<<<<<< HEAD
   RNCCheckbox: ed1b4ca295475b41e7251ebae046360a703b6eb5
   RNFBApp: ad6ad2dd37ccf10e737ec8688208761026331d64
   RNGestureHandler: 7673697e7c0e9391adefae4faa087442bc04af33
   RNScreens: f3230dd008a7d0ce5c0a8bc78ff12cf2315bda24
+=======
+  RNFBApp: ad6ad2dd37ccf10e737ec8688208761026331d64
+  RNGestureHandler: 7673697e7c0e9391adefae4faa087442bc04af33
+  RNScreens: f3230dd008a7d0ce5c0a8bc78ff12cf2315bda24
+  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
+>>>>>>> a9d680b7672d197175aaed997d0b8d0ccbfbde76
   Yoga: 2ed968a4f060a92834227c036279f2736de0fce3
 
 PODFILE CHECKSUM: 1342c300037e07897cdf204b7ed4046a2938f571
