@@ -7,7 +7,7 @@ import color from '../../../styles/lofftColorPallet.json';
 // Stylesheets 🖌
 import {fontStyles} from '../../../styles/fontStyles';
 
-const CustomBackButton = ({
+const BackButton = ({
   onPress,
   title = '',
   close = false,
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomBackButton;
+export default BackButton;
