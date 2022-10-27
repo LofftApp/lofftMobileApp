@@ -1,38 +1,39 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import React from 'react';
+import {View, Text, StyleSheet, Button} from 'react-native';
+import SignUpForm from '../components/SignUpForm';
+import SignInWith from '../components/SignInWith';
+import Color from '../styles/lofftColorPallet.json';
 
 const SignUpScreen = () => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   return (
-    <View>
-      <View></View>
-      <View>
-        <View>
-          <Text>Create account</Text>
-          <TextInput placeholder="Email"></TextInput>
-          <TextInput placeholder="Password"></TextInput>
-          <TextInput placeholder="Repeat Password"></TextInput>
-          <CheckBox
-            disabled={false}
-            value={toggleCheckBox}
-            onValueChange={newValue => setToggleCheckBox(newValue)}
-          />
-          <Text>I agree to...</Text>
-        </View>
-        <Button title="Sign Up"></Button>
-        <View>
-          <Text>Or sign in with</Text>
-          <Button title="Apple logo"></Button>
-          <Button title="Google logo"></Button>
-          <Text>
-            Already have an account? <Text>Sign in</Text>
-          </Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.illustration}></View>
+      <View style={styles.signUpForm}>
+        <SignUpForm />
+      </View>
+      <View style={styles.signInWith}>
+        <SignInWith />
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Color.Lavendar['5'],
+  },
+  illustration: {
+    flex: 1,
+  },
+  signUpForm: {
+    flex: 2,
+  },
+  signInWith: {
+    flex: 1,
+  },
+});
 
 export default SignUpScreen;
