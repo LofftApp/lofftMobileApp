@@ -9,17 +9,19 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.illustration}>
+      <View style={styles.imageWrap}>
         <Image
           style={styles.image}
           source={require('../assets/ilustration/search.png')}
         />
       </View>
-      <View style={styles.signUpForm}>
-        <SignUpForm />
-      </View>
-      <View style={styles.signInWith}>
-        <SignInWith />
+      <View style={styles.formWrap}>
+        <View style={styles.signUpForm}>
+          <SignUpForm />
+        </View>
+        <View style={styles.signInWith}>
+          <SignInWith />
+        </View>
       </View>
     </View>
   );
@@ -30,13 +32,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.Lavendar['5'],
   },
-  illustration: {
+  image: {
+    height: '100%',
+    position: 'relative',
+    zIndex: 2,
+  },
+  imageWrap: {
     flex: 1,
   },
-  image: {
-    width: '50%',
-    height: '50%',
-    zIndex: '1',
+  formWrap: {
+    flex: 3,
+    backgroundColor: Color.White['100'],
   },
   signUpForm: {
     flex: 2,
