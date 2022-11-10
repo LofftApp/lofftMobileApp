@@ -32,15 +32,19 @@ const styles = StyleSheet.create({
   },
   image: {
     height: '100%',
-    position: 'relative',
-    zIndex: 2,
+    overflow: 'visible',
+    marginTop: 20,
   },
   imageWrap: {
+    zIndex: 3,
     flex: 1,
+    alignItems: 'center',
   },
   formWrap: {
     flex: 3,
+    paddingHorizontal: 10,
     backgroundColor: Color.White['100'],
+    borderRadius: 30,
   },
   signUpForm: {
     flex: 2,
