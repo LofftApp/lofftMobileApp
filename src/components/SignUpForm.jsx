@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import Input from './Input';
 import Color from '../styles/lofftColorPallet.json';
 
@@ -15,12 +14,12 @@ const SignUpForm = () => {
         <Input props="Create password"></Input>
         <Input props="Repeat password"></Input>
         <View style={styles.checkBoxWrap}>
-          <CheckBox
+          {/* <CheckBox
             disabled={false}
             value={toggleCheckBox}
             style={styles.checkBox}
             onValueChange={newValue => setToggleCheckBox(newValue)}
-          />
+          /> */}
           <Text>I agree to...</Text>
         </View>
       </View>
