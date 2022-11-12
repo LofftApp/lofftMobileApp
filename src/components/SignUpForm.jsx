@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
 import Input from './Input';
 import Color from '../styles/lofftColorPallet.json';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import SignUpButton from './coreComponents/buttons/SignUpButton';
 
 const SignUpForm = () => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -14,16 +16,24 @@ const SignUpForm = () => {
         <Input props="Create password"></Input>
         <Input props="Repeat password"></Input>
         <View style={styles.checkBoxWrap}>
-          {/* <CheckBox
-            disabled={false}
-            value={toggleCheckBox}
-            style={styles.checkBox}
-            onValueChange={newValue => setToggleCheckBox(newValue)}
-          /> */}
-          <Text>I agree to...</Text>
+          <BouncyCheckbox
+            style={{color: 'black'}}
+            iconStyle={{borderRadius: 4}}
+            innerIconStyle={{
+              borderRadius: 4,
+              borderColor: Color.Lavendar['100'],
+              borderWidth: 2,
+            }}
+            unfillColor="transparent"
+            fillColor={Color.Lavendar['100']}
+            onPress={(isChecked: boolean) => {}}
+          />
+          <Text style={{fontSize: 13}}>
+            I agree to terms & conditions and Lofft’s privacy policy.
+          </Text>
         </View>
       </View>
-      <Button style={styles.button} title="Sign Up"></Button>
+      <SignUpButton props="Sign Up"></SignUpButton>
     </View>
   );
 };
@@ -43,22 +53,14 @@ const styles = StyleSheet.create({
   textInputWrap: {
     width: '100%',
     borderColor: 'black',
-    // borderWidth: 1,
-    // flex: 2,
-  },
-  button: {
-    // flex: 1,
   },
   checkBoxWrap: {
+    width: '85%',
     flexDirection: 'row',
-  },
-  checkBox: {
-    // width: 50,
-    // height: 50,
-    boxType: 'BEMBoxTypeSquare',
-    tintColor: Color.Lavendar['100'],
-    margin: 10,
+    paddingTop: 15,
+    paddingHorizontal: 10,
   },
 });
 
 export default SignUpForm;
+0;
