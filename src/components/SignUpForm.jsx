@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Input from './Input';
 import Color from '../styles/lofftColorPallet.json';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -33,7 +33,9 @@ const SignUpForm = () => {
           </Text>
         </View>
       </View>
-      <SignUpButton props="Sign Up"></SignUpButton>
+      <View style={styles.signUpButtonView}>
+        <SignUpButton props="Sign Up"></SignUpButton>
+      </View>
     </View>
   );
 };
@@ -59,6 +61,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 15,
     paddingHorizontal: 10,
+  },
+  signUpButtonView: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
   },
 });
 
