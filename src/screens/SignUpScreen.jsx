@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar['5'],
   },
   image: {
-    height: '100%',
+    height: '70%',
     overflow: 'visible',
     marginTop: 20,
   },
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formWrap: {
-    flex: 3,
+    flex: 4,
     paddingHorizontal: 10,
     backgroundColor: Color.White['100'],
     borderRadius: 30,
