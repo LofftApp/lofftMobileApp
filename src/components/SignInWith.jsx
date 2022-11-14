@@ -29,9 +29,6 @@ const SignInWith = () => {
           />
         </Pressable>
       </View>
-      <Text style={styles.text2}>
-        Already have an account? <Text>Sign in</Text>
-      </Text>
     </View>
   );
 };
@@ -45,12 +42,8 @@ const styles = StyleSheet.create({
     color: Color.Black[50],
     paddingVertical: 20,
   },
-  text2: {
-    paddingVertical: 20,
-  },
   buttonWrap: {
     flexDirection: 'row',
-    padding: 10,
   },
   logInWithButton: {
     width: 64,
