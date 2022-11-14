@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button, Image} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import SignInWith from '../components/SignInWith';
 import Color from '../styles/lofftColorPallet.json';
