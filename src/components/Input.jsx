@@ -1,27 +1,40 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
+import React from 'react';
+import {StyleSheet, TextInput, Image, View} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
 
 const Input = ({props}) => {
   return (
-    <TextInput
-      style={styles.textInput}
-      placeholderTextColor={Color.Black['50']}
-      placeholder={props}></TextInput>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.textInput}
+        placeholderTextColor={Color.Black['50']}
+        placeholder={props}></TextInput>
+      <Image
+        style={styles.icon}
+        source={require('../assets/icons/Visible-icon.png')}></Image>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
   textInput: {
     width: '100%',
     height: 48,
     padding: 16,
     borderRadius: 12,
-    marginBottom: 8,
     borderColor: 'black',
     borderWidth: 2,
     fontSize: 16,
     fontWeight: '500',
+  },
+  icon: {
+    position: 'absolute',
+    right: 18,
   },
 });
 
