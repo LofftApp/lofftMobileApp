@@ -1,26 +1,26 @@
 import React from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
-import SignUpForm from '../components/SignUpForm';
+import SignInForm from '../components/SignInForm';
 import SignInWith from '../components/SignInWith';
 import Color from '../styles/lofftColorPallet.json';
 
-const SignUpScreen = () => {
+const SignInScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
         <Image
           style={styles.image}
-          source={require('../assets/ilustration/search.png')}
+          source={require('../assets/ilustration/Hi-five.png')}
         />
       </View>
       <View style={styles.formWrap}>
-        <View style={styles.signUpForm}>
-          <SignUpForm />
+        <View style={styles.signInForm}>
+          <SignInForm />
         </View>
         <View style={styles.signInWith}>
           <SignInWith />
           <Text style={styles.text}>
-            Already have an account? <Text>Sign in</Text>
+            Don't have an account yet? <Text>Sign Up</Text>
           </Text>
         </View>
       </View>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   image: {
     height: '70%',
     overflow: 'visible',
-    marginTop: 20,
+    marginTop: 50,
   },
   imageWrap: {
     zIndex: 3,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White['100'],
     borderRadius: 30,
   },
-  signUpForm: {
+  signInForm: {
     flex: 2,
   },
   signInWith: {
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default SignInScreen;
