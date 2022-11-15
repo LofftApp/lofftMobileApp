@@ -334,6 +334,13 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
+<<<<<<< HEAD
+=======
+  - RNSVG (13.6.0):
+    - React-Core
+  - RNVectorIcons (9.2.0):
+    - React-Core
+>>>>>>> 1868857 (react-native-svg installed)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -376,6 +383,11 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
+<<<<<<< HEAD
+=======
+  - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+>>>>>>> 1868857 (react-native-svg installed)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -464,6 +476,13 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+<<<<<<< HEAD
+=======
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
+>>>>>>> 1868857 (react-native-svg installed)
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
