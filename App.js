@@ -10,8 +10,16 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <Stack.Navigator initialRouteName="WelcomeScreen">
-      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-      <Stack.Screen name="AnotherScreen" component={AnotherScreen} />
+      <Stack.Screen
+        name="WelcomeScreen"
+        component={WelcomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AnotherScreen"
+        component={AnotherScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
