@@ -22,9 +22,14 @@ PODS:
   - glog (0.3.5)
   - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
+<<<<<<< HEAD
+=======
+  - GoogleUtilities/Environment (7.10.0):
+    - PromisesObjC (< 3.0, >= 1.2)
+>>>>>>> d651e74 (updated Podfile.lock)
   - GoogleUtilities/Logger (7.10.0):
     - GoogleUtilities/Environment
-  - "GoogleUtilities/NSData+zlib (7.8.0)"
+  - "GoogleUtilities/NSData+zlib (7.10.0)"
   - hermes-engine (0.70.4)
   - libevent (2.1.12)
   - PromisesObjC (2.1.1)
@@ -499,7 +504,7 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
-  GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
+  GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   hermes-engine: 3623325e0d0676a45fbc544d72c57dd79fce7446
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
