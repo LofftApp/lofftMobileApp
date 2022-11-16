@@ -23,10 +23,13 @@ PODS:
   - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
 >>>>>>> d651e74 (updated Podfile.lock)
+=======
+>>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   - GoogleUtilities/Logger (7.10.0):
     - GoogleUtilities/Environment
   - "GoogleUtilities/NSData+zlib (7.10.0)"
@@ -340,7 +343,10 @@ PODS:
     - React-Core
     - React-RCTImage
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   - RNSVG (13.6.0):
     - React-Core
   - RNVectorIcons (9.2.0):
@@ -389,7 +395,10 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
 >>>>>>> 1868857 (react-native-svg installed)
@@ -482,7 +491,10 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../node_modules/react-native-screens"
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
