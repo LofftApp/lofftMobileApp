@@ -1,20 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
-import Counter from '../features/counter/counter';
+import {Text, StyleSheet} from 'react-native';
 import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
+import {fontStyles} from '../styles/fontStyles';
 
 const WelcomeScreen = ({navigation}) => {
   return (
-    <ScreenBackButton>
-      <Text>
-        Hello, This is the Lofft welcome screen for version 3 of the mobile
-        applicaiton MVP.
+    <ScreenBackButton navigation={navigation} title="Back Button">
+      <Text style={fontStyles.headerDisplay}>
+        This is the Screen with a back button
       </Text>
-      <Counter />
-      <Button
-        onPress={() => navigation.navigate('AnotherScreen')}
-        title="Another Screen =>"
-      />
     </ScreenBackButton>
   );
 };
