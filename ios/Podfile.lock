@@ -1,5 +1,4 @@
 PODS:
-  - BEMCheckBox (1.4.1)
   - boost (1.76.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.70.4)
@@ -343,9 +342,6 @@ PODS:
 =======
   - RNSVG (13.6.0):
     - React-Core
-  - RNVectorIcons (9.2.0):
-    - React-Core
->>>>>>> 1868857 (react-native-svg installed)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -391,13 +387,10 @@ DEPENDENCIES:
 <<<<<<< HEAD
 =======
   - RNSVG (from `../node_modules/react-native-svg`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
->>>>>>> 1868857 (react-native-svg installed)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
-    - BEMCheckBox
     - Firebase
     - FirebaseCore
     - FirebaseCoreInternal
@@ -485,14 +478,10 @@ EXTERNAL SOURCES:
 =======
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
->>>>>>> 1868857 (react-native-svg installed)
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 8a28262f61fbe40c04ce8677b8d835d97c18f1b3
