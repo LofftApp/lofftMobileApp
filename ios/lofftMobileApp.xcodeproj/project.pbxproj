@@ -14,6 +14,11 @@
 		13D42D0FAF9F119272EAB413 /* Pods_lofftMobileApp_lofftMobileAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46047CCF502124626C4E30EF /* Pods_lofftMobileApp_lofftMobileAppTests.framework */; };
 		1AA542882922B37A00D2F85A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542842922B33B00D2F85A /* Ionicons.ttf */; };
 		1ABD642C28ED8E3F00773A6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ABD642B28ED8E3F00773A6E /* GoogleService-Info.plist */; };
+		1AFDD1722925031600097DB5 /* Inter-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA5427F2922B23900D2F85A /* Inter-Black.otf */; };
+		1AFDD1732925035100097DB5 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542802922B23900D2F85A /* Inter-Bold.otf */; };
+		1AFDD1742925035100097DB5 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542832922B23900D2F85A /* Inter-Medium.otf */; };
+		1AFDD1752925035100097DB5 /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542812922B23900D2F85A /* Inter-SemiBold.otf */; };
+		1AFDD1762925035100097DB5 /* InterV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542822922B23900D2F85A /* InterV.ttf */; };
 		74CE5B0250B56F4E1C358216 /* Pods_lofftMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B725F43BF9B3A48A5A2422E /* Pods_lofftMobileApp.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -267,6 +272,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AFDD1732925035100097DB5 /* Inter-Bold.otf in Resources */,
+				1AFDD1742925035100097DB5 /* Inter-Medium.otf in Resources */,
+				1AFDD1752925035100097DB5 /* Inter-SemiBold.otf in Resources */,
+				1AFDD1762925035100097DB5 /* InterV.ttf in Resources */,
+				1AFDD1722925031600097DB5 /* Inter-Black.otf in Resources */,
 				1AA542882922B37A00D2F85A /* Ionicons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
