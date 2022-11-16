@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Inter-Black.otf</string>
+		<string>Inter-Bold.otf</string>
+		<string>Inter-Medium.otf</string>
+		<string>Inter-SemiBold.otf</string>
+		<string>InterV.ttf</string>
+		<string>Ionicons.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
