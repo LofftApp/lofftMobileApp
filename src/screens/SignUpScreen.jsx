@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import SignInWith from '../components/SignInWith';
