@@ -26,7 +26,7 @@ const SignUpForm = () => {
             }}
             unfillColor="transparent"
             fillColor={Color.Lavendar['100']}
-            onPress={(isChecked: boolean) => {}}
+            onPress={isChecked => {}}
           />
           <Text style={{fontSize: 13}}>
             I agree to terms & conditions and Lofft’s privacy policy.

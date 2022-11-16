@@ -1,5 +1,4 @@
 PODS:
-  - BEMCheckBox (1.4.1)
   - boost (1.76.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.70.4)
@@ -22,14 +21,6 @@ PODS:
   - glog (0.3.5)
   - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  - GoogleUtilities/Environment (7.10.0):
-    - PromisesObjC (< 3.0, >= 1.2)
->>>>>>> d651e74 (updated Podfile.lock)
-=======
->>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   - GoogleUtilities/Logger (7.10.0):
     - GoogleUtilities/Environment
   - "GoogleUtilities/NSData+zlib (7.10.0)"
@@ -342,16 +333,8 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   - RNSVG (13.6.0):
     - React-Core
-  - RNVectorIcons (9.2.0):
-    - React-Core
->>>>>>> 1868857 (react-native-svg installed)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -394,19 +377,11 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   - RNSVG (from `../node_modules/react-native-svg`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
->>>>>>> 1868857 (react-native-svg installed)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
-    - BEMCheckBox
     - Firebase
     - FirebaseCore
     - FirebaseCoreInternal
@@ -490,21 +465,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 24406b31ace5e05b24894519bb0af4ca4a0fdbfd
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
->>>>>>> 1868857 (react-native-svg installed)
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 8a28262f61fbe40c04ce8677b8d835d97c18f1b3
@@ -550,7 +516,6 @@ SPEC CHECKSUMS:
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
-  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Yoga: 1f02ef4ce4469aefc36167138441b27d988282b1
 
 PODFILE CHECKSUM: 1342c300037e07897cdf204b7ed4046a2938f571
