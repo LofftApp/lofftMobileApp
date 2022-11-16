@@ -29,9 +29,8 @@ const SignInScreen = () => {
           style={styles.image}
           source={require('../assets/ilustration/Hi-five.png')}
         />
-        <View>
-          <BackgroundImage size={30} />
-        </View>
+        {/* <BackgroundImage size={30} /> */}
+        <Image source={BackgroundImage} />
       </View>
       {/* <SvgXml width="100%" xml={xml} style={styles.backgroundImage} /> */}
       <View style={styles.formWrap}>
