@@ -497,13 +497,11 @@ SPEC CHECKSUMS:
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 8a28262f61fbe40c04ce8677b8d835d97c18f1b3
   FBReactNativeSpec: b475991eb2d8da6a4ec32d09a8df31b0247fa87d
-  Firebase: 5ae8b7cf8efce559a653aef0ad95bab3f427c351
-  FirebaseCore: 2082fffcd855f95f883c0a1641133eb9bbe76d40
-  FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
-  FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
+  Firebase: 1b810f3d0c0532e27a48f1961f8c0400a668a2cf
+  FirebaseCore: 97f48a3a567a72b8d4daa0f03c3aadb78df4e995
+  FirebaseCoreInternal: 091bde13e47bb1c5e9fe397634f3593dc390430f
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   hermes-engine: 3623325e0d0676a45fbc544d72c57dd79fce7446
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
