@@ -1,55 +1,80 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import colors from '../../../styles/lofftColorPallet.json';
-import {fontStyles} from '../../../styles/fontStyles';
-import Icon from 'react-native-vector-icons/Ionicons';
+import PasswordInput from './inputs/PasswordInput';
+import SearchInput from './inputs/SearchInput';
+import DefaultInput from './inputs/DefaultInput';
 
-const InputFieldText = ({placeholder = null, style = null}) => {
-  const [focused, setFocues] = useState(false);
-  const [text, setText] = useState('');
+const InputFieldText = ({
+  placeholder = null,
+  type = null,
+  onChangeText,
+  value,
+  onClear = null,
+  errorMessage = '',
+}) => {
+  const [focus, setFocus] = useState(false);
+
   return (
-    <View style={[styles.inputFieldStyle, focused ? styles.focused : null]}>
-      <Icon name="search-outline" size={18} />
-      <TextInput
-        style={[styles.inputFieldTextStyle, fontStyles.bodyMedium, style]}
-        placeholder={placeholder}
-        onFocus={() => setFocues(true)}
-        onBlur={() => setFocues(false)}
-        value={text}
-        onChangeText={t => setText(t)}
-      />
-      <TouchableOpacity onPress={() => setText('')}>
-        <Icon name="close-outline" size={20} />
-      </TouchableOpacity>
-    </View>
+    <>
+      <View
+        style={[
+          styles.inputFieldStyle,
+          focus ? styles.focus : null,
+          errorMessage ? styles.errorActive : null,
+        ]}>
+        {type === 'password' ? (
+          <PasswordInput
+            onChangeText={onChangeText}
+            onBlur={() => setFocus(false)}
+            onFocus={() => setFocus(true)}
+            value={value}
+            placeholder={placeholder}
+          />
+        ) : type === 'search' ? (
+          <SearchInput
+            onChangeText={onChangeText}
+            onBlur={() => setFocus(false)}
+            onFocus={() => setFocus(true)}
+            onClear={onClear}
+            value={value}
+            placeholder={placeholder}
+          />
+        ) : (
+          <DefaultInput
+            onChangeText={onChangeText}
+            onBlur={() => setFocus(false)}
+            onFocus={() => setFocus(true)}
+            onClear={() => setText('')}
+            value={value}
+            placeholder={placeholder}
+          />
+        )}
+      </View>
+      {errorMessage ? (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : null}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   inputFieldStyle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 15,
+    marginTop: 15,
     borderWidth: 2,
     borderRadius: 12,
     borderColor: colors.Black[80],
     paddingHorizontal: 8,
   },
-  inputFieldTextStyle: {
-    margin: 0,
-    marginLeft: 11,
-    paddingVertical: 8,
-    flex: 1,
-  },
-  focused: {
+  focus: {
     borderColor: colors.Lavendar[100],
+  },
+  errorMessage: {
+    margin: 5,
+    color: colors.Tomato[100],
+  },
+  errorActive: {
+    borderColor: colors.Tomato[100],
   },
 });
 

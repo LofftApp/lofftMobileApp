@@ -9,8 +9,9 @@ const WelcomeScreen = ({navigation}) => {
       <Text style={fontStyles.headerDisplay}>
         This is the Screen with a back button
       </Text>
-      <InputFieldText placeholder="Test" />
-      <InputFieldText placeholder="Test2" />
+      <InputFieldText placeholder="Password" type="password" />
+      <InputFieldText placeholder="Search" type="search" />
+      <InputFieldText placeholder="First Name" />
     </ScreenBackButton>
   );
 };
