@@ -4,9 +4,10 @@ import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBac
 import {fontStyles} from '../styles/fontStyles';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
-import Switch from '../components/coreComponents/interactiveElements/Switch';
+import CustomSwitch from '../components/coreComponents/interactiveElements/CustomSwitch';
 const WelcomeScreen = ({navigation}) => {
   const [checkbox, setCheckBox] = useState(false);
+  const [switchV, setSwitchV] = useState(false);
   return (
     <ScreenBackButton navigation={navigation} title="Back Button">
       <Text style={fontStyles.headerDisplay}>
@@ -16,7 +17,10 @@ const WelcomeScreen = ({navigation}) => {
       <InputFieldText placeholder="Search" type="search" />
       <InputFieldText placeholder="First Name" />
       <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
-      <Switch />
+      <CustomSwitch
+        value={switchV}
+        onValueChange={() => setSwitchV(!switchV)}
+      />
     </ScreenBackButton>
   );
 };
