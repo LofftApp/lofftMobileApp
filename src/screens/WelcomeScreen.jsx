@@ -6,7 +6,7 @@ import InputFieldText from '../components/coreComponents/inputField/InputFieldTe
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
 import CustomSwitch from '../components/coreComponents/interactiveElements/CustomSwitch';
 const WelcomeScreen = ({navigation}) => {
-  const [checkbox, setCheckBox] = useState(false);
+  const [checkbox, setCheckBox] = useState(true);
   const [switchV, setSwitchV] = useState(false);
   return (
     <ScreenBackButton navigation={navigation} title="Back Button">
