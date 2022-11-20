@@ -21,11 +21,6 @@ PODS:
   - glog (0.3.5)
   - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
-<<<<<<< HEAD
-=======
-  - GoogleUtilities/Environment (7.10.0):
-    - PromisesObjC (< 3.0, >= 1.2)
->>>>>>> d651e74 (updated Podfile.lock)
   - GoogleUtilities/Logger (7.10.0):
     - GoogleUtilities/Environment
   - "GoogleUtilities/NSData+zlib (7.10.0)"
@@ -323,13 +318,13 @@ PODS:
     - DoubleConversion
     - glog
     - RCT-Folly (= 2021.07.22.00)
-    - React-bridging (= 0.70.3)
-    - React-callinvoker (= 0.70.3)
-    - React-Core (= 0.70.3)
-    - React-cxxreact (= 0.70.3)
-    - React-jsi (= 0.70.3)
-    - React-logger (= 0.70.3)
-    - React-perflogger (= 0.70.3)
+    - React-bridging (= 0.70.4)
+    - React-callinvoker (= 0.70.4)
+    - React-Core (= 0.70.4)
+    - React-cxxreact (= 0.70.4)
+    - React-jsi (= 0.70.4)
+    - React-logger (= 0.70.4)
+    - React-perflogger (= 0.70.4)
   - RNFBApp (15.7.1):
     - Firebase/CoreOnly (= 10.0.0)
     - React-Core
@@ -338,8 +333,6 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
-<<<<<<< HEAD
-=======
   - RNSVG (13.6.0):
     - React-Core
   - Yoga (1.14.0)
@@ -384,8 +377,6 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
-<<<<<<< HEAD
-=======
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -474,8 +465,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-<<<<<<< HEAD
-=======
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -511,22 +500,23 @@ SPEC CHECKSUMS:
   React-jsinspector: 1d5a9e84e419a57cabc23249aec3d837d1b03a80
   React-logger: f8071ad48248781d5afdb8a07f778758529d3019
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
-  React-perflogger: 082b4293f0b3914ff41da35a6c06ac4490fcbcc8
-  React-RCTActionSheet: 83da3030deb5dea54b398129f56540a44e64d3ae
-  React-RCTAnimation: bac3a4f4c0436554d9f7fbb1352a0cdcb1fb0f1c
-  React-RCTBlob: d2c8830ac6b4d55d5624469829fe6d0ef1d534d1
-  React-RCTImage: 26ad032b09f90ae5d2283ec19f0c455c444c8189
-  React-RCTLinking: 4a8d16586df11fff515a6c52ff51a02c47a20499
-  React-RCTNetwork: 843fc75a70f0b5760de0bf59468585f41209bcf0
-  React-RCTSettings: 54e59255f94462951b45f84c3f81aedc27cf8615
-  React-RCTText: c32e2a60827bd232b2bc95941b9926ccf1c2be4c
-  React-RCTVibration: b9a58ffdd18446f43d493a4b0ecd603ee86be847
-  React-runtimeexecutor: e9b1f9310158a1e265bcdfdfd8c62d6174b947a2
-  ReactCommon: 01064177e66d652192c661de899b1076da962fd9
+  React-perflogger: 5e41b01b35d97cc1b0ea177181eb33b5c77623b6
+  React-RCTActionSheet: 48949f30b24200c82f3dd27847513be34e06a3ae
+  React-RCTAnimation: 96af42c97966fcd53ed9c31bee6f969c770312b6
+  React-RCTBlob: 22aa326a2b34eea3299a2274ce93e102f8383ed9
+  React-RCTImage: 1df0dbdb53609778f68830ccdd07ff3b40812837
+  React-RCTLinking: eef4732d9102a10174115a727588d199711e376c
+  React-RCTNetwork: 18716f00568ec203df2192d35f4a74d1d9b00675
+  React-RCTSettings: 1dc8a5e5272cea1bad2f8d9b4e6bac91b846749b
+  React-RCTText: 17652c6294903677fb3d754b5955ac293347782c
+  React-RCTVibration: 0e247407238d3bd6b29d922d7b5de0404359431b
+  React-runtimeexecutor: 5407e26b5aaafa9b01a08e33653255f8247e7c31
+  ReactCommon: abf3605a56f98b91671d0d1327addc4ffb87af77
   RNFBApp: 3976c7928aa054c4fdcd0d029dececa0b3397ee5
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
-  Yoga: 2ed968a4f060a92834227c036279f2736de0fce3
+  RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
+  Yoga: 1f02ef4ce4469aefc36167138441b27d988282b1
 
 PODFILE CHECKSUM: 1342c300037e07897cdf204b7ed4046a2938f571
 
