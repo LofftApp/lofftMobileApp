@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Input from './Input';
 import Color from '../styles/lofftColorPallet.json';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
+import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
 
 const SignUpForm = () => {
+  const [checkbox, setCheckBox] = useState(false);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
@@ -15,18 +15,7 @@ const SignUpForm = () => {
         <InputFieldText placeholder="Create password" type="password" />
         <InputFieldText placeholder="Repeat password" type="password" />
         <View style={styles.checkBoxWrap}>
-          <BouncyCheckbox
-            style={{color: 'black'}}
-            iconStyle={{borderRadius: 4}}
-            innerIconStyle={{
-              borderRadius: 4,
-              borderColor: Color.Lavendar['100'],
-              borderWidth: 2,
-            }}
-            unfillColor="transparent"
-            fillColor={Color.Lavendar['100']}
-            onPress={isChecked => {}}
-          />
+          <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
           <Text style={{fontSize: 13}}>
             I agree to terms & conditions and Lofft’s privacy policy.
           </Text>
