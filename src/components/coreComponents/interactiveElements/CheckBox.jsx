@@ -8,7 +8,7 @@ const CheckBox = ({disabled = false, value = true, onPress}) => {
     <View style={[styles.CBContainer, disabled ? styles.disabled : null]}>
       <TouchableOpacity onPress={onPress} disabled={disabled}>
         <Icon
-          name={!disabled || value ? 'close-outline' : null}
+          name={disabled ? null : value ? 'close-outline' : null}
           style={styles.xIcon}
           color={colors.Lavendar[100]}
         />
