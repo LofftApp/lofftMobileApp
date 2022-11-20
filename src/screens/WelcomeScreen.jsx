@@ -15,11 +15,7 @@ const WelcomeScreen = ({navigation}) => {
       <InputFieldText placeholder="Password" type="password" />
       <InputFieldText placeholder="Search" type="search" />
       <InputFieldText placeholder="First Name" />
-      <CheckBox
-        value={checkbox}
-        onPress={() => setCheckBox(!checkbox)}
-        disabled={true}
-      />
+      <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
       <Switch />
     </ScreenBackButton>
   );
