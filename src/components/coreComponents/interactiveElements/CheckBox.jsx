@@ -2,16 +2,20 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../../styles/lofftColorPallet.json';
+import {CrossIcon} from '../../../assets';
 
 const CheckBox = ({disabled = false, value = true, onPress}) => {
   return (
     <View style={[styles.CBContainer, disabled ? styles.disabled : null]}>
       <TouchableOpacity onPress={onPress} disabled={disabled}>
-        <Icon
+        <View style={{backgroundColor: 'red'}}>
+          {disabled ? null : value ? <CrossIcon /> : null}
+        </View>
+        {/* <Icon
           name={disabled ? null : value ? 'close-outline' : null}
           style={styles.xIcon}
           color={colors.Lavendar[100]}
-        />
+        /> */}
       </TouchableOpacity>
     </View>
   );
