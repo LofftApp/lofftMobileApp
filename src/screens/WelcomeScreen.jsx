@@ -4,6 +4,7 @@ import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBac
 import {fontStyles} from '../styles/fontStyles';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
+import Switch from '../components/coreComponents/interactiveElements/Switch';
 const WelcomeScreen = ({navigation}) => {
   const [checkbox, setCheckBox] = useState(false);
   return (
@@ -19,6 +20,7 @@ const WelcomeScreen = ({navigation}) => {
         onPress={() => setCheckBox(!checkbox)}
         disabled={true}
       />
+      <Switch />
     </ScreenBackButton>
   );
 };
