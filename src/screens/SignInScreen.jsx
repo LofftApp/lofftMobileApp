@@ -6,9 +6,6 @@ import Color from '../styles/lofftColorPallet.json';
 import {SignInBackground} from '../assets';
 import {HiFive} from '../assets';
 
-
-import SigninSVGImage from '../assets/background/signin.svg';
-
 const SignInScreen = () => {
   return (
     <View style={styles.container}>
