@@ -7,8 +7,6 @@ import {Search} from '../assets';
 import {SignUpBackground} from '../assets';
 
 const SignUpScreen = () => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>

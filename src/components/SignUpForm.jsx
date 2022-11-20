@@ -4,17 +4,16 @@ import Input from './Input';
 import Color from '../styles/lofftColorPallet.json';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
+import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 
 const SignUpForm = () => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
       <View style={styles.textInputWrap}>
-        <Input props="Email"></Input>
-        <Input props="Create password"></Input>
-        <Input props="Repeat password"></Input>
+        <InputFieldText placeholder="Email" type="email" />
+        <InputFieldText placeholder="Create password" type="password" />
+        <InputFieldText placeholder="Repeat password" type="password" />
         <View style={styles.checkBoxWrap}>
           <BouncyCheckbox
             style={{color: 'black'}}
