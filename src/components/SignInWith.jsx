@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
+import {AppleIcon} from '../assets';
+import {GoogleIcon} from '../assets';
 
 // things to be added:
 // 1. 'terms & conditions' (link)
@@ -17,16 +19,10 @@ const SignInWith = () => {
       </Text>
       <View style={styles.buttonWrap}>
         <Pressable style={styles.logInWithButton}>
-          <Image
-            style={styles.image}
-            source={require('../assets/icons/Apple-icon.png')}
-          />
+          <AppleIcon style={styles.image} />
         </Pressable>
         <Pressable style={styles.logInWithButton}>
-          <Image
-            style={styles.image}
-            source={require('../assets/icons/Google-icon.png')}
-          />
+          <GoogleIcon style={styles.image} />
         </Pressable>
       </View>
     </View>
