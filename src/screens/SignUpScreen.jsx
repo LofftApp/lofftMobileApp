@@ -3,6 +3,8 @@ import {View, StyleSheet, Image, Text} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import SignInWith from '../components/SignInWith';
 import Color from '../styles/lofftColorPallet.json';
+import {Search} from '../assets';
+import {SignUpBackground} from '../assets';
 
 const SignUpScreen = () => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -10,11 +12,9 @@ const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
-        <Image
-          style={styles.image}
-          source={require('../assets/ilustration/search.png')}
-        />
+        <Search style={styles.image} />
       </View>
+      <SignUpBackground style={styles.backgroundImage} />
       <View style={styles.formWrap}>
         <View style={styles.signUpForm}>
           <SignUpForm />
@@ -38,15 +38,21 @@ const styles = StyleSheet.create({
   image: {
     height: '70%',
     overflow: 'visible',
-    marginTop: 20,
+    marginTop: -60,
   },
   imageWrap: {
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
   },
+  backgroundImage: {
+    position: 'absolute',
+    top: -85,
+    zIndex: 1,
+  },
   formWrap: {
     flex: 4,
+    zIndex: 2,
     paddingHorizontal: 10,
     backgroundColor: Color.White['100'],
     borderRadius: 30,
