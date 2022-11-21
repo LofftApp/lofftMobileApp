@@ -16,7 +16,7 @@ const SignUpForm = () => {
         <InputFieldText placeholder="Repeat password" type="password" />
         <View style={styles.checkBoxWrap}>
           <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
-          <Text style={{fontSize: 13}}>
+          <Text style={styles.text}>
             I agree to terms & conditions and Lofft’s privacy policy.
           </Text>
         </View>
@@ -44,9 +44,14 @@ const styles = StyleSheet.create({
     width: '100%',
     borderColor: 'black',
   },
+  text: {
+    paddingLeft: 20,
+    fontSize: 14,
+  },
   checkBoxWrap: {
     width: '90%',
     flexDirection: 'row',
+    alignItems: 'center',
     paddingTop: 15,
     paddingHorizontal: 10,
   },
