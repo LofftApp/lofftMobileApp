@@ -7,15 +7,11 @@ import {CrossIcon} from '../../../assets';
 const CheckBox = ({disabled = false, value = true, onPress}) => {
   return (
     <View style={[styles.CBContainer, disabled ? styles.disabled : null]}>
-      <TouchableOpacity onPress={onPress} disabled={disabled}>
-        <View style={{backgroundColor: 'red'}}>
-          {disabled ? null : value ? <CrossIcon /> : null}
-        </View>
-        {/* <Icon
-          name={disabled ? null : value ? 'close-outline' : null}
-          style={styles.xIcon}
-          color={colors.Lavendar[100]}
-        /> */}
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={disabled}
+        style={styles.xIconContainer}>
+        {disabled ? null : value ? <CrossIcon /> : null}
       </TouchableOpacity>
     </View>
   );
@@ -28,17 +24,15 @@ const styles = StyleSheet.create({
     borderColor: colors.Lavendar[100],
     borderWidth: 3,
     borderRadius: 4,
-    // justifyContent: 'center',
-    // overflow: 'hidden',
-    // alignItems: 'center',
-    // marginVertical: 10,
+  },
+  xIconContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   xIcon: {
     fontSize: 30,
-    // display: 'flex',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // textAlign: 'center',
   },
   disabled: {
     borderColor: colors.Black[50],
