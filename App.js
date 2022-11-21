@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   useEffect(() => {
-    // SplashScreen.hide();
+    SplashScreen.hide();
   }, []);
   return (
     <Stack.Navigator initialRouteName="WelcomeScreen">
