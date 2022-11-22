@@ -2,16 +2,16 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../../styles/lofftColorPallet.json';
+import {CrossIcon} from '../../../assets';
 
 const CheckBox = ({disabled = false, value = true, onPress}) => {
   return (
     <View style={[styles.CBContainer, disabled ? styles.disabled : null]}>
-      <TouchableOpacity onPress={onPress} disabled={disabled}>
-        <Icon
-          name={disabled ? null : value ? 'close-outline' : null}
-          style={styles.xIcon}
-          color={colors.Lavendar[100]}
-        />
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={disabled}
+        style={styles.xIconContainer}>
+        {disabled ? null : value ? <CrossIcon /> : null}
       </TouchableOpacity>
     </View>
   );
@@ -19,26 +19,20 @@ const CheckBox = ({disabled = false, value = true, onPress}) => {
 
 const styles = StyleSheet.create({
   CBContainer: {
-    width: 45,
-    height: 45,
+    width: 24,
+    height: 24,
     borderColor: colors.Lavendar[100],
     borderWidth: 3,
-    borderRadius: 10,
+    borderRadius: 4,
+  },
+  xIconContainer: {
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
-    overflow: 'hidden',
     alignItems: 'center',
-    marginVertical: 10,
   },
   xIcon: {
-    fontSize: 50,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: 50,
-    height: 50,
-    padding: 0,
-    marginBottom: 3,
+    fontSize: 30,
   },
   disabled: {
     borderColor: colors.Black[50],
