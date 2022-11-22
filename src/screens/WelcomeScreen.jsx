@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, Button} from 'react-native';
 import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
 import {fontStyles} from '../styles/fontStyles';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
 import CustomSwitch from '../components/coreComponents/interactiveElements/CustomSwitch';
 const WelcomeScreen = ({navigation}) => {
-  const [checkbox, setCheckBox] = useState(false);
+  const [checkbox, setCheckBox] = useState(true);
   const [switchV, setSwitchV] = useState(false);
   return (
     <ScreenBackButton navigation={navigation} title="Back Button">
@@ -20,6 +20,14 @@ const WelcomeScreen = ({navigation}) => {
       <CustomSwitch
         value={switchV}
         onValueChange={() => setSwitchV(!switchV)}
+      />
+      <Button
+        onPress={() => navigation.navigate('SignUpScreen')}
+        title="Sign Up Screen =>"
+      />
+      <Button
+        onPress={() => navigation.navigate('SignInScreen')}
+        title="Sign In Screen =>"
       />
     </ScreenBackButton>
   );
