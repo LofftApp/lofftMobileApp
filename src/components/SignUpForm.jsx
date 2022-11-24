@@ -7,13 +7,41 @@ import CheckBox from '../components/coreComponents/interactiveElements/CheckBox'
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+
+  const handleSignUp = () => {
+    auth
+    .createUserWithEmailAndPassword(email, password)
+    .then(userCredentials) => {
+      const user = userCredentials.user;
+      console.log(user.email);
+   }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
       <View style={styles.textInputWrap}>
-        <InputFieldText placeholder="Email" type="email" />
-        <InputFieldText placeholder="Create password" type="password" />
-        <InputFieldText placeholder="Repeat password" type="password" />
+        <InputFieldText
+          value={email}
+          onChangeText={text => setEmail(text)}
+          placeholder="Email"
+          type="email"
+        />
+        <InputFieldText
+          value={password}
+          onChangeText={text => setPassword(text)}
+          placeholder="Create password"
+          type="password"
+        />
+        <InputFieldText
+          value={repeatPassword}
+          onChangeText={text => setRepeatPassword(text)}
+          placeholder="Repeat password"
+          type="password"
+        />
         <View style={styles.checkBoxWrap}>
           <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
           <Text style={styles.text}>
