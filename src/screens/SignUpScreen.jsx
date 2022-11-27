@@ -6,7 +6,7 @@ import Color from '../styles/lofftColorPallet.json';
 import {Search} from '../assets';
 import {SignUpBackground} from '../assets';
 
-const SignUpScreen = () => {
+const SignUpScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
@@ -20,7 +20,12 @@ const SignUpScreen = () => {
         <View style={styles.signInWith}>
           <SignInWith />
           <Text style={styles.text}>
-            Already have an account? <Text>Sign in</Text>
+            Already have an account?{'     '}
+            <Text
+              style={styles.link}
+              onPress={() => navigation.navigate('SignInScreen')}>
+              Sign in
+            </Text>
           </Text>
         </View>
       </View>
@@ -65,6 +70,10 @@ const styles = StyleSheet.create({
   text: {
     paddingBottom: 40,
     fontSize: 16,
+    fontWeight: '500',
+  },
+  link: {
+    color: Color.Blue['100'],
   },
 });
 

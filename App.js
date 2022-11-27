@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {navigationRef} from './src/RootNavigation';
+import {navigationRef} from './src/navigation/RootNavigation';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import AnotherScreen from './src/screens/AnotherScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
