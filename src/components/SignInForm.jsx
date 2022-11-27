@@ -3,18 +3,57 @@ import {View, Text, StyleSheet} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 
 const SignInForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSignIn = async () => {
+    try {
+      const user = await auth().signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      if (err.code === 'auth/invalid-email') {
+        setMessage('That email address is invalid!');
+      }
+      if (err.code === 'auth/user-disabled') {
+        setMessage('This user account is disabled!');
+      }
+      if (err.code === 'auth/user-not-found') {
+        setMessage('This user cannot be found!');
+      }
+      if (err.code === 'auth/wrong-password') {
+        setMessage('Incorrect password!');
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello again!</Text>
       <View style={styles.textInputWrap}>
-        <InputFieldText placeholder="Email" type="email" />
-        <InputFieldText placeholder="Password" type="password" />
+        <InputFieldText
+          value={email}
+          onChangeText={text => setEmail(text)}
+          placeholder="Email"
+          type="email"
+          errorMessage={message}
+        />
+        <InputFieldText
+          value={password}
+          onChangeText={text => setPassword(text)}
+          placeholder="Password"
+          type="password"
+          errorMessage={message}
+        />
         <Text style={styles.text}>Forgot password?</Text>
       </View>
       <View style={styles.signUpButtonView}>
-        <SignUpButton props="Sign in"></SignUpButton>
+        <TouchableOpacity onPress={handleSignIn}>
+          <SignUpButton title="Sign in"></SignUpButton>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -37,10 +76,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   text: {
-    fontSize: 13,
+    fontSize: 16,
     paddingTop: 15,
     paddingHorizontal: 10,
+    fontWeight: '500',
     alignSelf: 'flex-end',
+    color: Color.Blue['100'],
   },
   signUpButtonView: {
     width: '100%',
