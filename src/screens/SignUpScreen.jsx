@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     marginTop: -60,
   },
   imageWrap: {
+    paddingTop: 130,
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
