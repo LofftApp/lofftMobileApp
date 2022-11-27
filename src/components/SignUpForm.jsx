@@ -4,22 +4,36 @@ import Color from '../styles/lofftColorPallet.json';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleSignUp = () => {
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(userCredentials) => {
-      const user = userCredentials.user;
-      console.log(user.email);
-   }
-  }
-
+  const handleSignUp = async () => {
+    try {
+      if (password === repeatPassword && checkbox === true) {
+        const newUser = await auth().createUserWithEmailAndPassword(
+          email,
+          password,
+        );
+      }
+    } catch (err) {
+      if (err.code === 'auth/invalid-email') {
+        setMessage('That email address is invalid!');
+      }
+      if (err.code === 'auth/email-already-in-use') {
+        setMessage('That email address is already in use!');
+      }
+      if (err.code === 'auth/weak-password') {
+        setMessage('The password is not strong enough');
+      }
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
@@ -29,28 +43,34 @@ const SignUpForm = () => {
           onChangeText={text => setEmail(text)}
           placeholder="Email"
           type="email"
+          errorMessage={message}
         />
         <InputFieldText
           value={password}
           onChangeText={text => setPassword(text)}
           placeholder="Create password"
           type="password"
+          errorMessage={message}
         />
         <InputFieldText
           value={repeatPassword}
           onChangeText={text => setRepeatPassword(text)}
           placeholder="Repeat password"
           type="password"
+          errorMessage={message}
         />
         <View style={styles.checkBoxWrap}>
           <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
           <Text style={styles.text}>
-            I agree to terms & conditions and Lofft’s privacy policy.
+            I agree to <Text style={styles.link}>terms & conditions</Text> and
+            Lofft’s <Text style={styles.link}>privacy policy</Text>.
           </Text>
         </View>
       </View>
       <View style={styles.signUpButtonView}>
-        <SignUpButton props="Sign up"></SignUpButton>
+        <TouchableOpacity onPress={handleSignUp}>
+          <SignUpButton title="Sign up"></SignUpButton>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -74,7 +94,8 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingLeft: 20,
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: '500',
   },
   checkBoxWrap: {
     width: '90%',
@@ -87,6 +108,9 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: 0,
+  },
+  link: {
+    color: Color.Blue['100'],
   },
 });
 
