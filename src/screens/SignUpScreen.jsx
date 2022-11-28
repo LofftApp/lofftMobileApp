@@ -41,21 +41,21 @@ const styles = StyleSheet.create({
   image: {
     height: '70%',
     overflow: 'visible',
-    marginTop: -60,
+    // marginTop: -60,
   },
   imageWrap: {
-    paddingTop: 130,
+    // paddingTop: 130,
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
   },
   backgroundImage: {
     position: 'absolute',
-    top: -85,
+    top: -20,
     zIndex: 1,
   },
   formWrap: {
-    flex: 4,
+    flex: 3,
     zIndex: 2,
     paddingHorizontal: 10,
     backgroundColor: Color.White['100'],
