@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
 import Color from '../../../styles/lofftColorPallet.json';
 
-const SignUpButton = ({props}) => {
+const SignUpButton = ({title}) => {
   return (
     <Pressable style={styles.signUpButton}>
-      <Text style={styles.btnText}>{props}</Text>
+      <Text style={styles.btnText}>{title}</Text>
     </Pressable>
   );
 };
