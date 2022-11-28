@@ -14,7 +14,6 @@ const InputFieldText = ({
   errorMessage = '',
 }) => {
   const [focus, setFocus] = useState(false);
-  console.log(value);
   return (
     <>
       <View
