@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, Button} from 'react-native';
+import {Text, StyleSheet, Button, View} from 'react-native';
 import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
 import {fontStyles} from '../styles/fontStyles';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
