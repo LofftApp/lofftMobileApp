@@ -5,9 +5,17 @@ import {fontStyles} from '../styles/fontStyles';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
 import CustomSwitch from '../components/coreComponents/interactiveElements/CustomSwitch';
+import auth from '@react-native-firebase/auth';
+
 const WelcomeScreen = ({navigation}) => {
   const [checkbox, setCheckBox] = useState(true);
   const [switchV, setSwitchV] = useState(false);
+  const handleSignOut = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
+
   return (
     <ScreenBackButton navigation={navigation} title="Back Button">
       <Text style={fontStyles.headerDisplay}>
@@ -28,6 +36,11 @@ const WelcomeScreen = ({navigation}) => {
       <Button
         onPress={() => navigation.navigate('SignInScreen')}
         title="Sign In Screen =>"
+      />
+      <Button
+        // onPress={() => navigation.navigate('SignUpScreen')}
+        onPress={handleSignOut}
+        title="Sign Out =>"
       />
     </ScreenBackButton>
   );

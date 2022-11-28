@@ -6,7 +6,7 @@ import Color from '../styles/lofftColorPallet.json';
 import {SignInBackground} from '../assets';
 import {HiFive} from '../assets';
 
-const SignInScreen = () => {
+const SignInScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
@@ -20,7 +20,12 @@ const SignInScreen = () => {
         <View style={styles.signInWith}>
           <SignInWith />
           <Text style={styles.text}>
-            Don't have an account yet? <Text>Sign Up</Text>
+            Don't have an account yet?{'     '}
+            <Text
+              style={styles.link}
+              onPress={() => navigation.navigate('SignUpScreen')}>
+              Sign Up
+            </Text>
           </Text>
         </View>
       </View>
@@ -65,6 +70,10 @@ const styles = StyleSheet.create({
   text: {
     paddingBottom: 40,
     fontSize: 16,
+    fontWeight: '500',
+  },
+  link: {
+    color: Color.Blue['100'],
   },
 });
 
