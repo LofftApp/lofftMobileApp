@@ -4,13 +4,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../../styles/lofftColorPallet.json';
 import {CrossIcon} from '../../../assets';
 
-const CheckBox = ({disabled = false, value = true, onPress}) => {
+const CheckBox = ({disabled = false, value = true, style = null, onPress}) => {
   return (
-    <View style={[styles.CBContainer, disabled ? styles.disabled : null]}>
+    <View
+      style={[styles.CBContainer, style, disabled ? styles.disabled : null]}>
       <TouchableOpacity
         onPress={onPress}
         disabled={disabled}
-        style={styles.xIconContainer}>
+        style={[styles.xIconContainer]}>
         {disabled ? null : value ? <CrossIcon /> : null}
       </TouchableOpacity>
     </View>
