@@ -29,6 +29,7 @@ const InputFieldText = ({
             onFocus={() => setFocus(true)}
             value={value}
             placeholder={placeholder}
+            autoCapitalize="none"
           />
         ) : type === 'search' ? (
           <SearchInput
@@ -47,6 +48,7 @@ const InputFieldText = ({
             onClear={() => setText('')}
             value={value}
             placeholder={placeholder}
+            autoCapitalize={type === 'email' ? 'none' : 'sentences'}
           />
         )}
       </View>
