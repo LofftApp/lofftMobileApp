@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import SignInWith from '../components/SignInWith';
 import Color from '../styles/lofftColorPallet.json';
@@ -21,11 +21,10 @@ const SignUpScreen = ({navigation}) => {
           <SignInWith />
           <Text style={styles.text}>
             Already have an account?{'     '}
-            <Text
-              style={styles.link}
+            <TouchableOpacity
               onPress={() => navigation.navigate('SignInScreen')}>
-              Sign in
-            </Text>
+              <Text style={styles.link}>Sign in</Text>
+            </TouchableOpacity>
           </Text>
         </View>
       </View>
