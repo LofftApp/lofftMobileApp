@@ -5,35 +5,38 @@ import SignUpButton from './coreComponents/buttons/SignUpButton';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import auth from '@react-native-firebase/auth';
+import {handleSignUp} from '../api/firebase/firebaseAuth';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState({});
 
-  const handleSignUp = async () => {
-    try {
-      if (password === repeatPassword && checkbox === true) {
-        const newUser = await auth().createUserWithEmailAndPassword(
-          email,
-          password,
-        );
-      }
-    } catch (err) {
-      if (err.code === 'auth/invalid-email') {
-        setMessage('That email address is invalid!');
-      }
-      if (err.code === 'auth/email-already-in-use') {
-        setMessage('That email address is already in use!');
-      }
-      if (err.code === 'auth/weak-password') {
-        setMessage('The password is not strong enough');
-      }
+  const pageValidation = (checkbox, password, repeatPassword) => {
+    if (checkbox === false) {
+      return {
+        error: true,
+        target: 'checkBox',
+        message: 'Please agree to our terms & conditions and privacy policy',
+      };
+    } else if (password === '') {
+      return {
+        error: true,
+        target: 'password',
+        message: 'Please enter a valid password',
+      };
+    } else if (password !== repeatPassword) {
+      return {
+        error: true,
+        target: 'password',
+        message: 'Your passwords do not match!',
+      };
     }
+    return {error: false};
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
@@ -43,24 +46,27 @@ const SignUpForm = () => {
           onChangeText={text => setEmail(text)}
           placeholder="Email"
           type="email"
-          errorMessage={message}
+          errorMessage={message.target === 'email' ? message.message : null}
         />
         <InputFieldText
           value={password}
           onChangeText={text => setPassword(text)}
           placeholder="Create password"
           type="password"
-          errorMessage={message}
         />
         <InputFieldText
           value={repeatPassword}
           onChangeText={text => setRepeatPassword(text)}
           placeholder="Repeat password"
           type="password"
-          errorMessage={message}
+          errorMessage={message.target === 'password' ? message.message : null}
         />
         <View style={styles.checkBoxWrap}>
-          <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
+          <CheckBox
+            value={checkbox}
+            onPress={() => setCheckBox(!checkbox)}
+            style={message.target === 'checkBox' ? styles.alertBox : null}
+          />
           <Text style={styles.text}>
             I agree to <Text style={styles.link}>terms & conditions</Text> and
             Lofft’s <Text style={styles.link}>privacy policy</Text>.
@@ -68,8 +74,21 @@ const SignUpForm = () => {
         </View>
       </View>
       <View style={styles.signUpButtonView}>
-        <TouchableOpacity onPress={handleSignUp}>
-          <SignUpButton title="Sign up"></SignUpButton>
+        <TouchableOpacity
+          onPress={async () => {
+            let validation = null;
+            validation = pageValidation(checkbox, password, repeatPassword);
+            setMessage(validation);
+            if (!validation.error) {
+              validation = await handleSignUp({email, password});
+              if (validation.error) {
+                setMessage(validation);
+              }
+            } else {
+              setMessage(validation);
+            }
+          }}>
+          <SignUpButton title="Sign up" />
         </TouchableOpacity>
       </View>
     </View>
@@ -112,7 +131,10 @@ const styles = StyleSheet.create({
   link: {
     color: Color.Blue['100'],
   },
+  alertBox: {
+    borderColor: Color.Tomato[100],
+    backgroundColor: Color.Tomato[30],
+  },
 });
 
 export default SignUpForm;
-0;
