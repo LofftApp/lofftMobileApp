@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, StyleSheet, Button} from 'react-native';
-import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
+import PrimaryScreen from '../components/coreComponents/CoreScreens/PrimaryScreen';
 import {fontStyles} from '../styles/fontStyles';
 import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
@@ -17,32 +17,9 @@ const WelcomeScreen = ({navigation}) => {
   };
 
   return (
-    <ScreenBackButton navigation={navigation} title="Back Button">
-      <Text style={fontStyles.headerDisplay}>
-        This is the Screen with a back button
-      </Text>
-      <InputFieldText placeholder="Password" type="password" />
-      <InputFieldText placeholder="Search" type="search" />
-      <InputFieldText placeholder="First Name" />
-      <CheckBox value={checkbox} onPress={() => setCheckBox(!checkbox)} />
-      <CustomSwitch
-        value={switchV}
-        onValueChange={() => setSwitchV(!switchV)}
-      />
-      <Button
-        onPress={() => navigation.navigate('SignUpScreen')}
-        title="Sign Up Screen =>"
-      />
-      <Button
-        onPress={() => navigation.navigate('SignInScreen')}
-        title="Sign In Screen =>"
-      />
-      <Button
-        // onPress={() => navigation.navigate('SignUpScreen')}
-        onPress={handleSignOut}
-        title="Sign Out =>"
-      />
-    </ScreenBackButton>
+    <PrimaryScreen navigation={navigation} title="Back Button">
+      <Text>Hello</Text>
+    </PrimaryScreen>
   );
 };
 
