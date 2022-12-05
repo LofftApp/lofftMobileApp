@@ -3,13 +3,12 @@ import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
 import {AppleIcon} from '../assets';
 import {GoogleIcon} from '../assets';
+import {onAppleButtonPress} from '../api/firebase/firebaseAuth';
 
 // things to be added:
 // 1. 'terms & conditions' (link)
 // 2. 'privacy policy' (link)
-// 3. 'Sign in' (link)
 // 4. Authentication with Apple / Google account
-// 5. Firebase to create accounts
 
 const SignInWith = () => {
   return (
@@ -18,7 +17,9 @@ const SignInWith = () => {
         ────────{'    '}Or sign in with {'    '}────────
       </Text>
       <View style={styles.buttonWrap}>
-        <Pressable style={styles.logInWithButton}>
+        <Pressable
+          onPress={() => onAppleButtonPress()}
+          style={styles.logInWithButton}>
           <AppleIcon style={styles.image} />
         </Pressable>
         <Pressable style={styles.logInWithButton}>
