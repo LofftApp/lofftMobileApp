@@ -19,6 +19,7 @@ const WelcomeScreen = ({navigation}) => {
   return (
     <PrimaryScreen navigation={navigation} title="Back Button">
       <Text>Hello</Text>
+      <Button onPress={handleSignOut} title="Sign Out"></Button>
     </PrimaryScreen>
   );
 };
