@@ -10,21 +10,18 @@ const PrimaryScreen = ({navigation, children}) => {
     <View
       style={[
         CoreStyleSheet.viewContainerStyle,
-        styles.boundries,
         Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
       ]}>
-      {children}
+      <View style={styles.boundries}>{children}</View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   boundries: {
-    borderColor: 'red',
-    borderWidth: 2,
-    paddingTop: 0,
-    paddingHorizontal: 10,
-    paddingBottom: 10,
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 5,
   },
 });
 
