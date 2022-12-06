@@ -8,7 +8,7 @@ import BackgroundImage from '../assets/background/wbyh.svg';
 
 const WelcomeScreen = ({navigation}) => {
   return (
-    <PrimaryScreen navigation={navigation} background={true}>
+    <PrimaryScreen background={true}>
       <BackgroundImage style={styles.backgroundImage} />
       <View style={styles.pageContainer}>
         <Text style={[fontStyles.headerDisplay, styles.header]}>
@@ -22,7 +22,7 @@ const WelcomeScreen = ({navigation}) => {
           <IconButton
             text="I'm looking for a flat"
             icon="search-outline"
-            onPress={() => {}}
+            onPress={() => navigation.navigate('AboutYouFlatHuntScreen')}
           />
           <IconButton
             text="I have a room to rent"

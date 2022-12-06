@@ -12,6 +12,10 @@ import AnotherScreen from './src/screens/AnotherScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 
+// Find Lofft Journey
+import AboutYouFlatHuntScreen from './src/screens/renterJourneyScreens/AboutUserScreen';
+import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdentityScreen';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -55,6 +59,16 @@ const App = () => {
           <Stack.Screen
             name="AnotherScreen"
             component={AnotherScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="AboutYouFlatHuntScreen"
+            component={AboutYouFlatHuntScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="GenderIdentityScreen"
+            component={GenderIdentityScreen}
             options={{headerShown: false}}
           />
         </>
