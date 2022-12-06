@@ -4,12 +4,13 @@ import {View, Platform, StyleSheet} from 'react-native';
 // StyleSheets
 import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
 
-const PrimaryScreen = ({navigation, children}) => {
+const PrimaryScreen = ({background = false, children}) => {
   return (
     // Screen back button
     <View
       style={[
         CoreStyleSheet.viewContainerStyle,
+        background ? {paddingHorizontal: 0} : null,
         Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
       ]}>
       <View style={styles.boundries}>{children}</View>
