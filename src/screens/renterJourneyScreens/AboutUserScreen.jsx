@@ -121,11 +121,11 @@ const AboutYouFlatHuntScreen = ({navigation}) => {
               style={{backgroundColor: color.Lavendar[100], borderWidth: 0}}
               textStyle={[fontStyles.headerSmall, {color: 'white'}]}
               disabled={false}
-              // onPress={() => {
-              //   navigation.navigate('Gender', {
-              //     selectedTagsFromScreenOne: selectTrack,
-              //   });
-              // }}
+              onPress={() => {
+                navigation.navigate('GenderIdentityScreen', {
+                  selectedTagsFromScreenOne: selectTrack,
+                });
+              }}
             />
           ) : (
             <Pressable
