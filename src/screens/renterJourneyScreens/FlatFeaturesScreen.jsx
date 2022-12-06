@@ -166,7 +166,7 @@ const FlatFeaturesScreen = ({navigation, route}) => {
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
             disabled={false}
             onPress={() => {
-              navigation.navigate('DescribeFlat', {
+              navigation.navigate('SelfDescribeScreen', {
                 personalPreferences: route.params.personalPreferences,
                 gender: route.params.gender,
                 districts: route.params.districts,
