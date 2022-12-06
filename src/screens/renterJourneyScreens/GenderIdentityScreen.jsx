@@ -82,7 +82,7 @@ const GenderIdentityScreen = ({navigation, route}) => {
               textStyle={[fontStyles.headerSmall, {color: 'white'}]}
               disabled={false}
               onPress={() => {
-                navigate.navigate('PickDistrict', {
+                navigation.navigate('SelectCityScreen', {
                   selectedTagsFromScreenOne: selectedTagsFromScreenOne,
                   selectedTagsFromScreenTwo: cleanGenders[0].value,
                 });
@@ -95,7 +95,7 @@ const GenderIdentityScreen = ({navigation, route}) => {
               textStyle={[fontStyles.headerSmall, {color: 'white'}]}
               disabled={true}
               onPress={() => {
-                navigate.navigate('', {});
+                navigation.navigate('', {});
               }}
             />
           )}
