@@ -15,6 +15,7 @@ import SignInScreen from './src/screens/SignInScreen';
 // Find Lofft Journey
 import AboutYouFlatHuntScreen from './src/screens/renterJourneyScreens/AboutUserScreen';
 import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdentityScreen';
+import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScreen';
 
 const Stack = createStackNavigator();
 
@@ -69,6 +70,11 @@ const App = () => {
           <Stack.Screen
             name="GenderIdentityScreen"
             component={GenderIdentityScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SelectCityScreen"
+            component={SelectCityScreen}
             options={{headerShown: false}}
           />
         </>
