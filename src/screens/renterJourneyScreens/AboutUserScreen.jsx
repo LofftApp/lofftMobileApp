@@ -81,7 +81,7 @@ const AboutYouFlatHuntScreen = ({navigation}) => {
   });
 
   return (
-    <ScreenBackButton nav={navigation.navigate('AboutYouFlatHuntScreen')}>
+    <ScreenBackButton nav={() => navigation.goBack()}>
       <SafeAreaView style={{}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <HeadlineContainer
