@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const IconButton = ({text, icon, iconSize = 20, onPress}) => {
   return (
-    <TouchableOpacity style={styles.buttonBorder}>
+    <TouchableOpacity style={styles.buttonBorder} onPress={onPress}>
       <View style={styles.content}>
         <Icon name={icon} size={iconSize} />
         <Text style={[fontStyles.headerSmall, styles.text]}>{text}</Text>
