@@ -13,6 +13,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 
 // Find Lofft Journey
+import StartJourney from './src/screens/StartJourney';
 import AboutYouFlatHuntScreen from './src/screens/renterJourneyScreens/AboutUserScreen';
 import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdentityScreen';
 import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScreen';
@@ -56,8 +57,8 @@ const App = () => {
       {user ? (
         <>
           <Stack.Screen
-            name="WelcomeScreen"
-            component={WelcomeScreen}
+            name="StartJourney"
+            component={StartJourney}
             options={{headerShown: false}}
           />
           <Stack.Screen
