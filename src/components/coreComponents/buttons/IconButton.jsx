@@ -4,9 +4,9 @@ import {fontStyles} from '../../../styles/fontStyles';
 import Color from '../../../styles/lofftColorPallet.json';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const IconButton = ({text, icon, iconSize = 20, onPress}) => {
+const IconButton = ({text, icon, iconSize = 20, onPress, style}) => {
   return (
-    <TouchableOpacity style={styles.buttonBorder} onPress={onPress}>
+    <TouchableOpacity style={[styles.buttonBorder, style]} onPress={onPress}>
       <View style={styles.content}>
         <Icon name={icon} size={iconSize} />
         <Text style={[fontStyles.headerSmall, styles.text]}>{text}</Text>
