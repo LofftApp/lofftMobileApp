@@ -20,7 +20,7 @@ import CustomSwitch from '../../components/coreComponents/buttons/CustomSwitch';
 import {Slider} from '@miblanchard/react-native-slider';
 import TagIcon from '../../assets/icons/TagIcon';
 
-const FinderBudgetScreen = ({route}) => {
+const FinderBudgetScreen = ({navigation, route}) => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
   const [minFocus, setMinFocus] = useState(false);
@@ -156,7 +156,7 @@ const FinderBudgetScreen = ({route}) => {
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           disabled={false}
           onPress={() => {
-            navigation.navigate('PickIdealFlat', {
+            navigation.navigate('FlatFeaturesScreen', {
               personalPreferences: user.selectedPreferences,
               gender: user.gender,
               districts: user.selectedDistricts,
