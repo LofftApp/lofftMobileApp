@@ -35,7 +35,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      // host = '192.168.7.156';
+      host = '192.168.1.167';
       firestore().useEmulator(host, 8080);
       auth().useEmulator(`http://${host}:9099`);
     }
