@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  Platform,
   SafeAreaView,
   ScrollView,
   TextInput,
@@ -13,7 +12,6 @@ import {
 
 // Styles
 import {fontStyles} from '../../styles/fontStyles';
-import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
 import color from '../../styles/lofftColorPallet.json';
 
 // Components
@@ -324,7 +322,7 @@ const SelectCityScreen = ({navigation, route}) => {
               textStyle={[fontStyles.headerSmall, {color: 'white'}]}
               disabled={false}
               onPress={() => {
-                navigation.navigate('PriceRange', {
+                navigation.navigate('FinderBudgetScreen', {
                   selectedPreferences: user.preferences,
                   gender: user.gender,
                   selectedDistricts: washedDistricts,

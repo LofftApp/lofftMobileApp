@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Screens
+import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
 import PaginationBar from '../../components/bars/PaginationBar';
 
 // Styles
@@ -10,7 +11,6 @@ import color from '../../styles/lofftColorPallet.json';
 import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
 
 // Components
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
 import HeadlineContainer from '../../components/containers/HeadlineContainer';
 
 import SelectButton from '../../components/coreComponents/buttons/SelectButton';

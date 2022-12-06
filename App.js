@@ -16,6 +16,7 @@ import SignInScreen from './src/screens/SignInScreen';
 import AboutYouFlatHuntScreen from './src/screens/renterJourneyScreens/AboutUserScreen';
 import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdentityScreen';
 import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScreen';
+import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetScreen';
 
 const Stack = createStackNavigator();
 
@@ -75,6 +76,11 @@ const App = () => {
           <Stack.Screen
             name="SelectCityScreen"
             component={SelectCityScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="FinderBudgetScreen"
+            component={FinderBudgetScreen}
             options={{headerShown: false}}
           />
         </>
