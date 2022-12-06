@@ -7,7 +7,7 @@ import BackButton from '../buttons/BackButton';
 // StyleSheets
 import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
 
-const ScreenBackButton = ({navigation, title, children}) => {
+const ScreenBackButton = ({nav, title, children}) => {
   return (
     // Screen back button
     <View
@@ -15,7 +15,7 @@ const ScreenBackButton = ({navigation, title, children}) => {
         CoreStyleSheet.viewContainerStyle,
         Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
       ]}>
-      <BackButton onPress={navigation} title={title} />
+      <BackButton onPress={nav} title={title} />
       {children}
     </View>
   );
