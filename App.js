@@ -18,6 +18,7 @@ import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdent
 import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScreen';
 import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetScreen';
 import FlatFeaturesScreen from './src/screens/renterJourneyScreens/FlatFeaturesScreen';
+import SelfDescribeScreen from './src/screens/renterJourneyScreens/SelfDescribeScreen';
 
 const Stack = createStackNavigator();
 
@@ -87,6 +88,11 @@ const App = () => {
           <Stack.Screen
             name="FlatFeaturesScreen"
             component={FlatFeaturesScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SelfDescribeScreen"
+            component={SelfDescribeScreen}
             options={{headerShown: false}}
           />
         </>
