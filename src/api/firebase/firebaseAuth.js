@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 export const handleSignUp = async ({email, password}) => {
   try {
@@ -56,4 +57,25 @@ export const onAppleButtonPress = async () => {
 
   // Sign the user in with the credential
   return auth().signInWithCredential(appleCredential);
+};
+
+// Google Sign in
+
+GoogleSignin.configure({
+  webClientId:
+    '25055797109-i53siuqchf97orhvbsee4pmfc1sauv8j.apps.googleusercontent.com',
+});
+
+export const onGoogleButtonPress = async () => {
+  // Check if your device supports Google Play
+  await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+  // Get the users ID token
+  const {idToken} = await GoogleSignin.signIn();
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  console.log(googleCredential);
+  // Sign-in the user with the credential
+  const userSignIn = auth().signInWithCredential(googleCredential);
+  userSignIn.then(result => console.log(result));
 };
