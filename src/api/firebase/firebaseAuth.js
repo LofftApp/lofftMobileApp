@@ -36,7 +36,7 @@ export const handleSignUp = async ({email, password}) => {
 
 // Apple Sign in
 
-export async function onAppleButtonPress() {
+export const onAppleButtonPress = async () => {
   // Start the sign-in request
   const appleAuthRequestResponse = await appleAuth.performRequest({
     requestedOperation: appleAuth.Operation.LOGIN,
@@ -57,7 +57,7 @@ export async function onAppleButtonPress() {
 
   // Sign the user in with the credential
   return auth().signInWithCredential(appleCredential);
-}
+};
 
 // Google Sign in
 
