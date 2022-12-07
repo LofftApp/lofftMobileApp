@@ -27,7 +27,7 @@ const StartJourney = ({navigation}) => {
   const subHeaderText =
     'Tell us what you want to do on Lofft and we will create the matching experience!';
   return (
-    <ScreenBackButton nav={() => navigation.goBack()} title="Hello">
+    <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
         subDescription={subHeaderText}
