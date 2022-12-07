@@ -39,6 +39,7 @@ const SignInForm = () => {
           onChangeText={text => setEmail(text)}
           placeholder="Email"
           type="email"
+          keyboardType="email-address"
           errorMessage={message}
         />
         <InputFieldText
