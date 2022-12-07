@@ -75,7 +75,7 @@ const SelfDescribeScreen = ({navigation, route}) => {
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           disabled={false}
           onPress={() => {
-            navigation.navigate('Terms', {
+            navigation.navigate('UserConditionsScreen', {
               personalPreferences: route.params.personalPreferences,
               gender: route.params.gender,
               districts: route.params.districts,

@@ -7,7 +7,6 @@ import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './src/navigation/RootNavigation';
-import WelcomeScreen from './src/screens/WelcomeScreen';
 import AnotherScreen from './src/screens/AnotherScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -20,6 +19,7 @@ import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScree
 import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetScreen';
 import FlatFeaturesScreen from './src/screens/renterJourneyScreens/FlatFeaturesScreen';
 import SelfDescribeScreen from './src/screens/renterJourneyScreens/SelfDescribeScreen';
+import UserConditionsScreen from './src/screens/UserConditionsScreen';
 
 const Stack = createStackNavigator();
 
@@ -94,6 +94,11 @@ const App = () => {
           <Stack.Screen
             name="SelfDescribeScreen"
             component={SelfDescribeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UserConditionsScreen"
+            component={UserConditionsScreen}
             options={{headerShown: false}}
           />
         </>
