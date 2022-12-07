@@ -31,3 +31,7 @@ export const handleSignUp = async ({email, password}) => {
     }
   }
 };
+
+// Google Signin and Signup
+
+// Apple Signin and Signup
