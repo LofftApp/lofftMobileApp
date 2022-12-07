@@ -10,6 +10,7 @@ import {navigationRef} from './src/navigation/RootNavigation';
 import AnotherScreen from './src/screens/AnotherScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Find Lofft Journey
 import StartJourney from './src/screens/StartJourney';
@@ -39,6 +40,10 @@ const App = () => {
     return subscriber;
   }, []);
 
+  GoogleSignin.configure({
+    webClientId:
+      '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
+  });
   // Use Effect for dev environment
   useEffect(() => {
     if (__DEV__) {
