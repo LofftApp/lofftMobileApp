@@ -12,6 +12,7 @@ const InputFieldText = ({
   value,
   onClear = null,
   errorMessage = '',
+  keyboardType = 'default',
 }) => {
   const [focus, setFocus] = useState(false);
   return (
@@ -30,6 +31,7 @@ const InputFieldText = ({
             value={value}
             placeholder={placeholder}
             autoCapitalize="none"
+            keyboardType={keyboardType}
           />
         ) : type === 'search' ? (
           <SearchInput
@@ -39,6 +41,7 @@ const InputFieldText = ({
             onClear={onClear}
             value={value}
             placeholder={placeholder}
+            keyboardType={keyboardType}
           />
         ) : (
           <DefaultInput
@@ -49,6 +52,7 @@ const InputFieldText = ({
             value={value}
             placeholder={placeholder}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
+            keyboardType={keyboardType}
           />
         )}
       </View>

@@ -5,7 +5,7 @@ export const CoreStyleSheet = StyleSheet.create({
   viewContainerStyle: {
     backgroundColor: color.White[100],
     flex: 1,
-    paddingHorizontal: 25,
+    paddingHorizontal: 15,
     paddingTop: 5,
   },
   viewContainerIOSStyle: {
