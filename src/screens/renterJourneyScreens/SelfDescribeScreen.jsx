@@ -59,6 +59,7 @@ const SelfDescribeScreen = ({navigation, route}) => {
             value={text}
             style={styles.inputText}
             onChangeText={text => setText(text)}
+            multiline={true}
           />
         </Pressable>
       </View>
@@ -98,7 +99,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   inputText: {
-    padding: 10,
+    paddingHorizontal: 10,
+    flex: 1,
+    borderWidth: 2,
+    borderRadius: 16,
   },
   options: {
     marginBottom: 55,
