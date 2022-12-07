@@ -4,6 +4,8 @@ import Color from '../styles/lofftColorPallet.json';
 import {AppleIcon} from '../assets';
 import {GoogleIcon} from '../assets';
 import {onAppleButtonPress} from '../api/firebase/firebaseAuth';
+import {onGoogleButtonPress} from '../api/firebase/firebaseAuth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // things to be added:
 // 1. 'terms & conditions' (link)
@@ -22,7 +24,9 @@ const SignInWith = () => {
           style={styles.logInWithButton}>
           <AppleIcon style={styles.image} />
         </Pressable>
-        <Pressable style={styles.logInWithButton}>
+        <Pressable
+          onPress={() => onGoogleButtonPress()}
+          style={styles.logInWithButton}>
           <GoogleIcon style={styles.image} />
         </Pressable>
       </View>
