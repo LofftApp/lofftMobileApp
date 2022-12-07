@@ -61,6 +61,11 @@ export async function onAppleButtonPress() {
 
 // Google Sign in
 
+GoogleSignin.configure({
+  webClientId:
+    '25055797109-i53siuqchf97orhvbsee4pmfc1sauv8j.apps.googleusercontent.com',
+});
+
 export async function onGoogleButtonPress() {
   // Check if your device supports Google Play
   await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
