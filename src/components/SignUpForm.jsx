@@ -46,6 +46,7 @@ const SignUpForm = () => {
           onChangeText={text => setEmail(text)}
           placeholder="Email"
           type="email"
+          keyboardType="email-address"
           errorMessage={message.target === 'email' ? message.message : null}
         />
         <InputFieldText

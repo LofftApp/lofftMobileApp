@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "emoji": "🧘‍♂️",
+    "value": "Chill & relax",
+    "toggle": false
+  },
+  {
+    "id": 2,
+    "emoji": "🤸‍♀️",
+    "value": "Outgoing",
+    "toggle": false
+  },
+  {
+    "id": 3,
+    "emoji": "🎉",
+    "value": "House Party",
+    "toggle": false
+  },
+  {
+    "id": 4,
+    "emoji": "🍳",
+    "value": "Vegetarian",
+    "toggle": false
+  },
+  {
+    "id": 5,
+    "emoji": "🧽",
+    "value": "Clean & Tidy",
+    "toggle": false
+  },
+  {
+    "id": 6,
+    "emoji": "👩🏽‍🍳",
+    "value": "Cooking",
+    "toggle": false
+  },
+  {
+    "id": 7,
+    "emoji": "🍱",
+    "value": "Dinner with flatmates",
+    "toggle": false
+  },
+  {
+    "id": 8,
+    "emoji": "🙊",
+    "value": "Chatty",
+    "toggle": false
+  },
+  {
+    "id": 9,
+    "emoji": "👯",
+    "value": "Love to hang out",
+    "toggle": false
+  },
+  {
+    "id": 10,
+    "emoji": "🏳️‍🌈",
+    "value": "LGBTQ+ Right",
+    "toggle": false
+  },
+  {
+    "id": 12,
+    "emoji": "💭",
+    "value": "Thoughtful",
+    "toggle": false
+  },
+  {
+    "id": 13,
+    "emoji": "🐻‍❄️",
+    "value": "Climate Crisis",
+    "toggle": false
+  },
+  {
+    "id": 14,
+    "emoji": "🌚",
+    "value": "Introvert",
+    "toggle": false
+  },
+  {
+    "id": 15,
+    "emoji": "🐹",
+    "value": "Animal Lover",
+    "toggle": false
+  },
+  {
+    "id": 16,
+    "emoji": "🏊",
+    "value": "Sports",
+    "toggle": false
+  },
+  {
+    "id": 17,
+    "emoji": "📜",
+    "value": "Politics",
+    "toggle": false
+  },
+  {
+    "id": 18,
+    "emoji": "🪁",
+    "value": "Spontaneous",
+    "toggle": false
+  },
+  {
+    "id": 19,
+    "emoji": "🎤",
+    "value": "Outspoken",
+    "toggle": false
+  },
+  {
+    "id": 20,
+    "emoji": "☺️",
+    "value": "Emperthetic",
+    "toggle": false
+  },
+  {
+    "id": 21,
+    "emoji": "↕",
+    "value": "Flexible",
+    "toggle": false
+  },
+  {
+    "id": 22,
+    "emoji": "🤫",
+    "value": "Considerate",
+    "toggle": false
+  }
+]
