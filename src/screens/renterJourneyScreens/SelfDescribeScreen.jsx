@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
   inputText: {
     paddingHorizontal: 10,
     flex: 1,
-    borderWidth: 2,
     borderRadius: 16,
   },
   options: {
