@@ -25,10 +25,11 @@ const Stack = createStackNavigator();
 
 const App = () => {
   // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [initializing, setInitializing] = useState();
+  const [user, setUser] = useState(null);
 
   const onAuthStateChanged = user => {
+    console.log(user);
     setUser(user);
     if (initializing) setInitializing(false);
   };
@@ -44,16 +45,15 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.1.167';
+      host = '192.168.1.16';
       firestore().useEmulator(host, 8080);
       auth().useEmulator(`http://${host}:9099`);
     }
   }, []);
 
   if (initializing) return null;
-
   return (
-    <Stack.Navigator initialRouteName="WelcomeScreen">
+    <Stack.Navigator initialRouteName="SignInScreen">
       {user ? (
         <>
           <Stack.Screen
