@@ -21,6 +21,7 @@ import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetS
 import FlatFeaturesScreen from './src/screens/renterJourneyScreens/FlatFeaturesScreen';
 import SelfDescribeScreen from './src/screens/renterJourneyScreens/SelfDescribeScreen';
 import UserConditionsScreen from './src/screens/UserConditionsScreen';
+import SearchScreen from './src/screens/SearchScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,7 +51,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.1.34';
+      host = '192.168.178.37';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -74,6 +75,11 @@ const App = () => {
           <Stack.Screen
             name="AnotherScreen"
             component={AnotherScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SearchScreen"
+            component={SearchScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen

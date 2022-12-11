@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
-
-import {View, Text, Image, StyleSheet, Pressable, Platform} from 'react-native';
+import {handleSignOut} from '../api/firebase/firebaseAuth';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Pressable,
+  Platform,
+  Button,
+} from 'react-native';
 
 // Screens
 import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
@@ -43,6 +51,9 @@ const StartJourney = ({navigation}) => {
         icon="home-outline"
         onPress={() => {}}
       />
+      <Button
+        title="SearchScreen"
+        onPress={() => navigation.navigate('SearchScreen')}></Button>
     </ScreenBackButton>
   );
 };
