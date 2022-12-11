@@ -3,6 +3,8 @@ import firestore from '@react-native-firebase/firestore';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
+// Sign up
+
 export const handleSignUp = async ({email, password}) => {
   try {
     const response = await auth().createUserWithEmailAndPassword(
@@ -32,6 +34,14 @@ export const handleSignUp = async ({email, password}) => {
       };
     }
   }
+};
+
+// Sign out
+
+export const handleSignOut = () => {
+  auth()
+    .signOut()
+    .then(() => console.log('User signed out!'));
 };
 
 // Apple Sign in
