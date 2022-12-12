@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
-import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
+import AuthInputField from './coreComponents/inputField/AuthInputField';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 
@@ -34,7 +34,7 @@ const SignInForm = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Hello again!</Text>
       <View style={styles.textInputWrap}>
-        <InputFieldText
+        <AuthInputField
           value={email}
           onChangeText={text => setEmail(text)}
           placeholder="Email"
@@ -42,7 +42,7 @@ const SignInForm = () => {
           keyboardType="email-address"
           errorMessage={message}
         />
-        <InputFieldText
+        <AuthInputField
           value={password}
           onChangeText={text => setPassword(text)}
           placeholder="Password"

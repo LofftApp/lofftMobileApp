@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
-import InputFieldText from '../components/coreComponents/inputField/InputFieldText';
+import AuthInputField from './coreComponents/inputField/AuthInputField';
 import CheckBox from '../components/coreComponents/interactiveElements/CheckBox';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {handleSignUp} from '../api/firebase/firebaseAuth';
@@ -41,7 +41,7 @@ const SignUpForm = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
       <View style={styles.textInputWrap}>
-        <InputFieldText
+        <AuthInputField
           value={email}
           onChangeText={text => setEmail(text)}
           placeholder="Email"
@@ -49,13 +49,13 @@ const SignUpForm = () => {
           keyboardType="email-address"
           errorMessage={message.target === 'email' ? message.message : null}
         />
-        <InputFieldText
+        <AuthInputField
           value={password}
           onChangeText={text => setPassword(text)}
           placeholder="Create password"
           type="password"
         />
-        <InputFieldText
+        <AuthInputField
           value={repeatPassword}
           onChangeText={text => setRepeatPassword(text)}
           placeholder="Repeat password"
