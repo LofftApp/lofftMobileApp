@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Color from './src/styles/lofftColorPallet.json';
+
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -72,9 +75,21 @@ const App = () => {
   return (
     <>
       {user && userType ? (
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            tabBarIcon: ({focused, color}) => {
+              let iconName = 'Not sure';
+              if (route.name === 'search') {
+                iconName = 'search-outline';
+              }
+              return <Icon name={iconName} size={25} color={color} />;
+            },
+            tabBarActiveTintColor: Color.Lavendar[100],
+            tabBarInActiveTintColor: Color.Black[30],
+            tabBarShowLabel: false,
+          })}>
           <Tab.Screen
-            name="FlatListScreen"
+            name="search"
             component={FlatListScreen}
             options={{headerShown: false}}
           />
