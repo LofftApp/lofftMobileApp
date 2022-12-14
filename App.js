@@ -24,7 +24,12 @@ import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetS
 import FlatFeaturesScreen from './src/screens/renterJourneyScreens/FlatFeaturesScreen';
 import SelfDescribeScreen from './src/screens/renterJourneyScreens/SelfDescribeScreen';
 import UserConditionsScreen from './src/screens/UserConditionsScreen';
+
+// User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatListScreen';
+import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
+import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
+import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -81,8 +86,19 @@ const App = () => {
           screenOptions={({route}) => ({
             tabBarIcon: ({focused, color}) => {
               let iconName = 'Not sure';
-              if (route.name === 'search') {
-                iconName = 'search-outline';
+              switch (route.name) {
+                case 'search':
+                  iconName = 'search-outline';
+                  break;
+                case 'favorite':
+                  iconName = 'heart-outline';
+                  break;
+                case 'alerts':
+                  iconName = 'notifications-outline';
+                  break;
+                case 'user':
+                  iconName = 'person-outline';
+                  break;
               }
               return <Icon name={iconName} size={25} color={color} />;
             },
@@ -93,6 +109,21 @@ const App = () => {
           <Tab.Screen
             name="search"
             component={FlatListScreen}
+            options={{headerShown: false}}
+          />
+          <Tab.Screen
+            name="favorite"
+            component={FavoriteFlatScreen}
+            options={{headerShown: false}}
+          />
+          <Tab.Screen
+            name="alerts"
+            component={AlertsScreen}
+            options={{headerShown: false}}
+          />
+          <Tab.Screen
+            name="user"
+            component={UserScreen}
             options={{headerShown: false}}
           />
         </Tab.Navigator>
