@@ -22,9 +22,11 @@ const SearchInput = ({
         onFocus={onFocus}
         placeholder={placeholder}
       />
-      <TouchableOpacity onPress={onClear}>
-        <Icon name={'close-outline'} size={20} />
-      </TouchableOpacity>
+      {value ? (
+        <TouchableOpacity onPress={onClear}>
+          <Icon name={'close-outline'} size={20} />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
