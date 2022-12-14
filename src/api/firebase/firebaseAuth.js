@@ -76,3 +76,10 @@ export const onGoogleButtonPress = async () => {
   const userSignIn = auth().signInWithCredential(googleCredential);
   userSignIn.then(result => console.log(result));
 };
+
+// Assign user type
+
+export const setUserType = async type => {
+  console.log(user.claims);
+  // console.log(type);
+};

@@ -11,7 +11,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './src/navigation/RootNavigation';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import AnotherScreen from './src/screens/AnotherScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -38,10 +37,13 @@ const App = () => {
   const [admin, setAdmin] = useState(false);
 
   const onAuthStateChanged = async user => {
-    const userClaims = await user.getIdTokenResult();
     setUser(user);
-    setUserType(userClaims.claims.primaryUserType);
-    setAdmin(userClaims.claims.admin);
+    console.log(user);
+    if (user) {
+      const userClaims = await user.getIdTokenResult();
+      setUserType(userClaims.claims.primaryUserType);
+      setAdmin(userClaims.claims.admin);
+    }
     if (initializing) setInitializing(false);
   };
 
@@ -101,11 +103,6 @@ const App = () => {
               <Stack.Screen
                 name="StartJourney"
                 component={StartJourney}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="AnotherScreen"
-                component={AnotherScreen}
                 options={{headerShown: false}}
               />
               <Stack.Screen
