@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
-import {View, TextInput, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet, Pressable} from 'react-native';
 import PrimaryScreen from '../../components/coreComponents/CoreScreens/PrimaryScreen';
 import FilterButton from '../../components/coreComponents/buttons/FilterButton';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {fontStyles} from '../../styles/fontStyles';
+import Color from '../../styles/lofftColorPallet.json';
+
+// Firebase
+import auth from '@react-native-firebase/auth';
 
 // Components
 import InputFieldText from '../../components/coreComponents/inputField/InputFieldText';
@@ -11,7 +17,7 @@ import InputFieldText from '../../components/coreComponents/inputField/InputFiel
 const FlatListScreen = () => {
   const [search, setSearch] = useState('');
   return (
-    <View>
+    <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
@@ -22,14 +28,36 @@ const FlatListScreen = () => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton />
+        <FilterButton onPress={() => auth().signOut()} />
       </View>
-      {/* <Button title="Sign out" onPress={() => auth().signOut()} /> */}
+      <View style={styles.viewToggle}>
+        <Pressable style={[styles.toggleButton, styles.toggleButtonActive]}>
+          <Icon name="list-outline" size={20} color={Color.Lavendar[100]} />
+          <Text
+            style={[
+              fontStyles.bodyMedium,
+              styles.toggleButtonText,
+              styles.toggleButtonTextActive,
+            ]}>
+            List View
+          </Text>
+        </Pressable>
+        <Pressable style={styles.toggleButton}>
+          <Icon name="map-outline" size={20} />
+          <Text style={[fontStyles.bodyMedium, styles.toggleButtonText]}>
+            Map View
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    backgroundColor: Color.White[100],
+    flex: 1,
+  },
   inputField: {
     flex: 1,
   },
@@ -37,6 +65,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 25,
     marginTop: 68, // Needs to be added to core view file, though not working when built
+  },
+  viewToggle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 8,
+  },
+  toggleButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 14,
+    paddingTop: 18,
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+  },
+  toggleButtonActive: {
+    borderColor: Color.Lavendar[100],
+  },
+  toggleButtonText: {
+    marginLeft: 5,
+  },
+  toggleButtonTextActive: {
+    color: Color.Lavendar[100],
   },
 });
 
