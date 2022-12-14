@@ -5,6 +5,7 @@ import Color from './src/styles/lofftColorPallet.json';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {checkUserProfileExist} from './src/api/firebase/firestoreActions';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -43,11 +44,10 @@ const App = () => {
 
   const onAuthStateChanged = async user => {
     setUser(user);
-    console.log(user);
     if (user) {
-      const userClaims = await user.getIdTokenResult();
-      setUserType(userClaims.claims.primaryUserType);
-      setAdmin(userClaims.claims.admin);
+      const profileExist = await checkUserProfileExist();
+      setUserType(profileExist);
+      // setAdmin(userClaims.claims.admin);
     }
     if (initializing) setInitializing(false);
   };
@@ -84,7 +84,7 @@ const App = () => {
       {user && userType ? (
         <Tab.Navigator
           screenOptions={({route}) => ({
-            tabBarIcon: ({focused, color}) => {
+            tabBarIcon: ({color}) => {
               let iconName = 'Not sure';
               switch (route.name) {
                 case 'search':

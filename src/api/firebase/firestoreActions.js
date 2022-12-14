@@ -23,3 +23,15 @@ export const createUserProfile = async data => {
       },
     });
 };
+
+export const checkUserProfileExist = async () => {
+  const currentUserId = await auth().currentUser.uid;
+  const response = await firestore()
+    .collection('users')
+    .doc(currentUserId)
+    .get()
+    .then(q => {
+      return q.data() ? true : false;
+    });
+  return response;
+};
