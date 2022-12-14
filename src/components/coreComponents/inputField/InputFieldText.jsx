@@ -13,6 +13,7 @@ const InputFieldText = ({
   onClear = null,
   errorMessage = '',
   keyboardType = 'default',
+  style,
 }) => {
   const [focus, setFocus] = useState(false);
   return (
@@ -22,6 +23,7 @@ const InputFieldText = ({
           styles.inputFieldStyle,
           focus ? styles.focus : null,
           errorMessage ? styles.errorActive : null,
+          style,
         ]}>
         {type === 'password' ? (
           <PasswordInput
@@ -67,8 +69,8 @@ const styles = StyleSheet.create({
   inputFieldStyle: {
     marginBottom: 8,
     borderWidth: 2,
-    borderRadius: 12,
-    borderColor: colors.Black[80],
+    borderRadius: 16,
+    borderColor: colors.Black[50],
     paddingHorizontal: 8,
     height: 48,
     justifyContent: 'center',
