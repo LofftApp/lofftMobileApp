@@ -1,6 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+
+// API - Firebase 🔥
 import auth from '@react-native-firebase/auth';
+import {createUserProfile} from '../api/firebase/firestoreActions';
 
 // Screens
 import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
@@ -48,7 +51,7 @@ const UserConditionsScreen = ({navigation, route}) => {
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           disabled={false}
           onPress={() => {
-            navigation.navigate('Terms', {
+            createUserProfile({
               personalPreferences: route.params.personalPreferences,
               gender: route.params.gender,
               districts: route.params.districts,
@@ -58,6 +61,7 @@ const UserConditionsScreen = ({navigation, route}) => {
               warmRent: route.params.rentWarm,
               textAboutUser: route.params.textAboutUser,
             });
+            navigation.navigate('FlatListScreen');
           }}
         />
 
