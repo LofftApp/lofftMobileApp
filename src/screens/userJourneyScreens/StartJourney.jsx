@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 
-import {View, Text, Image, StyleSheet, Pressable, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 // Screens
-import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
 // Styles
-import {fontStyles} from '../styles/fontStyles';
-import color from '../styles/lofftColorPallet.json';
+import color from '../../styles/lofftColorPallet.json';
 
 // Components
-import HeadlineContainer from '../components/containers/HeadlineContainer';
-import IconButton from '../components/coreComponents/buttons/IconButton';
+import HeadlineContainer from '../../components/containers/HeadlineContainer';
+import IconButton from '../../components/coreComponents/buttons/IconButton';
 
 const StartJourney = ({navigation}) => {
   const [routeFlatHunt, setRouteFlatHunt] = useState(false);

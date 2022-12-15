@@ -8,19 +8,19 @@ import {
 } from 'react-native';
 
 // Screens
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
 
 // Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+import {fontStyles} from '../../../styles/fontStyles';
+import color from '../../../styles/lofftColorPallet.json';
 
 // Settings
-import PaginationBar from '../../components/bars/PaginationBar';
+import PaginationBar from '../../../components/bars/PaginationBar';
 
 // Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
+import HeadlineContainer from '../../../components/containers/HeadlineContainer';
+import EmojiIcon from '../../../components/Emojicon/EmojiIcon';
+import {CoreButton} from '../../../components/buttons/CoreButton';
 
 const FlatFeaturesScreen = ({navigation, route}) => {
   const subHeaderText =

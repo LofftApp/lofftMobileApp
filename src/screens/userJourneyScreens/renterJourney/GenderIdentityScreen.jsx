@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Screens
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
-import PaginationBar from '../../components/bars/PaginationBar';
+import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
+import PaginationBar from '../../../components/bars/PaginationBar';
 
 // Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
-import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
+import {fontStyles} from '../../../styles/fontStyles';
+import color from '../../../styles/lofftColorPallet.json';
+import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
 
 // Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
+import HeadlineContainer from '../../../components/containers/HeadlineContainer';
 
-import SelectButton from '../../components/coreComponents/buttons/SelectButton';
-import {CoreButton} from '../../components/buttons/CoreButton';
+import SelectButton from '../../../components/coreComponents/buttons/SelectButton';
+import {CoreButton} from '../../../components/buttons/CoreButton';
 
 const GenderIdentityScreen = ({navigation, route}) => {
   const genders = [
