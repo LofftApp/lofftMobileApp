@@ -309,7 +309,7 @@ const SelectCityScreen = ({navigation, route}) => {
             height: 160,
           }}>
           <View style={{marginTop: 10, marginBottom: 54}}>
-            <PaginationBar screen={screen} />
+            <PaginationBar screen={screen} totalScreens={6} />
           </View>
           {districts.length >= 1 ? (
             <CoreButton
