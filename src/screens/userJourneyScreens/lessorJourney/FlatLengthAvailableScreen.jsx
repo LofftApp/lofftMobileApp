@@ -44,7 +44,12 @@ const FlatLengthAvailableScreen = ({navigation}) => {
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
-            <TouchableOpacity style={styles.setDateButton}>
+            <TouchableOpacity
+              style={styles.setDateButton}
+              onPress={() => {
+                setFromDate(new Date());
+                setFromDateSelected(true);
+              }}>
               <Text style={fontStyles.bodyMedium}>Today</Text>
             </TouchableOpacity>
           </View>
@@ -64,7 +69,9 @@ const FlatLengthAvailableScreen = ({navigation}) => {
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
-            <TouchableOpacity style={styles.setDateButton}>
+            <TouchableOpacity
+              style={styles.setDateButton}
+              onPress={() => setPerminant(true)}>
               <Text style={fontStyles.bodyMedium}>Perminant</Text>
             </TouchableOpacity>
           </View>
@@ -104,6 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   dateField: {
+    minWidth: 183,
     flexDirection: 'row',
     borderWidth: 2,
     paddingVertical: 14,
