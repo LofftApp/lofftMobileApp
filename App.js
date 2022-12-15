@@ -28,6 +28,7 @@ import UserConditionsScreen from './src/screens/UserConditionsScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from './src/screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
+import FlatLengthAvailableScreen from './src/screens/userJourneyScreens/lessorJourney/FlatLengthAvailableScreen';
 
 // User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatListScreen';
@@ -184,6 +185,11 @@ const App = () => {
               <Stack.Screen
                 name="WhereIsFlatScreen"
                 component={WhereIsFlatScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="FlatLengthAvailableScreen"
+                component={FlatLengthAvailableScreen}
                 options={{headerShown: false}}
               />
             </>
