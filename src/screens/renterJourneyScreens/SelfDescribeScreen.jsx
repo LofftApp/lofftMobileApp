@@ -18,13 +18,11 @@ import ScreenBackButton from '../../components/coreComponents/CoreScreens/Screen
 // Styles
 import {fontStyles} from '../../styles/fontStyles';
 import color from '../../styles/lofftColorPallet.json';
-import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
 
 // Components
 import HeadlineContainer from '../../components/containers/HeadlineContainer';
 import {CoreButton} from '../../components/buttons/CoreButton';
 import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/coreComponents/buttons/CustomSwitch';
 
 const SelfDescribeScreen = ({navigation, route}) => {
   const [text, setText] = useState('');
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
   inputText: {
     paddingHorizontal: 10,
     flex: 1,
-    borderWidth: 2,
     borderRadius: 16,
   },
   options: {
