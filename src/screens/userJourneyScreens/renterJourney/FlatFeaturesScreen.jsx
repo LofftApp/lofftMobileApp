@@ -156,7 +156,7 @@ const FlatFeaturesScreen = ({navigation, route}) => {
               alignItems: 'center',
               marginVertical: 17,
             }}>
-            <PaginationBar screen={screen} />
+            <PaginationBar screen={screen} totalScreens={6} />
           </View>
           <View style={{marginVertical: 15}}></View>
 

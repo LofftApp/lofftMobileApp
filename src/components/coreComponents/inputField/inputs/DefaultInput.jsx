@@ -8,6 +8,8 @@ const DefaultInput = ({
   onFocus = null,
   onBlur = null,
   value,
+  keyboardType,
+  capitalize,
 }) => {
   return (
     <View style={styles.inputContainer}>
@@ -18,6 +20,8 @@ const DefaultInput = ({
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
+        autoCapitalize={capitalize}
+        keyboardType={keyboardType}
       />
     </View>
   );
