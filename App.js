@@ -17,13 +17,13 @@ import SignInScreen from './src/screens/SignInScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Find Lofft Journey
-import StartJourney from './src/screens/StartJourney';
-import AboutYouFlatHuntScreen from './src/screens/renterJourneyScreens/AboutUserScreen';
-import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdentityScreen';
-import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScreen';
-import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetScreen';
-import FlatFeaturesScreen from './src/screens/renterJourneyScreens/FlatFeaturesScreen';
-import SelfDescribeScreen from './src/screens/renterJourneyScreens/SelfDescribeScreen';
+import StartJourney from './src/screens/userJourneyScreens/StartJourney';
+import AboutYouFlatHuntScreen from './src/screens/userJourneyScreens/renterJourney/AboutUserScreen';
+import GenderIdentityScreen from './src/screens/userJourneyScreens/renterJourney/GenderIdentityScreen';
+import SelectCityScreen from './src/screens/userJourneyScreens/renterJourney/SelectCityScreen';
+import FinderBudgetScreen from './src/screens/userJourneyScreens/renterJourney/FinderBudgetScreen';
+import FlatFeaturesScreen from './src/screens/userJourneyScreens/renterJourney/FlatFeaturesScreen';
+import SelfDescribeScreen from './src/screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
 import UserConditionsScreen from './src/screens/UserConditionsScreen';
 
 // User Journey Finder

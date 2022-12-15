@@ -11,16 +11,16 @@ import {
 } from 'react-native';
 
 // Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+import {fontStyles} from '../../../styles/fontStyles';
+import color from '../../../styles/lofftColorPallet.json';
 
 // Components
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/coreComponents/buttons/CustomSwitch';
+import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
+import HeadlineContainer from '../../../components/containers/HeadlineContainer';
+import EmojiIcon from '../../../components/Emojicon/EmojiIcon';
+import {CoreButton} from '../../../components/buttons/CoreButton';
+import PaginationBar from '../../../components/bars/PaginationBar';
+import CustomSwitch from '../../../components/coreComponents/buttons/CustomSwitch';
 
 const SelectCityScreen = ({navigation, route}) => {
   const user = {
