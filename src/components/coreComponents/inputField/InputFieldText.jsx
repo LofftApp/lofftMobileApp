@@ -50,7 +50,6 @@ const InputFieldText = ({
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
-            onClear={() => setText('')}
             value={value}
             placeholder={placeholder}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
