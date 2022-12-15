@@ -62,3 +62,6 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+
+# Emulator data
+/emulator_data
