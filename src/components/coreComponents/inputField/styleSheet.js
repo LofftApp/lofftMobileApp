@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 12,
     borderColor: colors.Black[80],
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
     height: 48,
     justifyContent: 'center',
   },
