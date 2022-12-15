@@ -2,23 +2,23 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 
 // Screens
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
 
 // Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
-import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
+import {fontStyles} from '../../../styles/fontStyles';
+import color from '../../../styles/lofftColorPallet.json';
+import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
 
 // Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/coreComponents/buttons/CustomSwitch';
+import HeadlineContainer from '../../../components/containers/HeadlineContainer';
+import EmojiIcon from '../../../components/Emojicon/EmojiIcon';
+import {CoreButton} from '../../../components/buttons/CoreButton';
+import PaginationBar from '../../../components/bars/PaginationBar';
+import CustomSwitch from '../../../components/coreComponents/buttons/CustomSwitch';
 
 // Frameworks
 import {Slider} from '@miblanchard/react-native-slider';
-import TagIcon from '../../assets/icons/TagIcon';
+import TagIcon from '../../../assets/icons/TagIcon';
 
 const FinderBudgetScreen = ({navigation, route}) => {
   const [minPrice, setMinPrice] = useState(0);

@@ -9,18 +9,18 @@ import {
 } from 'react-native';
 
 // Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+import {fontStyles} from '../../../styles/fontStyles';
+import color from '../../../styles/lofftColorPallet.json';
 
 // Settings
-import PaginationBar from '../../components/bars/PaginationBar';
+import PaginationBar from '../../../components/bars/PaginationBar';
 
 // Components
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import userPreferences from '../../components/componentData/userPreferences.json';
+import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
+import HeadlineContainer from '../../../components/containers/HeadlineContainer';
+import EmojiIcon from '../../../components/Emojicon/EmojiIcon';
+import {CoreButton} from '../../../components/buttons/CoreButton';
+import userPreferences from '../../../components/componentData/userPreferences.json';
 
 const AboutYouFlatHuntScreen = ({navigation}) => {
   const subHeaderText =
