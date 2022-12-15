@@ -72,7 +72,7 @@ const GenderIdentityScreen = ({navigation, route}) => {
 
         <View style={styles.buttonContainer}>
           <View style={styles.paginationContainer}>
-            <PaginationBar screen={screen} />
+            <PaginationBar screen={screen} totalScreens={6} />
           </View>
 
           {cleanGenders.length >= 1 ? (

@@ -4,8 +4,18 @@ import {View, StyleSheet} from 'react-native';
 // Assets 🖼
 import * as color from '../../styles/lofftColorPallet.json';
 
-const PaginationBar = ({screen}) => {
-  const blobs = [1, 2, 3, 4, 5, 6];
+const createArrayWithTarget = target => {
+  let i = 0;
+  let response = [];
+  while (i < target) {
+    response.push(i);
+    i++;
+  }
+  return response;
+};
+
+const PaginationBar = ({screen, totalScreens}) => {
+  const blobs = createArrayWithTarget(totalScreens);
   return (
     <View style={styles.pagination}>
       {blobs.map((i, index) => {

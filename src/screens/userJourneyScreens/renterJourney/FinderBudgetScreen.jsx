@@ -144,7 +144,7 @@ const FinderBudgetScreen = ({navigation, route}) => {
 
       <View style={styles.buttonContainer}>
         <View style={styles.pagingationBarContainer}>
-          <PaginationBar screen={screen} />
+          <PaginationBar screen={screen} totalScreens={6} />
         </View>
         <CoreButton
           value="Continue"
