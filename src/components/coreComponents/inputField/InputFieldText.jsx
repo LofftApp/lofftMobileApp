@@ -6,7 +6,7 @@ import SearchInput from './inputs/SearchInput';
 import DefaultInput from './inputs/DefaultInput';
 import {styles} from './styleSheet';
 
-const AuthInputField = ({
+const InputFieldText = ({
   placeholder = null,
   type = null,
   onChangeText,
@@ -64,4 +64,4 @@ const AuthInputField = ({
   );
 };
 
-export default AuthInputField;
+export default InputFieldText;

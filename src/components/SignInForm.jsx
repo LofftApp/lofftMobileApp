@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Color from '../styles/lofftColorPallet.json';
 import SignUpButton from './coreComponents/buttons/SignUpButton';
-import AuthInputField from './coreComponents/inputField/AuthInputField';
+import AuthInputField from './coreComponents/inputField/InputFieldText';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 
