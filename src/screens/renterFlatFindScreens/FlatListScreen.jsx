@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, Button, StyleSheet, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import PrimaryScreen from '../../components/coreComponents/CoreScreens/PrimaryScreen';
 import FilterButton from '../../components/coreComponents/buttons/FilterButton';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,40 +23,69 @@ import InputFieldText from '../../components/coreComponents/inputField/InputFiel
 
 const FlatListScreen = () => {
   const [search, setSearch] = useState('');
+  const [screen, setScreen] = useState('list');
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.searchContainer}>
-        <InputFieldText
-          type="search"
-          onChangeText={t => setSearch(t)}
-          value={search}
-          placeholder="City, Neighbourhood..."
-          onClear={() => setSearch('')}
-          keyboardType="email-address"
-          style={styles.inputField}
-        />
-        <FilterButton onPress={() => auth().signOut()} />
-      </View>
-      <View style={styles.viewToggle}>
-        <Pressable style={[styles.toggleButton, styles.toggleButtonActive]}>
-          <Icon name="list-outline" size={20} color={Color.Lavendar[100]} />
-          <Text
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
+      <View style={styles.pageContainer}>
+        <View style={styles.searchContainer}>
+          <InputFieldText
+            type="search"
+            onChangeText={t => setSearch(t)}
+            value={search}
+            placeholder="City, Neighbourhood..."
+            onClear={() => setSearch('')}
+            keyboardType="email-address"
+            style={styles.inputField}
+          />
+          <FilterButton onPress={() => auth().signOut()} />
+        </View>
+        <View style={styles.viewToggle}>
+          <Pressable
             style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              styles.toggleButtonTextActive,
-            ]}>
-            List View
-          </Text>
-        </Pressable>
-        <Pressable style={styles.toggleButton}>
-          <Icon name="map-outline" size={20} />
-          <Text style={[fontStyles.bodyMedium, styles.toggleButtonText]}>
-            Map View
-          </Text>
-        </Pressable>
+              styles.toggleButton,
+              screen === 'list' ? styles.toggleButtonActive : null,
+            ]}
+            onPress={() => setScreen('list')}>
+            <Icon
+              name="list-outline"
+              size={20}
+              color={screen === 'list' ? Color.Lavendar[100] : Color.Black[50]}
+            />
+            <Text
+              style={[
+                fontStyles.bodyMedium,
+                styles.toggleButtonText,
+                screen === 'list' ? styles.toggleButtonTextActive : null,
+              ]}>
+              List View
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              styles.toggleButton,
+              screen === 'map' ? styles.toggleButtonActive : null,
+            ]}
+            onPress={() => setScreen('map')}>
+            <Icon
+              name="map-outline"
+              size={20}
+              color={screen === 'map' ? Color.Lavendar[100] : Color.Black[50]}
+            />
+            <Text
+              style={[
+                fontStyles.bodyMedium,
+                styles.toggleButtonText,
+                screen === 'map' ? styles.toggleButtonTextActive : null,
+              ]}>
+              Map View
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.viewContainer}>
+          {screen == 'list' ? <Text>List</Text> : <Text>Map</Text>}
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -88,6 +124,9 @@ const styles = StyleSheet.create({
   },
   toggleButtonTextActive: {
     color: Color.Lavendar[100],
+  },
+  viewContainer: {
+    flex: 1,
   },
 });
 
