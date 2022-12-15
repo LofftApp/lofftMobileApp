@@ -48,7 +48,7 @@ const WhereIsFlatScreen = ({navigation}) => {
         <CoreButton
           value="Continue"
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-          onPress={() => {}}
+          onPress={() => navigation.navigate('FlatLengthAvailableScreen')}
         />
       </View>
     </ScreenBackButton>
