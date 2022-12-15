@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
 import DatePicker from 'react-native-date-picker';
 import {fontStyles} from '../../../styles/fontStyles';
@@ -26,30 +32,42 @@ const FlatLengthAvailableScreen = ({navigation}) => {
 
         <View style={styles.datePickerContainer}>
           <Text style={fontStyles.headerSmall}>From</Text>
-          <Pressable
-            onPress={() => setModalOpen(true)}
-            style={styles.dateField}>
-            <Icon name="calendar-outline" size={18} />
-            <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
-              {fromDateSelected
-                ? dateFormatConverter({date: fromDate})
-                : 'First day'}
-            </Text>
-          </Pressable>
+          <View style={styles.buttonContainer}>
+            <Pressable
+              onPress={() => setModalOpen(true)}
+              style={styles.dateField}>
+              <Icon name="calendar-outline" size={18} />
+              <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
+                {fromDateSelected
+                  ? dateFormatConverter({date: fromDate})
+                  : 'First day'}
+              </Text>
+            </Pressable>
+            <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
+            <TouchableOpacity style={styles.setDateButton}>
+              <Text style={fontStyles.bodyMedium}>Today</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.datePickerContainer}>
           <Text style={fontStyles.headerSmall}>Until</Text>
-          <Pressable
-            onPress={() => setModalOpen(true)}
-            style={styles.dateField}>
-            <Icon name="calendar-outline" size={18} />
-            <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
-              {untilDateSelected
-                ? dateFormatConverter({date: untilDate})
-                : 'Last day'}
-            </Text>
-          </Pressable>
+          <View style={styles.buttonContainer}>
+            <Pressable
+              onPress={() => setModalOpen(true)}
+              style={styles.dateField}>
+              <Icon name="calendar-outline" size={18} />
+              <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
+                {untilDateSelected
+                  ? dateFormatConverter({date: untilDate})
+                  : 'Last day'}
+              </Text>
+            </Pressable>
+            <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
+            <TouchableOpacity style={styles.setDateButton}>
+              <Text style={fontStyles.bodyMedium}>Perminant</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.footerContainer}>
           <PaginationBar screen={1} totalScreens={5} />
@@ -87,7 +105,6 @@ const styles = StyleSheet.create({
   },
   dateField: {
     flexDirection: 'row',
-    marginTop: 8,
     borderWidth: 2,
     paddingVertical: 14,
     paddingHorizontal: 19,
@@ -97,6 +114,20 @@ const styles = StyleSheet.create({
   dateLabel: {
     marginLeft: 11,
     color: Color.Black[30],
+  },
+  setDateButton: {
+    borderWidth: 2,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+  },
+  orText: {
+    marginHorizontal: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
   },
   footerContainer: {
     flex: 1,
