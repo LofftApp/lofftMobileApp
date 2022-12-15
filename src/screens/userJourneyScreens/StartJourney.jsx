@@ -12,14 +12,13 @@ import HeadlineContainer from '../../components/containers/HeadlineContainer';
 import IconButton from '../../components/coreComponents/buttons/IconButton';
 
 const StartJourney = ({navigation}) => {
-  const [routeFlatHunt, setRouteFlatHunt] = useState(false);
+  const [routeFlatHunt, setRouteFlatHunt] = useState(null);
 
-  const handleClick = routeName => {
-    setRouteFlatHunt(true);
+  const handleClick = (routeName, type) => {
+    setRouteFlatHunt(type);
     setTimeout(() => {
-      console.log(routeName);
       navigation.navigate(routeName);
-      setRouteFlatHunt(false);
+      setRouteFlatHunt(null);
     }, 500);
   };
 
@@ -32,15 +31,22 @@ const StartJourney = ({navigation}) => {
         subDescription={subHeaderText}
       />
       <IconButton
-        style={routeFlatHunt ? styles.buttonActive : styles.button}
+        style={[
+          styles.button,
+          routeFlatHunt === 'renter' ? styles.buttonActive : null,
+        ]}
         text="I'm looking for a flat"
         icon="search-outline"
-        onPress={() => handleClick('AboutYouFlatHuntScreen')}
+        onPress={() => handleClick('AboutYouFlatHuntScreen', 'renter')}
       />
       <IconButton
+        style={[
+          styles.button,
+          routeFlatHunt === 'lesser' ? styles.buttonActive : null,
+        ]}
         text="I have a room to rent"
         icon="home-outline"
-        onPress={() => {}}
+        onPress={() => handleClick('WhereIsFlatScreen', 'lesser')}
       />
     </ScreenBackButton>
   );
@@ -56,12 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonActive: {
-    borderRadius: 12,
-    borderWidth: 2,
     borderColor: color.Lavendar[100],
-    marginBottom: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: color.Lavendar[10],
   },
   icon: {
