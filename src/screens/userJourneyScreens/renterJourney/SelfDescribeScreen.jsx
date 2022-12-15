@@ -64,7 +64,7 @@ const SelfDescribeScreen = ({navigation, route}) => {
 
       <View style={styles.options}>
         <View style={styles.paginationContainer}>
-          <PaginationBar screen={screen} totalScreens={6} />
+          <PaginationBar screen={5} totalScreens={6} />
         </View>
 
         <CoreButton
