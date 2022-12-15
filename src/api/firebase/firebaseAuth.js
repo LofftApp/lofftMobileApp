@@ -7,10 +7,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 export const handleSignUp = async ({email, password}) => {
   try {
-    const response = await auth().createUserWithEmailAndPassword(
-      email,
-      password,
-    );
+    await auth().createUserWithEmailAndPassword(email, password);
   } catch (err) {
     if (err.code === 'auth/invalid-email') {
       return {
@@ -88,4 +85,11 @@ export const onGoogleButtonPress = async () => {
   // Sign-in the user with the credential
   const userSignIn = auth().signInWithCredential(googleCredential);
   userSignIn.then(result => console.log(result));
+};
+
+// Assign user type
+
+export const setUserType = async type => {
+  console.log(user.claims);
+  // console.log(type);
 };
