@@ -3,10 +3,10 @@ import firestore from '@react-native-firebase/firestore';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
-export const handleSignUp = async ({email, password}) => {
+export const handleSignUp = async ({email, password}: any) => {
   try {
     await auth().createUserWithEmailAndPassword(email, password);
-  } catch (err) {
+  } catch (err: any) {
     if (err.code === 'auth/invalid-email') {
       return {
         error: true,
@@ -75,11 +75,4 @@ export const onGoogleButtonPress = async () => {
   // Sign-in the user with the credential
   const userSignIn = auth().signInWithCredential(googleCredential);
   userSignIn.then(result => console.log(result));
-};
-
-// Assign user type
-
-export const setUserType = async type => {
-  console.log(user.claims);
-  // console.log(type);
 };
