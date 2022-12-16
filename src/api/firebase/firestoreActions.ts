@@ -3,9 +3,9 @@ import auth from '@react-native-firebase/auth';
 
 // Save user profile
 
-export const createUserProfile = async data => {
+export const createUserProfile = async (data: any) => {
   // console.log(data);
-  const currentUserId = auth().currentUser.uid;
+  const currentUserId = auth().currentUser?.uid;
   await firestore()
     .collection('users')
     .doc(currentUserId)
@@ -25,7 +25,7 @@ export const createUserProfile = async data => {
 };
 
 export const checkUserProfileExist = async () => {
-  const currentUserId = await auth().currentUser.uid;
+  const currentUserId = await auth().currentUser?.uid;
   const response = await firestore()
     .collection('users')
     .doc(currentUserId)
