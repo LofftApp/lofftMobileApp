@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 
 // Components 🪢
-import BackButton from '../buttons/BackButton';
+// import BackButton from '../buttons/BackButton';
+import BackButton from '@Components/buttons/BackButton';
 
 // StyleSheets
 import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
 
-const ScreenBackButton = ({nav, title, children}) => {
+const ScreenBackButton = ({nav, title, children}: any) => {
   return (
     // Screen back button
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

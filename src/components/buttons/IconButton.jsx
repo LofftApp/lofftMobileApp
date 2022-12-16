@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {fontStyles} from '../../../styles/fontStyles';
-import Color from '../../../styles/lofftColorPallet.json';
+import {fontStyles} from '../../styles/fontStyles';
+import Color from '../../styles/lofftColorPallet.json';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const IconButton = ({text, icon, iconSize = 20, onPress, style}) => {

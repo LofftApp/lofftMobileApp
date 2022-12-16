@@ -7,8 +7,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import PrimaryScreen from '../../components/coreComponents/CoreScreens/PrimaryScreen';
-import FilterButton from '../../components/coreComponents/buttons/FilterButton';
+import PrimaryScreen from '../../components/coreComponents/Screens/PrimaryScreen';
+import FilterButton from '../../components/buttons/FilterButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {fontStyles} from '../../styles/fontStyles';
 import Color from '../../styles/lofftColorPallet.json';

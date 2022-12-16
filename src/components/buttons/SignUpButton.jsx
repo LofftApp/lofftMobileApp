@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
-import Color from '../../../styles/lofftColorPallet.json';
+import Color from '../../styles/lofftColorPallet.json';
 
 const SignUpButton = ({title}) => {
   return (

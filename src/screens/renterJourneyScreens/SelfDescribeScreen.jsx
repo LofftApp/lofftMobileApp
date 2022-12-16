@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 // Screens
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
 
 // Styles
 import {fontStyles} from '../../styles/fontStyles';

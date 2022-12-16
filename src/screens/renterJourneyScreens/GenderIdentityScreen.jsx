@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Screens
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
 import PaginationBar from '../../components/bars/PaginationBar';
 
 // Styles
@@ -13,7 +13,7 @@ import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
 // Components
 import HeadlineContainer from '../../components/containers/HeadlineContainer';
 
-import SelectButton from '../../components/coreComponents/buttons/SelectButton';
+import SelectButton from '../../components/buttons/SelectButton';
 import {CoreButton} from '../../components/buttons/CoreButton';
 
 const GenderIdentityScreen = ({navigation, route}) => {
