@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import colors from '../../../styles/lofftColorPallet.json';
+
+// Components 🪢
 import PasswordInput from './inputs/PasswordInput';
 import SearchInput from './inputs/SearchInput';
 import DefaultInput from './inputs/DefaultInput';
+
+// Style 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
 
 const InputFieldText = ({
   placeholder = null,
@@ -14,7 +18,7 @@ const InputFieldText = ({
   errorMessage = '',
   keyboardType = 'default',
   style,
-}) => {
+}: any) => {
   const [focus, setFocus] = useState(false);
   return (
     <>
@@ -50,7 +54,6 @@ const InputFieldText = ({
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
-            onClear={() => setText('')}
             value={value}
             placeholder={placeholder}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
@@ -70,20 +73,20 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderWidth: 2,
     borderRadius: 16,
-    borderColor: colors.Black[50],
+    borderColor: Color.Black[50],
     paddingHorizontal: 8,
     height: 48,
     justifyContent: 'center',
   },
   focus: {
-    borderColor: colors.Lavendar[100],
+    borderColor: Color.Lavendar[100],
   },
   errorMessage: {
     margin: 5,
-    color: colors.Tomato[100],
+    color: Color.Tomato[100],
   },
   errorActive: {
-    borderColor: colors.Tomato[100],
+    borderColor: Color.Tomato[100],
   },
 });
 
