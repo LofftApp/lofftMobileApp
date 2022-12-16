@@ -2,11 +2,11 @@ import React, {useState, useRef, useEffect} from 'react';
 
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const SelectButton = ({value, id, toggle, selectGender}) => {
+const SelectButton = ({value, id, toggle, selectGender}: any) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 2,
     borderRadius: 12,
-    borderColor: color.Black[100],
+    borderColor: Color.Black[100],
     flexDirction: 'row',
     marginRight: 8,
     marginBottom: 16,
@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 2,
     borderRadius: 12,
-    borderColor: color.Lavendar[100],
+    borderColor: Color.Lavendar[100],
     flexDirction: 'row',
     marginRight: 8,
     marginBottom: 16,
-    backgroundColor: color.Lavendar[10],
+    backgroundColor: Color.Lavendar[10],
   },
 });
 

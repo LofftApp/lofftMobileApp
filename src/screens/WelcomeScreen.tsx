@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
-import PrimaryScreen from '../components/coreComponents/Screens/PrimaryScreen';
-import Color from '../styles/lofftColorPallet.json';
-import {fontStyles} from '../styles/fontStyles';
-import IconButton from '../components/buttons/IconButton';
-import BackgroundImage from '../assets/background/wbyh.svg';
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 
-const WelcomeScreen = ({navigation}) => {
+// Screens 📺
+import PrimaryScreen from '@Screens/PrimaryScreen';
+
+// Components 🪢
+import IconButton from '@Components/buttons/IconButton';
+
+// StyleSheets 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from '@StyleSheets/fontStyles';
+
+const WelcomeScreen = ({navigation}: any) => {
   return (
     <PrimaryScreen background={true}>
-      <BackgroundImage style={styles.backgroundImage} />
       <View style={styles.pageContainer}>
         <Text style={[fontStyles.headerDisplay, styles.header]}>
           What brings you here?
@@ -23,11 +27,13 @@ const WelcomeScreen = ({navigation}) => {
             text="I'm looking for a flat"
             icon="search-outline"
             onPress={() => navigation.navigate('AboutYouFlatHuntScreen')}
+            style={undefined}
           />
           <IconButton
             text="I have a room to rent"
             icon="home-outline"
             onPress={() => {}}
+            style={undefined}
           />
         </View>
       </View>

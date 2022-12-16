@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Color from '../../styles/lofftColorPallet.json';
 
-const FilterButton = ({onPress}) => {
+// StyleSheet
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+const FilterButton = ({onPress}: any) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.buttonOutline}>
