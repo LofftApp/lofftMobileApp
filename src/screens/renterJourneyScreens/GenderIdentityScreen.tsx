@@ -1,22 +1,20 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
-// Screens
-import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
-import PaginationBar from '../../components/bars/PaginationBar';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
-import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import PaginationBar from '@Components/bars/PaginationBar';
+import SelectButton from '@Components/buttons/SelectButton';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
-// Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-import SelectButton from '../../components/buttons/SelectButton';
-import {CoreButton} from '../../components/buttons/CoreButton';
-
-const GenderIdentityScreen = ({navigation, route}) => {
+const GenderIdentityScreen = ({navigation, route}: any) => {
   const genders = [
     {value: 'Male', id: 1, toggle: false},
     {value: 'Female', id: 2, toggle: false},
@@ -25,14 +23,14 @@ const GenderIdentityScreen = ({navigation, route}) => {
     {value: 'Prefer not to say', id: 5, toggle: false},
   ];
 
-  selectedTagsFromScreenOne = route.params.selectedTagsFromScreenOne;
+  const selectedTagsFromScreenOne = route.params.selectedTagsFromScreenOne;
   const [screen, setScreen] = useState(1);
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [cleanGenders, setCleanGenders] = useState([]);
 
   console.log(cleanGenders);
 
-  const selectGender = id => {
+  const selectGender = (id: any) => {
     const genderTicked = intitalGenders.map(el => {
       if (el.id === id) {
         return {
@@ -47,7 +45,7 @@ const GenderIdentityScreen = ({navigation, route}) => {
       }
     });
 
-    const wash = genderTicked.filter(el => el.toggle);
+    const wash: any = genderTicked.filter(el => el.toggle);
     setCleanGenders(wash);
     setIntitalGenders(genderTicked);
   };
@@ -78,13 +76,13 @@ const GenderIdentityScreen = ({navigation, route}) => {
           {cleanGenders.length >= 1 ? (
             <CoreButton
               value="Continue"
-              style={{backgroundColor: color.Lavendar[100]}}
+              style={{backgroundColor: Color.Lavendar[100]}}
               textStyle={[fontStyles.headerSmall, {color: 'white'}]}
               disabled={false}
               onPress={() => {
                 navigation.navigate('SelectCityScreen', {
                   selectedTagsFromScreenOne: selectedTagsFromScreenOne,
-                  selectedTagsFromScreenTwo: cleanGenders[0].value,
+                  selectedTagsFromScreenTwo: cleanGenders[0]['value'],
                 });
               }}
             />

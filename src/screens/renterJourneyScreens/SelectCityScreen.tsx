@@ -1,3 +1,4 @@
+// Needs refactoring to work with TypeScript
 import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
@@ -10,19 +11,24 @@ import {
   Animated,
 } from 'react-native';
 
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Components
-import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/buttons/CustomSwitch';
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import EmojiIcon from '@Components/Emojicon/EmojiIcon';
+import {CoreButton} from '@Components/buttons/CoreButton';
+import PaginationBar from '@Components/bars/PaginationBar';
+import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
 
-const SelectCityScreen = ({navigation, route}) => {
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Data 💿
+import CityDistricts from '@Components/componentData/cityDistricts.json';
+
+const SelectCityScreen = ({navigation, route}: any) => {
   const user = {
     preferences: route.params.selectedTagsFromScreenOne,
     gender: route.params.selectedTagsFromScreenTwo,
@@ -38,70 +44,14 @@ const SelectCityScreen = ({navigation, route}) => {
   const [allDistricts, setAllDistricts] = useState(false);
   const [washedDistricts, setWashedDistricts] = useState([]);
 
-  const cities = {
-    berlin: {
-      districts: [
-        {id: 1, name: 'Kreuzberg', toggle: false, emoji: '🚬'},
-        {id: 2, name: 'Mitte', toggle: false, emoji: '👾'},
-        {id: 3, name: 'PrenzlauerBerg', toggle: false, emoji: '🧘🏽‍♀️'},
-        {id: 4, name: 'Charlottenburg', toggle: false, emoji: '🫖'},
-        {id: 5, name: 'Steglitz', toggle: false, emoji: '🏰'},
-        {id: 6, name: 'Wedding', toggle: false, emoji: '🥷🏻'},
-        {id: 7, name: 'Moabit', toggle: false, emoji: '👔'},
-        {id: 8, name: 'Spandau', toggle: false, emoji: '💩'},
-      ],
-      flag: '🇩🇪',
-    },
-    paris: {
-      districts: [
-        {id: 1, name: '🚬 Pigalle', toggle: false},
-        {id: 2, name: '🐩 Austerlitz', toggle: false},
-      ],
-      flag: '🇫🇷',
-    },
-    budapest: {
-      districts: [
-        {id: 1, name: '🚬 Laszo', toggle: false},
-        {id: 2, name: '🐩  Buda', toggle: false},
-      ],
-      flag: '🇭🇺',
-    },
-    brussels: {
-      districts: [
-        {id: 1, name: '🚬 Molbeken', toggle: false},
-        {id: 2, name: '🐩  Midi', toggle: false},
-      ],
-      flag: '🇧🇪',
-    },
-    brisbane: {
-      districts: [
-        {id: 1, name: '🚬 Newmarket', toggle: false},
-        {id: 2, name: '🐩  Westend', toggle: false},
-      ],
-      flag: '🇦🇺',
-    },
-    wroclaw: {
-      districts: [
-        {id: 1, name: '🚬 Centrum', toggle: false},
-        {id: 2, name: '🐩  Grabiyszn', toggle: false},
-      ],
-      flag: '🇵🇱',
-    },
-    warszawa: {
-      districts: [
-        {id: 1, name: '🚬 Chopin', toggle: false},
-        {id: 2, name: '🐩  Centurn', toggle: false},
-      ],
-      flag: '🇵🇱',
-    },
-  };
+  const cities = CityDistricts;
 
   const trigerAllFlats = () => {
     selectAllDistrictsTags(allDistricts);
     setAllDistricts(!allDistricts);
   };
 
-  const selectAllDistrictsTags = state => {
+  const selectAllDistrictsTags = (state: any) => {
     const all = districts.map(el => {
       if (!state) {
         return {
@@ -127,7 +77,7 @@ const SelectCityScreen = ({navigation, route}) => {
     }, {});
 
   // Functions
-  const cityTrack = userInput => {
+  const cityTrack = (userInput: any) => {
     if (userInput === '' || city != '') {
       setElementArray([]);
       setDistricts([]);
@@ -137,10 +87,7 @@ const SelectCityScreen = ({navigation, route}) => {
 
     for (const [key, value] of Object.entries(orderedCities)) {
       if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
-        // value.forEach((el) => {
-        //   console.log(el.district)
-        // })
-        const inputObject = {};
+        const inputObject = {city: '', flag: ''};
         inputObject.city = key;
         inputObject.flag = value.flag;
         creationArray.push(inputObject);
@@ -152,7 +99,7 @@ const SelectCityScreen = ({navigation, route}) => {
     setCity(userInput);
   };
 
-  const activateDistrictDisplay = city => {
+  const activateDistrictDisplay = (city: any) => {
     setCityPicked(true);
     setDistricts(cities[city].districts);
     setCity(city);
@@ -164,7 +111,7 @@ const SelectCityScreen = ({navigation, route}) => {
 
   const handleCityFocus = () => setFocusCity(true);
 
-  const selectedEmojis = id => {
+  const selectedEmojis = (id: any) => {
     const targets = [];
 
     const preSeleted = districts.map(element => {
@@ -227,8 +174,8 @@ const SelectCityScreen = ({navigation, route}) => {
                 fontStyles.bodyMedium,
                 {
                   borderColor: focusedCity
-                    ? color.Lavendar[100]
-                    : color.Black[80],
+                    ? Color.Lavendar[100]
+                    : Color.Black[80],
                   borderBottomLeftRadius: elementArray.length >= 1 ? 0 : 12,
                   borderBottomRightRadius: elementArray.length >= 1 ? 0 : 12,
                 },
@@ -252,7 +199,7 @@ const SelectCityScreen = ({navigation, route}) => {
                   <Pressable
                     key={index + 1}
                     onPress={() => {
-                      activateDistrictDisplay(el.city);
+                      activateDistrictDisplay(el['city']);
                     }}>
                     <View
                       key={index}
@@ -262,9 +209,9 @@ const SelectCityScreen = ({navigation, route}) => {
                           : styles.cityTag,
                       ]}>
                       <Text key={index + 1}>
-                        {el.flag}{' '}
-                        {el.city[0].toUpperCase() +
-                          el.city.substring(1, el.city.length)}
+                        {el['flag']}{' '}
+                        {el['city'][0].toUpperCase() +
+                          el['city'].substring(1, el['city'].length)}
                       </Text>
                     </View>
                   </Pressable>
@@ -289,7 +236,8 @@ const SelectCityScreen = ({navigation, route}) => {
                   <View style={styles.switchContainer}>
                     <CustomSwitch
                       value={allDistricts}
-                      onValueChange={() => trigerAllFlats(allDistricts)}
+                      // onValueChange={() => trigerAllFlats(allDistricts)}
+                      onValueChange={() => trigerAllFlats()}
                     />
                     <Text style={{marginLeft: 20}}>Select All</Text>
                   </View>
@@ -315,7 +263,7 @@ const SelectCityScreen = ({navigation, route}) => {
             <CoreButton
               value="Continue"
               style={{
-                backgroundColor: color.Lavendar[100],
+                backgroundColor: Color.Lavendar[100],
                 borderWidth: 0,
                 width: '100%',
               }}
@@ -353,7 +301,7 @@ const SelectCityScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   questionInputStyle: {
     padding: 15,
-    color: color.Black[80],
+    color: Color.Black[80],
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     borderWidth: 2,
@@ -361,13 +309,13 @@ const styles = StyleSheet.create({
 
   cityTag: {
     padding: 15,
-    borderColor: color.Lavendar[100],
+    borderColor: Color.Lavendar[100],
     borderRightWidth: 2,
     borderLeftWidth: 2,
     borderBottomWidth: 0,
   },
   lastCityTag: {
-    borderColor: color.Lavendar[100],
+    borderColor: Color.Lavendar[100],
     borderBottomWidth: 2,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
