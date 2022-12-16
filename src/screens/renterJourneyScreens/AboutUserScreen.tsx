@@ -8,32 +8,34 @@ import {
   ScrollView,
 } from 'react-native';
 
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Settings
-import PaginationBar from '../../components/bars/PaginationBar';
+// Components 🪢
+import PaginationBar from '@Components/bars/PaginationBar';
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import EmojiIcon from '@Components/Emojicon/EmojiIcon';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
-// Components
-import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import userPreferences from '../../components/componentData/userPreferences.json';
+// StylesSheet 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const AboutYouFlatHuntScreen = ({navigation}) => {
+// Data 💿
+import userPreferences from '@Components/componentData/userPreferences.json';
+
+const AboutYouFlatHuntScreen = ({navigation}: any) => {
   const subHeaderText =
     "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!";
   const preferences = userPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState(preferences);
-  const [screen, setScreen] = useState(0);
+  const [screen] = useState(0);
   const [selectTrack, setselectedTrack] = useState([]);
   const [alertTriger, setAlertTriger] = useState(false);
 
-  const selectedEmojis = id => {
+  const selectedEmojis = (id: any) => {
     const targets = [];
 
     const preSeleted = intitalpreferencesArray.map(element => {
@@ -44,15 +46,11 @@ const AboutYouFlatHuntScreen = ({navigation}) => {
           toggle: !element.toggle,
         };
       } else {
-        // const targetIndex = targets.map(e => e.hello).indexOf(id);
-        // if (targetIndex > -1) {
-        //   targets.splice(targetIndex,1);
-        // }
         return element;
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
+    const wash: any = preSeleted.filter(el => el.toggle);
 
     setselectedTrack(wash);
     seIintitalPreferencesArray(preSeleted);
@@ -109,7 +107,7 @@ const AboutYouFlatHuntScreen = ({navigation}) => {
           <View style={{marginVertical: 13}}>
             <Text
               style={
-                alertTriger ? {color: color.Tomato[100]} : {color: '#4A4A4A'}
+                alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
               }>
               * Select at least 3 tags
             </Text>
@@ -118,7 +116,7 @@ const AboutYouFlatHuntScreen = ({navigation}) => {
           {selectTrack.length >= 3 ? (
             <CoreButton
               value="Continue"
-              style={{backgroundColor: color.Lavendar[100], borderWidth: 0}}
+              style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
               textStyle={[fontStyles.headerSmall, {color: 'white'}]}
               disabled={false}
               onPress={() => {

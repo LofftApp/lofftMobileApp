@@ -1,30 +1,19 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Pressable,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  TextInput,
-} from 'react-native';
+import {View, StyleSheet, Pressable, TextInput} from 'react-native';
 
-// Screens
-import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import {CoreButton} from '@Components/buttons/CoreButton';
+import PaginationBar from '@Components/bars/PaginationBar';
 
-// Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import PaginationBar from '../../components/bars/PaginationBar';
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const SelfDescribeScreen = ({navigation, route}) => {
+const SelfDescribeScreen = ({navigation, route}: any) => {
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
 
@@ -47,7 +36,7 @@ const SelfDescribeScreen = ({navigation, route}) => {
         <Pressable
           style={[
             styles.inputForm,
-            {borderColor: textFocus ? color.Lavendar[100] : color.Black[100]},
+            {borderColor: textFocus ? Color.Lavendar[100] : Color.Black[100]},
           ]}
           onPress={() => handleTextFocus()}>
           <TextInput
@@ -69,7 +58,7 @@ const SelfDescribeScreen = ({navigation, route}) => {
 
         <CoreButton
           value="Continue"
-          style={{backgroundColor: color.Lavendar[100], borderWidth: 0}}
+          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           disabled={false}
           onPress={() => {

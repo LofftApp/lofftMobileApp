@@ -1,92 +1,26 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 
-// Screens
-import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import EmojiIcon from '@Components/Emojicon/EmojiIcon';
+import {CoreButton} from '@Components/buttons/CoreButton';
+import PaginationBar from '@Components/bars/PaginationBar';
 
-// Settings
-import PaginationBar from '../../components/bars/PaginationBar';
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-// Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
+// Data 💿
+import flatPreferences from '@Components/componentData/flatPreferences.json';
 
-const FlatFeaturesScreen = ({navigation, route}) => {
+const FlatFeaturesScreen = ({navigation, route}: any) => {
   const subHeaderText =
     'Select all tags that describe who you are and find the Lofft of your life!';
-  const preferences = [
-    {
-      id: 1,
-      emoji: '🚌',
-      value: 'Bus stop closeby',
-      toggle: false,
-    },
-    {
-      id: 2,
-      emoji: '↑',
-      value: 'Elevator',
-      toggle: false,
-    },
-    {
-      id: 3,
-      emoji: '🚊',
-      value: 'Close to U- or S-Bahn',
-      toggle: false,
-    },
-    {
-      id: 4,
-      emoji: '⛱',
-      value: 'Balcony / Terrace',
-      toggle: false,
-    },
-    {
-      id: 5,
-      emoji: '🛖',
-      value: 'Ground floor',
-      toggle: false,
-    },
-    {
-      id: 6,
-      emoji: '🛋',
-      value: 'Fully furnished',
-      toggle: false,
-    },
-    {
-      id: 7,
-      emoji: '🥘',
-      value: 'Built-in kitchen',
-      toggle: false,
-    },
-    {
-      id: 8,
-      emoji: '🐶',
-      value: 'Pet friendly',
-      toggle: false,
-    },
-    {
-      id: 9,
-      emoji: '🚋',
-      value: 'Near tram stop',
-      toggle: false,
-    },
-    {
-      id: 10,
-      emoji: '🦽',
-      value: 'Accessible',
-      toggle: false,
-    },
-  ];
+  const preferences = flatPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState(preferences);
@@ -94,7 +28,7 @@ const FlatFeaturesScreen = ({navigation, route}) => {
   const [selectTrack, setselectedTrack] = useState([]);
   const [alertTriger, setAlertTriger] = useState(false);
 
-  const selectedEmojis = id => {
+  const selectedEmojis = (id: any) => {
     const targets = [];
 
     const preSeleted = intitalpreferencesArray.map(element => {
@@ -105,15 +39,11 @@ const FlatFeaturesScreen = ({navigation, route}) => {
           toggle: !element.toggle,
         };
       } else {
-        // const targetIndex = targets.map(e => e.hello).indexOf(id);
-        // if (targetIndex > -1) {
-        //   targets.splice(targetIndex,1);
-        // }
         return element;
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
+    const wash: any = preSeleted.filter(el => el.toggle);
 
     setselectedTrack(wash);
     seIintitalPreferencesArray(preSeleted);
@@ -162,7 +92,7 @@ const FlatFeaturesScreen = ({navigation, route}) => {
 
           <CoreButton
             value="Continue"
-            style={{backgroundColor: color.Lavendar[100], borderWidth: 0}}
+            style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
             disabled={false}
             onPress={() => {
