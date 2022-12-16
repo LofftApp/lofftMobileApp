@@ -2,12 +2,12 @@ import React from 'react';
 import {Platform, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 
 // Components 🪢
-import BackButton from '../buttons/BackButton';
+import BackButton from '../../buttons/BackButton';
 
 // StyleSheets
 import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
 
-const ScrollViewBackButton = ({nav, title, children}) => {
+const ScrollViewBackButton = ({nav, title, children}: any) => {
   return (
     // Screen back button
     <ScrollView

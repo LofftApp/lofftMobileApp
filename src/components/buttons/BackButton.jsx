@@ -3,9 +3,9 @@ import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 // Assets 🖼
-import color from '../../../styles/lofftColorPallet.json';
+import color from '../../styles/lofftColorPallet.json';
 // Stylesheets 🖌
-import {fontStyles} from '../../../styles/fontStyles';
+import {fontStyles} from '../../styles/fontStyles';
 
 const BackButton = ({
   onPress,

@@ -12,7 +12,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {Search} from '../assets';
 import {SignUpBackground} from '../assets';
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>

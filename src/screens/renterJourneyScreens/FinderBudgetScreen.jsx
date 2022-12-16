@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 
 // Screens
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
 
 // Styles
 import {fontStyles} from '../../styles/fontStyles';
@@ -14,7 +14,7 @@ import HeadlineContainer from '../../components/containers/HeadlineContainer';
 import EmojiIcon from '../../components/Emojicon/EmojiIcon';
 import {CoreButton} from '../../components/buttons/CoreButton';
 import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/coreComponents/buttons/CustomSwitch';
+import CustomSwitch from '../../components/buttons/CustomSwitch';
 
 // Frameworks
 import {Slider} from '@miblanchard/react-native-slider';

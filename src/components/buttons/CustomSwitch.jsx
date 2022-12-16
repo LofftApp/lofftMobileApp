@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, Switch} from 'react-native';
-import color from '../../../styles/lofftColorPallet.json';
+import color from '../../styles/lofftColorPallet.json';
 
 const CustomSwitch = ({value, onValueChange}) => {
   return (
