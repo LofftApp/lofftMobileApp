@@ -1,26 +1,21 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
-
-// Screens
-import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
-
-// Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
-import {CoreStyleSheet} from '../../styles/CoreDesignStyleSheet';
-
-// Components
-import HeadlineContainer from '../../components/containers/HeadlineContainer';
-import EmojiIcon from '../../components/Emojicon/EmojiIcon';
-import {CoreButton} from '../../components/buttons/CoreButton';
-import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/buttons/CustomSwitch';
-
-// Frameworks
 import {Slider} from '@miblanchard/react-native-slider';
-import TagIcon from '../../assets/icons/TagIcon';
 
-const FinderBudgetScreen = ({navigation, route}) => {
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
+
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import {CoreButton} from '@Components/buttons/CoreButton';
+import PaginationBar from '@Components/bars/PaginationBar';
+import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
+
+// StyleSheets 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+const FinderBudgetScreen = ({navigation, route}: any) => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
   const [minFocus, setMinFocus] = useState(false);
@@ -35,12 +30,12 @@ const FinderBudgetScreen = ({navigation, route}) => {
     selectedDistricts: route.params.selectedDistricts,
   };
 
-  const handleMin = num => {
+  const handleMin = (num: any) => {
     setMinPrice(num.toString());
     handleMinFocus();
   };
 
-  const handleMax = num => {
+  const handleMax = (num: any) => {
     setMaxPrice(num.toString());
     handleMaxFocus();
   };
@@ -61,7 +56,7 @@ const FinderBudgetScreen = ({navigation, route}) => {
     }
   };
 
-  const taco = array => {
+  const taco = (array: any) => {
     handleMin(array[0]);
     handleMax(array[1]);
   };
@@ -83,8 +78,8 @@ const FinderBudgetScreen = ({navigation, route}) => {
                 styles.inputForm,
                 {
                   borderColor: minFocus
-                    ? color.Lavendar[100]
-                    : color.Black[100],
+                    ? Color.Lavendar[100]
+                    : Color.Black[100],
                 },
               ]}
               placeholder="100 €"
@@ -102,8 +97,8 @@ const FinderBudgetScreen = ({navigation, route}) => {
                 styles.inputForm,
                 {
                   borderColor: maxFocus
-                    ? color.Lavendar[100]
-                    : color.Black[100],
+                    ? Color.Lavendar[100]
+                    : Color.Black[100],
                 },
               ]}
               placeholder="5000 €"
@@ -115,8 +110,8 @@ const FinderBudgetScreen = ({navigation, route}) => {
         </View>
         <View style={styles.sliderContainer}>
           <Slider
-            thumbTintColor={color.Lavendar[100]}
-            minimumTrackTintColor={color.Lavendar[80]}
+            thumbTintColor={Color.Lavendar[100]}
+            minimumTrackTintColor={Color.Lavendar[80]}
             value={[minPrice, maxPrice]}
             animateTransitions={true}
             minimumValue={100}
@@ -149,7 +144,7 @@ const FinderBudgetScreen = ({navigation, route}) => {
         <CoreButton
           value="Continue"
           style={{
-            backgroundColor: color.Lavendar[100],
+            backgroundColor: Color.Lavendar[100],
             borderWidth: 0,
             width: '100%',
           }}
@@ -175,7 +170,7 @@ const styles = StyleSheet.create({
   inputForm: {
     borderWidth: 2,
     padding: 15,
-    borderColor: color.Black[100],
+    borderColor: Color.Black[100],
     borderRadius: 12,
     marginTop: 10,
   },
