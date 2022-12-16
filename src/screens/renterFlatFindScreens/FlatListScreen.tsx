@@ -7,17 +7,21 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import PrimaryScreen from '../../components/coreComponents/Screens/PrimaryScreen';
-import FilterButton from '../../components/buttons/FilterButton';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {fontStyles} from '../../styles/fontStyles';
-import Color from '../../styles/lofftColorPallet.json';
 
-// Firebase
+// Firebase 🔥
 import auth from '@react-native-firebase/auth';
 
-// Components
-import InputFieldText from '../../components/coreComponents/inputField/InputFieldText';
+// Screens 📺
+import PrimaryScreen from '@Screens/PrimaryScreen';
+
+// Components 🪢
+import FilterButton from '@Components/buttons/FilterButton';
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+
+// StyleSheets 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
 // This list page has old icons, it will need to have new icons when added.
 
@@ -25,12 +29,12 @@ const FlatListScreen = () => {
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.pageContainer}>
         <View style={styles.searchContainer}>
           <InputFieldText
             type="search"
-            onChangeText={t => setSearch(t)}
+            onChangeText={(t: string) => setSearch(t)}
             value={search}
             placeholder="City, Neighbourhood..."
             onClear={() => setSearch('')}

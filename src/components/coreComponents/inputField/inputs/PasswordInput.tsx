@@ -9,7 +9,7 @@ const PasswordInput = ({
   onFocus = null,
   onBlur = null,
   value,
-}) => {
+}: any) => {
   const [hidePassword, setHidePassword] = useState(true);
   return (
     <View style={styles.inputContainer}>
