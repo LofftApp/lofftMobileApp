@@ -1,8 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import SignUpForm from '../components/SignUpForm';
-import SignInWith from '../components/SignInWith';
-import Color from '../styles/lofftColorPallet.json';
+
+// Components 🪢
+import SignUpForm from '@Components/Forms/SignUpForm';
+import SignInWith from '@Components/SignInWith';
+
+// StyleSheets 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Assets 🛠️
 import {Search} from '../assets';
 import {SignUpBackground} from '../assets';
 

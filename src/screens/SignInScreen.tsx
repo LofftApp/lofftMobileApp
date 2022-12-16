@@ -1,12 +1,18 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
-import SignInForm from '../components/SignInForm';
-import SignInWith from '../components/SignInWith';
-import Color from '../styles/lofftColorPallet.json';
+import {View, StyleSheet, Text} from 'react-native';
+
+// Components 🪢
+import SignInForm from '@Components/Forms/SignInForm';
+import SignInWith from '@Components/SignInWith';
+
+// StyleSheets 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Assets 🛠️
 import {SignInBackground} from '../assets';
 import {HiFive} from '../assets';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
