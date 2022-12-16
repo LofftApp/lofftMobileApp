@@ -1,19 +1,16 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {View, TextInput} from 'react-native';
 import {fontStyles} from '../../../../styles/fontStyles';
 import {styles} from './styleSheet';
-const SearchInput = ({
-  placeholder = 'Search',
+const DefaultInput = ({
+  placeholder = 'Text',
   onChangeText,
   onFocus = null,
   onBlur = null,
-  onClear,
   value,
-}) => {
+}: any) => {
   return (
     <View style={styles.inputContainer}>
-      <Icon name={'search-outline'} size={20} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -22,13 +19,8 @@ const SearchInput = ({
         onFocus={onFocus}
         placeholder={placeholder}
       />
-      {value ? (
-        <TouchableOpacity onPress={onClear}>
-          <Icon name={'close-outline'} size={20} />
-        </TouchableOpacity>
-      ) : null}
     </View>
   );
 };
 
-export default SearchInput;
+export default DefaultInput;
