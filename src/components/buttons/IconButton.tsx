@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {fontStyles} from '../../styles/fontStyles';
-import Color from '../../styles/lofftColorPallet.json';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const IconButton = ({text, icon, iconSize = 20, onPress, style}) => {
+// StyleSheet🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+const IconButton = ({text, icon, iconSize = 20, onPress, style}: any) => {
   return (
     <TouchableOpacity style={[styles.buttonBorder, style]} onPress={onPress}>
       <View style={styles.content}>

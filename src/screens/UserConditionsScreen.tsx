@@ -3,20 +3,20 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // API - Firebase 🔥
 import auth from '@react-native-firebase/auth';
-import {createUserProfile} from '../api/firebase/firestoreActions';
+import {createUserProfile} from '@Firebase/firestoreActions';
 
-// Screens
-import ScreenBackButton from '../components/coreComponents/Screens/ScreenBackButton';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Styles
-import {fontStyles} from '../styles/fontStyles';
-import color from '../styles/lofftColorPallet.json';
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
-// Components
-import HeadlineContainer from '../components/containers/HeadlineContainer';
-import {CoreButton} from '../components/buttons/CoreButton';
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const UserConditionsScreen = ({navigation, route}) => {
+const UserConditionsScreen = ({navigation, route}: any) => {
   return (
     <ScreenBackButton>
       <HeadlineContainer
@@ -27,7 +27,7 @@ const UserConditionsScreen = ({navigation, route}) => {
         <Text
           style={[
             fontStyles.bodyLarge,
-            {color: color.Black[50], marginBottom: 40},
+            {color: Color.Black[50], marginBottom: 40},
           ]}>
           Lofft is an inclusive place for everyone to be. We exist to include
           and not divide.
@@ -47,7 +47,7 @@ const UserConditionsScreen = ({navigation, route}) => {
       <View style={styles.options}>
         <CoreButton
           value="Continue"
-          style={{backgroundColor: color.Lavendar[100], borderWidth: 0}}
+          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           disabled={false}
           onPress={() => {
@@ -68,7 +68,7 @@ const UserConditionsScreen = ({navigation, route}) => {
         <CoreButton
           value="Decline"
           style={{backgroundColor: 'white', borderWidth: 2, marginTop: 10}}
-          textStyle={[fontStyles.headerSmall, {color: color.Lavendar[100]}]}
+          textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
           disabled={false}
           onPress={() => auth().signOut()}
         />

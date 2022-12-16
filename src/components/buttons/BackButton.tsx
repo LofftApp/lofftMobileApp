@@ -2,10 +2,9 @@ import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// Assets 🖼
-import color from '../../styles/lofftColorPallet.json';
-// Stylesheets 🖌
-import {fontStyles} from '../../styles/fontStyles';
+// Stylesheets 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
 const BackButton = ({
   onPress,
@@ -13,7 +12,7 @@ const BackButton = ({
   close = false,
   style = {},
   neutral = false,
-}) => {
+}: any) => {
   return (
     <View
       style={[
@@ -31,12 +30,12 @@ const BackButton = ({
       </Text>
       <TouchableOpacity onPress={onPress}>
         {close ? (
-          <Icon name="close" size={35} color={color.Black[50]} />
+          <Icon name="close" size={35} color={Color.Black[50]} />
         ) : (
           <Icon
             name="chevron-back"
             size={35}
-            color={neutral ? color.Black[50] : color.Lavendar[80]}
+            color={neutral ? Color.Black[50] : Color.Lavendar[80]}
           />
         )}
       </TouchableOpacity>
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     marginRight: -48,
   },
   neutral: {
-    backgroundColor: color.White[50],
+    backgroundColor: Color.White[50],
   },
 });
 
