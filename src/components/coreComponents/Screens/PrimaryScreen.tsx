@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 
 // StyleSheets
-import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
+import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
 
-const PrimaryScreen = ({background = false, children}) => {
+const PrimaryScreen = ({background = false, children}: any) => {
   return (
     // Screen back button
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View
         style={[
           CoreStyleSheet.viewContainerStyle,

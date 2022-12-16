@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
-import PrimaryScreen from '../components/coreComponents/CoreScreens/PrimaryScreen';
+import PrimaryScreen from '../components/coreComponents/Screens/PrimaryScreen';
 import Color from '../styles/lofftColorPallet.json';
 import {fontStyles} from '../styles/fontStyles';
-import IconButton from '../components/coreComponents/buttons/IconButton';
+import IconButton from '../components/buttons/IconButton';
 import BackgroundImage from '../assets/background/wbyh.svg';
 
 const WelcomeScreen = ({navigation}) => {

@@ -1,24 +1,22 @@
 import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
 
-import {View, Text, Image, StyleSheet, Pressable, Platform} from 'react-native';
+// Screens 📺
+import ScreenBackButton from '@Screens/ScreenBackButton';
 
-// Screens
-import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
-// Styles
-import {fontStyles} from '../styles/fontStyles';
-import color from '../styles/lofftColorPallet.json';
+// Components 🪢
+import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import IconButton from '@Components/buttons/IconButton';
 
-// Components
-import HeadlineContainer from '../components/containers/HeadlineContainer';
-import IconButton from '../components/coreComponents/buttons/IconButton';
+// Styles 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const StartJourney = ({navigation}) => {
+const StartJourney = ({navigation}: any) => {
   const [routeFlatHunt, setRouteFlatHunt] = useState(false);
 
-  const handleClick = routeName => {
+  const handleClick = (routeName: any) => {
     setRouteFlatHunt(true);
     setTimeout(() => {
-      console.log(routeName);
       navigation.navigate(routeName);
       setRouteFlatHunt(false);
     }, 500);
@@ -27,7 +25,7 @@ const StartJourney = ({navigation}) => {
   const subHeaderText =
     'Tell us what you want to do on Lofft and we will create the matching experience!';
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <ScreenBackButton nav={() => navigation.goBack()} title={undefined}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
         subDescription={subHeaderText}
@@ -42,6 +40,7 @@ const StartJourney = ({navigation}) => {
         text="I have a room to rent"
         icon="home-outline"
         onPress={() => {}}
+        style={undefined}
       />
     </ScreenBackButton>
   );
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: color.Black[100],
+    borderColor: Color.Black[100],
     marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
@@ -59,11 +58,11 @@ const styles = StyleSheet.create({
   buttonActive: {
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: color.Lavendar[100],
+    borderColor: Color.Lavendar[100],
     marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: color.Lavendar[10],
+    backgroundColor: Color.Lavendar[10],
   },
   icon: {
     width: 40,

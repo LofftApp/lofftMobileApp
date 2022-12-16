@@ -15,12 +15,12 @@ import {fontStyles} from '../../styles/fontStyles';
 import color from '../../styles/lofftColorPallet.json';
 
 // Components
-import ScreenBackButton from '../../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../../components/coreComponents/Screens/ScreenBackButton';
 import HeadlineContainer from '../../components/containers/HeadlineContainer';
 import EmojiIcon from '../../components/Emojicon/EmojiIcon';
 import {CoreButton} from '../../components/buttons/CoreButton';
 import PaginationBar from '../../components/bars/PaginationBar';
-import CustomSwitch from '../../components/coreComponents/buttons/CustomSwitch';
+import CustomSwitch from '../../components/buttons/CustomSwitch';
 
 const SelectCityScreen = ({navigation, route}) => {
   const user = {

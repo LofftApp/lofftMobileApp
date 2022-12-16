@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 import {createUserProfile} from '../api/firebase/firestoreActions';
 
 // Screens
-import ScreenBackButton from '../components/coreComponents/CoreScreens/ScreenBackButton';
+import ScreenBackButton from '../components/coreComponents/Screens/ScreenBackButton';
 
 // Styles
 import {fontStyles} from '../styles/fontStyles';
