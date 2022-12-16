@@ -37,12 +37,12 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
   // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState();
+  const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
-  const [userType, setUserType] = useState(null);
+  const [userType, setUserType] = useState(false);
   const [admin, setAdmin] = useState(false);
 
-  const onAuthStateChanged = async user => {
+  const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     setUser(user);
     if (user) {
       const profileExist = await checkUserProfileExist();
