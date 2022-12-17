@@ -4,7 +4,7 @@ import {View, StyleSheet} from 'react-native';
 // Assets 🖼
 import * as color from '../../styles/lofftColorPallet.json';
 
-const PaginationBar = ({screen}) => {
+const PaginationBar = ({screen}: any) => {
   const blobs = [1, 2, 3, 4, 5, 6];
   return (
     <View style={styles.pagination}>
