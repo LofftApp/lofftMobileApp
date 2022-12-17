@@ -89,11 +89,11 @@ const SelectCityScreen = ({navigation, route}: any) => {
       if (
         key.startsWith(userInput.toLowerCase()) &&
         userInput != '' &&
-        value !== undefined
+        value === typeof String
       ) {
         const inputObject = {city: '', flag: ''};
         inputObject.city = key;
-        inputObject.flag = value.flag;
+        inputObject.flag = value['flag'];
         creationArray.push(inputObject);
         setElementArray(creationArray);
       }
