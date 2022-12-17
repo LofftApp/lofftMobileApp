@@ -37,14 +37,14 @@ const SelectCityScreen = ({navigation, route}: any) => {
   const [city, setCity] = useState('');
   const [districtTags, setDistrictTags] = useState([]);
   const [focusedCity, setFocusCity] = useState(false);
-  const [elementArray, setElementArray] = useState([]);
-  const [districts, setDistricts] = useState([]);
+  const [elementArray, setElementArray]: Array<any> = useState([]);
+  const [districts, setDistricts]: Array<any> = useState([]);
   const [cityPicked, setCityPicked] = useState(false);
   const [screen, setScreen] = useState(2);
   const [allDistricts, setAllDistricts] = useState(false);
   const [washedDistricts, setWashedDistricts] = useState([]);
 
-  const cities = CityDistricts;
+  const cities: any = CityDistricts;
 
   const trigerAllFlats = () => {
     selectAllDistrictsTags(allDistricts);
@@ -52,26 +52,26 @@ const SelectCityScreen = ({navigation, route}: any) => {
   };
 
   const selectAllDistrictsTags = (state: any) => {
-    const all = districts.map(el => {
+    const allDistrictTags: object[] = districts.map((el: any) => {
       if (!state) {
         return {
-          ...el,
+          ...(el as Object),
           toggle: true,
         };
       } else {
         return {
-          ...el,
+          ...(el as Object),
           toggle: false,
         };
       }
     });
 
-    setDistricts(all);
+    setDistricts(allDistrictTags);
   };
 
   const orderedCities = Object.keys(cities)
     .sort()
-    .reduce((obj, key) => {
+    .reduce((obj: any, key: string) => {
       obj[key] = cities[key];
       return obj;
     }, {});
@@ -86,7 +86,11 @@ const SelectCityScreen = ({navigation, route}: any) => {
     const creationArray = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
-      if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
+      if (
+        key.startsWith(userInput.toLowerCase()) &&
+        userInput != '' &&
+        value !== undefined
+      ) {
         const inputObject = {city: '', flag: ''};
         inputObject.city = key;
         inputObject.flag = value.flag;
@@ -114,11 +118,11 @@ const SelectCityScreen = ({navigation, route}: any) => {
   const selectedEmojis = (id: any) => {
     const targets = [];
 
-    const preSeleted = districts.map(element => {
+    const preSeleted: any[] = districts.map((element: any) => {
       if (element.id === id) {
         targets.push(element);
         return {
-          ...element,
+          ...(element as object),
           toggle: !element.toggle,
         };
       } else {
@@ -130,13 +134,13 @@ const SelectCityScreen = ({navigation, route}: any) => {
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
+    const wash: any = preSeleted.filter(el => el.toggle);
 
     setDistricts(preSeleted);
     setWashedDistricts(wash);
   };
 
-  const emojiElements = districts.map((emojiElement, index) => {
+  const emojiElements = districts.map((emojiElement: any, index: number) => {
     return (
       <EmojiIcon
         key={index + 1}
@@ -195,7 +199,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
               onFocus={handleCityFocus}
             />
             {elementArray.length >= 1
-              ? elementArray.map((el, index) => (
+              ? elementArray.map((el: any, index: number) => (
                   <Pressable
                     key={index + 1}
                     onPress={() => {
