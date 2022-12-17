@@ -6,7 +6,7 @@ import {Text, View, StyleSheet} from 'react-native';
 import {fontStyles} from '../../styles/fontStyles';
 import color from '../../styles/lofftColorPallet.json';
 
-const HeadlineContainer = ({headlineText, subDescription}) => {
+const HeadlineContainer = ({headlineText, subDescription}: any) => {
   return (
     <View style={styles.container}>
       <Text style={fontStyles.headerDisplay}>{headlineText}</Text>
