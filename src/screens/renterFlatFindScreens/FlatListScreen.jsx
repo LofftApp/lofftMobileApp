@@ -12,6 +12,7 @@ import FilterButton from '../../components/coreComponents/buttons/FilterButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {fontStyles} from '../../styles/fontStyles';
 import Color from '../../styles/lofftColorPallet.json';
+import FlatListCard from '../../components/cards/FlatListCard';
 
 // Firebase
 import auth from '@react-native-firebase/auth';
@@ -82,6 +83,7 @@ const FlatListScreen = () => {
           </Pressable>
         </View>
         <View style={styles.viewContainer}>
+          <FlatListCard></FlatListCard>
           {screen == 'list' ? <Text>List</Text> : <Text>Map</Text>}
         </View>
       </View>
@@ -99,6 +101,8 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: 'row',
+    borderWidth: 2,
+    borderColor: 'red',
     marginHorizontal: 25,
     marginTop: 68, // Needs to be added to core view file, though not working when built
   },
@@ -127,6 +131,7 @@ const styles = StyleSheet.create({
   },
   viewContainer: {
     flex: 1,
+    padding: 16,
   },
 });
 
