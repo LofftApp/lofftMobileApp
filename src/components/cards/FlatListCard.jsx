@@ -4,6 +4,7 @@ import imageExample from '../../assets/images/flat-image.jpeg';
 import Color from '../../styles/lofftColorPallet.json';
 import {HeartDefault} from '../../assets';
 import PaginationBar from '../../components/bars/PaginationBar';
+import Chip from '../../components/buttons/Chip';
 
 const FlatListCard = () => {
   const [screen, setScreen] = useState(0);
@@ -24,7 +25,18 @@ const FlatListCard = () => {
           </View>
         </View>
       </View>
-      <View style={styles.flatCardInfoWrap}></View>
+      <View style={styles.flatCardInfoWrap}>
+        <View style={styles.flatCardMetadataWrap}>
+          <Text style={styles.flatCardMetadataPriceAndSize}>860 € 26 m2</Text>
+          <Text style={styles.flatCardMetadataLocation}>Moabit, Berlin</Text>
+          <Text style={styles.flatCardMetadataTitle}>
+            🧘 Calm flat in the centre of Moabit
+          </Text>
+        </View>
+        <View style={styles.flatCardChipsWrap}>
+          <Chip></Chip>
+        </View>
+      </View>
     </View>
   );
 };
@@ -58,7 +70,7 @@ const styles = StyleSheet.create({
   },
 
   flatCardMatchingScoreButton: {
-    backgroundColor: '#F3FDF9',
+    backgroundColor: Color.Mint[10],
     borderWidth: 2,
     borderColor: 'red',
     height: 38,
@@ -69,8 +81,8 @@ const styles = StyleSheet.create({
   },
   flatCardSaveButton: {
     position: 'absolute',
-    borderWidth: 2,
     right: 0,
+    borderWidth: 2,
     borderColor: 'red',
   },
   flatCardImagesScroll: {
@@ -86,7 +98,39 @@ const styles = StyleSheet.create({
     color: Color.Mint[100],
   },
 
-  flatCardInfoWrap: {},
+  flatCardInfoWrap: {
+    padding: 8,
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'red',
+  },
+  flatCardChipsWrap: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'red',
+  },
+  flatCardMetadataWrap: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'red',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  flatCardMetadataPriceAndSize: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  flatCardMetadataLocation: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: Color.Black[50],
+    position: 'absolute',
+    right: 0,
+  },
+  flatCardMetadataTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
 });
 
 export default FlatListCard;
