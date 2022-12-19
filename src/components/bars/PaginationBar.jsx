@@ -11,7 +11,7 @@ const PaginationBar = ({screen}) => {
       {blobs.map((i, index) => {
         const active =
           index === screen
-            ? {width: 18, backgroundColor: color.Lavendar[50]}
+            ? {width: 18, backgroundColor: color.Lavendar[80]}
             : null;
         return <View style={[styles.paginationBlob, active]} key={index} />;
       })}
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 5,
-    backgroundColor: '#E8E8E8',
+    backgroundColor: color.Black[10],
     marginHorizontal: 3,
   },
   active: {},
