@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 5,
-    backgroundColor: color.Black[10],
+    backgroundColor: '#E8E8E8',
     marginHorizontal: 3,
   },
   active: {},

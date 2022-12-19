@@ -2,8 +2,12 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import imageExample from '../../assets/images/flat-image.jpeg';
 import Color from '../../styles/lofftColorPallet.json';
+import {HeartDefault} from '../../assets';
+import PaginationBar from '../../components/bars/PaginationBar';
 
 const FlatListCard = () => {
+  const [screen, setScreen] = useState(0);
+
   return (
     <View style={styles.flatCardContainer}>
       <Image source={imageExample} style={styles.flatCardImage}></Image>
@@ -13,10 +17,10 @@ const FlatListCard = () => {
             <Text style={styles.flatCardMatchingScoreButtonFont}>🌟 96%</Text>
           </View>
           <View style={styles.flatCardSaveButton}>
-            <Text>Icon</Text>
+            <HeartDefault></HeartDefault>
           </View>
           <View style={styles.flatCardImagesScroll}>
-            <Text>imageScroll</Text>
+            <PaginationBar screen={screen}></PaginationBar>
           </View>
         </View>
       </View>
