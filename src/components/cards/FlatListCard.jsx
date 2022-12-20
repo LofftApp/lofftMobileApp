@@ -34,7 +34,7 @@ const FlatListCard = () => {
           </Text>
         </View>
         <View style={styles.flatCardChipsWrap}>
-          <Chip></Chip>
+          <Chip ></Chip>
         </View>
       </View>
     </View>
