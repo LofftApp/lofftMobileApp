@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import LofftIcon from '../../../lofftIcons/LofftIcon';
-import {fontStyles} from '../../../../styles/fontStyles';
+
+// Components 🪢
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
 import {styles} from './styleSheet';
+
 const PasswordInput = ({
   placeholder = 'Password',
   onChangeText,

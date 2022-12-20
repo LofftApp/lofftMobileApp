@@ -1,16 +1,17 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 // StyleSheet🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const IconButton = ({text, icon, iconSize = 20, onPress, style}: any) => {
+  console.log(icon);
   return (
     <TouchableOpacity style={[styles.buttonBorder, style]} onPress={onPress}>
       <View style={styles.content}>
-        <Icon name={icon} size={iconSize} />
+        <LofftIcon name={icon} size={20} />
         <Text style={[fontStyles.headerSmall, styles.text]}>{text}</Text>
       </View>
     </TouchableOpacity>
