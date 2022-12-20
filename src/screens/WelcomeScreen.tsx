@@ -25,13 +25,14 @@ const WelcomeScreen = ({navigation}: any) => {
         <View style={styles.buttonContainer}>
           <IconButton
             text="I'm looking for a flat"
-            icon="search-outline"
+            // iconName="search-sm"
+            icon="eye"
             onPress={() => navigation.navigate('AboutYouFlatHuntScreen')}
             style={undefined}
           />
           <IconButton
             text="I have a room to rent"
-            icon="home-outline"
+            icon={'home-door'}
             onPress={() => {}}
             style={undefined}
           />
