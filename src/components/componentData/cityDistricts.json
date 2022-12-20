@@ -1,0 +1,57 @@
+{
+  "berlin": {
+    "districts": [
+      {"id": 1, "name": "Kreuzberg", "toggle": false, "emoji": "🚬"},
+      {"id": 2, "name": "Mitte", "toggle": false, "emoji": "👾"},
+      {"id": 3, "name": "PrenzlauerBerg", "toggle": false, "emoji": "🧘🏽‍♀️"},
+      {"id": 4, "name": "Charlottenburg", "toggle": false, "emoji": "🫖"},
+      {"id": 5, "name": "Steglitz", "toggle": false, "emoji": "🏰"},
+      {"id": 6, "name": "Wedding", "toggle": false, "emoji": "🥷🏻"},
+      {"id": 7, "name": "Moabit", "toggle": false, "emoji": "👔"},
+      {"id": 8, "name": "Spandau", "toggle": false, "emoji": "💩"}
+    ],
+    "flag": "🇩🇪"
+  },
+  "paris": {
+    "districts": [
+      {"id": 1, "name": "🚬 Pigalle", "toggle": false},
+      {"id": 2, "name": "🐩 Austerlitz", "toggle": false}
+    ],
+    "flag": "🇫🇷"
+  },
+  "budapest": {
+    "districts": [
+      {"id": 1, "name": "🚬 Laszo", "toggle": false},
+      {"id": 2, "name": "🐩  Buda", "toggle": false}
+    ],
+    "flag": "🇭🇺"
+  },
+  "brussels": {
+    "districts": [
+      {"id": 1, "name": "🚬 Molbeken", "toggle": false},
+      {"id": 2, "name": "🐩  Midi", "toggle": false}
+    ],
+    "flag": "🇧🇪"
+  },
+  "brisbane": {
+    "districts": [
+      {"id": 1, "name": "🚬 Newmarket", "toggle": false},
+      {"id": 2, "name": "🐩  Westend", "toggle": false}
+    ],
+    "flag": "🇦🇺"
+  },
+  "wroclaw": {
+    "districts": [
+      {"id": 1, "name": "🚬 Centrum", "toggle": false},
+      {"id": 2, "name": "🐩  Grabiyszn", "toggle": false}
+    ],
+    "flag": "🇵🇱"
+  },
+  "warszawa": {
+    "districts": [
+      {"id": 1, "name": "🚬 Chopin", "toggle": false},
+      {"id": 2, "name": "🐩  Centurn", "toggle": false}
+    ],
+    "flag": "🇵🇱"
+  }
+}
