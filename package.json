@@ -9,6 +9,11 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "rnpm": {
+    "assets": [
+      "resources/fonts"
+    ]
+  },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@miblanchard/react-native-slider": "^2.1.0",
