@@ -2,10 +2,10 @@ import React, {useEffect, useRef} from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 
 // Styles
-import {fontStyles} from '../../styles/fontStyles';
-import color from '../../styles/lofftColorPallet.json';
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const EmojiIcon = ({id, emojiIcon, value, toggle, selectedEmojis}) => {
+const EmojiIcon = ({id, emojiIcon, value, toggle, selectedEmojis}: any) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 2,
     borderRadius: 16,
-    borderColor: color.Black[100],
+    borderColor: Color.Black[100],
     flexDirction: 'row',
     marginRight: 8,
     marginBottom: 16,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 16,
     borderColor: '#B8A7FC',
-    backgroundColor: color.Lavendar[100],
+    backgroundColor: Color.Lavendar[100],
     flexDirction: 'row',
     marginRight: 8,
     marginBottom: 16,
