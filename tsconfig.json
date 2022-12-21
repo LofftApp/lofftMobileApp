@@ -10,6 +10,8 @@
       "@Screens/*": ["./screens/*"],
       // Stylesheets
       "@StyleSheets/*": ["./styles/*"],
+      // Helpers
+      "@Helpers/*": ["./helpers/*"],
       // Assets
       "@Assets/*": ["./Assets/*"]
     }
