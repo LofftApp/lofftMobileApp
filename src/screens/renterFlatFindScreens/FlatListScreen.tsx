@@ -18,6 +18,7 @@ import PrimaryScreen from '@Screens/PrimaryScreen';
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -50,8 +51,8 @@ const FlatListScreen = () => {
               screen === 'list' ? styles.toggleButtonActive : null,
             ]}
             onPress={() => setScreen('list')}>
-            <Icon
-              name="list-outline"
+            <LofftIcon
+              name="list"
               size={20}
               color={screen === 'list' ? Color.Lavendar[100] : Color.Black[50]}
             />
@@ -70,8 +71,8 @@ const FlatListScreen = () => {
               screen === 'map' ? styles.toggleButtonActive : null,
             ]}
             onPress={() => setScreen('map')}>
-            <Icon
-              name="map-outline"
+            <LofftIcon
+              name="map"
               size={20}
               color={screen === 'map' ? Color.Lavendar[100] : Color.Black[50]}
             />

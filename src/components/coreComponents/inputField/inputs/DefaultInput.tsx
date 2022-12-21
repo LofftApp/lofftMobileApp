@@ -1,7 +1,10 @@
 import React from 'react';
 import {View, TextInput} from 'react-native';
-import {fontStyles} from '../../../../styles/fontStyles';
+
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
 import {styles} from './styleSheet';
+
 const DefaultInput = ({
   placeholder = 'Text',
   onChangeText,
