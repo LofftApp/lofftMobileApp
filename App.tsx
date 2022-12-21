@@ -20,18 +20,14 @@ import SignInScreen from './src/screens/SignInScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Find Lofft Journey
-import StartJourney from './src/screens/userJourneyScreens/StartJourney';
-import AboutYouFlatHuntScreen from './src/screens/userJourneyScreens/renterJourney/AboutUserScreen';
-import GenderIdentityScreen from './src/screens/userJourneyScreens/renterJourney/GenderIdentityScreen';
-import SelectCityScreen from './src/screens/userJourneyScreens/renterJourney/SelectCityScreen';
-import FinderBudgetScreen from './src/screens/userJourneyScreens/renterJourney/FinderBudgetScreen';
-import FlatFeaturesScreen from './src/screens/userJourneyScreens/renterJourney/FlatFeaturesScreen';
-import SelfDescribeScreen from './src/screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
-import UserConditionsScreen from './src/screens/UserConditionsScreen';
-
-// Lessor Journey
-import WhereIsFlatScreen from './src/screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
-import FlatLengthAvailableScreen from './src/screens/userJourneyScreens/lessorJourney/FlatLengthAvailableScreen';
+import StartJourney from '@Screens/StartJourney';
+import AboutYouFlatHuntScreen from '@Screens/userJourneyScreens/renterJourney/AboutUserScreen';
+import GenderIdentityScreen from '@Screens/userJourneyScreens/renterJourney/GenderIdentityScreen';
+import SelectCityScreen from '@Screens/userJourneyScreens/renterJourney/SelectCityScreen';
+import FinderBudgetScreen from '@Screens/userJourneyScreens/renterJourney/FinderBudgetScreen';
+import FlatFeaturesScreen from '@Screens/userJourneyScreens/renterJourney/FlatFeaturesScreen';
+import SelfDescribeScreen from '@Screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
+import UserConditionsScreen from '@Screens/UserConditionsScreen';
 
 // User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatListScreen';
@@ -138,7 +134,6 @@ const App = () => {
         <Stack.Navigator initialRouteName="SignInScreen">
           {user ? (
             <>
-              {/* Renter Screens */}
               <Stack.Screen
                 name="StartJourney"
                 component={StartJourney}
@@ -182,17 +177,6 @@ const App = () => {
               <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
-                options={{headerShown: false}}
-              />
-              {/* Lessor Screens */}
-              <Stack.Screen
-                name="WhereIsFlatScreen"
-                component={WhereIsFlatScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="FlatLengthAvailableScreen"
-                component={FlatLengthAvailableScreen}
                 options={{headerShown: false}}
               />
             </>

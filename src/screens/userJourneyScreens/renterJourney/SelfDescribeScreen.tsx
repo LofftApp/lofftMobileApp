@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Pressable, TextInput} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';

@@ -7,7 +7,7 @@
       "@Firebase/*": ["./api/firebase/*"],
       // Components
       "@Components/*": ["./components/*"],
-      "@Screens/*": ["./components/coreComponents/Screens/*"],
+      "@Screens/*": ["./screens/*"],
       // Stylesheets
       "@StyleSheets/*": ["./styles/*"],
       // Assets
