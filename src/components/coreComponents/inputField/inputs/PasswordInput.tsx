@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {fontStyles} from '../../../../styles/fontStyles';
+
+// Components 🪢
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
 import {styles} from './styleSheet';
+
 const PasswordInput = ({
   placeholder = 'Password',
   onChangeText,
@@ -23,10 +28,11 @@ const PasswordInput = ({
         placeholder={placeholder}
       />
       <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
-        <Icon
+        <LofftIcon name={hidePassword ? 'eye' : 'eye-off'} size={20} />
+        {/* <Icon
           name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
           size={20}
-        />
+        /> */}
       </TouchableOpacity>
     </View>
   );
