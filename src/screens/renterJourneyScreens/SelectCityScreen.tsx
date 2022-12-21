@@ -86,11 +86,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
     const creationArray = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
-      if (
-        key.startsWith(userInput.toLowerCase()) &&
-        userInput != '' &&
-        value === typeof String
-      ) {
+      if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
         const inputObject = {city: '', flag: ''};
         inputObject.city = key;
         inputObject.flag = value['flag'];
