@@ -28,6 +28,9 @@ import FlatFeaturesScreen from '@Screens/userJourneyScreens/renterJourney/FlatFe
 import SelfDescribeScreen from '@Screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
 import UserConditionsScreen from '@Screens/UserConditionsScreen';
 
+// Lessor Journey
+import WhereIsFlatScreen from '@Screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
+
 // User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatListScreen';
 import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
@@ -133,6 +136,7 @@ const App = () => {
         <Stack.Navigator initialRouteName="SignInScreen">
           {user ? (
             <>
+              {/* Rentor Screens */}
               <Stack.Screen
                 name="StartJourney"
                 component={StartJourney}
@@ -176,6 +180,12 @@ const App = () => {
               <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
+                options={{headerShown: false}}
+              />
+              {/* Lessor Screens */}
+              <Stack.Screen
+                name="WhereIsFlatScreen"
+                component={WhereIsFlatScreen}
                 options={{headerShown: false}}
               />
             </>
