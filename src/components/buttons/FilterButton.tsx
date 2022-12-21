@@ -2,14 +2,17 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// StyleSheet
+// Components 🪢
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
+// StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FilterButton = ({onPress}: any) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.buttonOutline}>
-        <Icon name="filter-outline" size={25} color={Color.Black[50]} />
+        <LofftIcon name="filter-funnel" size={25} color={Color.Black[50]} />
       </View>
     </TouchableOpacity>
   );
