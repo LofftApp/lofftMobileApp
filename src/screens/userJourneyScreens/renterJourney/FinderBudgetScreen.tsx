@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
