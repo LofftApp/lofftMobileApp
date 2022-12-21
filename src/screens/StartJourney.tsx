@@ -33,12 +33,12 @@ const StartJourney = ({navigation}: any) => {
       <IconButton
         style={routeFlatHunt ? styles.buttonActive : styles.button}
         text="I'm looking for a flat"
-        icon="search-outline"
+        icon="search-sm"
         onPress={() => handleClick('AboutYouFlatHuntScreen')}
       />
       <IconButton
         text="I have a room to rent"
-        icon="home-outline"
+        icon="home-door"
         onPress={() => {}}
         style={undefined}
       />
