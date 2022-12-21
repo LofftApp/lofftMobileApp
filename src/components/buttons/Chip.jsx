@@ -17,7 +17,7 @@ const Chip = ({description}) => {
     'Party',
   ];
   return (
-    <View rowGap={5} columnGap={10} style={styles.chipContainer}>
+    <View style={styles.chipContainer}>
       {flatProperties.slice(0, 2).map((property, index) => {
         return (
           <View style={styles.chip}>
@@ -25,11 +25,13 @@ const Chip = ({description}) => {
           </View>
         );
       })}
-      <View style={styles.chip}>
-        <Text style={styles.chipFont}>
-          +{flatProperties.slice(1, -1).length}
-        </Text>
-      </View>
+      {flatProperties.length > 2 ? (
+        <View style={styles.chip}>
+          <Text style={styles.chipFont}>
+            +{flatProperties.slice(1, -1).length}
+          </Text>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -46,7 +48,6 @@ const styles = StyleSheet.create({
     columnGap: 10,
   },
   chip: {
-    // flex: 1,
     height: 'auto',
     width: 'auto',
     paddingHorizontal: 8,
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     backgroundColor: Color.Blue[10],
     borderRadius: 8,
+    marginRight: 4,
   },
   chipFont: {
     fontSize: 14,
