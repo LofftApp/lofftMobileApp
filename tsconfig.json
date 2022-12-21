@@ -1,0 +1,17 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      // Firebase API
+      "@Firebase/*": ["./api/firebase/*"],
+      // Components
+      "@Components/*": ["./components/*"],
+      "@Screens/*": ["./components/coreComponents/Screens/*"],
+      // Stylesheets
+      "@StyleSheets/*": ["./styles/*"],
+      // Assets
+      "@Assets/*": ["./Assets/*"]
+    }
+  }
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "emoji": "🚌",
+    "value": "Bus stop closeby",
+    "toggle": false
+  },
+  {
+    "id": 2,
+    "emoji": "↑",
+    "value": "Elevator",
+    "toggle": false
+  },
+  {
+    "id": 3,
+    "emoji": "🚊",
+    "value": "Close to U- or S-Bahn",
+    "toggle": false
+  },
+  {
+    "id": 4,
+    "emoji": "⛱",
+    "value": "Balcony / Terrace",
+    "toggle": false
+  },
+  {
+    "id": 5,
+    "emoji": "🛖",
+    "value": "Ground floor",
+    "toggle": false
+  },
+  {
+    "id": 6,
+    "emoji": "🛋",
+    "value": "Fully furnished",
+    "toggle": false
+  },
+  {
+    "id": 7,
+    "emoji": "🥘",
+    "value": "Built-in kitchen",
+    "toggle": false
+  },
+  {
+    "id": 8,
+    "emoji": "🐶",
+    "value": "Pet friendly",
+    "toggle": false
+  },
+  {
+    "id": 9,
+    "emoji": "🚋",
+    "value": "Near tram stop",
+    "toggle": false
+  },
+  {
+    "id": 10,
+    "emoji": "🦽",
+    "value": "Accessible",
+    "toggle": false
+  }
+]
