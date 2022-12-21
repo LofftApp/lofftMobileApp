@@ -7,11 +7,15 @@ export const userJourneySlice = createSlice({
   },
   reducers: {
     setUserType: (state: any, action: any) => {
-      console.log(action.payload);
       state.userType = action.payload;
+    },
+    setFlatDetails: (state: any, action: any) => {
+      state.cost = action.payload.cost;
+      state.location = action.payload.location;
+      state.warmRent = action.payload.warmRent;
     },
   },
 });
 
-export const {setUserType} = userJourneySlice.actions;
+export const {setUserType, setFlatDetails} = userJourneySlice.actions;
 export default userJourneySlice.reducer;

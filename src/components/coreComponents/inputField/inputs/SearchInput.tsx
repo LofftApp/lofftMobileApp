@@ -25,7 +25,7 @@ const SearchInput = ({
       />
       {value ? (
         <TouchableOpacity onPress={onClear}>
-          <LofftIcon name={'close-x'} size={20} />
+          <LofftIcon name="x-close" size={20} />
         </TouchableOpacity>
       ) : null}
     </View>

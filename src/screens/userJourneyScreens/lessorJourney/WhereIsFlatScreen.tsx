@@ -8,7 +8,8 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
 import PaginationBar from '@Components/bars/PaginationBar';
-import {CoreButton} from '@Components/buttons/CoreButton';
+// import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -51,10 +52,11 @@ const WhereIsFlatScreen = ({navigation}: any) => {
       </View>
       <View style={styles.footerContainer}>
         <PaginationBar screen={0} totalScreens={5} />
-        <CoreButton
+        <UserJourneyContinue
           value="Continue"
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           onPress={() => navigation.navigate('FlatLengthAvailableScreen')}
+          details={{location, cost, warmRent}}
         />
       </View>
     </ScreenBackButton>
