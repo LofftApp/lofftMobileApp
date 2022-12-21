@@ -14,7 +14,8 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import PaginationBar from '@Components/bars/PaginationBar';
-import {CoreButton} from '@Components/buttons/CoreButton';
+// import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -24,6 +25,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
 
 const FlatLengthAvailableScreen = ({navigation}: any) => {
+  const [selector, setSelector] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
   const [untilDate, setUntilDate] = useState(new Date());
@@ -41,7 +43,10 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
           <Text style={fontStyles.headerSmall}>From</Text>
           <View style={styles.buttonContainer}>
             <Pressable
-              onPress={() => setModalOpen(true)}
+              onPress={() => {
+                setModalOpen(true);
+                setSelector('from');
+              }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
               <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
@@ -66,11 +71,16 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
           <Text style={fontStyles.headerSmall}>Until</Text>
           <View style={styles.buttonContainer}>
             <Pressable
-              onPress={() => setModalOpen(true)}
+              onPress={() => {
+                setModalOpen(true);
+                setSelector('until');
+              }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
               <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
-                {untilDateSelected
+                {perminant
+                  ? 'Perminant'
+                  : untilDateSelected
                   ? dateFormatConverter({date: untilDate})
                   : 'Last day'}
               </Text>
@@ -85,23 +95,35 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
         </View>
         <View style={styles.footerContainer}>
           <PaginationBar screen={1} totalScreens={5} />
-          <CoreButton
+          <UserJourneyContinue
             value="Continue"
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
             onPress={() => navigation.navigate('FlatLengthAvailableScreen')}
+            details={{
+              fromDate: String(fromDate),
+              untilDate: String(untilDate),
+              perminant,
+            }}
           />
         </View>
         {/* Date Picker */}
         <DatePicker
           modal
+          mode="date"
           open={modalOpen}
           date={fromDate}
           onConfirm={date => {
             setModalOpen(false);
-            setFromDate(date);
+            if (selector === 'from') {
+              setFromDate(date);
+            } else if (selector === 'until') {
+              setUntilDate(date);
+            }
+            setSelector('');
           }}
           onCancel={() => {
             setModalOpen(false);
+            setSelector('');
           }}
         />
       </View>
