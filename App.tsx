@@ -7,6 +7,9 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {checkUserProfileExist} from './src/api/firebase/firestoreActions';
 
+// Components 🪢
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -67,7 +70,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      // host = '192.168.1.167';
+      // host = '192.168.1.109';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -88,19 +91,19 @@ const App = () => {
               let iconName = 'Not sure';
               switch (route.name) {
                 case 'search':
-                  iconName = 'search-outline';
+                  iconName = 'search-sm';
                   break;
                 case 'favorite':
-                  iconName = 'heart-outline';
+                  iconName = 'heart';
                   break;
                 case 'alerts':
-                  iconName = 'notifications-outline';
+                  iconName = 'bell';
                   break;
                 case 'user':
-                  iconName = 'person-outline';
+                  iconName = 'user';
                   break;
               }
-              return <Icon name={iconName} size={25} color={color} />;
+              return <LofftIcon name={iconName} size={25} color={color} />;
             },
             tabBarActiveTintColor: Color.Lavendar[100],
             tabBarInActiveTintColor: Color.Black[30],
