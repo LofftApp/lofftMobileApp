@@ -12,13 +12,13 @@ import IconButton from '@Components/buttons/IconButton';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const StartJourney = ({navigation}: any) => {
-  const [routeFlatHunt, setRouteFlatHunt] = useState(false);
+  const [routeFlatHunt, setRouteFlatHunt] = useState('');
 
-  const handleClick = (routeName: any) => {
-    setRouteFlatHunt(true);
+  const handleClick = (routeName: string, routeButton: string) => {
+    setRouteFlatHunt(routeButton);
     setTimeout(() => {
       navigation.navigate(routeName);
-      setRouteFlatHunt(false);
+      setRouteFlatHunt('');
     }, 500);
   };
 
@@ -31,16 +31,20 @@ const StartJourney = ({navigation}: any) => {
         subDescription={subHeaderText}
       />
       <IconButton
-        style={routeFlatHunt ? styles.buttonActive : styles.button}
+        style={
+          routeFlatHunt === 'renting' ? styles.buttonActive : styles.button
+        }
         text="I'm looking for a flat"
         icon="search-sm"
-        onPress={() => handleClick('AboutYouFlatHuntScreen')}
+        onPress={() => handleClick('AboutYouFlatHuntScreen', 'renting')}
       />
       <IconButton
         text="I have a room to rent"
         icon="home-door"
-        onPress={() => {}}
-        style={undefined}
+        style={
+          routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
+        }
+        onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
       />
     </ScreenBackButton>
   );
