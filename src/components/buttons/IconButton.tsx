@@ -7,11 +7,10 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const IconButton = ({text, icon, iconSize = 20, onPress, style}: any) => {
-  console.log(icon);
   return (
     <TouchableOpacity style={[styles.buttonBorder, style]} onPress={onPress}>
       <View style={styles.content}>
-        <LofftIcon name={icon} size={20} />
+        <LofftIcon name={icon} size={iconSize} />
         <Text style={[fontStyles.headerSmall, styles.text]}>{text}</Text>
       </View>
     </TouchableOpacity>
