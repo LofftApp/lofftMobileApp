@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		13D42D0FAF9F119272EAB413 /* Pods_lofftMobileApp_lofftMobileAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46047CCF502124626C4E30EF /* Pods_lofftMobileApp_lofftMobileAppTests.framework */; };
 		1AA542882922B37A00D2F85A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542842922B33B00D2F85A /* Ionicons.ttf */; };
+		1AB40F1B2951EB9D0099BF6E /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AB40F1A2951EB640099BF6E /* icomoon.ttf */; };
 		1ABD642C28ED8E3F00773A6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ABD642B28ED8E3F00773A6E /* GoogleService-Info.plist */; };
 		1AFDD1722925031600097DB5 /* Inter-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA5427F2922B23900D2F85A /* Inter-Black.otf */; };
 		1AFDD1732925035100097DB5 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA542802922B23900D2F85A /* Inter-Bold.otf */; };
@@ -50,6 +51,7 @@
 		1AA542822922B23900D2F85A /* InterV.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = InterV.ttf; path = ../../assets/fonts/InterV.ttf; sourceTree = "<group>"; };
 		1AA542832922B23900D2F85A /* Inter-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Medium.otf"; path = "../../assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; };
 		1AA542842922B33B00D2F85A /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		1AB40F1A2951EB640099BF6E /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = icomoon.ttf; path = ../../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		1ABD642B28ED8E3F00773A6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-lofftMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
 		46047CCF502124626C4E30EF /* Pods_lofftMobileApp_lofftMobileAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lofftMobileApp_lofftMobileAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,7 @@
 		1A01BF5E290055B100529A35 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1AB40F1A2951EB640099BF6E /* icomoon.ttf */,
 				1AA5427F2922B23900D2F85A /* Inter-Black.otf */,
 				1AA542802922B23900D2F85A /* Inter-Bold.otf */,
 				1AA542832922B23900D2F85A /* Inter-Medium.otf */,
@@ -274,6 +277,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB40F1B2951EB9D0099BF6E /* icomoon.ttf in Resources */,
 				1AFDD1732925035100097DB5 /* Inter-Bold.otf in Resources */,
 				1AFDD1742925035100097DB5 /* Inter-Medium.otf in Resources */,
 				1AFDD1752925035100097DB5 /* Inter-SemiBold.otf in Resources */,
