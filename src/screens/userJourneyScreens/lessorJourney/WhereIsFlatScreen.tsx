@@ -1,13 +1,19 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
-import {fontStyles} from '../../../styles/fontStyles';
-import InputFieldText from '../../../components/coreComponents/inputField/InputFieldText';
-import CustomSwitch from '../../../components/coreComponents/interactiveElements/CustomSwitch';
-import PaginationBar from '../../../components/bars/PaginationBar';
-import {CoreButton} from '../../../components/buttons/CoreButton';
 
-const WhereIsFlatScreen = ({navigation}) => {
+// Screen 📺
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+
+// Components 🪢
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
+import PaginationBar from '@Components/bars/PaginationBar';
+import {CoreButton} from '@Components/buttons/CoreButton';
+
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+
+const WhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');
   const [cost, setCost] = useState('');
   const [warmRent, setWarmRent] = useState(false);
@@ -20,7 +26,7 @@ const WhereIsFlatScreen = ({navigation}) => {
           type="search"
           placeholder="Address of the flat"
           value={location}
-          onChangeText={t => setLocation(t)}
+          onChangeText={(t: React.SetStateAction<string>) => setLocation(t)}
           onClear={() => setLocation('')}
         />
       </View>
@@ -30,7 +36,7 @@ const WhereIsFlatScreen = ({navigation}) => {
         </Text>
         <InputFieldText
           value={cost}
-          onChangeText={t => setCost(t)}
+          onChangeText={(t: React.SetStateAction<string>) => setCost(t)}
           keyboardType="numeric"
         />
         <View style={styles.toggleContainer}>

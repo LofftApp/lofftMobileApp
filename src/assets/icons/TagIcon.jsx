@@ -1,6 +1,5 @@
 import React, {useRef, useEffect} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Animated} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 // Stylesheets 🖌
 import {fontStyles} from '../../styles/fontStyles';
