@@ -10,9 +10,17 @@ export const userJourneySlice = createSlice({
       state.userType = action.payload;
     },
     setFlatDetails: (state: any, action: any) => {
-      state.cost = action.payload.cost;
-      state.location = action.payload.location;
-      state.warmRent = action.payload.warmRent;
+      console.log(action);
+      const data = action.payload;
+      state.cost = data?.cost || state.cost;
+      state.location = data?.location || state.location;
+      state.warmRent = data?.warmRent || state.warmRent;
+      state.fromDate = data?.fromDate || state.fromDate;
+      if (!data.perminant && data.perminant !== undefined) {
+        state.untilDate = data?.untilDate;
+      }
+      state.perminant = data?.perminant || state.perminant;
+      console.log(state);
     },
   },
 });
