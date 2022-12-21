@@ -8,6 +8,9 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import IconButton from '@Components/buttons/IconButton';
 
+// Redux 🧠
+import UserJourneyButton from '@Redux/userRegistration/UserJourneyButton';
+
 // Styles 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
@@ -38,13 +41,22 @@ const StartJourney = ({navigation}: any) => {
         icon="search-sm"
         onPress={() => handleClick('AboutYouFlatHuntScreen', 'renting')}
       />
-      <IconButton
+      {/* <IconButton
         text="I have a room to rent"
         icon="home-door"
         style={
           routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
         }
         onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
+      /> */}
+      <UserJourneyButton
+        text="I have a room to rent"
+        icon="home-door"
+        style={
+          routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
+        }
+        onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
+        type="leeser"
       />
     </ScreenBackButton>
   );
