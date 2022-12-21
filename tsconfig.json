@@ -13,7 +13,9 @@
       // Helpers
       "@Helpers/*": ["./helpers/*"],
       // Assets
-      "@Assets/*": ["./Assets/*"]
+      "@Assets/*": ["./Assets/*"],
+      // Redux
+      "@Redux/*": ["./features/*"]
     }
   }
 }
