@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Screens 📺
-import PrimaryScreen from '@Screens/PrimaryScreen';
+import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 
 // Components 🪢
 import IconButton from '@Components/buttons/IconButton';
