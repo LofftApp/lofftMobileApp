@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import {fontStyles} from '../../../../styles/fontStyles';
 import {styles} from './styleSheet';
 const SearchInput = ({
@@ -14,7 +14,7 @@ const SearchInput = ({
 }: any) => {
   return (
     <View style={styles.inputContainer}>
-      <Icon name={'search-outline'} size={20} />
+      <LofftIcon name={'search-sm'} size={20} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -25,7 +25,7 @@ const SearchInput = ({
       />
       {value ? (
         <TouchableOpacity onPress={onClear}>
-          <Icon name={'close-outline'} size={20} />
+          <LofftIcon name={'close-x'} size={20} />
         </TouchableOpacity>
       ) : null}
     </View>

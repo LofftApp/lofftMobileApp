@@ -6,17 +6,24 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import ScreenBackButton from '../../../components/coreComponents/CoreScreens/ScreenBackButton';
 import DatePicker from 'react-native-date-picker';
-import {fontStyles} from '../../../styles/fontStyles';
-import Icon from 'react-native-vector-icons/Ionicons';
-import InputFieldText from '../../../components/coreComponents/inputField/InputFieldText';
-import PaginationBar from '../../../components/bars/PaginationBar';
-import {CoreButton} from '../../../components/buttons/CoreButton';
-import Color from '../../../styles/lofftColorPallet.json';
-import {dateFormatConverter} from '../../../helpers/dateFormatConverter';
 
-const FlatLengthAvailableScreen = ({navigation}) => {
+// Screen 📺
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+
+// Components 🪢
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import PaginationBar from '@Components/bars/PaginationBar';
+import {CoreButton} from '@Components/buttons/CoreButton';
+
+// Styles 🖼️
+import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Helpers 🤝
+import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+
+const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
   const [untilDate, setUntilDate] = useState(new Date());
@@ -36,7 +43,7 @@ const FlatLengthAvailableScreen = ({navigation}) => {
             <Pressable
               onPress={() => setModalOpen(true)}
               style={styles.dateField}>
-              <Icon name="calendar-outline" size={18} />
+              <LofftIcon name="calendar" size={18} />
               <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
                 {fromDateSelected
                   ? dateFormatConverter({date: fromDate})
@@ -61,7 +68,7 @@ const FlatLengthAvailableScreen = ({navigation}) => {
             <Pressable
               onPress={() => setModalOpen(true)}
               style={styles.dateField}>
-              <Icon name="calendar-outline" size={18} />
+              <LofftIcon name="calendar" size={18} />
               <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
                 {untilDateSelected
                   ? dateFormatConverter({date: untilDate})
