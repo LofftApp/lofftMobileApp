@@ -8,6 +8,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
 import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 import PaginationBar from '@Components/bars/PaginationBar';
 
 // Styles 🖼️
@@ -18,14 +19,13 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import flatPreferences from '@Components/componentData/flatPreferences.json';
 
 const FlatFeaturesScreen = ({navigation, route}: any) => {
-  const subHeaderText =
-    'Select all tags that describe who you are and find the Lofft of your life!';
+  const subHeaderText = route.params.subText;
   const preferences = flatPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState(preferences);
   const [screen, setScreen] = useState(4);
-  const [selectTrack, setselectedTrack] = useState([]);
+  const [selectedTrack, setselectedTrack] = useState([]);
   const [alertTriger, setAlertTriger] = useState(false);
 
   const selectedEmojis = (id: any) => {
@@ -67,7 +67,7 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
       <SafeAreaView style={{}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <HeadlineContainer
-            headlineText={'What is your ideal flat?'}
+            headlineText={route.params.headerText}
             subDescription={subHeaderText}
           />
           <View style={styles.emojiContainer}>{emojiElements}</View>
@@ -90,22 +90,24 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
           </View>
           <View style={{marginVertical: 15}}></View>
 
-          <CoreButton
+          <UserJourneyContinue
             value="Continue"
             style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
             disabled={false}
-            onPress={() => {
-              navigation.navigate('SelfDescribeScreen', {
-                personalPreferences: route.params.personalPreferences,
-                gender: route.params.gender,
-                districts: route.params.districts,
-                minRent: route.params.minRent,
-                maxRent: route.params.maxRent,
-                flatPreferences: selectTrack,
-                warmRent: route.params.rentWarm,
-              });
+            onPress={(type: string) => {
+              console.log(type);
+              if (type === 'leeser') {
+                navigation.navigate('AboutYouFlatHuntScreen', {
+                  headerText: 'Who is your ideal flatmate?',
+                  subText:
+                    "Select all tags that describe your ideal flatmate and we'll match them for you!",
+                });
+              } else if (type === 'renter') {
+                navigation.navigate('SelfDescribeScreen');
+              }
             }}
+            details={{flatFeatures: selectedTrack}}
           />
         </View>
       </SafeAreaView>

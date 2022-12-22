@@ -143,11 +143,7 @@ const App = () => {
                 component={StartJourney}
                 options={{headerShown: false}}
               />
-              <Stack.Screen
-                name="AboutYouFlatHuntScreen"
-                component={AboutYouFlatHuntScreen}
-                options={{headerShown: false}}
-              />
+
               <Stack.Screen
                 name="GenderIdentityScreen"
                 component={GenderIdentityScreen}
@@ -161,11 +157,6 @@ const App = () => {
               <Stack.Screen
                 name="FinderBudgetScreen"
                 component={FinderBudgetScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="FlatFeaturesScreen"
-                component={FlatFeaturesScreen}
                 options={{headerShown: false}}
               />
               <Stack.Screen
@@ -192,6 +183,17 @@ const App = () => {
               <Stack.Screen
                 name="FlatLengthAvailableScreen"
                 component={FlatLengthAvailableScreen}
+                options={{headerShown: false}}
+              />
+              {/* Shared screens */}
+              <Stack.Screen
+                name="FlatFeaturesScreen"
+                component={FlatFeaturesScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="AboutYouFlatHuntScreen"
+                component={AboutYouFlatHuntScreen}
                 options={{headerShown: false}}
               />
             </>

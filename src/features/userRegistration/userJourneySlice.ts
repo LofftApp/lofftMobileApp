@@ -20,6 +20,7 @@ export const userJourneySlice = createSlice({
         state.untilDate = data?.untilDate;
       }
       state.perminant = data?.perminant || state.perminant;
+      state.flatFeatures = data?.flatFeatures || state.flatFeatures;
       console.log(state);
     },
   },

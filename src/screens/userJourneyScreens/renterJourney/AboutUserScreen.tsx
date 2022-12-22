@@ -24,9 +24,8 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
 
-const AboutYouFlatHuntScreen = ({navigation}: any) => {
-  const subHeaderText =
-    "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!";
+const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
+  const subHeaderText = route.params.subText;
   const preferences = userPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
@@ -83,7 +82,7 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
       <SafeAreaView style={{}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <HeadlineContainer
-            headlineText={'Tell us a bit about yourself'}
+            headlineText={route.params.headerText}
             subDescription={subHeaderText}
           />
           <View style={styles.emojiContainer}>{emojiElements}</View>
@@ -135,9 +134,13 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
                 style={{backgroundColor: '#BBBBBB', borderWidth: 0}}
                 textStyle={[fontStyles.headerSmall, {color: 'white'}]}
                 disabled={true}
-                // onPress={() => {
-                //   navigation.navigate('', {});
-                // }}
+                onPress={(type: string) => {
+                  if (type === 'leeser') {
+                    navigation.navigate('', {});
+                  } else if (type === 'renter') {
+                    navigation.navigate('', {});
+                  }
+                }}
               />
             </Pressable>
           )}

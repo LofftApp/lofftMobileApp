@@ -11,7 +11,7 @@ const UserJourneyContinue = ({value, textStyle, onPress, details}: any) => {
       value={value}
       textStyle={textStyle}
       onPress={() => {
-        onPress();
+        onPress(userType);
         dispatch(setFlatDetails(details));
       }}
     />
