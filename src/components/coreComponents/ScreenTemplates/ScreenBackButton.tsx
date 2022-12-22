@@ -4,6 +4,7 @@ import {
   Platform,
   StyleSheet,
   TouchableWithoutFeedback,
+  SafeAreaView,
   Keyboard,
 } from 'react-native';
 
@@ -12,7 +13,7 @@ import {
 import BackButton from '@Components/buttons/BackButton';
 
 // StyleSheets
-import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
+import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
 
 const ScreenBackButton = ({nav, title, children}: any) => {
   return (
@@ -24,12 +25,17 @@ const ScreenBackButton = ({nav, title, children}: any) => {
           Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
         ]}>
         <BackButton onPress={nav} title={title} />
-        {children}
+        <View style={styles.safeViewContainer}>{children}</View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  safeViewContainer: {
+    flex: 1,
+    marginBottom: 25,
+  },
+});
 
 export default ScreenBackButton;
