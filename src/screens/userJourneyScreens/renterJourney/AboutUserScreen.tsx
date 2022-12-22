@@ -16,6 +16,7 @@ import PaginationBar from '@Components/bars/PaginationBar';
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
 import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // StylesSheet 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -31,7 +32,7 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState(preferences);
   const [screen] = useState(0);
-  const [selectTrack, setselectedTrack] = useState([]);
+  const [selectedTracks, setselectedTracks] = useState([]);
   const [alertTriger, setAlertTriger] = useState(false);
 
   const selectedEmojis = (id: any) => {
@@ -51,7 +52,7 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
 
     const wash: any = preSeleted.filter(el => el.toggle);
 
-    setselectedTrack(wash);
+    setselectedTracks(wash);
     seIintitalPreferencesArray(preSeleted);
   };
 
@@ -63,7 +64,6 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
     }, 800);
   };
 
-  console.log(selectTrack);
   const emojiElements = intitalpreferencesArray.map((emojiElement, index) => {
     return (
       <EmojiIcon
@@ -111,39 +111,20 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
               * Select at least 3 tags
             </Text>
           </View>
-
-          {selectTrack.length >= 3 ? (
-            <CoreButton
-              value="Continue"
-              style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
-              textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-              disabled={false}
-              onPress={() => {
+          <UserJourneyContinue
+            value="Continue"
+            disabled={selectedTracks.length < 3}
+            details={{flatMate: selectedTracks}}
+            onPress={(type: string) => {
+              if (type === 'leeser') {
+                navigation.navigate('FlatPhotoUploadScreen');
+              } else if (type === 'renter') {
                 navigation.navigate('GenderIdentityScreen', {
-                  selectedTagsFromScreenOne: selectTrack,
+                  selectedTagsFromScreenOne: selectedTracks,
                 });
-              }}
-            />
-          ) : (
-            <Pressable
-              onPress={() => {
-                checkChoices();
-              }}>
-              <CoreButton
-                value="Continue"
-                style={{backgroundColor: '#BBBBBB', borderWidth: 0}}
-                textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-                disabled={true}
-                onPress={(type: string) => {
-                  if (type === 'leeser') {
-                    navigation.navigate('', {});
-                  } else if (type === 'renter') {
-                    navigation.navigate('', {});
-                  }
-                }}
-              />
-            </Pressable>
-          )}
+              }
+            }}
+          />
         </View>
       </SafeAreaView>
     </ScreenBackButton>

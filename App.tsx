@@ -31,6 +31,7 @@ import UserConditionsScreen from '@Screens/UserConditionsScreen';
 // Lessor Journey
 import WhereIsFlatScreen from '@Screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from '@Screens/userJourneyScreens/lessorJourney/FlatLengthAvailableScreen';
+import FlatPhotoUploadScreen from '@Screens/userJourneyScreens/lessorJourney/FlatPhotoUploadScreen';
 
 // User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatListScreen';
@@ -183,6 +184,11 @@ const App = () => {
               <Stack.Screen
                 name="FlatLengthAvailableScreen"
                 component={FlatLengthAvailableScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="FlatPhotoUploadScreen"
+                component={FlatPhotoUploadScreen}
                 options={{headerShown: false}}
               />
               {/* Shared screens */}
