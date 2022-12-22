@@ -15,7 +15,6 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 import PaginationBar from '@Components/bars/PaginationBar';
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import {CoreButton} from '@Components/buttons/CoreButton';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // StylesSheet 🖼️
@@ -79,54 +78,45 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
-      <SafeAreaView style={{}}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <HeadlineContainer
-            headlineText={route.params.headerText}
-            subDescription={subHeaderText}
-          />
-          <View style={styles.emojiContainer}>{emojiElements}</View>
-        </ScrollView>
+      <HeadlineContainer
+        headlineText={route.params.headerText}
+        subDescription={subHeaderText}
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.emojiContainer}>{emojiElements}</View>
+      </ScrollView>
+      <View>
         <View
           style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            backgroundColor: 'white',
-            height: 180,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 10,
           }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 10,
-            }}>
-            <PaginationBar screen={screen} totalScreens={6} />
-          </View>
-          <View style={{marginVertical: 13}}>
-            <Text
-              style={
-                alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
-              }>
-              * Select at least 3 tags
-            </Text>
-          </View>
-          <UserJourneyContinue
-            value="Continue"
-            disabled={selectedTracks.length < 3}
-            details={{flatMate: selectedTracks}}
-            onPress={(type: string) => {
-              if (type === 'leeser') {
-                navigation.navigate('FlatPhotoUploadScreen');
-              } else if (type === 'renter') {
-                navigation.navigate('GenderIdentityScreen', {
-                  selectedTagsFromScreenOne: selectedTracks,
-                });
-              }
-            }}
-          />
+          <PaginationBar screen={screen} totalScreens={6} />
         </View>
-      </SafeAreaView>
+        <View style={{marginVertical: 13}}>
+          <Text
+            style={
+              alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
+            }>
+            * Select at least 3 tags
+          </Text>
+        </View>
+        <UserJourneyContinue
+          value="Continue"
+          disabled={selectedTracks.length < 3}
+          details={{flatMate: selectedTracks}}
+          onPress={(type: string) => {
+            if (type === 'leeser') {
+              navigation.navigate('FlatPhotoUploadScreen');
+            } else if (type === 'renter') {
+              navigation.navigate('GenderIdentityScreen', {
+                selectedTagsFromScreenOne: selectedTracks,
+              });
+            }
+          }}
+        />
+      </View>
     </ScreenBackButton>
   );
 };
