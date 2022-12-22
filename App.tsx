@@ -166,11 +166,6 @@ const App = () => {
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="UserConditionsScreen"
-                component={UserConditionsScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
                 options={{headerShown: false}}
@@ -200,6 +195,11 @@ const App = () => {
               <Stack.Screen
                 name="AboutYouFlatHuntScreen"
                 component={AboutYouFlatHuntScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="UserConditionsScreen"
+                component={UserConditionsScreen}
                 options={{headerShown: false}}
               />
             </>

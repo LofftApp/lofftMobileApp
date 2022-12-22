@@ -107,7 +107,7 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
           disabled={selectedTracks.length < 3}
           details={{flatMate: selectedTracks}}
           onPress={(type: string) => {
-            if (type === 'leeser') {
+            if (type === 'lesser') {
               navigation.navigate('FlatPhotoUploadScreen');
             } else if (type === 'renter') {
               navigation.navigate('GenderIdentityScreen', {
