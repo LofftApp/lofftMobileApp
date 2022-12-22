@@ -33,22 +33,15 @@ const StartJourney = ({navigation}: any) => {
         headlineText={'What brings you here?'}
         subDescription={subHeaderText}
       />
-      <IconButton
+      <UserJourneyButton
+        text="I'm looking for a flat"
+        icon="search-sm"
         style={
           routeFlatHunt === 'renting' ? styles.buttonActive : styles.button
         }
-        text="I'm looking for a flat"
-        icon="search-sm"
-        onPress={() => handleClick('AboutYouFlatHuntScreen', 'renting')}
+        onPress={() => handleClick('WhereIsFlatScreen', 'renting')}
+        type="renter"
       />
-      {/* <IconButton
-        text="I have a room to rent"
-        icon="home-door"
-        style={
-          routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
-        }
-        onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
-      /> */}
       <UserJourneyButton
         text="I have a room to rent"
         icon="home-door"
@@ -56,7 +49,7 @@ const StartJourney = ({navigation}: any) => {
           routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
         }
         onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
-        type="leeser"
+        type="lesser"
       />
     </ScreenBackButton>
   );
