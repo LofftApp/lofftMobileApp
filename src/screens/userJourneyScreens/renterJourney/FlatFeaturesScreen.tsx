@@ -97,7 +97,7 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
             disabled={false}
             onPress={(type: string) => {
               console.log(type);
-              if (type === 'leeser') {
+              if (type === 'lesser') {
                 navigation.navigate('AboutYouFlatHuntScreen', {
                   headerText: 'Who is your ideal flatmate?',
                   subText:
