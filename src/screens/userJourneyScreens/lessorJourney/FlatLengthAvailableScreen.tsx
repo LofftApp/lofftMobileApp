@@ -98,7 +98,13 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
           <UserJourneyContinue
             value="Continue"
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-            onPress={() => navigation.navigate('FlatLengthAvailableScreen')}
+            onPress={() =>
+              navigation.navigate('FlatFeaturesScreen', {
+                headerText: 'What is your flat like?',
+                subText:
+                  "Select all tags that describe your ideal flatmate and we'll match them for you!",
+              })
+            }
             details={{
               fromDate: String(fromDate),
               untilDate: String(untilDate),
