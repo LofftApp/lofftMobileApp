@@ -3,13 +3,20 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setFlatDetails} from './userJourneySlice';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
-const UserJourneyContinue = ({value, textStyle, onPress, details}: any) => {
+const UserJourneyContinue = ({
+  value,
+  textStyle,
+  onPress,
+  disabled,
+  details,
+}: any) => {
   const userType = useSelector((state: any) => state.userDetails.userType);
   const dispatch = useDispatch();
   return (
     <CoreButton
       value={value}
       textStyle={textStyle}
+      disabled={disabled}
       onPress={() => {
         onPress(userType);
         dispatch(setFlatDetails(details));

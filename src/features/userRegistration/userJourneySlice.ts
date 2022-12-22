@@ -21,6 +21,7 @@ export const userJourneySlice = createSlice({
       }
       state.perminant = data?.perminant || state.perminant;
       state.flatFeatures = data?.flatFeatures || state.flatFeatures;
+      state.flatMate = data?.flatMate || state.flatMate;
       console.log(state);
     },
   },
