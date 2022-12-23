@@ -6,8 +6,14 @@ const renterJourney = () => {
     '1': {screenName: 'GenderIdentityScreen'},
     '2': {screenName: 'SelectCityScreen'},
     '3': {screenName: 'FinderBudgetScreen'},
-    '4': {screenName: 'FlatFeaturesScreen'},
+    '4': {
+      screenName: 'FlatFeaturesScreen',
+      headerText: 'What is your ideal flat?',
+      subHeaderText:
+        'Select all tags that describe who you are and find the Lofft of your life!',
+    },
     '5': {screenName: 'SelfDescribeScreen'},
+    '6': {screenName: 'UserConditionsScreen'},
   };
 };
 
@@ -28,6 +34,7 @@ const lesserJourney = () => {
     },
     '4': {screenName: 'FlatPhotoUploadScreen'},
     '5': {screenName: 'UserConditionsScreen'},
+    '6': {screenName: 'UserConditionsScreen'},
   };
 };
 
@@ -47,16 +54,32 @@ export const userJourneySlice = createSlice({
     },
     setFlatDetails: (state: any, action: any) => {
       const data = action.payload;
-      state.cost = data?.cost || state.cost;
-      state.location = data?.location || state.location;
-      state.warmRent = data?.warmRent || state.warmRent;
-      state.fromDate = data?.fromDate || state.fromDate;
-      if (!data.perminant && data.perminant !== undefined) {
-        state.untilDate = data?.untilDate;
+      console.log(state);
+      // Renter
+      if (state.userType === 'renter') {
+        state.gender = data.genderIdentity?.value || state.genderIdentity;
+        state.districts = data?.districts || state.districts;
+        state.minRent = data?.minPrice || state.minRent;
+        state.maxRent = data?.maxRent || state.maxRent;
       }
-      state.perminant = data?.perminant || state.perminant;
+
+      // Lesser
+      if (state.userType === 'lesser') {
+        state.cost = data?.cost || state.cost;
+        state.location = data?.location || state.location;
+        state.fromDate = data?.fromDate || state.fromDate;
+        if (!data?.perminant && data?.perminant !== undefined) {
+          state.untilDate = data?.untilDate;
+        }
+        state.perminant = data?.perminant || state.perminant;
+      }
+
+      // All
       state.flatFeatures = data?.flatFeatures || state.flatFeatures;
       state.flatMate = data?.flatMate || state.flatMate;
+      state.warmRent = data?.warmRent || state.warmRent;
+
+      console.log(state);
     },
   },
 });
