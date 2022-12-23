@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {setFlatDetails} from './userJourneySlice';
+import {setDetails} from './userJourneySlice';
 
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
@@ -28,7 +28,7 @@ const UserJourneyContinue = ({
       disabled={disabled}
       onPress={() => {
         onPress(userJourney[currentPageKey + 1]);
-        dispatch(setFlatDetails(details));
+        dispatch(setDetails(details));
       }}
     />
   );
