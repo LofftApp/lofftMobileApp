@@ -15,6 +15,7 @@
     ]
   },
   "dependencies": {
+    "@homee/react-native-mapbox-navigation": "^1.1.0",
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-firebase/app": "^16.5.0",
