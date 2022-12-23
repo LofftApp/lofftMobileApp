@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
@@ -257,7 +257,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
             height: 160,
           }}>
           <View style={{marginTop: 10, marginBottom: 54}}>
-            <PaginationBar screen={screen} />
+            <PaginationBar screen={screen} totalScreens={6} />
           </View>
           {districts.length >= 1 ? (
             <CoreButton

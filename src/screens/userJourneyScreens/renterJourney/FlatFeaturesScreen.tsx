@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -17,15 +17,17 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Data 💿
 import flatPreferences from '@Components/componentData/flatPreferences.json';
 
+// Helper 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
+
 const FlatFeaturesScreen = ({navigation, route}: any) => {
-  const subHeaderText =
-    'Select all tags that describe who you are and find the Lofft of your life!';
+  const subHeaderText = route.params.subText;
   const preferences = flatPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState(preferences);
   const [screen, setScreen] = useState(4);
-  const [selectTrack, setselectedTrack] = useState([]);
+  const [selectedTrack, setselectedTrack] = useState([]);
   const [alertTriger, setAlertTriger] = useState(false);
 
   const selectedEmojis = (id: any) => {
@@ -67,7 +69,7 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
       <SafeAreaView style={{}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <HeadlineContainer
-            headlineText={'What is your ideal flat?'}
+            headlineText={route.params.headerText}
             subDescription={subHeaderText}
           />
           <View style={styles.emojiContainer}>{emojiElements}</View>
@@ -86,26 +88,19 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
               alignItems: 'center',
               marginVertical: 17,
             }}>
-            <PaginationBar screen={screen} />
+            <UserJourneyPaginationBar />
           </View>
           <View style={{marginVertical: 15}}></View>
 
-          <CoreButton
+          <UserJourneyContinue
             value="Continue"
             style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
             disabled={false}
-            onPress={() => {
-              navigation.navigate('SelfDescribeScreen', {
-                personalPreferences: route.params.personalPreferences,
-                gender: route.params.gender,
-                districts: route.params.districts,
-                minRent: route.params.minRent,
-                maxRent: route.params.maxRent,
-                flatPreferences: selectTrack,
-                warmRent: route.params.rentWarm,
-              });
-            }}
+            onPress={(targetScreen: any) =>
+              navigationHelper(navigation, targetScreen)
+            }
+            details={{flatFeatures: selectedTrack}}
           />
         </View>
       </SafeAreaView>
