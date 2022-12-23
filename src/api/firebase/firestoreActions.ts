@@ -28,12 +28,15 @@ export const createFlatProfile = async (data: any) => {
   const userAddedToData = data;
   userAddedToData.user = currentUserId;
 
+  const response = await (
+    await firestore().collection('flats').add(userAddedToData)
+  ).get();
+  const flatID = response.id;
+
   await firestore()
-    .collection('flats')
-    .add(userAddedToData)
-    .then(() => {
-      console.log('User added!');
-    });
+    .collection('users')
+    .doc(currentUserId)
+    .set({flats: [flatID]});
 };
 
 export const checkUserProfileExist = async () => {
