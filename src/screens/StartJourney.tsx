@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
+import auth from '@react-native-firebase/auth';
+
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
@@ -32,7 +34,7 @@ const StartJourney = ({navigation}: any) => {
   const subHeaderText =
     'Tell us what you want to do on Lofft and we will create the matching experience!';
   return (
-    <ScreenBackButton nav={() => navigation.goBack()} title={undefined}>
+    <ScreenBackButton nav={() => auth().signOut()} title={undefined}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
         subDescription={subHeaderText}
