@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {createUserProfile, createFlatProfile} from '@Firebase/firestoreActions';
 
 const renterJourney = () => {
   return {
@@ -42,6 +43,7 @@ export const userJourneySlice = createSlice({
   name: 'userDetails',
   initialState: {
     userType: null,
+    userDetails: {},
   },
   reducers: {
     setUserType: (state: any, action: any) => {
@@ -52,37 +54,67 @@ export const userJourneySlice = createSlice({
         state.userJourney = renterJourney();
       }
     },
-    setFlatDetails: (state: any, action: any) => {
+    setDetails: (state: any, action: any) => {
       const data = action.payload;
-      console.log(state);
+      const userDetails = state.userDetails;
       // Renter
       if (state.userType === 'renter') {
-        state.gender = data.genderIdentity?.value || state.genderIdentity;
-        state.districts = data?.districts || state.districts;
-        state.minRent = data?.minPrice || state.minRent;
-        state.maxRent = data?.maxRent || state.maxRent;
+        userDetails.genderIdentity =
+          data.genderIdentity?.value || userDetails.genderIdentity;
+        userDetails.districts = data?.districts || userDetails.districts;
+        userDetails.minRent = data?.minRent || userDetails.minRent;
+        userDetails.maxRent = data?.maxRent || userDetails.maxRent;
+        userDetails.userDescription =
+          data?.textAboutUser || userDetails.userDescription;
       }
 
       // Lesser
       if (state.userType === 'lesser') {
-        state.cost = data?.cost || state.cost;
-        state.location = data?.location || state.location;
-        state.fromDate = data?.fromDate || state.fromDate;
+        userDetails.cost = data?.cost || userDetails.cost;
+        userDetails.location = data?.location || userDetails.location;
+        userDetails.fromDate = data?.fromDate || userDetails.fromDate;
         if (!data?.perminant && data?.perminant !== undefined) {
-          state.untilDate = data?.untilDate;
+          userDetails.untilDate = data?.untilDate;
         }
-        state.perminant = data?.perminant || state.perminant;
+        userDetails.perminant = data?.perminant || userDetails.perminant;
       }
 
       // All
-      state.flatFeatures = data?.flatFeatures || state.flatFeatures;
-      state.flatMate = data?.flatMate || state.flatMate;
-      state.warmRent = data?.warmRent || state.warmRent;
-
-      console.log(state);
+      userDetails.flatFeatures = data?.flatFeatures || userDetails.flatFeatures;
+      userDetails.flatMate = data?.flatMate || userDetails.flatMate;
+      if (!data?.warmRent && data?.warmRent !== undefined) {
+        userDetails.warmRent = data?.warmRent;
+      }
+    },
+    saveUserDetails: (state: any) => {
+      const userDetails = state.userDetails;
+      if (state.userType === 'renter') {
+        createUserProfile({
+          genderIdentity: userDetails.genderIdentity,
+          userDescription: userDetails.userDescription,
+          personalPreferences: userDetails.flatMate,
+          districts: userDetails.districts,
+          flatPreferences: userDetails.flatFeatures,
+          maxRent: userDetails.maxRent,
+          minRent: userDetails.minRent,
+          warmRent: userDetails.warmRent,
+        });
+      } else if (state.userType === 'lesser') {
+        createFlatProfile({
+          flatFeatures: userDetails.flatFeatures || {},
+          cost: userDetails.cost || 0,
+          warmrent: userDetails.warmRent || false,
+          location: userDetails.location || '',
+          fromDate: userDetails.fromDate || Date.now,
+          untilDate: userDetails.untilDate || null,
+          perminant: userDetails.perminant || false,
+          flatMate: userDetails.flatMate || {},
+        });
+      }
     },
   },
 });
 
-export const {setUserType, setFlatDetails} = userJourneySlice.actions;
+export const {setUserType, setDetails, saveUserDetails} =
+  userJourneySlice.actions;
 export default userJourneySlice.reducer;
