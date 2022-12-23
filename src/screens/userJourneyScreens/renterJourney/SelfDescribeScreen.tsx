@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Pressable, TextInput} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
@@ -53,7 +53,7 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
 
       <View style={styles.options}>
         <View style={styles.paginationContainer}>
-          <PaginationBar screen={5} />
+          <PaginationBar screen={5} totalScreens={6} />
         </View>
 
         <CoreButton

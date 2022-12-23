@@ -7,11 +7,15 @@
       "@Firebase/*": ["./api/firebase/*"],
       // Components
       "@Components/*": ["./components/*"],
-      "@Screens/*": ["./components/coreComponents/Screens/*"],
+      "@Screens/*": ["./screens/*"],
       // Stylesheets
       "@StyleSheets/*": ["./styles/*"],
+      // Helpers
+      "@Helpers/*": ["./helpers/*"],
       // Assets
-      "@Assets/*": ["./Assets/*"]
+      "@Assets/*": ["./Assets/*"],
+      // Redux
+      "@Redux/*": ["./features/*"]
     }
   }
 }

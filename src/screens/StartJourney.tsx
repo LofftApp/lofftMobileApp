@@ -2,23 +2,26 @@ import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import IconButton from '@Components/buttons/IconButton';
 
+// Redux 🧠
+import UserJourneyButton from '@Redux/userRegistration/UserJourneyButton';
+
 // Styles 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const StartJourney = ({navigation}: any) => {
-  const [routeFlatHunt, setRouteFlatHunt] = useState(false);
+  const [routeFlatHunt, setRouteFlatHunt] = useState('');
 
-  const handleClick = (routeName: any) => {
-    setRouteFlatHunt(true);
+  const handleClick = (routeName: string, routeButton: string) => {
+    setRouteFlatHunt(routeButton);
     setTimeout(() => {
       navigation.navigate(routeName);
-      setRouteFlatHunt(false);
+      setRouteFlatHunt('');
     }, 500);
   };
 
@@ -30,17 +33,23 @@ const StartJourney = ({navigation}: any) => {
         headlineText={'What brings you here?'}
         subDescription={subHeaderText}
       />
-      <IconButton
-        style={routeFlatHunt ? styles.buttonActive : styles.button}
+      <UserJourneyButton
         text="I'm looking for a flat"
         icon="search-sm"
-        onPress={() => handleClick('AboutYouFlatHuntScreen')}
+        style={
+          routeFlatHunt === 'renting' ? styles.buttonActive : styles.button
+        }
+        onPress={() => handleClick('WhereIsFlatScreen', 'renting')}
+        type="renter"
       />
-      <IconButton
+      <UserJourneyButton
         text="I have a room to rent"
         icon="home-door"
-        onPress={() => {}}
-        style={undefined}
+        style={
+          routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
+        }
+        onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
+        type="lesser"
       />
     </ScreenBackButton>
   );

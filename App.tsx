@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Color from './src/styles/lofftColorPallet.json';
 
 // FireStore 🔥
@@ -20,14 +19,19 @@ import SignInScreen from './src/screens/SignInScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Find Lofft Journey
-import StartJourney from './src/screens/StartJourney';
-import AboutYouFlatHuntScreen from './src/screens/renterJourneyScreens/AboutUserScreen';
-import GenderIdentityScreen from './src/screens/renterJourneyScreens/GenderIdentityScreen';
-import SelectCityScreen from './src/screens/renterJourneyScreens/SelectCityScreen';
-import FinderBudgetScreen from './src/screens/renterJourneyScreens/FinderBudgetScreen';
-import FlatFeaturesScreen from './src/screens/renterJourneyScreens/FlatFeaturesScreen';
-import SelfDescribeScreen from './src/screens/renterJourneyScreens/SelfDescribeScreen';
-import UserConditionsScreen from './src/screens/UserConditionsScreen';
+import StartJourney from '@Screens/StartJourney';
+import AboutYouFlatHuntScreen from '@Screens/userJourneyScreens/renterJourney/AboutUserScreen';
+import GenderIdentityScreen from '@Screens/userJourneyScreens/renterJourney/GenderIdentityScreen';
+import SelectCityScreen from '@Screens/userJourneyScreens/renterJourney/SelectCityScreen';
+import FinderBudgetScreen from '@Screens/userJourneyScreens/renterJourney/FinderBudgetScreen';
+import FlatFeaturesScreen from '@Screens/userJourneyScreens/renterJourney/FlatFeaturesScreen';
+import SelfDescribeScreen from '@Screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
+import UserConditionsScreen from '@Screens/UserConditionsScreen';
+
+// Lessor Journey
+import WhereIsFlatScreen from '@Screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
+import FlatLengthAvailableScreen from '@Screens/userJourneyScreens/lessorJourney/FlatLengthAvailableScreen';
+import FlatPhotoUploadScreen from '@Screens/userJourneyScreens/lessorJourney/FlatPhotoUploadScreen';
 
 // User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatListScreen';
@@ -134,16 +138,13 @@ const App = () => {
         <Stack.Navigator initialRouteName="SignInScreen">
           {user ? (
             <>
+              {/* Rentor Screens */}
               <Stack.Screen
                 name="StartJourney"
                 component={StartJourney}
                 options={{headerShown: false}}
               />
-              <Stack.Screen
-                name="AboutYouFlatHuntScreen"
-                component={AboutYouFlatHuntScreen}
-                options={{headerShown: false}}
-              />
+
               <Stack.Screen
                 name="GenderIdentityScreen"
                 component={GenderIdentityScreen}
@@ -160,23 +161,45 @@ const App = () => {
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="FlatFeaturesScreen"
-                component={FlatFeaturesScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
                 name="SelfDescribeScreen"
                 component={SelfDescribeScreen}
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="UserConditionsScreen"
-                component={UserConditionsScreen}
+                name="FlatListScreen"
+                component={FlatListScreen}
+                options={{headerShown: false}}
+              />
+              {/* Lessor Screens */}
+              <Stack.Screen
+                name="WhereIsFlatScreen"
+                component={WhereIsFlatScreen}
                 options={{headerShown: false}}
               />
               <Stack.Screen
-                name="FlatListScreen"
-                component={FlatListScreen}
+                name="FlatLengthAvailableScreen"
+                component={FlatLengthAvailableScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="FlatPhotoUploadScreen"
+                component={FlatPhotoUploadScreen}
+                options={{headerShown: false}}
+              />
+              {/* Shared screens */}
+              <Stack.Screen
+                name="FlatFeaturesScreen"
+                component={FlatFeaturesScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="AboutYouFlatHuntScreen"
+                component={AboutYouFlatHuntScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="UserConditionsScreen"
+                component={UserConditionsScreen}
                 options={{headerShown: false}}
               />
             </>
