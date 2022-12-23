@@ -17,5 +17,6 @@
       // Redux
       "@Redux/*": ["./features/*"]
     }
-  }
+  },
+  "typeRoots": ["./types"]
 }
