@@ -7,13 +7,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
 
 // Screens 📺
-import PrimaryScreen from '@Screens/PrimaryScreen';
+import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';

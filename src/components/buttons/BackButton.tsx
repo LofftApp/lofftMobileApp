@@ -1,7 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 // Stylesheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -30,10 +29,10 @@ const BackButton = ({
       </Text>
       <TouchableOpacity onPress={onPress}>
         {close ? (
-          <Icon name="close" size={35} color={Color.Black[50]} />
+          <LofftIcon name="x-close" size={35} color={Color.Black[50]} />
         ) : (
-          <Icon
-            name="chevron-back"
+          <LofftIcon
+            name="chevron-left"
             size={35}
             color={neutral ? Color.Black[50] : Color.Lavendar[80]}
           />

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
@@ -70,7 +70,7 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
 
         <View style={styles.buttonContainer}>
           <View style={styles.paginationContainer}>
-            <PaginationBar screen={screen} />
+            <PaginationBar screen={screen} totalScreens={6} />
           </View>
 
           {cleanGenders.length >= 1 ? (
