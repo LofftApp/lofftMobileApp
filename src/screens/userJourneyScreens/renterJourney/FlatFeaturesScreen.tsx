@@ -7,9 +7,8 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import {CoreButton} from '@Components/buttons/CoreButton';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -17,6 +16,9 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Data 💿
 import flatPreferences from '@Components/componentData/flatPreferences.json';
+
+// Helper 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatFeaturesScreen = ({navigation, route}: any) => {
   const subHeaderText = route.params.subText;
@@ -86,7 +88,7 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
               alignItems: 'center',
               marginVertical: 17,
             }}>
-            <PaginationBar screen={screen} totalScreens={6} />
+            <UserJourneyPaginationBar />
           </View>
           <View style={{marginVertical: 15}}></View>
 
@@ -95,18 +97,9 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
             style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
             disabled={false}
-            onPress={(type: string) => {
-              console.log(type);
-              if (type === 'lesser') {
-                navigation.navigate('AboutYouFlatHuntScreen', {
-                  headerText: 'Who is your ideal flatmate?',
-                  subText:
-                    "Select all tags that describe your ideal flatmate and we'll match them for you!",
-                });
-              } else if (type === 'renter') {
-                navigation.navigate('SelfDescribeScreen');
-              }
-            }}
+            onPress={(targetScreen: any) =>
+              navigationHelper(navigation, targetScreen)
+            }
             details={{flatFeatures: selectedTrack}}
           />
         </View>

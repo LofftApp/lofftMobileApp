@@ -1,4 +1,4 @@
-export const dateFormatConverter = ({date, format = 'EU'}) => {
+export const dateFormatConverter = ({date, format = 'EU'}: any) => {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();

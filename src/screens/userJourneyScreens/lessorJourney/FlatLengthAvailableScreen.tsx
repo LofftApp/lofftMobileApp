@@ -13,8 +13,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import PaginationBar from '@Components/bars/PaginationBar';
-// import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // Styles 🖼️
@@ -23,6 +22,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [selector, setSelector] = useState('');
@@ -94,16 +94,12 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
           </View>
         </View>
         <View style={styles.footerContainer}>
-          <PaginationBar screen={1} totalScreens={5} />
+          <UserJourneyPaginationBar />
           <UserJourneyContinue
             value="Continue"
             textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-            onPress={() =>
-              navigation.navigate('FlatFeaturesScreen', {
-                headerText: 'What is your flat like?',
-                subText:
-                  "Select all tags that describe your ideal flatmate and we'll match them for you!",
-              })
+            onPress={(targetScreen: any) =>
+              navigationHelper(navigation, targetScreen)
             }
             details={{
               fromDate: String(fromDate),
