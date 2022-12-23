@@ -17,8 +17,8 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
 
 // Styles 🖼️
@@ -27,6 +27,9 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Data 💿
 import CityDistricts from '@Components/componentData/cityDistricts.json';
+
+// Helper 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const SelectCityScreen = ({navigation, route}: any) => {
   const user = {
@@ -257,41 +260,16 @@ const SelectCityScreen = ({navigation, route}: any) => {
             height: 160,
           }}>
           <View style={{marginTop: 10, marginBottom: 54}}>
-            <PaginationBar screen={screen} totalScreens={6} />
+            <UserJourneyPaginationBar />
           </View>
-          {districts.length >= 1 ? (
-            <CoreButton
-              value="Continue"
-              style={{
-                backgroundColor: Color.Lavendar[100],
-                borderWidth: 0,
-                width: '100%',
-              }}
-              textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-              disabled={false}
-              onPress={() => {
-                navigation.navigate('FinderBudgetScreen', {
-                  selectedPreferences: user.preferences,
-                  gender: user.gender,
-                  selectedDistricts: washedDistricts,
-                });
-              }}
-            />
-          ) : (
-            <CoreButton
-              value="Continue"
-              style={{
-                backgroundColor: '#BBBBBB',
-                borderWidth: 0,
-                width: '100%',
-              }}
-              textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-              disabled={true}
-              onPress={() => {
-                navigation.navigate('', {});
-              }}
-            />
-          )}
+          <UserJourneyContinue
+            value="Continue"
+            disabled={districts.length === 0}
+            onPress={(targetScreen: any) =>
+              navigationHelper(navigation, targetScreen)
+            }
+            details={{districts: washedDistricts}}
+          />
         </View>
       </SafeAreaView>
     </ScreenBackButton>

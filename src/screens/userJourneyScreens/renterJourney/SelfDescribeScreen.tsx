@@ -6,12 +6,15 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Helpers 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const SelfDescribeScreen = ({navigation, route}: any) => {
   const [text, setText] = useState('');
@@ -53,26 +56,18 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
 
       <View style={styles.options}>
         <View style={styles.paginationContainer}>
-          <PaginationBar screen={5} totalScreens={6} />
+          <UserJourneyPaginationBar />
         </View>
 
-        <CoreButton
+        <UserJourneyContinue
           value="Continue"
           style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           disabled={false}
-          onPress={() => {
-            navigation.navigate('UserConditionsScreen', {
-              personalPreferences: route.params.personalPreferences,
-              gender: route.params.gender,
-              districts: route.params.districts,
-              minRent: route.params.minRent,
-              maxRent: route.params.maxRent,
-              flatPreferences: route.params.flatPreferences,
-              warmRent: route.params.rentWarm,
-              textAboutUser: text,
-            });
-          }}
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
+          details={{textAboutUser: text}}
         />
       </View>
     </ScreenBackButton>

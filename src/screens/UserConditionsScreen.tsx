@@ -11,6 +11,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneySaveButton from '@Redux/userRegistration/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -45,24 +46,9 @@ const UserConditionsScreen = ({navigation, route}: any) => {
       </View>
 
       <View style={styles.options}>
-        <CoreButton
+        <UserJourneySaveButton
           value="Continue"
-          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
-          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-          disabled={false}
-          onPress={() => {
-            createUserProfile({
-              personalPreferences: route.params.personalPreferences,
-              gender: route.params.gender,
-              districts: route.params.districts,
-              minRent: route.params.minRent,
-              maxRent: route.params.maxRent,
-              flatPreferences: route.params.flatPreferences,
-              warmRent: route.params.rentWarm,
-              textAboutUser: route.params.textAboutUser,
-            });
-            navigation.navigate('FlatListScreen');
-          }}
+          onPress={() => navigation.navigate('FlatListScreen')}
         />
 
         <CoreButton

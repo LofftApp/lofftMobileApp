@@ -6,13 +6,14 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import SelectButton from '@Components/buttons/SelectButton';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Helper 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const GenderIdentityScreen = ({navigation, route}: any) => {
   const genders = [
@@ -26,9 +27,7 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
   const selectedTagsFromScreenOne = route.params.selectedTagsFromScreenOne;
   const [screen, setScreen] = useState(1);
   const [intitalGenders, setIntitalGenders] = useState(genders);
-  const [cleanGenders, setCleanGenders] = useState([]);
-
-  console.log(cleanGenders);
+  const [cleanGenders, setCleanGenders] = useState<any[]>([]);
 
   const selectGender = (id: any) => {
     const genderTicked = intitalGenders.map(el => {
@@ -70,33 +69,17 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
 
         <View style={styles.buttonContainer}>
           <View style={styles.paginationContainer}>
-            <PaginationBar screen={screen} totalScreens={6} />
+            <UserJourneyPaginationBar />
           </View>
 
-          {cleanGenders.length >= 1 ? (
-            <CoreButton
-              value="Continue"
-              style={{backgroundColor: Color.Lavendar[100]}}
-              textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-              disabled={false}
-              onPress={() => {
-                navigation.navigate('SelectCityScreen', {
-                  selectedTagsFromScreenOne: selectedTagsFromScreenOne,
-                  selectedTagsFromScreenTwo: cleanGenders[0]['value'],
-                });
-              }}
-            />
-          ) : (
-            <CoreButton
-              value="Continue"
-              style={{backgroundColor: '#BBBBBB', borderWidth: 0}}
-              textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-              disabled={true}
-              onPress={() => {
-                navigation.navigate('', {});
-              }}
-            />
-          )}
+          <UserJourneyContinue
+            value="Continue"
+            disabled={cleanGenders.length === 0}
+            onPress={(targetScreen: any) =>
+              navigationHelper(navigation, targetScreen)
+            }
+            details={{genderIdentity: cleanGenders[0]}}
+          />
         </View>
       </View>
     </ScreenBackButton>

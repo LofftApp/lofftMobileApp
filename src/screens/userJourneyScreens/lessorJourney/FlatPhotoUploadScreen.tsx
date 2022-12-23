@@ -15,8 +15,6 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import {CoreButton} from '@Components/buttons/CoreButton';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 import PaginationBar from '@Components/bars/PaginationBar';
 
@@ -24,7 +22,10 @@ import PaginationBar from '@Components/bars/PaginationBar';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-const FlatPhotoUploadScreen = () => {
+// Helpers 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
+
+const FlatPhotoUploadScreen = ({navigation}: any) => {
   return (
     <ScreenBackButton>
       <HeadlineContainer
@@ -45,7 +46,12 @@ const FlatPhotoUploadScreen = () => {
       />
       <View style={styles.bottomContainer}>
         <PaginationBar />
-        <UserJourneyContinue value="Take me to Lofft" />
+        <UserJourneyContinue
+          value="Take me to Lofft"
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
+        />
       </View>
     </ScreenBackButton>
   );
