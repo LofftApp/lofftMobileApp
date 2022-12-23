@@ -1,16 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {setUserType} from './userJourneySlice';
 import PaginationBar from '@Components/bars/PaginationBar';
+import {getKeyByValue} from '@Helpers/getKeyByValue';
 
 const UserJourneyPaginationBar = () => {
-  // const count = useSelector(state => state.counter.value);
-  const activeScreen = useSelector(
-    (state: any) => state.userDetails.activeScreen,
-  );
   const userJourney = useSelector(
     (state: any) => state.userDetails.userJourney,
   );
+  const [activeScreen] = useState(getKeyByValue(userJourney));
+
   return (
     <PaginationBar
       screen={activeScreen}

@@ -7,12 +7,14 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
-import PaginationBar from '@Components/bars/PaginationBar';
 import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
+
+// Helpers 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const WhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');
@@ -53,7 +55,9 @@ const WhereIsFlatScreen = ({navigation}: any) => {
       <View style={styles.footerContainer}>
         <UserJourneyPaginationBar />
         <UserJourneyContinue
-          onPress={(targetScreen: any) => navigation.navigate(targetScreen)}
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
           value="Continue"
           textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           details={{location, cost, warmRent}}

@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -18,11 +11,13 @@ import EmojiIcon from '@Components/Emojicon/EmojiIcon';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // StylesSheet 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
+
+// Helper 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   const subHeaderText = route.params.subText;
@@ -106,15 +101,9 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
           value="Continue"
           disabled={selectedTracks.length < 3}
           details={{flatMate: selectedTracks}}
-          onPress={(type: string) => {
-            if (type === 'lesser') {
-              navigation.navigate('FlatPhotoUploadScreen');
-            } else if (type === 'renter') {
-              navigation.navigate('GenderIdentityScreen', {
-                selectedTagsFromScreenOne: selectedTracks,
-              });
-            }
-          }}
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
         />
       </View>
     </ScreenBackButton>

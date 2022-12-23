@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {setFlatDetails} from './userJourneySlice';
+
+// Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
+
+// Helpers 🤝
+import {getKeyByValue} from '@Helpers/getKeyByValue';
 
 const UserJourneyContinue = ({
   onPress,
@@ -10,14 +15,11 @@ const UserJourneyContinue = ({
   disabled,
   details,
 }: any) => {
-  const userType = useSelector((state: any) => state.userDetails.userType);
-  const activeScreen = useSelector(
-    (state: any) => state.userDetails.activeScreen,
-  );
+  // const userType = useSelector((state: any) => state.userDetails.userType);
   const userJourney = useSelector(
     (state: any) => state.userDetails.userJourney,
   );
-  // console.log(userJourney[activeScreen + 1]);
+  const [currentPageKey] = useState(getKeyByValue(userJourney));
   const dispatch = useDispatch();
   return (
     <CoreButton
@@ -25,7 +27,7 @@ const UserJourneyContinue = ({
       textStyle={textStyle}
       disabled={disabled}
       onPress={() => {
-        onPress(userJourney[activeScreen + 1].screenName);
+        onPress(userJourney[currentPageKey + 1]);
         dispatch(setFlatDetails(details));
       }}
     />
