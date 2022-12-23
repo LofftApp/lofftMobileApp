@@ -20,7 +20,11 @@ const StartJourney = ({navigation}: any) => {
   const handleClick = (routeName: string, routeButton: string) => {
     setRouteFlatHunt(routeButton);
     setTimeout(() => {
-      navigation.navigate(routeName);
+      navigation.navigate(routeName, {
+        headerText: 'Tell us a bit about yourself',
+        subText:
+          "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!",
+      });
       setRouteFlatHunt('');
     }, 500);
   };
@@ -39,7 +43,7 @@ const StartJourney = ({navigation}: any) => {
         style={
           routeFlatHunt === 'renting' ? styles.buttonActive : styles.button
         }
-        onPress={() => handleClick('WhereIsFlatScreen', 'renting')}
+        onPress={() => handleClick('AboutYouFlatHuntScreen', 'renting')}
         type="renter"
       />
       <UserJourneyButton
