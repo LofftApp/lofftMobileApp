@@ -5,7 +5,7 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
@@ -87,7 +87,7 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
             alignItems: 'center',
             marginVertical: 10,
           }}>
-          <PaginationBar screen={screen} totalScreens={6} />
+          <UserJourneyPaginationBar />
         </View>
         <View style={{marginVertical: 13}}>
           <Text
