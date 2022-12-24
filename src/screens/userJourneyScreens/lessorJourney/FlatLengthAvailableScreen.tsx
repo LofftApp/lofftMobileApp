@@ -49,7 +49,12 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
               }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
-              <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  styles.dateLabel,
+                  fromDateSelected ? styles.selectedDate : null,
+                ]}>
                 {fromDateSelected
                   ? dateFormatConverter({date: fromDate})
                   : 'First day'}
@@ -77,7 +82,12 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
               }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
-              <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  styles.dateLabel,
+                  fromDateSelected ? styles.selectedDate : null,
+                ]}>
                 {perminant
                   ? 'Perminant'
                   : untilDateSelected
@@ -118,8 +128,10 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             setModalOpen(false);
             if (selector === 'from') {
               setFromDate(date);
+              setFromDateSelected(true);
             } else if (selector === 'until') {
               setUntilDate(date);
+              setUntilDateSelected(true);
             }
             setSelector('');
           }}
@@ -162,6 +174,9 @@ const styles = StyleSheet.create({
   },
   orText: {
     marginHorizontal: 8,
+  },
+  selectedDate: {
+    color: Color.Black[100],
   },
   buttonContainer: {
     flexDirection: 'row',
