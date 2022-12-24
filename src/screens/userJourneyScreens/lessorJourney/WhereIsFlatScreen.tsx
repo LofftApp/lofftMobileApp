@@ -57,6 +57,7 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           value={cost}
           onChangeText={(t: React.SetStateAction<string>) => setCost(t)}
           keyboardType="numeric"
+          type="currency"
         />
         <View style={styles.toggleContainer}>
           <CustomSwitch
@@ -74,8 +75,8 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           onPress={(targetScreen: any) =>
             navigationHelper(navigation, targetScreen)
           }
+          disabled={location === '' || cost === ''}
           value="Continue"
-          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
           details={{location, cost, warmRent}}
         />
       </View>
