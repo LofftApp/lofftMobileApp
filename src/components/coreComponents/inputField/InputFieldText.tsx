@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Components 🪢
 import PasswordInput from './inputs/PasswordInput';
@@ -8,7 +8,6 @@ import DefaultInput from './inputs/DefaultInput';
 
 // Style 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
-import {BorderlessButton} from 'react-native-gesture-handler';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
 const InputFieldText = ({
@@ -21,6 +20,7 @@ const InputFieldText = ({
   keyboardType = 'default',
   dropdown = false,
   dropDownContent = [],
+  dropDownPressAction = null,
   style,
 }: any) => {
   const [focus, setFocus] = useState(false);
@@ -72,14 +72,16 @@ const InputFieldText = ({
         <View style={styles.dropDown}>
           {dropDownContent.map((value: any, i: number) => {
             return (
-              <Text
-                style={[
-                  fontStyles.bodyMedium,
-                  styles.dropDownItem,
-                  i % 2 !== 0 ? styles.oddPlaceList : null,
-                ]}>
-                {value}
-              </Text>
+              <Pressable onPress={() => dropDownPressAction(value)}>
+                <Text
+                  style={[
+                    fontStyles.bodyMedium,
+                    styles.dropDownItem,
+                    i % 2 !== 0 ? styles.oddPlaceList : null,
+                  ]}>
+                  {value}
+                </Text>
+              </Pressable>
             );
           })}
         </View>

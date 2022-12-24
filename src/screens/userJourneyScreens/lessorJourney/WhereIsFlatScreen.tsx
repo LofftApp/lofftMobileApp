@@ -24,6 +24,7 @@ const WhereIsFlatScreen = ({navigation}: any) => {
   const [cost, setCost] = useState('');
   const [addresses, setAddresses] = useState<any[]>([]);
   const [warmRent, setWarmRent] = useState(false);
+  const [addressQuery, setAddressQuery] = useState(false);
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -34,12 +35,17 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           placeholder="Address of the flat"
           value={location}
           onChangeText={async (t: React.SetStateAction<string>) => {
+            setAddressQuery(true);
             setLocation(t);
             const add = await findAddress(t);
             setAddresses(add);
           }}
-          dropdown={true}
+          dropdown={addressQuery}
           dropDownContent={addresses}
+          dropDownPressAction={(value: string) => {
+            setLocation(value);
+            setAddressQuery(false);
+          }}
           onClear={() => setLocation('')}
         />
       </View>
