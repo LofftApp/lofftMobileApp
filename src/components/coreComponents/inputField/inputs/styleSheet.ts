@@ -12,4 +12,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     flex: 1,
   },
+  dropDownContainer: {
+    borderWidth: 2,
+    padding: 0,
+    margin: 0,
+  },
 });
