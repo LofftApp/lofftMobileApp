@@ -735,6 +735,15 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
+  - MapboxCommon (23.2.1)
+  - MapboxCoreMaps (10.10.0):
+    - MapboxCommon (~> 23.2)
+  - MapboxMaps (10.10.1):
+    - MapboxCommon (= 23.2.1)
+    - MapboxCoreMaps (= 10.10.0)
+    - MapboxMobileEvents (= 1.0.10)
+    - Turf (~> 2.0)
+  - MapboxMobileEvents (1.0.10)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
@@ -1063,17 +1072,22 @@ PODS:
     - GoogleSignIn (~> 6.2)
     - React-Core
   - rnmapbox-maps (10.0.0-beta.62):
+    - MapboxMaps (~> 10.10.0)
     - React
     - React-Core
     - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.62)
+    - Turf
   - rnmapbox-maps/DynamicLibrary (10.0.0-beta.62):
+    - MapboxMaps (~> 10.10.0)
     - React
     - React-Core
+    - Turf
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
   - RNSVG (13.6.0):
     - React-Core
+  - Turf (2.6.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1146,8 +1160,13 @@ SPEC REPOS:
     - leveldb-library
     - libevent
     - Libuv-gRPC
+    - MapboxCommon
+    - MapboxCoreMaps
+    - MapboxMaps
+    - MapboxMobileEvents
     - nanopb
     - PromisesObjC
+    - Turf
 
 EXTERNAL SOURCES:
   boost:
@@ -1268,6 +1287,10 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
+  MapboxCommon: 235bb9c27a8985d982e17f216795b1f7ab526782
+  MapboxCoreMaps: 4075a9e415b9b3ab6229d09623fef5f791826a5b
+  MapboxMaps: 0c2f7722016bc56aa27b5e6bcf72ae4df7a98670
+  MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
@@ -1306,11 +1329,12 @@ SPEC CHECKSUMS:
   RNFBFirestore: edaf1440a183aefcb887dc5ccee963b5c2a286f7
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
-  rnmapbox-maps: f81b6ff9540aec87fbd204c5bedf37a60986442e
+  rnmapbox-maps: 937bfd292d1eaf827fc19bd7a288d5e115fdd696
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
+  Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: 1f02ef4ce4469aefc36167138441b27d988282b1
 
-PODFILE CHECKSUM: c2420119dd5277fa208c6b8b07b278e456176221
+PODFILE CHECKSUM: 54fd7d0c65fac1e6f75781e08e6e3cd38b916b69
 
 COCOAPODS: 1.11.3

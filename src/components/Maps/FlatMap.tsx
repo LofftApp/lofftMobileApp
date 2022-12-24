@@ -52,39 +52,39 @@ const FlatMap = ({route, navigation}: any) => {
   const [mapboxFlats, setmapboxFlats] = useState<String[]>([]);
   // API
 
-  // useEffect(() => {
-  //   const geoCoding = async (flats: any) => {
-  //     let formatedCordinates = await Promise.all(
-  //       flats.map(async (el: any) => {
-  //         const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.address}.json?${MAPBOX_API_KEY}`;
-  //         const response = await fetch(endpoint);
-  //         const data = await response.json();
+  useEffect(() => {
+    const geoCoding = async (flats: any) => {
+      let formatedCordinates = await Promise.all(
+        flats.map(async (el: any) => {
+          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.address}.json?${MAPBOX_API_KEY}`;
+          const response = await fetch(endpoint);
+          const data = await response.json();
 
-  //         let flatObject = {
-  //           address: null,
-  //           icon: null,
-  //           price: null,
-  //           match: null,
-  //           name: null,
-  //           district: null,
-  //           id: null,
-  //         };
-  //         flatObject.address = data.features[0].geometry.coordinates;
-  //         flatObject.icon = el.icon;
-  //         flatObject.price = el.price;
-  //         flatObject.match = el.match;
-  //         flatObject.name = el.name;
-  //         flatObject.district = el.district;
-  //         flatObject.id = el.id;
+          let flatObject = {
+            address: null,
+            icon: null,
+            price: null,
+            match: null,
+            name: null,
+            district: null,
+            id: null,
+          };
+          flatObject.address = data.features[0].geometry.coordinates;
+          flatObject.icon = el.icon;
+          flatObject.price = el.price;
+          flatObject.match = el.match;
+          flatObject.name = el.name;
+          flatObject.district = el.district;
+          flatObject.id = el.id;
 
-  //         return flatObject;
-  //       }),
-  //     );
-  //     setmapboxFlats(formatedCordinates);
-  //   };
+          return flatObject;
+        }),
+      );
+      setmapboxFlats(formatedCordinates);
+    };
 
-  //   geoCoding(flats);
-  // }, []);
+    geoCoding(flats);
+  }, []);
 
   return (
     <View style={styles.page}>
@@ -92,7 +92,7 @@ const FlatMap = ({route, navigation}: any) => {
         <MapboxGL.MapView
           style={styles.map}
           styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
-          {/* <MapboxGL.Camera
+          <MapboxGL.Camera
             zoomLevel={10}
             centerCoordinate={[13.404954, 52.520008]}
             animationMode="flyTo"
@@ -115,7 +115,7 @@ const FlatMap = ({route, navigation}: any) => {
                 <Text>{el.icon}</Text>
               </View>
             </MapboxGL.MarkerView>
-          ))} */}
+          ))}
         </MapboxGL.MapView>
       </View>
     </View>
