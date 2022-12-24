@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
 
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import {fontStyles} from '../../../../styles/fontStyles';
+import {fontStyles} from '@StyleSheets/fontStyles';
 import {styles} from './styleSheet';
 const SearchInput = ({
   placeholder = 'Search',
