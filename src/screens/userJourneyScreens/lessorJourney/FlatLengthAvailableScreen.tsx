@@ -32,6 +32,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [untilDateSelected, setUntilDateSelected] = useState(false);
   const [perminant, setPerminant] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <View style={styles.bodyContainer}>
@@ -86,7 +87,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                 style={[
                   fontStyles.bodyMedium,
                   styles.dateLabel,
-                  fromDateSelected ? styles.selectedDate : null,
+                  untilDateSelected ? styles.selectedDate : null,
                 ]}>
                 {perminant
                   ? 'Perminant'
@@ -98,16 +99,20 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
             <TouchableOpacity
               style={styles.setDateButton}
-              onPress={() => setPerminant(true)}>
+              onPress={() => {
+                setPerminant(true);
+                setUntilDateSelected(true);
+              }}>
               <Text style={fontStyles.bodyMedium}>Perminant</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.footerContainer}>
           <UserJourneyPaginationBar />
+
           <UserJourneyContinue
             value="Continue"
-            textStyle={[fontStyles.headerSmall, {color: 'white'}]}
+            disabled={!(fromDateSelected && untilDateSelected)}
             onPress={(targetScreen: any) =>
               navigationHelper(navigation, targetScreen)
             }
@@ -131,6 +136,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
               setFromDateSelected(true);
             } else if (selector === 'until') {
               setUntilDate(date);
+              setPerminant(false);
               setUntilDateSelected(true);
             }
             setSelector('');
