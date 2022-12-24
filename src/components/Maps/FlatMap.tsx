@@ -56,7 +56,7 @@ const FlatMap = ({route, navigation}: any) => {
     const geoCoding = async (flats: any) => {
       let formatedCordinates = await Promise.all(
         flats.map(async (el: any) => {
-          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.address}.json?${MAPBOX_API_KEY}`;
+          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.address}.json?access_token=${MAPBOX_API_KEY}`;
           const response = await fetch(endpoint);
           const data = await response.json();
 

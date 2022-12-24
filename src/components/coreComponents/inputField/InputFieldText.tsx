@@ -8,6 +8,8 @@ import DefaultInput from './inputs/DefaultInput';
 
 // Style 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
+import {BorderlessButton} from 'react-native-gesture-handler';
+import {fontStyles} from '@StyleSheets/fontStyles';
 
 const InputFieldText = ({
   placeholder = null,
@@ -17,6 +19,8 @@ const InputFieldText = ({
   onClear = null,
   errorMessage = '',
   keyboardType = 'default',
+  dropdown = false,
+  dropDownContent = [],
   style,
 }: any) => {
   const [focus, setFocus] = useState(false);
@@ -25,6 +29,7 @@ const InputFieldText = ({
       <View
         style={[
           styles.inputFieldStyle,
+          dropdown && value.length > 0 ? styles.inputDropDown : null,
           focus ? styles.focus : null,
           errorMessage ? styles.errorActive : null,
           style,
@@ -48,6 +53,7 @@ const InputFieldText = ({
             value={value}
             placeholder={placeholder}
             keyboardType={keyboardType}
+            dropdown={dropdown}
           />
         ) : (
           <DefaultInput
@@ -58,9 +64,26 @@ const InputFieldText = ({
             placeholder={placeholder}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             keyboardType={keyboardType}
+            dropdown={dropdown}
           />
         )}
       </View>
+      {dropdown && value.length > 0 ? (
+        <View style={styles.dropDown}>
+          {dropDownContent.map((value: any, i: number) => {
+            return (
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  styles.dropDownItem,
+                  i % 2 !== 0 ? styles.oddPlaceList : null,
+                ]}>
+                {value}
+              </Text>
+            );
+          })}
+        </View>
+      ) : null}
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : null}
@@ -80,6 +103,31 @@ const styles = StyleSheet.create({
   },
   focus: {
     borderColor: Color.Lavendar[100],
+  },
+  inputDropDown: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    marginBottom: 0,
+    borderBottomWidth: 0,
+  },
+  dropDown: {
+    borderWidth: 2,
+    borderTopWidth: 1,
+    borderTopColor: Color.Lavendar[30],
+    borderColor: Color.Lavendar[100],
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    minHeight: 48,
+    justifyContent: 'center',
+  },
+  dropDownItem: {
+    marginVertical: 2,
+    borderBottomWidth: 3,
+    padding: 3,
+    borderBottomColor: Color.Black[100],
+  },
+  oddPlaceList: {
+    backgroundColor: Color.Lavendar[10],
   },
   errorMessage: {
     margin: 5,

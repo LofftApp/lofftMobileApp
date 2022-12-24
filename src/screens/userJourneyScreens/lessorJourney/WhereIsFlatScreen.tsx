@@ -4,6 +4,9 @@ import {View, Text, StyleSheet} from 'react-native';
 // Screen 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
+// APIs
+import {findAddress} from '../../../api/mapbox/findAddress';
+
 // Components 🪢
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
@@ -19,6 +22,7 @@ import {navigationHelper} from '@Helpers/navigationHelper';
 const WhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');
   const [cost, setCost] = useState('');
+  const [addresses, setAddresses] = useState<any[]>([]);
   const [warmRent, setWarmRent] = useState(false);
 
   return (
@@ -29,7 +33,13 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           type="search"
           placeholder="Address of the flat"
           value={location}
-          onChangeText={(t: React.SetStateAction<string>) => setLocation(t)}
+          onChangeText={async (t: React.SetStateAction<string>) => {
+            setLocation(t);
+            const add = await findAddress(t);
+            setAddresses(add);
+          }}
+          dropdown={true}
+          dropDownContent={addresses}
           onClear={() => setLocation('')}
         />
       </View>
