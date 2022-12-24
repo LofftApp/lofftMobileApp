@@ -6,6 +6,10 @@ install! 'cocoapods', :deterministic_uuids => false
 
 target 'lofftMobileApp' do
   config = use_native_modules!
+  # Add Mapbox to pre install
+  pre_install do |installer|
+    $RNMapboxMaps.pre_install(installer)
+  end
   # Firebase Integration
   $RNFirebaseAsStaticFramework = true
   # Flags change depending on the env values.
@@ -34,6 +38,7 @@ target 'lofftMobileApp' do
   end
 
   post_install do |installer|
+    $RNMapboxMaps.post_install(installer)
     react_native_post_install(
       installer,
       # Set `mac_catalyst_enabled` to `true` in order to apply patches

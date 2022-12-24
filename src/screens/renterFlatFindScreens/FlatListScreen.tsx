@@ -18,6 +18,7 @@ import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScr
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import FlatMap from '@Components/Maps/FlatMap';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -86,7 +87,7 @@ const FlatListScreen = () => {
           </Pressable>
         </View>
         <View style={styles.viewContainer}>
-          {screen == 'list' ? <Text>List</Text> : <Text>Map</Text>}
+          {screen == 'list' ? <Text>List</Text> : <FlatMap />}
         </View>
       </View>
     </TouchableWithoutFeedback>
