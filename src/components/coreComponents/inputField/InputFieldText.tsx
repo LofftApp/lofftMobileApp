@@ -25,6 +25,8 @@ const InputFieldText = ({
   style,
 }: any) => {
   const [focus, setFocus] = useState(false);
+  console.log(dropdown);
+  console.log(value);
   return (
     <>
       <View
@@ -83,6 +85,7 @@ const InputFieldText = ({
       {dropdown && value.length > 0 ? (
         <View style={styles.dropDown}>
           {dropDownContent.map((value: any, i: number) => {
+            console.log(`value: ${value}`);
             return (
               <Pressable onPress={() => dropDownPressAction(value)} key={i}>
                 <Text
