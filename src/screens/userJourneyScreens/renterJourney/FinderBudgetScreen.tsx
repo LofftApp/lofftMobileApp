@@ -10,6 +10,7 @@ import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -138,23 +139,16 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
           </View>
         </View>
       </View>
-
-      <View style={styles.buttonContainer}>
-        <View style={styles.pagingationBarContainer}>
-          <UserJourneyPaginationBar />
-        </View>
-        <UserJourneyContinue
-          value="Continue"
-          onPress={(targetScreen: any) =>
-            navigationHelper(navigation, targetScreen)
-          }
-          details={{
-            minRent: minPrice.toString(),
-            maxRent: maxPrice.toString(),
-            warmRent,
-          }}
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        details={{
+          minRent: minPrice.toString(),
+          maxRent: maxPrice.toString(),
+          warmRent,
+        }}
+      />
     </ScreenBackButton>
   );
 };

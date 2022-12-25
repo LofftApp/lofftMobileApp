@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Components 🪢
 import PasswordInput from './inputs/PasswordInput';
 import SearchInput from './inputs/SearchInput';
+import CurrencyInput from './inputs/CurrencyInput';
 import DefaultInput from './inputs/DefaultInput';
 
 // Style 🖼️
@@ -24,6 +25,8 @@ const InputFieldText = ({
   style,
 }: any) => {
   const [focus, setFocus] = useState(false);
+  console.log(dropdown);
+  console.log(value);
   return (
     <>
       <View
@@ -40,7 +43,7 @@ const InputFieldText = ({
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
             value={value}
-            placeholder={placeholder}
+            placeholder={placeholder || 'Password Field'}
             autoCapitalize="none"
             keyboardType={keyboardType}
           />
@@ -51,7 +54,18 @@ const InputFieldText = ({
             onFocus={() => setFocus(true)}
             onClear={onClear}
             value={value}
-            placeholder={placeholder}
+            placeholder={placeholder || 'Search Field'}
+            keyboardType={keyboardType}
+            dropdown={dropdown}
+          />
+        ) : type == 'currency' ? (
+          <CurrencyInput
+            onChangeText={onChangeText}
+            onBlur={() => setFocus(false)}
+            onFocus={() => setFocus(true)}
+            onClear={onClear}
+            value={value}
+            placeholder={placeholder || 'Currency Field'}
             keyboardType={keyboardType}
             dropdown={dropdown}
           />
@@ -61,7 +75,7 @@ const InputFieldText = ({
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
             value={value}
-            placeholder={placeholder}
+            placeholder={placeholder || 'Default Field'}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             keyboardType={keyboardType}
             dropdown={dropdown}
@@ -71,8 +85,9 @@ const InputFieldText = ({
       {dropdown && value.length > 0 ? (
         <View style={styles.dropDown}>
           {dropDownContent.map((value: any, i: number) => {
+            console.log(`value: ${value}`);
             return (
-              <Pressable onPress={() => dropDownPressAction(value)}>
+              <Pressable onPress={() => dropDownPressAction(value)} key={i}>
                 <Text
                   style={[
                     fontStyles.bodyMedium,

@@ -20,6 +20,8 @@ import EmojiIcon from '@Components/Emojicon/EmojiIcon';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -32,11 +34,6 @@ import CityDistricts from '@Components/componentData/cityDistricts.json';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
 const SelectCityScreen = ({navigation, route}: any) => {
-  const user = {
-    preferences: route.params.selectedTagsFromScreenOne,
-    gender: route.params.selectedTagsFromScreenTwo,
-  };
-
   const [city, setCity] = useState('');
   const [districtTags, setDistrictTags] = useState([]);
   const [focusedCity, setFocusCity] = useState(false);
@@ -46,6 +43,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
   const [screen, setScreen] = useState(2);
   const [allDistricts, setAllDistricts] = useState(false);
   const [washedDistricts, setWashedDistricts] = useState([]);
+  const [query, setQuery] = useState(false);
 
   const cities: any = CityDistricts;
 
@@ -104,7 +102,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
 
   const activateDistrictDisplay = (city: any) => {
     setCityPicked(true);
-    setDistricts(cities[city].districts);
+    setDistricts(cities[city.split(' ')[1].toLowerCase()].districts);
     setCity(city);
     setTimeout(() => {
       setElementArray([]);
@@ -152,6 +150,14 @@ const SelectCityScreen = ({navigation, route}: any) => {
     );
   });
 
+  const cityUsableData = (data: any) => {
+    return data.map((cityData: object) => {
+      return `${cityData.flag} ${cityData.city
+        .charAt(0)
+        .toUpperCase()}${cityData.city.slice(1)}`;
+    });
+  };
+
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -164,114 +170,77 @@ const SelectCityScreen = ({navigation, route}: any) => {
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
-      <SafeAreaView style={{position: 'relative', height: '100%'}}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <HeadlineContainer
-            headlineText={`Where are you looking for ${''} the flat?`}
-            subDescription={''}
-          />
-          <View>
-            <TextInput
-              style={[
-                styles.questionInputStyle,
-                fontStyles.bodyMedium,
-                {
-                  borderColor: focusedCity
-                    ? Color.Lavendar[100]
-                    : Color.Black[80],
-                  borderBottomLeftRadius: elementArray.length >= 1 ? 0 : 12,
-                  borderBottomRightRadius: elementArray.length >= 1 ? 0 : 12,
-                },
-              ]}
-              keyboardType="default"
-              placeholder="🔎 Berlin for instance?"
-              autoCapitalize="words"
-              value={
-                city && city in cities
-                  ? cities[city].flag +
-                    ' ' +
-                    city[0].toUpperCase() +
-                    city.substring(1, city.length)
-                  : city
-              }
-              onChangeText={text => cityTrack(text)}
-              onFocus={handleCityFocus}
-            />
-            {elementArray.length >= 1
-              ? elementArray.map((el: any, index: number) => (
-                  <Pressable
-                    key={index + 1}
-                    onPress={() => {
-                      activateDistrictDisplay(el['city']);
-                    }}>
-                    <View
-                      key={index}
-                      style={[
-                        index === elementArray.length - 1
-                          ? styles.lastCityTag
-                          : styles.cityTag,
-                      ]}>
-                      <Text key={index + 1}>
-                        {el['flag']}{' '}
-                        {el['city'][0].toUpperCase() +
-                          el['city'].substring(1, el['city'].length)}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))
-              : null}
-          </View>
-
-          {districts.length >= 1 ? (
-            <View style={{marginTop: 15}}>
-              <Animated.View // Special animatable View
-                style={{
-                  opacity: fadeAnim, // Bind opacity to animated value
-                }}>
-                <View style={styles.options}>
-                  <Text
-                    style={[
-                      fontStyles.headerMedium,
-                      {marginTop: 15, marginBottom: 20},
-                    ]}>
-                    Districts
-                  </Text>
-                  <View style={styles.switchContainer}>
-                    <CustomSwitch
-                      value={allDistricts}
-                      // onValueChange={() => trigerAllFlats(allDistricts)}
-                      onValueChange={() => trigerAllFlats()}
-                    />
-                    <Text style={{marginLeft: 20}}>Select All</Text>
-                  </View>
-                </View>
-              </Animated.View>
-              <View style={styles.emojiContainer}>{emojiElements}</View>
-            </View>
-          ) : null}
-        </ScrollView>
-
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            bottom: 20,
-            backgroundColor: 'white',
-            height: 160,
-          }}>
-          <View style={{marginTop: 10, marginBottom: 54}}>
-            <UserJourneyPaginationBar />
-          </View>
-          <UserJourneyContinue
-            value="Continue"
-            disabled={districts.length === 0}
-            onPress={(targetScreen: any) =>
-              navigationHelper(navigation, targetScreen)
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <HeadlineContainer
+          headlineText={`Where are you looking for ${''} the flat?`}
+          subDescription={''}
+        />
+        <View>
+          <InputFieldText
+            type="search"
+            placeholder="Berlin for instance?"
+            onChangeText={(t: string) => {
+              cityTrack(t);
+              setQuery(true);
+            }}
+            onClear={() => {
+              setCity('');
+              setDistricts([]);
+            }}
+            value={
+              city && city in cities
+                ? cities[city].flag +
+                  ' ' +
+                  city[0].toUpperCase() +
+                  city.substring(1, city.length)
+                : city
             }
-            details={{districts: washedDistricts}}
+            dropdown={query}
+            dropDownContent={cityUsableData(elementArray)}
+            dropDownPressAction={(value: string) => {
+              setCity(value);
+              setQuery(false);
+              activateDistrictDisplay(value);
+            }}
           />
         </View>
-      </SafeAreaView>
+
+        {districts.length >= 1 ? (
+          <View style={{marginTop: 15}}>
+            <Animated.View // Special animatable View
+              style={{
+                opacity: fadeAnim, // Bind opacity to animated value
+              }}>
+              <View style={styles.options}>
+                <Text
+                  style={[
+                    fontStyles.headerMedium,
+                    {marginTop: 15, marginBottom: 20},
+                  ]}>
+                  Districts
+                </Text>
+                <View style={styles.switchContainer}>
+                  <CustomSwitch
+                    value={allDistricts}
+                    // onValueChange={() => trigerAllFlats(allDistricts)}
+                    onValueChange={() => trigerAllFlats()}
+                  />
+                  <Text style={{marginLeft: 20}}>Select All</Text>
+                </View>
+              </View>
+            </Animated.View>
+            <View style={styles.emojiContainer}>{emojiElements}</View>
+          </View>
+        ) : null}
+      </ScrollView>
+
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        disabled={districts.length === 0}
+        details={{districts: washedDistricts}}
+      />
     </ScreenBackButton>
   );
 };

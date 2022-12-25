@@ -13,8 +13,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -32,6 +31,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [untilDateSelected, setUntilDateSelected] = useState(false);
   const [perminant, setPerminant] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <View style={styles.bodyContainer}>
@@ -49,7 +49,12 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
               }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
-              <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  styles.dateLabel,
+                  fromDateSelected ? styles.selectedDate : null,
+                ]}>
                 {fromDateSelected
                   ? dateFormatConverter({date: fromDate})
                   : 'First day'}
@@ -77,7 +82,12 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
               }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
-              <Text style={[fontStyles.bodyMedium, styles.dateLabel]}>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  styles.dateLabel,
+                  untilDateSelected ? styles.selectedDate : null,
+                ]}>
                 {perminant
                   ? 'Perminant'
                   : untilDateSelected
@@ -88,26 +98,25 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
             <TouchableOpacity
               style={styles.setDateButton}
-              onPress={() => setPerminant(true)}>
+              onPress={() => {
+                setPerminant(true);
+                setUntilDateSelected(true);
+              }}>
               <Text style={fontStyles.bodyMedium}>Perminant</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.footerContainer}>
-          <UserJourneyPaginationBar />
-          <UserJourneyContinue
-            value="Continue"
-            textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-            onPress={(targetScreen: any) =>
-              navigationHelper(navigation, targetScreen)
-            }
-            details={{
-              fromDate: String(fromDate),
-              untilDate: String(untilDate),
-              perminant,
-            }}
-          />
-        </View>
+        <FooterNavBarWithPagination
+          disabled={!(fromDateSelected && untilDateSelected)}
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
+          details={{
+            fromDate: String(fromDate),
+            untilDate: String(untilDate),
+            perminant,
+          }}
+        />
         {/* Date Picker */}
         <DatePicker
           modal
@@ -118,8 +127,11 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             setModalOpen(false);
             if (selector === 'from') {
               setFromDate(date);
+              setFromDateSelected(true);
             } else if (selector === 'until') {
               setUntilDate(date);
+              setPerminant(false);
+              setUntilDateSelected(true);
             }
             setSelector('');
           }}
@@ -163,17 +175,13 @@ const styles = StyleSheet.create({
   orText: {
     marginHorizontal: 8,
   },
+  selectedDate: {
+    color: Color.Black[100],
+  },
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 8,
-  },
-  footerContainer: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    marginTop: 35,
-    marginBottom: 10,
-    paddingVertical: 10,
   },
 });
 
