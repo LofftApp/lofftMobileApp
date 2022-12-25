@@ -2,12 +2,12 @@ import React from 'react';
 import {Platform, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 
 // Components 🪢
-import BackButton from '../../buttons/BackButton';
+import BackButton from '@Components/buttons/BackButton';
 
-// StyleSheets
-import {CoreStyleSheet} from '../../../styles/CoreDesignStyleSheet';
+// StyleSheets 🖼️
+import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
 
-const ScrollViewBackButton = ({nav, title, children}: any) => {
+const ScrollViewBackButton = ({nav = null, title = null, children}: any) => {
   return (
     // Screen back button
     <ScrollView
@@ -16,7 +16,7 @@ const ScrollViewBackButton = ({nav, title, children}: any) => {
         Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
       ]}>
       <SafeAreaView>
-        <BackButton onPress={nav} title={title} />
+        {nav ? <BackButton onPress={nav} title={title} /> : null}
         {children}
       </SafeAreaView>
     </ScrollView>
