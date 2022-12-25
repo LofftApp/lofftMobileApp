@@ -21,6 +21,7 @@ import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -233,26 +234,13 @@ const SelectCityScreen = ({navigation, route}: any) => {
         ) : null}
       </ScrollView>
 
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          bottom: 20,
-          backgroundColor: 'white',
-          height: 160,
-        }}>
-        <View style={{marginTop: 10, marginBottom: 54}}>
-          <UserJourneyPaginationBar />
-        </View>
-        <UserJourneyContinue
-          value="Continue"
-          disabled={districts.length === 0}
-          onPress={(targetScreen: any) =>
-            navigationHelper(navigation, targetScreen)
-          }
-          details={{districts: washedDistricts}}
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        disabled={districts.length === 0}
+        details={{districts: washedDistricts}}
+      />
     </ScreenBackButton>
   );
 };

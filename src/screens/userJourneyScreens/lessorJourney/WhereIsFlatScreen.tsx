@@ -10,8 +10,7 @@ import {findAddress} from '../../../api/mapbox/findAddress';
 // Components 🪢
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
-import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -69,17 +68,13 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           </Text>
         </View>
       </View>
-      <View style={styles.footerContainer}>
-        <UserJourneyPaginationBar />
-        <UserJourneyContinue
-          onPress={(targetScreen: any) =>
-            navigationHelper(navigation, targetScreen)
-          }
-          disabled={location === '' || cost === ''}
-          value="Continue"
-          details={{location, cost, warmRent}}
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        disabled={location === '' || cost === ''}
+        details={{location, cost, warmRent}}
+      />
     </ScreenBackButton>
   );
 };
@@ -98,13 +93,6 @@ const styles = StyleSheet.create({
   },
   warmRentText: {
     marginLeft: 8,
-  },
-  footerContainer: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    marginTop: 35,
-    marginBottom: 10,
-    paddingVertical: 10,
   },
 });
 

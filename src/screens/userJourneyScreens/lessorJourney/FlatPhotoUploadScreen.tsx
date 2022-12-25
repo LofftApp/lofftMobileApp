@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 import PaginationBar from '@Components/bars/PaginationBar';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -27,7 +28,7 @@ import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatPhotoUploadScreen = ({navigation}: any) => {
   return (
-    <ScreenBackButton>
+    <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
         headlineText="Show us how the flat looks like."
         subDescription="Describe your flat in a short text. This can be edited later!"
@@ -36,7 +37,7 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
       <TouchableOpacity style={styles.imageUploadButton}>
         <LofftIcon name="upload" size={30} color={Color.Lavendar[100]} />
         <Text style={[fontStyles.headerSmall, styles.uploadText]}>
-          Upload pitcutes
+          Upload Pictures
         </Text>
       </TouchableOpacity>
       <TextInput
@@ -44,15 +45,12 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         style={styles.textInput}
         placeholder="Tell us about your lofft."
       />
-      <View style={styles.bottomContainer}>
-        <PaginationBar />
-        <UserJourneyContinue
-          value="Take me to Lofft"
-          onPress={(targetScreen: any) =>
-            navigationHelper(navigation, targetScreen)
-          }
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        buttonValue="Take me to Lofft"
+      />
     </ScreenBackButton>
   );
 };

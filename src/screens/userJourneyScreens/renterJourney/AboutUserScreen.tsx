@@ -80,15 +80,8 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.emojiContainer}>{emojiElements}</View>
       </ScrollView>
-      <View>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 10,
-          }}>
-          <UserJourneyPaginationBar />
-        </View>
+      <View style={styles.footerContainer}>
+        <UserJourneyPaginationBar />
         <View style={{marginVertical: 13}}>
           <Text
             style={
@@ -115,6 +108,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 150,
+  },
+  footerContainer: {
+    paddingTop: 35,
+    paddingBottom: 28,
   },
 });
 
