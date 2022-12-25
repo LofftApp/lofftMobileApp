@@ -13,8 +13,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -107,22 +106,17 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.footerContainer}>
-          <UserJourneyPaginationBar />
-
-          <UserJourneyContinue
-            value="Continue"
-            disabled={!(fromDateSelected && untilDateSelected)}
-            onPress={(targetScreen: any) =>
-              navigationHelper(navigation, targetScreen)
-            }
-            details={{
-              fromDate: String(fromDate),
-              untilDate: String(untilDate),
-              perminant,
-            }}
-          />
-        </View>
+        <FooterNavBarWithPagination
+          disabled={!(fromDateSelected && untilDateSelected)}
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
+          details={{
+            fromDate: String(fromDate),
+            untilDate: String(untilDate),
+            perminant,
+          }}
+        />
         {/* Date Picker */}
         <DatePicker
           modal
@@ -188,13 +182,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 8,
-  },
-  footerContainer: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    marginTop: 35,
-    marginBottom: 10,
-    paddingVertical: 10,
   },
 });
 

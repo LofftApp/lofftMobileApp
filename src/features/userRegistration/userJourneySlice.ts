@@ -35,7 +35,6 @@ const lesserJourney = () => {
     },
     '4': {screenName: 'FlatPhotoUploadScreen'},
     '5': {screenName: 'UserConditionsScreen'},
-    '6': {screenName: 'UserConditionsScreen'},
   };
 };
 

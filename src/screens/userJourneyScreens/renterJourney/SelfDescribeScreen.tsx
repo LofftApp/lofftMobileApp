@@ -6,8 +6,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
-import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -53,22 +52,12 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
         </Pressable>
       </View>
 
-      <View style={styles.options}>
-        <View style={styles.paginationContainer}>
-          <UserJourneyPaginationBar />
-        </View>
-
-        <UserJourneyContinue
-          value="Continue"
-          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
-          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-          disabled={false}
-          onPress={(targetScreen: any) =>
-            navigationHelper(navigation, targetScreen)
-          }
-          details={{textAboutUser: text}}
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        details={{textAboutUser: text}}
+      />
     </ScreenBackButton>
   );
 };
@@ -83,12 +72,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flex: 1,
     borderRadius: 16,
-  },
-  options: {
-    marginBottom: 55,
-  },
-  paginationContainer: {
-    marginVertical: 47,
   },
 });
 

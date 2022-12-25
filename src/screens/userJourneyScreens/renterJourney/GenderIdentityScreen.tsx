@@ -14,6 +14,7 @@ import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
 
 // Helper 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 const GenderIdentityScreen = ({navigation, route}: any) => {
   const genders = [
@@ -56,32 +57,22 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
         subDescription={'To create a safe place for ... '}
       />
 
-      <View>
-        {intitalGenders.map((el, index) => (
-          <SelectButton
-            key={index + 1}
-            value={el.value}
-            toggle={el.toggle}
-            id={el.id}
-            selectGender={selectGender}
-          />
-        ))}
-
-        <View style={styles.buttonContainer}>
-          <View style={styles.paginationContainer}>
-            <UserJourneyPaginationBar />
-          </View>
-
-          <UserJourneyContinue
-            value="Continue"
-            disabled={cleanGenders.length === 0}
-            onPress={(targetScreen: any) =>
-              navigationHelper(navigation, targetScreen)
-            }
-            details={{genderIdentity: cleanGenders[0]}}
-          />
-        </View>
-      </View>
+      {intitalGenders.map((el, index) => (
+        <SelectButton
+          key={index + 1}
+          value={el.value}
+          toggle={el.toggle}
+          id={el.id}
+          selectGender={selectGender}
+        />
+      ))}
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        disabled={cleanGenders.length === 0}
+        details={{genderIdentity: cleanGenders[0]}}
+      />
     </ScreenBackButton>
   );
 };
@@ -89,11 +80,6 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
 const styles = StyleSheet.create({
   selectd: {
     color: 'blue',
-  },
-  buttonContainer: {},
-  paginationContainer: {
-    marginTop: 7,
-    marginBottom: 57,
   },
 });
 
