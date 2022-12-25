@@ -19,7 +19,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 const UserConditionsScreen = ({navigation, route}: any) => {
   return (
-    <ScreenBackButton>
+    <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
         headlineText={`Lofft is an ${'\n'}inclusive space`}
         subDescription={''}
