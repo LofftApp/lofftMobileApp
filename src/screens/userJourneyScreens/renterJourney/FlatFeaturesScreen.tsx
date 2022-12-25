@@ -66,44 +66,42 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
-      <SafeAreaView style={{}}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <HeadlineContainer
-            headlineText={route.params.headerText}
-            subDescription={subHeaderText}
-          />
-          <View style={styles.emojiContainer}>{emojiElements}</View>
-        </ScrollView>
+      <HeadlineContainer
+        headlineText={route.params.headerText}
+        subDescription={subHeaderText}
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.emojiContainer}>{emojiElements}</View>
+      </ScrollView>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          backgroundColor: 'white',
+          height: 180,
+        }}>
         <View
           style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            backgroundColor: 'white',
-            height: 180,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 17,
           }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 17,
-            }}>
-            <UserJourneyPaginationBar />
-          </View>
-          <View style={{marginVertical: 15}}></View>
-
-          <UserJourneyContinue
-            value="Continue"
-            style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
-            textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-            disabled={false}
-            onPress={(targetScreen: any) =>
-              navigationHelper(navigation, targetScreen)
-            }
-            details={{flatFeatures: selectedTrack}}
-          />
+          <UserJourneyPaginationBar />
         </View>
-      </SafeAreaView>
+        <View style={{marginVertical: 15}}></View>
+
+        <UserJourneyContinue
+          value="Continue"
+          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
+          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
+          disabled={false}
+          onPress={(targetScreen: any) =>
+            navigationHelper(navigation, targetScreen)
+          }
+          details={{flatFeatures: selectedTrack}}
+        />
+      </View>
     </ScreenBackButton>
   );
 };

@@ -45,7 +45,6 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
           <TextInput
             keyboardType="default"
             placeholder="Who are you? What do you like?"
-            autoCapitalize="words"
             value={text}
             style={styles.inputText}
             onChangeText={text => setText(text)}
