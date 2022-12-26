@@ -12,9 +12,13 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [message, setMessage] = useState({});
+  const [message, setMessage] = useState({target: null, message: null});
 
-  const pageValidation = (checkbox, password, repeatPassword) => {
+  const pageValidation = (
+    checkbox: boolean,
+    password: string,
+    repeatPassword: string,
+  ) => {
     if (checkbox === false) {
       return {
         error: true,
@@ -43,7 +47,7 @@ const SignUpForm = () => {
       <View style={styles.textInputWrap}>
         <InputFieldText
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text: string) => setEmail(text)}
           placeholder="Email"
           type="email"
           keyboardType="email-address"
@@ -51,13 +55,13 @@ const SignUpForm = () => {
         />
         <InputFieldText
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text: string) => setPassword(text)}
           placeholder="Create password"
           type="password"
         />
         <InputFieldText
           value={repeatPassword}
-          onChangeText={text => setRepeatPassword(text)}
+          onChangeText={(text: string) => setRepeatPassword(text)}
           placeholder="Repeat password"
           type="password"
           errorMessage={message.target === 'password' ? message.message : null}
@@ -77,12 +81,12 @@ const SignUpForm = () => {
       <View style={styles.signUpButtonView}>
         <TouchableOpacity
           onPress={async () => {
-            let validation = null;
+            let validation: any = null;
             validation = pageValidation(checkbox, password, repeatPassword);
             setMessage(validation);
             if (!validation.error) {
               validation = await handleSignUp({email, password});
-              if (validation.error) {
+              if (validation?.error) {
                 setMessage(validation);
               }
             } else {
