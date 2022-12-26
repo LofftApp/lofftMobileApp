@@ -1,34 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import Color from '../../styles/lofftColorPallet.json';
-import SignUpButton from '../buttons/SignUpButton';
-import InputFieldText from '../coreComponents/inputField/InputFieldText';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import auth from '@react-native-firebase/auth';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import Color from '@StyleSheets/lofftColorPallet.json';
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import {handleSignIn} from '@Firebase/firebaseAuth';
+import SignUpButton from '@Components/buttons/SignUpButton';
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-
-  const handleSignIn = async () => {
-    try {
-      const user = await auth().signInWithEmailAndPassword(email, password);
-    } catch (err) {
-      if (err.code === 'auth/invalid-email') {
-        setMessage('That email address is invalid!');
-      }
-      if (err.code === 'auth/user-disabled') {
-        setMessage('This user account is disabled!');
-      }
-      if (err.code === 'auth/user-not-found') {
-        setMessage('This user cannot be found!');
-      }
-      if (err.code === 'auth/wrong-password') {
-        setMessage('Incorrect password!');
-      }
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -36,7 +16,7 @@ const SignInForm = () => {
       <View style={styles.textInputWrap}>
         <InputFieldText
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text: string) => setEmail(text)}
           placeholder="Email"
           type="email"
           keyboardType="email-address"
@@ -44,7 +24,7 @@ const SignInForm = () => {
         />
         <InputFieldText
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text: string) => setPassword(text)}
           placeholder="Password"
           type="password"
           errorMessage={message}
@@ -53,7 +33,7 @@ const SignInForm = () => {
       </View>
       <View style={styles.signUpButtonView}>
         <TouchableOpacity onPress={handleSignIn}>
-          <SignUpButton title="Sign in"></SignUpButton>
+          <SignUpButton title="Sign in" />
         </TouchableOpacity>
       </View>
     </View>
