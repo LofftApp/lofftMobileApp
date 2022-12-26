@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import imageExample from '../../assets/images/flat-image.jpeg';
 import Color from '../../styles/lofftColorPallet.json';
 import {HeartDefault} from '../../assets';
-import PaginationBar from '../../components/bars/PaginationBar';
-import Chip from '../../components/buttons/Chip';
+import {HeartSaved} from '../../assets';
+import PaginationBar from '../bars/PaginationBar';
+import Chip from '../buttons/Chip';
 
 const FlatListCard = () => {
   const [screen, setScreen] = useState(0);
+  // const [save, setSave] = useState({HeartDefault});
+  const [save, setSave] = useState(false);
 
   return (
     <View style={styles.flatCardContainer}>
@@ -17,9 +20,11 @@ const FlatListCard = () => {
           <View style={styles.flatCardMatchingScoreButton}>
             <Text style={styles.flatCardMatchingScoreButtonFont}>🌟 96%</Text>
           </View>
-          <View style={styles.flatCardSaveButton}>
-            <HeartDefault></HeartDefault>
-          </View>
+          <Pressable
+            style={styles.flatCardSaveButton}
+            onPress={() => (save === false ? setSave(true) : setSave(false))}>
+            {save === true ? <HeartSaved /> : <HeartDefault />}
+          </Pressable>
           <View style={styles.flatCardImagesScroll}>
             <PaginationBar screen={screen}></PaginationBar>
           </View>
