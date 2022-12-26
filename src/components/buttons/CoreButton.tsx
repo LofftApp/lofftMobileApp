@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
     color: Color.Lavendar[100],
   },
   buttonDisabled: {
-    backgroundColor: Color.White[100],
+    backgroundColor: Color.Black[30],
     borderColor: Color.Black[30],
   },
   textDisabled: {
-    color: Color.Black[30],
+    color: Color.White[100],
   },
 });

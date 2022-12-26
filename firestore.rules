@@ -4,5 +4,8 @@ service cloud.firestore {
     match /users/{userId} {
       allow read, write, create: if request.auth.uid == userId
     }
+    match /flats/{flat_id} {
+      allow read, write, create: if request.auth != null
+    }
   }
 }

@@ -7,18 +7,18 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
 
 // Screens 📺
-import PrimaryScreen from '@Screens/PrimaryScreen';
+import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import FlatMap from '@Components/Maps/FlatMap';
 import FlatListCard from '@Components/cards/FlatListCard';
 
 // StyleSheets 🖼️
@@ -88,7 +88,7 @@ const FlatListScreen = () => {
           </Pressable>
         </View>
         <View style={styles.viewContainer}>
-          {screen == 'list' ? <FlatListCard /> : <Text>Map</Text>}
+          {screen == 'list' ? <FlatListCard /> : <FlatMap />}
         </View>
       </View>
     </TouchableWithoutFeedback>
