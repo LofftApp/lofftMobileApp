@@ -3,7 +3,12 @@ import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import colors from '../../../styles/lofftColorPallet.json';
 import {CrossIcon} from '../../../assets';
 
-const CheckBox = ({disabled = false, value = true, style = null, onPress}) => {
+const CheckBox = ({
+  disabled = false,
+  value = true,
+  style = null,
+  onPress,
+}: any) => {
   return (
     <View
       style={[styles.CBContainer, style, disabled ? styles.disabled : null]}>
