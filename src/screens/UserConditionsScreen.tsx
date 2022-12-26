@@ -6,11 +6,12 @@ import auth from '@react-native-firebase/auth';
 import {createUserProfile} from '@Firebase/firestoreActions';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import {CoreButton} from '@Components/buttons/CoreButton';
+import UserJourneySaveButton from '@Redux/userRegistration/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -18,7 +19,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 const UserConditionsScreen = ({navigation, route}: any) => {
   return (
-    <ScreenBackButton>
+    <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
         headlineText={`Lofft is an ${'\n'}inclusive space`}
         subDescription={''}
@@ -45,24 +46,9 @@ const UserConditionsScreen = ({navigation, route}: any) => {
       </View>
 
       <View style={styles.options}>
-        <CoreButton
+        <UserJourneySaveButton
           value="Continue"
-          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
-          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-          disabled={false}
-          onPress={() => {
-            createUserProfile({
-              personalPreferences: route.params.personalPreferences,
-              gender: route.params.gender,
-              districts: route.params.districts,
-              minRent: route.params.minRent,
-              maxRent: route.params.maxRent,
-              flatPreferences: route.params.flatPreferences,
-              warmRent: route.params.rentWarm,
-              textAboutUser: route.params.textAboutUser,
-            });
-            navigation.navigate('FlatListScreen');
-          }}
+          onPress={() => navigation.navigate('FlatListScreen')}
         />
 
         <CoreButton

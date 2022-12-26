@@ -1,20 +1,23 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {View, TextInput} from 'react-native';
 
+// Components 🖼️
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
+// Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {styles} from './styleSheet';
-const SearchInput = ({
-  placeholder = 'Search',
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+const CurrencyInput = ({
+  placeholder = 'Text',
   onChangeText,
   onFocus = null,
   onBlur = null,
-  onClear,
   value,
 }: any) => {
   return (
     <View style={styles.inputContainer}>
-      <LofftIcon name={'search-sm'} size={20} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -23,13 +26,9 @@ const SearchInput = ({
         onFocus={onFocus}
         placeholder={placeholder}
       />
-      {value ? (
-        <TouchableOpacity onPress={onClear}>
-          <LofftIcon name="x-close" size={20} />
-        </TouchableOpacity>
-      ) : null}
+      <LofftIcon name={'currency-euro'} size={20} color={Color.Black[30]} />
     </View>
   );
 };
 
-export default SearchInput;
+export default CurrencyInput;

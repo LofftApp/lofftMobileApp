@@ -2,16 +2,18 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Pressable, TextInput} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import PaginationBar from '@Components/bars/PaginationBar';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Helpers 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const SelfDescribeScreen = ({navigation, route}: any) => {
   const [text, setText] = useState('');
@@ -42,7 +44,6 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
           <TextInput
             keyboardType="default"
             placeholder="Who are you? What do you like?"
-            autoCapitalize="words"
             value={text}
             style={styles.inputText}
             onChangeText={text => setText(text)}
@@ -51,30 +52,12 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
         </Pressable>
       </View>
 
-      <View style={styles.options}>
-        <View style={styles.paginationContainer}>
-          <PaginationBar screen={5} />
-        </View>
-
-        <CoreButton
-          value="Continue"
-          style={{backgroundColor: Color.Lavendar[100], borderWidth: 0}}
-          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-          disabled={false}
-          onPress={() => {
-            navigation.navigate('UserConditionsScreen', {
-              personalPreferences: route.params.personalPreferences,
-              gender: route.params.gender,
-              districts: route.params.districts,
-              minRent: route.params.minRent,
-              maxRent: route.params.maxRent,
-              flatPreferences: route.params.flatPreferences,
-              warmRent: route.params.rentWarm,
-              textAboutUser: text,
-            });
-          }}
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        details={{textAboutUser: text}}
+      />
     </ScreenBackButton>
   );
 };
@@ -89,12 +72,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flex: 1,
     borderRadius: 16,
-  },
-  options: {
-    marginBottom: 55,
-  },
-  paginationContainer: {
-    marginVertical: 47,
   },
 });
 

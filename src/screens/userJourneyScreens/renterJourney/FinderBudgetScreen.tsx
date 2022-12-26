@@ -3,17 +3,20 @@ import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
 // Screens 📺
-import ScreenBackButton from '@Screens/ScreenBackButton';
+import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import PaginationBar from '@Components/bars/PaginationBar';
+import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
+import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
+import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Helpers 🤝
+import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FinderBudgetScreen = ({navigation, route}: any) => {
   const [minPrice, setMinPrice] = useState(0);
@@ -136,32 +139,16 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
           </View>
         </View>
       </View>
-
-      <View style={styles.buttonContainer}>
-        <View style={styles.pagingationBarContainer}>
-          <PaginationBar screen={screen} />
-        </View>
-        <CoreButton
-          value="Continue"
-          style={{
-            backgroundColor: Color.Lavendar[100],
-            borderWidth: 0,
-            width: '100%',
-          }}
-          textStyle={[fontStyles.headerSmall, {color: 'white'}]}
-          disabled={false}
-          onPress={() => {
-            navigation.navigate('FlatFeaturesScreen', {
-              personalPreferences: user.selectedPreferences,
-              gender: user.gender,
-              districts: user.selectedDistricts,
-              minRent: minPrice.toString(),
-              maxRent: maxPrice.toString(),
-              rentWarm: warmRent,
-            });
-          }}
-        />
-      </View>
+      <FooterNavBarWithPagination
+        onPress={(targetScreen: any) =>
+          navigationHelper(navigation, targetScreen)
+        }
+        details={{
+          minRent: minPrice.toString(),
+          maxRent: maxPrice.toString(),
+          warmRent,
+        }}
+      />
     </ScreenBackButton>
   );
 };
