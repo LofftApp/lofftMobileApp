@@ -4,12 +4,11 @@ import imageExample from '../../assets/images/flat-image.jpeg';
 import Color from '../../styles/lofftColorPallet.json';
 import {HeartDefault} from '../../assets';
 import {HeartSaved} from '../../assets';
-import PaginationBar from '../bars/PaginationBar';
-import Chip from '../buttons/Chip';
+import PaginationBar from '@Components/bars/PaginationBar';
+import Chips from '../buttons/Chips';
 
 const FlatListCard = () => {
-  const [screen, setScreen] = useState(0);
-  // const [save, setSave] = useState({HeartDefault});
+  const [screen, setScreen] = useState(1);
   const [save, setSave] = useState(false);
 
   return (
@@ -26,7 +25,7 @@ const FlatListCard = () => {
             {save === true ? <HeartSaved /> : <HeartDefault />}
           </Pressable>
           <View style={styles.flatCardImagesScroll}>
-            <PaginationBar screen={screen}></PaginationBar>
+            <PaginationBar screen={screen} totalScreens={5} />
           </View>
         </View>
       </View>
@@ -39,7 +38,7 @@ const FlatListCard = () => {
           </Text>
         </View>
         <View style={styles.flatCardChipsWrap}>
-          <Chip></Chip>
+          <Chips></Chips>
         </View>
       </View>
     </View>
@@ -48,7 +47,6 @@ const FlatListCard = () => {
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    borderWidth: 2,
     height: 383,
   },
   flatCardImage: {
@@ -65,19 +63,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 244,
     padding: 16,
-    borderWidth: 2,
-    borderColor: 'red',
   },
   flatCardbuttonsWrap: {
-    borderWidth: 2,
-    borderColor: 'red',
     flex: 1,
   },
 
   flatCardMatchingScoreButton: {
     backgroundColor: Color.Mint[10],
-    borderWidth: 2,
-    borderColor: 'red',
     height: 38,
     width: 85,
     borderRadius: 12,
@@ -87,15 +79,13 @@ const styles = StyleSheet.create({
   flatCardSaveButton: {
     position: 'absolute',
     right: 0,
-    borderWidth: 2,
-    borderColor: 'red',
   },
   flatCardImagesScroll: {
-    borderWidth: 2,
-    borderColor: 'red',
     position: 'absolute',
     alignSelf: 'center',
     bottom: 0,
+    borderWidth: 2,
+    borderColor: 'red',
   },
   flatCardMatchingScoreButtonFont: {
     fontWeight: '600',
@@ -109,23 +99,22 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'red',
   },
-  flatCardChipsWrap: {
-    flex: 1,
-    borderWidth: 2,
-    borderColor: 'red',
-  },
+  flatCardChipsWrap: {borderWidth: 2, borderColor: 'red', flex: 1},
   flatCardMetadataWrap: {
     flex: 1,
-    borderWidth: 2,
-    borderColor: 'red',
+
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
   flatCardMetadataPriceAndSize: {
+    borderWidth: 2,
+    borderColor: 'red',
     fontSize: 18,
     fontWeight: '600',
   },
   flatCardMetadataLocation: {
+    borderWidth: 2,
+    borderColor: 'red',
     fontSize: 14,
     fontWeight: '400',
     color: Color.Black[50],
@@ -134,6 +123,8 @@ const styles = StyleSheet.create({
     top: 2,
   },
   flatCardMetadataTitle: {
+    borderWidth: 2,
+    borderColor: 'red',
     fontSize: 16,
     fontWeight: '500',
   },
