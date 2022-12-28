@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import Color from '../../styles/lofftColorPallet.json';
 
-const Chip = ({flatData}) => {
+const Chips = ({flatData}) => {
   // flat data example
   const flatInfo = {
     flatProperties: [
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chip;
+export default Chips;
