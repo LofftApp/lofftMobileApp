@@ -17,7 +17,7 @@ if (__DEV__) {
   storage().useEmulator(host, 9199);
 }
 
-const randomFileName = () => {
+const randomName = () => {
   return (
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15)
@@ -28,24 +28,37 @@ const randomFileName = () => {
 //   uploadLibraryImagesToUserProfile({targetId, urls, targetDB});
 // };
 
-// const uploadUserImages = async ({results, targetId, path, targetDB}) => {
-//   const urls = await Promise.all(
-//     results.assets.map(async asset => {
-//       const newFileName = randomFileName();
-//       const pathToFile = `${utils.FilePath.TEMP_DIRECTORY}/${asset.fileName}`;
-//       const reference = storage().ref(`${targetId}/${path}/${newFileName}.jpg`);
-//       await reference.putFile(pathToFile);
-//       return await reference.getDownloadURL();
-//     }),
-//   );
+export const libraryImageUpload = async ({limit}: any) => {
+  const targetId = randomName();
+  const results = await launchImageLibrary({
+    mediaType: 'photo',
+    selectionLimit: limit,
+  });
+  if (!results.didCancel) {
+    const response = await uploadUserImages({results, targetId});
+    return response;
+  }
+};
 
-//   if (path === 'userImage') {
-//     const image = saveProfileImage(targetId, urls[0]);
-//     return image;
-//   } else if (path === 'imageLibrary') {
-//     saveImageLibrary({targetId, urls, targetDB});
-//   }
-// };
+const uploadUserImages = async ({results, targetId}: any) => {
+  const urls = await Promise.all(
+    results.assets.map(async (asset: any) => {
+      const newFileName = randomName();
+      const pathToFile = `${utils.FilePath.TEMP_DIRECTORY}/${asset.fileName}`;
+      const reference = storage().ref(`${targetId}/${newFileName}.jpg`);
+      await reference.putFile(pathToFile);
+      const response = await reference.getDownloadURL();
+      return {lofftId: targetId, images: response};
+    }),
+  );
+
+  // if (path === 'userImage') {
+  //   const image = saveProfileImage(targetId, urls[0]);
+  //   return image;
+  // } else if (path === 'imageLibrary') {
+  //   saveImageLibrary({targetId, urls, targetDB});
+  // }
+};
 
 // export const userImageUpload = async () => {
 //   const results = await launchImageLibrary({mediaType: 'photo'});
@@ -63,17 +76,6 @@ const randomFileName = () => {
 //     return uploadUserImages(results, target, 'userImage');
 //   }
 //   return false;
-// };
-
-// export const libraryImageUpload = async ({limit, id = null, targetDB}) => {
-//   const targetId = id ? id : auth().currentUser.uid;
-//   const results = await launchImageLibrary({
-//     mediaType: 'photo',
-//     selectionLimit: limit,
-//   });
-//   if (!results.didCancel) {
-//     uploadUserImages({results, targetId, path: 'imageLibrary', targetDB});
-//   }
 // };
 
 // export const deleteLibraryImage = url => {

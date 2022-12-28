@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Color from '@StyleSheets/lofftColorPallet.json';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import {handleSignIn} from '@Firebase/firebaseAuth';
-import SignUpButton from '@Components/buttons/SignUpButton';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
@@ -32,9 +32,10 @@ const SignInForm = () => {
         <Text style={styles.text}>Forgot password?</Text>
       </View>
       <View style={styles.signUpButtonView}>
-        <TouchableOpacity onPress={handleSignIn}>
-          <SignUpButton title="Sign in" />
-        </TouchableOpacity>
+        <CoreButton
+          value="Sign in"
+          onPress={() => handleSignIn({email, password})}
+        />
       </View>
     </View>
   );

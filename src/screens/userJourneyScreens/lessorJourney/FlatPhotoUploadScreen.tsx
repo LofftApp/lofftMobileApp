@@ -9,6 +9,9 @@ import {
   Modal,
 } from 'react-native';
 
+// APIs 🧠
+import {libraryImageUpload} from '@Firebase/firebaseStorage';
+
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
@@ -54,7 +57,7 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         buttonValue="Take me to Lofft"
       />
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -63,7 +66,16 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <CoreButton value="Take Photo" onPress={() => {}} />
-            <CoreButton value="Upload Photo" onPress={() => {}} />
+            <CoreButton
+              value="Upload Photo"
+              onPress={async () => {
+                const response = await libraryImageUpload({
+                  limit: 5,
+                  targetDb: 'loffts',
+                });
+                console.log(response);
+              }}
+            />
             <CoreButton
               value="Cancel"
               onPress={() => setModalVisible(false)}
