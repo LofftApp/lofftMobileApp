@@ -19,6 +19,7 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
+import FlatListCard from '@Components/cards/FlatListCard';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -87,7 +88,7 @@ const FlatListScreen = () => {
           </Pressable>
         </View>
         <View style={styles.viewContainer}>
-          {screen == 'list' ? <Text>List</Text> : <FlatMap />}
+          {screen == 'list' ? <FlatListCard /> : <FlatMap />}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -132,6 +133,7 @@ const styles = StyleSheet.create({
   },
   viewContainer: {
     flex: 1,
+    padding: 16,
   },
 });
 

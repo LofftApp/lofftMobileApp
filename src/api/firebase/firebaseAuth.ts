@@ -47,9 +47,8 @@ export const handleSignUp = async ({email, password}: any) => {
 export const handleSignIn = async ({email, password}: any) => {
   console.log('Signin attempt');
   try {
-    console.log('Try catch actioned');
-    const response = await auth().signInWithEmailAndPassword(email, password);
-    console.log(response);
+    console.log('Login');
+    await auth().signInWithEmailAndPassword(email, password);
   } catch (err: any) {
     return errorHandling(err);
   }
