@@ -1,33 +1,23 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
-<<<<<<< HEAD
 
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
 import Chips from '@Components/buttons/Chips';
-
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Assets 🪴
-import {HeartDefault} from '../../assets';
-import {HeartSaved} from '../../assets';
 import imageExample from '@Assets/images/flat-image.jpeg';
-=======
-import imageExample from '../../assets/images/flat-image.jpeg';
-import Color from '@StyleSheets/lofftColorPallet.json';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import PaginationBar from '@Components/bars/PaginationBar';
-import Chips from '@Components/buttons/Chips';
->>>>>>> 2615ca5da1c1aa6889f27f5ecb9d09ce2bcb331a
 
 const FlatListCard = () => {
-  const [screen, setScreen] = useState(1);
+  const [screen] = useState(1);
   const [save, setSave] = useState(false);
 
   return (
     <View style={styles.flatCardContainer}>
-      <Image source={imageExample} style={styles.flatCardImage}></Image>
+      <Image source={imageExample} style={styles.flatCardImage} />
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
           <View style={styles.flatCardMatchingScoreButton}>
@@ -38,12 +28,12 @@ const FlatListCard = () => {
             onPress={() => (save === false ? setSave(true) : setSave(false))}>
             {save === true ? (
               <LofftIcon
-                name={'heart-filled'}
+                name="heart-filled"
                 size={20}
                 color={Color.Tomato[100]}
               />
             ) : (
-              <LofftIcon name={['heart']} size={20} color={Color.Tomato[100]} />
+              <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
             )}
           </Pressable>
           <View style={styles.flatCardImagesScroll}>
