@@ -2,34 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import Color from '../../styles/lofftColorPallet.json';
 
-const ListChips = ({list}) => {
-  return Object.entries(list).map(([key, value]) => {
-    return key === 'flatProperties' ? (
-      value.slice(0, 2).map((item, index) => {
-        return (
-          <View style={styles.chipsWrap}>
-            <View style={styles.chip}>
-              <Text style={styles.chipFont}>{item}</Text>
-            </View>
-            {value.length > 2 ? (
-              <View style={styles.chip}>
-                <Text style={styles.chipFont}>
-                  +{value.slice(1, -1).length}
-                </Text>
-              </View>
-            ) : null}
-          </View>
-        );
-      })
-    ) : (
-      <View>
-        <Text>{value}</Text>
-      </View>
-    );
-  });
-};
-
 const Chip = ({flatData}) => {
+  // flat data example
   const flatInfo = {
     flatProperties: [
       'Close to U- & S-Bahn',
@@ -49,42 +23,36 @@ const Chip = ({flatData}) => {
   };
   return (
     <View style={styles.chipContainer}>
-      <ListChips list={flatInfo} />
+      <ListChips
+        style={[styles.propertyChip, styles.propertyChipFont]}
+        list={flatInfo.flatProperties}
+      />
+      <ListChips
+        style={[styles.personalityChip, styles.personalityChipFont]}
+        list={flatInfo.flatPersonalities}
+      />
     </View>
   );
 };
 
-// <View
-//   style={
-//     styles.chip
-//     // : [styles.chip, {backgroundColor: Color.Lavendar[50]}]
-//   }>
-//   <Text style={styles.chipFont}>{value}</Text>
-// </View>;
-// value.slice(0, 2).map((item, index) => {
-//   return (
-//     <View
-//       style={
-//         value.length > 5
-//           ? styles.chip
-//           : [styles.chip, {backgroundColor: Color.Lavendar[50]}]
-//       }>
-//       <Text style={styles.chipFont}>{item}</Text>
-//     </View>
-//   );
-// });
-
-// value.length > 2 ? (
-//   <View style={styles.chip}>
-//     <Text style={styles.chipFont}>+{value.slice(1, -1).length}</Text>
-//   </View>
-// ) : null;
-// })}
-// ;
-
-// 1. list all the properties user selected.
-// 2. If the list has more than 2 properties, 3rd chip doesn't display the value.
-// 3. 3rd chip dis play "+{the number of the rest}"
+const ListChips = ({list, style}) => {
+  return (
+    <View style={styles.chipsWrap}>
+      {list.slice(0, 2).map((item, index) => {
+        return (
+          <View style={style[0]}>
+            <Text style={style[1]}>{item}</Text>
+          </View>
+        );
+      })}
+      {list.length > 2 ? (
+        <View style={style[0]}>
+          <Text style={style[1]}>+{list.slice(1, -1).length}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   chipContainer: {
@@ -92,9 +60,9 @@ const styles = StyleSheet.create({
   },
   chipsWrap: {
     flexDirection: 'row',
-    borderWidth: 1,
+    paddingVertical: 4,
   },
-  chip: {
+  propertyChip: {
     height: 'auto',
     width: 'auto',
     paddingHorizontal: 8,
@@ -104,9 +72,23 @@ const styles = StyleSheet.create({
     marginRight: 4,
     backgroundColor: Color.Blue[10],
   },
-  chipFont: {
+  personalityChip: {
+    height: 'auto',
+    width: 'auto',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    alignSelf: 'flex-start',
+    borderRadius: 8,
+    marginRight: 4,
+    backgroundColor: Color.Lavendar[10],
+  },
+  propertyChipFont: {
     fontSize: 14,
     color: Color.Blue[100],
+  },
+  personalityChipFont: {
+    fontSize: 14,
+    color: Color.Lavendar[100],
   },
 });
 
