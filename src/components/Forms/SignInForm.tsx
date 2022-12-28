@@ -32,9 +32,10 @@ const SignInForm = () => {
         <Text style={styles.text}>Forgot password?</Text>
       </View>
       <View style={styles.signUpButtonView}>
-        <TouchableOpacity onPress={handleSignIn}>
-          <SignUpButton title="Sign in" />
-        </TouchableOpacity>
+        <SignUpButton
+          title="Sign in"
+          onPress={() => handleSignIn({email, password})}
+        />
       </View>
     </View>
   );
