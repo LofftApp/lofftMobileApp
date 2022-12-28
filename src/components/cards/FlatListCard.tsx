@@ -1,11 +1,17 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
-import imageExample from '../../assets/images/flat-image.jpeg';
-import Color from '../../styles/lofftColorPallet.json';
+
+// Components 🪢
+import PaginationBar from '@Components/bars/PaginationBar';
+import Chips from '@Components/buttons/Chips';
+
+// StyleSheet 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
+
+// Assets 🪴
 import {HeartDefault} from '../../assets';
 import {HeartSaved} from '../../assets';
-import PaginationBar from '@Components/bars/PaginationBar';
-import Chips from '../buttons/Chips';
+import imageExample from '@Assets/images/flat-image.jpeg';
 
 const FlatListCard = () => {
   const [screen, setScreen] = useState(1);
@@ -38,7 +44,7 @@ const FlatListCard = () => {
           </Text>
         </View>
         <View style={styles.flatCardChipsWrap}>
-          <Chips></Chips>
+          <Chips />
         </View>
       </View>
     </View>
