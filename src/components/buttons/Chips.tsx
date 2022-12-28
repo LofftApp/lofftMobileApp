@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import Color from '../../styles/lofftColorPallet.json';
 
-const Chips = ({flatData}) => {
+const Chips = ({flatData}: any) => {
   // flat data example
   const flatInfo = {
     flatProperties: [
@@ -35,10 +35,10 @@ const Chips = ({flatData}) => {
   );
 };
 
-const ListChips = ({list, style}) => {
+const ListChips = ({list, style}: any) => {
   return (
     <View style={styles.chipsWrap}>
-      {list.slice(0, 2).map((item, index) => {
+      {list.slice(0, 2).map((item: any, index) => {
         return (
           <View style={style[0]}>
             <Text style={style[1]}>{item}</Text>
