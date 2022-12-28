@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+<<<<<<< HEAD
 
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
@@ -12,6 +13,13 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {HeartDefault} from '../../assets';
 import {HeartSaved} from '../../assets';
 import imageExample from '@Assets/images/flat-image.jpeg';
+=======
+import imageExample from '../../assets/images/flat-image.jpeg';
+import Color from '@StyleSheets/lofftColorPallet.json';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import PaginationBar from '@Components/bars/PaginationBar';
+import Chips from '@Components/buttons/Chips';
+>>>>>>> 2615ca5da1c1aa6889f27f5ecb9d09ce2bcb331a
 
 const FlatListCard = () => {
   const [screen, setScreen] = useState(1);
@@ -28,7 +36,15 @@ const FlatListCard = () => {
           <Pressable
             style={styles.flatCardSaveButton}
             onPress={() => (save === false ? setSave(true) : setSave(false))}>
-            {save === true ? <HeartSaved /> : <HeartDefault />}
+            {save === true ? (
+              <LofftIcon
+                name={'heart-filled'}
+                size={20}
+                color={Color.Tomato[100]}
+              />
+            ) : (
+              <LofftIcon name={['heart']} size={20} color={Color.Tomato[100]} />
+            )}
           </Pressable>
           <View style={styles.flatCardImagesScroll}>
             <PaginationBar screen={screen} totalScreens={5} />

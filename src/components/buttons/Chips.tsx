@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import Color from '../../styles/lofftColorPallet.json';
 
 const Chips = ({flatData}: any) => {
@@ -38,7 +38,11 @@ const Chips = ({flatData}: any) => {
 const ListChips = ({list, style}: any) => {
   return (
     <View style={styles.chipsWrap}>
+<<<<<<< HEAD
       {list.slice(0, 2).map((item: any, index: number) => {
+=======
+      {list.slice(0, 2).map((item: any, index) => {
+>>>>>>> 2615ca5da1c1aa6889f27f5ecb9d09ce2bcb331a
         return (
           <View style={style[0]} key={index}>
             <Text style={style[1]}>{item}</Text>
