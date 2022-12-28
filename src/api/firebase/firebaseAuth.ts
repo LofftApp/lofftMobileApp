@@ -3,31 +3,52 @@ import firestore from '@react-native-firebase/firestore';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
+const errorHandling = (err: any) => {
+  if (err.code === 'auth/invalid-email') {
+    return {
+      error: true,
+      target: 'email',
+      message: 'That email address is invalid!',
+    };
+  }
+  if (err.code === 'auth/email-already-in-use') {
+    return {
+      error: true,
+      target: 'email',
+      message: 'That email address is already in use!',
+    };
+  }
+  if (err.code === 'auth/weak-password') {
+    return {
+      error: true,
+      target: 'password',
+      message: 'The password is not strong enough',
+    };
+  }
+  if (err.code === 'auth/user-disabled') {
+    return {
+      error: true,
+      target: 'password',
+      message: 'This user account is disabled!',
+    };
+  }
+};
+
+// Email Signup
 export const handleSignUp = async ({email, password}: any) => {
   try {
     await auth().createUserWithEmailAndPassword(email, password);
   } catch (err: any) {
-    if (err.code === 'auth/invalid-email') {
-      return {
-        error: true,
-        target: 'email',
-        message: 'That email address is invalid!',
-      };
-    }
-    if (err.code === 'auth/email-already-in-use') {
-      return {
-        error: true,
-        target: 'email',
-        message: 'That email address is already in use!',
-      };
-    }
-    if (err.code === 'auth/weak-password') {
-      return {
-        error: true,
-        target: 'password',
-        message: 'The password is not strong enough',
-      };
-    }
+    return errorHandling(err);
+  }
+};
+
+// Email signin
+export const handleSignIn = async ({email, password}: any) => {
+  try {
+    const user = await auth().signInWithEmailAndPassword(email, password);
+  } catch (err: any) {
+    return errorHandling(err);
   }
 };
 
