@@ -84,8 +84,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     bottom: 0,
-    borderWidth: 2,
-    borderColor: 'red',
   },
   flatCardMatchingScoreButtonFont: {
     fontWeight: '600',
@@ -96,25 +94,21 @@ const styles = StyleSheet.create({
   flatCardInfoWrap: {
     padding: 8,
     flex: 1,
-    borderWidth: 2,
-    borderColor: 'red',
   },
-  flatCardChipsWrap: {borderWidth: 2, borderColor: 'red', flex: 1},
-  flatCardMetadataWrap: {
+  flatCardChipsWrap: {
     flex: 1,
+  },
+  flatCardMetadataWrap: {
+    // flex: 1,
 
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
   flatCardMetadataPriceAndSize: {
-    borderWidth: 2,
-    borderColor: 'red',
     fontSize: 18,
     fontWeight: '600',
   },
   flatCardMetadataLocation: {
-    borderWidth: 2,
-    borderColor: 'red',
     fontSize: 14,
     fontWeight: '400',
     color: Color.Black[50],
@@ -123,10 +117,9 @@ const styles = StyleSheet.create({
     top: 2,
   },
   flatCardMetadataTitle: {
-    borderWidth: 2,
-    borderColor: 'red',
     fontSize: 16,
     fontWeight: '500',
+    marginVertical: 8,
   },
 });
 
