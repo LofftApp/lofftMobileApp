@@ -23,7 +23,7 @@ const FlatListCard = () => {
             onPress={() => (save === false ? setSave(true) : setSave(false))}>
             {save === true ? (
               <LofftIcon
-                name={['heart-filled']}
+                name={'heart-filled'}
                 size={20}
                 color={Color.Tomato[100]}
               />
