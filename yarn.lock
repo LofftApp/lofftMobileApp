@@ -1168,9 +1168,9 @@
   integrity sha512-ZTOuuwGuMOJN+HEmG/68bSEw15HHaMWmQ5gdTsWdWsjDe56K1kGvLOK6bOSC8gWgIvEO0w6un/2Gvv1q5hJSkQ==
 
 "@miblanchard/react-native-slider@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@miblanchard/react-native-slider/-/react-native-slider-2.1.0.tgz#6249463a9d4aa65dede586637ffe6ca167a9ebf3"
-  integrity sha512-5YRWaQjHl90Ue431RisN+5zr+380L//kWuabzYuo7mVI+CxbHaTQXDr7afkpGgNHCxkkzFlT3tWd+3/QbpgBLQ==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@miblanchard/react-native-slider/-/react-native-slider-2.2.0.tgz#5d03cf49516ad0a3b4011fbcad53cb379800832b"
+  integrity sha512-LepVGFVy6KtDVgMRIAAJJKQCXbcADkzK2R61t3LkD+IF2wG1J4I4KVo99GAsvU0EBKeCsjHPkR+6LGnB6xGzVA==
 
 "@react-native-community/cli-clean@^9.2.1":
   version "9.2.1"
@@ -1505,7 +1505,7 @@
 
 "@rnmapbox/maps@rnmapbox/maps":
   version "10.0.0-beta.62"
-  resolved "https://codeload.github.com/rnmapbox/maps/tar.gz/14c1d34852e524f3d6ea85d9efe25d27bf945b53"
+  resolved "https://codeload.github.com/rnmapbox/maps/tar.gz/33a26b45d1ea04f7a60426ec526af2b4f625b45a"
   dependencies:
     "@mapbox/geo-viewport" ">=0.4.0"
     "@turf/along" "6.5.0"
@@ -1865,9 +1865,9 @@
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
 "@types/node@*", "@types/node@^18.11.15":
-  version "18.11.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.17.tgz#5c009e1d9c38f4a2a9d45c0b0c493fe6cdb4bcb5"
-  integrity sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==
+  version "18.11.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
+  integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -2898,9 +2898,9 @@ copy-descriptor@^0.1.0:
   integrity sha512-XgZ0pFcakEUlbwQEVNg3+QAis1FyTL3Qel9FYy8pSkQqoG3PNoT0bOCQtOXcOkur21r2Eq2kI+IE+gsmAEVlYw==
 
 core-js-compat@^3.25.1:
-  version "3.26.1"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.26.1.tgz#0e710b09ebf689d719545ac36e49041850f943df"
-  integrity sha512-622/KzTudvXCDLRw70iHW4KKs1aGpcRcowGWyYJr2DEBfRrd6hNJybxSWJFuZYD4ma86xhrwDDHxmDaIq4EA8A==
+  version "3.27.0"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.27.0.tgz#e2c58a89df6432a5f36f3fa34097e9e83e709fb6"
+  integrity sha512-spN2H4E/wocMML7XtbKuqttHHM+zbF3bAdl9mT4/iyFaF33bowQGjxiWNWyvUJGH9F+hTgnhWziiLtwu3oC/Qg==
   dependencies:
     browserslist "^4.21.4"
 

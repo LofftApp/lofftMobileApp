@@ -5,12 +5,6 @@ import {AppleIcon} from '../assets';
 import {GoogleIcon} from '../assets';
 import {onAppleButtonPress} from '../api/firebase/firebaseAuth';
 import {onGoogleButtonPress} from '../api/firebase/firebaseAuth';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-
-// things to be added:
-// 1. 'terms & conditions' (link)
-// 2. 'privacy policy' (link)
-// 4. Authentication with Apple / Google account
 
 const SignInWith = () => {
   return (
