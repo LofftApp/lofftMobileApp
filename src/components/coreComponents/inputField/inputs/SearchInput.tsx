@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
-
+import Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {styles} from './styleSheet';
@@ -14,7 +14,7 @@ const SearchInput = ({
 }: any) => {
   return (
     <View style={styles.inputContainer}>
-      <LofftIcon name={'search-sm'} size={20} />
+      <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
