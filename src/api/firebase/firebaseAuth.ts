@@ -51,14 +51,14 @@ export const handleSignUp = async ({email, password}: any) => {
 };
 
 // Email signin
-export const handleSignIn = async ({email, password}: any) => {
+export const handleSignIn = async ({email, password, setMessage}: any) => {
   try {
     await auth().signInWithEmailAndPassword(email, password);
     console.log('Login');
   } catch (err: any) {
     console.log(errorHandling(err)?.message);
     console.log(typeof errorHandling(err)?.message);
-    return errorHandling(err)?.message;
+    return setMessage(errorHandling(err)?.message);
   }
 };
 
