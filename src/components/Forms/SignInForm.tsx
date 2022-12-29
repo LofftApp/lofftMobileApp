@@ -34,9 +34,7 @@ const SignInForm = () => {
       <View style={styles.signUpButtonView}>
         <SignUpButton
           title="Sign in"
-          onPress={() =>
-            console.log(handleSignIn({email, password, setMessage}))
-          }
+          onPress={() => handleSignIn({email, password, setMessage})}
         />
       </View>
     </View>
