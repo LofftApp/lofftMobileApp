@@ -21,6 +21,7 @@ const DefaultInput = ({
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
+        autoCapitalize="none"
       />
     </View>
   );
