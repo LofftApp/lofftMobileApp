@@ -11,6 +11,7 @@ const DefaultInput = ({
   onFocus = null,
   onBlur = null,
   value,
+  autoCapitalize,
 }: any) => {
   return (
     <View style={styles.inputContainer}>
@@ -21,6 +22,7 @@ const DefaultInput = ({
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
+        autoCapitalize={autoCapitalize}
       />
     </View>
   );
