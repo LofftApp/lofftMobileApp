@@ -41,12 +41,15 @@ export const createFlatProfile = async (data: any) => {
 
 export const checkUserProfileExist = async () => {
   const currentUserId = await auth().currentUser?.uid;
-  const response = await firestore()
-    .collection('users')
-    .doc(currentUserId)
-    .get()
-    .then(q => {
-      return q.data() ? true : false;
-    });
-  return response;
+  try {
+    const response = await firestore()
+      .collection('users')
+      .doc(currentUserId)
+      .get();
+    if (response.data()) return true;
+  } catch (error) {
+    console.log(error);
+    console.log('If you see me, tell James');
+    return false;
+  }
 };
