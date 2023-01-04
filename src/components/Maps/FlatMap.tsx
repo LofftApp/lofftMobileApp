@@ -1,7 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-import {View, Text, StyleSheet} from 'react-native';
-
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import Color from '@StyleSheets/lofftColorPallet.json';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -89,6 +95,17 @@ const FlatMap = ({route, navigation}: any) => {
   return (
     <View style={styles.page}>
       <View style={styles.container}>
+        <TouchableWithoutFeedback>
+          <FlatList
+            horizontal={true}
+            contentContainerStyle={styles.cardScrollView}>
+            <View style={styles.card}></View>
+            <View style={styles.card}></View>
+            <View style={styles.card}></View>
+            <View style={styles.card}></View>
+            <View style={styles.card}></View>
+          </FlatList>
+        </TouchableWithoutFeedback>
         <MapboxGL.MapView
           style={styles.map}
           styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
@@ -134,6 +151,19 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  card: {
+    backgroundColor: Color.White[100],
+    width: 100,
+    height: 100,
+    margin: 10,
+  },
+  cardScrollView: {
+    backgroundColor: Color.Black[100],
+    position: 'absolute',
+    zIndex: 5,
+    width: 300,
+    height: 200,
   },
 });
 
