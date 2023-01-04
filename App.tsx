@@ -52,7 +52,7 @@ const App = () => {
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     setUser(user);
     if (user) {
-      const profileExist = await checkUserProfileExist();
+      const profileExist: any = await checkUserProfileExist();
       setUserType(profileExist);
       // setAdmin(userClaims.claims.admin);
     }
