@@ -46,7 +46,7 @@ export const checkUserProfileExist = async () => {
       .collection('users')
       .doc(currentUserId)
       .get();
-    console.log(response.data());
+    if (response.data()) return true;
   } catch (error) {
     console.log(error);
     console.log('If you see me, tell James');
