@@ -20,6 +20,7 @@ import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 import {CoreButton} from '@Components/buttons/CoreButton';
+import ImageUploadButton from '@Redux/userImageUpload/ImageUploadButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -66,12 +67,13 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <CoreButton value="Take Photo" onPress={() => {}} />
-            <CoreButton
+            {/* <CoreButton
               value="Upload Photo"
               onPress={async () => {
                 await libraryImageUpload();
               }}
-            />
+            /> */}
+            <ImageUploadButton />
             <CoreButton
               value="Cancel"
               onPress={() => setModalVisible(false)}
