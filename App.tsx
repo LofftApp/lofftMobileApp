@@ -52,7 +52,7 @@ const App = () => {
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     setUser(user);
     if (user) {
-      const profileExist = await checkUserProfileExist();
+      const profileExist: any = await checkUserProfileExist();
       setUserType(profileExist);
       // setAdmin(userClaims.claims.admin);
     }
@@ -74,7 +74,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      // host = '192.168.100.134';
+      // host = '192.168.0.105';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
