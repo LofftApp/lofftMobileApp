@@ -25,7 +25,8 @@ export const libraryImageUpload = async () => {
   });
   if (!images.didCancel) {
     try {
-      await uploadUserImages(images);
+      const response = await uploadUserImages(images);
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -33,19 +34,29 @@ export const libraryImageUpload = async () => {
 };
 
 const uploadUserImages = async (images: any) => {
-  images.assets.map(async (image: any) => {
-    try {
-      const approvedFileTypes = ['jpg', 'jpeg', 'png'];
-      const fileType = image.uri.split('.')[1];
-      if (approvedFileTypes.includes(fileType)) {
-        const newFileName = randomName();
-        const reference = await storage().ref(`${newFileName}.${fileType}`);
-        await reference.putFile(image.uri);
-      } else {
-        throw new Error('Wrong File Type: ensure the file is jpg, jpeg or png');
+  const folderName = randomName();
+  const urls = await Promise.all(
+    images.assets.flatMap(async (image: any) => {
+      try {
+        const approvedFileTypes = ['jpg', 'jpeg', 'png'];
+        const fileType = image.uri.split('.')[1];
+        if (approvedFileTypes.includes(fileType)) {
+          const newFileName = randomName();
+          const reference = await storage().ref(
+            `${folderName}/${newFileName}.${fileType}`,
+          );
+          await reference.putFile(image.uri);
+          const url = await reference.getDownloadURL();
+          return url;
+        } else {
+          throw new Error(
+            'Wrong File Type: ensure the file is jpg, jpeg or png',
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  });
+    }),
+  );
+  return urls;
 };
