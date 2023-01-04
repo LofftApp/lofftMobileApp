@@ -1,9 +1,15 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Color from '@StyleSheets/lofftColorPallet.json';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+
+// API 🧠
 import {handleSignIn} from '@Firebase/firebaseAuth';
+
+// Components 🪢
 import SignUpButton from '@Components/buttons/SignUpButton';
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+
+// StyleSheets 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
