@@ -69,10 +69,7 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
             <CoreButton
               value="Upload Photo"
               onPress={async () => {
-                await libraryImageUpload({
-                  limit: 5,
-                  targetDb: 'loffts',
-                });
+                await libraryImageUpload();
               }}
             />
             <CoreButton

@@ -21,17 +21,31 @@ const randomName = () => {
 export const libraryImageUpload = async () => {
   const images = await launchImageLibrary({
     mediaType: 'photo',
+    selectionLimit: 5,
   });
   if (!images.didCancel) {
-    uploadUserImages(images);
+    try {
+      await uploadUserImages(images);
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
-const uploadUserImages = async (image: any) => {
-  console.log(image.assets[0].fileName);
-  const newFileName = randomName();
-  const pathToFile = `${utils.FilePath.TEMP_DIRECTORY}/${image.fileName}`;
-  const reference = storage().ref(`${newFileName}.jpg`);
-  reference.putFile(pathToFile);
-  // await reference.putFile(pathToFile);
+const uploadUserImages = async (images: any) => {
+  images.assets.map(async (image: any) => {
+    try {
+      const approvedFileTypes = ['jpg', 'jpeg', 'png'];
+      const fileType = image.uri.split('.')[1];
+      if (approvedFileTypes.includes(fileType)) {
+        const newFileName = randomName();
+        const reference = await storage().ref(`${newFileName}.${fileType}`);
+        await reference.putFile(image.uri);
+      } else {
+        throw new Error('Wrong File Type: ensure the file is jpg, jpeg or png');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 };
