@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Color from '@StyleSheets/lofftColorPallet.json';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import {handleSignIn} from '@Firebase/firebaseAuth';
@@ -32,9 +32,9 @@ const SignInForm = () => {
         <Text style={styles.text}>Forgot password?</Text>
       </View>
       <View style={styles.signUpButtonView}>
-        <CoreButton
-          value="Sign in"
-          onPress={() => handleSignIn({email, password})}
+        <SignUpButton
+          title="Sign in"
+          onPress={() => handleSignIn({email, password, setMessage})}
         />
       </View>
     </View>
