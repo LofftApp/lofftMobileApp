@@ -16,6 +16,59 @@ import {MAPBOX_API_KEY} from '@env';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
+const DATA = [
+  {
+    id: 'a-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item',
+  },
+  {
+    id: 'v-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item',
+  },
+  {
+    id: 'c-3da1-471f-bd96-145571e29d7212312',
+    title: 'Third Item',
+  },
+  {
+    id: 'd-3da1-471f-bd96-145571e29d722342',
+    title: 'Third Item',
+  },
+  {
+    id: 'e-3da1-471f-bd96-145571e29d7223423',
+    title: 'Third Item',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d722342',
+    title: 'Third Item',
+  },
+  {
+    id: 'f-3da1-471f-bd96-145571e29d72423',
+    title: 'Third Item',
+  },
+  {
+    id: '6-3da1-471f-bd96-145571e29d7223',
+    title: 'Third Item',
+  },
+  {
+    id: '7-3da1-471f-bd96-145571e29d723999',
+    title: 'Third Item',
+  },
+  {
+    id: '8-3da1-471f-bd96-145571e29d7212',
+    title: 'Third Item',
+  },
+  {
+    id: '9-3da1-471f-bd96-145571e29d7253',
+    title: 'Third Item',
+  },
+];
+
+const Item = ({title}) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
+
 const FlatMap = ({route, navigation}: any) => {
   // States
   const [flats] = useState([
@@ -58,6 +111,8 @@ const FlatMap = ({route, navigation}: any) => {
     },
   ]);
 
+  const renderItem = ({item}) => <Item title={item.title} />;
+
   const [mapboxFlats, setmapboxFlats] = useState<String[]>([]);
   // API
 
@@ -96,7 +151,19 @@ const FlatMap = ({route, navigation}: any) => {
   }, []);
 
   return (
+    <>
+    {/* <Animated.ScrollView
+
+        horizontal
+        style={styles.scrollView}>
+        {flats.map((el, index) => (
+          <View style={styles.flatCard} key={index + 1}>
+            <Text>{el.name}</Text>
+          </View>
+        ))}
+      </Animated.ScrollView> */}
     <View style={styles.page}>
+
       <View style={styles.container}>
         <MapboxGL.MapView
           style={styles.map}
@@ -125,36 +192,35 @@ const FlatMap = ({route, navigation}: any) => {
               </View>
             </MapboxGL.MarkerView>
           ))}
+
+
         </MapboxGL.MapView>
-
-        {/* <Animated.ScrollView
-
-
-          style={styles.scrollView}>
-          {flats.map((el, index) => (
-            <View style={styles.flatCard} key={index + 1}>
-              <Text>{el.name}</Text>
-            </View>
-          ))}
-        </Animated.ScrollView> */}
-        <FlatList data={flats} keyExtractor={item => item.id} />
 
 
       </View>
     </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  page: {
+    minHeight: '100%',
+    minWidth: '100%',
+
+  },
   container: {
-    height: '100%',
-    width: '100%',
+    minWidth: '100%',
+    minHeight: '100%',
+
   },
   map: {
-    flex: 1,
+    minWidth: '100%',
+    minHeight: '100%',
+    zIndex: 1,
   },
   scrollView: {
-    bottom: 0,
+    bottom: 200,
     marginBottom: 15,
     zIndex: 10000000,
     left: 0,
@@ -162,6 +228,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: 'red',
     borderWidth: 2,
+    position: 'absolute',
+    flex:1,
   },
   flatCard: {
     width: 300,
@@ -169,6 +237,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: 'white',
     marginHorizontal: 10,
+    marginVertical: 40,
     borderRadius: 12,
   },
 });
