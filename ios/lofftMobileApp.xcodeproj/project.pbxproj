@@ -12,12 +12,14 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		13D42D0FAF9F119272EAB413 /* Pods_lofftMobileApp_lofftMobileAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46047CCF502124626C4E30EF /* Pods_lofftMobileApp_lofftMobileAppTests.framework */; };
-		1A3477CB295676DE00CF61F4 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C7295676D600CF61F4 /* icomoon.ttf */; };
+		1A3477BB295675F800CF61F4 /* Mapbox in Frameworks */ = {isa = PBXBuildFile; productRef = A129B599A6A3A4DCA86AB4D0 /* Mapbox */; };
+		1A3477BC295675F800CF61F4 /* Mapbox in Frameworks */ = {isa = PBXBuildFile; productRef = 983AF3F8CFBC4C520AFA41BA /* Mapbox */; };
 		1A3477CC295676DE00CF61F4 /* Inter-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C9295676D700CF61F4 /* Inter-Black.otf */; };
 		1A3477CD295676DE00CF61F4 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C5295676D600CF61F4 /* Inter-Bold.otf */; };
 		1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C6295676D600CF61F4 /* Inter-Medium.otf */; };
 		1A3477CF295676DE00CF61F4 /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C8295676D600CF61F4 /* Inter-SemiBold.otf */; };
 		1A3477D0295676DE00CF61F4 /* InterV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477CA295676D700CF61F4 /* InterV.ttf */; };
+		1A42F2FD295C90F200591868 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A42F2FC295C90E700591868 /* icomoon.ttf */; };
 		1ABD642C28ED8E3F00773A6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ABD642B28ED8E3F00773A6E /* GoogleService-Info.plist */; };
 		74CE5B0250B56F4E1C358216 /* Pods_lofftMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B725F43BF9B3A48A5A2422E /* Pods_lofftMobileApp.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -45,10 +47,10 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lofftMobileApp/main.m; sourceTree = "<group>"; };
 		1A3477C5295676D600CF61F4 /* Inter-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Bold.otf"; path = "../../assets/fonts/Inter-Bold.otf"; sourceTree = "<group>"; };
 		1A3477C6295676D600CF61F4 /* Inter-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Medium.otf"; path = "../../assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; };
-		1A3477C7295676D600CF61F4 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = icomoon.ttf; path = ../../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		1A3477C8295676D600CF61F4 /* Inter-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-SemiBold.otf"; path = "../../assets/fonts/Inter-SemiBold.otf"; sourceTree = "<group>"; };
 		1A3477C9295676D700CF61F4 /* Inter-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Black.otf"; path = "../../assets/fonts/Inter-Black.otf"; sourceTree = "<group>"; };
 		1A3477CA295676D700CF61F4 /* InterV.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = InterV.ttf; path = ../../assets/fonts/InterV.ttf; sourceTree = "<group>"; };
+		1A42F2FC295C90E700591868 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = icomoon.ttf; path = ../../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		1A9F9146293D637E00738116 /* lofftMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lofftMobileApp.entitlements; path = lofftMobileApp/lofftMobileApp.entitlements; sourceTree = "<group>"; };
 		1ABD642B28ED8E3F00773A6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-lofftMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -115,7 +117,7 @@
 		1A01BF5E290055B100529A35 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1A3477C7295676D600CF61F4 /* icomoon.ttf */,
+				1A42F2FC295C90E700591868 /* icomoon.ttf */,
 				1A3477C9295676D700CF61F4 /* Inter-Black.otf */,
 				1A3477C5295676D600CF61F4 /* Inter-Bold.otf */,
 				1A3477C6295676D600CF61F4 /* Inter-Medium.otf */,
@@ -274,7 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A3477CB295676DE00CF61F4 /* icomoon.ttf in Resources */,
+				1A42F2FD295C90F200591868 /* icomoon.ttf in Resources */,
 				1A3477CC295676DE00CF61F4 /* Inter-Black.otf in Resources */,
 				1A3477CD295676DE00CF61F4 /* Inter-Bold.otf in Resources */,
 				1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */,
