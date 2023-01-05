@@ -13,6 +13,7 @@ import app.lofft.lofft.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import org.devio.rn.splashscreen.SplashScreenReactPackage; // Splash Screen
+import com.rollbar.RollbarReactNative; // Rollbar error reporting
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -54,6 +55,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    RollbarReactNative.init(this, "d2527d9eb6ff40cdb690dc31384a6d1f", "production");
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
