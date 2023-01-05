@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
+#import <RollbarReactNative/RollbarReactNative.h> // Error handling and reporting RollBar
 
 
 #import <React/RCTAppSetupUtils.h>
@@ -35,6 +36,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 {
   RCTAppSetupPrepareApp(application);
   [FIRApp configure];
+  [RollbarReactNative initWithAccessToken:@"d2527d9eb6ff40cdb690dc31384a6d1f"];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
 #if RCT_NEW_ARCH_ENABLED
