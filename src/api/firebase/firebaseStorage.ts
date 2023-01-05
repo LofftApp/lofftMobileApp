@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 if (__DEV__) {
   let host = 'localhost';
   // If using Mobile device set the host as local IP set host in App.js and wihtin the firebase.json for each method
-  host = '192.168.0.105';
+  // host = '192.168.0.105';
   storage().useEmulator(host, 9199);
 }
 
