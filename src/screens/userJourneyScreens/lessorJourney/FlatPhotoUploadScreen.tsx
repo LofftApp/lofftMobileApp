@@ -67,12 +67,6 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <CoreButton value="Take Photo" onPress={() => {}} />
-            {/* <CoreButton
-              value="Upload Photo"
-              onPress={async () => {
-                await libraryImageUpload();
-              }}
-            /> */}
             <ImageUploadButton />
             <CoreButton
               value="Cancel"
