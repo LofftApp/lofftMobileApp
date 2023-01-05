@@ -1,5 +1,5 @@
-import {relative} from 'node:path/win32';
-import React, {useState} from 'react';
+
+import React, {useState, useEffect} from 'react';
 
 import {
   View,
@@ -12,6 +12,11 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+
+import MapboxGL from '@rnmapbox/maps';
+import { MAPBOX_API_KEY } from '@env';
+
+MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 const TestMapScreen = () => {
   // States
@@ -55,8 +60,76 @@ const TestMapScreen = () => {
     },
   ]);
 
+  const [mapboxFlats, setmapboxFlats] = useState<String[]>([]);
+
+
+  useEffect(() => {
+    const geoCoding = async (flats: any) => {
+      let formatedCordinates = await Promise.all(
+        flats.map(async (el: any) => {
+          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.address}.json?access_token=${MAPBOX_API_KEY}`;
+          const response = await fetch(endpoint);
+          const data = await response.json();
+
+          let flatObject = {
+            address: null,
+            icon: null,
+            price: null,
+            match: null,
+            name: null,
+            district: null,
+            id: null,
+          };
+          flatObject.address = data.features[0].geometry.coordinates;
+          flatObject.icon = el.icon;
+          flatObject.price = el.price;
+          flatObject.match = el.match;
+          flatObject.name = el.name;
+          flatObject.district = el.district;
+          flatObject.id = el.id;
+
+          return flatObject;
+        }),
+      );
+      setmapboxFlats(formatedCordinates);
+    };
+
+    geoCoding(flats);
+  }, []);
+
   return (
     <View style={styles.bigBoi}>
+      <MapboxGL.MapView
+        style={styles.map}
+        styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
+        <MapboxGL.Camera
+          zoomLevel={10}
+          centerCoordinate={[13.404954, 52.520008]}
+          animationMode="flyTo"
+        />
+        {mapboxFlats.map((el: any, index: number) => (
+          <MapboxGL.MarkerView
+            key={index + 1}
+            coordinate={[el.address[0], el.address[1]]}>
+            <View
+              style={{
+                height: 30,
+                width: 30,
+                backgroundColor: 'yellow',
+                borderRadius: 50,
+                borderColor: '#fff',
+                borderWidth: 3,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text>{el.icon}</Text>
+            </View>
+          </MapboxGL.MarkerView>
+        ))}
+
+
+      </MapboxGL.MapView>
+
       <SafeAreaView style={styles.container}>
         <ScrollView
         horizontal
@@ -87,6 +160,7 @@ const styles = StyleSheet.create({
     minWidth: '100%',
     bottom: 20,
     position: 'absolute',
+    zIndex: 1000000,
     paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
@@ -99,6 +173,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     zIndex: 10000,
     marginHorizontal: 20,
+  },
+
+  map: {
+    minWidth: '100%',
+    minHeight: '100%',
+    zIndex: 1,
   },
 });
 
