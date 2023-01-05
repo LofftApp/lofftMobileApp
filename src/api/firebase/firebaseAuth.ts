@@ -18,11 +18,18 @@ const errorHandling = (err: any) => {
       message: 'That email address is already in use!',
     };
   }
+  if (err.code === 'auth/user-not-found') {
+    return {
+      error: true,
+      target: 'email',
+      message: 'The user cannot be found.',
+    };
+  }
   if (err.code === 'auth/weak-password') {
     return {
       error: true,
       target: 'password',
-      message: 'The password is not strong enough',
+      message: 'The password is not strong enough.',
     };
   }
   if (err.code === 'auth/user-disabled') {
@@ -44,11 +51,12 @@ export const handleSignUp = async ({email, password}: any) => {
 };
 
 // Email signin
-export const handleSignIn = async ({email, password}: any) => {
+export const handleSignIn = async ({email, password, setMessage}: any) => {
   try {
-    const user = await auth().signInWithEmailAndPassword(email, password);
+    await auth().signInWithEmailAndPassword(email, password);
+    console.log('Login');
   } catch (err: any) {
-    return errorHandling(err);
+    return setMessage(errorHandling(err)?.message);
   }
 };
 

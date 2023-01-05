@@ -4,9 +4,9 @@ import {Text, StyleSheet, Pressable} from 'react-native';
 // StyleSheet 🖼️
 import Color from '../../styles/lofftColorPallet.json';
 
-const SignUpButton = ({title}: any) => {
+const SignUpButton = ({title, onPress}: any) => {
   return (
-    <Pressable style={styles.signUpButton}>
+    <Pressable style={styles.signUpButton} onPress={onPress}>
       <Text style={styles.btnText}>{title}</Text>
     </Pressable>
   );
