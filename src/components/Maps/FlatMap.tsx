@@ -1,6 +1,15 @@
 import React, {useEffect, useState} from 'react';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Animated,
+} from 'react-native';
 
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
@@ -117,23 +126,50 @@ const FlatMap = ({route, navigation}: any) => {
             </MapboxGL.MarkerView>
           ))}
         </MapboxGL.MapView>
+
+        {/* <Animated.ScrollView
+
+
+          style={styles.scrollView}>
+          {flats.map((el, index) => (
+            <View style={styles.flatCard} key={index + 1}>
+              <Text>{el.name}</Text>
+            </View>
+          ))}
+        </Animated.ScrollView> */}
+        <FlatList data={flats} keyExtractor={item => item.id} />
+
+
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   container: {
     height: '100%',
     width: '100%',
   },
   map: {
     flex: 1,
+  },
+  scrollView: {
+    bottom: 0,
+    marginBottom: 15,
+    zIndex: 10000000,
+    left: 0,
+    right: 0,
+    paddingVertical: 10,
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+  flatCard: {
+    width: 300,
+    height: 200,
+    elevation: 2,
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 12,
   },
 });
 
