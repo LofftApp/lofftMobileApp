@@ -738,7 +738,7 @@ PODS:
   - MapboxCommon (23.2.1)
   - MapboxCoreMaps (10.10.0):
     - MapboxCommon (~> 23.2)
-  - MapboxMaps (10.10.1):
+  - MapboxMaps (10.10.0):
     - MapboxCommon (= 23.2.1)
     - MapboxCoreMaps (= 10.10.0)
     - MapboxMobileEvents (= 1.0.10)
@@ -1289,7 +1289,7 @@ SPEC CHECKSUMS:
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   MapboxCommon: 235bb9c27a8985d982e17f216795b1f7ab526782
   MapboxCoreMaps: 4075a9e415b9b3ab6229d09623fef5f791826a5b
-  MapboxMaps: 0c2f7722016bc56aa27b5e6bcf72ae4df7a98670
+  MapboxMaps: a5ad1977764731f97ba04bb7815b6b367e56039c
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
