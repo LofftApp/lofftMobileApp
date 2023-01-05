@@ -16,58 +16,6 @@ import {MAPBOX_API_KEY} from '@env';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-const DATA = [
-  {
-    id: 'a-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: 'v-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: 'c-3da1-471f-bd96-145571e29d7212312',
-    title: 'Third Item',
-  },
-  {
-    id: 'd-3da1-471f-bd96-145571e29d722342',
-    title: 'Third Item',
-  },
-  {
-    id: 'e-3da1-471f-bd96-145571e29d7223423',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d722342',
-    title: 'Third Item',
-  },
-  {
-    id: 'f-3da1-471f-bd96-145571e29d72423',
-    title: 'Third Item',
-  },
-  {
-    id: '6-3da1-471f-bd96-145571e29d7223',
-    title: 'Third Item',
-  },
-  {
-    id: '7-3da1-471f-bd96-145571e29d723999',
-    title: 'Third Item',
-  },
-  {
-    id: '8-3da1-471f-bd96-145571e29d7212',
-    title: 'Third Item',
-  },
-  {
-    id: '9-3da1-471f-bd96-145571e29d7253',
-    title: 'Third Item',
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
 
 const FlatMap = ({route, navigation}: any) => {
   // States
@@ -111,7 +59,7 @@ const FlatMap = ({route, navigation}: any) => {
     },
   ]);
 
-  const renderItem = ({item}) => <Item title={item.title} />;
+
 
   const [mapboxFlats, setmapboxFlats] = useState<String[]>([]);
   // API
