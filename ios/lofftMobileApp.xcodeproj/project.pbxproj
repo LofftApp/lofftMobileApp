@@ -12,8 +12,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		13D42D0FAF9F119272EAB413 /* Pods_lofftMobileApp_lofftMobileAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46047CCF502124626C4E30EF /* Pods_lofftMobileApp_lofftMobileAppTests.framework */; };
-		1A3477BB295675F800CF61F4 /* Mapbox in Frameworks */ = {isa = PBXBuildFile; productRef = A129B599A6A3A4DCA86AB4D0 /* Mapbox */; };
-		1A3477BC295675F800CF61F4 /* Mapbox in Frameworks */ = {isa = PBXBuildFile; productRef = 983AF3F8CFBC4C520AFA41BA /* Mapbox */; };
 		1A3477CC295676DE00CF61F4 /* Inter-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C9295676D700CF61F4 /* Inter-Black.otf */; };
 		1A3477CD295676DE00CF61F4 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C5295676D600CF61F4 /* Inter-Bold.otf */; };
 		1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C6295676D600CF61F4 /* Inter-Medium.otf */; };
