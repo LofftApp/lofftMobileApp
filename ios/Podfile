@@ -6,6 +6,7 @@ $RNMapboxMapsImpl = 'mapbox'
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 
+
 target 'lofftMobileApp' do
   config = use_native_modules!
   # Add Mapbox to pre install

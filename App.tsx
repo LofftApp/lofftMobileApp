@@ -45,6 +45,7 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
   const rollbar = new Client('d2527d9eb6ff40cdb690dc31384a6d1f');
+
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
@@ -84,7 +85,6 @@ const App = () => {
       }
       firestore().useEmulator(host, 8080);
       auth().useEmulator(`http://${host}:9099`);
-      rollbar.log('Error handling is working');
     }
   }, []);
 

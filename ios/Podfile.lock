@@ -1106,6 +1106,10 @@ PODS:
     - React-RCTImage
   - RNSVG (13.6.0):
     - React-Core
+  - Rollbar (1.12.14)
+  - RollbarReactNative (0.9.2):
+    - React-Core
+    - Rollbar (~> 1.12.8)
   - Turf (2.6.1)
   - Yoga (1.14.0)
 
@@ -1159,6 +1163,7 @@ DEPENDENCIES:
   - "rnmapbox-maps (from `../node_modules/@rnmapbox/maps`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RollbarReactNative (from `../node_modules/rollbar-react-native`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1191,6 +1196,7 @@ SPEC REPOS:
     - MapboxMobileEvents
     - nanopb
     - PromisesObjC
+    - Rollbar
     - Turf
 
 EXTERNAL SOURCES:
@@ -1288,6 +1294,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RollbarReactNative:
+    :path: "../node_modules/rollbar-react-native"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1367,9 +1375,11 @@ SPEC CHECKSUMS:
   rnmapbox-maps: 937bfd292d1eaf827fc19bd7a288d5e115fdd696
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
+  Rollbar: 58f315609433558a82af5a54d7888bb020bec561
+  RollbarReactNative: 2c2176da57f381df3d8f387dac32aa6cfad04c94
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
-PODFILE CHECKSUM: 54fd7d0c65fac1e6f75781e08e6e3cd38b916b69
+PODFILE CHECKSUM: f0734eb6e04d164071675c584b2269ae3184cdd9
 
 COCOAPODS: 1.11.3

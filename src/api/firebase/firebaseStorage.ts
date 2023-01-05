@@ -38,7 +38,7 @@ const uploadUserImages = async (images: any) => {
   const urls = await Promise.all(
     images.assets.flatMap(async (image: any) => {
       try {
-        const approvedFileTypes = ['jpg', 'jpeg', 'png'];
+        const approvedFileTypes = ['jpeg', 'png'];
         const fileType = image.uri.split('.')[1];
         if (approvedFileTypes.includes(fileType)) {
           const newFileName = randomName();
