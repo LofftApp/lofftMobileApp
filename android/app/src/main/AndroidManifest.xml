@@ -22,5 +22,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <meta-data android:name="com.rollbar.android.1.1" android:value="1.0.0" />
     </application>
 </manifest>

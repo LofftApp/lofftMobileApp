@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Color from './src/styles/lofftColorPallet.json';
-import {Client} from 'rollbar-react-native'; // error reporting
+import {Client, Configuration} from 'rollbar-react-native'; // error reporting Rollbar
 
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
@@ -42,10 +42,21 @@ import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlat
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const config = new Configuration('d2527d9eb6ff40cdb690dc31384a6d1f', {
+  endpoint: 'https://api.rollbar.com/api/1/item/',
+  logLevel: 'info',
+  payload: {
+    client: {
+      javascript: {
+        source_map_enabled: true,
+        code_version: '1.1',
+      },
+    },
+  },
+});
+const rollbar = new Client(config);
 
 const App = () => {
-  const rollbar = new Client('d2527d9eb6ff40cdb690dc31384a6d1f');
-
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
@@ -77,7 +88,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.0.105';
+      host = '127.0.0.1';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
