@@ -1477,7 +1477,7 @@
 
 "@rnmapbox/maps@rnmapbox/maps":
   version "10.0.0-beta.62"
-  resolved "https://codeload.github.com/rnmapbox/maps/tar.gz/33a26b45d1ea04f7a60426ec526af2b4f625b45a"
+  resolved "https://codeload.github.com/rnmapbox/maps/tar.gz/f5a8ec0895bf1b5ab53cb1025d6be09acd3db0d6"
   dependencies:
     "@mapbox/geo-viewport" ">=0.4.0"
     "@turf/along" "6.5.0"
