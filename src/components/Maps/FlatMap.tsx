@@ -19,38 +19,30 @@ const FlatMap = ({route, navigation}: any) => {
   const [flats] = useState([
     {
       address: 'Suarezstr 20, Berlin',
-      icon: '🐿',
+      matchP: '64%',
       price: 600,
-      match: 88,
-      name: 'Flash Boyz',
       district: 'Mitte',
       id: 1,
     },
     {
       address: 'Rudi Duschke Str 2, Berlin',
-      icon: '🦄',
-      price: 900,
-      match: 92,
-      name: 'Unicorns',
+      matchP: '82%',
+      price: 920,
       district: 'Xberg',
       id: 2,
     },
     {
       address: 'Schlegelstr 14, Berlin',
-      icon: '🐝',
-      price: 900,
-      match: 92,
-      name: 'Unicorns',
+      matchP: '91%',
+      price: 950,
       district: 'Xberg',
       id: 3,
     },
 
     {
       address: 'Wilsnackerstr 13, Berlin',
-      icon: '⚛️',
-      price: 900,
-      match: 92,
-      name: 'Reactive Gang',
+      matchP: '78%',
+      price: 400,
       district: 'Moabit',
       id: 3,
     },
@@ -69,17 +61,15 @@ const FlatMap = ({route, navigation}: any) => {
 
           let flatObject = {
             address: null,
-            icon: null,
+            matchP: null,
             price: null,
-            match: null,
             name: null,
             district: null,
             id: null,
           };
           flatObject.address = data.features[0].geometry.coordinates;
-          flatObject.icon = el.icon;
           flatObject.price = el.price;
-          flatObject.match = el.match;
+          flatObject.matchP = el.matchP;
           flatObject.name = el.name;
           flatObject.district = el.district;
           flatObject.id = el.id;
@@ -119,7 +109,7 @@ const FlatMap = ({route, navigation}: any) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text>{el.icon}</Text>
+                <Text>{el.matchP}</Text>
               </View>
             </MapboxGL.MarkerView>
           ))}
