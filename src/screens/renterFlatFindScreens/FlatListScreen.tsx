@@ -27,7 +27,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 // This list page has old icons, it will need to have new icons when added.
 
-const FlatListScreen = () => {
+const FlatListScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
@@ -89,6 +89,10 @@ const FlatListScreen = () => {
         </View>
         <View style={styles.viewContainer}>
           {screen == 'list' ? <FlatListCard /> : <FlatMap />}
+
+          <Pressable onPress={() => navigation.navigate('TestMap')}>
+            <Text>Scroll Test</Text>
+          </Pressable>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -130,10 +134,6 @@ const styles = StyleSheet.create({
   },
   toggleButtonTextActive: {
     color: Color.Lavendar[100],
-  },
-  viewContainer: {
-    flex: 1,
-    padding: 16,
   },
 });
 

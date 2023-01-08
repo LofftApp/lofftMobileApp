@@ -1,7 +1,16 @@
 import React, {useEffect, useState} from 'react';
 
-import {View, Text, StyleSheet} from 'react-native';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Animated,
+} from 'react-native';
+
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
@@ -88,62 +97,91 @@ const FlatMap = ({route, navigation}: any) => {
   }, []);
 
   return (
-    <View style={styles.page}>
-      <View style={styles.container}>
-        <View style={styles.flatCardWarp}>
-          {/* Flat Card scroll goes here */}
-          <MapViewFlatCard />
+    <>
+      {/* <Animated.ScrollView
+
+        horizontal
+        style={styles.scrollView}>
+        {flats.map((el, index) => (
+          <View style={styles.flatCard} key={index + 1}>
+            <Text>{el.name}</Text>
+          </View>
+        ))}
+      </Animated.ScrollView> */}
+      <View style={styles.page}>
+        <View style={styles.container}>
+          <View style={styles.flatCardWarp}>
+            {/* Flat Card scroll goes here */}
+            <MapViewFlatCard />
+          </View>
+          <MapboxGL.MapView
+            style={styles.map}
+            styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
+            <MapboxGL.Camera
+              zoomLevel={10}
+              centerCoordinate={[13.404954, 52.520008]}
+              animationMode="flyTo"
+            />
+            {mapboxFlats.map((el: any, index: number) => (
+              <MapboxGL.MarkerView
+                key={index + 1}
+                coordinate={[el.address[0], el.address[1]]}>
+                <View
+                  style={{
+                    height: 30,
+                    width: 30,
+                    backgroundColor: 'yellow',
+                    borderRadius: 50,
+                    borderColor: '#fff',
+                    borderWidth: 3,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text>{el.icon}</Text>
+                </View>
+              </MapboxGL.MarkerView>
+            ))}
+          </MapboxGL.MapView>
         </View>
-        <MapboxGL.MapView
-          style={styles.map}
-          styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
-          <MapboxGL.Camera
-            zoomLevel={10}
-            centerCoordinate={[13.404954, 52.520008]}
-            animationMode="flyTo"
-          />
-          {mapboxFlats.map((el: any, index: number) => (
-            <MapboxGL.MarkerView
-              key={index + 1}
-              coordinate={[el.address[0], el.address[1]]}>
-              <View
-                style={{
-                  height: 30,
-                  width: 30,
-                  backgroundColor: 'yellow',
-                  borderRadius: 50,
-                  borderColor: '#fff',
-                  borderWidth: 3,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text>{el.icon}</Text>
-              </View>
-            </MapboxGL.MarkerView>
-          ))}
-        </MapboxGL.MapView>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    minHeight: '100%',
+    minWidth: '100%',
   },
   container: {
-    height: '100%',
-    width: '100%',
+    minWidth: '100%',
+    minHeight: '100%',
   },
   map: {
+    minWidth: '100%',
+    minHeight: '100%',
+    zIndex: 1,
+  },
+  scrollView: {
+    bottom: 200,
+    marginBottom: 15,
+    zIndex: 10000000,
+    left: 0,
+    right: 0,
+    paddingVertical: 10,
+    borderColor: 'red',
+    borderWidth: 2,
+    position: 'absolute',
     flex: 1,
   },
-  flatCardWarp: {
-    position: 'absolute',
-    zIndex: 1,
-    bottom: 16,
+  flatCard: {
+    width: 300,
+    height: 200,
+    elevation: 2,
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    marginVertical: 40,
+    borderRadius: 12,
   },
 });
 
