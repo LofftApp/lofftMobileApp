@@ -735,6 +735,10 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
+  - LogRocket (1.10.1)
+  - logrocket-react-native (1.10.1):
+    - LogRocket (= 1.10.1)
+    - React
   - MapboxCommon (23.2.1)
   - MapboxCoreMaps (10.10.0):
     - MapboxCommon (~> 23.2)
@@ -1098,6 +1102,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
+  - "logrocket-react-native (from `../node_modules/@logrocket/react-native`)"
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -1160,6 +1165,7 @@ SPEC REPOS:
     - leveldb-library
     - libevent
     - Libuv-gRPC
+    - LogRocket
     - MapboxCommon
     - MapboxCoreMaps
     - MapboxMaps
@@ -1181,6 +1187,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes/hermes-engine.podspec"
+  logrocket-react-native:
+    :path: "../node_modules/@logrocket/react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -1287,6 +1295,8 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
+  LogRocket: f3c9770ee7ec8b0c80a6fb5e2c0671d6d3a110dc
+  logrocket-react-native: 36ac38c911565a3e9144a3ac886dcb8fa3af5030
   MapboxCommon: 235bb9c27a8985d982e17f216795b1f7ab526782
   MapboxCoreMaps: 4075a9e415b9b3ab6229d09623fef5f791826a5b
   MapboxMaps: a5ad1977764731f97ba04bb7815b6b367e56039c

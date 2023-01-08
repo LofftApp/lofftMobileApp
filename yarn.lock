@@ -805,7 +805,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@expo/config-plugins@^5.0.4":
+"@expo/config-plugins@^5.0.1", "@expo/config-plugins@^5.0.4":
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-5.0.4.tgz#216fea6558fe66615af1370de55193f4181cb23e"
   integrity sha512-vzUcVpqOMs3h+hyRdhGwk+eGIOhXa5xYdd92yO17RMNHav3v/+ekMbs7XA2c3lepMO8Yd4/5hqmRw9ZTL6jGzg==
@@ -1155,6 +1155,13 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
+
+"@logrocket/react-native@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@logrocket/react-native/-/react-native-1.10.1.tgz#b5d38a7daf5566a5a3101ecf05f98b8ace7a0a49"
+  integrity sha512-PzMp7LE09t0SnzF84vkl0mia8bksJRnNSenjFIzav3c4A8ym8w77fkj99jEF27GQXUqNA72iUhFcNv8i1fZ04g==
+  dependencies:
+    "@expo/config-plugins" "^5.0.1"
 
 "@mapbox/geo-viewport@>=0.4.0":
   version "0.5.0"
