@@ -25,8 +25,7 @@ const InputFieldText = ({
   style,
 }: any) => {
   const [focus, setFocus] = useState(false);
-  console.log(dropdown);
-  console.log(value);
+  console.log(errorMessage);
   return (
     <>
       <View
