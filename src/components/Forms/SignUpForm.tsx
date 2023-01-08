@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import Color from '../../styles/lofftColorPallet.json';
-import SignUpButton from '../buttons/SignUpButton';
-import InputFieldText from '../coreComponents/inputField/InputFieldText';
-import CheckBox from '../coreComponents/interactiveElements/CheckBox';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {handleSignUp} from '../../api/firebase/firebaseAuth';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+
+// API 🧠
+import {handleSignUp} from '@Firebase/firebaseAuth';
+
+// Components 🪢
+import SignUpButton from '@Components/buttons/SignUpButton';
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
+
+// Stylesheets 🖼️
+import Color from '@StyleSheets/lofftColorPallet.json';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
