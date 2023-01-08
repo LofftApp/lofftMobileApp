@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 

@@ -5,10 +5,8 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  SafeAreaView,
   ScrollView,
   StatusBar,
-  Animated,
 } from 'react-native';
 
 import MapboxGL from '@rnmapbox/maps';
@@ -98,16 +96,6 @@ const FlatMap = ({route, navigation}: any) => {
 
   return (
     <>
-      {/* <Animated.ScrollView
-
-        horizontal
-        style={styles.scrollView}>
-        {flats.map((el, index) => (
-          <View style={styles.flatCard} key={index + 1}>
-            <Text>{el.name}</Text>
-          </View>
-        ))}
-      </Animated.ScrollView> */}
       <View style={styles.container}>
         <MapboxGL.MapView
           style={styles.map}
@@ -138,16 +126,16 @@ const FlatMap = ({route, navigation}: any) => {
           ))}
         </MapboxGL.MapView>
         <View style={styles.scrollContainer}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {flats.map((el, index) => {
-              return (
-                <View style={styles.flatcard} key={index + 1}>
-                  <Text style={{padding: 10}}>{el.name}</Text>
-                  <Text style={{padding: 10}}>{el.icon}</Text>
-                </View>
-              );
-            })}
-          </ScrollView>
+          <FlatList
+            data={flats}
+            horizontal
+            renderItem={({item, index}) => (
+              <View style={styles.flatcard} key={index + 1}>
+                <Text style={{padding: 10}}>{item.name}</Text>
+                <Text style={{padding: 10}}>{item.icon}</Text>
+              </View>
+            )}
+          />
         </View>
       </View>
     </>
@@ -160,8 +148,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: '100%',
-    borderWidth: 2,
-    borderColor: 'red',
     bottom: 0,
     position: 'absolute',
     zIndex: 2,
