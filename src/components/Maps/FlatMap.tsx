@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 
 import {View, Text, StyleSheet} from 'react-native';
-
+import Color from '@StyleSheets/lofftColorPallet.json';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
+import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -89,6 +90,10 @@ const FlatMap = ({route, navigation}: any) => {
   return (
     <View style={styles.page}>
       <View style={styles.container}>
+        <View style={styles.flatCardWarp}>
+          {/* Flat Card scroll goes here */}
+          <MapViewFlatCard />
+        </View>
         <MapboxGL.MapView
           style={styles.map}
           styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
@@ -134,6 +139,11 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  flatCardWarp: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: 16,
   },
 });
 
