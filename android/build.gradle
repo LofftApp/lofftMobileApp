@@ -48,5 +48,8 @@ allprojects {
         }
         google()
         maven { url 'https://www.jitpack.io' }
+        // Log Rocket
+        maven { url "https://storage.googleapis.com/logrocket-maven/" }
+
     }
 }
