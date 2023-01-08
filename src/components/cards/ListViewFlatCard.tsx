@@ -5,51 +5,64 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import PaginationBar from '@Components/bars/PaginationBar';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Assets 🪴
 import imageExample from '@Assets/images/flat-image.jpeg';
 
-const FlatListCard = () => {
+const ListViewFlatCard = () => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
 
   return (
     <View style={styles.flatCardContainer}>
-      <Image source={imageExample} style={styles.flatCardImage} />
-      <View style={styles.flatCardButtonsOverlay}>
-        <View style={styles.flatCardbuttonsWrap}>
-          <View style={styles.flatCardMatchingScoreButton}>
-            <Text style={styles.flatCardMatchingScoreButtonFont}>🌟 96%</Text>
-          </View>
-          <Pressable
-            style={styles.flatCardSaveButton}
-            onPress={() => (save === false ? setSave(true) : setSave(false))}>
-            {save === true ? (
-              <LofftIcon
-                name="heart-filled"
-                size={20}
-                color={Color.Tomato[100]}
-              />
-            ) : (
-              <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
-            )}
-          </Pressable>
-          <View style={styles.flatCardImagesScroll}>
+      <View style={{height: 244}}>
+        <Image source={imageExample} style={styles.flatCardImage} />
+        <View style={styles.flatCardButtonsOverlay}>
+          <View style={styles.flatCardbuttonsWrap}>
+            <View>
+              <View style={styles.flatCardMatchingScoreButton}>
+                <Text style={styles.flatCardMatchingScoreButtonFont}>
+                  🌟 96%
+                </Text>
+              </View>
+              <Pressable
+                style={styles.flatCardSaveButton}
+                onPress={() =>
+                  save === false ? setSave(true) : setSave(false)
+                }>
+                {save === true ? (
+                  <LofftIcon
+                    name="heart-filled"
+                    size={20}
+                    color={Color.Tomato[100]}
+                  />
+                ) : (
+                  <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
+                )}
+              </Pressable>
+            </View>
             <PaginationBar screen={screen} totalScreens={5} />
           </View>
         </View>
       </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
-          <Text style={styles.flatCardMetadataPriceAndSize}>860 € 26 m2</Text>
-          <Text style={styles.flatCardMetadataLocation}>Moabit, Berlin</Text>
-          <Text style={styles.flatCardMetadataTitle}>
+          <View style={styles.apartmentLocationInfo}>
+            <Text style={[fontStyles.headerSmall]}>860 € 26 m2</Text>
+            <Text
+              style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+              Moabit, Berlin
+            </Text>
+          </View>
+          <Text style={[fontStyles.bodyMedium]}>
             🧘 Calm flat in the centre of Moabit
           </Text>
         </View>
-        <View style={styles.flatCardChipsWrap}>
+        <View>
           <Chips />
         </View>
       </View>
@@ -59,10 +72,11 @@ const FlatListCard = () => {
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    height: 383,
+    marginHorizontal: 16,
+    marginBottom: 16,
   },
   flatCardImage: {
-    height: 244,
+    maxHeight: 244,
     width: '100%',
     overflow: 'hidden',
     zIndex: 1,
@@ -78,6 +92,7 @@ const styles = StyleSheet.create({
   },
   flatCardbuttonsWrap: {
     flex: 1,
+    justifyContent: 'space-between',
   },
 
   flatCardMatchingScoreButton: {
@@ -92,11 +107,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
   },
-  flatCardImagesScroll: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 0,
-  },
   flatCardMatchingScoreButtonFont: {
     fontWeight: '600',
     fontSize: 18,
@@ -105,34 +115,19 @@ const styles = StyleSheet.create({
 
   flatCardInfoWrap: {
     padding: 8,
-    flex: 1,
-  },
-  flatCardChipsWrap: {
-    flex: 1,
   },
   flatCardMetadataWrap: {
-    // flex: 1,
-
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  flatCardMetadataPriceAndSize: {
-    fontSize: 18,
-    fontWeight: '600',
+  apartmentLocationInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   flatCardMetadataLocation: {
-    fontSize: 14,
-    fontWeight: '400',
     color: Color.Black[50],
-    position: 'absolute',
-    right: 0,
-    top: 2,
-  },
-  flatCardMetadataTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginVertical: 8,
   },
 });
 
-export default FlatListCard;
+export default ListViewFlatCard;
