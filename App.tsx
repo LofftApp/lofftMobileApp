@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Color from './src/styles/lofftColorPallet.json';
+import LogRocket from '@logrocket/react-native';
 
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
@@ -17,6 +17,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+// StyleSheets 🖼️
+import Color from './src/styles/lofftColorPallet.json';
 
 // Find Lofft Journey
 import StartJourney from '@Screens/StartJourney';
@@ -60,6 +63,18 @@ const App = () => {
   };
 
   useEffect(() => {
+    const currentUser = auth().currentUser;
+    LogRocket.init('2y6ler/lofft');
+
+    // Currently added with no restriction, though once the user will have option to approve that their data is stored.
+
+    if (currentUser) {
+      LogRocket.identify(currentUser.uid, {
+        name: currentUser.displayName,
+        email: currentUser.email,
+      });
+    }
+
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
