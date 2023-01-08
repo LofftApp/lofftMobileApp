@@ -38,7 +38,6 @@ import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
 import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
-import TestMapScreen from './src/screens/renterFlatFindScreens/TestMapScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -119,12 +118,6 @@ const App = () => {
             component={FlatListScreen}
             options={{headerShown: false}}
           />
-          <Tab.Screen
-            name="TestMap"
-            component={TestMapScreen}
-            options={{headerShown: false}}
-          />
-
           <Tab.Screen
             name="favorite"
             component={FavoriteFlatScreen}

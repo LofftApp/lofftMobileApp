@@ -108,40 +108,46 @@ const FlatMap = ({route, navigation}: any) => {
           </View>
         ))}
       </Animated.ScrollView> */}
-      <View style={styles.page}>
-        <View style={styles.container}>
-          <View style={styles.flatCardWarp}>
-            {/* Flat Card scroll goes here */}
-            <MapViewFlatCard />
-          </View>
-          <MapboxGL.MapView
-            style={styles.map}
-            styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
-            <MapboxGL.Camera
-              zoomLevel={10}
-              centerCoordinate={[13.404954, 52.520008]}
-              animationMode="flyTo"
-            />
-            {mapboxFlats.map((el: any, index: number) => (
-              <MapboxGL.MarkerView
-                key={index + 1}
-                coordinate={[el.address[0], el.address[1]]}>
-                <View
-                  style={{
-                    height: 30,
-                    width: 30,
-                    backgroundColor: 'yellow',
-                    borderRadius: 50,
-                    borderColor: '#fff',
-                    borderWidth: 3,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Text>{el.icon}</Text>
+      <View style={styles.container}>
+        <MapboxGL.MapView
+          style={styles.map}
+          styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
+          <MapboxGL.Camera
+            zoomLevel={10}
+            centerCoordinate={[13.404954, 52.520008]}
+            animationMode="flyTo"
+          />
+          {mapboxFlats.map((el: any, index: number) => (
+            <MapboxGL.MarkerView
+              key={index + 1}
+              coordinate={[el.address[0], el.address[1]]}>
+              <View
+                style={{
+                  height: 30,
+                  width: 30,
+                  backgroundColor: 'yellow',
+                  borderRadius: 50,
+                  borderColor: '#fff',
+                  borderWidth: 3,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text>{el.icon}</Text>
+              </View>
+            </MapboxGL.MarkerView>
+          ))}
+        </MapboxGL.MapView>
+        <View style={styles.scrollContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {flats.map((el, index) => {
+              return (
+                <View style={styles.flatcard} key={index + 1}>
+                  <Text style={{padding: 10}}>{el.name}</Text>
+                  <Text style={{padding: 10}}>{el.icon}</Text>
                 </View>
-              </MapboxGL.MarkerView>
-            ))}
-          </MapboxGL.MapView>
+              );
+            })}
+          </ScrollView>
         </View>
       </View>
     </>
@@ -149,30 +155,23 @@ const FlatMap = ({route, navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  page: {
-    minHeight: '100%',
-    minWidth: '100%',
-  },
   container: {
-    minWidth: '100%',
-    minHeight: '100%',
+    flex: 1,
+  },
+  scrollContainer: {
+    width: '100%',
+    borderWidth: 2,
+    borderColor: 'red',
+    bottom: 0,
+    position: 'absolute',
+    zIndex: 2,
+    paddingTop: StatusBar.currentHeight,
+    marginBottom: 16,
   },
   map: {
     minWidth: '100%',
     minHeight: '100%',
     zIndex: 1,
-  },
-  scrollView: {
-    bottom: 200,
-    marginBottom: 15,
-    zIndex: 10000000,
-    left: 0,
-    right: 0,
-    paddingVertical: 10,
-    borderColor: 'red',
-    borderWidth: 2,
-    position: 'absolute',
-    flex: 1,
   },
   flatCard: {
     width: 300,
@@ -182,6 +181,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 40,
     borderRadius: 12,
+  },
+  flatcard: {
+    height: 200,
+    width: 200,
+    borderRadius: 12,
+    backgroundColor: 'white',
+    zIndex: 10000,
+    marginHorizontal: 20,
   },
 });
 
