@@ -25,6 +25,13 @@ const errorHandling = (err: any) => {
       message: 'The user cannot be found.',
     };
   }
+  if (err.code === 'auth/wrong-password') {
+    return {
+      error: true,
+      target: 'password',
+      message: 'The password is incorrect.',
+    };
+  }
   if (err.code === 'auth/weak-password') {
     return {
       error: true,
@@ -56,7 +63,8 @@ export const handleSignIn = async ({email, password, setMessage}: any) => {
     await auth().signInWithEmailAndPassword(email, password);
     console.log('Login');
   } catch (err: any) {
-    return setMessage(errorHandling(err)?.message);
+    console.log(err);
+    return setMessage(errorHandling(err));
   }
 };
 
