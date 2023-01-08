@@ -19,7 +19,7 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
-import FlatListCard from '@Components/cards/FlatListCard';
+import FlatListCard from '@Components/cards/ListViewFlatCard';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
