@@ -17,6 +17,7 @@
 		1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C6295676D600CF61F4 /* Inter-Medium.otf */; };
 		1A3477CF295676DE00CF61F4 /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C8295676D600CF61F4 /* Inter-SemiBold.otf */; };
 		1A3477D0295676DE00CF61F4 /* InterV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477CA295676D700CF61F4 /* InterV.ttf */; };
+		1A6A05D9296B69A4002E1307 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A6A05D8296B6808002E1307 /* icomoon.ttf */; };
 		1ABD642C28ED8E3F00773A6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ABD642B28ED8E3F00773A6E /* GoogleService-Info.plist */; };
 		74CE5B0250B56F4E1C358216 /* Pods_lofftMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B725F43BF9B3A48A5A2422E /* Pods_lofftMobileApp.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -273,6 +274,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A6A05D9296B69A4002E1307 /* icomoon.ttf in Resources */,
 				1A3477CC295676DE00CF61F4 /* Inter-Black.otf in Resources */,
 				1A3477CD295676DE00CF61F4 /* Inter-Bold.otf in Resources */,
 				1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */,

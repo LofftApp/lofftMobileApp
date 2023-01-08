@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+import {View, Text, StyleSheet, FlatList, StatusBar} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
+
+// Components 🪢
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
+import MapMarker from './MapMarker';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -19,21 +16,21 @@ const FlatMap = ({route, navigation}: any) => {
   const [flats] = useState([
     {
       address: 'Suarezstr 20, Berlin',
-      matchP: '64%',
+      matchP: 64,
       price: 600,
       district: 'Mitte',
       id: 1,
     },
     {
       address: 'Rudi Duschke Str 2, Berlin',
-      matchP: '82%',
+      matchP: 82,
       price: 920,
       district: 'Xberg',
       id: 2,
     },
     {
       address: 'Schlegelstr 14, Berlin',
-      matchP: '91%',
+      matchP: 91,
       price: 950,
       district: 'Xberg',
       id: 3,
@@ -41,10 +38,10 @@ const FlatMap = ({route, navigation}: any) => {
 
     {
       address: 'Wilsnackerstr 13, Berlin',
-      matchP: '78%',
+      matchP: 78,
       price: 400,
       district: 'Moabit',
-      id: 3,
+      id: 4,
     },
   ]);
 
@@ -98,19 +95,7 @@ const FlatMap = ({route, navigation}: any) => {
             <MapboxGL.MarkerView
               key={index + 1}
               coordinate={[el.address[0], el.address[1]]}>
-              <View
-                style={{
-                  height: 30,
-                  width: 30,
-                  backgroundColor: 'yellow',
-                  borderRadius: 50,
-                  borderColor: '#fff',
-                  borderWidth: 3,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text>{el.matchP}</Text>
-              </View>
+              <MapMarker data={el} />
             </MapboxGL.MarkerView>
           ))}
         </MapboxGL.MapView>
