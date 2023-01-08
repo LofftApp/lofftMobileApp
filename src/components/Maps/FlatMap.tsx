@@ -8,7 +8,6 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
@@ -129,12 +128,8 @@ const FlatMap = ({route, navigation}: any) => {
           <FlatList
             data={flats}
             horizontal
-            renderItem={({item, index}) => (
-              <View style={styles.flatcard} key={index + 1}>
-                <Text style={{padding: 10}}>{item.name}</Text>
-                <Text style={{padding: 10}}>{item.icon}</Text>
-              </View>
-            )}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item, index}) => <MapViewFlatCard />}
           />
         </View>
       </View>
