@@ -18,9 +18,7 @@ const MapViewFlatCard = () => {
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.imageDetailsBlock}>
-        <View style={styles.imageContainer}>
-          <Image source={imageExample} style={styles.flatCardImage} />
-        </View>
+        <Image source={imageExample} style={styles.flatCardImage} />
         <View style={styles.details}>
           <View style={styles.flatCardbuttonsWrap}>
             <View style={styles.flatCardMatchingScoreButton}>
