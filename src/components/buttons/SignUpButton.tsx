@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {Text, StyleSheet, Pressable} from 'react-native';
+import React from 'react';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 // StyleSheet 🖼️
-import Color from '../../styles/lofftColorPallet.json';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
 const SignUpButton = ({title, onPress}: any) => {
   return (
-    <Pressable style={styles.signUpButton} onPress={onPress}>
+    <TouchableOpacity style={styles.signUpButton} onPress={onPress}>
       <Text style={styles.btnText}>{title}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
