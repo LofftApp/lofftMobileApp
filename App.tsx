@@ -69,10 +69,11 @@ const App = () => {
     // Currently added with no restriction, though once the user will have option to approve that their data is stored.
 
     if (currentUser) {
-      LogRocket.identify(currentUser.uid, {
+      const credentials: any = {
         name: currentUser.displayName,
         email: currentUser.email,
-      });
+      };
+      LogRocket.identify(currentUser.uid, credentials);
     }
 
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -89,7 +90,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.0.105';
+      host = '192.168.1.16';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
