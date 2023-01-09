@@ -14,8 +14,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 const SignInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-
+  const [message, setMessage] = useState({target: '', message: ''});
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello again!</Text>
@@ -26,14 +25,16 @@ const SignInForm = () => {
           placeholder="Email"
           type="email"
           keyboardType="email-address"
-          errorMessage={message}
+          errorMessage={message?.target === 'email' ? message?.message : null}
         />
         <InputFieldText
           value={password}
           onChangeText={(text: string) => setPassword(text)}
           placeholder="Password"
           type="password"
-          errorMessage={message}
+          errorMessage={
+            message?.target === 'password' ? message?.message : null
+          }
         />
         <Text style={styles.text}>Forgot password?</Text>
       </View>
