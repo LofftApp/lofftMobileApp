@@ -46,6 +46,18 @@ const SignUpForm = () => {
     return {error: false};
   };
 
+  const submitValidation = async ({email, password}: any) => {
+    let validation: any = null;
+    validation = pageValidation(checkbox, password, repeatPassword);
+    setMessage(validation);
+    if (!validation.error) {
+      validation = await handleSignUp({email, password});
+      if (validation?.error) {
+        setMessage(validation);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create account</Text>
@@ -84,22 +96,10 @@ const SignUpForm = () => {
         </View>
       </View>
       <View style={styles.signUpButtonView}>
-        <TouchableOpacity
-          onPress={async () => {
-            let validation: any = null;
-            validation = pageValidation(checkbox, password, repeatPassword);
-            setMessage(validation);
-            if (!validation.error) {
-              validation = await handleSignUp({email, password});
-              if (validation?.error) {
-                setMessage(validation);
-              }
-            } else {
-              setMessage(validation);
-            }
-          }}>
-          <SignUpButton title="Sign up" />
-        </TouchableOpacity>
+        <SignUpButton
+          title="Sign up"
+          onPress={() => submitValidation({email, password})}
+        />
       </View>
     </View>
   );

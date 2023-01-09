@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
-  SafeAreaView,
-  ScrollView,
+  Pressable,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
+
+// APIs 🧠
+import {libraryImageUpload} from '@Firebase/firebaseStorage';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -15,9 +18,9 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
-import PaginationBar from '@Components/bars/PaginationBar';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import {CoreButton} from '@Components/buttons/CoreButton';
+import ImageUploadButton from '@Redux/userImageUpload/ImageUploadButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -27,6 +30,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatPhotoUploadScreen = ({navigation}: any) => {
+  const [modalVisible, setModalVisible] = useState(true);
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
@@ -34,7 +38,9 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         subDescription="Describe your flat in a short text. This can be edited later!"
       />
 
-      <TouchableOpacity style={styles.imageUploadButton}>
+      <TouchableOpacity
+        style={styles.imageUploadButton}
+        onPress={() => setModalVisible(true)}>
         <LofftIcon name="upload" size={30} color={Color.Lavendar[100]} />
         <Text style={[fontStyles.headerSmall, styles.uploadText]}>
           Upload Pictures
@@ -51,6 +57,25 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         }
         buttonValue="Take me to Lofft"
       />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <CoreButton value="Take Photo" onPress={() => {}} />
+            <ImageUploadButton />
+            <CoreButton
+              value="Cancel"
+              onPress={() => setModalVisible(false)}
+              invert
+            />
+          </View>
+        </View>
+      </Modal>
     </ScreenBackButton>
   );
 };
@@ -79,6 +104,30 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 45,
     justifyContent: 'space-around',
+  },
+  centeredView: {
+    backgroundColor: Color.BlackOpacity[30],
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  modalView: {
+    minHeight: 250,
+    justifyContent: 'space-evenly',
+    width: '100%',
+    backgroundColor: Color.White[100],
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingHorizontal: 35,
+    paddingBottom: 35,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 
