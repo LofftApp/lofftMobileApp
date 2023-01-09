@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -21,9 +22,7 @@ const MapViewFlatCard = () => {
         <Image source={imageExample} style={styles.flatCardImage} />
         <View style={styles.details}>
           <View style={styles.flatCardbuttonsWrap}>
-            <View style={styles.flatCardMatchingScoreButton}>
-              <Text style={styles.flatCardMatchingScoreButtonFont}>🌟96%</Text>
-            </View>
+            <MatchingScoreButton size="Small" score={96} />
             <Pressable
               onPress={() => (save === false ? setSave(true) : setSave(false))}>
               {save === true ? (
