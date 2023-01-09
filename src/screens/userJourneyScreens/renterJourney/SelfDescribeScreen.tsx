@@ -23,8 +23,6 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
     setTextFocus(true);
   };
 
-  console.log(textFocus);
-
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
