@@ -8,7 +8,6 @@ export const imageUploadSlice = createSlice({
   reducers: {
     setImageToUpload: (state: any, action: any) => {
       state.imagesToUpload = action.payload;
-      console.log(action.payload);
     },
   },
 });
