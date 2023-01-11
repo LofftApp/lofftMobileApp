@@ -5,7 +5,14 @@ import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-const EmojiIcon = ({id, emojiIcon, value, toggle, selectedEmojis}: any) => {
+const EmojiIcon = ({
+  id,
+  emojiIcon,
+  value,
+  toggle,
+  selectedEmojis,
+  disabled = false,
+}: any) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -25,7 +32,12 @@ const EmojiIcon = ({id, emojiIcon, value, toggle, selectedEmojis}: any) => {
         onPress={() => {
           selectedEmojis(id);
         }}
-        style={toggle ? styles.selectedEmojiIcon : styles.emojiIcon}>
+        style={[
+          styles.buttonStyle,
+          toggle ? styles.selectedEmojiIcon : styles.emojiIcon,
+          disabled ? styles.disabled : null,
+        ]}
+        disabled={disabled}>
         <Text
           style={[fontStyles.bodyMedium, {color: toggle ? 'white' : 'black'}]}>
           {emojiIcon} {value}
@@ -37,25 +49,24 @@ const EmojiIcon = ({id, emojiIcon, value, toggle, selectedEmojis}: any) => {
 
 const styles = StyleSheet.create({
   emojiIcon: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderWidth: 2,
-    borderRadius: 16,
     borderColor: Color.Black[100],
-    flexDirction: 'row',
-    marginRight: 8,
-    marginBottom: 16,
   },
   selectedEmojiIcon: {
+    borderColor: Color.Lavendar[100],
+    backgroundColor: Color.Lavendar[100],
+  },
+  buttonStyle: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: '#B8A7FC',
-    backgroundColor: Color.Lavendar[100],
     flexDirction: 'row',
     marginRight: 8,
     marginBottom: 16,
+    borderRadius: 16,
+    borderWidth: 2,
+  },
+  disabled: {
+    backgroundColor: Color.Black[5],
+    borderColor: Color.Black[10],
   },
 });
 
