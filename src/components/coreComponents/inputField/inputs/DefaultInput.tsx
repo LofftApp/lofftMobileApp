@@ -12,6 +12,7 @@ const DefaultInput = ({
   onBlur = null,
   value,
   autoCapitalize,
+  keyboardType = 'default',
 }: any) => {
   return (
     <View style={styles.inputContainer}>
@@ -23,6 +24,7 @@ const DefaultInput = ({
         onFocus={onFocus}
         placeholder={placeholder}
         autoCapitalize={autoCapitalize}
+        keyboardType={keyboardType}
       />
     </View>
   );
