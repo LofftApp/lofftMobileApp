@@ -49,7 +49,6 @@ export const checkUserProfileExist = async () => {
     if (response.data()) return true;
   } catch (error) {
     console.log(error);
-    console.log('If you see me, tell James');
     return false;
   }
 };

@@ -69,6 +69,7 @@ export const userJourneySlice = createSlice({
 
       // Lesser
       if (state.userType === 'lesser') {
+        console.log(userDetails);
         userDetails.cost = data?.cost || userDetails.cost;
         userDetails.location = data?.location || userDetails.location;
         userDetails.fromDate = data?.fromDate || userDetails.fromDate;
@@ -76,6 +77,7 @@ export const userJourneySlice = createSlice({
           userDetails.untilDate = data?.untilDate;
         }
         userDetails.perminant = data?.perminant || userDetails.perminant;
+        userDetails.images = data?.images || userDetails.images;
       }
 
       // All
