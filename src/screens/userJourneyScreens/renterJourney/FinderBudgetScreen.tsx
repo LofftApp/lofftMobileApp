@@ -74,9 +74,11 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
             <Text>Min. price</Text>
             <InputFieldText
               placeholder="0"
-              value={maxPrice}
+              value={minPrice}
               type="currency"
-              onChangeText={(num: number) => handleMin(num)}
+              onChangeText={(num: string) => {
+                handleMin(num);
+              }}
             />
           </View>
 
@@ -86,10 +88,17 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
               placeholder="5000"
               value={maxPrice}
               type="currency"
-              onChangeText={(num: number) => handleMin(num)}
+              onChangeText={(num: string) => handleMax(num)}
             />
           </View>
         </View>
+        {Number(minPrice) > Number(maxPrice) ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorMessage}>
+              The min value must not be more than the max value!
+            </Text>
+          </View>
+        ) : null}
         <View style={styles.sliderContainer}>
           <Slider
             thumbTintColor={Color.Lavendar[100]}
@@ -125,6 +134,7 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
           maxRent: maxPrice.toString(),
           warmRent,
         }}
+        disabled={Number(minPrice) > Number(maxPrice)}
       />
     </ScreenBackButton>
   );
@@ -164,6 +174,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  errorContainer: {
+    alignItems: 'flex-end',
+  },
+  errorMessage: {
+    color: Color.Tomato[100],
   },
 });
 
