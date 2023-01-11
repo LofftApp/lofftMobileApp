@@ -129,14 +129,12 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
             <Text>{maxPrice} €</Text>
           </View>
         </View>
-        <View style={styles.warmRentContainer}>
-          <View style={styles.switchContainer}>
-            <Text style={{marginRight: 12}}>Warm Rent</Text>
-            <CustomSwitch
-              value={warmRent}
-              onValueChange={() => setWarmRent(!warmRent)}
-            />
-          </View>
+        <View style={styles.switchContainer}>
+          <Text style={{marginRight: 12}}>Warm Rent</Text>
+          <CustomSwitch
+            value={warmRent}
+            onValueChange={() => setWarmRent(!warmRent)}
+          />
         </View>
       </View>
       <FooterNavBarWithPagination
@@ -182,13 +180,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginBottom: 55,
   },
-  warmRentContainer: {
+  switchContainer: {
+    marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 40,
-  },
-  switchContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
   },
 });
