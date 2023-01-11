@@ -5,6 +5,7 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import PaginationBar from '@Components/bars/PaginationBar';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -24,11 +25,7 @@ const ListViewFlatCard = () => {
         <View style={styles.flatCardButtonsOverlay}>
           <View style={styles.flatCardbuttonsWrap}>
             <View>
-              <View style={styles.flatCardMatchingScoreButton}>
-                <Text style={styles.flatCardMatchingScoreButtonFont}>
-                  🌟 96%
-                </Text>
-              </View>
+              <MatchingScoreButton size="Big" score={96} />
               <Pressable
                 style={styles.flatCardSaveButton}
                 onPress={() =>
@@ -95,24 +92,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  flatCardMatchingScoreButton: {
-    backgroundColor: Color.Mint[10],
-    height: 38,
-    width: 85,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   flatCardSaveButton: {
     position: 'absolute',
     right: 0,
   },
-  flatCardMatchingScoreButtonFont: {
-    fontWeight: '600',
-    fontSize: 18,
-    color: Color.Mint[100],
-  },
-
   flatCardInfoWrap: {
     padding: 8,
   },
