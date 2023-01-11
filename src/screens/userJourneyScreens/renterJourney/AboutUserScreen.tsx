@@ -67,6 +67,9 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
         value={emojiElement.value}
         toggle={emojiElement.toggle}
         selectedEmojis={selectedEmojis}
+        disabled={
+          selectedTracks.length === 10 && !selectedTracks.includes(emojiElement)
+        }
       />
     );
   });
