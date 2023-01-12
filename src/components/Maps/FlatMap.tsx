@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 
-import {View, Text, StyleSheet, FlatList, StatusBar} from 'react-native';
+import {View, Text, StyleSheet, FlatList, StatusBar, Dimensions} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -11,7 +11,11 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
+
+
 const FlatMap = ({route, navigation}: any) => {
+
+  const [currentCardIndex, setCurrentCardIndex] = useState(0)
   // States
   const [flats] = useState([
     {
@@ -80,6 +84,13 @@ const FlatMap = ({route, navigation}: any) => {
     geoCoding(flats);
   }, []);
 
+  const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
+    const index = viewableItems[0]["index"]
+    setCurrentCardIndex(index)
+  }, []);
+
+
+  console.log(mapboxFlats[currentCardIndex])
   return (
     <>
       <View style={styles.container}>
@@ -104,7 +115,8 @@ const FlatMap = ({route, navigation}: any) => {
             data={flats}
             horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={({item, index}) => <MapViewFlatCard />}
+            onViewableItemsChanged={onViewableItemsChanged}
+            renderItem={({item, index}) => <MapViewFlatCard price={item.price}/>}
           />
         </View>
       </View>

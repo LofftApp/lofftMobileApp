@@ -12,7 +12,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import imageExample from '@Assets/images/flat-image.jpeg';
 
-const MapViewFlatCard = () => {
+const MapViewFlatCard = ({price}) => {
   const [save, setSave] = useState(false);
 
   return (
@@ -39,7 +39,7 @@ const MapViewFlatCard = () => {
           </View>
           <View style={styles.flatCardMetadataWrap}>
             <View style={styles.coreDetails}>
-              <Text style={fontStyles.headerSmall}>860 € 26 m2</Text>
+              <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
               <Text style={fontStyles.bodyMedium}>
                 🧘 Calm flat in the centre of Moabit
               </Text>

@@ -89,11 +89,7 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen == 'list' ? <FlatListSubScreen /> : <FlatMap />}
-
-        {/* <Pressable onPress={() => navigation.navigate('TestMap')}>
-            <Text>Scroll Test</Text>
-          </Pressable> */}
+        {screen === 'list' ? <FlatListSubScreen /> : <FlatMap />}
       </View>
     </View>
     // </TouchableWithoutFeedback>

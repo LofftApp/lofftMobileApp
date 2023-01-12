@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 
 import {
@@ -11,14 +10,20 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  Animated,
+  Dimensions,
 } from 'react-native';
 
 import MapboxGL from '@rnmapbox/maps';
-import { MAPBOX_API_KEY } from '@env';
+import {MAPBOX_API_KEY} from '@env';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-const TestMapScreen = () => {
+const {width} = Dimensions.get('window');
+
+const CARD_WIDTH = width * 0.7;
+
+const MapTestScreen = () => {
   // States
   const [flats] = useState([
     {
@@ -62,7 +67,6 @@ const TestMapScreen = () => {
 
   const [mapboxFlats, setmapboxFlats] = useState<String[]>([]);
 
-
   useEffect(() => {
     const geoCoding = async (flats: any) => {
       let formatedCordinates = await Promise.all(
@@ -97,6 +101,17 @@ const TestMapScreen = () => {
     geoCoding(flats);
   }, []);
 
+  let mapIndex = 0;
+  let mapAnimation = new Animated.Value(0);
+
+  useEffect(() => {
+    mapAnimation.addListener((value) => {
+
+    })
+  })
+
+  console.log(mapboxFlats)
+
   return (
     <View style={styles.bigBoi}>
       <MapboxGL.MapView
@@ -126,25 +141,28 @@ const TestMapScreen = () => {
             </View>
           </MapboxGL.MarkerView>
         ))}
-
-
       </MapboxGL.MapView>
-
-      <SafeAreaView style={styles.container}>
-        <ScrollView
+            <>
+      <Animated.ScrollView
         horizontal
         style={styles.scrollView}
-        showsHorizontalScrollIndicator={false}>
-          {flats.map((el, index) => {
-            return (
-              <View style={styles.flatcard} key={index + 1}>
-                <Text style={{padding: 10}}>{el.name}</Text>
-                <Text style={{ padding: 10 }}>{el.icon}</Text>
-              </View>
-            );
-          })}
-        </ScrollView>
-      </SafeAreaView>
+        showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={1}
+        pagingEnabled={true}
+        snapToAlignment="center"
+        snapToInterval={CARD_WIDTH - 300}
+        >
+
+        {flats.map((el, index) => {
+          return (
+            <View style={styles.flatcard} key={index + 1}>
+              <Text style={{padding: 10}}>{el.name}</Text>
+              <Text style={{padding: 10}}>{el.icon}</Text>
+            </View>
+          );
+        })}
+      </Animated.ScrollView>
+      </>
     </View>
   );
 };
@@ -157,18 +175,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
   },
   container: {
-    minWidth: '100%',
-    bottom: 20,
-    position: 'absolute',
     zIndex: 1000000,
-    paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
     zIndex: 1000000,
+    minWidth: '100%',
+    bottom: 20,
+    position: 'absolute',
   },
   flatcard: {
     height: 200,
-    width: 200,
+    width: CARD_WIDTH,
     borderRadius: 12,
     backgroundColor: 'white',
     zIndex: 10000,
@@ -182,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestMapScreen;
+export default MapTestScreen;
