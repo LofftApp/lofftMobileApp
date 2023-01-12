@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TextInput,
-  Pressable,
   TouchableOpacity,
   Modal,
 } from 'react-native';
@@ -21,6 +21,8 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import ImageUploadButton from '@Redux/userImageUpload/ImageUploadButton';
+import ImagePreviewRow from '@Redux/userImageUpload/ImagePreviewRow';
+import UploadImageButton from '@Redux/userImageUpload/UploadImageButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -30,22 +32,15 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatPhotoUploadScreen = ({navigation}: any) => {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
         headlineText="Show us how the flat looks like."
         subDescription="Describe your flat in a short text. This can be edited later!"
       />
-
-      <TouchableOpacity
-        style={styles.imageUploadButton}
-        onPress={() => setModalVisible(true)}>
-        <LofftIcon name="upload" size={30} color={Color.Lavendar[100]} />
-        <Text style={[fontStyles.headerSmall, styles.uploadText]}>
-          Upload Pictures
-        </Text>
-      </TouchableOpacity>
+      <ImagePreviewRow />
+      <UploadImageButton onPress={() => setModalVisible(true)} />
       <TextInput
         multiline={true}
         style={styles.textInput}
@@ -66,8 +61,13 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <CoreButton value="Take Photo" onPress={() => {}} />
-            <ImageUploadButton />
+            <CoreButton
+              value="Take Photo"
+              onPress={() => {}}
+              // ! Disabled to be removed before production in new repo.
+              disabled={true}
+            />
+            <ImageUploadButton onPress={() => setModalVisible(false)} />
             <CoreButton
               value="Cancel"
               onPress={() => setModalVisible(false)}
@@ -81,17 +81,6 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  imageUploadButton: {
-    borderWidth: 2,
-    borderRadius: 12,
-    borderColor: Color.Lavendar[100],
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  uploadText: {
-    color: Color.Lavendar[100],
-    marginTop: 12,
-  },
   textInput: {
     marginTop: 24,
     borderWidth: 2,
