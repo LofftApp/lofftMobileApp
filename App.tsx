@@ -42,6 +42,11 @@ import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
 
+// Test
+
+import MapTestScreen from './src/screens/renterFlatFindScreens/MapTestScreen';
+import TestScreen from './src/screens/renterFlatFindScreens/MapTestScreen';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +64,9 @@ const App = () => {
       setUserType(profileExist);
       // setAdmin(userClaims.claims.admin);
     }
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   };
 
   useEffect(() => {
@@ -89,7 +96,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.0.105';
+      host = '127.0.0.1';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -100,7 +107,9 @@ const App = () => {
     }
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   return (
     <>
       {user && userType ? (
@@ -148,6 +157,17 @@ const App = () => {
             component={UserScreen}
             options={{headerShown: false}}
           />
+          <Tab.Screen
+                name="MapTestScreen"
+                component={MapTestScreen}
+                options={{headerShown: false}}
+              />
+
+                <Tab.Screen
+                  name="TestScreen"
+                  component={TestScreen}
+                  options={{ headerShown: false }}
+                />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="SignInScreen">
