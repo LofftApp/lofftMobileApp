@@ -7,10 +7,9 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
-import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -23,8 +22,6 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
   const [maxPrice, setMaxPrice] = useState(5000);
   const [minFocus, setMinFocus] = useState(false);
   const [maxFocus, setMaxFocus] = useState(false);
-  const [priceRange, setPriceRange] = useState([]);
-  const [screen, setScreen] = useState(3);
   const [warmRent, setWarmRent] = useState(false);
 
   const user = {
@@ -75,42 +72,33 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
         <View style={styles.inputContainer}>
           <View style={styles.formContainer}>
             <Text>Min. price</Text>
-            <TextInput
-              keyboardType="default"
-              style={[
-                styles.inputForm,
-                {
-                  borderColor: minFocus
-                    ? Color.Lavendar[100]
-                    : Color.Black[100],
-                },
-              ]}
-              placeholder="100 €"
-              autoCapitalize="words"
-              value={`${minPrice} €`}
-              onChangeText={num => handleMin(num)}
+            <InputFieldText
+              placeholder="0"
+              value={minPrice}
+              type="currency"
+              onChangeText={(num: string) => {
+                handleMin(num);
+              }}
             />
           </View>
 
           <View style={styles.formContainer}>
             <Text>Max. price</Text>
-            <TextInput
-              keyboardType="default"
-              style={[
-                styles.inputForm,
-                {
-                  borderColor: maxFocus
-                    ? Color.Lavendar[100]
-                    : Color.Black[100],
-                },
-              ]}
-              placeholder="5000 €"
-              autoCapitalize="words"
-              value={`${maxPrice} €`}
-              onChangeText={num => handleMax(num)}
+            <InputFieldText
+              placeholder="5000"
+              value={maxPrice}
+              type="currency"
+              onChangeText={(num: string) => handleMax(num)}
             />
           </View>
         </View>
+        {Number(minPrice) > Number(maxPrice) ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorMessage}>
+              The min value must not be more than the max value!
+            </Text>
+          </View>
+        ) : null}
         <View style={styles.sliderContainer}>
           <Slider
             thumbTintColor={Color.Lavendar[100]}
@@ -129,14 +117,12 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
             <Text>{maxPrice} €</Text>
           </View>
         </View>
-        <View style={styles.warmRentContainer}>
-          <View style={styles.switchContainer}>
-            <Text style={{marginRight: 12}}>Warm Rent</Text>
-            <CustomSwitch
-              value={warmRent}
-              onValueChange={() => setWarmRent(!warmRent)}
-            />
-          </View>
+        <View style={styles.switchContainer}>
+          <Text style={{marginRight: 12}}>Warm Rent</Text>
+          <CustomSwitch
+            value={warmRent}
+            onValueChange={() => setWarmRent(!warmRent)}
+          />
         </View>
       </View>
       <FooterNavBarWithPagination
@@ -148,6 +134,7 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
           maxRent: maxPrice.toString(),
           warmRent,
         }}
+        disabled={Number(minPrice) > Number(maxPrice)}
       />
     </ScreenBackButton>
   );
@@ -182,14 +169,17 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginBottom: 55,
   },
-  warmRentContainer: {
+  switchContainer: {
+    marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 40,
-  },
-  switchContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
+  },
+  errorContainer: {
+    alignItems: 'flex-end',
+  },
+  errorMessage: {
+    color: Color.Tomato[100],
   },
 });
 

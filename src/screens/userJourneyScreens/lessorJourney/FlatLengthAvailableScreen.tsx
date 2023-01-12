@@ -62,12 +62,12 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
             <TouchableOpacity
-              style={styles.setDateButton}
+              style={[styles.setDateButton, styles.activeButton]}
               onPress={() => {
                 setFromDate(new Date());
                 setFromDateSelected(true);
               }}>
-              <Text style={fontStyles.bodyMedium}>Today</Text>
+              <Text style={[fontStyles.bodyMedium, styles.activeButtonText]}>Today</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -89,7 +89,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                   untilDateSelected ? styles.selectedDate : null,
                 ]}>
                 {perminant
-                  ? 'Perminant'
+                  ? 'Choose date'
                   : untilDateSelected
                   ? dateFormatConverter({date: untilDate})
                   : 'Last day'}
@@ -97,12 +97,21 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
             <TouchableOpacity
-              style={styles.setDateButton}
+              style={[
+                styles.setDateButton,
+                perminant ? styles.activeButton : null,
+              ]}
               onPress={() => {
                 setPerminant(true);
                 setUntilDateSelected(true);
               }}>
-              <Text style={fontStyles.bodyMedium}>Perminant</Text>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  perminant ? styles.activeButtonText : null,
+                ]}>
+                Perminant
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -182,6 +191,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 8,
+  },
+  activeButton: {
+    backgroundColor: Color.Lavendar[100],
+  },
+  activeButtonText: {
+    color: Color.White[100],
   },
 });
 

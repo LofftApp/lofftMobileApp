@@ -33,21 +33,19 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
       />
 
       <View style={{flex: 1}}>
-        <Pressable
+        <TextInput
+          keyboardType="default"
+          placeholder="Who are you? What do you like?"
+          value={text}
           style={[
-            styles.inputForm,
+            styles.inputText,
             {borderColor: textFocus ? Color.Lavendar[100] : Color.Black[100]},
           ]}
-          onPress={() => handleTextFocus()}>
-          <TextInput
-            keyboardType="default"
-            placeholder="Who are you? What do you like?"
-            value={text}
-            style={styles.inputText}
-            onChangeText={text => setText(text)}
-            multiline={true}
-          />
-        </Pressable>
+          onChangeText={text => setText(text)}
+          onFocus={() => setTextFocus(true)}
+          onBlur={() => setTextFocus(false)}
+          multiline={true}
+        />
       </View>
 
       <FooterNavBarWithPagination
@@ -67,6 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   inputText: {
+    borderWidth: 2,
     paddingHorizontal: 10,
     flex: 1,
     borderRadius: 16,

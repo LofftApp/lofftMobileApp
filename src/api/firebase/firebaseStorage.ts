@@ -18,10 +18,10 @@ const randomName = () => {
   );
 };
 
-export const libraryImageUpload = async () => {
+export const libraryImageUpload = async (limit = 1) => {
   const images = await launchImageLibrary({
     mediaType: 'photo',
-    selectionLimit: 5,
+    selectionLimit: limit,
   });
   if (!images.didCancel) {
     try {
@@ -59,4 +59,9 @@ const uploadUserImages = async (images: any) => {
     }),
   );
   return urls;
+};
+
+export const deleteImage = (url: string) => {
+  const imageRef = storage().refFromURL(url);
+  imageRef.delete();
 };
