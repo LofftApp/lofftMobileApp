@@ -76,10 +76,11 @@ const App = () => {
     // Currently added with no restriction, though once the user will have option to approve that their data is stored.
 
     if (currentUser) {
-      LogRocket.identify(currentUser.uid, {
+      const credentials: any = {
         name: currentUser.displayName,
         email: currentUser.email,
-      });
+      };
+      LogRocket.identify(currentUser.uid, credentials);
     }
 
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
