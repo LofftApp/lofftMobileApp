@@ -8,14 +8,20 @@ import {setDetails} from '@Redux/userRegistration/userJourneySlice';
 // Componetne 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
 
-const ImageUploadButton = () => {
+const ImageUploadButton = ({onPress = () => {}}) => {
   const dispatch = useDispatch();
   return (
     <CoreButton
       value="Upload Photo"
       onPress={async () => {
-        const response: any = await libraryImageUpload();
-        dispatch(setImageToUpload(response));
+        const images: string[] = (await libraryImageUpload()) || [];
+        if (images.length > 0) {
+          // ! Current issue with TS, and void data.
+          // TODO: This needs to be fixed though doesn't affect procutions
+          onPress();
+          dispatch(setImageToUpload(images));
+          dispatch(setDetails(images));
+        }
       }}
     />
   );

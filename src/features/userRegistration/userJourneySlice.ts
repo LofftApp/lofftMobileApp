@@ -53,6 +53,7 @@ export const userJourneySlice = createSlice({
         state.userJourney = renterJourney();
       }
     },
+
     setDetails: (state: any, action: any) => {
       const data = action.payload;
       const userDetails = state.userDetails;
@@ -87,6 +88,7 @@ export const userJourneySlice = createSlice({
         userDetails.warmRent = data?.warmRent;
       }
     },
+
     saveUserDetails: (state: any) => {
       const userDetails = state.userDetails;
       if (state.userType === 'renter') {
@@ -110,6 +112,7 @@ export const userJourneySlice = createSlice({
           untilDate: userDetails.untilDate || null,
           perminant: userDetails.perminant || false,
           flatMate: userDetails.flatMate || {},
+          images: userDetails.images || null,
         });
       }
     },

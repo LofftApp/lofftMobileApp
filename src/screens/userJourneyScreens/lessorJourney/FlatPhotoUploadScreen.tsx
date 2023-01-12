@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TextInput,
-  Pressable,
   TouchableOpacity,
   Modal,
 } from 'react-native';
@@ -21,6 +21,7 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import ImageUploadButton from '@Redux/userImageUpload/ImageUploadButton';
+import ImagePreviewRow from '@Redux/userImageUpload/ImagePreviewRow';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -30,14 +31,14 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatPhotoUploadScreen = ({navigation}: any) => {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
         headlineText="Show us how the flat looks like."
         subDescription="Describe your flat in a short text. This can be edited later!"
       />
-
+      <ImagePreviewRow />
       <TouchableOpacity
         style={styles.imageUploadButton}
         onPress={() => setModalVisible(true)}>
@@ -66,8 +67,13 @@ const FlatPhotoUploadScreen = ({navigation}: any) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <CoreButton value="Take Photo" onPress={() => {}} />
-            <ImageUploadButton />
+            <CoreButton
+              value="Take Photo"
+              onPress={() => {}}
+              // ! Disabled to be removed before production.
+              disabled={true}
+            />
+            <ImageUploadButton onPress={() => setModalVisible(false)} />
             <CoreButton
               value="Cancel"
               onPress={() => setModalVisible(false)}
