@@ -1,8 +1,18 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+
+// Redux 🐰
+import {deleteImageToUpload} from './userImageUploadSlice';
+
+// Components 🪢
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
+// Stylesheets 🖼️
+import Colors from '@StyleSheets/lofftColorPallet.json';
 
 const ImagePreviewRow = () => {
+  const dispatch = useDispatch();
   const userImages = useSelector(
     (state: any) => state.imageUpload.imagesToUpload,
   );
@@ -11,17 +21,23 @@ const ImagePreviewRow = () => {
       {userImages.length > 0 ? (
         userImages.map((image: string) => {
           return (
-            <Image
-              key={image}
-              style={styles.image}
-              source={{
-                uri: image,
-              }}
-            />
+            <View key={image}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => dispatch(deleteImageToUpload(image))}>
+                <LofftIcon name="x-close" size={12} color={Colors.White[100]} />
+              </TouchableOpacity>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: image,
+                }}
+              />
+            </View>
           );
         })
       ) : (
-        <Text>0 Images to upload</Text>
+        <Text>0 Images to upload add upto 5 images</Text>
       )}
     </View>
   );
@@ -37,6 +53,19 @@ const styles = StyleSheet.create({
     height: 60,
     marginHorizontal: 5,
     borderRadius: 12,
+    zIndex: 1,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 0,
+    zIndex: 2,
+    marginTop: -5,
+    width: 15,
+    height: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.Tomato['100'],
   },
 });
 

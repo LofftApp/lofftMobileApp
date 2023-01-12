@@ -9,8 +9,12 @@ export const imageUploadSlice = createSlice({
     setImageToUpload: (state: any, action: any) => {
       state.imagesToUpload = action.payload;
     },
+    deleteImageToUpload: (state: any, action: any) => {
+      const index = state.imagesToUpload.indexOf(action.payload);
+      state.imagesToUpload.splice(index, 1);
+    },
   },
 });
 
-export const {setImageToUpload} = imageUploadSlice.actions;
+export const {setImageToUpload, deleteImageToUpload} = imageUploadSlice.actions;
 export default imageUploadSlice.reducer;
