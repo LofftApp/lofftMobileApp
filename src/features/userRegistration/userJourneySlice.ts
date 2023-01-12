@@ -53,6 +53,7 @@ export const userJourneySlice = createSlice({
         state.userJourney = renterJourney();
       }
     },
+
     setDetails: (state: any, action: any) => {
       const data = action.payload;
       const userDetails = state.userDetails;
@@ -69,7 +70,6 @@ export const userJourneySlice = createSlice({
 
       // Lesser
       if (state.userType === 'lesser') {
-        console.log(userDetails);
         userDetails.cost = data?.cost || userDetails.cost;
         userDetails.location = data?.location || userDetails.location;
         userDetails.fromDate = data?.fromDate || userDetails.fromDate;
@@ -87,6 +87,7 @@ export const userJourneySlice = createSlice({
         userDetails.warmRent = data?.warmRent;
       }
     },
+
     saveUserDetails: (state: any) => {
       const userDetails = state.userDetails;
       if (state.userType === 'renter') {
@@ -110,6 +111,7 @@ export const userJourneySlice = createSlice({
           untilDate: userDetails.untilDate || null,
           perminant: userDetails.perminant || false,
           flatMate: userDetails.flatMate || {},
+          images: userDetails.images || null,
         });
       }
     },
