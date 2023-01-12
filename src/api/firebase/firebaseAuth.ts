@@ -61,7 +61,6 @@ export const handleSignUp = async ({email, password}: any) => {
 export const handleSignIn = async ({email, password, setMessage}: any) => {
   try {
     await auth().signInWithEmailAndPassword(email, password);
-    console.log('Login');
   } catch (err: any) {
     console.log(err);
     return setMessage(errorHandling(err));
@@ -108,7 +107,6 @@ export const onGoogleButtonPress = async () => {
 
   // Create a Google credential with the token
   const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  console.log(googleCredential);
   // Sign-in the user with the credential
   const userSignIn = auth().signInWithCredential(googleCredential);
   userSignIn.then(result => console.log(result));

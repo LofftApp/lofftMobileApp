@@ -25,7 +25,6 @@ const InputFieldText = ({
   style,
 }: any) => {
   const [focus, setFocus] = useState(false);
-  console.log(errorMessage);
   return (
     <>
       <View
@@ -84,7 +83,6 @@ const InputFieldText = ({
       {dropdown && value.length > 0 ? (
         <View style={styles.dropDown}>
           {dropDownContent.map((value: any, i: number) => {
-            console.log(`value: ${value}`);
             return (
               <Pressable onPress={() => dropDownPressAction(value)} key={i}>
                 <Text
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
   inputFieldStyle: {
     marginBottom: 8,
     borderWidth: 2,
-    borderRadius: 16,
+    borderRadius: 12,
     borderColor: Color.Black[50],
     paddingHorizontal: 8,
     height: 48,
