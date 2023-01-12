@@ -70,7 +70,6 @@ export const userJourneySlice = createSlice({
 
       // Lesser
       if (state.userType === 'lesser') {
-        console.log(userDetails);
         userDetails.cost = data?.cost || userDetails.cost;
         userDetails.location = data?.location || userDetails.location;
         userDetails.fromDate = data?.fromDate || userDetails.fromDate;

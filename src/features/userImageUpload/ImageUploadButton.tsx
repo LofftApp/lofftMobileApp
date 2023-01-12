@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 // API 🧠
 import {libraryImageUpload} from '@Firebase/firebaseStorage';
 import {setImageToUpload} from './userImageUploadSlice';
@@ -10,15 +10,19 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ImageUploadButton = ({onPress = () => {}}) => {
   const dispatch = useDispatch();
+  const userImages = useSelector(
+    (state: any) => state.imageUpload.imagesToUpload,
+  );
+  const uploadLimit = 5 - userImages.length;
   return (
     <CoreButton
       value="Upload Photo"
       onPress={async () => {
-        const images: string[] = (await libraryImageUpload()) || [];
+        onPress();
+        const images: string[] = (await libraryImageUpload(uploadLimit)) || [];
         if (images.length > 0) {
           // ! Current issue with TS, and void data.
           // TODO: This needs to be fixed though doesn't affect procutions
-          onPress();
           dispatch(setImageToUpload(images));
           dispatch(setDetails(images));
         }

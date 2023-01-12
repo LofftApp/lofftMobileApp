@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {deleteImage} from '@Firebase/firebaseStorage';
 
 export const imageUploadSlice = createSlice({
   name: 'imageUpload',
@@ -7,11 +8,15 @@ export const imageUploadSlice = createSlice({
   },
   reducers: {
     setImageToUpload: (state: any, action: any) => {
-      state.imagesToUpload = action.payload;
+      const photos = state.imagesToUpload;
+      state.imagesToUpload = photos.concat(action.payload);
     },
+
     deleteImageToUpload: (state: any, action: any) => {
+      const imageUrl = action.payload;
       const index = state.imagesToUpload.indexOf(action.payload);
       state.imagesToUpload.splice(index, 1);
+      deleteImage(imageUrl);
     },
   },
 });
