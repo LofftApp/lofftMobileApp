@@ -29,6 +29,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [fromDateSelected, setFromDateSelected] = useState(false);
   const [untilDate, setUntilDate] = useState(new Date());
   const [untilDateSelected, setUntilDateSelected] = useState(false);
+  const [today, setToday ] = useState(false);
   const [perminant, setPerminant] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -46,6 +47,7 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
               onPress={() => {
                 setModalOpen(true);
                 setSelector('from');
+                setToday(false);
               }}
               style={styles.dateField}>
               <LofftIcon name="calendar" size={18} />
@@ -55,19 +57,24 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                   styles.dateLabel,
                   fromDateSelected ? styles.selectedDate : null,
                 ]}>
-                {fromDateSelected
+                {today
+                  ? 'Today'
+                  : fromDateSelected
                   ? dateFormatConverter({date: fromDate})
-                  : 'First day'}
+                  : 'Choose date'}
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
             <TouchableOpacity
-              style={[styles.setDateButton, styles.activeButton]}
+              style={[styles.setDateButton, today ? styles.activeButton : null]}
               onPress={() => {
                 setFromDate(new Date());
                 setFromDateSelected(true);
+                setToday(true);
               }}>
-              <Text style={[fontStyles.bodyMedium, styles.activeButtonText]}>Today</Text>
+              <Text style={[fontStyles.bodyMedium, today ? styles.activeButtonText : null]}>
+                Today
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
