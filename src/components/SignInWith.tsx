@@ -1,10 +1,21 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
-import Color from '../styles/lofftColorPallet.json';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+
+// Sync Notion
+import {seedUsers} from './../seeding/notionSeedingSetup';
+
+// API 🧠
+import {onAppleButtonPress, onGoogleButtonPress} from '@Firebase/firebaseAuth';
+
+// Components 🪢
+import LofftIcon from './lofftIcons/LofftIcon';
+
+// Styles 🖼️
+import Colors from '@StyleSheets/lofftColorPallet.json';
+
+// Assets 💿
 import {AppleIcon} from '../assets';
 import {GoogleIcon} from '../assets';
-import {onAppleButtonPress} from '../api/firebase/firebaseAuth';
-import {onGoogleButtonPress} from '../api/firebase/firebaseAuth';
 
 const SignInWith = () => {
   return (
@@ -16,13 +27,24 @@ const SignInWith = () => {
         <Pressable
           onPress={() => onAppleButtonPress()}
           style={styles.logInWithButton}>
-          <AppleIcon style={styles.image} />
+          <AppleIcon />
         </Pressable>
         <Pressable
           onPress={() => onGoogleButtonPress()}
           style={styles.logInWithButton}>
-          <GoogleIcon style={styles.image} />
+          <GoogleIcon />
         </Pressable>
+        {__DEV__ ? (
+          <Pressable
+            onPress={() => seedUsers()}
+            style={[styles.logInWithButton, styles.syncButton]}>
+            <LofftIcon
+              name="refresh-ccq-03"
+              size={30}
+              color={Colors.Tomato['100']}
+            />
+          </Pressable>
+        ) : null}
       </View>
     </View>
   );
@@ -34,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text1: {
-    color: Color.Black[50],
+    color: Colors.Black[50],
     paddingVertical: 20,
   },
   buttonWrap: {
@@ -45,10 +67,13 @@ const styles = StyleSheet.create({
     height: 48,
     borderWidth: 2,
     borderRadius: 12,
-    borderColor: Color.Lavendar[100],
+    borderColor: Colors.Lavendar[100],
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 16,
+  },
+  syncButton: {
+    borderColor: Colors.Tomato[100],
   },
 });
 
