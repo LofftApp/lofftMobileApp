@@ -5,6 +5,9 @@ import auth from '@react-native-firebase/auth';
 import {handleSignUp} from '@Firebase/firebaseAuth';
 import {createUserProfile} from '@Firebase/firestoreActions';
 
+// Data 💿
+import userPreferences from '@Components/componentData/userPreferences.json';
+
 const notion = new Client({auth: NOTION_API_KEY});
 
 export const seedUsers = async () => {
@@ -16,11 +19,31 @@ export const seedUsers = async () => {
     const properties = user.properties;
     const email = properties.Email.email;
     const profileCreated = properties['User Profile created'].checkbox;
-    handleSignUp({email, password: '123456', seed: true});
-    // console.log(auth().currentUser?.uid);
-    // if (profileCreated) {
-    //   const userType = properties['User Type'].select.name;
-    //   console.log(userType);
-    // }
+    // handleSignUp({email, password: '123456', seed: true});
+    if (profileCreated) {
+      const userType = properties['User Type'].select.name;
+      const genderIdentity = properties['Gender Identity'].select.name;
+      const personalPreferences = personalPreferencesSelectData(
+        properties['Personal Preferences']['multi_select'],
+      );
+      const districts = districtsSelectData(
+        properties.Districts['multi_select'],
+      );
+    }
   });
 };
+
+const personalPreferencesSelectData = (data: any) => {
+  return data.map((item: {name: string}) => {
+    let selectItem: Object = '';
+    userPreferences.forEach((element: any) => {
+      if (item.name === element.value) {
+        element.toggle = true;
+        selectItem = element;
+      }
+    });
+    return selectItem;
+  });
+};
+
+const districtsSelectData = (data: any) => {};
