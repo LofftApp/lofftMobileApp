@@ -1108,7 +1108,7 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.6.0):
+  - RNSVG (13.7.0):
     - React-Core
   - Turf (2.6.1)
   - Yoga (1.14.0)
@@ -1376,7 +1376,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
   rnmapbox-maps: 80e50a60882744e9636d70fa3d3e91976b39e842
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
-  RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
+  RNSVG: d787d64ca06b9158e763ad2638a8c4edce00782a
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 

@@ -1,7 +1,9 @@
-// ! This is a page for seeding data to the database, and has no basis in production only development.
+// ! This is a page for seeding data to the database, and has no basis in production, only development.
 import {Client} from '@notionhq/client';
 import {NOTION_API_KEY} from '@env';
+import auth from '@react-native-firebase/auth';
 import {handleSignUp} from '@Firebase/firebaseAuth';
+import {createUserProfile} from '@Firebase/firestoreActions';
 
 const notion = new Client({auth: NOTION_API_KEY});
 
@@ -11,7 +13,14 @@ export const seedUsers = async () => {
     database_id: databaseId,
   });
   response.results.forEach((user: any) => {
-    const email = user.properties.Email.email;
-    handleSignUp({email, password: '123456'});
+    const properties = user.properties;
+    const email = properties.Email.email;
+    const profileCreated = properties['User Profile created'].checkbox;
+    handleSignUp({email, password: '123456', seed: true});
+    // console.log(auth().currentUser?.uid);
+    // if (profileCreated) {
+    //   const userType = properties['User Type'].select.name;
+    //   console.log(userType);
+    // }
   });
 };

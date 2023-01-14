@@ -1,5 +1,4 @@
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
@@ -49,7 +48,7 @@ const errorHandling = (err: any) => {
 };
 
 // Email Signup
-export const handleSignUp = async ({email, password}: any) => {
+export const handleSignUp = async ({email, password, seed = false}: any) => {
   try {
     await auth().createUserWithEmailAndPassword(email, password);
   } catch (err: any) {
