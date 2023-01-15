@@ -29,7 +29,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // This list page has old icons, it will need to have new icons when added.
 
 const FlatListScreen = ({navigation}: any) => {
-  const [flats,setFlats] = useState([
+  const [flats, setFlats] = useState([
     {
       address: 'Suarezstr 20, Berlin',
       matchP: 64,
@@ -61,10 +61,12 @@ const FlatListScreen = ({navigation}: any) => {
     },
   ]);
 
+  const [sortedFlats, setSortedFlats] = useState([])
+
   useEffect(() => {
     const reOrder = flats.sort((a,b) => b.matchP - a.matchP)
 
-    setFlats(reOrder);
+    setSortedFlats(reOrder);
 
   },[flats])
 
@@ -129,7 +131,7 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen flats={flats} navigation={navigation} /> : <FlatMap flats={flats} />}
+        {screen === 'list' ? <FlatListSubScreen flats={sortedFlats} navigation={navigation} /> : <FlatMap flats={sortedFlats} />}
       </View>
     </View>
     // </TouchableWithoutFeedback>
