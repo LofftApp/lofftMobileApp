@@ -1,21 +1,21 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ""
-labels: "Enhancement"
-assignees: ""
+title: ''
+labels: 'enhancement'
+assignees: ''
 ---
 
-<!-- V1.2 -->
+<!-- V1.3 -->
 
 # Feature Request
 
-_Use this form to outline potential new feaures or planned features in lofft_
+### Limiting Branches
+The following issues limit this feature, which will need to be closed and added to this branch before it can be added. 
+<!-- Place any limitations to the development in this section --> 
+- This issue is not limited by other PRs or Issues. 
 
-**[Assana Link]()**
-
-### Linked Issues and PR
-* [Linked Issue]()
+_Use this form to outline potential new features or planned features in lofft_
 
 ## **Feature description**
 
@@ -33,13 +33,11 @@ _Use this form to outline potential new feaures or planned features in lofft_
 
 -
 
-## **Link to Figma board, images and design description**
+## **Design and Figma**
 
-_Latest design is located on the figma board_
+_Latest design is located on the Figma board_
 
-**[Figma board]()**
-
-### Screen shots
+### Screenshots
 
 ### Design Description
 

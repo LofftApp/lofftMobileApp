@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 if (__DEV__) {
   let host = 'localhost';
   // If using Mobile device set the host as local IP set host in App.js and wihtin the firebase.json for each method
-  host = '192.168.1.16';
+  // host = '192.168.1.16';
   storage().useEmulator(host, 9199);
 }
 
@@ -18,10 +18,10 @@ const randomName = () => {
   );
 };
 
-export const libraryImageUpload = async () => {
+export const libraryImageUpload = async (limit = 1) => {
   const images = await launchImageLibrary({
     mediaType: 'photo',
-    selectionLimit: 5,
+    selectionLimit: limit,
   });
   if (!images.didCancel) {
     try {
@@ -59,4 +59,9 @@ const uploadUserImages = async (images: any) => {
     }),
   );
   return urls;
+};
+
+export const deleteImage = (url: string) => {
+  const imageRef = storage().refFromURL(url);
+  imageRef.delete();
 };
