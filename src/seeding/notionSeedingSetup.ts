@@ -7,6 +7,8 @@ import {createUserProfile} from '@Firebase/firestoreActions';
 
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
+import cityDistricts from '@Components/componentData/cityDistricts.json';
+import flatPreferences from '@Components/componentData/flatPreferences.json';
 
 const notion = new Client({auth: NOTION_API_KEY});
 
@@ -22,13 +24,19 @@ export const seedUsers = async () => {
     // handleSignUp({email, password: '123456', seed: true});
     if (profileCreated) {
       const userType = properties['User Type'].select.name;
-      const genderIdentity = properties['Gender Identity'].select.name;
-      const personalPreferences = personalPreferencesSelectData(
-        properties['Personal Preferences']['multi_select'],
-      );
-      const districts = districtsSelectData(
-        properties.Districts['multi_select'],
-      );
+      if (userType === 'Renter') {
+        const genderIdentity = properties['Gender Identity'].select.name;
+        const personalPreferences = personalPreferencesSelectData(
+          properties['Personal Preferences']['multi_select'],
+        );
+        const districts = districtsSelectData(
+          properties.Districts['multi_select'],
+        );
+        const flatPreferences = flatPreferencesSelectData(
+          properties['Flat Preferences']['multi_select'],
+        );
+        console.log(flatPreferences);
+      }
     }
   });
 };
@@ -46,4 +54,31 @@ const personalPreferencesSelectData = (data: any) => {
   });
 };
 
-const districtsSelectData = (data: any) => {};
+const districtsSelectData = (data: any) => {
+  const berlin: any = cityDistricts.berlin.districts;
+  return data.map((item: {name: string}) => {
+    let selectItem: Object = '';
+    if (data.length > 0) {
+      berlin.forEach((element: any) => {
+        if (item.name === element.name) {
+          element.toggle = true;
+          selectItem = element;
+        }
+      });
+    }
+    return selectItem;
+  });
+};
+
+const flatPreferencesSelectData = (data: any) => {
+  return data.map((item: {name: string}) => {
+    let selectItem: Object = '';
+    flatPreferences.forEach((element: any) => {
+      if (item.name === element.value) {
+        element.toggle = true;
+        selectItem = element;
+      }
+    });
+    return selectItem;
+  });
+};
