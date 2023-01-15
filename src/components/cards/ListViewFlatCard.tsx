@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
+
 
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
@@ -14,7 +22,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import imageExample from '@Assets/images/flat-image.jpeg';
 
-const ListViewFlatCard = ({ match, id, district, price }) => {
+const ListViewFlatCard = ({navigation, route, match, id, district, price}) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
 
@@ -62,6 +70,10 @@ const ListViewFlatCard = ({ match, id, district, price }) => {
         <View>
           <Chips />
         </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ApplyForFlatScreen')}>
+          <Text>Apply</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

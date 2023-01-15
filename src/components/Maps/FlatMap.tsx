@@ -70,13 +70,14 @@ const FlatMap = ({route, navigation, flats}: any) => {
     const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
       const index = viewableItems[0].index;
       setCurrentCardIndex(index);
+
     }, []);
 
 
 
+  console.log("this should be working", typeof mapboxFlats[currentCardIndex])
 
-
-  console.log('This is undefrined', mapboxFlats)
+  console.log('These are the flats', mapboxFlats)
 
   // console.log(mapboxFlats.length);
 
@@ -120,7 +121,7 @@ const FlatMap = ({route, navigation, flats}: any) => {
               showsHorizontalScrollIndicator={false}
               onViewableItemsChanged={onViewableItemsChanged}
               renderItem={({item, index}) => (
-                <MapViewFlatCard price={item.price} />
+                <MapViewFlatCard price={item.price} match={item.matchP} key={index+1} district={item.district} id={item.id} />
               )}
             />
           ) : null}
