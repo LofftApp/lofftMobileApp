@@ -8,7 +8,7 @@ import {createUserProfile} from '@Firebase/firestoreActions';
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
 import cityDistricts from '@Components/componentData/cityDistricts.json';
-import flatPreferences from '@Components/componentData/flatPreferences.json';
+import flatPreferencesData from '@Components/componentData/flatPreferences.json';
 
 const notion = new Client({auth: NOTION_API_KEY});
 
@@ -17,32 +17,60 @@ export const seedUsers = async () => {
   const response = await notion.databases.query({
     database_id: databaseId,
   });
-  response.results.forEach((user: any) => {
-    const properties = user.properties;
+  let i = 0;
+  const interval = setInterval(async () => {
+    const properties = response.results[i].properties;
+    console.log(`Syncing ${properties.Name.title[0].plain_text}`);
     const email = properties.Email.email;
     const profileCreated = properties['User Profile created'].checkbox;
-    // handleSignUp({email, password: '123456', seed: true});
-    if (profileCreated) {
-      const userType = properties['User Type'].select.name;
-      if (userType === 'Renter') {
-        const genderIdentity = properties['Gender Identity'].select.name;
-        const personalPreferences = selectData(
-          properties['Personal Preferences']['multi_select'],
-          userPreferences,
-        );
-        const districts = selectData(
-          properties.Districts['multi_select'],
-          cityDistricts.berlin.districts,
-        );
-        const flatFeaturePreferences = selectData(
-          properties['Flat Preferences']['multi_select'],
-          flatPreferences,
-        );
-      }
-    }
-  });
+
+    await handleSignUp({email, password: '123456'}).then(
+      async (response: any) => {
+        // console.log(response.user.uid);
+        if (profileCreated) {
+          const userType = properties['User Type'].select.name;
+          if (userType === 'Renter') {
+            const genderIdentity = properties['Gender Identity'].select.name;
+            const minRent = properties['Min Rent'].number;
+            const maxRent = properties['Max Rent'].number;
+            const warmRent = properties['Warm Rent'].checkbox;
+            const personalPreferences = selectData(
+              properties['Personal Preferences']['multi_select'],
+              userPreferences,
+            );
+            const districts = selectData(
+              properties.Districts['multi_select'],
+              cityDistricts.berlin.districts,
+            );
+            const flatPreferences = selectData(
+              properties['Flat Preferences']['multi_select'],
+              flatPreferencesData,
+            );
+            await createUserProfile({
+              userId: response.user.uid,
+              genderIdentity,
+              userDescription: '',
+              personalPreferences,
+              flatPreferences,
+              districts,
+              minRent,
+              maxRent,
+              warmRent,
+            });
+          } else if (userType === 'Lessor') {
+            await createUserProfile({userId: response.user.uid});
+          }
+        }
+      },
+    );
+
+    await auth().signOut();
+    i = i + 1;
+    if (response.results.length === i) clearInterval(interval);
+  }, 3000);
 };
 
+// Used to select data from json using the seed preferences
 const selectData = (userData: any, baseData: any) => {
   return userData.map((item: {name: string}) => {
     let selectItem: Object = '';

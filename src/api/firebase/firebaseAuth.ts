@@ -48,9 +48,10 @@ const errorHandling = (err: any) => {
 };
 
 // Email Signup
-export const handleSignUp = async ({email, password, seed = false}: any) => {
+export const handleSignUp = async ({email, password}: any) => {
   try {
-    await auth().createUserWithEmailAndPassword(email, password);
+    const signUp = await auth().createUserWithEmailAndPassword(email, password);
+    return signUp;
   } catch (err: any) {
     return errorHandling(err);
   }
@@ -59,7 +60,8 @@ export const handleSignUp = async ({email, password, seed = false}: any) => {
 // Email signin
 export const handleSignIn = async ({email, password, setMessage}: any) => {
   try {
-    await auth().signInWithEmailAndPassword(email, password);
+    const signIn = await auth().signInWithEmailAndPassword(email, password);
+    return signIn;
   } catch (err: any) {
     console.log(err);
     return setMessage(errorHandling(err));

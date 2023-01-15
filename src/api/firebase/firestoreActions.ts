@@ -19,12 +19,12 @@ export const createUserProfile = async (data: any) => {
     },
   };
 
-  const currentUserId = auth().currentUser?.uid;
+  const currentUserId = data.userId || auth().currentUser?.uid;
   await firestore().collection('users').doc(currentUserId).set(userData);
 };
 
 export const createFlatProfile = async (data: any) => {
-  const currentUserId = auth().currentUser?.uid;
+  const currentUserId = data.userId || auth().currentUser?.uid;
   const userAddedToData = data;
   userAddedToData.user = currentUserId;
 
