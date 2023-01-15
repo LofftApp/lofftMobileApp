@@ -1,15 +1,16 @@
 import React from 'react';
-import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
+import {ScrollView, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
 
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
-const FlatListSubScreen = () => {
+const FlatListSubScreen = ({flats}) => {
   return (
     <ScrollView style={styles.pageContainer}>
+
       <SafeAreaView>
-        <ListViewFlatCard />
-        <ListViewFlatCard />
+        {flats.map((el, index) => <ListViewFlatCard key={index+1} match={el.matchP} id={el.id} district={el.district} price={el.price}  />)}
+
       </SafeAreaView>
     </ScrollView>
   );

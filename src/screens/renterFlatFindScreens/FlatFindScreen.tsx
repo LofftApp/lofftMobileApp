@@ -29,6 +29,40 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // This list page has old icons, it will need to have new icons when added.
 
 const FlatListScreen = ({navigation}: any) => {
+  const [flats] = useState([
+    {
+      address: 'Suarezstr 20, Berlin',
+      matchP: 64,
+      price: 600,
+      district: 'Mitte',
+      id: 1,
+    },
+    {
+      address: 'Rudi Duschke Str 2, Berlin',
+      matchP: 82,
+      price: 920,
+      district: 'Xberg',
+      id: 2,
+    },
+    {
+      address: 'Schlegelstr 14, Berlin',
+      matchP: 91,
+      price: 950,
+      district: 'Xberg',
+      id: 3,
+    },
+
+    {
+      address: 'Wilsnackerstr 13, Berlin',
+      matchP: 78,
+      price: 400,
+      district: 'Moabit',
+      id: 4,
+    },
+  ]);
+
+
+
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
@@ -89,7 +123,7 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen /> : <FlatMap />}
+        {screen === 'list' ? <FlatListSubScreen flats={flats} /> : <FlatMap flats={flats} />}
       </View>
     </View>
     // </TouchableWithoutFeedback>

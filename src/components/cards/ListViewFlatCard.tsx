@@ -14,7 +14,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import imageExample from '@Assets/images/flat-image.jpeg';
 
-const ListViewFlatCard = () => {
+const ListViewFlatCard = ({ match, id, district, price }) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
 
@@ -25,7 +25,7 @@ const ListViewFlatCard = () => {
         <View style={styles.flatCardButtonsOverlay}>
           <View style={styles.flatCardbuttonsWrap}>
             <View>
-              <MatchingScoreButton size="Big" score={96} />
+              <MatchingScoreButton size="Big" score={match} />
               <Pressable
                 style={styles.flatCardSaveButton}
                 onPress={() =>
@@ -49,14 +49,14 @@ const ListViewFlatCard = () => {
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
-            <Text style={[fontStyles.headerSmall]}>860 € 26 m2</Text>
+            <Text style={[fontStyles.headerSmall]}>{price} € 26 m2</Text>
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              Moabit, Berlin
+              {district}, Berlin
             </Text>
           </View>
           <Text style={[fontStyles.bodyMedium]}>
-            🧘 Calm flat in the centre of Moabit
+            🧘 Calm flat in the centre of {district}
           </Text>
         </View>
         <View>

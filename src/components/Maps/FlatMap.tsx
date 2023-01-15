@@ -1,6 +1,13 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useRef, useMemo} from 'react';
 
-import {View, Text, StyleSheet, FlatList, StatusBar, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  StatusBar,
+  Dimensions,
+} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -11,47 +18,19 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
+const FlatMap = ({route, navigation, flats}: any) => {
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [currentAdress, setCurrentAddress] = useState([]);
 
 
-const FlatMap = ({route, navigation}: any) => {
 
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
   // States
-  const [flats] = useState([
-    {
-      address: 'Suarezstr 20, Berlin',
-      matchP: 64,
-      price: 600,
-      district: 'Mitte',
-      id: 1,
-    },
-    {
-      address: 'Rudi Duschke Str 2, Berlin',
-      matchP: 82,
-      price: 920,
-      district: 'Xberg',
-      id: 2,
-    },
-    {
-      address: 'Schlegelstr 14, Berlin',
-      matchP: 91,
-      price: 950,
-      district: 'Xberg',
-      id: 3,
-    },
 
-    {
-      address: 'Wilsnackerstr 13, Berlin',
-      matchP: 78,
-      price: 400,
-      district: 'Moabit',
-      id: 4,
-    },
-  ]);
+  const [mapboxFlats, setmapboxFlats] = useState<any[]>([]);
 
-  const [mapboxFlats, setmapboxFlats] = useState<String[]>([]);
+
+
   // API
-
   useEffect(() => {
     const geoCoding = async (flats: any) => {
       let formatedCordinates = await Promise.all(
@@ -64,14 +43,14 @@ const FlatMap = ({route, navigation}: any) => {
             address: null,
             matchP: null,
             price: null,
-            name: null,
+            // name: null,
             district: null,
             id: null,
           };
           flatObject.address = data.features[0].geometry.coordinates;
           flatObject.price = el.price;
           flatObject.matchP = el.matchP;
-          flatObject.name = el.name;
+          // flatObject.name = el.name;
           flatObject.district = el.district;
           flatObject.id = el.id;
 
@@ -79,18 +58,41 @@ const FlatMap = ({route, navigation}: any) => {
         }),
       );
       setmapboxFlats(formatedCordinates);
+
     };
 
     geoCoding(flats);
-  }, []);
-
-  const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
-    const index = viewableItems[0]["index"]
-    setCurrentCardIndex(index)
-  }, []);
+  }, [flats]);
 
 
-  console.log(mapboxFlats[currentCardIndex])
+
+
+    const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
+      const index = viewableItems[0].index;
+      setCurrentCardIndex(index);
+    }, []);
+
+
+
+
+
+  console.log('This is undefrined', mapboxFlats)
+
+  // console.log(mapboxFlats.length);
+
+  // console.log(mapboxFlats[currentCardIndex]);
+
+  // console.log(
+  //   mapboxFlats.length > 0
+  //     ? mapboxFlats[currentCardIndex].price
+  //     : 'Items not loaded yet',
+  // );
+  // mapboxFlats.length > 0
+  //   ? setCurrentAddress(mapboxFlats[currentCardIndex].address)
+  //   : null;
+
+
+
   return (
     <>
       <View style={styles.container}>
@@ -111,13 +113,17 @@ const FlatMap = ({route, navigation}: any) => {
           ))}
         </MapboxGL.MapView>
         <View style={styles.scrollContainer}>
-          <FlatList
-            data={flats}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            onViewableItemsChanged={onViewableItemsChanged}
-            renderItem={({item, index}) => <MapViewFlatCard price={item.price}/>}
-          />
+          {mapboxFlats !== null ? (
+            <FlatList
+              data={flats}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              onViewableItemsChanged={onViewableItemsChanged}
+              renderItem={({item, index}) => (
+                <MapViewFlatCard price={item.price} />
+              )}
+            />
+          ) : null}
         </View>
       </View>
     </>
