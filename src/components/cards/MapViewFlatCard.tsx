@@ -13,7 +13,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import imageExample from '@Assets/images/flat-image.jpeg';
 
-const MapViewFlatCard = ({price}) => {
+const MapViewFlatCard = ({price, id, match, district}) => {
   const [save, setSave] = useState(false);
 
   return (
@@ -22,7 +22,7 @@ const MapViewFlatCard = ({price}) => {
         <Image source={imageExample} style={styles.flatCardImage} />
         <View style={styles.details}>
           <View style={styles.flatCardbuttonsWrap}>
-            <MatchingScoreButton size="Small" score={96} />
+            <MatchingScoreButton size="Small" score={match} />
             <Pressable
               onPress={() => (save === false ? setSave(true) : setSave(false))}>
               {save === true ? (
@@ -40,12 +40,12 @@ const MapViewFlatCard = ({price}) => {
             <View style={styles.coreDetails}>
               <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
               <Text style={fontStyles.bodyMedium}>
-                🧘 Calm flat in the centre of Moabit
+                🧘 Calm flat in the centre of {district}
               </Text>
             </View>
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              Moabit, Berlin
+              {district}, Berlin
             </Text>
           </View>
         </View>

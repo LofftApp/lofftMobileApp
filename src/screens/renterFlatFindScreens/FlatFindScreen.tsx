@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -29,7 +29,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // This list page has old icons, it will need to have new icons when added.
 
 const FlatListScreen = ({navigation}: any) => {
-  const [flats] = useState([
+  const [flats,setFlats] = useState([
     {
       address: 'Suarezstr 20, Berlin',
       matchP: 64,
@@ -61,6 +61,12 @@ const FlatListScreen = ({navigation}: any) => {
     },
   ]);
 
+  useEffect(() => {
+    const reOrder = flats.sort((a,b) => b.matchP - a.matchP)
+
+    setFlats(reOrder);
+
+  },[flats])
 
 
   const [search, setSearch] = useState('');
@@ -123,7 +129,7 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen flats={flats} /> : <FlatMap flats={flats} />}
+        {screen === 'list' ? <FlatListSubScreen flats={flats} navigation={navigation} /> : <FlatMap flats={flats} />}
       </View>
     </View>
     // </TouchableWithoutFeedback>

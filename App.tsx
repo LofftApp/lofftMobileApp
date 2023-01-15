@@ -41,9 +41,7 @@ import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
 import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
-import ApplyForFlatScreen from '@Screens/renterFlatFindScreens/applyForFlatScreen';
-
-
+import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlatScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -156,7 +154,6 @@ const App = () => {
             component={UserScreen}
             options={{headerShown: false}}
           />
-
         </Tab.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="SignInScreen">
@@ -194,11 +191,11 @@ const App = () => {
                 component={FlatListScreen}
                 options={{headerShown: false}}
               />
-                <Stack.Screen
-                  name="ApplyForFlat"
-                  component={ApplyForFlatScreen}
-                  options={{ headerShown: false }}
-                />
+              <Stack.Screen
+                name="ApplyForFlatScreen"
+                component={ApplyForFlatScreen}
+                options={{headerShown: false}}
+              />
               {/* Lessor Screens */}
               <Stack.Screen
                 name="WhereIsFlatScreen"
