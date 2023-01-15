@@ -22,11 +22,10 @@ export const seedUsers = async () => {
     const properties = response.results[i].properties;
     console.log(`Syncing ${properties.Name.title[0].plain_text}`);
     const email = properties.Email.email;
-    const profileCreated = properties['User Profile created'].checkbox;
 
     await handleSignUp({email, password: '123456'}).then(
       async (response: any) => {
-        // console.log(response.user.uid);
+        const profileCreated = properties['User Profile created'].checkbox;
         if (profileCreated) {
           const userType = properties['User Type'].select.name;
           if (userType === 'Renter') {
@@ -47,7 +46,7 @@ export const seedUsers = async () => {
               flatPreferencesData,
             );
             await createUserProfile({
-              userId: response.user.uid,
+              userId: response.user?.uid,
               genderIdentity,
               userDescription: '',
               personalPreferences,
@@ -58,7 +57,7 @@ export const seedUsers = async () => {
               warmRent,
             });
           } else if (userType === 'Lessor') {
-            await createUserProfile({userId: response.user.uid});
+            await createUserProfile({userId: response.user?.uid});
           }
         }
       },
