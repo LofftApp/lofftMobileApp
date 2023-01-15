@@ -26,55 +26,28 @@ export const seedUsers = async () => {
       const userType = properties['User Type'].select.name;
       if (userType === 'Renter') {
         const genderIdentity = properties['Gender Identity'].select.name;
-        const personalPreferences = personalPreferencesSelectData(
+        const personalPreferences = selectData(
           properties['Personal Preferences']['multi_select'],
+          userPreferences,
         );
-        const districts = districtsSelectData(
+        const districts = selectData(
           properties.Districts['multi_select'],
+          cityDistricts.berlin.districts,
         );
-        const flatPreferences = flatPreferencesSelectData(
+        const flatFeaturePreferences = selectData(
           properties['Flat Preferences']['multi_select'],
+          flatPreferences,
         );
-        console.log(flatPreferences);
       }
     }
   });
 };
 
-const personalPreferencesSelectData = (data: any) => {
-  return data.map((item: {name: string}) => {
+const selectData = (userData: any, baseData: any) => {
+  return userData.map((item: {name: string}) => {
     let selectItem: Object = '';
-    userPreferences.forEach((element: any) => {
-      if (item.name === element.value) {
-        element.toggle = true;
-        selectItem = element;
-      }
-    });
-    return selectItem;
-  });
-};
-
-const districtsSelectData = (data: any) => {
-  const berlin: any = cityDistricts.berlin.districts;
-  return data.map((item: {name: string}) => {
-    let selectItem: Object = '';
-    if (data.length > 0) {
-      berlin.forEach((element: any) => {
-        if (item.name === element.name) {
-          element.toggle = true;
-          selectItem = element;
-        }
-      });
-    }
-    return selectItem;
-  });
-};
-
-const flatPreferencesSelectData = (data: any) => {
-  return data.map((item: {name: string}) => {
-    let selectItem: Object = '';
-    flatPreferences.forEach((element: any) => {
-      if (item.name === element.value) {
+    baseData.forEach((element: any) => {
+      if (item.name === (element.value || element.name)) {
         element.toggle = true;
         selectItem = element;
       }
