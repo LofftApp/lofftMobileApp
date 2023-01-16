@@ -16,29 +16,9 @@ import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
-// sample Images
-import flatOneB from '@Assets/images/2.png';
-import flatOneC from '@Assets/images/3.png';
-import flatOneD from '@Assets/images/4.png';
-import flatOneE from '@Assets/images/5.png';
+
 
 const TempScreen = ({navigation}) => {
-  const [images, setImages] = useState([
-    flatOneB,
-    flatOneD,
-    flatOneC,
-    flatOneE,
-  ]);
-
-
-
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
-
-  const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
-    const index = viewableItems[0].index;
-    setCurrentCardIndex(index);
-
-  }, []);
 
   return (
     <View style={styles.pageContainer}>
