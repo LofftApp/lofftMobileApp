@@ -10,9 +10,6 @@ const FlatListSubScreen = ({navigation}) => {
       <SafeAreaView>
         <ListViewFlatCard />
         <ListViewFlatCard />
-        <TouchableOpacity onPress={() => navigation.navigate('TempScreen')}>
-          <Text>Temp Screen</Text>
-        </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
   );

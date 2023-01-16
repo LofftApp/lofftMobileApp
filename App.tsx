@@ -155,6 +155,12 @@ const App = () => {
             component={UserScreen}
             options={{headerShown: false}}
           />
+
+          <Tab.Screen
+            name="Ello"
+            component={TempScreen}
+            options={{ headerShown: false }}
+          />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="SignInScreen">
