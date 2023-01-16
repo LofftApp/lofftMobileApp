@@ -42,6 +42,8 @@ import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
 
+import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +61,9 @@ const App = () => {
       setUserType(profileExist);
       // setAdmin(userClaims.claims.admin);
     }
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   };
 
   useEffect(() => {
@@ -101,7 +105,9 @@ const App = () => {
     }
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   return (
     <>
       {user && userType ? (
@@ -184,6 +190,12 @@ const App = () => {
               <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen
+                name="TempScreen"
+                component={TempScreen}
                 options={{headerShown: false}}
               />
               {/* Lessor Screens */}
