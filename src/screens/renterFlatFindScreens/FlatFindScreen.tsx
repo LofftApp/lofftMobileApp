@@ -25,10 +25,11 @@ import FlatListCard from '@Components/cards/ListViewFlatCard';
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // This list page has old icons, it will need to have new icons when added.
 
-const FlatListScreen = ({navigation}: any) => {
+const FlatListScreen = ({navigation, route}: any) => {
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
@@ -89,12 +90,13 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen == 'list' ? <FlatListSubScreen /> : <FlatMap />}
+        {screen == 'list' ? <FlatListSubScreen navigation={navigation} /> : <FlatMap />}
 
         {/* <Pressable onPress={() => navigation.navigate('TestMap')}>
             <Text>Scroll Test</Text>
           </Pressable> */}
       </View>
+
     </View>
     // </TouchableWithoutFeedback>
   );
