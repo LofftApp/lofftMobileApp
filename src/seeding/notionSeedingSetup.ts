@@ -70,42 +70,41 @@ export const seedUsers = async () => {
 
 const seedUserData = async (properties: any, response: any) => {
   const profileCreated = properties['User Profile created'].checkbox;
-        if (profileCreated) {
-          const userType = properties['User Type'].select.name;
-          if (userType === 'Renter') {
-            const genderIdentity = properties['Gender Identity'].select.name;
-            const minRent = properties['Min Rent'].number;
-            const maxRent = properties['Max Rent'].number;
-            const warmRent = properties['Warm Rent'].checkbox;
-            const personalPreferences = selectData(
-              properties['Personal Preferences']['multi_select'],
-              userPreferences,
-            );
-            const districts = selectData(
-              properties.Districts['multi_select'],
-              cityDistricts.berlin.districts,
-            );
-            const flatPreferences = selectData(
-              properties['Flat Preferences']['multi_select'],
-              flatPreferencesData,
-            );
-            await createUserProfile({
-              userId: response.user?.uid,
-              genderIdentity,
-              userDescription: '',
-              personalPreferences,
-              flatPreferences,
-              districts,
-              minRent,
-              maxRent,
-              warmRent,
-            });
-          } else if (userType === 'Lessor') {
-            await createUserProfile({userId: response.user?.uid});
-          }
-        }
-      },
-}
+  if (profileCreated) {
+    const userType = properties['User Type'].select.name;
+    if (userType === 'Renter') {
+      const genderIdentity = properties['Gender Identity'].select.name;
+      const minRent = properties['Min Rent'].number;
+      const maxRent = properties['Max Rent'].number;
+      const warmRent = properties['Warm Rent'].checkbox;
+      const personalPreferences = selectData(
+        properties['Personal Preferences']['multi_select'],
+        userPreferences,
+      );
+      const districts = selectData(
+        properties.Districts['multi_select'],
+        cityDistricts.berlin.districts,
+      );
+      const flatPreferences = selectData(
+        properties['Flat Preferences']['multi_select'],
+        flatPreferencesData,
+      );
+      await createUserProfile({
+        userId: response.user?.uid,
+        genderIdentity,
+        userDescription: '',
+        personalPreferences,
+        flatPreferences,
+        districts,
+        minRent,
+        maxRent,
+        warmRent,
+      });
+    } else if (userType === 'Lessor') {
+      await createUserProfile({userId: response.user?.uid});
+    }
+  }
+};
 
 const seedFlats = async () => {
   const databaseId = '5bf250783d5d438f940512caf3293762';
