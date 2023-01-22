@@ -16,12 +16,12 @@ const SignInWith = () => {
         <Pressable
           onPress={() => onAppleButtonPress()}
           style={styles.logInWithButton}>
-          <AppleIcon style={styles.image} />
+          <AppleIcon />
         </Pressable>
         <Pressable
           onPress={() => onGoogleButtonPress()}
           style={styles.logInWithButton}>
-          <GoogleIcon style={styles.image} />
+          <GoogleIcon />
         </Pressable>
       </View>
     </View>
