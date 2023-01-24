@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -25,11 +25,51 @@ import FlatListCard from '@Components/cards/ListViewFlatCard';
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-// This list page has old icons, it will need to have new icons when added.
+//! This list page has old icons, it will need to have new icons when added.
 
-const FlatListScreen = ({navigation, route}: any) => {
+const FlatListScreen = ({navigation}: any) => {
+  const [flats, setFlats] = useState([
+    {
+      address: 'Suarezstr 20, Berlin',
+      matchP: 64,
+      price: 600,
+      district: 'Mitte',
+      id: 1,
+    },
+    {
+      address: 'Rudi Duschke Str 2, Berlin',
+      matchP: 82,
+      price: 920,
+      district: 'Xberg',
+      id: 2,
+    },
+    {
+      address: 'Schlegelstr 14, Berlin',
+      matchP: 91,
+      price: 950,
+      district: 'Xberg',
+      id: 3,
+    },
+
+    {
+      address: 'Wilsnackerstr 13, Berlin',
+      matchP: 78,
+      price: 400,
+      district: 'Moabit',
+      id: 4,
+    },
+  ]);
+
+  const [sortedFlats, setSortedFlats] = useState([]);
+
+  useEffect(() => {
+    const reOrder = flats.sort((a, b) => b.matchP - a.matchP);
+
+    setSortedFlats(reOrder);
+  }, [flats]);
+
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
@@ -90,13 +130,12 @@ const FlatListScreen = ({navigation, route}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen == 'list' ? <FlatListSubScreen navigation={navigation} /> : <FlatMap />}
-
-        {/* <Pressable onPress={() => navigation.navigate('TestMap')}>
-            <Text>Scroll Test</Text>
-          </Pressable> */}
+        {screen === 'list' ? (
+          <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
+        ) : (
+          <FlatMap flats={sortedFlats} />
+        )}
       </View>
-
     </View>
     // </TouchableWithoutFeedback>
   );
