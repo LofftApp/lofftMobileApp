@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 // Sync Notion
-import {seedUsers} from './../seeding/notionSeedingSetup';
+import {startSeeding} from './../seeding/notionSeedingSetup';
 
 // API 🧠
 import {onAppleButtonPress, onGoogleButtonPress} from '@Firebase/firebaseAuth';
@@ -24,26 +24,26 @@ const SignInWith = () => {
         ────────{'    '}Or sign in with {'    '}────────
       </Text>
       <View style={styles.buttonWrap}>
-        <Pressable
+        <TouchableOpacity
           onPress={() => onAppleButtonPress()}
           style={styles.logInWithButton}>
           <AppleIcon />
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => onGoogleButtonPress()}
           style={styles.logInWithButton}>
           <GoogleIcon />
-        </Pressable>
+        </TouchableOpacity>
         {__DEV__ ? (
-          <Pressable
-            onPress={() => seedUsers()}
+          <TouchableOpacity
+            onPress={() => startSeeding()}
             style={[styles.logInWithButton, styles.syncButton]}>
             <LofftIcon
               name="refresh-ccq-03"
               size={30}
               color={Colors.Tomato['100']}
             />
-          </Pressable>
+          </TouchableOpacity>
         ) : null}
       </View>
     </View>
