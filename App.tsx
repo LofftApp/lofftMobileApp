@@ -41,6 +41,7 @@ import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
 import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
+import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlatScreen';
 
 import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
@@ -94,7 +95,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      // host = '192.168.0.105';
+      host = '127.0.0.1';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -190,6 +191,11 @@ const App = () => {
               <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="ApplyForFlatScreen"
+                component={ApplyForFlatScreen}
                 options={{headerShown: false}}
               />
 
