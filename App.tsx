@@ -41,6 +41,9 @@ import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
 import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
+import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlatScreen';
+
+import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,7 +62,9 @@ const App = () => {
       setUserType(profileExist);
       // setAdmin(userClaims.claims.admin);
     }
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   };
 
   useEffect(() => {
@@ -90,7 +95,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.1.167';
+      host = '127.0.0.1';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -101,7 +106,9 @@ const App = () => {
     }
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   return (
     <>
       {user && userType ? (
@@ -149,6 +156,12 @@ const App = () => {
             component={UserScreen}
             options={{headerShown: false}}
           />
+
+          <Tab.Screen
+            name="Ello"
+            component={TempScreen}
+            options={{headerShown: false}}
+          />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="SignInScreen">
@@ -184,6 +197,17 @@ const App = () => {
               <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="ApplyForFlatScreen"
+                component={ApplyForFlatScreen}
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen
+                name="TempScreen"
+                component={TempScreen}
                 options={{headerShown: false}}
               />
               {/* Lessor Screens */}
