@@ -17,6 +17,7 @@ export const createUserProfile = async (data: any) => {
       minRent: data.minRent || 0,
       warmRent: data.warmRent || false,
     },
+    savedFlats: [],
   };
 
   const currentUserId = data.userId || auth().currentUser?.uid;
