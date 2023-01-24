@@ -43,6 +43,8 @@ import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
 import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlatScreen';
 
+import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -194,6 +196,12 @@ const App = () => {
               <Stack.Screen
                 name="ApplyForFlatScreen"
                 component={ApplyForFlatScreen}
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen
+                name="TempScreen"
+                component={TempScreen}
                 options={{headerShown: false}}
               />
               {/* Lessor Screens */}
