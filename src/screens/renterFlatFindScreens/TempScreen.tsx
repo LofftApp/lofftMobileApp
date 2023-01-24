@@ -1,20 +1,30 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  Dimensions,
+} from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+// Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
+import PaginationBar from '@Components/bars/PaginationBar';
+import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
+
+
 
 const TempScreen = ({navigation}) => {
+
   return (
     <View style={styles.pageContainer}>
       <HighlightedButtons navigation={navigation} />
-      <View style={styles.sampleImage}></View>
-
+      <LofftHeaderPhoto imageContainerHeight={300}/>
     </View>
-
   );
 };
 
@@ -23,21 +33,13 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
   },
-  actionContainer: {
-    marginVertical: 30,
-    position: 'absolute',
-    zIndex: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    justifyContent: 'space-between'
+  imageContainer: {
+    height: 300,
+    width: Dimensions.get('window').width,
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
-  sampleImage: {
-    backgroundColor: 'blue',
-    height: 200,
-    width: '100%',
-
-  }
-})
+});
 
 export default TempScreen;
