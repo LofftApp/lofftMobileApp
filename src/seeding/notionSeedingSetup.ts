@@ -3,7 +3,7 @@ import {Client} from '@notionhq/client';
 import {NOTION_API_KEY} from '@env';
 import auth from '@react-native-firebase/auth';
 import {handleSignUp} from '@Firebase/firebaseAuth';
-import {createUserProfile} from '@Firebase/firestoreActions';
+import {createUserProfile, createFlatProfile} from '@Firebase/firestoreActions';
 
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
@@ -17,71 +17,70 @@ export const startSeeding = async () => {
   const response = await notion.databases.query({
     database_id: databaseId,
   });
-  // let i = 0;
-  // const interval = setInterval(async () => {
-  await seedUsers({response, i: 3});
-  // i = i + 1;
-  // if (response.results.length === i) clearInterval(interval);
-  // }, 3000);
+  let i = 0;
+  const interval = setInterval(async () => {
+    await seedUsers({response, i});
+    i = i + 1;
+    if (response.results.length === i) clearInterval(interval);
+  }, 8000);
 };
 
 const seedUsers = async ({response, i}: any) => {
   const properties = response.results[i].properties;
   const email = properties.Email.email;
-  // await handleSignUp({email, password: '123456'}).then(
-  // async (response: any) => {
-  const profileCreated = properties['User Profile created'].checkbox;
-  // if (profileCreated) {
-  const userType = properties['User Type'].select.name;
-  if (userType === 'Renter') {
-    const genderIdentity = properties['Gender Identity'].select.name;
-    const minRent = properties['Min Rent'].number;
-    const maxRent = properties['Max Rent'].number;
-    const warmRent = properties['Warm Rent'].checkbox;
-    const personalPreferences = selectData(
-      properties['Personal Preferences']['multi_select'],
-      userPreferences,
-    );
-    const districts = selectData(
-      properties.Districts['multi_select'],
-      cityDistricts.berlin.districts,
-    );
-    const flatPreferences = selectData(
-      properties['Flat Preferences']['multi_select'],
-      flatPreferencesData,
-    );
-    // await createUserProfile({
-    //   userId: response.user?.uid,
-    //   genderIdentity,
-    //   userDescription: '',
-    //   personalPreferences,
-    //   flatPreferences,
-    //   districts,
-    //   minRent,
-    //   maxRent,
-    //   warmRent,
-    // });
-  } else if (userType === 'Lessor') {
-    console.log('Lessor');
-    if (properties.Flats.relation) {
-      await seedFlat(properties.Flats.relation[0].id, null);
-    }
-    // await createUserProfile({userId: response.user?.uid});
-  }
-  // }
-  // await auth().signOut();
-  // },
-  // );
+  await handleSignUp({email, password: '123456'}).then(
+    async (response: any) => {
+      const profileCreated = properties['User Profile created'].checkbox;
+      if (profileCreated) {
+        const userType = properties['User Type'].select.name;
+        if (userType === 'Renter') {
+          const genderIdentity = properties['Gender Identity'].select.name;
+          const minRent = properties['Min Rent'].number;
+          const maxRent = properties['Max Rent'].number;
+          const warmRent = properties['Warm Rent'].checkbox;
+          const personalPreferences = selectData(
+            properties['Personal Preferences']['multi_select'],
+            userPreferences,
+          );
+          const districts = selectData(
+            properties.Districts['multi_select'],
+            cityDistricts.berlin.districts,
+          );
+          const flatPreferences = selectData(
+            properties['Flat Preferences']['multi_select'],
+            flatPreferencesData,
+          );
+          await createUserProfile({
+            userId: response.user?.uid,
+            genderIdentity,
+            userDescription: '',
+            personalPreferences,
+            flatPreferences,
+            districts,
+            minRent,
+            maxRent,
+            warmRent,
+          });
+        } else if (userType === 'Lessor') {
+          await createUserProfile({userId: response.user?.uid});
+          if (properties.Flats.relation) {
+            await seedFlat(properties.Flats.relation[0].id);
+          }
+        }
+      }
+      await auth().signOut();
+    },
+  );
 };
 
-const seedFlat = async (id: any, user_id: any) => {
+const seedFlat = async (id: any) => {
   console.log('Seed Flats');
 
   const response: any = await notion.pages.retrieve({
     page_id: id,
   });
   const properties = response['properties'];
-  const rent = properties.Cost.number;
+  const cost = properties.Cost.number;
   const flatFeatures = selectData(
     properties['Flat Features']['multi_select'],
     flatPreferencesData,
@@ -96,11 +95,9 @@ const seedFlat = async (id: any, user_id: any) => {
   const untilDate = perminant
     ? null
     : new Date(mathRandom(2024, 2026), mathRandom(1, 12), mathRandom(1, 28));
-
-  const userId = user_id;
   const warmRent = properties['Warm Rent'];
   const data = {
-    rent,
+    cost,
     flatFeatures,
     flatMate,
     fromDate,
@@ -108,7 +105,7 @@ const seedFlat = async (id: any, user_id: any) => {
     untilDate,
     warmRent,
   };
-  console.log(data);
+  createFlatProfile(data);
 };
 
 // Used to select data from json using the seed preferences
