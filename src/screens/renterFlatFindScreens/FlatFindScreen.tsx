@@ -25,8 +25,9 @@ import FlatListCard from '@Components/cards/ListViewFlatCard';
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-// This list page has old icons, it will need to have new icons when added.
+//! This list page has old icons, it will need to have new icons when added.
 
 const FlatListScreen = ({navigation}: any) => {
   const [flats, setFlats] = useState([
@@ -61,15 +62,13 @@ const FlatListScreen = ({navigation}: any) => {
     },
   ]);
 
-  const [sortedFlats, setSortedFlats] = useState([])
+  const [sortedFlats, setSortedFlats] = useState([]);
 
   useEffect(() => {
-    const reOrder = flats.sort((a,b) => b.matchP - a.matchP)
+    const reOrder = flats.sort((a, b) => b.matchP - a.matchP);
 
     setSortedFlats(reOrder);
-
-  },[flats])
-
+  }, [flats]);
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
@@ -131,7 +130,11 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen flats={sortedFlats} navigation={navigation} /> : <FlatMap flats={sortedFlats} />}
+        {screen === 'list' ? (
+          <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
+        ) : (
+          <FlatMap flats={sortedFlats} />
+        )}
       </View>
     </View>
     // </TouchableWithoutFeedback>

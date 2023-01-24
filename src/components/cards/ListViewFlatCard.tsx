@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
 import Chips from '@Components/buttons/Chips';
@@ -22,7 +21,14 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import imageExample from '@Assets/images/flat-image.jpeg';
 
-const ListViewFlatCard = ({navigation, route, match, id, district, price}) => {
+const ListViewFlatCard = ({
+  navigation,
+  route,
+  match,
+  id,
+  district,
+  price,
+}: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
 
