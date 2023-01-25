@@ -53,3 +53,20 @@ export const checkUserProfileExist = async () => {
     return false;
   }
 };
+
+// Get flats (Currently all flats)
+export const getFlatsFromDB = async () => {
+  try {
+    const response = await firestore().collection('flats').get();
+    const flats: any = response.docs.map((flat: any) => {
+      const data = flat.data();
+      return {
+        address: data.location,
+        price: data.cost,
+      };
+    });
+    return flats;
+  } catch (error) {
+    console.log(error);
+  }
+};
