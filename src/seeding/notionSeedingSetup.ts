@@ -22,7 +22,7 @@ export const startSeeding = async () => {
     await seedUsers({response, i});
     i = i + 1;
     if (response.results.length === i) clearInterval(interval);
-  }, 8000);
+  }, 3000);
 };
 
 const seedUsers = async ({response, i}: any) => {
@@ -95,7 +95,10 @@ const seedFlat = async (id: any) => {
   const untilDate = perminant
     ? null
     : new Date(mathRandom(2024, 2026), mathRandom(1, 12), mathRandom(1, 28));
-  const warmRent = properties['Warm Rent'];
+  const warmRent = properties['Warm Rent'].checkbox;
+  const images = properties.Photos.files.map((image: any) => {
+    return image.file.url;
+  });
   const data = {
     cost,
     flatFeatures,
@@ -104,8 +107,9 @@ const seedFlat = async (id: any) => {
     location,
     untilDate,
     warmRent,
+    images,
   };
-  createFlatProfile(data);
+  await createFlatProfile(data);
 };
 
 // Used to select data from json using the seed preferences
