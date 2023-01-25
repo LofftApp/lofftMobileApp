@@ -160,7 +160,7 @@ const App = () => {
           <Tab.Screen
             name="Ello"
             component={TempScreen}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
         </Tab.Navigator>
       ) : (
