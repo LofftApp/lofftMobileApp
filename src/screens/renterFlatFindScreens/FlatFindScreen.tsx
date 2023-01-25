@@ -1,18 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
+import {getFlatsFromDB} from '@Firebase/firestoreActions';
 
 // Screens 📺
-import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
 
 // Components 🪢
@@ -20,60 +13,33 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
-import FlatListCard from '@Components/cards/ListViewFlatCard';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 //! This list page has old icons, it will need to have new icons when added.
 
 const FlatListScreen = ({navigation}: any) => {
-  const [flats, setFlats] = useState([
-    {
-      address: 'Suarezstr 20, Berlin',
-      matchP: 64,
-      price: 600,
-      district: 'Mitte',
-      id: 1,
-    },
-    {
-      address: 'Rudi Duschke Str 2, Berlin',
-      matchP: 82,
-      price: 920,
-      district: 'Xberg',
-      id: 2,
-    },
-    {
-      address: 'Schlegelstr 14, Berlin',
-      matchP: 91,
-      price: 950,
-      district: 'Xberg',
-      id: 3,
-    },
-
-    {
-      address: 'Wilsnackerstr 13, Berlin',
-      matchP: 78,
-      price: 400,
-      district: 'Moabit',
-      id: 4,
-    },
-  ]);
+  const [flats, setFlats] = useState([]);
 
   const [sortedFlats, setSortedFlats] = useState([]);
 
   useEffect(() => {
-    const reOrder = flats.sort((a, b) => b.matchP - a.matchP);
-
-    setSortedFlats(reOrder);
+    const getFlats = async () => {
+      const flats = await getFlatsFromDB();
+      setFlats(flats);
+      //? What is a, b referenced too here
+      // const reOrder = flats.sort((a, b) => b.matchP - a.matchP);
+      // setSortedFlats(reOrder); // ! commented out for testing
+      setSortedFlats(flats);
+    };
+    getFlats();
   }, [flats]);
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
-    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
@@ -137,7 +103,6 @@ const FlatListScreen = ({navigation}: any) => {
         )}
       </View>
     </View>
-    // </TouchableWithoutFeedback>
   );
 };
 
