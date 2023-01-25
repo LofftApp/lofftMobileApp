@@ -2,7 +2,7 @@
   {
     "id": 1,
     "emoji": "🚌",
-    "value": "Bus stop closeby",
+    "value": "Close to Bus or Tram stop",
     "toggle": false
   },
   {
@@ -49,12 +49,6 @@
   },
   {
     "id": 9,
-    "emoji": "🚋",
-    "value": "Near tram stop",
-    "toggle": false
-  },
-  {
-    "id": 10,
     "emoji": "🦽",
     "value": "Accessible",
     "toggle": false

@@ -3,20 +3,29 @@ import {utils} from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import auth from '@react-native-firebase/auth';
+import {assets} from '../../../react-native.config';
 
 if (__DEV__) {
   let host = 'localhost';
   // If using Mobile device set the host as local IP set host in App.js and wihtin the firebase.json for each method
-  // host = '192.168.1.16';
+  host = '127.0.0.1';
   storage().useEmulator(host, 9199);
 }
 
+//* Helpers
 const randomName = () => {
   return (
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15)
   );
 };
+
+const selectFileType = (url: string) => {
+  const splitURL = url.split('.');
+  return splitURL[splitURL.length - 1];
+};
+
+//* Actions
 
 export const libraryImageUpload = async (limit = 1) => {
   const images = await launchImageLibrary({
@@ -33,14 +42,18 @@ export const libraryImageUpload = async (limit = 1) => {
   }
 };
 
-const uploadUserImages = async (images: any) => {
+const uploadUserImages = async (images: any, seed: boolean = false) => {
   const folderName = randomName();
   const urls = await Promise.all(
     images.assets.flatMap(async (image: any) => {
+      let coreURI = null;
+      if (seed) {
+        coreURI = image.uri.split('?')[0];
+      }
       try {
         const approvedFileTypes = ['jpg', 'jpeg', 'png'];
-        const fileType = image.uri.split('.')[1];
-        if (approvedFileTypes.includes(fileType)) {
+        const fileType = selectFileType(seed ? coreURI : image.uri);
+        if (approvedFileTypes.includes(fileType) || seed) {
           const newFileName = randomName();
           const reference = await storage().ref(
             `${folderName}/${newFileName}.${fileType}`,
