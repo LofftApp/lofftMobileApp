@@ -35,7 +35,7 @@ const FlatListScreen = ({navigation}: any) => {
       setSortedFlats(flats);
     };
     getFlats();
-  }, [flats]);
+  }, []);
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
