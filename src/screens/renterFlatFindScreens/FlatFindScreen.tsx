@@ -21,18 +21,15 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 //! This list page has old icons, it will need to have new icons when added.
 
 const FlatListScreen = ({navigation}: any) => {
-  const [flats, setFlats] = useState([]);
-
   const [sortedFlats, setSortedFlats] = useState([]);
 
   useEffect(() => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
-      setFlats(flats);
-      //? What is a, b referenced too here
-      // const reOrder = flats.sort((a, b) => b.matchP - a.matchP);
-      // setSortedFlats(reOrder); // ! commented out for testing
-      setSortedFlats(flats);
+      if (flats) {
+        const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+        setSortedFlats(reOrder);
+      }
     };
     getFlats();
   }, []);

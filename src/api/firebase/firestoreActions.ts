@@ -88,7 +88,6 @@ const calculateMatchScore = ({userPreferences, flatPreferences}: any) => {
   const flatValues = getValues(flatPreferences);
   flatValues.forEach((item: any, i: number) => {
     const userIndexItem = userValues.indexOf(item);
-    // console.log(`The user Index is: ${userIndexItem}`);
     let diff = 10;
     if (userIndexItem >= 0) {
       diff = i - userIndexItem;

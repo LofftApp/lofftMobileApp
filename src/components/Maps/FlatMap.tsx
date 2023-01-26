@@ -22,13 +22,9 @@ const FlatMap = ({route, navigation, flats}: any) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [currentAdress, setCurrentAddress] = useState([]);
 
-
-
   // States
 
   const [mapboxFlats, setmapboxFlats] = useState<any[]>([]);
-
-
 
   // API
   useEffect(() => {
@@ -58,26 +54,22 @@ const FlatMap = ({route, navigation, flats}: any) => {
         }),
       );
       setmapboxFlats(formatedCordinates);
-
     };
 
     geoCoding(flats);
   }, [flats]);
 
-
-
-
-    const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
+  const onViewableItemsChanged = useCallback(
+    ({viewableItems, changed}: any) => {
       const index = viewableItems[0].index;
       setCurrentCardIndex(index);
+    },
+    [],
+  );
 
-    }, []);
+  console.log('this should be working', typeof mapboxFlats[currentCardIndex]);
 
-
-
-  console.log("this should be working", typeof mapboxFlats[currentCardIndex])
-
-  console.log('These are the flats', mapboxFlats)
+  console.log('These are the flats', mapboxFlats);
 
   // console.log(mapboxFlats.length);
 
@@ -91,8 +83,6 @@ const FlatMap = ({route, navigation, flats}: any) => {
   // mapboxFlats.length > 0
   //   ? setCurrentAddress(mapboxFlats[currentCardIndex].address)
   //   : null;
-
-
 
   return (
     <>
@@ -121,7 +111,13 @@ const FlatMap = ({route, navigation, flats}: any) => {
               showsHorizontalScrollIndicator={false}
               onViewableItemsChanged={onViewableItemsChanged}
               renderItem={({item, index}) => (
-                <MapViewFlatCard price={item.price} match={item.matchP} key={index+1} district={item.district} id={item.id} />
+                <MapViewFlatCard
+                  price={item.price}
+                  match={item.matchP}
+                  key={index + 1}
+                  district={item.district}
+                  id={item.id}
+                />
               )}
             />
           ) : null}
