@@ -5,7 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // APIs
-import {findAddress} from '../../../api/mapbox/findAddress';
+import {findAddress} from '@Api/mapbox/findAddress';
 
 // Components 🪢
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';

@@ -5,7 +5,10 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {startSeeding} from './../seeding/notionSeedingSetup';
 
 // API 🧠
-import {onAppleButtonPress, onGoogleButtonPress} from '@Firebase/firebaseAuth';
+import {
+  onAppleButtonPress,
+  onGoogleButtonPress,
+} from '@Api/firebase/firebaseAuth';
 
 // Components 🪢
 import LofftIcon from './lofftIcons/LofftIcon';

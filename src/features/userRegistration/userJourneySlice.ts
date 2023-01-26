@@ -1,5 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {createUserProfile, createFlatProfile} from '@Firebase/firestoreActions';
+
+import {
+  createUserProfile,
+  createFlatProfile,
+} from '@Api/firebase/firestoreActions';
 
 const renterJourney = () => {
   return {

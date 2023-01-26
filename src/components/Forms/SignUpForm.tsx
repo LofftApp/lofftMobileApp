@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🧠
-import {handleSignUp} from '@Firebase/firebaseAuth';
+import {handleSignUp} from '@Api/firebase/firebaseAuth';
 
 // Components 🪢
 import SignUpButton from '@Components/buttons/SignUpButton';
