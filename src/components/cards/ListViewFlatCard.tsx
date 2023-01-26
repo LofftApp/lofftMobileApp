@@ -43,24 +43,33 @@ const ListViewFlatCard = ({
         />
         <View style={styles.flatCardButtonsOverlay}>
           <View style={styles.flatCardbuttonsWrap}>
-            <View>
-              <MatchingScoreButton size="Big" score={match} />
-              <Pressable
-                style={styles.flatCardSaveButton}
-                onPress={() =>
-                  save === false ? setSave(true) : setSave(false)
-                }>
-                {save === true ? (
-                  <LofftIcon
-                    name="heart-filled"
-                    size={20}
-                    color={Color.Tomato[100]}
-                  />
-                ) : (
-                  <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
-                )}
-              </Pressable>
-            </View>
+            {match ? (
+              <View>
+                <MatchingScoreButton size="Big" score={match} />
+                <Pressable
+                  style={styles.flatCardSaveButton}
+                  onPress={() =>
+                    save === false ? setSave(true) : setSave(false)
+                  }>
+                  {save === true ? (
+                    <LofftIcon
+                      name="heart-filled"
+                      size={20}
+                      color={Color.Tomato[100]}
+                    />
+                  ) : (
+                    <LofftIcon
+                      name="heart"
+                      size={20}
+                      color={Color.Tomato[100]}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            ) : (
+              <View></View>
+            )}
+
             <PaginationBar screen={screen} totalScreens={5} />
           </View>
         </View>

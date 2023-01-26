@@ -62,7 +62,7 @@ export const getFlatsFromDB = async () => {
     .get();
 
   const currentUserData = currentUserProfile.data();
-  const userPreferences = currentUserData?.profileDetails.personalPreferences;
+  const userPreferences = currentUserData?.profileDetails?.personalPreferences;
   try {
     const response = await firestore().collection('flats').get();
     const flats: any = response.docs.map((flat: any) => {
@@ -85,19 +85,22 @@ export const getFlatsFromDB = async () => {
 };
 
 const calculateMatchScore = ({userPreferences, flatPreferences}: any) => {
-  let points: number = 100;
-  const userValues = getValues(userPreferences);
-  const flatValues = getValues(flatPreferences);
-  flatValues.forEach((item: any, i: number) => {
-    const userIndexItem = userValues.indexOf(item);
-    let diff = 10;
-    if (userIndexItem >= 0) {
-      diff = i - userIndexItem;
-      if (diff < 0) diff *= -1;
-    }
-    points -= diff;
-  });
-  return points;
+  if (userPreferences) {
+    let points: number = 100;
+    const userValues = getValues(userPreferences);
+    const flatValues = getValues(flatPreferences);
+    flatValues.forEach((item: any, i: number) => {
+      const userIndexItem = userValues.indexOf(item);
+      let diff = 10;
+      if (userIndexItem >= 0) {
+        diff = i - userIndexItem;
+        if (diff < 0) diff *= -1;
+      }
+      points -= diff;
+    });
+    return points;
+  }
+  return null;
 };
 
 const getValues = (data: any) => {

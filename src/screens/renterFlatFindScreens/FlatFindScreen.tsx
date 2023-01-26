@@ -25,8 +25,12 @@ const FlatListScreen = ({navigation}: any) => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
       if (flats) {
-        const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-        setSortedFlats(reOrder);
+        if (flats[0].matchP) {
+          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          setSortedFlats(reOrder);
+        } else {
+          setSortedFlats(flats);
+        }
       }
     };
     getFlats();
