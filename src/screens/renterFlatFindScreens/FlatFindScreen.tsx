@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
-import {getFlatsFromDB} from '@Firebase/firestoreActions';
+import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
@@ -18,8 +18,6 @@ import FlatMap from '@Components/Maps/FlatMap';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-//! This list page has old icons, it will need to have new icons when added.
-
 const FlatListScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
 
@@ -27,8 +25,12 @@ const FlatListScreen = ({navigation}: any) => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
       if (flats) {
-        const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-        setSortedFlats(reOrder);
+        if (flats[0].matchP) {
+          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          setSortedFlats(reOrder);
+        } else {
+          setSortedFlats(flats);
+        }
       }
     };
     getFlats();

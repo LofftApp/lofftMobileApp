@@ -3,7 +3,6 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // API - Firebase 🔥
 import auth from '@react-native-firebase/auth';
-import {createUserProfile} from '@Firebase/firestoreActions';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';

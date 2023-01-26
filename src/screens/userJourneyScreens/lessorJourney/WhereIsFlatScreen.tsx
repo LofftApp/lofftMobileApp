@@ -5,7 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // APIs
-import {findAddress} from '../../../api/mapbox/findAddress';
+import {findAddress} from '@Api/mapbox/findAddress';
 
 // Components 🪢
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
@@ -24,6 +24,11 @@ const WhereIsFlatScreen = ({navigation}: any) => {
   const [addresses, setAddresses] = useState<any[]>([]);
   const [warmRent, setWarmRent] = useState(false);
   const [addressQuery, setAddressQuery] = useState(false);
+  const [query, setQuery] = useState([]);
+  const [addressDetails, setAddressDetails] = useState({
+    address: null,
+    district: null,
+  });
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -37,12 +42,18 @@ const WhereIsFlatScreen = ({navigation}: any) => {
             setAddressQuery(true);
             setLocation(t);
             const add = await findAddress(t);
-            setAddresses(add);
+            setQuery(add);
+            const addresslist = add.map((data: any) => {
+              return data.address;
+            });
+            setAddresses(addresslist);
           }}
           dropdown={addressQuery}
           dropDownContent={addresses}
           dropDownPressAction={(value: string) => {
+            const addressIndex = addresses.indexOf(value);
             setLocation(value);
+            setAddressDetails(query[addressIndex]);
             setAddressQuery(false);
           }}
           onClear={() => setLocation('')}
@@ -73,7 +84,12 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           navigationHelper(navigation, targetScreen)
         }
         disabled={location === '' || cost === ''}
-        details={{location, cost, warmRent}}
+        details={{
+          location: addressDetails.address,
+          district: addressDetails.district,
+          cost,
+          warmRent,
+        }}
       />
     </ScreenBackButton>
   );

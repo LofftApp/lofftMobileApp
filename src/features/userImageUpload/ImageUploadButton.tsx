@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 // API 🧠
-import {libraryImageUpload} from '@Firebase/firebaseStorage';
+import {libraryImageUpload} from '@Api/firebase/firebaseStorage';
 import {setImageToUpload} from './userImageUploadSlice';
 import {setDetails} from '@Redux/userRegistration/userJourneySlice';
 

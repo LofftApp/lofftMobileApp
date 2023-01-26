@@ -2,9 +2,11 @@
 import {Client} from '@notionhq/client';
 import {NOTION_API_KEY} from '@env';
 import auth from '@react-native-firebase/auth';
-import {handleSignUp} from '@Firebase/firebaseAuth';
-import {createUserProfile, createFlatProfile} from '@Firebase/firestoreActions';
-import {firebase} from '@react-native-firebase/firestore';
+import {handleSignUp} from '@Api/firebase/firebaseAuth';
+import {
+  createUserProfile,
+  createFlatProfile,
+} from '@Api/firebase/firestoreActions';
 
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
@@ -92,6 +94,7 @@ const seedFlat = async (id: any) => {
   );
   const fromDate = new Date(2023, mathRandom(3, 12), mathRandom(1, 28));
   const location = properties.Address.rich_text[0].text.content;
+  const district = properties?.District?.select?.name;
   const perminant = properties.Perminant.checkbox;
   const untilDate = perminant
     ? null
@@ -100,15 +103,18 @@ const seedFlat = async (id: any) => {
   const images = properties.Photos.files.map((image: any) => {
     return image.file.url;
   });
+  const description = properties?.About?.rich_text?.text?.content;
   const data = {
     cost,
     flatFeatures,
     flatMate,
     fromDate,
     location,
+    district,
     untilDate,
     warmRent,
     images,
+    description,
   };
   await createFlatProfile(data);
 };
