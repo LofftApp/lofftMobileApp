@@ -91,6 +91,10 @@ const App = () => {
   });
   // Use Effect for dev environment
   useEffect(() => {
+    firestore().settings({
+      persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
+      cacheSizeBytes: 4e9,
+    });
     if (__DEV__) {
       console.log('FireStore Development Environment');
       let host = 'localhost';
@@ -115,7 +119,7 @@ const App = () => {
         <Tab.Navigator
           screenOptions={({route}) => ({
             tabBarIcon: ({color}) => {
-              let iconName = 'Not sure';
+              let iconName = 'settings';
               switch (route.name) {
                 case 'search':
                   iconName = 'search-sm';

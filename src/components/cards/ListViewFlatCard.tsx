@@ -63,7 +63,8 @@ const ListViewFlatCard = ({
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
-            <Text style={[fontStyles.headerSmall]}>{price} € 26 m2</Text>
+            {/* Size of WG is no in DB */}
+            {/* <Text style={[fontStyles.headerSmall]}>{price} € 26 m2</Text> */}
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
               {district}, Berlin

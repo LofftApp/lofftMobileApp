@@ -53,3 +53,54 @@ export const checkUserProfileExist = async () => {
     return false;
   }
 };
+
+// Get flats (Currently all flats)
+export const getFlatsFromDB = async () => {
+  const currentUserProfile = await firestore()
+    .collection('users')
+    .doc(auth().currentUser?.uid)
+    .get();
+
+  const currentUserData = currentUserProfile.data();
+  const userPreferences = currentUserData?.profileDetails.personalPreferences;
+  try {
+    const response = await firestore().collection('flats').get();
+    const flats: any = response.docs.map((flat: any) => {
+      const data = flat.data();
+      return {
+        address: data.location,
+        price: data.cost,
+        matchP: calculateMatchScore({
+          userPreferences,
+          flatPreferences: data.flatMate,
+        }),
+      };
+    });
+    return flats;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const calculateMatchScore = ({userPreferences, flatPreferences}: any) => {
+  let points: number = 100;
+  const userValues = getValues(userPreferences);
+  const flatValues = getValues(flatPreferences);
+  flatValues.forEach((item: any, i: number) => {
+    const userIndexItem = userValues.indexOf(item);
+    let diff = 10;
+    if (userIndexItem >= 0) {
+      diff = i - userIndexItem;
+      if (diff < 0) diff *= -1;
+    }
+    points -= diff;
+  });
+  return points;
+};
+
+const getValues = (data: any) => {
+  const items = data.map((e: any) => {
+    return e.value;
+  });
+  return items;
+};

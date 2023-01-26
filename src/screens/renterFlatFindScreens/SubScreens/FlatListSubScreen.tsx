@@ -1,16 +1,11 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
 
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({flats, navigation}: any) => {
+  console.log(flats[0]);
   return (
     <ScrollView style={styles.pageContainer}>
       <SafeAreaView>

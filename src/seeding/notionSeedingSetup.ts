@@ -4,6 +4,7 @@ import {NOTION_API_KEY} from '@env';
 import auth from '@react-native-firebase/auth';
 import {handleSignUp} from '@Firebase/firebaseAuth';
 import {createUserProfile, createFlatProfile} from '@Firebase/firestoreActions';
+import {firebase} from '@react-native-firebase/firestore';
 
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
