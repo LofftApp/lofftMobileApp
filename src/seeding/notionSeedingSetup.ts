@@ -94,6 +94,7 @@ const seedFlat = async (id: any) => {
   );
   const fromDate = new Date(2023, mathRandom(3, 12), mathRandom(1, 28));
   const location = properties.Address.rich_text[0].text.content;
+  const district = properties?.District?.select?.name;
   const perminant = properties.Perminant.checkbox;
   const untilDate = perminant
     ? null
@@ -108,6 +109,7 @@ const seedFlat = async (id: any) => {
     flatMate,
     fromDate,
     location,
+    district,
     untilDate,
     warmRent,
     images,

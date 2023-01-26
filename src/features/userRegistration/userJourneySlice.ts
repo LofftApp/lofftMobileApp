@@ -76,6 +76,7 @@ export const userJourneySlice = createSlice({
       if (state.userType === 'lesser') {
         userDetails.cost = data?.cost || userDetails.cost;
         userDetails.location = data?.location || userDetails.location;
+        userDetails.district = data?.district || userDetails.district;
         userDetails.fromDate = data?.fromDate || userDetails.fromDate;
         if (!data?.perminant && data?.perminant !== undefined) {
           userDetails.untilDate = data?.untilDate;
@@ -111,6 +112,7 @@ export const userJourneySlice = createSlice({
           cost: userDetails.cost || 0,
           warmrent: userDetails.warmRent || false,
           location: userDetails.location || '',
+          district: userDetails.district || null,
           fromDate: userDetails.fromDate || Date.now,
           untilDate: userDetails.untilDate || null,
           perminant: userDetails.perminant || false,
