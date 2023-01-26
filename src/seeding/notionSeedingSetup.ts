@@ -25,55 +25,63 @@ export const startSeeding = async () => {
     await seedUsers({response, i});
     i = i + 1;
     if (response.results.length === i) clearInterval(interval);
-  }, 3000);
+  }, 5000);
 };
 
 const seedUsers = async ({response, i}: any) => {
   const properties = response.results[i].properties;
   const email = properties.Email.email;
-  await handleSignUp({email, password: '123456'}).then(
-    async (response: any) => {
-      const profileCreated = properties['User Profile created'].checkbox;
-      if (profileCreated) {
-        const userType = properties['User Type'].select.name;
-        if (userType === 'Renter') {
-          const genderIdentity = properties['Gender Identity'].select.name;
-          const minRent = properties['Min Rent'].number;
-          const maxRent = properties['Max Rent'].number;
-          const warmRent = properties['Warm Rent'].checkbox;
-          const personalPreferences = selectData(
-            properties['Personal Preferences']['multi_select'],
-            userPreferences,
-          );
-          const districts = selectData(
-            properties.Districts['multi_select'],
-            cityDistricts.berlin.districts,
-          );
-          const flatPreferences = selectData(
-            properties['Flat Preferences']['multi_select'],
-            flatPreferencesData,
-          );
-          await createUserProfile({
-            userId: response.user?.uid,
-            genderIdentity,
-            userDescription: '',
-            personalPreferences,
-            flatPreferences,
-            districts,
-            minRent,
-            maxRent,
-            warmRent,
-          });
-        } else if (userType === 'Lessor') {
-          await createUserProfile({userId: response.user?.uid});
-          if (properties.Flats.relation) {
-            await seedFlat(properties.Flats.relation[0].id);
-          }
-        }
-      }
-      await auth().signOut();
-    },
-  );
+  console.log('Creating user: ', email);
+  await handleSignUp({email, password: '123456'})
+    // .then(async (response: any) => {
+    //   console.log('User Profile Created for: ', auth().currentUser?.email);
+    //   const profileCreated = properties['User Profile created'].checkbox;
+    //   console.log('This user has a profile: ', profileCreated === true);
+    //   if (profileCreated) {
+    //     const userType = properties['User Type'].select.name;
+    //     console.log(`This user is a ${userType}`);
+    //     if (userType === 'Renter') {
+    //       const genderIdentity = properties['Gender Identity'].select.name;
+    //       const minRent = properties['Min Rent'].number;
+    //       const maxRent = properties['Max Rent'].number;
+    //       const warmRent = properties['Warm Rent'].checkbox;
+    //       const personalPreferences = selectData(
+    //         properties['Personal Preferences']['multi_select'],
+    //         userPreferences,
+    //       );
+    //       const districts = selectData(
+    //         properties.Districts['multi_select'],
+    //         cityDistricts.berlin.districts,
+    //       );
+    //       const flatPreferences = selectData(
+    //         properties['Flat Preferences']['multi_select'],
+    //         flatPreferencesData,
+    //       );
+    //       console.log('Creating user profile: ', auth().currentUser?.email);
+    //       await createUserProfile({
+    //         userId: response.user?.uid,
+    //         genderIdentity,
+    //         userDescription: '',
+    //         personalPreferences,
+    //         flatPreferences,
+    //         districts,
+    //         minRent,
+    //         maxRent,
+    //         warmRent,
+    //       });
+    //     }
+    //     // else if (userType === 'Lessor') {
+    //     //   await createUserProfile({userId: response.user?.uid});
+    //     //   if (properties.Flats.relation) {
+    //     //     await seedFlat(properties.Flats.relation[0].id);
+    //     //   }
+    //     // }
+    //   }
+    // })
+    .then(() => {
+      console.log('Signing Out: ', auth().currentUser?.email);
+      auth().signOut();
+    });
 };
 
 const seedFlat = async (id: any) => {
@@ -100,8 +108,8 @@ const seedFlat = async (id: any) => {
     ? null
     : new Date(mathRandom(2024, 2026), mathRandom(1, 12), mathRandom(1, 28));
   const warmRent = properties['Warm Rent'].checkbox;
-  const images = properties.Photos.files.map((image: any) => {
-    return image.file.url;
+  const images = properties?.Photos?.files.map((image: any) => {
+    return image?.external?.url;
   });
   const description = properties?.About?.rich_text?.text?.content;
   const data = {

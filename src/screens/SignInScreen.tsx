@@ -24,7 +24,7 @@ const SignInScreen = ({navigation}: any) => {
           <SignInForm />
         </View>
         <View style={styles.signInWith}>
-          <SignInWith />
+          <SignInWith navigation={navigation} />
           <Text style={styles.text}>
             Don't have an account yet?{'     '}
             <Text

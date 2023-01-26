@@ -21,6 +21,9 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 // StyleSheets 🖼️
 import Color from './src/styles/lofftColorPallet.json';
 
+// Dev Screesn 🛠️
+import SeedingScreen from '@Screens/devScreens/SeedingScreen';
+
 // Find Lofft Journey
 import StartJourney from '@Screens/StartJourney';
 import AboutYouFlatHuntScreen from '@Screens/userJourneyScreens/renterJourney/AboutUserScreen';
@@ -56,11 +59,13 @@ const App = () => {
   const [admin, setAdmin] = useState(false);
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
+    const currentUser: any = await auth()?.currentUser?.getIdTokenResult();
+    currentUser?.claims?.role ? setAdmin(true) : setAdmin(false);
+
     setUser(user);
     if (user) {
       const profileExist: any = await checkUserProfileExist();
       setUserType(profileExist);
-      // setAdmin(userClaims.claims.admin);
     }
     if (initializing) {
       setInitializing(false);
@@ -169,7 +174,15 @@ const App = () => {
         </Tab.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="SignInScreen">
-          {user ? (
+          {admin ? (
+            <>
+              <Stack.Screen
+                name="SeedingScreen"
+                component={SeedingScreen}
+                options={{headerShown: false}}
+              />
+            </>
+          ) : user ? (
             <>
               {/* Rentor Screens */}
               <Stack.Screen
@@ -208,7 +221,6 @@ const App = () => {
                 component={ApplyForFlatScreen}
                 options={{headerShown: false}}
               />
-
               <Stack.Screen
                 name="TempScreen"
                 component={TempScreen}
