@@ -8,7 +8,7 @@ import {assets} from '../../../react-native.config';
 if (__DEV__) {
   let host = 'localhost';
   // If using Mobile device set the host as local IP set host in App.js and wihtin the firebase.json for each method
-  host = '192.168.0.105';
+  host = '127.0.0.1';
   storage().useEmulator(host, 9199);
 }
 
