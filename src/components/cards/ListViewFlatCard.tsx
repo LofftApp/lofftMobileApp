@@ -23,19 +23,24 @@ import imageExample from '@Assets/images/flat-image.jpeg';
 
 const ListViewFlatCard = ({
   navigation,
-  route,
   match,
-  id,
   district,
   price,
+  images,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
-
   return (
     <View style={styles.flatCardContainer}>
+      <Image source={{uri: images ? images[0] : null}} />
       <View style={{height: 244}}>
-        <Image source={imageExample} style={styles.flatCardImage} />
+        <Image
+          // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
+          source={
+            images ? {uri: images[0], width: 200, height: 300} : imageExample
+          }
+          style={styles.flatCardImage}
+        />
         <View style={styles.flatCardButtonsOverlay}>
           <View style={styles.flatCardbuttonsWrap}>
             <View>
@@ -63,12 +68,14 @@ const ListViewFlatCard = ({
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
-            {/* Size of WG is no in DB */}
-            {/* <Text style={[fontStyles.headerSmall]}>{price} € 26 m2</Text> */}
-            <Text
-              style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {district}, Berlin
-            </Text>
+            {/* Size of WG is not in DB - 26 m2 */}
+            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+            {district ? (
+              <Text
+                style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+                {district}, Berlin
+              </Text>
+            ) : null}
           </View>
           <Text style={[fontStyles.bodyMedium]}>
             🧘 Calm flat in the centre of {district}

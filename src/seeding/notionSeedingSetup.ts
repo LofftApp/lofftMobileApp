@@ -103,6 +103,7 @@ const seedFlat = async (id: any) => {
   const images = properties.Photos.files.map((image: any) => {
     return image.file.url;
   });
+  const description = properties?.About?.rich_text?.text?.content;
   const data = {
     cost,
     flatFeatures,
@@ -113,6 +114,7 @@ const seedFlat = async (id: any) => {
     untilDate,
     warmRent,
     images,
+    description,
   };
   await createFlatProfile(data);
 };

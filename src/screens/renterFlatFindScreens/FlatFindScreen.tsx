@@ -18,8 +18,6 @@ import FlatMap from '@Components/Maps/FlatMap';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-//! This list page has old icons, it will need to have new icons when added.
-
 const FlatListScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
 

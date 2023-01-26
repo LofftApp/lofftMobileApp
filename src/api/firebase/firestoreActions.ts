@@ -69,11 +69,13 @@ export const getFlatsFromDB = async () => {
       const data = flat.data();
       return {
         address: data.location,
+        district: data.district,
         price: data.cost,
         matchP: calculateMatchScore({
           userPreferences,
           flatPreferences: data.flatMate,
         }),
+        images: data.images,
       };
     });
     return flats;
