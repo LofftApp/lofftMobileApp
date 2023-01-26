@@ -5,6 +5,7 @@ import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({flats, navigation}: any) => {
+  console.log(flats[0]);
   return (
     <ScrollView style={styles.pageContainer}>
       <SafeAreaView>

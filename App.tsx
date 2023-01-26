@@ -91,11 +91,15 @@ const App = () => {
   });
   // Use Effect for dev environment
   useEffect(() => {
+    firestore().settings({
+      persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
+      cacheSizeBytes: 4e9,
+    });
     if (__DEV__) {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '192.168.1.167';
+      host = '192.168.0.105';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
