@@ -1,13 +1,6 @@
 import React, {useEffect, useState, useCallback, useRef, useMemo} from 'react';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  StatusBar,
-  Dimensions,
-} from 'react-native';
+import {View, StyleSheet, FlatList, StatusBar} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -107,9 +100,11 @@ const FlatMap = ({route, navigation, flats}: any) => {
           {mapboxFlats !== null ? (
             <FlatList
               data={flats}
+              disableIntervalMomentum={true}
               horizontal
+              pagingEnabled
               showsHorizontalScrollIndicator={false}
-              onViewableItemsChanged={onViewableItemsChanged}
+              // onViewableItemsChanged={onViewableItemsChanged}
               renderItem={({item, index}) => (
                 <MapViewFlatCard
                   price={item.price}

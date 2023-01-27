@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
@@ -17,54 +24,62 @@ const MapViewFlatCard = ({price, id, match, district, images}: any) => {
   const [save, setSave] = useState(false);
 
   return (
-    <View style={styles.flatCardContainer}>
-      <View style={styles.imageDetailsBlock}>
-        <Image
-          source={
-            images ? {uri: images[0], width: 200, height: 300} : noFlatImage
-          }
-          style={styles.flatCardImage}
-        />
-        <View style={styles.details}>
-          <View style={styles.flatCardbuttonsWrap}>
-            <MatchingScoreButton size="Small" score={match} />
-            <Pressable
-              onPress={() => (save === false ? setSave(true) : setSave(false))}>
-              {save === true ? (
-                <LofftIcon
-                  name="heart-filled"
-                  size={20}
-                  color={Color.Tomato[100]}
-                />
-              ) : (
-                <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
-              )}
-            </Pressable>
-          </View>
-          <View style={styles.flatCardMetadataWrap}>
-            <View style={styles.coreDetails}>
-              <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
-              <Text style={fontStyles.bodyMedium}>
-                🧘 Calm flat in the centre of {district}
+    <View style={styles.boundryContainer}>
+      <View style={styles.flatCardContainer}>
+        <View style={styles.imageDetailsBlock}>
+          <Image
+            source={
+              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
+            }
+            style={styles.flatCardImage}
+          />
+          <View style={styles.details}>
+            <View style={styles.flatCardbuttonsWrap}>
+              <MatchingScoreButton size="Small" score={match} />
+              <Pressable
+                onPress={() =>
+                  save === false ? setSave(true) : setSave(false)
+                }>
+                {save === true ? (
+                  <LofftIcon
+                    name="heart-filled"
+                    size={20}
+                    color={Color.Tomato[100]}
+                  />
+                ) : (
+                  <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
+                )}
+              </Pressable>
+            </View>
+            <View style={styles.flatCardMetadataWrap}>
+              <View style={styles.coreDetails}>
+                <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
+                <Text style={fontStyles.bodyMedium}>
+                  🧘 Calm flat in the centre of {district}
+                </Text>
+              </View>
+              <Text
+                style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+                {district}, Berlin
               </Text>
             </View>
-            <Text
-              style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {district}, Berlin
-            </Text>
           </View>
         </View>
+        <Chips />
       </View>
-      <Chips />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  boundryContainer: {
+    flex: 1,
+    paddingLeft: 16,
+    width: Dimensions.get('screen').width,
+  },
   flatCardContainer: {
     height: 260,
     width: 333,
-    marginHorizontal: 16,
     padding: 8,
     justifyContent: 'space-between',
     borderRadius: 12,
