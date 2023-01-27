@@ -19,25 +19,18 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Assets 🪴
-import imageExample from '@Assets/images/flat-image.jpeg';
+import noFlatImage from '@Assets/images/no-flat-image.png';
 
-const ListViewFlatCard = ({
-  navigation,
-  match,
-  district,
-  price,
-  images,
-}: any) => {
+const ListViewFlatCard = ({match, district, price, images}: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
   return (
     <View style={styles.flatCardContainer}>
-      <Image source={{uri: images ? images[0] : null}} />
-      <View style={{height: 244}}>
+      <View>
         <Image
           // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
           source={
-            images ? {uri: images[0], width: 200, height: 300} : imageExample
+            images ? {uri: images[0], width: 200, height: 300} : noFlatImage
           }
           style={styles.flatCardImage}
         />
@@ -45,7 +38,6 @@ const ListViewFlatCard = ({
           <View style={styles.flatCardbuttonsWrap}>
             {match ? (
               <View>
-                <MatchingScoreButton size="Big" score={match} />
                 <Pressable
                   style={styles.flatCardSaveButton}
                   onPress={() =>
@@ -79,24 +71,18 @@ const ListViewFlatCard = ({
           <View style={styles.apartmentLocationInfo}>
             {/* Size of WG is not in DB - 26 m2 */}
             <Text style={[fontStyles.headerSmall]}>{price} €</Text>
-            {district ? (
-              <Text
-                style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-                {district}, Berlin
-              </Text>
-            ) : null}
+            <MatchingScoreButton size="Big" score={match} />
           </View>
-          <Text style={[fontStyles.bodyMedium]}>
-            🧘 Calm flat in the centre of {district}
-          </Text>
+          {district ? (
+            <Text
+              style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+              {district}, Berlin
+            </Text>
+          ) : null}
         </View>
         <View>
           <Chips />
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ApplyForFlatScreen')}>
-          <Text>Apply</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -108,7 +94,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   flatCardImage: {
-    maxHeight: 244,
     width: '100%',
     overflow: 'hidden',
     zIndex: 1,
@@ -119,7 +104,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     width: '100%',
-    height: 244,
+    height: '100%',
     padding: 16,
   },
   flatCardbuttonsWrap: {
