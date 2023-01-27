@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
 import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
+import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
@@ -25,7 +26,7 @@ const FlatListScreen = ({navigation}: any) => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
       if (flats) {
-        if (flats[0].matchP) {
+        if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
           setSortedFlats(reOrder);
         } else {
