@@ -1,9 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-// Sync Notion
-import {startSeeding} from './../seeding/notionSeedingSetup';
-
 // API 🧠
 import {
   onAppleButtonPress,
@@ -12,6 +9,7 @@ import {
 
 // Components 🪢
 import LofftIcon from './lofftIcons/LofftIcon';
+import {SeedButton} from '@Redux/userSeeding/SeedButton';
 
 // Styles 🖼️
 import Colors from '@StyleSheets/lofftColorPallet.json';
@@ -20,7 +18,7 @@ import Colors from '@StyleSheets/lofftColorPallet.json';
 import {AppleIcon} from '../assets';
 import {GoogleIcon} from '../assets';
 
-const SignInWith = () => {
+const SignInWith = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text1}>
@@ -37,17 +35,6 @@ const SignInWith = () => {
           style={styles.logInWithButton}>
           <GoogleIcon />
         </TouchableOpacity>
-        {__DEV__ ? (
-          <TouchableOpacity
-            onPress={() => startSeeding()}
-            style={[styles.logInWithButton, styles.syncButton]}>
-            <LofftIcon
-              name="refresh-ccq-03"
-              size={30}
-              color={Colors.Tomato['100']}
-            />
-          </TouchableOpacity>
-        ) : null}
       </View>
     </View>
   );

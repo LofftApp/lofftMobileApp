@@ -9,7 +9,7 @@ import Colors from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
 const MapMarker = ({data}: any) => {
-  const [color] = useState(data.matchP > 85 ? 'lavendar' : 'mint');
+  const [color] = useState(data?.matchP > 85 ? 'lavendar' : 'mint');
   return (
     <View>
       <LofftIcon
@@ -26,7 +26,7 @@ const MapMarker = ({data}: any) => {
                 color === 'lavendar' ? Colors.Lavendar[100] : Colors.Mint[100],
             },
           ]}>
-          {data.matchP}
+          {data?.matchP}
         </Text>
       </View>
     </View>
