@@ -13,7 +13,6 @@ import {
 import userPreferences from '@Components/componentData/userPreferences.json';
 import cityDistricts from '@Components/componentData/cityDistricts.json';
 import flatPreferencesData from '@Components/componentData/flatPreferences.json';
-import {FirebaseStorageTypes} from '@react-native-firebase/storage';
 
 const notion = new Client({auth: NOTION_API_KEY});
 
@@ -120,7 +119,6 @@ const lessorUserType = async (id: string) => {
     return image?.external?.url;
   });
   const description = properties?.About?.rich_text[0]?.text?.content;
-  console.log(description);
   return {
     cost,
     flatFeatures,
