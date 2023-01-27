@@ -104,7 +104,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '127.0.0.17';
+      host = '127.0.0.1';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
