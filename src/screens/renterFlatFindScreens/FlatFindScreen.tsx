@@ -4,7 +4,6 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
 import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
-import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
