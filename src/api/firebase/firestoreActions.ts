@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 // Save user profile
 
 export const createUserProfile = async (data: any) => {
-  console.log(data);
   const userData = {
     notionId: data.notionId,
     profileDetails: {

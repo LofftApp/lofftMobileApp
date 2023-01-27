@@ -135,7 +135,6 @@ const lessorUserType = async (id: string) => {
 
 // Notion seed Signup
 const seedSignupFlow = async (email: string) => {
-  console.log('Sign up');
   const signUp: any = await handleSignUp({email, password: '123456'});
   if (signUp.error) {
     await handleSignIn({email, password: '123456'});
