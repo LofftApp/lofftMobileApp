@@ -4,18 +4,20 @@ import auth from '@react-native-firebase/auth';
 // Save user profile
 
 export const createUserProfile = async (data: any) => {
+  console.log(data);
   const userData = {
+    notionId: data.notionId,
     profileDetails: {
-      genderIdentity: data.genderIdentity || '',
+      genderIdentity: data?.genderIdentity || '',
       userDescription: data.userDescription || '',
       personalPreferences: data.personalPreferences || {},
     },
     searchCriteria: {
-      districts: data.districts || {},
-      flatPreferences: data.flatPreferences || {},
-      maxRent: data.maxRent || 10000,
-      minRent: data.minRent || 0,
-      warmRent: data.warmRent || false,
+      districts: data?.districts || {},
+      flatPreferences: data?.flatPreferences || {},
+      maxRent: data?.maxRent || 10000,
+      minRent: data?.minRent || 0,
+      warmRent: data?.warmRent || false,
     },
     savedFlats: [],
   };
@@ -32,12 +34,11 @@ export const createFlatProfile = async (data: any) => {
   const response = await (
     await firestore().collection('flats').add(userAddedToData)
   ).get();
-  const flatID = response.id;
-
+  const flatId = response.id;
   await firestore()
     .collection('users')
     .doc(currentUserId)
-    .set({flats: [flatID]});
+    .set({flats: [flatId], notionId: data.notionId});
 };
 
 export const checkUserProfileExist = async () => {
@@ -108,4 +109,19 @@ const getValues = (data: any) => {
     return e.value;
   });
   return items;
+};
+
+// * Seeding actions
+
+// Check a user exists already
+export const seedCheckUserExists = async (userId: string) => {
+  try {
+    const response = await firestore()
+      .collection('users')
+      .where('notionId', '==', userId)
+      .get();
+    return response.docs.length > 0;
+  } catch (error) {
+    console.log(error);
+  }
 };

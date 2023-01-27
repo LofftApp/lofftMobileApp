@@ -2,10 +2,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId} {
-      allow read, write, create: if request.auth.uid == userId
+      allow read, write, create: if request.auth.uid == userId || request.auth.token.role == "admin"
     }
     match /flats/{flat_id} {
-      allow read, write, create: if request.auth != null
+      allow read, write, create: if request.auth != null || equest.auth.token.role == "admin"
     }
   }
 }

@@ -22,7 +22,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import Color from './src/styles/lofftColorPallet.json';
 
 // Dev Screesn 🛠️
-import SeedingScreen from '@Screens/devScreens/SeedingScreen';
+import AdminScreen from '@Screens/devScreens/adminScreen';
 
 // Find Lofft Journey
 import StartJourney from '@Screens/StartJourney';
@@ -104,7 +104,7 @@ const App = () => {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '127.0.0.1';
+      host = '192.168.1.167';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -177,8 +177,8 @@ const App = () => {
           {admin ? (
             <>
               <Stack.Screen
-                name="SeedingScreen"
-                component={SeedingScreen}
+                name="AdminScreen"
+                component={AdminScreen}
                 options={{headerShown: false}}
               />
             </>

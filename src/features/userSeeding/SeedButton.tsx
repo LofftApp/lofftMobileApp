@@ -1,6 +1,5 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
-import {startSeeding} from './../../seeding/notionSeedingSetup';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import Colors from '@StyleSheets/lofftColorPallet.json';
 
