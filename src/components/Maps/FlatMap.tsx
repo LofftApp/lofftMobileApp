@@ -39,14 +39,14 @@ const FlatMap = ({route, navigation, flats}: any) => {
             address: null,
             matchP: null,
             price: null,
-            // name: null,
+            images: null,
             district: null,
             id: null,
           };
           flatObject.address = data.features[0].geometry.coordinates;
           flatObject.price = el.price;
           flatObject.matchP = el?.matchP;
-          // flatObject.name = el.name;
+          flatObject.images = el.images;
           flatObject.district = el.district;
           flatObject.id = el.id;
 
@@ -67,9 +67,9 @@ const FlatMap = ({route, navigation, flats}: any) => {
     [],
   );
 
-  console.log('this should be working', typeof mapboxFlats[currentCardIndex]);
+  // console.log('this should be working', typeof mapboxFlats[currentCardIndex]);
 
-  console.log('These are the flats', mapboxFlats);
+  // console.log('These are the flats', mapboxFlats);
 
   // console.log(mapboxFlats.length);
 
@@ -116,6 +116,7 @@ const FlatMap = ({route, navigation, flats}: any) => {
                   match={item.matchP}
                   key={index + 1}
                   district={item.district}
+                  images={item.images}
                   id={item.id}
                 />
               )}

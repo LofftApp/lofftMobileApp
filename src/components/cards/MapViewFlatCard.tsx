@@ -11,15 +11,20 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Assets 🪴
-import imageExample from '@Assets/images/flat-image.jpeg';
+import noFlatImage from '@Assets/images/no-flat-image.png';
 
-const MapViewFlatCard = ({price, id, match, district}) => {
+const MapViewFlatCard = ({price, id, match, district, images}: any) => {
   const [save, setSave] = useState(false);
 
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.imageDetailsBlock}>
-        <Image source={imageExample} style={styles.flatCardImage} />
+        <Image
+          source={
+            images ? {uri: images[0], width: 200, height: 300} : noFlatImage
+          }
+          style={styles.flatCardImage}
+        />
         <View style={styles.details}>
           <View style={styles.flatCardbuttonsWrap}>
             <MatchingScoreButton size="Small" score={match} />
