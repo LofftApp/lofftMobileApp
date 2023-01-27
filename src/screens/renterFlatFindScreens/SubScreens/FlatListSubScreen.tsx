@@ -12,7 +12,7 @@ const FlatListSubScreen = ({flats, navigation}: any) => {
           <ListViewFlatCard
             navigation={navigation}
             key={index + 1}
-            match={el.matchP}
+            match={el?.matchP}
             id={el.id}
             district={el.district}
             price={el.price}

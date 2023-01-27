@@ -45,7 +45,7 @@ const FlatMap = ({route, navigation, flats}: any) => {
           };
           flatObject.address = data.features[0].geometry.coordinates;
           flatObject.price = el.price;
-          flatObject.matchP = el.matchP;
+          flatObject.matchP = el?.matchP;
           // flatObject.name = el.name;
           flatObject.district = el.district;
           flatObject.id = el.id;
