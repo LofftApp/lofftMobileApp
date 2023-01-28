@@ -1,30 +1,21 @@
 import React, {useEffect, useState, useCallback, useRef, useMemo} from 'react';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  StatusBar,
-  Dimensions,
-} from 'react-native';
+import {View, StyleSheet, FlatList, StatusBar} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Components 🪢
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 import MapMarker from './MapMarker';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-const FlatMap = ({route, navigation, flats}: any) => {
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [currentAdress, setCurrentAddress] = useState([]);
-
+const FlatMap = ({flats}: any) => {
+  const [activeAddress, setActiveAddress] = useState();
+  const [selectedIndex, setSelectedIndex] = useState(0);
   // States
 
-  const [mapboxFlats, setmapboxFlats] = useState<any[]>([]);
+  const [mapboxFlats, setMapboxFlats] = useState<any[]>([]);
 
   // API
   useEffect(() => {
@@ -53,36 +44,26 @@ const FlatMap = ({route, navigation, flats}: any) => {
           return flatObject;
         }),
       );
-      setmapboxFlats(formatedCordinates);
+      setMapboxFlats(formatedCordinates);
     };
-
+    setActiveAddress(mapboxFlats[0]);
     geoCoding(flats);
   }, [flats]);
 
-  const onViewableItemsChanged = useCallback(
-    ({viewableItems, changed}: any) => {
-      const index = viewableItems[0].index;
-      setCurrentCardIndex(index);
-    },
-    [],
-  );
+  const setActiveLocation = (index: number) => {
+    setSelectedIndex(index);
+  };
 
-  // console.log('this should be working', typeof mapboxFlats[currentCardIndex]);
+  const onViewRef = React.useRef((viewableItems: any) => {
+    setActiveLocation(Number(viewableItems.viewableItems[0].key));
+  });
 
-  // console.log('These are the flats', mapboxFlats);
-
-  // console.log(mapboxFlats.length);
-
-  // console.log(mapboxFlats[currentCardIndex]);
-
-  // console.log(
-  //   mapboxFlats.length > 0
-  //     ? mapboxFlats[currentCardIndex].price
-  //     : 'Items not loaded yet',
-  // );
-  // mapboxFlats.length > 0
-  //   ? setCurrentAddress(mapboxFlats[currentCardIndex].address)
-  //   : null;
+  const coordinateViewConverter = (coordinates: any) => {
+    if (coordinates) {
+      return [coordinates[0], coordinates[1] - 0.001];
+    }
+    return [0, 0];
+  };
 
   return (
     <>
@@ -91,8 +72,10 @@ const FlatMap = ({route, navigation, flats}: any) => {
           style={styles.map}
           styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
           <MapboxGL.Camera
-            zoomLevel={10}
-            centerCoordinate={[13.404954, 52.520008]}
+            zoomLevel={15}
+            centerCoordinate={coordinateViewConverter(
+              mapboxFlats[selectedIndex]?.address,
+            )}
             animationMode="flyTo"
           />
           {mapboxFlats.map((el: any, index: number) => (
@@ -107,9 +90,11 @@ const FlatMap = ({route, navigation, flats}: any) => {
           {mapboxFlats !== null ? (
             <FlatList
               data={flats}
+              disableIntervalMomentum={true}
               horizontal
+              pagingEnabled
               showsHorizontalScrollIndicator={false}
-              onViewableItemsChanged={onViewableItemsChanged}
+              onViewableItemsChanged={onViewRef.current}
               renderItem={({item, index}) => (
                 <MapViewFlatCard
                   price={item.price}
