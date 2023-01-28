@@ -68,6 +68,7 @@ export const getFlatsFromDB = async () => {
     const flats: any = response.docs.map((flat: any) => {
       const data = flat.data();
       return {
+        flatId: flat.id,
         address: data.location,
         district: data.district,
         price: data.cost,
@@ -76,6 +77,7 @@ export const getFlatsFromDB = async () => {
           flatPreferences: data.flatMate,
         }),
         images: data.images,
+        likedUsers: data?.likedUsers,
       };
     });
     return flats;
@@ -120,6 +122,40 @@ export const seedCheckUserExists = async (userId: string) => {
       .where('notionId', '==', userId)
       .get();
     return response.docs.length > 0;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Save Flat to user list
+
+export const saveFlatToUserLikes = async ({flatId, add}: any) => {
+  console.log(flatId);
+  try {
+    const currentUser: any = await auth()?.currentUser?.uid;
+    if (add) {
+      await firestore()
+        .collection('flats')
+        .doc(flatId)
+        .update({
+          likedUsers: firestore.FieldValue.arrayRemove(currentUser),
+        });
+
+      await firestore()
+        .collection('users')
+        .doc(currentUser)
+        .update({savedFlats: firestore.FieldValue.arrayRemove(flatId)});
+    } else {
+      await firestore()
+        .collection('flats')
+        .doc(flatId)
+        .update({likedUsers: firestore.FieldValue.arrayUnion(currentUser)});
+
+      await firestore()
+        .collection('users')
+        .doc(currentUser)
+        .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
+    }
   } catch (error) {
     console.log(error);
   }

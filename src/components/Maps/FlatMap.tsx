@@ -33,6 +33,8 @@ const FlatMap = ({flats}: any) => {
             images: null,
             district: null,
             id: null,
+            flatId: null,
+            likedUsers: null,
           };
           flatObject.address = data.features[0].geometry.coordinates;
           flatObject.price = el.price;
@@ -40,6 +42,8 @@ const FlatMap = ({flats}: any) => {
           flatObject.images = el.images;
           flatObject.district = el.district;
           flatObject.id = el.id;
+          flatObject.flatId = el.flatId;
+          flatObject.likedUsers = el.likedUsers;
 
           return flatObject;
         }),
@@ -51,10 +55,12 @@ const FlatMap = ({flats}: any) => {
   }, [flats]);
 
   const setActiveLocation = (index: number) => {
+    console.log(index);
     setSelectedIndex(index);
   };
 
   const onViewRef = React.useRef((viewableItems: any) => {
+    console.log(viewableItems.viewableItems[0]);
     setActiveLocation(Number(viewableItems.viewableItems[0].key));
   });
 
@@ -97,12 +103,14 @@ const FlatMap = ({flats}: any) => {
               onViewableItemsChanged={onViewRef.current}
               renderItem={({item, index}) => (
                 <MapViewFlatCard
+                  flatId={item.flatId}
                   price={item.price}
                   match={item.matchP}
                   key={index + 1}
                   district={item.district}
                   images={item.images}
                   id={item.id}
+                  likedUsers={item.likedUsers}
                 />
               )}
             />
