@@ -6,7 +6,9 @@ import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({flats, navigation}: any) => {
   return (
-    <ScrollView style={styles.pageContainer}>
+    <ScrollView
+      style={styles.pageContainer}
+      showsVerticalScrollIndicator={false}>
       <SafeAreaView>
         {flats.map((el: any, index: number) => {
           return (

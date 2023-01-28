@@ -13,11 +13,8 @@ const HeaderPageContentSwitch = ({
   toggleIcons,
   activeScreen,
   setActiveScreen,
+  markers,
 }: any) => {
-  console.log(activeScreen);
-  console.log(toggleNames[0]);
-  const marker1 = toggleNames[0].split(' ')[0].toLowerCase();
-  const marker2 = toggleNames[1].split(' ')[0].toLowerCase();
   return (
     <View style={styles.viewToggle}>
       <Pressable
@@ -25,19 +22,19 @@ const HeaderPageContentSwitch = ({
           styles.toggleButton,
           activeScreen === toggleNames[0] ? styles.toggleButtonActive : null,
         ]}
-        onPress={() => setActiveScreen(marker1)}>
+        onPress={() => setActiveScreen(markers[0])}>
         <LofftIcon
           name={toggleIcons[0]}
           size={20}
           color={
-            activeScreen === marker1 ? Color.Lavendar[100] : Color.Black[50]
+            activeScreen === markers[0] ? Color.Lavendar[100] : Color.Black[50]
           }
         />
         <Text
           style={[
             fontStyles.bodyMedium,
             styles.toggleButtonText,
-            activeScreen === marker1 ? styles.toggleButtonTextActive : null,
+            activeScreen === markers[0] ? styles.toggleButtonTextActive : null,
           ]}>
           {toggleNames[0]}
         </Text>
@@ -45,21 +42,21 @@ const HeaderPageContentSwitch = ({
       <Pressable
         style={[
           styles.toggleButton,
-          activeScreen === marker2 ? styles.toggleButtonActive : null,
+          activeScreen === markers[1] ? styles.toggleButtonActive : null,
         ]}
-        onPress={() => setActiveScreen(marker2)}>
+        onPress={() => setActiveScreen(markers[1])}>
         <LofftIcon
           name={toggleIcons[1]}
           size={20}
           color={
-            activeScreen === marker2 ? Color.Lavendar[100] : Color.Black[50]
+            activeScreen === markers[1] ? Color.Lavendar[100] : Color.Black[50]
           }
         />
         <Text
           style={[
             fontStyles.bodyMedium,
             styles.toggleButtonText,
-            activeScreen === marker2 ? styles.toggleButtonTextActive : null,
+            activeScreen === markers[1] ? styles.toggleButtonTextActive : null,
           ]}>
           {toggleNames[1]}
         </Text>

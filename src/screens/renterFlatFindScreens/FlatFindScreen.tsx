@@ -11,12 +11,10 @@ import FlatListSubScreen from './SubScreens/FlatListSubScreen';
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FlatListScreen = ({navigation}: any) => {
@@ -61,6 +59,7 @@ const FlatListScreen = ({navigation}: any) => {
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
         toggleIcons={['list', 'map']}
+        markers={['list', 'map']}
         activeScreen={screen}
         setActiveScreen={(screen: string) => setActiveScreen(screen)}
       />

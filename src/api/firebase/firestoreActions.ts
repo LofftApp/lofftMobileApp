@@ -87,7 +87,7 @@ export const getFlatsFromDB = async () => {
 };
 
 const calculateMatchScore = ({userPreferences, flatPreferences}: any) => {
-  if (userPreferences) {
+  if (userPreferences && flatPreferences) {
     let points: number = 100;
     const userValues = getValues(userPreferences);
     const flatValues = getValues(flatPreferences);
@@ -156,6 +156,40 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
         .doc(currentUser)
         .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Get save and applied flats
+export const getSavedAndAppliedFlats = async () => {
+  try {
+    const user: string = (await auth().currentUser?.uid) || '';
+    const userDetails = await firestore().collection('users').doc(user).get();
+    const userPreferences =
+      userDetails.data()?.profileDetails?.personalPreferences;
+    const flats = await firestore()
+      .collection('flats')
+      .where('likedUsers', 'array-contains', user)
+      .get();
+    if (flats.size == 0) return [];
+    const data: any = [];
+    flats.forEach(element => {
+      const flat = element.data();
+      data.push({
+        flatId: element.id,
+        address: flat.location,
+        district: flat.district,
+        price: flat.cost,
+        matchP: calculateMatchScore({
+          userPreferences,
+          flatPreferences: flat.flatMate,
+        }),
+        images: flat.images,
+        likedUsers: flat?.likedUsers,
+      });
+    });
+    return data;
   } catch (error) {
     console.log(error);
   }
