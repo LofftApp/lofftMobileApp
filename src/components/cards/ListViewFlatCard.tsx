@@ -1,12 +1,9 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+
+// Firebase & API 🧠
+import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
+import auth from '@react-native-firebase/auth';
 
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
@@ -21,9 +18,22 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
-const ListViewFlatCard = ({match, district, price, images}: any) => {
+const ListViewFlatCard = ({
+  flatId,
+  match,
+  district,
+  price,
+  images,
+  likedUsers,
+}: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
+  useEffect(() => {
+    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
+      setSave(true);
+    }
+  }, []);
+
   return (
     <View style={styles.flatCardContainer}>
       <View>
@@ -40,19 +50,20 @@ const ListViewFlatCard = ({match, district, price, images}: any) => {
               <View>
                 <Pressable
                   style={styles.flatCardSaveButton}
-                  onPress={() =>
-                    save === false ? setSave(true) : setSave(false)
-                  }>
+                  onPress={() => {
+                    setSave(!save);
+                    saveFlatToUserLikes({flatId, add: save});
+                  }}>
                   {save === true ? (
                     <LofftIcon
                       name="heart-filled"
-                      size={20}
+                      size={25}
                       color={Color.Tomato[100]}
                     />
                   ) : (
                     <LofftIcon
                       name="heart"
-                      size={20}
+                      size={25}
                       color={Color.Tomato[100]}
                     />
                   )}
@@ -113,6 +124,7 @@ const styles = StyleSheet.create({
   },
 
   flatCardSaveButton: {
+    padding: 10,
     position: 'absolute',
     right: 0,
   },
