@@ -13,6 +13,7 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
+import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -38,6 +39,11 @@ const FlatListScreen = ({navigation}: any) => {
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
+
+  const setActiveScreen = (screen: string) => {
+    setScreen(screen);
+  };
+
   return (
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
@@ -52,48 +58,12 @@ const FlatListScreen = ({navigation}: any) => {
         />
         <FilterButton onPress={() => auth().signOut()} />
       </View>
-      <View style={styles.viewToggle}>
-        <Pressable
-          style={[
-            styles.toggleButton,
-            screen === 'list' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('list')}>
-          <LofftIcon
-            name="list"
-            size={20}
-            color={screen === 'list' ? Color.Lavendar[100] : Color.Black[50]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'list' ? styles.toggleButtonTextActive : null,
-            ]}>
-            List View
-          </Text>
-        </Pressable>
-        <Pressable
-          style={[
-            styles.toggleButton,
-            screen === 'map' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('map')}>
-          <LofftIcon
-            name="map"
-            size={20}
-            color={screen === 'map' ? Color.Lavendar[100] : Color.Black[50]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'map' ? styles.toggleButtonTextActive : null,
-            ]}>
-            Map View
-          </Text>
-        </Pressable>
-      </View>
+      <HeaderPageContentSwitch
+        toggleNames={['List View', 'Map View']}
+        toggleIcons={['list', 'map']}
+        activeScreen={screen}
+        setActiveScreen={(screen: string) => setActiveScreen(screen)}
+      />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
           <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
