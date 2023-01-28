@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,10 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
+
+// Firebase & APIs
+import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
+import auth from '@react-native-firebase/auth';
 
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
@@ -20,8 +24,20 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
-const MapViewFlatCard = ({price, id, match, district, images}: any) => {
+const MapViewFlatCard = ({
+  flatId,
+  price,
+  match,
+  district,
+  images,
+  likedUsers,
+}: any) => {
   const [save, setSave] = useState(false);
+  useEffect(() => {
+    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
+      setSave(true);
+    }
+  }, []);
 
   return (
     <View style={styles.boundryContainer}>
@@ -37,9 +53,10 @@ const MapViewFlatCard = ({price, id, match, district, images}: any) => {
             <View style={styles.flatCardbuttonsWrap}>
               <MatchingScoreButton size="Small" score={match} />
               <Pressable
-                onPress={() =>
-                  save === false ? setSave(true) : setSave(false)
-                }>
+                onPress={() => {
+                  setSave(!save);
+                  saveFlatToUserLikes({flatId, add: save});
+                }}>
                 {save === true ? (
                   <LofftIcon
                     name="heart-filled"
