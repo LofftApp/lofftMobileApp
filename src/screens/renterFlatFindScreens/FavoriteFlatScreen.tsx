@@ -18,7 +18,6 @@ const FavoriteFlatScreen = ({navigation}: any) => {
   useEffect(() => {
     const queryFlats = async () => {
       const query = await getSavedAndAppliedFlats();
-      // console.log(query);
       setFlats(query);
     };
     queryFlats();
@@ -41,19 +40,23 @@ const FavoriteFlatScreen = ({navigation}: any) => {
         style={styles.pageContainer}
         showsVerticalScrollIndicator={false}>
         <SafeAreaView>
-          {flats.map((el: any, index: number) => {
-            return (
-              <ListViewFlatCard
-                navigation={navigation}
-                key={index + 1}
-                match={el?.matchP}
-                flatId={el.flatId}
-                district={el.district}
-                price={el.price}
-                images={el.images}
-              />
-            );
-          })}
+          {flats.length > 0 ? (
+            flats.map((el: any, index: number) => {
+              return (
+                <ListViewFlatCard
+                  navigation={navigation}
+                  key={index + 1}
+                  match={el?.matchP}
+                  flatId={el.flatId}
+                  district={el.district}
+                  price={el.price}
+                  images={el.images}
+                />
+              );
+            })
+          ) : (
+            <Text>You current don't have any saved flats</Text>
+          )}
         </SafeAreaView>
       </ScrollView>
     </PrimaryScreen>
