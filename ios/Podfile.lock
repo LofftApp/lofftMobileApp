@@ -748,9 +748,9 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
-  - LogRocket (1.11.0)
-  - logrocket-react-native (1.11.0):
-    - LogRocket (= 1.11.0)
+  - LogRocket (1.11.1)
+  - logrocket-react-native (1.11.1):
+    - LogRocket (= 1.11.1)
     - React
   - MapboxCommon (23.2.1)
   - MapboxCoreMaps (10.10.0):
@@ -1073,19 +1073,19 @@ PODS:
     - React-perflogger (= 0.70.6)
   - RNAppleAuthentication (2.2.2):
     - React-Core
-  - RNFBApp (16.5.2):
+  - RNFBApp (16.7.0):
     - Firebase/CoreOnly (= 10.3.0)
     - React-Core
-  - RNFBAuth (16.5.2):
+  - RNFBAuth (16.7.0):
     - Firebase/Auth (= 10.3.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (16.5.2):
+  - RNFBFirestore (16.7.0):
     - Firebase/Firestore (= 10.3.0)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (16.5.2):
+  - RNFBStorage (16.7.0):
     - Firebase/Storage (= 10.3.0)
     - React-Core
     - RNFBApp
@@ -1094,13 +1094,13 @@ PODS:
   - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
-  - rnmapbox-maps (10.0.0-beta.64):
+  - rnmapbox-maps (10.0.0-beta.65):
     - MapboxMaps (~> 10.10.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.64)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.65)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-beta.64):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-beta.65):
     - MapboxMaps (~> 10.10.0)
     - React
     - React-Core
@@ -1108,7 +1108,7 @@ PODS:
   - RNScreens (3.19.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.7.0):
+  - RNSVG (13.8.0):
     - React-Core
   - Turf (2.6.1)
   - Yoga (1.14.0)
@@ -1328,8 +1328,8 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
-  LogRocket: 9f243e09d7f0426a40ce4bba42d02dfd97798ec2
-  logrocket-react-native: b12ca21cb5fb9359a2cf10139d6637c11853a0b5
+  LogRocket: 7c41124375f4ca3400eb15da33861601a2c52078
+  logrocket-react-native: d0f841f99f1bb4da49da394ee1f01ca01afd3e90
   MapboxCommon: 235bb9c27a8985d982e17f216795b1f7ab526782
   MapboxCoreMaps: 4075a9e415b9b3ab6229d09623fef5f791826a5b
   MapboxMaps: 0c2f7722016bc56aa27b5e6bcf72ae4df7a98670
@@ -1368,15 +1368,15 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
-  RNFBApp: 93d1a4e5ce5d2d20d721adf866d1a0c4b58e6432
-  RNFBAuth: f5952e8c3328f74e0949b763159b20c61a5929e7
-  RNFBFirestore: 9cd3d02bf57c184ad1ac0b6fdf1e320f126db33c
-  RNFBStorage: 06555c6bd0e009831d911db9bbd171df18f3d0a1
+  RNFBApp: 1ee535dcb7773ca612d3a2e53a1f78f8f2fb6abf
+  RNFBAuth: 58ab8f774f9ff45707f2bfbf4fd74e8f7b4220b9
+  RNFBFirestore: 4fcf5ea5a3c8db867a5fc789322fb7abf53a7652
+  RNFBStorage: a587bb285b6f783e11ef16a539b697fddfaa5f6e
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
-  rnmapbox-maps: 80e50a60882744e9636d70fa3d3e91976b39e842
+  rnmapbox-maps: b45e82ebcb096bcc3d432688cd74ae1d9067135c
   RNScreens: ea4cd3a853063cda19a4e3c28d2e52180c80f4eb
-  RNSVG: d787d64ca06b9158e763ad2638a8c4edce00782a
+  RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
