@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from '@StyleSheets/fontStyles';
 
 const MatchingScoreButton = ({size, score}: any) => {
   return (
@@ -15,7 +16,7 @@ const MatchingScoreButton = ({size, score}: any) => {
       <Text
         style={
           size === 'Big'
-            ? styles.flatCardMatchingScoreButtonFontBig
+            ? [fontStyles.headerSmall, styles.fontColor]
             : styles.flatCardMatchingScoreButtonFontSmall
         }>
         🌟 {score}%
@@ -26,16 +27,13 @@ const MatchingScoreButton = ({size, score}: any) => {
 
 const styles = StyleSheet.create({
   flatCardMatchingScoreButtonBig: {
-    backgroundColor: Color.Mint[10],
     height: 38,
     width: 77,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  flatCardMatchingScoreButtonFontBig: {
-    fontWeight: '600',
-    fontSize: 18,
+  fontColor: {
     color: Color.Mint[100],
   },
   flatCardMatchingScoreButtonSmall: {

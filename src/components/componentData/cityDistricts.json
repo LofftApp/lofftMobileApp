@@ -1,14 +1,17 @@
 {
   "berlin": {
     "districts": [
-      {"id": 1, "name": "Kreuzberg", "toggle": false, "emoji": "🚬"},
+      {"id": 1, "name": "Kreuzberg", "toggle": false, "emoji": "🧑‍🎤"},
       {"id": 2, "name": "Mitte", "toggle": false, "emoji": "👾"},
-      {"id": 3, "name": "PrenzlauerBerg", "toggle": false, "emoji": "🧘🏽‍♀️"},
+      {"id": 3, "name": "Prenzlauerberg", "toggle": false, "emoji": "🧘🏽‍♀️"},
       {"id": 4, "name": "Charlottenburg", "toggle": false, "emoji": "🫖"},
       {"id": 5, "name": "Steglitz", "toggle": false, "emoji": "🏰"},
       {"id": 6, "name": "Wedding", "toggle": false, "emoji": "🥷🏻"},
       {"id": 7, "name": "Moabit", "toggle": false, "emoji": "👔"},
-      {"id": 8, "name": "Spandau", "toggle": false, "emoji": "💩"}
+      {"id": 8, "name": "Spandau", "toggle": false, "emoji": "🎮"},
+      {"id": 9, "name": "Neuköln", "toggle": false, "emoji": "🖼️"},
+      {"id": 10, "name": "Schöneberg", "toggle": false, "emoji": "🏳️‍🌈"},
+      {"id": 11, "name": "Treptow Köpenick", "toggle": false, "emoji": "🏃‍♀️"}
     ],
     "flag": "🇩🇪"
   },

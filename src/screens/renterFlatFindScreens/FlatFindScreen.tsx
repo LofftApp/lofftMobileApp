@@ -1,18 +1,11 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
+import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
-import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
 
 // Components 🪢
@@ -20,19 +13,32 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
-import FlatListCard from '@Components/cards/ListViewFlatCard';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-// This list page has old icons, it will need to have new icons when added.
-
 const FlatListScreen = ({navigation}: any) => {
+  const [sortedFlats, setSortedFlats] = useState([]);
+
+  useEffect(() => {
+    const getFlats = async () => {
+      const flats = await getFlatsFromDB();
+      if (flats) {
+        if (flats[0]?.matchP) {
+          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          setSortedFlats(reOrder);
+        } else {
+          setSortedFlats(flats);
+        }
+      }
+    };
+    getFlats();
+  }, []);
+
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
   return (
-    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
@@ -89,14 +95,13 @@ const FlatListScreen = ({navigation}: any) => {
         </Pressable>
       </View>
       <View style={styles.viewContainer}>
-        {screen == 'list' ? <FlatListSubScreen /> : <FlatMap />}
-
-        {/* <Pressable onPress={() => navigation.navigate('TestMap')}>
-            <Text>Scroll Test</Text>
-          </Pressable> */}
+        {screen === 'list' ? (
+          <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
+        ) : (
+          <FlatMap flats={sortedFlats} />
+        )}
       </View>
     </View>
-    // </TouchableWithoutFeedback>
   );
 };
 

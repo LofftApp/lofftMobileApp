@@ -6,7 +6,12 @@ export const findAddress = async (address: any) => {
   const response = await fetch(url);
   const data = await response.json();
   const addresses = data.features.map((address: any) => {
-    return address.place_name;
+    const addr = address?.place_name;
+    let district = null;
+    if (address && address?.context) {
+      district = address?.context[1]?.text;
+    }
+    return {address: addr, district};
   });
   return addresses.slice(0, 5);
 };

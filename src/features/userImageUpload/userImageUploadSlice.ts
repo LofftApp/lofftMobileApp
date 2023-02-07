@@ -1,5 +1,8 @@
+// Redux 💿
 import {createSlice} from '@reduxjs/toolkit';
-import {deleteImage} from '@Firebase/firebaseStorage';
+
+// Api 🧠
+import {deleteImage} from '@Api/firebase/firebaseStorage';
 
 export const imageUploadSlice = createSlice({
   name: 'imageUpload',
