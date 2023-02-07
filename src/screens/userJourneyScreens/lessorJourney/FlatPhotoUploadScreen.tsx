@@ -9,9 +9,6 @@ import {
   Modal,
 } from 'react-native';
 
-// APIs 🧠
-import {libraryImageUpload} from '@Firebase/firebaseStorage';
-
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 

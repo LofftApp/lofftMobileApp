@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // API 🧠
-import {handleSignUp} from '@Firebase/firebaseAuth';
+import {handleSignUp} from '@Api/firebase/firebaseAuth';
 
 // Components 🪢
 import SignUpButton from '@Components/buttons/SignUpButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
 // Stylesheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

@@ -14,10 +14,10 @@ const buildNumberArray = (length: any) => {
   return response;
 };
 
-const PaginationBar = ({screen, totalScreens}: any) => {
+const PaginationBar = ({screen, totalScreens, onTop = false, marginVertical}: any) => {
   const blobs = buildNumberArray(totalScreens);
   return (
-    <View style={styles.pagination}>
+    <View style={[styles.pagination, { position: onTop ? 'absolute' : 'relative', marginVertical: marginVertical }]}>
       {blobs.map((i, index) => {
         const active =
           index === screen

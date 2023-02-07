@@ -21,6 +21,9 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 // StyleSheets 🖼️
 import Color from './src/styles/lofftColorPallet.json';
 
+// Dev Screesn 🛠️
+import AdminScreen from '@Screens/devScreens/adminScreen';
+
 // Find Lofft Journey
 import StartJourney from '@Screens/StartJourney';
 import AboutYouFlatHuntScreen from '@Screens/userJourneyScreens/renterJourney/AboutUserScreen';
@@ -41,6 +44,9 @@ import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
 import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
 import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
+import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlatScreen';
+
+import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,13 +59,17 @@ const App = () => {
   const [admin, setAdmin] = useState(false);
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
+    const currentUser: any = await auth()?.currentUser?.getIdTokenResult();
+    currentUser?.claims?.role ? setAdmin(true) : setAdmin(false);
+
     setUser(user);
     if (user) {
       const profileExist: any = await checkUserProfileExist();
       setUserType(profileExist);
-      // setAdmin(userClaims.claims.admin);
     }
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   };
 
   useEffect(() => {
@@ -86,11 +96,15 @@ const App = () => {
   });
   // Use Effect for dev environment
   useEffect(() => {
+    firestore().settings({
+      persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
+      cacheSizeBytes: 4e9,
+    });
     if (__DEV__) {
       console.log('FireStore Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
-      // host = '192.168.0.105';
+      host = '127.0.0.1';
       if (host === 'localhost') {
         console.log('Host running on local host');
       } else {
@@ -101,14 +115,16 @@ const App = () => {
     }
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   return (
     <>
       {user && userType ? (
         <Tab.Navigator
           screenOptions={({route}) => ({
             tabBarIcon: ({color}) => {
-              let iconName = 'Not sure';
+              let iconName = 'settings';
               switch (route.name) {
                 case 'search':
                   iconName = 'search-sm';
@@ -149,10 +165,24 @@ const App = () => {
             component={UserScreen}
             options={{headerShown: false}}
           />
+
+          <Tab.Screen
+            name="Ello"
+            component={TempScreen}
+            options={{headerShown: false}}
+          />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="SignInScreen">
-          {user ? (
+          {admin ? (
+            <>
+              <Stack.Screen
+                name="AdminScreen"
+                component={AdminScreen}
+                options={{headerShown: false}}
+              />
+            </>
+          ) : user ? (
             <>
               {/* Rentor Screens */}
               <Stack.Screen
@@ -184,6 +214,16 @@ const App = () => {
               <Stack.Screen
                 name="FlatListScreen"
                 component={FlatListScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="ApplyForFlatScreen"
+                component={ApplyForFlatScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="TempScreen"
+                component={TempScreen}
                 options={{headerShown: false}}
               />
               {/* Lessor Screens */}
