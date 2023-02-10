@@ -14,9 +14,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './src/navigation/RootNavigation';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import SignUpScreen from './src/screens/SignUpScreen';
-import SignInScreen from './src/screens/SignInScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+// Navigators 🧭
+import GuestStackNavigator from './navigationStacks/GuestNavigator';
 
 // StyleSheets 🖼️
 import Color from './src/styles/lofftColorPallet.json';
@@ -173,107 +174,7 @@ const App = () => {
           />
         </Tab.Navigator>
       ) : (
-        <Stack.Navigator initialRouteName="SignInScreen">
-          {admin ? (
-            <>
-              <Stack.Screen
-                name="AdminScreen"
-                component={AdminScreen}
-                options={{headerShown: false}}
-              />
-            </>
-          ) : user ? (
-            <>
-              {/* Rentor Screens */}
-              <Stack.Screen
-                name="StartJourney"
-                component={StartJourney}
-                options={{headerShown: false}}
-              />
-
-              <Stack.Screen
-                name="GenderIdentityScreen"
-                component={GenderIdentityScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="SelectCityScreen"
-                component={SelectCityScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="FinderBudgetScreen"
-                component={FinderBudgetScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="SelfDescribeScreen"
-                component={SelfDescribeScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="FlatListScreen"
-                component={FlatListScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="ApplyForFlatScreen"
-                component={ApplyForFlatScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="TempScreen"
-                component={TempScreen}
-                options={{headerShown: false}}
-              />
-              {/* Lessor Screens */}
-              <Stack.Screen
-                name="WhereIsFlatScreen"
-                component={WhereIsFlatScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="FlatLengthAvailableScreen"
-                component={FlatLengthAvailableScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="FlatPhotoUploadScreen"
-                component={FlatPhotoUploadScreen}
-                options={{headerShown: false}}
-              />
-              {/* Shared screens */}
-              <Stack.Screen
-                name="FlatFeaturesScreen"
-                component={FlatFeaturesScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="AboutYouFlatHuntScreen"
-                component={AboutYouFlatHuntScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="UserConditionsScreen"
-                component={UserConditionsScreen}
-                options={{headerShown: false}}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="SignUpScreen"
-                component={SignUpScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="SignInScreen"
-                component={SignInScreen}
-                options={{headerShown: false}}
-              />
-            </>
-          )}
-        </Stack.Navigator>
+        <GuestStackNavigator />
       )}
     </>
   );
