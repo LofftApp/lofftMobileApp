@@ -18,27 +18,13 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
+import NewUserNavigator from './navigationStacks/NewUserNavigator';
 
 // StyleSheets 🖼️
 import Color from './src/styles/lofftColorPallet.json';
 
 // Dev Screesn 🛠️
 import AdminScreen from '@Screens/devScreens/adminScreen';
-
-// Find Lofft Journey
-import StartJourney from '@Screens/StartJourney';
-import AboutYouFlatHuntScreen from '@Screens/userJourneyScreens/renterJourney/AboutUserScreen';
-import GenderIdentityScreen from '@Screens/userJourneyScreens/renterJourney/GenderIdentityScreen';
-import SelectCityScreen from '@Screens/userJourneyScreens/renterJourney/SelectCityScreen';
-import FinderBudgetScreen from '@Screens/userJourneyScreens/renterJourney/FinderBudgetScreen';
-import FlatFeaturesScreen from '@Screens/userJourneyScreens/renterJourney/FlatFeaturesScreen';
-import SelfDescribeScreen from '@Screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
-import UserConditionsScreen from '@Screens/UserConditionsScreen';
-
-// Lessor Journey
-import WhereIsFlatScreen from '@Screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
-import FlatLengthAvailableScreen from '@Screens/userJourneyScreens/lessorJourney/FlatLengthAvailableScreen';
-import FlatPhotoUploadScreen from '@Screens/userJourneyScreens/lessorJourney/FlatPhotoUploadScreen';
 
 // User Journey Finder
 import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
@@ -173,6 +159,8 @@ const App = () => {
             options={{headerShown: false}}
           />
         </Tab.Navigator>
+      ) : user ? (
+        <NewUserNavigator />
       ) : (
         <GuestStackNavigator />
       )}
