@@ -47,7 +47,7 @@ const UserConditionsScreen = ({navigation, route}: any) => {
       <View style={styles.options}>
         <UserJourneySaveButton
           value="Continue"
-          onPress={() => navigation.navigate('FlatListScreen')}
+          // onPress={() => navigation.navigate('search', {screen: 'search'})}
         />
 
         <CoreButton

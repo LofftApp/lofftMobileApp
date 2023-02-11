@@ -107,7 +107,7 @@ const App = () => {
   }
   return (
     <>
-      {user && userType ? (
+      {userType ? (
         <Tab.Navigator
           screenOptions={({route}) => ({
             tabBarIcon: ({color}) => {
