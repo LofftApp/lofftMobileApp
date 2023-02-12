@@ -7,14 +7,9 @@ import firestore from '@react-native-firebase/firestore';
 import {checkUserProfileExist} from '@Api/firebase/firestoreActions';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-// Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Navigators 🧭
@@ -24,15 +19,6 @@ import DashboardNavigator from './navigationStacks/DashboardNavigator';
 
 // Dev Screesn 🛠️
 import AdminScreen from '@Screens/devScreens/adminScreen';
-
-// User Journey Finder
-import FlatListScreen from './src/screens/renterFlatFindScreens/FlatFindScreen';
-import AlertsScreen from './src/screens/renterFlatFindScreens/AlertsScreen';
-import UserScreen from './src/screens/renterFlatFindScreens/UserScreen';
-import FavoriteFlatScreen from './src/screens/renterFlatFindScreens/FavoriteFlatScreen';
-import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlatScreen';
-
-import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
 const RootStack = createNativeStackNavigator();
 
