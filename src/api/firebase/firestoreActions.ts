@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 
 export const createUserProfile = async (data: any) => {
   const userData = {
-    notionId: data.notionId,
+    notionId: data.notionId || null,
     profileDetails: {
       genderIdentity: data?.genderIdentity || '',
       userDescription: data.userDescription || '',
@@ -20,7 +20,7 @@ export const createUserProfile = async (data: any) => {
     },
     savedFlats: [],
   };
-
+  // console.log(userData);
   const currentUserId = data.userId || auth().currentUser?.uid;
   await firestore().collection('users').doc(currentUserId).set(userData);
 };
