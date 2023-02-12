@@ -14,7 +14,6 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 import FavoriteFlatScreen from '@Screens/renterFlatFindScreens/FavoriteFlatScreen';
 import AlertsScreen from '@Screens/renterFlatFindScreens/AlertsScreen';
 import UserScreen from '@Screens/renterFlatFindScreens/UserScreen';
-import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigator = () => {
@@ -61,12 +60,6 @@ const DashboardNavigator = () => {
       <Tab.Screen
         name="user"
         component={UserScreen}
-        options={{headerShown: false}}
-      />
-
-      <Tab.Screen
-        name="Ello"
-        component={TempScreen}
         options={{headerShown: false}}
       />
     </Tab.Navigator>
