@@ -1,23 +1,19 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
-  Image,
   Dimensions,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
-import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
-import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {CoreButton} from '@Components/buttons/CoreButton';
@@ -25,9 +21,9 @@ import Chips from '@Components/buttons/Chips';
 
 // Styles
 
-const TempScreen = ({navigation}: any) => {
+const FlatProfileScreen = ({navigation}: any) => {
   const [description, setDescription] = useState(
-    `This near 1,100 sq.ft. apartment has been maintained in great condition and is divided by a generous entertaining space on one floor, and its private bedroom and bathroom quarters on the second level.${'\n'}${'\n'}On entering this maisonette via its very own front door, you are struck by its breathtakingly bright, airy, and modern open-plan kitchen / dining and living room layout, its floor to ceiling windows that drench the room with natural light, and all the while benefiting from the glistering and serene canalside waters.The next level has two large double bedrooms, currently serving as a principal en-suite and the other room as a spacious home office (with a separate family bathroom).`,
+    `This near 1,100 sq.ft. apartment has been main.navigatetained in great condition and is divided by a generous entertaining space on one floor, and its private bedroom and bathroom quarters on the second level.${'\n'}${'\n'}On entering this maisonette via its very own front door, you are struck by its breathtakingly bright, airy, and modern open-plan kitchen / dining and living room layout, its floor to ceiling windows that drench the room with natural light, and all the while benefiting from the glistering and serene canalside waters.The next level has two large double bedrooms, currently serving as a principal en-suite and the other room as a spacious home office (with a separate family bathroom).`,
   );
 
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
@@ -46,12 +42,11 @@ const TempScreen = ({navigation}: any) => {
     '🚭',
     '🌱',
   ]);
-
   return (
     <View style={styles.pageContainer}>
-      <HighlightedButtons navigation={navigation} />
+      <HighlightedButtons navigation={navigation} id="" />
       <LofftHeaderPhoto imageContainerHeight={300} />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView>
         <ScrollView style={styles.scrollView}>
           <View style={styles.centralizerContainer}>
             <View style={styles.matchContainer}>
@@ -110,7 +105,7 @@ const TempScreen = ({navigation}: any) => {
                 <Text style={{color: Color.Black[80]}}>
                   {description.substring(
                     0,
-                    `${descriptionExpanded ? description.length : 200}`,
+                    descriptionExpanded ? description.length : 200,
                   )}
                 </Text>
                 <CoreButton
@@ -165,10 +160,12 @@ const TempScreen = ({navigation}: any) => {
                     marginBottom: 30,
                   }}
                   disabled={false}
-                  onPress={() =>
-                    navigation.navigate("ApplyForFlatScreen")
-                  }
+                  onPress={() => navigation.navigate('ApplyForFlatScreen')}
                 />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('ApplyForFlatScreen')}>
+                  <Text>Push me</Text>
+                </TouchableOpacity>
               </View>
 
               {/* Continue codeing from here !!!! */}
@@ -232,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TempScreen;
+export default FlatProfileScreen;
