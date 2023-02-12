@@ -5,7 +5,7 @@ import SignInScreen from '@Screens/SignInScreen';
 
 const GuestStack = createNativeStackNavigator();
 
-const GuestStackNavigator = () => {
+export const GuestStackNavigator = () => {
   return (
     <GuestStack.Navigator
       initialRouteName="SignInScreen"

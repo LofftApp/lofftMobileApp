@@ -5,13 +5,13 @@ import {saveUserDetails} from './userJourneySlice';
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
 
-const UserJourneySaveButton = ({value}: any) => {
+const UserJourneySaveButton = ({onPress, value}: any) => {
   const dispatch = useDispatch();
   return (
     <CoreButton
       value={value}
       onPress={() => {
-        // onPress();
+        onPress();
         dispatch(saveUserDetails());
       }}
     />

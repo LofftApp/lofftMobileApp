@@ -4,7 +4,8 @@ import LogRocket from '@logrocket/react-native';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {checkUserProfileExist} from './src/api/firebase/firestoreActions';
+import {checkUserProfileExist} from '@Api/firebase/firestoreActions';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -19,9 +20,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
 import NewUserNavigator from './navigationStacks/NewUserNavigator';
-
-// StyleSheets 🖼️
-import Color from './src/styles/lofftColorPallet.json';
+import DashboardNavigator from './navigationStacks/DashboardNavigator';
 
 // Dev Screesn 🛠️
 import AdminScreen from '@Screens/devScreens/adminScreen';
@@ -35,8 +34,7 @@ import ApplyForFlatScreen from './src/screens/renterFlatFindScreens/ApplyForFlat
 
 import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const RootStack = createNativeStackNavigator();
 
 const App = () => {
   // Set an initializing state whilst Firebase connects
@@ -72,9 +70,7 @@ const App = () => {
       };
       LogRocket.identify(currentUser.uid, credentials);
     }
-
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    return auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
   GoogleSignin.configure({
@@ -107,60 +103,16 @@ const App = () => {
   }
   return (
     <>
-      {userType ? (
-        <Tab.Navigator
-          screenOptions={({route}) => ({
-            tabBarIcon: ({color}) => {
-              let iconName = 'settings';
-              switch (route.name) {
-                case 'search':
-                  iconName = 'search-sm';
-                  break;
-                case 'favorite':
-                  iconName = 'heart';
-                  break;
-                case 'alerts':
-                  iconName = 'bell';
-                  break;
-                case 'user':
-                  iconName = 'user';
-                  break;
-              }
-              return <LofftIcon name={iconName} size={25} color={color} />;
-            },
-            tabBarActiveTintColor: Color.Lavendar[100],
-            tabBarInActiveTintColor: Color.Black[30],
-            tabBarShowLabel: false,
-          })}>
-          <Tab.Screen
-            name="search"
-            component={FlatListScreen}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="favorite"
-            component={FavoriteFlatScreen}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="alerts"
-            component={AlertsScreen}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="user"
-            component={UserScreen}
-            options={{headerShown: false}}
-          />
-
-          <Tab.Screen
-            name="Ello"
-            component={TempScreen}
-            options={{headerShown: false}}
-          />
-        </Tab.Navigator>
-      ) : user ? (
-        <NewUserNavigator />
+      {user ? (
+        <RootStack.Navigator screenOptions={{headerShown: false}}>
+          {admin ? (
+            <RootStack.Screen name="admin" component={AdminScreen} />
+          ) : null}
+          {!userType ? (
+            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
+          ) : null}
+          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+        </RootStack.Navigator>
       ) : (
         <GuestStackNavigator />
       )}
