@@ -56,33 +56,13 @@ const FlatListScreen = ({navigation}: any) => {
         <Pressable
           style={[
             styles.toggleButton,
-            screen === 'list' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('list')}>
-          <LofftIcon
-            name="list"
-            size={20}
-            color={screen === 'list' ? Color.Lavendar[100] : Color.Black[50]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'list' ? styles.toggleButtonTextActive : null,
-            ]}>
-            List View
-          </Text>
-        </Pressable>
-        <Pressable
-          style={[
-            styles.toggleButton,
             screen === 'map' ? styles.toggleButtonActive : null,
           ]}
           onPress={() => setScreen('map')}>
           <LofftIcon
             name="map"
             size={20}
-            color={screen === 'map' ? Color.Lavendar[100] : Color.Black[50]}
+            color={screen === 'map' ? Color.White[100] : Color.Lavendar[100]}
           />
           <Text
             style={[
@@ -91,6 +71,26 @@ const FlatListScreen = ({navigation}: any) => {
               screen === 'map' ? styles.toggleButtonTextActive : null,
             ]}>
             Map View
+          </Text>
+        </Pressable>
+        <Pressable
+          style={[
+            styles.toggleButton,
+            screen === 'list' ? styles.toggleButtonActive : null,
+          ]}
+          onPress={() => setScreen('list')}>
+          <LofftIcon
+            name="list"
+            size={20}
+            color={screen === 'list' ? Color.White[100] : Color.Lavendar[100]}
+          />
+          <Text
+            style={[
+              fontStyles.bodyMedium,
+              styles.toggleButtonText,
+              screen === 'list' ? styles.toggleButtonTextActive : null,
+            ]}>
+            List View
           </Text>
         </Pressable>
       </View>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
+    paddingHorizontal: 16,
   },
   viewContainer: {
     flex: 1,
@@ -118,31 +119,34 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: 'row',
-    marginHorizontal: 25,
     marginTop: 68, // Needs to be added to core view file, though not working when built
   },
   viewToggle: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    borderColor: Color.Lavendar[100],
+    borderWidth: 2,
+    borderRadius: 12,
     marginTop: 8,
+    height: 40,
+    marginBottom: 8,
   },
   toggleButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 14,
-    paddingTop: 18,
-    borderBottomWidth: 1,
     justifyContent: 'center',
+    borderRadius: 10,
   },
   toggleButtonActive: {
-    borderColor: Color.Lavendar[100],
+    backgroundColor: Color.Lavendar[100],
   },
   toggleButtonText: {
     marginLeft: 5,
+    color: Color.Lavendar[100],
   },
   toggleButtonTextActive: {
-    color: Color.Lavendar[100],
+    color: Color.White[100],
   },
 });
 
