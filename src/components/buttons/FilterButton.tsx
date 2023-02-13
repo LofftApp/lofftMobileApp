@@ -23,10 +23,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2,
     borderColor: Color.Black[50],
-    width: 48,
+    width: 56,
     height: 48,
     borderRadius: 12,
-    marginHorizontal: 4,
+    marginLeft: 4,
   },
 });
 

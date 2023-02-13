@@ -101,7 +101,6 @@ const ListViewFlatCard = ({
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    marginHorizontal: 16,
     marginBottom: 16,
   },
   flatCardImage: {
