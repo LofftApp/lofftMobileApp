@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import {Provider} from 'react-redux';
+// import createStore from './createReduxStore';
 import LogRocket from '@logrocket/react-native';
 
 // FireStore 🔥
@@ -21,6 +23,8 @@ import DashboardNavigator from './navigationStacks/DashboardNavigator';
 import AdminScreen from '@Screens/devScreens/adminScreen';
 
 const RootStack = createNativeStackNavigator();
+
+// const store = createStore();
 
 const App = () => {
   // Set an initializing state whilst Firebase connects

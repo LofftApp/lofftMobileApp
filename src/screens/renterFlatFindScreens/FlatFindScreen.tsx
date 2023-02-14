@@ -6,12 +6,13 @@ import auth from '@react-native-firebase/auth';
 import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
-import FlatListSubScreen from './SubScreens/FlatListSubScreen';
+// import FlatListSubScreen from './SubScreens/FlatListSubScreen';
+import FlatListSubScreen from '@Redux/flatHandling/ListFlats';
+import FlatMap from '@Components/Maps/FlatMap';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
