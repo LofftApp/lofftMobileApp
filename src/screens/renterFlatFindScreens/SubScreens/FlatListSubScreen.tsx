@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
+import {ScrollView, SafeAreaView} from 'react-native';
 
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
@@ -28,11 +28,5 @@ const FlatListSubScreen = ({flats, navigation}: any) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  pageContainer: {
-    marginTop: 16,
-  },
-});
 
 export default FlatListSubScreen;

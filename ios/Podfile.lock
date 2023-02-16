@@ -748,9 +748,9 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
-  - LogRocket (1.11.1)
-  - logrocket-react-native (1.11.1):
-    - LogRocket (= 1.11.1)
+  - LogRocket (1.11.2)
+  - logrocket-react-native (1.11.2):
+    - LogRocket (= 1.11.2)
     - React
   - MapboxCommon (23.2.1)
   - MapboxCoreMaps (10.10.0):
@@ -993,7 +993,7 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-date-picker (4.2.6):
+  - react-native-date-picker (4.2.7):
     - React-Core
   - react-native-image-picker (4.10.3):
     - React-Core
@@ -1094,18 +1094,18 @@ PODS:
   - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
-  - rnmapbox-maps (10.0.0-beta.65):
+  - rnmapbox-maps (10.0.0-beta.68):
     - MapboxMaps (~> 10.10.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.65)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.68)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-beta.65):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-beta.68):
     - MapboxMaps (~> 10.10.0)
     - React
     - React-Core
     - Turf
-  - RNScreens (3.19.0):
+  - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
   - RNSVG (13.8.0):
@@ -1328,8 +1328,8 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
-  LogRocket: 7c41124375f4ca3400eb15da33861601a2c52078
-  logrocket-react-native: d0f841f99f1bb4da49da394ee1f01ca01afd3e90
+  LogRocket: 332cf3449d912564c85185081843114f5edd3624
+  logrocket-react-native: 64f97333804a08785133a75ab97cfadafa3c207e
   MapboxCommon: 235bb9c27a8985d982e17f216795b1f7ab526782
   MapboxCoreMaps: 4075a9e415b9b3ab6229d09623fef5f791826a5b
   MapboxMaps: 0c2f7722016bc56aa27b5e6bcf72ae4df7a98670
@@ -1351,7 +1351,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-date-picker: 93e43b3084cea595b4d68b1405d6d99849663bd6
+  react-native-date-picker: de81ee8598c20b6f05b2f6d470d9bee24131fe15
   react-native-image-picker: 60f4246eb5bb7187fc15638a8c1f13abd3820695
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
@@ -1374,8 +1374,8 @@ SPEC CHECKSUMS:
   RNFBStorage: a587bb285b6f783e11ef16a539b697fddfaa5f6e
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
-  rnmapbox-maps: b45e82ebcb096bcc3d432688cd74ae1d9067135c
-  RNScreens: ea4cd3a853063cda19a4e3c28d2e52180c80f4eb
+  rnmapbox-maps: 199b36ef73961d8368bde98d1c533582a48f2634
+  RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
