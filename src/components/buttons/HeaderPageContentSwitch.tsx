@@ -20,14 +20,14 @@ const HeaderPageContentSwitch = ({
       <Pressable
         style={[
           styles.toggleButton,
-          activeScreen === toggleNames[0] ? styles.toggleButtonActive : null,
+          activeScreen === markers[0] ? styles.toggleButtonActive : null,
         ]}
         onPress={() => setActiveScreen(markers[0])}>
         <LofftIcon
           name={toggleIcons[0]}
           size={20}
           color={
-            activeScreen === markers[0] ? Color.Lavendar[100] : Color.Black[50]
+            activeScreen === markers[0] ? Color.White[100] : Color.Lavendar[50]
           }
         />
         <Text
@@ -49,7 +49,7 @@ const HeaderPageContentSwitch = ({
           name={toggleIcons[1]}
           size={20}
           color={
-            activeScreen === markers[1] ? Color.Lavendar[100] : Color.Black[50]
+            activeScreen === markers[1] ? Color.White[100] : Color.Lavendar[50]
           }
         />
         <Text
@@ -69,25 +69,29 @@ const styles = StyleSheet.create({
   viewToggle: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    borderColor: Color.Lavendar[100],
+    borderWidth: 2,
+    borderRadius: 12,
     marginTop: 8,
+    height: 40,
+    marginBottom: 8,
   },
   toggleButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 14,
-    paddingTop: 18,
-    borderBottomWidth: 1,
     justifyContent: 'center',
+    borderRadius: 10,
   },
   toggleButtonActive: {
-    borderColor: Color.Lavendar[100],
+    backgroundColor: Color.Lavendar[100],
   },
   toggleButtonText: {
     marginLeft: 5,
+    color: Color.Lavendar[100],
   },
   toggleButtonTextActive: {
-    color: Color.Lavendar[100],
+    color: Color.White[100],
   },
 });
 
