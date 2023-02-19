@@ -13,6 +13,7 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
+import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -38,6 +39,11 @@ const FlatListScreen = ({navigation}: any) => {
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
+
+  const setActiveScreen = (screen: string) => {
+    setScreen(screen);
+  };
+
   return (
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
@@ -52,48 +58,13 @@ const FlatListScreen = ({navigation}: any) => {
         />
         <FilterButton onPress={() => auth().signOut()} />
       </View>
-      <View style={styles.viewToggle}>
-        <Pressable
-          style={[
-            styles.toggleButton,
-            screen === 'map' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('map')}>
-          <LofftIcon
-            name="map"
-            size={20}
-            color={screen === 'map' ? Color.White[100] : Color.Lavendar[100]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'map' ? styles.toggleButtonTextActive : null,
-            ]}>
-            Map View
-          </Text>
-        </Pressable>
-        <Pressable
-          style={[
-            styles.toggleButton,
-            screen === 'list' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('list')}>
-          <LofftIcon
-            name="list"
-            size={20}
-            color={screen === 'list' ? Color.White[100] : Color.Lavendar[100]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'list' ? styles.toggleButtonTextActive : null,
-            ]}>
-            List View
-          </Text>
-        </Pressable>
-      </View>
+      <HeaderPageContentSwitch
+        toggleNames={['List View', 'Map View']}
+        toggleIcons={['list', 'map']}
+        markers={['list', 'map']}
+        activeScreen={screen}
+        setActiveScreen={(screen: string) => setActiveScreen(screen)}
+      />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
           <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
@@ -121,33 +92,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 68, // Needs to be added to core view file, though not working when built
   },
-  viewToggle: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    borderColor: Color.Lavendar[100],
-    borderWidth: 2,
-    borderRadius: 12,
-    marginTop: 8,
-    height: 40,
-    marginBottom: 8,
-  },
-  toggleButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-  },
-  toggleButtonActive: {
-    backgroundColor: Color.Lavendar[100],
-  },
-  toggleButtonText: {
-    marginLeft: 5,
-    color: Color.Lavendar[100],
-  },
-  toggleButtonTextActive: {
-    color: Color.White[100],
-  },
+  // viewToggle: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   borderColor: Color.Lavendar[100],
+  //   borderWidth: 2,
+  //   borderRadius: 12,
+  //   marginTop: 8,
+  //   height: 40,
+  //   marginBottom: 8,
+  // },
+  // toggleButton: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   borderRadius: 10,
+  // },
+  // toggleButtonActive: {
+  //   backgroundColor: Color.Lavendar[100],
+  // },
+  // toggleButtonText: {
+  //   marginLeft: 5,
+  //   color: Color.Lavendar[100],
+  // },
+  // toggleButtonTextActive: {
+  //   color: Color.White[100],
+  // },
 });
 
 export default FlatListScreen;
