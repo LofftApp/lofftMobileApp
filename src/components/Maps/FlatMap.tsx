@@ -135,26 +135,27 @@ const styles = StyleSheet.create({
   },
   map: {
     minWidth: '100%',
-    minHeight: '100%',
+    minHeight: '110%',
+    top: -58,
     zIndex: 1,
   },
-  flatCard: {
-    width: 300,
-    height: 200,
-    elevation: 2,
-    backgroundColor: 'white',
-    marginHorizontal: 10,
-    marginVertical: 40,
-    borderRadius: 12,
-  },
-  flatcard: {
-    height: 200,
-    width: 200,
-    borderRadius: 12,
-    backgroundColor: 'white',
-    zIndex: 10000,
-    marginHorizontal: 20,
-  },
+  // flatCard: {
+  //   width: 300,
+  //   height: 200,
+  //   elevation: 2,
+  //   backgroundColor: 'white',
+  //   marginHorizontal: 10,
+  //   marginVertical: 40,
+  //   borderRadius: 12,
+  // },
+  // flatcard: {
+  //   height: 200,
+  //   width: 200,
+  //   borderRadius: 12,
+  //   backgroundColor: 'white',
+  //   zIndex: 10000,
+  //   marginHorizontal: 20,
+  // },
 });
 
 export default FlatMap;
