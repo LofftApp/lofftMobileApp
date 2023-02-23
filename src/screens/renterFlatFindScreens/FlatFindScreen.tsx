@@ -13,6 +13,8 @@ import FlatMap from '@Components/Maps/FlatMap';
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
+    paddingHorizontal: 16,
   },
   viewContainer: {
     flex: 1,
@@ -88,32 +91,35 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: 'row',
-    marginHorizontal: 25,
     marginTop: 68, // Needs to be added to core view file, though not working when built
   },
-  viewToggle: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 8,
-  },
-  toggleButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 14,
-    paddingTop: 18,
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-  },
-  toggleButtonActive: {
-    borderColor: Color.Lavendar[100],
-  },
-  toggleButtonText: {
-    marginLeft: 5,
-  },
-  toggleButtonTextActive: {
-    color: Color.Lavendar[100],
-  },
+  // viewToggle: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   borderColor: Color.Lavendar[100],
+  //   borderWidth: 2,
+  //   borderRadius: 12,
+  //   marginTop: 8,
+  //   height: 40,
+  //   marginBottom: 8,
+  // },
+  // toggleButton: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   borderRadius: 10,
+  // },
+  // toggleButtonActive: {
+  //   backgroundColor: Color.Lavendar[100],
+  // },
+  // toggleButtonText: {
+  //   marginLeft: 5,
+  //   color: Color.Lavendar[100],
+  // },
+  // toggleButtonTextActive: {
+  //   color: Color.White[100],
+  // },
 });
 
 export default FlatListScreen;
