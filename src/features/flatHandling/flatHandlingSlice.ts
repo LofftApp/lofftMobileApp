@@ -8,18 +8,14 @@ import {loadFlats} from './loadFlats';
 export const flatHandlingSlice = createSlice({
   name: 'flatHandling',
   initialState: {
+    flats: [],
     flatsFavourite: [],
     flatsApplied: [],
   },
   reducers: {
     loadUserFlats: (state: any, action: any) => {
-      const load = async () => {
-        const test = await loadFlats();
-        console.log('Favourites ', test);
-        state.flatsFavourite = test;
-      };
-      load();
-      console.log('Loading Flats');
+      console.log('state: ', state);
+      console.log('action: ', action);
     },
     setImageToUpload: (state: any, action: any) => {
       const photos = state.imagesToUpload;

@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Provider} from 'react-redux';
-// import createStore from './createReduxStore';
 import LogRocket from '@logrocket/react-native';
 
 // FireStore 🔥
