@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 
 // Firebase & API 🧠
-// import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
-// import auth from '@react-native-firebase/auth';
+import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
+import {getAuth as auth} from 'firebase/auth';
 
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
@@ -28,11 +28,11 @@ const ListViewFlatCard = ({
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
-  // useEffect(() => {
-  //   if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
-  //     setSave(true);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
+      setSave(true);
+    }
+  }, []);
 
   return (
     <View style={styles.flatCardContainer}>
@@ -52,7 +52,7 @@ const ListViewFlatCard = ({
                   style={styles.flatCardSaveButton}
                   onPress={() => {
                     setSave(!save);
-                    // saveFlatToUserLikes({flatId, add: save});
+                    saveFlatToUserLikes({flatId, add: save});
                   }}>
                   {save === true ? (
                     <LofftIcon

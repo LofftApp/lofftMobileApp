@@ -10,63 +10,60 @@ import {
 import Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-// DB actions
-
 // import firestore from '@react-native-firebase/firestore';
-// import auth from '@react-native-firebase/auth';
-// import {updateDoc} from '@react-native-firebase/firestore';
+import {getFirestore as firestore, updateDoc} from 'firebase/firestore/lite';
+import {getAuth as auth} from 'firebase/auth';
 
 // Important Notice !!
 /*
   The navigation prop has to be passed on from the corresponding parent component
 */
 
-// const HighlightedButtons = ({navigation, id}) => {
-const HighlightedButtons = () => {
-  // const [saved, setSaved] = useState(false);
+const HighlightedButtons = ({navigation, id}: any) => {
+  const [saved, setSaved] = useState(false);
 
-  // const pressHeart = async (currentHeartState, id) => {
-  //   const uid = auth().currentUser?.uid;
-  //   const db = firestore();
-
-  //   setSaved(!currentHeartState);
-
-  //   try {
-  //     if (saved) {
-  //       await db
-  //         .collection('users')
-  //         .doc(uid)
-  //         .update({
-  //           savedFlats: firestore.FieldValue.arrayRemove('1234'), // '1234 should be replaced with id number'
-  //         });
-  //     } else {
-  //       await db
-  //         .collection('users')
-  //         .doc(uid)
-  //         .update({
-  //           savedFlats: firestore.FieldValue.arrayUnion('6728'), // '1234 should be replaced with id '
-  //         });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const pressHeart = async (currentHeartState: any, id: any) => {
+    // const uid = auth().currentUser?.uid;
+    // const db = firestore();
+    // setSaved(!currentHeartState);
+    // try {
+    //   if (saved) {
+    //     await firestore()
+    //       .collection('users')
+    //       .doc(uid)
+    //       .update({
+    //         savedFlats: firestore.FieldValue.arrayRemove('1234'), // '1234 should be replaced with id number'
+    //       });
+    //   } else {
+    //     await db
+    //       .collection('users')
+    //       .doc(uid)
+    //       .update({
+    //         savedFlats: firestore.FieldValue.arrayUnion('6728'), // '1234 should be replaced with id '
+    //       });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
 
   return (
     <View style={styles.actionContainer}>
-      {/* <Pressable
+      <Pressable
         style={styles.iconContainer}
         onPress={() => navigation.goBack()}>
         <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
-      </Pressable> */}
+      </Pressable>
 
-      {/* <Pressable style={styles.iconContainer} onPress={() => pressHeart(saved)}>
+      <Pressable
+        style={styles.iconContainer}
+        onPress={() => pressHeart(saved, 1)}>
         {saved ? (
           <LofftIcon name="heart-filled" size={35} color={Color.Tomato[100]} />
         ) : (
           <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
         )}
-      </Pressable> */}
+      </Pressable>
     </View>
   );
 };

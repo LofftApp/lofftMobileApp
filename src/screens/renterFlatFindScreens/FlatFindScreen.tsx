@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Firebase 🔥
 // import auth from '@react-native-firebase/auth';
-// import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
+import {getAuth as auth} from 'firebase/auth';
+import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
@@ -22,20 +23,20 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 const FlatListScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
 
-  // useEffect(() => {
-  //   const getFlats = async () => {
-  //     const flats = await getFlatsFromDB();
-  //     if (flats) {
-  //       if (flats[0]?.matchP) {
-  //         const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-  //         setSortedFlats(reOrder);
-  //       } else {
-  //         setSortedFlats(flats);
-  //       }
-  //     }
-  //   };
-  //   getFlats();
-  // }, []);
+  useEffect(() => {
+    const getFlats = async () => {
+      const flats: any = await getFlatsFromDB();
+      if (flats) {
+        if (flats[0]?.matchP) {
+          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          setSortedFlats(reOrder);
+        } else {
+          setSortedFlats(flats);
+        }
+      }
+    };
+    getFlats();
+  }, []);
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
@@ -56,7 +57,7 @@ const FlatListScreen = ({navigation}: any) => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        {/* <FilterButton onPress={() => auth().signOut()} /> */}
+        <FilterButton onPress={() => auth().signOut()} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}

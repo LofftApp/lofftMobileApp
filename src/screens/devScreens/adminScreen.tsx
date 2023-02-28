@@ -6,7 +6,7 @@ import {getUsersFromNotion} from '@Api/seeding/notionSeedingSetup';
 import {syncUser} from '@Api/seeding/notionSeedingSetup';
 
 // Firebase 🔥
-import auth from '@react-native-firebase/auth';
+import {getAuth as auth} from 'firebase/auth';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
