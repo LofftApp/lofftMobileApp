@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 
 // Firebase & APIs
-import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
-import auth from '@react-native-firebase/auth';
+// import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
+// import auth from '@react-native-firebase/auth';
 
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
@@ -33,11 +33,11 @@ const MapViewFlatCard = ({
   likedUsers,
 }: any) => {
   const [save, setSave] = useState(false);
-  useEffect(() => {
-    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
-      setSave(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
+  //     setSave(true);
+  //   }
+  // }, []);
 
   return (
     <View style={styles.boundryContainer}>
@@ -52,7 +52,7 @@ const MapViewFlatCard = ({
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
               <MatchingScoreButton size="Small" score={match} />
-              <Pressable
+              {/* <Pressable
                 onPress={() => {
                   setSave(!save);
                   saveFlatToUserLikes({flatId, add: save});
@@ -66,7 +66,7 @@ const MapViewFlatCard = ({
                 ) : (
                   <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
                 )}
-              </Pressable>
+              </Pressable> */}
             </View>
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API - Firebase 🔥
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -50,13 +50,13 @@ const UserConditionsScreen = ({navigation, route}: any) => {
           onPress={() => navigation.navigate('dashboard')}
         />
 
-        <CoreButton
+        {/* <CoreButton
           value="Decline"
           style={{backgroundColor: 'white', borderWidth: 2, marginTop: 10}}
           textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
           disabled={false}
           onPress={() => auth().signOut()}
-        />
+        /> */}
       </View>
     </ScreenBackButton>
   );

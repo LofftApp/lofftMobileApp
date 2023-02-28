@@ -1,6 +1,7 @@
-import auth from '@react-native-firebase/auth';
-import {appleAuth} from '@invertase/react-native-apple-authentication';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+
+// Setup
+const auth = getAuth();
 
 const errorHandling = (err: any) => {
   if (err.code === 'auth/invalid-email') {
@@ -49,66 +50,69 @@ const errorHandling = (err: any) => {
 
 // Email Signup
 export const handleSignUp = async ({email, password}: any) => {
-  try {
-    const signUp = await auth().createUserWithEmailAndPassword(email, password);
-    return signUp;
-  } catch (err: any) {
-    return errorHandling(err);
-  }
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(userCredentials => {
+      const user = userCredentials.user;
+      console.log(user);
+    })
+    .catch(error => {
+      console.log('error code: ', error.code);
+      console.log('error message: ', error.message);
+    });
 };
 
 // Email signin
-export const handleSignIn = async ({email, password, setMessage}: any) => {
-  try {
-    const signIn = await auth().signInWithEmailAndPassword(email, password);
-    return signIn;
-  } catch (err: any) {
-    console.log(err);
-    return setMessage(errorHandling(err));
-  }
-};
+// export const handleSignIn = async ({email, password, setMessage}: any) => {
+//   try {
+//     const signIn = await auth().signInWithEmailAndPassword(email, password);
+//     return signIn;
+//   } catch (err: any) {
+//     console.log(err);
+//     return setMessage(errorHandling(err));
+//   }
+// };
 
-// Apple Sign in
+// // Apple Sign in
 
-export const onAppleButtonPress = async () => {
-  // Start the sign-in request
-  const appleAuthRequestResponse = await appleAuth.performRequest({
-    requestedOperation: appleAuth.Operation.LOGIN,
-    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-  });
+// export const onAppleButtonPress = async () => {
+//   // Start the sign-in request
+//   const appleAuthRequestResponse = await appleAuth.performRequest({
+//     requestedOperation: appleAuth.Operation.LOGIN,
+//     requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+//   });
 
-  // Ensure Apple returned a user identityToken
-  if (!appleAuthRequestResponse.identityToken) {
-    throw new Error('Apple Sign-In failed - no identify token returned');
-  }
+//   // Ensure Apple returned a user identityToken
+//   if (!appleAuthRequestResponse.identityToken) {
+//     throw new Error('Apple Sign-In failed - no identify token returned');
+//   }
 
-  // Create a Firebase credential from the response
-  const {identityToken, nonce} = appleAuthRequestResponse;
-  const appleCredential = auth.AppleAuthProvider.credential(
-    identityToken,
-    nonce,
-  );
+//   // Create a Firebase credential from the response
+//   const {identityToken, nonce} = appleAuthRequestResponse;
+//   const appleCredential = auth.AppleAuthProvider.credential(
+//     identityToken,
+//     nonce,
+//   );
 
-  // Sign the user in with the credential
-  return auth().signInWithCredential(appleCredential);
-};
+//   // Sign the user in with the credential
+//   return auth().signInWithCredential(appleCredential);
+// };
 
-// Google Sign in
+// // Google Sign in
 
-GoogleSignin.configure({
-  webClientId:
-    '25055797109-i53siuqchf97orhvbsee4pmfc1sauv8j.apps.googleusercontent.com',
-});
+// GoogleSignin.configure({
+//   webClientId:
+//     '25055797109-i53siuqchf97orhvbsee4pmfc1sauv8j.apps.googleusercontent.com',
+// });
 
-export const onGoogleButtonPress = async () => {
-  // Check if your device supports Google Play
-  await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-  // Get the users ID token
-  const {idToken} = await GoogleSignin.signIn();
+// export const onGoogleButtonPress = async () => {
+//   // Check if your device supports Google Play
+//   await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+//   // Get the users ID token
+//   const {idToken} = await GoogleSignin.signIn();
 
-  // Create a Google credential with the token
-  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  // Sign-in the user with the credential
-  const userSignIn = auth().signInWithCredential(googleCredential);
-  userSignIn.then(result => console.log(result));
-};
+//   // Create a Google credential with the token
+//   const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+//   // Sign-in the user with the credential
+//   const userSignIn = auth().signInWithCredential(googleCredential);
+//   userSignIn.then(result => console.log(result));
+// };

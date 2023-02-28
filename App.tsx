@@ -2,15 +2,11 @@ import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 
 // FireStore 🔥
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import {checkUserProfileExist} from '@Api/firebase/firestoreActions';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -18,7 +14,7 @@ import NewUserNavigator from './navigationStacks/NewUserNavigator';
 import DashboardNavigator from './navigationStacks/DashboardNavigator';
 
 // Dev Screesn 🛠️
-import AdminScreen from '@Screens/devScreens/adminScreen';
+// import AdminScreen from '@Screens/devScreens/adminScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -30,59 +26,59 @@ const App = () => {
   const [admin, setAdmin] = useState(false);
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
-    const currentUser: any = await auth()?.currentUser?.getIdTokenResult();
-    currentUser?.claims?.role ? setAdmin(true) : setAdmin(false);
+    // const currentUser: any = await auth()?.currentUser?.getIdTokenResult();
+    // currentUser?.claims?.role ? setAdmin(true) : setAdmin(false);
 
     setUser(user);
     if (user) {
-      const profileExist: any = await checkUserProfileExist();
-      setUserType(profileExist);
+      // const profileExist: any = await checkUserProfileExist();
+      // setUserType(profileExist);
     }
     if (initializing) {
       setInitializing(false);
     }
   };
 
-  useEffect(() => {
-    const currentUser = auth().currentUser;
-    LogRocket.init('2y6ler/lofft');
+  // useEffect(() => {
+  //   // const currentUser = auth().currentUser;
+  //   LogRocket.init('2y6ler/lofft');
 
-    // Currently added with no restriction, though once the user will have option to approve that their data is stored.
+  //   // Currently added with no restriction, though once the user will have option to approve that their data is stored.
 
-    if (currentUser) {
-      const credentials: any = {
-        name: currentUser.displayName,
-        email: currentUser.email,
-      };
-      LogRocket.identify(currentUser.uid, credentials);
-    }
-    return auth().onAuthStateChanged(onAuthStateChanged);
-  }, []);
+  //   if (currentUser) {
+  //     const credentials: any = {
+  //       name: currentUser.displayName,
+  //       email: currentUser.email,
+  //     };
+  //     LogRocket.identify(currentUser.uid, credentials);
+  //   }
+  //   return auth().onAuthStateChanged(onAuthStateChanged);
+  // }, []);
 
-  GoogleSignin.configure({
-    webClientId:
-      '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
-  });
+  // GoogleSignin.configure({
+  //   webClientId:
+  //     '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
+  // });
   // Use Effect for dev environment
-  useEffect(() => {
-    firestore().settings({
-      persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
-      cacheSizeBytes: 4e9,
-    });
-    if (__DEV__) {
-      console.log('FireStore Development Environment');
-      let host = 'localhost';
-      // If using Mobile device set the host as local IP
-      host = '127.0.0.1';
-      if (host === 'localhost') {
-        console.log('Host running on local host');
-      } else {
-        console.log(`Host is running on ${host}`);
-      }
-      firestore().useEmulator(host, 8080);
-      auth().useEmulator(`http://${host}:9099`);
-    }
-  }, []);
+  // useEffect(() => {
+  //   firestore().settings({
+  //     persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
+  //     cacheSizeBytes: 4e9,
+  //   });
+  //   if (__DEV__) {
+  //     console.log('FireStore Development Environment');
+  //     let host = 'localhost';
+  //     // If using Mobile device set the host as local IP
+  //     host = '127.0.0.1';
+  //     if (host === 'localhost') {
+  //       console.log('Host running on local host');
+  //     } else {
+  //       console.log(`Host is running on ${host}`);
+  //     }
+  //     firestore().useEmulator(host, 8080);
+  //     auth().useEmulator(`http://${host}:9099`);
+  //   }
+  // }, []);
 
   if (initializing) {
     return null;
@@ -91,9 +87,9 @@ const App = () => {
     <>
       {user ? (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
-          {admin ? (
+          {/* {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : null}
+          ) : null} */}
           {!userType ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
