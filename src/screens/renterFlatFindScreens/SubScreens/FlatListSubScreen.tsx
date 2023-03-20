@@ -1,12 +1,12 @@
 import React from 'react';
-import {ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({flats, navigation}: any) => {
   return (
-    <ScrollView>
+    <ScrollView style={styles.flatCardContainer}>
       <SafeAreaView>
         {flats.map((el: any, index: number) => {
           return (
@@ -26,5 +26,11 @@ const FlatListSubScreen = ({flats, navigation}: any) => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  flatCardContainer: {
+    marginHorizontal: 16,
+  },
+});
 
 export default FlatListSubScreen;

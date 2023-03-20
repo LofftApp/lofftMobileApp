@@ -74,9 +74,12 @@ const styles = StyleSheet.create({
     borderColor: Color.Lavendar[100],
     borderWidth: 2,
     borderRadius: 12,
-    marginTop: 8,
+    marginTop: 15,
     height: 40,
     marginBottom: 8,
+    marginHorizontal: 16,
+    backgroundColor: Color.White[100],
+    zIndex: 2,
   },
   toggleButton: {
     flex: 1,
