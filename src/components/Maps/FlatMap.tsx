@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
   },
   map: {
     minWidth: '100%',
-    minHeight: '110%',
-    top: -58,
+    minHeight: '100%',
+    // top: -58,
     zIndex: 1,
   },
   // flatCard: {
