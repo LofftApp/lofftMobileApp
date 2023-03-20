@@ -80,18 +80,22 @@ const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
-    paddingHorizontal: 16,
   },
   viewContainer: {
     flex: 1,
   },
+
   inputField: {
     flex: 1,
   },
   searchContainer: {
+    paddingHorizontal: 16,
     flexDirection: 'row',
     marginTop: 68, // Needs to be added to core view file, though not working when built
   },
+  // flatListSubScreen: {
+  //   margin: 10,
+  // },
   // viewToggle: {
   //   flexDirection: 'row',
   //   justifyContent: 'space-around',
