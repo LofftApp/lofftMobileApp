@@ -25,10 +25,13 @@ import Chips from '@Components/buttons/Chips';
 
 // Styles
 
-const FlatShowScreen = ({ navigation }: any) => {
+const FlatShowScreen = ({ route, navigation, }: any) => {
   const [description, setDescription] = useState(
     `This near 1,100 sq.ft. apartment has been maintained in great condition and is divided by a generous entertaining space on one floor, and its private bedroom and bathroom quarters on the second level.${'\n'}${'\n'}On entering this maisonette via its very own front door, you are struck by its breathtakingly bright, airy, and modern open-plan kitchen / dining and living room layout, its floor to ceiling windows that drench the room with natural light, and all the while benefiting from the glistering and serene canalside waters.The next level has two large double bedrooms, currently serving as a principal en-suite and the other room as a spacious home office (with a separate family bathroom).`,
   );
+
+  /* Params are being passed classicly via the route helper instead of  */
+  const {price, match} = route.params;
 
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
 
@@ -46,6 +49,8 @@ const FlatShowScreen = ({ navigation }: any) => {
     '🚭',
     '🌱',
   ]);
+
+
 
   return (
     <View style={styles.pageContainer}>
