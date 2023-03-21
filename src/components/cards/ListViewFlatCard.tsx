@@ -18,6 +18,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
+
 const ListViewFlatCard = ({
   flatId,
   match,
@@ -25,6 +26,7 @@ const ListViewFlatCard = ({
   price,
   images,
   likedUsers,
+  navigation,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -82,8 +84,17 @@ const ListViewFlatCard = ({
           <View style={styles.apartmentLocationInfo}>
             {/* Size of WG is not in DB - 26 m2 */}
             <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+
             <MatchingScoreButton size="Big" score={match} />
           </View>
+          {/* Temporary Button Placeholder */}
+          <Text onPress={() => navigation.navigate('flatShow', {
+            price: {price},
+            match: {match},
+            district: {district}
+            /* Add more Chips etc */
+
+          })}>Apply</Text>
           {district ? (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
