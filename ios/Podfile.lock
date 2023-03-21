@@ -748,9 +748,9 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
-  - LogRocket (1.12.1)
-  - logrocket-react-native (1.12.1):
-    - LogRocket (= 1.12.1)
+  - LogRocket (1.12.2)
+  - logrocket-react-native (1.12.2):
+    - LogRocket (= 1.12.2)
     - React
   - MapboxCommon (23.3.2)
   - MapboxCoreMaps (10.11.1):
@@ -1094,13 +1094,13 @@ PODS:
   - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
-  - rnmapbox-maps (10.0.0-beta.80):
+  - rnmapbox-maps (10.0.0-rc.0):
     - MapboxMaps (~> 10.11.1)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.80)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.0)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-beta.80):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.0):
     - MapboxMaps (~> 10.11.1)
     - React
     - React-Core
@@ -1328,8 +1328,8 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
-  LogRocket: fb7b9f9f4d349a86ce735162da143d791a87fd3b
-  logrocket-react-native: 05babed48890bec1bbe20d84d5d58d26d2e2ea75
+  LogRocket: 9c88f9ba6742e4e9acf20bb6e852df57c2868578
+  logrocket-react-native: b62f088ee7c6d3000f1f12f66f752d78efba2ea9
   MapboxCommon: c3a35f6884b80d898de9f11d88cb28c5caba584a
   MapboxCoreMaps: 03e7214fabb54d496ff56314ff8159dd264b6093
   MapboxMaps: 85610575a8871b3f5e98be2a234f0229a33324a7
@@ -1374,7 +1374,7 @@ SPEC CHECKSUMS:
   RNFBStorage: a587bb285b6f783e11ef16a539b697fddfaa5f6e
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
-  rnmapbox-maps: c08c553d7f471d6dbfde316edf791fd0be3227c6
+  rnmapbox-maps: 22d49ec1835dbf11785d324270dee553e2a1d455
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
