@@ -1,18 +1,11 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Firebase 🔥
 import auth from '@react-native-firebase/auth';
+import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
-import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
 
 // Components 🪢
@@ -20,19 +13,38 @@ import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
-import FlatListCard from '@Components/cards/ListViewFlatCard';
+import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-// This list page has old icons, it will need to have new icons when added.
-
 const FlatListScreen = ({navigation}: any) => {
+  const [sortedFlats, setSortedFlats] = useState([]);
+
+  useEffect(() => {
+    const getFlats = async () => {
+      const flats = await getFlatsFromDB();
+      if (flats) {
+        if (flats[0]?.matchP) {
+          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          setSortedFlats(reOrder);
+        } else {
+          setSortedFlats(flats);
+        }
+      }
+    };
+    getFlats();
+  }, []);
+
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
+
+  const setActiveScreen = (screen: string) => {
+    setScreen(screen);
+  };
+
   return (
-    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
@@ -46,57 +58,21 @@ const FlatListScreen = ({navigation}: any) => {
         />
         <FilterButton onPress={() => auth().signOut()} />
       </View>
-      <View style={styles.viewToggle}>
-        <Pressable
-          style={[
-            styles.toggleButton,
-            screen === 'list' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('list')}>
-          <LofftIcon
-            name="list"
-            size={20}
-            color={screen === 'list' ? Color.Lavendar[100] : Color.Black[50]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'list' ? styles.toggleButtonTextActive : null,
-            ]}>
-            List View
-          </Text>
-        </Pressable>
-        <Pressable
-          style={[
-            styles.toggleButton,
-            screen === 'map' ? styles.toggleButtonActive : null,
-          ]}
-          onPress={() => setScreen('map')}>
-          <LofftIcon
-            name="map"
-            size={20}
-            color={screen === 'map' ? Color.Lavendar[100] : Color.Black[50]}
-          />
-          <Text
-            style={[
-              fontStyles.bodyMedium,
-              styles.toggleButtonText,
-              screen === 'map' ? styles.toggleButtonTextActive : null,
-            ]}>
-            Map View
-          </Text>
-        </Pressable>
-      </View>
+      <HeaderPageContentSwitch
+        toggleNames={['List View', 'Map View']}
+        toggleIcons={['list', 'map']}
+        markers={['list', 'map']}
+        activeScreen={screen}
+        setActiveScreen={(screen: string) => setActiveScreen(screen)}
+      />
       <View style={styles.viewContainer}>
-        {screen == 'list' ? <FlatListSubScreen /> : <FlatMap />}
-
-        {/* <Pressable onPress={() => navigation.navigate('TestMap')}>
-            <Text>Scroll Test</Text>
-          </Pressable> */}
+        {screen === 'list' ? (
+          <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
+        ) : (
+          <FlatMap flats={sortedFlats} />
+        )}
       </View>
     </View>
-    // </TouchableWithoutFeedback>
   );
 };
 
@@ -108,37 +84,45 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
   },
+
   inputField: {
     flex: 1,
   },
   searchContainer: {
+    paddingHorizontal: 16,
     flexDirection: 'row',
-    marginHorizontal: 25,
     marginTop: 68, // Needs to be added to core view file, though not working when built
   },
-  viewToggle: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 8,
-  },
-  toggleButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 14,
-    paddingTop: 18,
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-  },
-  toggleButtonActive: {
-    borderColor: Color.Lavendar[100],
-  },
-  toggleButtonText: {
-    marginLeft: 5,
-  },
-  toggleButtonTextActive: {
-    color: Color.Lavendar[100],
-  },
+  // flatListSubScreen: {
+  //   margin: 10,
+  // },
+  // viewToggle: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   borderColor: Color.Lavendar[100],
+  //   borderWidth: 2,
+  //   borderRadius: 12,
+  //   marginTop: 8,
+  //   height: 40,
+  //   marginBottom: 8,
+  // },
+  // toggleButton: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   borderRadius: 10,
+  // },
+  // toggleButtonActive: {
+  //   backgroundColor: Color.Lavendar[100],
+  // },
+  // toggleButtonText: {
+  //   marginLeft: 5,
+  //   color: Color.Lavendar[100],
+  // },
+  // toggleButtonTextActive: {
+  //   color: Color.White[100],
+  // },
 });
 
 export default FlatListScreen;
