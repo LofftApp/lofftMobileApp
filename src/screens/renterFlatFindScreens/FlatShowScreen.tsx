@@ -170,7 +170,7 @@ const FlatShowScreen = ({ route, navigation, }: any) => {
                     marginBottom: 30,
                   }}
                   disabled={false}
-                  onPress={() => navigation.navigate('ApplyForFlatScreen')}
+                  onPress={() => navigation.navigate('applyforflat')}
                 />
               </View>
 
