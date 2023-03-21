@@ -18,7 +18,6 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
-import { navigationHelper } from '@Helpers/navigationHelper';
 
 const ListViewFlatCard = ({
   flatId,
@@ -88,7 +87,14 @@ const ListViewFlatCard = ({
 
             <MatchingScoreButton size="Big" score={match} />
           </View>
-          <Text onPress={() => navigation.navigate('flatShow')}>Apply</Text>
+          {/* Temporary Button Placeholder */}
+          <Text onPress={() => navigation.navigate('flatShow', {
+            price: {price},
+            match: {match},
+            district: {district}
+            /* Add more Chips etc */
+
+          })}>Apply</Text>
           {district ? (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
