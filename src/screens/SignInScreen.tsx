@@ -29,7 +29,7 @@ const SignInScreen = ({navigation}: any) => {
             Don't have an account yet?{'     '}
             <Text
               style={styles.link}
-              onPress={() => navigation.navigate('SignUpScreen')}>
+              onPress={() => navigation.navigate('flatShow')}>
               Sign Up
             </Text>
           </Text>
