@@ -1,4 +1,4 @@
-package app.lofft.lofft;
+package com.lofftmobileapp;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -18,6 +18,7 @@ public class MainActivity extends ReactActivity {
     return "lofftMobileApp";
   }
 
+  // Required for Splash Screen
   @Override
   protected void onCreate(Bundle savedInstanceState){
     SplashScreen.show(this);

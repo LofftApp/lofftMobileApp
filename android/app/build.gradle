@@ -3,6 +3,7 @@ apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services'
 
 
+// Icons and fonts
 project.ext.vectoricons = [
     iconFontNames: [ 'Ionicons.ttf', 'icomoon.ttf' ] // Name of the font files you want to copy
 ]

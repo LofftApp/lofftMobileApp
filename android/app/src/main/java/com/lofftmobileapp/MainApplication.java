@@ -1,14 +1,15 @@
-package app.lofft.lofft;
+package com.lofftmobileapp;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.config.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import java.util.List;
+// Commented out during upgrade to 0.70.4 if issue uncomment
+// import java.util.List;
 import org.devio.rn.splashscreen.SplashScreenReactPackage; // Splash Screen
 
 public class MainApplication extends Application implements ReactApplication {
