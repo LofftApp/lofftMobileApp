@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({ flats, navigation }:any) => {
+const FlatListApplicationsScreen = ({ active, flats, navigation }:any) => {
   return (
     <ScrollView style={styles.flatCardContainer}>
       <SafeAreaView>
@@ -19,6 +19,8 @@ const FlatListApplicationsScreen = ({ flats, navigation }:any) => {
               price={el.price}
               images={el.images}
               likedUsers={el.likedUsers}
+              /*  active is just for demo 👇*/
+              active={active}
             />
           );
         })}

@@ -62,11 +62,14 @@ const ApplicationIndexScreen = ({navigation}: any) => {
           <FlatListApplicationsScreen
             flats={sortedFlats}
             navigation={navigation}
+            active={true}
           />
         ) : (
           <FlatListApplicationsScreen
             flats={sortedFlats}
             navigation={navigation}
+            /* Just for demo purposes 🚨 🚨 */
+            active={false}
           />
         )}
       </View>
