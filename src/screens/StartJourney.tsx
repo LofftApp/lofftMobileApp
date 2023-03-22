@@ -11,7 +11,7 @@ import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import IconButton from '@Components/buttons/IconButton';
 
 // Redux 🧠
-import UserJourneyButton from '@Redux/userRegistration/UserJourneyButton';
+import UserJourneyButton from '@Redux/registration/UserJourneyButton';
 
 // Styles 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

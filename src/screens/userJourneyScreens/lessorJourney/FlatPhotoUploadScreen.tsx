@@ -17,9 +17,9 @@ import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 import {CoreButton} from '@Components/buttons/CoreButton';
-import ImageUploadButton from '@Redux/userImageUpload/ImageUploadButton';
-import ImagePreviewRow from '@Redux/userImageUpload/ImagePreviewRow';
-import UploadImageButton from '@Redux/userImageUpload/UploadImageButton';
+import ImageUploadButton from '@Redux/imageHandling/ImageUploadButton';
+import ImagePreviewRow from '@Redux/imageHandling/ImagePreviewRow';
+import UploadImageButton from '@Redux/imageHandling/UploadImageButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
