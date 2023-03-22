@@ -10,7 +10,7 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import {CoreButton} from '@Components/buttons/CoreButton';
-import UserJourneySaveButton from '@Redux/userRegistration/UserJourneySaveButton';
+import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';

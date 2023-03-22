@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 // API 🧠
 import {libraryImageUpload} from '@Api/firebase/firebaseStorage';
 import {setImageToUpload} from './userImageUploadSlice';
-import {setDetails} from '@Redux/userRegistration/userJourneySlice';
+import {setDetails} from '@Redux/registration/userJourneySlice';
 
 // Componetne 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
