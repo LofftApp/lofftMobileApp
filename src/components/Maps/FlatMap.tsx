@@ -4,13 +4,17 @@ import {View, StyleSheet, FlatList, StatusBar} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
+// Redux 🏗️
+import {useSelector} from 'react-redux';
+
 // Components 🪢
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 import MapMarker from './MapMarker';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-const FlatMap = ({flats}: any) => {
+const FlatMap = () => {
+  const flats = useSelector((state: any) => state.flats.allFlats);
   const [activeAddress, setActiveAddress] = useState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   // States
@@ -136,26 +140,8 @@ const styles = StyleSheet.create({
   map: {
     minWidth: '100%',
     minHeight: '100%',
-    // top: -58,
     zIndex: 1,
   },
-  // flatCard: {
-  //   width: 300,
-  //   height: 200,
-  //   elevation: 2,
-  //   backgroundColor: 'white',
-  //   marginHorizontal: 10,
-  //   marginVertical: 40,
-  //   borderRadius: 12,
-  // },
-  // flatcard: {
-  //   height: 200,
-  //   width: 200,
-  //   borderRadius: 12,
-  //   backgroundColor: 'white',
-  //   zIndex: 10000,
-  //   marginHorizontal: 20,
-  // },
 });
 
 export default FlatMap;
