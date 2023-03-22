@@ -19,6 +19,7 @@ const usersSlice = createSlice({
   },
 });
 
+// WIP for code, below currently not used
 export const fetchCurrentUser = createAsyncThunk(
   'users/fetchCurrentUser',
   async () => {
