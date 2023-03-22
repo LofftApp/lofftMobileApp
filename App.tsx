@@ -8,8 +8,8 @@
 import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 // Redux 🏗️
-import {useSelector} from 'react-redux';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {setUserID} from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -31,7 +31,10 @@ import AdminScreen from '@Screens/devScreens/adminScreen';
 
 const RootStack = createNativeStackNavigator();
 
+const checkUserDataExists = async (uid: string) => {};
+
 const App = () => {
+  const dispatch = useDispatch();
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
@@ -39,8 +42,12 @@ const App = () => {
   const [admin, setAdmin] = useState(false);
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
-    const currentUser: any = await auth()?.currentUser?.getIdTokenResult();
-    currentUser?.claims?.role ? setAdmin(true) : setAdmin(false);
+    const currentUser: any = await auth()?.currentUser;
+    dispatch(setUserID(currentUser?.uid));
+
+    currentUser?.getIdTokenResult().claims?.role
+      ? setAdmin(true)
+      : setAdmin(false);
 
     setUser(user);
     if (user) {
