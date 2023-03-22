@@ -12,7 +12,7 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
 import FavoriteFlatScreen from '@Screens/renterFlatFindScreens/FavoriteFlatScreen';
-import AlertsScreen from '@Screens/renterFlatFindScreens/AlertsScreen';
+import ApplicationIndexScreen from '@Screens/renterFlatFindScreens/ApplicationIndexScreen';
 import UserScreen from '@Screens/renterFlatFindScreens/UserScreen';
 import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
 
@@ -55,7 +55,7 @@ const DashboardNavigator = () => {
       />
       <Tab.Screen
         name="alerts"
-        component={AlertsScreen}
+        component={ApplicationIndexScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
