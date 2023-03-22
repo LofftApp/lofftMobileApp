@@ -26,6 +26,7 @@ const ListFlatApplicationCard = ({
   price,
   images,
   likedUsers,
+  active
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -38,6 +39,7 @@ const ListFlatApplicationCard = ({
 
   const [currentFlatStatusIndex, setFlatStatusIndex] = useState(0);
   const [currentStatusBar, setStatusBar] = useState('');
+
 
   useEffect(() => {
     if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
@@ -69,7 +71,7 @@ const ListFlatApplicationCard = ({
     calculateStatusBar(currentFlatStatusIndex);
   });
 
-  console.log(currentStatusBar);
+  console.log("This is active",active);
 
   return (
     <View style={styles.flatCardContainer}>
@@ -128,9 +130,9 @@ const ListFlatApplicationCard = ({
         </View>
       </View>
       <View style={styles.progressBarContainer}>
-        <View style={styles.progressBarOutline}>
+        <View style={[styles.progressBarOutline, {backgroundColor: active ? Color.Mint[10] : Color.Tomato[10] }]}>
           <View
-            style={[styles.actualProgress, {width: `${currentStatusBar}%`}]}
+            style={[styles.actualProgress, { width: `${currentStatusBar}%`,  backgroundColor: active ? Color.Mint[100] : Color.Tomato[100]  }]}
           />
         </View>
         <View style={styles.statusContainer}>
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
   },
   progressBarOutline: {
     flex: 1,
-    backgroundColor: Color.Mint[10],
+
     padding: 6,
     borderRadius: 8,
   },
@@ -204,7 +206,6 @@ const styles = StyleSheet.create({
     color: Color.Black[50],
   },
   actualProgress: {
-    backgroundColor: Color.Mint[100],
     padding: 8,
     borderRadius: 8,
   },
