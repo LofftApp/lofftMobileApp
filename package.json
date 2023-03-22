@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "pod-install": "cd ios && pod install && cd ..",
+    "pod-install": "yarn && cd ios && pod install && cd ..",
     "pod-reset": "rm -rf node_modules yarn.lock ios/Pods Podfile.lock && yarn && cd ios && pod install && cd .."
   },
   "rnpm": {
