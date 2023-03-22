@@ -12,7 +12,7 @@ import auth from '@react-native-firebase/auth';
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Redux 🧠
-import UserJourneyButton from '@Redux/userRegistration/UserJourneyButton';
+import UserJourneyButton from '@Redux/registration/UserJourneyButton';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';

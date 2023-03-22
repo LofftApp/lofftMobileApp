@@ -17,8 +17,8 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import UserJourneyContinue from '@Redux/userRegistration/UserJourneyContinue';
-import UserJourneyPaginationBar from '@Redux/userRegistration/UserJourneyPaginationBar';
+import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
+import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
 import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';

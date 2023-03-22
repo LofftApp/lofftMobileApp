@@ -9,7 +9,7 @@ import {
 
 // Components 🪢
 import LofftIcon from './lofftIcons/LofftIcon';
-import {SeedButton} from '@Redux/userSeeding/SeedButton';
+import {SeedButton} from '@Redux/seeding/SeedButton';
 
 // Styles 🖼️
 import Colors from '@StyleSheets/lofftColorPallet.json';
