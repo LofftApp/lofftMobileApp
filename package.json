@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "pod-install": "cd ios && pod install && cd ..",
-    "pod-reset": "rm -rf node_modules yarn.lock ios/Pods Podfile.lock && yarn && pod install && cd .."
+    "pod-reset": "rm -rf node_modules yarn.lock ios/Pods Podfile.lock && yarn && cd ios && pod install && cd .."
   },
   "rnpm": {
     "assets": [
