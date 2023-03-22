@@ -14,6 +14,9 @@ import InputFieldText from '@Components/coreComponents/inputField/InputFieldText
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
+// Redux 🏪
+import {useDispatch} from 'react-redux';
+import {setAllFlats} from '@Redux/flat/flatsSlice';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -21,16 +24,18 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FlatListScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
       if (flats) {
         if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          dispatch(setAllFlats(reOrder));
           setSortedFlats(reOrder);
         } else {
           setSortedFlats(flats);
+          dispatch(setAllFlats(flats));
         }
       }
     };
@@ -67,9 +72,9 @@ const FlatListScreen = ({navigation}: any) => {
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
-          <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
+          <FlatListSubScreen navigation={navigation} />
         ) : (
-          <FlatMap flats={sortedFlats} />
+          <FlatMap />
         )}
       </View>
     </View>
