@@ -18,7 +18,7 @@ const renterJourney = () => {
         'Select all tags that describe who you are and find the Lofft of your life!',
     },
     '5': {screenName: 'SelfDescribeScreen'},
-    '6': {screenName: 'UserConditionsScreen'},
+    '6': {screenName: 'ConditionsOfUseScreen'},
   };
 };
 
@@ -38,7 +38,7 @@ const lesserJourney = () => {
       subHeaderText: 'Select all the tags that match your place.',
     },
     '4': {screenName: 'FlatPhotoUploadScreen'},
-    '5': {screenName: 'UserConditionsScreen'},
+    '5': {screenName: 'ConditionsOfUseScreen'},
   };
 };
 
