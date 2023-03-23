@@ -18,7 +18,6 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
-
 const ListViewFlatCard = ({
   flatId,
   match,
@@ -27,6 +26,7 @@ const ListViewFlatCard = ({
   images,
   likedUsers,
   navigation,
+  i,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -38,47 +38,56 @@ const ListViewFlatCard = ({
 
   return (
     <View style={styles.flatCardContainer}>
-      <View>
-        <Image
-          // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
-          source={
-            images ? {uri: images[0], width: 200, height: 300} : noFlatImage
-          }
-          style={styles.flatCardImage}
-        />
-        <View style={styles.flatCardButtonsOverlay}>
-          <View style={styles.flatCardbuttonsWrap}>
-            {match ? (
-              <View>
-                <Pressable
-                  style={styles.flatCardSaveButton}
-                  onPress={() => {
-                    setSave(!save);
-                    saveFlatToUserLikes({flatId, add: save});
-                  }}>
-                  {save === true ? (
-                    <LofftIcon
-                      name="heart-filled"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  ) : (
-                    <LofftIcon
-                      name="heart"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  )}
-                </Pressable>
-              </View>
-            ) : (
-              <View></View>
-            )}
+      <Pressable
+        onPress={() =>
+          navigation.navigate('flatShow', {
+            price: {price},
+            match: {match},
+            district: {district},
+            i: i,
+            /* Add more Chips etc */
+          })
+        }>
+        <View>
+          <Image
+            // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
+            source={
+              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
+            }
+            style={styles.flatCardImage}
+          />
+          <View style={styles.flatCardButtonsOverlay}>
+            <View style={styles.flatCardbuttonsWrap}>
+              {match ? (
+                <View>
+                  <Pressable
+                    style={styles.flatCardSaveButton}
+                    onPress={() => {
+                      setSave(!save);
+                      saveFlatToUserLikes({flatId, add: save});
+                    }}>
+                    {save === true ? (
+                      <LofftIcon
+                        name="heart-filled"
+                        size={25}
+                        color={Color.Tomato[100]}
+                      />
+                    ) : (
+                      <LofftIcon
+                        name="heart"
+                        size={25}
+                        color={Color.Tomato[100]}
+                      />
+                    )}
+                  </Pressable>
+                </View>
+              ) : null}
 
-            <PaginationBar screen={screen} totalScreens={5} />
+              <PaginationBar screen={screen} totalScreens={5} />
+            </View>
           </View>
         </View>
-      </View>
+      </Pressable>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
@@ -87,14 +96,6 @@ const ListViewFlatCard = ({
 
             <MatchingScoreButton size="Big" score={match} />
           </View>
-          {/* Temporary Button Placeholder */}
-          <Text onPress={() => navigation.navigate('flatShow', {
-            price: {price},
-            match: {match},
-            district: {district}
-            /* Add more Chips etc */
-
-          })}>Apply</Text>
           {district ? (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
