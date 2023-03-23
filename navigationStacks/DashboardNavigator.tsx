@@ -11,9 +11,9 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import FavoriteFlatScreen from '@Screens/dashboard/FavoriteFlatScreen';
 import ApplicationIndexScreen from '@Screens/dashboard/ApplicationIndexScreen';
 import UserScreen from '@Screens/dashboard/UserScreen';
+import SavedListingsScreen from '@Screens/dashboard/SavedScreens/SavedListingsScreen';
 import TempScreen from '@Screens/dashboard/TempScreen';
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +50,7 @@ const DashboardNavigator = () => {
       />
       <Tab.Screen
         name="favorite"
-        component={FavoriteFlatScreen}
+        component={SavedListingsScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
