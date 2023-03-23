@@ -33,9 +33,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
   const flat = useSelector((state: any) => state.flats.allFlats[flatIndex]);
   console.log('flat', flat);
 
-  const [description, setDescription] = useState(
-    `This near 1,100 sq.ft. apartment has been maintained in great condition and is divided by a generous entertaining space on one floor, and its private bedroom and bathroom quarters on the second level.${'\n'}${'\n'}On entering this maisonette via its very own front door, you are struck by its breathtakingly bright, airy, and modern open-plan kitchen / dining and living room layout, its floor to ceiling windows that drench the room with natural light, and all the while benefiting from the glistering and serene canalside waters.The next level has two large double bedrooms, currently serving as a principal en-suite and the other room as a spacious home office (with a separate family bathroom).`,
-  );
+  const [description, setDescription] = useState(flat.description);
 
   /* Params are being passed classicly via the route helper instead of  */
   const {price, match} = route.params;
@@ -61,7 +59,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
     <View style={styles.pageContainer}>
       {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
       <HighlightedButtons navigation={navigation} id={flatIndex} />
-      <LofftHeaderPhoto imageContainerHeight={300} />
+      <LofftHeaderPhoto imageContainerHeight={300} images={flat.images} />
       <SafeAreaView>
         <ScrollView style={styles.scrollView}>
           <View style={styles.centralizerContainer}>
@@ -111,7 +109,8 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
                     color={Color.Black[30]}
                   />
                   <Text style={[fontStyles.headerSmall, {marginLeft: 10}]}>
-                    From: 25/12/22 - unlimited
+                    From: {flat.fromDate}{' '}
+                    {flat.untilDate ? `- ${flat.untilDate}` : null}
                   </Text>
                 </View>
               </View>
@@ -122,22 +121,25 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
                     `${descriptionExpanded ? description.length : 200}`,
                   )}
                 </Text>
-                <CoreButton
-                  value={descriptionExpanded ? 'Read Less' : 'Read More'}
-                  style={{
-                    backgroundColor: 'white',
-                    borderWidth: 2,
-                    marginTop: 14,
-                    height: 40,
-                  }}
-                  textStyle={[
-                    fontStyles.headerSmall,
-                    {color: Color.Lavendar[100]},
-                  ]}
-                  disabled={false}
-                  onPress={() => expander()}
-                />
+                {description.length > 200 ? (
+                  <CoreButton
+                    value={descriptionExpanded ? 'Read Less' : 'Read More'}
+                    style={{
+                      backgroundColor: 'white',
+                      borderWidth: 2,
+                      marginTop: 14,
+                      height: 40,
+                    }}
+                    textStyle={[
+                      fontStyles.headerSmall,
+                      {color: Color.Lavendar[100]},
+                    ]}
+                    disabled={false}
+                    onPress={() => expander()}
+                  />
+                ) : null}
               </View>
+              {/* ! Build logic to match the values common with the user */}
               <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>
                 Match with you
               </Text>

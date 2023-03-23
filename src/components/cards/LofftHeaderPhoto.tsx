@@ -4,27 +4,16 @@ import {StyleSheet, FlatList, Image, Dimensions} from 'react-native';
 // Components
 import PaginationBar from '@Components/bars/PaginationBar';
 
-// sample Images
-/* Src needs to be pulled from DB eventually */
-import flatOneB from '@Assets/images/2.png';
-import flatOneC from '@Assets/images/3.png';
-import flatOneD from '@Assets/images/4.png';
-import flatOneE from '@Assets/images/5.png';
-
-const LofftHeaderPhoto = ({imageContainerHeight}) => {
-  const [images, setImages] = useState([
-    flatOneB,
-    flatOneD,
-    flatOneC,
-    flatOneE,
-  ]);
-
+const LofftHeaderPhoto = ({imageContainerHeight, images}: any) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
-  const onViewableItemsChanged = useCallback(({viewableItems, changed}) => {
-    const index = viewableItems[0].index;
-    setCurrentCardIndex(index);
-  }, []);
+  const onViewableItemsChanged = useCallback(
+    ({viewableItems, changed}: any) => {
+      const index = viewableItems[0].index;
+      setCurrentCardIndex(index);
+    },
+    [],
+  );
 
   return (
     <>
@@ -36,7 +25,7 @@ const LofftHeaderPhoto = ({imageContainerHeight}) => {
         renderItem={({item, index}) => (
           <Image
             style={[styles.imageContainer, {height: imageContainerHeight}]}
-            source={item}
+            source={{uri: item}}
             key={index + 1}
           />
         )}
