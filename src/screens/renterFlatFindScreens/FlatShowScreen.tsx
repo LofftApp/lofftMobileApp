@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -15,20 +15,24 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
+// Redux 🏗️
+import {useSelector} from 'react-redux';
+
 // Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
-import { fontStyles } from '@StyleSheets/fontStyles';
-import { CoreButton } from '@Components/buttons/CoreButton';
+import {fontStyles} from '@StyleSheets/fontStyles';
+import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 
 // Styles
 
-const FlatShowScreen = ({ route, navigation, }: any) => {
-  const [description, setDescription] = useState(
-    `This near 1,100 sq.ft. apartment has been maintained in great condition and is divided by a generous entertaining space on one floor, and its private bedroom and bathroom quarters on the second level.${'\n'}${'\n'}On entering this maisonette via its very own front door, you are struck by its breathtakingly bright, airy, and modern open-plan kitchen / dining and living room layout, its floor to ceiling windows that drench the room with natural light, and all the while benefiting from the glistering and serene canalside waters.The next level has two large double bedrooms, currently serving as a principal en-suite and the other room as a spacious home office (with a separate family bathroom).`,
-  );
+const FlatShowScreen = ({route, navigation, i}: any) => {
+  const [flatIndex] = useState(route.params.i);
+  const flat = useSelector((state: any) => state.flats.allFlats[flatIndex]);
+
+  const [description, setDescription] = useState(flat.description);
 
   /* Params are being passed classicly via the route helper instead of  */
   const {price, match} = route.params;
@@ -50,13 +54,12 @@ const FlatShowScreen = ({ route, navigation, }: any) => {
     '🌱',
   ]);
 
-
-
   return (
     <View style={styles.pageContainer}>
-      <HighlightedButtons navigation={navigation} />
-      <LofftHeaderPhoto imageContainerHeight={300} />
-      <SafeAreaView style={styles.container}>
+      {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
+      <HighlightedButtons navigation={navigation} id={flatIndex} />
+      <LofftHeaderPhoto imageContainerHeight={300} images={flat.images} />
+      <SafeAreaView>
         <ScrollView style={styles.scrollView}>
           <View style={styles.centralizerContainer}>
             <View style={styles.matchContainer}>
@@ -65,21 +68,19 @@ const FlatShowScreen = ({ route, navigation, }: any) => {
               </View>
               <View>
                 <Text style={fontStyles.headerSmall}>
-                  96% match with your lifestyles
+                  {flat?.matchP}% match with your lifestyles
                   {'\n'}& flat expectations
                 </Text>
               </View>
             </View>
             <View style={styles.infoContainer}>
-              <Text style={{ color: Color.Black[80] }}>
-                Wilsnackerstr. 13, Berlin, 10559
-              </Text>
-              <Text style={[fontStyles.headerSmall, { paddingTop: 20 }]}>
+              <Text style={{color: Color.Black[80]}}>{flat?.address}</Text>
+              <Text style={[fontStyles.headerSmall, {paddingTop: 20}]}>
                 🧘 Calm flat in the centre of Moabit
               </Text>
               <View style={styles.LegendContainer}>
                 <View style={styles.firstRowLegendContainer}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <LofftIcon
                       name="banke-note"
                       size={22}
@@ -88,14 +89,14 @@ const FlatShowScreen = ({ route, navigation, }: any) => {
                     <Text
                       style={[
                         fontStyles.headerSmall,
-                        { marginLeft: 10, marginRight: 100 },
+                        {marginLeft: 10, marginRight: 100},
                       ]}>
-                      860€
+                      {flat?.price}€
                     </Text>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <LofftIcon name="ruler" size={22} color={Color.Black[30]} />
-                    <Text style={[fontStyles.headerSmall, { marginLeft: 10 }]}>
+                    <Text style={[fontStyles.headerSmall, {marginLeft: 10}]}>
                       26m2
                     </Text>
                   </View>
@@ -106,45 +107,49 @@ const FlatShowScreen = ({ route, navigation, }: any) => {
                     size={22}
                     color={Color.Black[30]}
                   />
-                  <Text style={[fontStyles.headerSmall, { marginLeft: 10 }]}>
-                    From: 25/12/22 - unlimited
+                  <Text style={[fontStyles.headerSmall, {marginLeft: 10}]}>
+                    From: {flat.fromDate}{' '}
+                    {flat.untilDate ? `- ${flat.untilDate}` : null}
                   </Text>
                 </View>
               </View>
-              <View style={{ marginTop: 10 }}>
-                <Text style={{ color: Color.Black[80] }}>
+              <View style={{marginTop: 10}}>
+                <Text style={{color: Color.Black[80]}}>
                   {description.substring(
                     0,
                     `${descriptionExpanded ? description.length : 200}`,
                   )}
                 </Text>
-                <CoreButton
-                  value={descriptionExpanded ? 'Read Less' : 'Read More'}
-                  style={{
-                    backgroundColor: 'white',
-                    borderWidth: 2,
-                    marginTop: 14,
-                    height: 40,
-                  }}
-                  textStyle={[
-                    fontStyles.headerSmall,
-                    { color: Color.Lavendar[100] },
-                  ]}
-                  disabled={false}
-                  onPress={() => expander()}
-                />
+                {description.length > 200 ? (
+                  <CoreButton
+                    value={descriptionExpanded ? 'Read Less' : 'Read More'}
+                    style={{
+                      backgroundColor: 'white',
+                      borderWidth: 2,
+                      marginTop: 14,
+                      height: 40,
+                    }}
+                    textStyle={[
+                      fontStyles.headerSmall,
+                      {color: Color.Lavendar[100]},
+                    ]}
+                    disabled={false}
+                    onPress={() => expander()}
+                  />
+                ) : null}
               </View>
-              <Text style={[fontStyles.headerSmall, { marginTop: 20 }]}>
+              {/* ! Build logic to match the values common with the user */}
+              <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>
                 Match with you
               </Text>
-              <View style={{ marginTop: 10 }}>
+              <View style={{marginTop: 10}}>
                 <Chips />
               </View>
 
-              <Text style={[fontStyles.headerSmall, { marginTop: 20 }]}>
+              <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>
                 Other
               </Text>
-              <View style={{ marginTop: 10 }}>
+              <View style={{marginTop: 10}}>
                 <Chips />
               </View>
 
