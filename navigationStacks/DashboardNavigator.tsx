@@ -11,10 +11,10 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import FavoriteFlatScreen from '@Screens/renterFlatFindScreens/FavoriteFlatScreen';
-import AlertsScreen from '@Screens/renterFlatFindScreens/AlertsScreen';
-import UserScreen from '@Screens/renterFlatFindScreens/UserScreen';
-import TempScreen from '@Screens/renterFlatFindScreens/TempScreen';
+import ApplicationIndexScreen from '@Screens/dashboard/ApplicationIndexScreen';
+import UserScreen from '@Screens/dashboard/UserScreen';
+import SavedListingsScreen from '@Screens/dashboard/SavedScreens/SavedListingsScreen';
+import TempScreen from '@Screens/dashboard/TempScreen';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigator = () => {
@@ -50,12 +50,12 @@ const DashboardNavigator = () => {
       />
       <Tab.Screen
         name="favorite"
-        component={FavoriteFlatScreen}
+        component={SavedListingsScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
         name="alerts"
-        component={AlertsScreen}
+        component={ApplicationIndexScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen

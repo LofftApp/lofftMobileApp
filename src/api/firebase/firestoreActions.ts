@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
+import {dateFormatConverter} from '@Helpers/dateFormatConverter';
 // Save user profile
 
 export const createUserProfile = async (data: any) => {
@@ -20,7 +20,6 @@ export const createUserProfile = async (data: any) => {
     },
     savedFlats: [],
   };
-  // console.log(userData);
   const currentUserId = data.userId || auth().currentUser?.uid;
   await firestore().collection('users').doc(currentUserId).set(userData);
 };
@@ -78,6 +77,12 @@ export const getFlatsFromDB = async () => {
         }),
         images: data.images,
         likedUsers: data?.likedUsers,
+        description: data?.description,
+        flatFeatures: data?.flatFeatures,
+        flatMate: data?.flatMate,
+        fromDate: dateFormatConverter({date: data?.fromDate}),
+        untilDate: dateFormatConverter({date: data?.untilDate}),
+        warmRent: data?.warmRent,
       };
     });
     return flats;
