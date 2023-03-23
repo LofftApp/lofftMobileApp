@@ -23,6 +23,7 @@ const FlatListSubScreen = ({navigation}: any) => {
               price={el.price}
               images={el.images}
               likedUsers={el.likedUsers}
+              i={index}
             />
           );
         })}
