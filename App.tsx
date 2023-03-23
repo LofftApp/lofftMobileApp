@@ -43,11 +43,10 @@ const App = () => {
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
+    const userToken: any = await currentUser?.getIdTokenResult();
     dispatch(setUserID(currentUser?.uid));
 
-    currentUser?.getIdTokenResult().claims?.role
-      ? setAdmin(true)
-      : setAdmin(false);
+    userToken?.claims?.role ? setAdmin(true) : setAdmin(false);
 
     setUser(user);
     if (user) {
@@ -103,17 +102,18 @@ const App = () => {
   if (initializing) {
     return null;
   }
+  console.log('admin', admin);
   return (
     <>
       {user ? (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : null}
-          {!userType ? (
+          ) : !userType ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
-          ) : null}
-          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          ) : (
+            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          )}
         </RootStack.Navigator>
       ) : (
         <GuestStackNavigator />
