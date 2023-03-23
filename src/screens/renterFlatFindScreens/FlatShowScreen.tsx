@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useCallback} from 'react';
 import {
   View,
@@ -9,11 +10,13 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
+  Modal,
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
 import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import {CrossIcon} from '../../assets';
 
 // Redux 🏗️
 import {useSelector} from 'react-redux';
@@ -22,6 +25,7 @@ import {useSelector} from 'react-redux';
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
+import ScreenImage from '@Assets/images/Illustration.png';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
@@ -36,6 +40,12 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
 
   /* Params are being passed classicly via the route helper instead of  */
   const {price, match} = route.params;
+
+  //This is a placeholder for the CompleteProfileStep
+  const [completeProfile, setCompleteProfile] = useState(false);
+
+  //Modal
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
 
@@ -165,20 +175,94 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
                   ]}>
                   Application closing in 1d 8h
                 </Text>
-
-                <CoreButton
-                  value="Apply"
-                  style={{
-                    borderWidth: 2,
-                    marginTop: 14,
-                    height: 45,
-                    marginBottom: 30,
-                  }}
-                  disabled={false}
-                  onPress={() => navigation.navigate('applyforflat')}
-                />
               </View>
-
+              <View>
+                {completeProfile ? (
+                  <CoreButton
+                    value="Apply"
+                    style={{
+                      borderWidth: 2,
+                      marginTop: 14,
+                      height: 45,
+                      marginBottom: 30,
+                    }}
+                    disabled={false}
+                    onPress={() =>
+                      navigation.navigate(
+                        completeProfile
+                          ? 'applyforflat'
+                          : 'completeProfileScreen',
+                      )
+                    }
+                  />
+                ) : (
+                  <CoreButton
+                    value="Apply"
+                    style={{
+                      borderWidth: 2,
+                      marginTop: 14,
+                      height: 45,
+                      marginBottom: 30,
+                    }}
+                    disabled={false}
+                    //add on press functionality => display: none everything but image, add blurRadius={65} to image
+                    onPress={() => setModalOpen(true)}
+                  />
+                )}
+              </View>
+              <Modal
+                visible={modalOpen}
+                animationType="slide"
+                transparent={true}>
+                <View style={styles.modalContainer}>
+                  <View style={styles.completeProfileContainer}>
+                    <View style={styles.headerContainer}>
+                      <Text style={fontStyles.headerMedium}>
+                        Your application profile isn't complete
+                      </Text>
+                      <CrossIcon
+                        style={{
+                          marginTop: 16,
+                          marginRight: 14,
+                        }}
+                        onPress={() => setModalOpen(false)}
+                      />
+                    </View>
+                    <View>
+                      <Image source={ScreenImage} />
+                    </View>
+                    <View>
+                      <Text style={fontStyles.bodyMedium}>
+                        To apply for this flat, please go to the profile section
+                        and complete your application. This takes only 5
+                        minutes!
+                      </Text>
+                    </View>
+                    <CoreButton
+                      value="Complete my profile now"
+                      style={{
+                        borderWidth: 2,
+                        marginTop: 14,
+                        height: 45,
+                        width: '100%',
+                      }}
+                      disabled={false}
+                    />
+                    <CoreButton
+                      value="Do it later"
+                      style={{
+                        borderWidth: 2,
+                        marginTop: 5,
+                        height: 45,
+                        width: '100%',
+                      }}
+                      disabled={false}
+                      invert={true}
+                      onPress={() => setModalOpen(false)}
+                    />
+                  </View>
+                </View>
+              </Modal>
               {/* Continue codeing from here !!!! */}
             </View>
           </View>
@@ -237,6 +321,24 @@ const styles = StyleSheet.create({
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
+  },
+  modalContainer: {
+    height: '60%',
+    marginTop: 'auto',
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+  completeProfileContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingBottom: 80,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
   },
 });
 

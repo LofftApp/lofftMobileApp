@@ -102,7 +102,6 @@ const App = () => {
   if (initializing) {
     return null;
   }
-  console.log('admin', admin);
   return (
     <>
       {user ? (
