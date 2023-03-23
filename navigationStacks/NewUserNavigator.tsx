@@ -2,19 +2,19 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
-import StartJourney from '@Screens/StartJourney';
-import AboutYouFlatHuntScreen from '@Screens/userJourneyScreens/renterJourney/AboutUserScreen';
-import GenderIdentityScreen from '@Screens/userJourneyScreens/renterJourney/GenderIdentityScreen';
-import SelectCityScreen from '@Screens/userJourneyScreens/renterJourney/SelectCityScreen';
-import FinderBudgetScreen from '@Screens/userJourneyScreens/renterJourney/FinderBudgetScreen';
-import FlatFeaturesScreen from '@Screens/userJourneyScreens/renterJourney/FlatFeaturesScreen';
-import SelfDescribeScreen from '@Screens/userJourneyScreens/renterJourney/SelfDescribeScreen';
-import UserConditionsScreen from '@Screens/UserConditionsScreen';
+import NewUserJourney from '@Screens/registration/NewUserJourneyScreen';
+import AboutYouFlatHuntScreen from '@Screens/registration/renter/AboutUserScreen';
+import GenderIdentityScreen from '@Screens/registration/renter/GenderIdentityScreen';
+import SelectCityScreen from '@Screens/registration/renter/SelectCityScreen';
+import FinderBudgetScreen from '@Screens/registration/renter/FinderBudgetScreen';
+import FlatFeaturesScreen from '@Screens/registration/renter/FlatFeaturesScreen';
+import SelfDescribeScreen from '@Screens/registration/renter/SelfDescribeScreen';
+import ConditionsOfUseScreen from '@Screens/registration/ConditionsOfUseScreen';
 
 // Lessor Journey
-import WhereIsFlatScreen from '@Screens/userJourneyScreens/lessorJourney/WhereIsFlatScreen';
-import FlatLengthAvailableScreen from '@Screens/userJourneyScreens/lessorJourney/FlatLengthAvailableScreen';
-import FlatPhotoUploadScreen from '@Screens/userJourneyScreens/lessorJourney/FlatPhotoUploadScreen';
+import WhereIsFlatScreen from '@Screens/registration/lessor/WhereIsFlatScreen';
+import FlatLengthAvailableScreen from '@Screens/registration/lessor/FlatLengthAvailableScreen';
+import FlatPhotoUploadScreen from '@Screens/registration/lessor/FlatPhotoUploadScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -24,8 +24,8 @@ const NewUserNavigator = () => {
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
         {/* Rentor Screens */}
         <NewUserNavigatorFlow.Screen
-          name="StartJourney"
-          component={StartJourney}
+          name="NewUserJourney"
+          component={NewUserJourney}
         />
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
@@ -66,8 +66,8 @@ const NewUserNavigator = () => {
           component={AboutYouFlatHuntScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="UserConditionsScreen"
-          component={UserConditionsScreen}
+          name="ConditionsOfUseScreen"
+          component={ConditionsOfUseScreen}
         />
       </NewUserNavigatorFlow.Group>
     </NewUserNavigatorFlow.Navigator>
