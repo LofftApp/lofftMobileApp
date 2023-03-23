@@ -7,6 +7,7 @@ import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
 import FlatListSubScreen from './SubScreens/FlatListSubScreen';
+import FlatListApplicationsScreen from './SubScreens/FlatListApplicationsScreen';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
@@ -19,7 +20,7 @@ import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-const FlatListScreen = ({navigation}: any) => {
+const ApplicationIndexScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const FlatListScreen = ({navigation}: any) => {
   }, []);
 
   const [search, setSearch] = useState('');
-  const [screen, setScreen] = useState('list');
+  const [screen, setScreen] = useState('thumbs-up');
 
   const setActiveScreen = (screen: string) => {
     setScreen(screen);
@@ -46,30 +47,30 @@ const FlatListScreen = ({navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.searchContainer}>
-        <InputFieldText
-          type="search"
-          onChangeText={(t: string) => setSearch(t)}
-          value={search}
-          placeholder="City, Neighbourhood..."
-          onClear={() => setSearch('')}
-          keyboardType="email-address"
-          style={styles.inputField}
-        />
-        <FilterButton onPress={() => auth().signOut()} />
+      <View style={styles.headerText}>
+        <Text style={fontStyles.headerLarge}>My Applications</Text>
       </View>
       <HeaderPageContentSwitch
-        toggleNames={['List View', 'Map View']}
-        toggleIcons={['list', 'map']}
-        markers={['list', 'map']}
+        toggleNames={['Active', 'Inactive']}
+        toggleIcons={['thumbs-up', 'thumbs-down']}
+        markers={['thumbs-up', 'thumbs-down']}
         activeScreen={screen}
         setActiveScreen={(screen: string) => setActiveScreen(screen)}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? (
-          <FlatListSubScreen flats={sortedFlats} navigation={navigation} />
+        {screen === 'thumbs-up' ? (
+          <FlatListApplicationsScreen
+            flats={sortedFlats}
+            navigation={navigation}
+            active={true}
+          />
         ) : (
-          <FlatMap flats={sortedFlats} />
+          <FlatListApplicationsScreen
+            flats={sortedFlats}
+            navigation={navigation}
+            /* Just for demo purposes 🚨 🚨 */
+            active={false}
+          />
         )}
       </View>
     </View>
@@ -92,6 +93,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flexDirection: 'row',
     marginTop: 68, // Needs to be added to core view file, though not working when built
+  },
+  headerText: {
+    marginTop: 50,
+    marginHorizontal: 16,
   },
   // flatListSubScreen: {
   //   margin: 10,
@@ -125,4 +130,4 @@ const styles = StyleSheet.create({
   // },
 });
 
-export default FlatListScreen;
+export default ApplicationIndexScreen;

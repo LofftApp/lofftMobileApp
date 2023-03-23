@@ -10,13 +10,13 @@ import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenB
 // Components 🪢
 import HeadlineContainer from '@Components/containers/HeadlineContainer';
 import {CoreButton} from '@Components/buttons/CoreButton';
-import UserJourneySaveButton from '@Redux/userRegistration/UserJourneySaveButton';
+import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-const UserConditionsScreen = ({navigation, route}: any) => {
+const ConditionsOfUseScreen = ({navigation, route}: any) => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserConditionsScreen;
+export default ConditionsOfUseScreen;

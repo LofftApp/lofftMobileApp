@@ -1,10 +1,14 @@
 import React from 'react';
 import {ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 
+// Redux 🏗️
+import {useSelector} from 'react-redux';
+
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
-const FlatListSubScreen = ({flats, navigation}: any) => {
+const FlatListSubScreen = ({navigation}: any) => {
+  const flats = useSelector((state: any) => state.flats.allFlats);
   return (
     <ScrollView style={styles.flatCardContainer}>
       <SafeAreaView>
@@ -19,6 +23,7 @@ const FlatListSubScreen = ({flats, navigation}: any) => {
               price={el.price}
               images={el.images}
               likedUsers={el.likedUsers}
+              i={index}
             />
           );
         })}
