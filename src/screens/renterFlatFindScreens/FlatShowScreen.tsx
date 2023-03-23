@@ -31,7 +31,6 @@ import Chips from '@Components/buttons/Chips';
 const FlatShowScreen = ({route, navigation, i}: any) => {
   const [flatIndex] = useState(route.params.i);
   const flat = useSelector((state: any) => state.flats.allFlats[flatIndex]);
-  console.log('flat', flat);
 
   const [description, setDescription] = useState(flat.description);
 
