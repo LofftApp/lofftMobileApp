@@ -1,21 +1,27 @@
 // Redux 💿
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 // Api 🧠
 import {deleteImage} from '@Api/firebase/firebaseStorage';
 
+interface ImageUploadState {
+  imagesToUpload: any[];
+}
+
+const initialState: ImageUploadState = {
+  imagesToUpload: [],
+};
+
 export const imageUploadSlice = createSlice({
   name: 'imageUpload',
-  initialState: {
-    imagesToUpload: [],
-  },
+  initialState,
   reducers: {
     setImageToUpload: (state: any, action: any) => {
       const photos = state.imagesToUpload;
       state.imagesToUpload = photos.concat(action.payload);
     },
 
-    deleteImageToUpload: (state: any, action: any) => {
+    deleteImageToUpload: (state: any, action: PayloadAction<string>) => {
       const imageUrl = action.payload;
       const index = state.imagesToUpload.indexOf(action.payload);
       state.imagesToUpload.splice(index, 1);

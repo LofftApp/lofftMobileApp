@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 
 // Redux 🐰
@@ -12,8 +12,8 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import Colors from '@StyleSheets/lofftColorPallet.json';
 
 const ImagePreviewRow = () => {
-  const dispatch = useDispatch();
-  const userImages = useSelector(
+  const dispatch = useAppDispatch();
+  const userImages = useAppSelector(
     (state: any) => state.imageUpload.imagesToUpload,
   );
   return (

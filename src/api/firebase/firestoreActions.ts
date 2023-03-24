@@ -22,7 +22,13 @@ export const createUserProfile = async (data: any) => {
     savedFlats: [],
   };
   const currentUserId = data.userId || auth().currentUser?.uid;
-  await firestore().collection('users').doc(currentUserId).set(userData);
+  console.log('currentUserId', currentUserId, 'userData', userData);
+
+  try {
+    await firestore().collection('users').doc(currentUserId).set(userData);
+  } catch (error) {
+    console.log('error:', error);
+  }
 };
 
 // export const getCurrentUserProfile = async (uid: string) => {
@@ -39,15 +45,17 @@ export const createFlatProfile = async (data: any) => {
   const currentUserId = data.userId || auth().currentUser?.uid;
   const userAddedToData = data;
   userAddedToData.user = currentUserId;
-
-  const response = await (
-    await firestore().collection('flats').add(userAddedToData)
-  ).get();
-  const flatId = response.id;
-  await firestore()
-    .collection('users')
-    .doc(currentUserId)
-    .set({flats: [flatId], notionId: data.notionId});
+  try {
+    const response = await (
+      await firestore().collection('flats').add(userAddedToData)
+    ).get();
+    await firestore()
+      .collection('users')
+      .doc(currentUserId)
+      .set({flats: [response.id], notionId: data?.notionId || null});
+  } catch (error) {
+    console.log('error:', error);
+  }
 };
 
 export const checkUserProfileExist = async () => {
@@ -77,6 +85,7 @@ export const getFlatsFromDB = async () => {
     const response = await firestore().collection('flats').get();
     const flats: any = response.docs.map((flat: any) => {
       const data = flat.data();
+      console.log('data', data);
       return {
         flatId: flat.id,
         address: data.location,
@@ -98,7 +107,7 @@ export const getFlatsFromDB = async () => {
     });
     return flats;
   } catch (error) {
-    console.log(error);
+    console.log('GetFlatsFromDB:', error);
   }
 };
 

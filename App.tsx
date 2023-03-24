@@ -8,7 +8,7 @@
 import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 // Redux 🏗️
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {setUserID, fetchUserProfile} from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
@@ -34,7 +34,7 @@ const RootStack = createNativeStackNavigator();
 const checkUserDataExists = async (uid: string) => {};
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
@@ -44,7 +44,7 @@ const App = () => {
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
     const userToken: any = await currentUser?.getIdTokenResult();
-    dispatch(setUserID(currentUser?.uid));
+    if (currentUser) dispatch(setUserID(currentUser?.uid));
 
     // Get Current user profile
     dispatch(fetchUserProfile(currentUser?.uid));
@@ -59,6 +59,8 @@ const App = () => {
       setInitializing(false);
     }
   };
+  const userProfile = useAppSelector((state: any) => state.user.profile);
+  console.log('userProfile', userProfile);
 
   useEffect(() => {
     const currentUser = auth().currentUser;
@@ -104,17 +106,16 @@ const App = () => {
   if (initializing) {
     return null;
   }
-  console.log('admin', admin);
   return (
     <>
       {user ? (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : !userType ? (
-            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
-          ) : (
+          ) : userProfile ? (
             <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          ) : (
+            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           )}
         </RootStack.Navigator>
       ) : (

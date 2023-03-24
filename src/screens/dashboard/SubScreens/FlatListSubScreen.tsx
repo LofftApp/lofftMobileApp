@@ -2,13 +2,13 @@ import React from 'react';
 import {ScrollView, SafeAreaView, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useSelector} from 'react-redux';
+import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({navigation}: any) => {
-  const flats = useSelector((state: any) => state.flats.allFlats);
+  const flats = useAppSelector((state: any) => state.flats.allFlats);
   return (
     <ScrollView style={styles.flatCardContainer}>
       <SafeAreaView>
