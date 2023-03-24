@@ -47,7 +47,7 @@ interface UserJourneyState {
   userJourney: any;
   userDetails: {
     genderIdentity: string | null;
-    districts: {} | null;
+    districts: any[] | null;
     minRent: number | null;
     maxRent: number | null;
     userDescription: string | null;
@@ -67,7 +67,7 @@ interface UserJourneyState {
 
 interface UserJourneyActions {
   genderIdentity: {value: string};
-  districts: any[];
+  districts: any[] | null;
   minRent: number;
   maxRent: number;
   textAboutUser: string;
@@ -121,6 +121,7 @@ export const userJourneySlice = createSlice({
 
     setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
       const data = action.payload;
+      console.log('payload', action.payload);
       const userDetails = state.userDetails;
       // Renter
       if (state.userType === 'renter') {
@@ -148,7 +149,7 @@ export const userJourneySlice = createSlice({
 
       // All
       userDetails.flatFeatures = data?.flatFeatures || userDetails.flatFeatures;
-      userDetails.flatMate = data.flatMate || userDetails.flatMate;
+      userDetails.flatMate = data?.flatMate || userDetails.flatMate;
       if (!data?.warmRent && data?.warmRent !== undefined) {
         userDetails.warmRent = data?.warmRent;
       }
@@ -168,6 +169,7 @@ export const userJourneySlice = createSlice({
           warmRent: userDetails.warmRent,
         });
       } else if (state.userType === 'lesser') {
+        console.log('state', state);
         createFlatProfile({
           flatFeatures: userDetails.flatFeatures || {},
           cost: userDetails.cost || 0,

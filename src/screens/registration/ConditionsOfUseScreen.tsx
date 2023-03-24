@@ -47,7 +47,7 @@ const ConditionsOfUseScreen = ({navigation, route}: any) => {
       <View style={styles.options}>
         <UserJourneySaveButton
           value="Continue"
-          onPress={() => navigation.navigate('dashboard')}
+          onPress={() => navigation.navigate('search')}
         />
 
         <CoreButton
