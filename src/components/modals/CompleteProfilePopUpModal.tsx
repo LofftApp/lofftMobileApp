@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   Modal,
+  Pressable
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -35,15 +36,16 @@ const CompleteProfilePopUpModal = ({openModal, pullData, profileNotDoneObject}:a
             <Text style={fontStyles.headerMedium}>
               {profileNotDoneObject.header}
             </Text>
-            <CrossIcon
+            <Pressable
               style={{
                 marginTop: 16,
                 marginRight: 14,
               }}
               onPress={() => {
                 pullData(false);
-              }}
-            />
+              }}>
+              <CrossIcon />
+            </Pressable>
           </View>
           <View>
             <Image source={profileNotDoneObject.icon} />
