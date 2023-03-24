@@ -44,7 +44,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
   const {price, match} = route.params;
 
   //This is a placeholder for the CompleteProfileStep
-  const [completeProfile, setCompleteProfile] = useState(true);
+  const [completeProfile, setCompleteProfile] = useState(false);
 
   //Placeholder for if Out of Tokens
   const [outOfTokens, setOutOfTokens] = useState(true);
