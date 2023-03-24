@@ -16,7 +16,7 @@ import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 // Redux 🏗️
-import {useSelector} from 'react-redux';
+import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
@@ -30,7 +30,7 @@ import Chips from '@Components/buttons/Chips';
 
 const FlatShowScreen = ({route, navigation, i}: any) => {
   const [flatIndex] = useState(route.params.i);
-  const flat = useSelector((state: any) => state.flats.allFlats[flatIndex]);
+  const flat = useAppSelector((state: any) => state.flats.allFlats[flatIndex]);
 
   const [description, setDescription] = useState(flat.description);
 
