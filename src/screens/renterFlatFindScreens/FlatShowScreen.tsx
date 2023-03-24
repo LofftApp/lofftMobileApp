@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   View,
   Text,
@@ -25,10 +25,12 @@ import {useSelector} from 'react-redux';
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
-import ScreenImage from '@Assets/images/Illustration.png';
+import CompleteProfileImage from '@Assets/images/Illustration.png';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
+import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
+import {profile} from 'console';
 
 // Styles
 
@@ -42,12 +44,15 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
   const {price, match} = route.params;
 
   //This is a placeholder for the CompleteProfileStep
-  const [completeProfile, setCompleteProfile] = useState(false);
+  const [completeProfile, setCompleteProfile] = useState(true);
+
+  //Placeholder for if Out of Tokens
+  const [outOfTokens, setOutOfTokens] = useState(true);
 
   //Modal
-  const [modalOpen, setModalOpen] = useState(false);
-
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
+
+  const [blurActivated, setBlurActivated] = useState(false);
 
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
@@ -64,11 +69,34 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
     '🌱',
   ]);
 
+  const profileNotDoneObject = {
+    header: "Your application profile isn't complete",
+    description:
+      'To apply for this flat, please go to the profile section and complete your application. This takes only 5 minutes!',
+    icon: CompleteProfileImage,
+  };
+  const outOfTokensObject = {
+    header: 'Why are tokens limited?',
+    description:
+      "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
+    icon: CompleteProfileImage,
+  };
+
+  const pullData = data => {
+    setBlurActivated(data);
+  };
+
   return (
     <View style={styles.pageContainer}>
       {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
-      <HighlightedButtons navigation={navigation} id={flatIndex} />
-      <LofftHeaderPhoto imageContainerHeight={300} images={flat.images} />
+      {!blurActivated ? (
+        <HighlightedButtons navigation={navigation} id={flatIndex} />
+      ) : null}
+      <LofftHeaderPhoto
+        imageContainerHeight={300}
+        images={flat.images}
+        activeBlur={blurActivated}
+      />
       <SafeAreaView>
         <ScrollView style={styles.scrollView}>
           <View style={styles.centralizerContainer}>
@@ -177,7 +205,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
                 </Text>
               </View>
               <View>
-                {completeProfile ? (
+                {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
                     style={{
@@ -187,13 +215,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
                       marginBottom: 30,
                     }}
                     disabled={false}
-                    onPress={() =>
-                      navigation.navigate(
-                        completeProfile
-                          ? 'applyforflat'
-                          : 'completeProfileScreen',
-                      )
-                    }
+                    onPress={() => navigation.navigate('applyforflat')}
                   />
                 ) : (
                   <CoreButton
@@ -205,64 +227,19 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
                       marginBottom: 30,
                     }}
                     disabled={false}
-                    //add on press functionality => display: none everything but image, add blurRadius={65} to image
-                    onPress={() => setModalOpen(true)}
+                    onPress={() => pullData(true)}
                   />
                 )}
               </View>
-              <Modal
-                visible={modalOpen}
-                animationType="slide"
-                transparent={true}>
-                <View style={styles.modalContainer}>
-                  <View style={styles.completeProfileContainer}>
-                    <View style={styles.headerContainer}>
-                      <Text style={fontStyles.headerMedium}>
-                        Your application profile isn't complete
-                      </Text>
-                      <CrossIcon
-                        style={{
-                          marginTop: 16,
-                          marginRight: 14,
-                        }}
-                        onPress={() => setModalOpen(false)}
-                      />
-                    </View>
-                    <View>
-                      <Image source={ScreenImage} />
-                    </View>
-                    <View>
-                      <Text style={fontStyles.bodyMedium}>
-                        To apply for this flat, please go to the profile section
-                        and complete your application. This takes only 5
-                        minutes!
-                      </Text>
-                    </View>
-                    <CoreButton
-                      value="Complete my profile now"
-                      style={{
-                        borderWidth: 2,
-                        marginTop: 14,
-                        height: 45,
-                        width: '100%',
-                      }}
-                      disabled={false}
-                    />
-                    <CoreButton
-                      value="Do it later"
-                      style={{
-                        borderWidth: 2,
-                        marginTop: 5,
-                        height: 45,
-                        width: '100%',
-                      }}
-                      disabled={false}
-                      invert={true}
-                      onPress={() => setModalOpen(false)}
-                    />
-                  </View>
-                </View>
-              </Modal>
+              <CompleteProfilePopUpModal
+                openModal={blurActivated}
+                pullData={pullData}
+                profileNotDoneObject={
+                  completeProfile && outOfTokens
+                    ? outOfTokensObject
+                    : profileNotDoneObject
+                }
+              />
               {/* Continue codeing from here !!!! */}
             </View>
           </View>
@@ -323,7 +300,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
   },
   modalContainer: {
-    height: '60%',
+    height: '64%',
     marginTop: 'auto',
     backgroundColor: 'white',
     borderRadius: 10,
