@@ -8,6 +8,7 @@ interface UserState {
   uid: string | null;
   type: string | null;
   admin: boolean;
+  profile: boolean;
   savedFlats: any[];
   profileDetails: any[];
   searchCriteria: any[];
@@ -18,6 +19,7 @@ const initialState = {
   uid: null,
   type: null,
   admin: false,
+  profile: false,
   savedFlats: [],
   profileDetails: [],
   searchCriteria: [],
@@ -48,9 +50,12 @@ const usersSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
-      state.profileDetails = action.payload?.profileDetails;
-      state.searchCriteria = action.payload?.searchCriteria;
-      state.savedFlats = action.payload?.savedFlats;
+      if (action.payload) {
+        state.profile = true;
+        state.profileDetails = action.payload?.profileDetails;
+        state.searchCriteria = action.payload?.searchCriteria;
+        state.savedFlats = action.payload?.savedFlats;
+      }
     });
   },
 });
