@@ -82,7 +82,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
     icon: CompleteProfileImage,
   };
 
-  const pullData = data => {
+  const pullData = (data: any) => {
     setBlurActivated(data);
   };
 
