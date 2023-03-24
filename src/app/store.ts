@@ -4,7 +4,7 @@ import imageUploadReducer from '@Redux/imageHandling/userImageUploadSlice';
 import userReducer from '@Redux/user/usersSlice';
 import flatsSlice from '@Redux/flat/flatsSlice';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     userDetails: userJourneyReducer,
     imageUpload: imageUploadReducer,
@@ -12,3 +12,6 @@ export default configureStore({
     flats: flatsSlice,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

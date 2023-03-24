@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import type {RootState} from '../../app/store';
 
 import {
   createUserProfile,
@@ -42,12 +43,21 @@ const lesserJourney = () => {
   };
 };
 
+interface UserJourneyState {
+  userType: string | null;
+  userDetails: any;
+  userJourney: any;
+}
+
+const initialState: UserJourneyState = {
+  userType: null,
+  userDetails: {},
+  userJourney: null,
+};
+
 export const userJourneySlice = createSlice({
   name: 'userDetails',
-  initialState: {
-    userType: null,
-    userDetails: {},
-  },
+  initialState,
   reducers: {
     setUserType: (state: any, action: any) => {
       state.userType = action.payload;
@@ -126,4 +136,5 @@ export const userJourneySlice = createSlice({
 
 export const {setUserType, setDetails, saveUserDetails} =
   userJourneySlice.actions;
+export const selectUserType = (state: RootState) => state;
 export default userJourneySlice.reducer;

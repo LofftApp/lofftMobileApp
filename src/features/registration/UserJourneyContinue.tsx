@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from './../../app/hooks';
 import {setDetails} from './userJourneySlice';
 
 // Components 🪢
@@ -16,11 +16,11 @@ const UserJourneyContinue = ({
   details,
 }: any) => {
   // const userType = useSelector((state: any) => state.userDetails.userType);
-  const userJourney = useSelector(
+  const userJourney = useAppSelector(
     (state: any) => state.userDetails.userJourney,
   );
   const [currentPageKey] = useState(getKeyByValue(userJourney));
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <CoreButton
       value={value}

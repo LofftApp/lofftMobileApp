@@ -15,7 +15,7 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 // Redux 🏪
-import {useDispatch} from 'react-redux';
+import {useAppDispatch} from './../../app/hooks';
 import {setAllFlats} from '@Redux/flat/flatsSlice';
 
 // StyleSheets 🖼️
@@ -24,7 +24,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FlatListScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();

@@ -8,7 +8,7 @@
 import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 // Redux 🏗️
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppDispatch} from './src/app/hooks';
 import {setUserID, fetchUserProfile} from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
@@ -31,10 +31,8 @@ import AdminScreen from '@Screens/admin/adminScreen';
 
 const RootStack = createNativeStackNavigator();
 
-const checkUserDataExists = async (uid: string) => {};
-
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);

@@ -1,6 +1,13 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import type {RootState} from '../../app/store';
 
-const initialState = {
+interface FlatsState {
+  allFlats: any[];
+  favouriteFlats: any[];
+  appliedFlats: any[];
+}
+
+const initialState: FlatsState = {
   allFlats: [],
   favouriteFlats: [],
   appliedFlats: [],
@@ -17,4 +24,5 @@ const flatsSlice = createSlice({
 });
 
 export const {setAllFlats} = flatsSlice.actions;
+export const selectAllFlats = (state: RootState) => state.flats;
 export default flatsSlice.reducer;

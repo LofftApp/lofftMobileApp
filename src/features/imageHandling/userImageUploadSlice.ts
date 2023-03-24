@@ -1,14 +1,21 @@
 // Redux 💿
 import {createSlice} from '@reduxjs/toolkit';
+import type {RootState} from '../../app/store';
 
 // Api 🧠
 import {deleteImage} from '@Api/firebase/firebaseStorage';
 
+interface ImageUploadState {
+  imagesToUpload: any[];
+}
+
+const initialState: ImageUploadState = {
+  imagesToUpload: [],
+};
+
 export const imageUploadSlice = createSlice({
   name: 'imageUpload',
-  initialState: {
-    imagesToUpload: [],
-  },
+  initialState,
   reducers: {
     setImageToUpload: (state: any, action: any) => {
       const photos = state.imagesToUpload;
@@ -25,4 +32,5 @@ export const imageUploadSlice = createSlice({
 });
 
 export const {setImageToUpload, deleteImageToUpload} = imageUploadSlice.actions;
+export const selectImagesToUpload = (state: RootState) => state.imageUpload;
 export default imageUploadSlice.reducer;

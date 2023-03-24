@@ -25,16 +25,6 @@ export const createUserProfile = async (data: any) => {
   await firestore().collection('users').doc(currentUserId).set(userData);
 };
 
-// export const getCurrentUserProfile = async (uid: string) => {
-//   // const disppatch = useDispatch();
-//   try {
-//     const response = await firestore().collection('users').doc(uid).get();
-//     // disppatch(setUserProfile(response.data()));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 export const createFlatProfile = async (data: any) => {
   const currentUserId = data.userId || auth().currentUser?.uid;
   const userAddedToData = data;
@@ -146,7 +136,6 @@ export const seedCheckUserExists = async (userId: string) => {
 // Save Flat to user list
 
 export const saveFlatToUserLikes = async ({flatId, add}: any) => {
-  console.log(flatId);
   try {
     const currentUser: any = await auth()?.currentUser?.uid;
     if (add) {

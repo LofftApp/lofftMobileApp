@@ -1,11 +1,11 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from './../../app/hooks';
 import {setUserType} from './userJourneySlice';
 import IconButton from '@Components/buttons/IconButton';
 
 const UserJourneyButton = ({text, icon, style, onPress, type}: any) => {
-  const userType = useSelector((state: any) => state.userDetails.userType);
-  const dispatch = useDispatch();
+  const userType = useAppSelector((state: any) => state.userDetails.userType);
+  const dispatch = useAppDispatch();
   return (
     <IconButton
       text={text}

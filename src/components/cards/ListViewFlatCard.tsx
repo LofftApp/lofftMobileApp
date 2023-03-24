@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from './../../app/hooks';
 
 // Firebase & API 🧠
 import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
@@ -31,8 +31,10 @@ const ListViewFlatCard = ({
   navigation,
   i,
 }: any) => {
+  const dispatch = useAppDispatch();
+
   const [screen] = useState(1);
-  const [save, setSave] = useState(false);
+  const save = useAppSelector((state: any) => state.flats.save);
   useEffect(() => {
     if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
       setSave(true);
@@ -66,7 +68,8 @@ const ListViewFlatCard = ({
                   <Pressable
                     style={styles.flatCardSaveButton}
                     onPress={() => {
-                      setSave(!save);
+                      // ! here
+                      dispatch(saveFlatToUserLikes({flatId, add: save}));
                       saveFlatToUserLikes({flatId, add: save});
                     }}>
                     {save === true ? (

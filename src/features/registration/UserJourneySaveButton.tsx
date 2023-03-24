@@ -1,12 +1,12 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useAppDispatch} from './../../app/hooks';
 import {saveUserDetails} from './userJourneySlice';
 
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const UserJourneySaveButton = ({onPress, value}: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <CoreButton
       value={value}

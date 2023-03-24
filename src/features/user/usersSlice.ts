@@ -1,9 +1,22 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import type {RootState} from '../../app/store';
+import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
 
 // firestore
 import firestore from '@react-native-firebase/firestore';
 
-const initialState = {
+// Added for typescript defining the type
+interface UserState {
+  loading: boolean;
+  uid: string | null;
+  type: string | null;
+  admin: boolean;
+  savedFlats: any[];
+  profileDetails: any[];
+  searchCriteria: any[];
+}
+
+const initialState: UserState = {
   loading: false,
   uid: null,
   type: null,
@@ -24,6 +37,14 @@ export const fetchUserProfile = createAsyncThunk(
       console.log(error);
     }
     console.log("Getting user's profile");
+  },
+);
+
+export const updateSavedFlats = createAsyncThunk(
+  'users/updateSavedFlats',
+  async (payload: any) => {
+    console.log('payload', payload);
+    // saveFlatToUserLikes(payload);
   },
 );
 
@@ -55,4 +76,5 @@ export const fetchCurrentUser = createAsyncThunk(
 );
 
 export const {setUserID, setUserProfile} = usersSlice.actions;
+export const selectUser = (state: RootState) => state.user;
 export default usersSlice.reducer;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from './../../app/hooks';
 // API 🧠
 import {libraryImageUpload} from '@Api/firebase/firebaseStorage';
 import {setImageToUpload} from './userImageUploadSlice';
@@ -9,8 +9,8 @@ import {setDetails} from '@Redux/registration/userJourneySlice';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ImageUploadButton = ({onPress = () => {}}) => {
-  const dispatch = useDispatch();
-  const userImages = useSelector(
+  const dispatch = useAppDispatch();
+  const userImages = useAppSelector(
     (state: any) => state.imageUpload.imagesToUpload,
   );
   const uploadLimit = 5 - userImages.length;
