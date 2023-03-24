@@ -44,6 +44,7 @@ const lesserJourney = () => {
 
 interface UserJourneyState {
   userType: string | null;
+  userJourney: any;
   userDetails: {
     genderIdentity: string | null;
     districts: {} | null;
@@ -84,6 +85,7 @@ interface UserJourneyActions {
 
 const initialState: UserJourneyState = {
   userType: null,
+  userJourney: {},
   userDetails: {
     genderIdentity: null,
     districts: null,
@@ -108,7 +110,7 @@ export const userJourneySlice = createSlice({
   name: 'userDetails',
   initialState,
   reducers: {
-    setUserType: (state: any, action: any) => {
+    setUserType: (state, action: PayloadAction<string>) => {
       state.userType = action.payload;
       if (action.payload === 'lesser') {
         state.userJourney = lesserJourney();
