@@ -9,7 +9,7 @@ import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 // Redux 🏗️
 import {useSelector, useDispatch} from 'react-redux';
-import {setUserID} from '@Redux/user/usersSlice';
+import {setUserID, fetchUserProfile} from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -46,6 +46,8 @@ const App = () => {
     const userToken: any = await currentUser?.getIdTokenResult();
     dispatch(setUserID(currentUser?.uid));
 
+    // Get Current user profile
+    dispatch(fetchUserProfile(currentUser?.uid));
     userToken?.claims?.role ? setAdmin(true) : setAdmin(false);
 
     setUser(user);

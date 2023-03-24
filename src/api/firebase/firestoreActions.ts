@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+
 // Save user profile
 
 export const createUserProfile = async (data: any) => {
@@ -23,6 +24,16 @@ export const createUserProfile = async (data: any) => {
   const currentUserId = data.userId || auth().currentUser?.uid;
   await firestore().collection('users').doc(currentUserId).set(userData);
 };
+
+// export const getCurrentUserProfile = async (uid: string) => {
+//   // const disppatch = useDispatch();
+//   try {
+//     const response = await firestore().collection('users').doc(uid).get();
+//     // disppatch(setUserProfile(response.data()));
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 export const createFlatProfile = async (data: any) => {
   const currentUserId = data.userId || auth().currentUser?.uid;
