@@ -1,7 +1,17 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 
 // firestore
 import firestore from '@react-native-firebase/firestore';
+
+interface UserState {
+  loading: boolean;
+  uid: string | null;
+  type: string | null;
+  admin: boolean;
+  savedFlats: any[];
+  profileDetails: any[];
+  searchCriteria: any[];
+}
 
 const initialState = {
   loading: false,
@@ -31,7 +41,7 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setUserID: (state, action) => {
+    setUserID: (state, action: PayloadAction<string>) => {
       state.uid = action.payload;
     },
     setUserProfile: (state, action) => {},
