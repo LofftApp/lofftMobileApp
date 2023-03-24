@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 import {
   createUserProfile,
@@ -42,12 +42,71 @@ const lesserJourney = () => {
   };
 };
 
+interface UserJourneyState {
+  userType: string | null;
+  userDetails: {
+    genderIdentity: string | null;
+    districts: {} | null;
+    minRent: number | null;
+    maxRent: number | null;
+    userDescription: string | null;
+    textAboutUser: string | null;
+    cost: number | null;
+    location: string | null;
+    district: string | null;
+    fromDate: string | null;
+    perminant: boolean | null;
+    untilDate: string | null;
+    images: string[] | null;
+    flatFeatures: string[] | null;
+    flatMate: string[] | null;
+    warmRent: number | null;
+  };
+}
+
+interface UserJourneyActions {
+  genderIdentity: {value: string};
+  districts: any[];
+  minRent: number;
+  maxRent: number;
+  textAboutUser: string;
+  cost: number;
+  location: string;
+  district: string;
+  fromDate: string;
+  perminant: boolean;
+  untilDate: string;
+  images: string[];
+  flatFeatures: string[];
+  flatMate: string[];
+  warmRent: number;
+}
+
+const initialState: UserJourneyState = {
+  userType: null,
+  userDetails: {
+    genderIdentity: null,
+    districts: null,
+    minRent: null,
+    maxRent: null,
+    userDescription: null,
+    textAboutUser: null,
+    cost: null,
+    location: null,
+    district: null,
+    fromDate: null,
+    perminant: null,
+    untilDate: null,
+    images: null,
+    flatFeatures: null,
+    flatMate: null,
+    warmRent: null,
+  },
+};
+
 export const userJourneySlice = createSlice({
   name: 'userDetails',
-  initialState: {
-    userType: null,
-    userDetails: {},
-  },
+  initialState,
   reducers: {
     setUserType: (state: any, action: any) => {
       state.userType = action.payload;
@@ -58,7 +117,7 @@ export const userJourneySlice = createSlice({
       }
     },
 
-    setDetails: (state: any, action: any) => {
+    setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
       const data = action.payload;
       const userDetails = state.userDetails;
       // Renter
@@ -87,7 +146,7 @@ export const userJourneySlice = createSlice({
 
       // All
       userDetails.flatFeatures = data?.flatFeatures || userDetails.flatFeatures;
-      userDetails.flatMate = data?.flatMate || userDetails.flatMate;
+      userDetails.flatMate = data.flatMate || userDetails.flatMate;
       if (!data?.warmRent && data?.warmRent !== undefined) {
         userDetails.warmRent = data?.warmRent;
       }
