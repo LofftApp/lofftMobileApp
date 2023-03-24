@@ -27,7 +27,7 @@ import NewUserNavigator from './navigationStacks/NewUserNavigator';
 import DashboardNavigator from './navigationStacks/DashboardNavigator';
 
 // Dev Screesn 🛠️
-import AdminScreen from '@Screens/devScreens/adminScreen';
+import AdminScreen from '@Screens/admin/adminScreen';
 
 const RootStack = createNativeStackNavigator();
 
