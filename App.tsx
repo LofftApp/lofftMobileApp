@@ -59,6 +59,8 @@ const App = () => {
       setInitializing(false);
     }
   };
+  const userProfile = useAppSelector((state: any) => state.user.profile);
+  console.log('userProfile', userProfile);
 
   useEffect(() => {
     const currentUser = auth().currentUser;
@@ -104,17 +106,16 @@ const App = () => {
   if (initializing) {
     return null;
   }
-  console.log('admin', admin);
   return (
     <>
       {user ? (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : !userType ? (
-            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
-          ) : (
+          ) : userProfile ? (
             <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          ) : (
+            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           )}
         </RootStack.Navigator>
       ) : (

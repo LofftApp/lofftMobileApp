@@ -20,6 +20,7 @@ const UserJourneyContinue = ({
   );
   const [currentPageKey] = useState(getKeyByValue(userJourney));
   const dispatch = useAppDispatch();
+
   return (
     <CoreButton
       value={value}

@@ -1,4 +1,4 @@
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
   createUserProfile,
@@ -66,7 +66,7 @@ interface UserJourneyState {
 }
 
 interface UserJourneyActions {
-  genderIdentity: {value: string};
+  genderIdentity: {id: number; toggle: boolean; value: string};
   districts: any[] | null;
   minRent: number;
   maxRent: number;
@@ -111,7 +111,9 @@ export const userJourneySlice = createSlice({
   initialState,
   reducers: {
     setUserType: (state, action: PayloadAction<string>) => {
+      console.log('action payload', action.payload);
       state.userType = action.payload;
+      console.log('state user type', state.userType);
       if (action.payload === 'lesser') {
         state.userJourney = lesserJourney();
       } else if (action.payload === 'renter') {
@@ -121,8 +123,8 @@ export const userJourneySlice = createSlice({
 
     setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
       const data = action.payload;
-      console.log('payload', action.payload);
       const userDetails = state.userDetails;
+      console.log('data', data);
       // Renter
       if (state.userType === 'renter') {
         userDetails.genderIdentity =
@@ -156,6 +158,7 @@ export const userJourneySlice = createSlice({
     },
 
     saveUserDetails: (state: any) => {
+      console.log('state user type', state.userType);
       const userDetails = state.userDetails;
       if (state.userType === 'renter') {
         createUserProfile({
@@ -169,7 +172,6 @@ export const userJourneySlice = createSlice({
           warmRent: userDetails.warmRent,
         });
       } else if (state.userType === 'lesser') {
-        console.log('state', state);
         createFlatProfile({
           flatFeatures: userDetails.flatFeatures || {},
           cost: userDetails.cost || 0,
