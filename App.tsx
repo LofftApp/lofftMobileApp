@@ -44,7 +44,8 @@ const App = () => {
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
     const userToken: any = await currentUser?.getIdTokenResult();
-    dispatch(setUserID(currentUser?.uid));
+    const uid: string | null = currentUser?.uid;
+    dispatch(setUserID(uid));
 
     // Get Current user profile
     dispatch(fetchUserProfile(currentUser?.uid));
