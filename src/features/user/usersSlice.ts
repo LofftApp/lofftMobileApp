@@ -1,21 +1,47 @@
-import {createSlice, nanoid, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+
+// firestore
+import firestore from '@react-native-firebase/firestore';
 
 const initialState = {
+  loading: false,
   uid: null,
   type: null,
   admin: false,
+  savedFlats: [],
+  profileDetails: [],
+  searchCriteria: [],
 };
+
+// Middlewares
+export const fetchUserProfile = createAsyncThunk(
+  'users/fetchUserProfile',
+  async (uid: string) => {
+    try {
+      const response = await firestore().collection('users').doc(uid).get();
+      return response.data();
+    } catch (error) {
+      console.log(error);
+    }
+    console.log("Getting user's profile");
+  },
+);
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setUid: (state, action) => {
-      state.uid = action.payload;
-    },
     setUserID: (state, action) => {
       state.uid = action.payload;
     },
+    setUserProfile: (state, action) => {},
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
+      state.profileDetails = action.payload?.profileDetails;
+      state.searchCriteria = action.payload?.searchCriteria;
+      state.savedFlats = action.payload?.savedFlats;
+    });
   },
 });
 
@@ -28,5 +54,5 @@ export const fetchCurrentUser = createAsyncThunk(
   },
 );
 
-export const {setUid, setUserID} = usersSlice.actions;
+export const {setUserID, setUserProfile} = usersSlice.actions;
 export default usersSlice.reducer;
