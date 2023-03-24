@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useSelector, useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 
 // Firebase & API 🧠
 import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
