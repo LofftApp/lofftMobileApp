@@ -1,37 +1,36 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 // Components 🪢
-import SignInForm from '@Components/Forms/SignInForm';
+import SignUpForm from '@Components/Forms/SignUpForm';
 import SignInWith from '@Components/SignInWith';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Assets 🛠️
-import {SignInBackground} from '../assets';
-import {HiFive} from '../assets';
+import {Search} from '../../assets';
+import {SignUpBackground} from '../../assets';
 
-const SignInScreen = ({navigation}: any) => {
+const SignUpScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
-        <HiFive style={styles.image} />
+        <Search style={styles.image} />
       </View>
-      <SignInBackground style={styles.backgroundImage} />
+      <SignUpBackground style={styles.backgroundImage} />
       <View style={styles.formWrap}>
-        <View style={styles.signInForm}>
-          <SignInForm />
+        <View style={styles.signUpForm}>
+          <SignUpForm />
         </View>
         <View style={styles.signInWith}>
-          <SignInWith navigation={navigation} />
+          <SignInWith />
           <Text style={styles.text}>
-            Don't have an account yet?{'     '}
-            <Text
-              style={styles.link}
-              onPress={() => navigation.navigate('flatShow')}>
-              Sign Up
-            </Text>
+            Already have an account?{'     '}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SignInScreen')}>
+              <Text style={styles.link}>Sign in</Text>
+            </TouchableOpacity>
           </Text>
         </View>
       </View>
@@ -47,26 +46,27 @@ const styles = StyleSheet.create({
   image: {
     height: '70%',
     overflow: 'visible',
-    marginTop: 50,
+    // marginTop: -60,
   },
   imageWrap: {
+    // paddingTop: 130,
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
   },
   backgroundImage: {
     position: 'absolute',
-    top: -10,
+    top: -20,
     zIndex: 1,
   },
   formWrap: {
-    zIndex: 2,
     flex: 3,
+    zIndex: 2,
     paddingHorizontal: 10,
     backgroundColor: Color.White['100'],
     borderRadius: 30,
   },
-  signInForm: {
+  signUpForm: {
     flex: 2,
   },
   signInWith: {
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+export default SignUpScreen;
