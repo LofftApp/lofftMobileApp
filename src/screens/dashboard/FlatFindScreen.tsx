@@ -32,6 +32,7 @@ const FlatListScreen = ({navigation}: any) => {
       if (flats) {
         if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
+          console.log('reOrder', reOrder);
           dispatch(setAllFlats(reOrder));
           setSortedFlats(reOrder);
         } else {

@@ -17,18 +17,12 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const FinderBudgetScreen = ({navigation, route}: any) => {
+const FinderBudgetScreen = ({navigation}: any) => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
   const [minFocus, setMinFocus] = useState(false);
   const [maxFocus, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
-
-  const user = {
-    selectedPreferences: route.params.selectedPreferences,
-    gender: route.params.gender,
-    selectedDistricts: route.params.selectedDistricts,
-  };
 
   const handleMin = (num: any) => {
     setMinPrice(num.toString());
@@ -74,7 +68,8 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
             <Text>Min. price</Text>
             <InputFieldText
               placeholder="0"
-              value={minPrice}
+              // String is passed as value into text form.
+              value={String(minPrice)}
               type="currency"
               onChangeText={(num: string) => {
                 handleMin(num);
@@ -86,7 +81,8 @@ const FinderBudgetScreen = ({navigation, route}: any) => {
             <Text>Max. price</Text>
             <InputFieldText
               placeholder="5000"
-              value={maxPrice}
+              // String is passed as value into text form.
+              value={String(maxPrice)}
               type="currency"
               onChangeText={(num: string) => handleMax(num)}
             />
