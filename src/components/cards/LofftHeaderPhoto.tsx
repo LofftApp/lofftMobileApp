@@ -4,7 +4,11 @@ import {StyleSheet, FlatList, Image, Dimensions} from 'react-native';
 // Components
 import PaginationBar from '@Components/bars/PaginationBar';
 
-const LofftHeaderPhoto = ({imageContainerHeight, images, activeBlur = null}: any) => {
+const LofftHeaderPhoto = ({
+  imageContainerHeight,
+  images,
+  activeBlur = null,
+}: any) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   const onViewableItemsChanged = useCallback(
@@ -14,8 +18,6 @@ const LofftHeaderPhoto = ({imageContainerHeight, images, activeBlur = null}: any
     },
     [],
   );
-
-  console.log(activeBlur);
 
   return (
     <>

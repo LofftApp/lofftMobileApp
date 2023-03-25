@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+// Redux 🏗️
+import {useAppDispatch} from '@ReduxCore/hooks';
+import {saveUserDetails} from '@Redux/registration/userJourneySlice';
+
 // API - Firebase 🔥
 import auth from '@react-native-firebase/auth';
 
@@ -17,6 +21,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const ConditionsOfUseScreen = ({navigation, route}: any) => {
+  const dispatch = useAppDispatch();
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
@@ -47,7 +52,7 @@ const ConditionsOfUseScreen = ({navigation, route}: any) => {
       <View style={styles.options}>
         <UserJourneySaveButton
           value="Continue"
-          onPress={() => navigation.navigate('dashboard')}
+          onPress={() => dispatch(saveUserDetails)}
         />
 
         <CoreButton

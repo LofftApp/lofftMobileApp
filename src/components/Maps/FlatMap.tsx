@@ -5,7 +5,7 @@ import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useSelector} from 'react-redux';
+import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components 🪢
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
@@ -14,7 +14,7 @@ import MapMarker from './MapMarker';
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 const FlatMap = () => {
-  const flats = useSelector((state: any) => state.flats.allFlats);
+  const flats = useAppSelector((state: any) => state.flats.allFlats);
   const [activeAddress, setActiveAddress] = useState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   // States
@@ -59,12 +59,10 @@ const FlatMap = () => {
   }, [flats]);
 
   const setActiveLocation = (index: number) => {
-    console.log(index);
     setSelectedIndex(index);
   };
 
   const onViewRef = React.useRef((viewableItems: any) => {
-    console.log(viewableItems.viewableItems[0]);
     setActiveLocation(Number(viewableItems.viewableItems[0].key));
   });
 
