@@ -10,6 +10,7 @@ interface UserState {
   type: string | null;
   admin: boolean;
   profile: boolean;
+  userType: string | null;
   savedFlats: string[];
   profileDetails: any[];
   searchCriteria: any[];
@@ -21,6 +22,7 @@ const initialState: UserState = {
   type: null,
   admin: false,
   profile: false,
+  userType: null,
   savedFlats: [],
   profileDetails: [],
   searchCriteria: [],
@@ -63,6 +65,7 @@ const usersSlice = createSlice({
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       if (action.payload) {
         state.profile = true;
+        state.userType = action.payload?.flats ? 'lesser' : 'renter';
         state.profileDetails = action.payload?.profileDetails;
         state.searchCriteria = action.payload?.searchCriteria;
         state.savedFlats = action.payload?.savedFlats;
