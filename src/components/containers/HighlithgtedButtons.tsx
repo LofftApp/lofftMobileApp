@@ -10,47 +10,7 @@ import {
 import Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-// DB actions
-
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import {updateDoc} from '@react-native-firebase/firestore';
-
-// Important Notice !!
-/*
-  The navigation prop has to be passed on from the corresponding parent component
-*/
-
-const HighlightedButtons = ({navigation, id}) => {
-  const [saved, setSaved] = useState(false);
-
-  const pressHeart = async (currentHeartState, id) => {
-    const uid = auth().currentUser?.uid;
-    const db = firestore();
-
-    setSaved(!currentHeartState);
-
-    try {
-      if (saved) {
-        await db
-          .collection('users')
-          .doc(uid)
-          .update({
-            savedFlats: firestore.FieldValue.arrayRemove('1234'), // '1234 should be replaced with id number'
-          });
-      } else {
-        await db
-          .collection('users')
-          .doc(uid)
-          .update({
-            savedFlats: firestore.FieldValue.arrayUnion('6728'), // '1234 should be replaced with id '
-          });
-      }
-    } catch (error) {
-      console.log('HighlightedButtons:', error);
-    }
-  };
-
+const HighlightedButtons = ({navigation, save, onPressHeart}: any) => {
   return (
     <View style={styles.actionContainer}>
       <Pressable
@@ -59,8 +19,8 @@ const HighlightedButtons = ({navigation, id}) => {
         <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
       </Pressable>
 
-      <Pressable style={styles.iconContainer} onPress={() => pressHeart(saved)}>
-        {saved ? (
+      <Pressable style={styles.iconContainer} onPress={onPressHeart}>
+        {save ? (
           <LofftIcon name="heart-filled" size={35} color={Color.Tomato[100]} />
         ) : (
           <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
@@ -88,7 +48,6 @@ const styles = StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 7,
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
 });
 

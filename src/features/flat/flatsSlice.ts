@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import type {RootState} from '@ReduxCore/store';
 
 interface CounterState {
@@ -9,6 +9,8 @@ const initialState: CounterState = {
   allFlats: [],
 };
 
+// Middlewares
+
 const flatsSlice = createSlice({
   name: 'flats',
   initialState,
@@ -17,6 +19,7 @@ const flatsSlice = createSlice({
       state.allFlats = action.payload;
     },
   },
+  extraReducers: builder => {},
 });
 
 export const {setAllFlats} = flatsSlice.actions;
