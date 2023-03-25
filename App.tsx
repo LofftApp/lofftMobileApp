@@ -9,7 +9,11 @@ import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {setUserID, fetchUserProfile} from '@Redux/user/usersSlice';
+import {
+  setUserID,
+  fetchUserProfile,
+  setUserProfile,
+} from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -31,8 +35,6 @@ import AdminScreen from '@Screens/admin/adminScreen';
 
 const RootStack = createNativeStackNavigator();
 
-const checkUserDataExists = async (uid: string) => {};
-
 const App = () => {
   const dispatch = useAppDispatch();
   // Set an initializing state whilst Firebase connects
@@ -40,14 +42,16 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [userType, setUserType] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const [initialRoute, setInitialRoute] = useState('Guest');
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
     const userToken: any = await currentUser?.getIdTokenResult();
-    if (currentUser) dispatch(setUserID(currentUser?.uid));
+    if (currentUser) {
+      dispatch(setUserID(currentUser?.uid));
+      dispatch(fetchUserProfile(currentUser?.uid));
+    }
 
-    // Get Current user profile
-    dispatch(fetchUserProfile(currentUser?.uid));
     userToken?.claims?.role ? setAdmin(true) : setAdmin(false);
 
     setUser(user);
@@ -55,17 +59,13 @@ const App = () => {
       const profileExist: any = await checkUserProfileExist();
       setUserType(profileExist);
     }
-    if (initializing) {
-      setInitializing(false);
-    }
+    if (initializing) setInitializing(false);
+    return auth().onAuthStateChanged(onAuthStateChanged);
   };
-  const userProfile = useAppSelector((state: any) => state.user.profile);
 
   useEffect(() => {
-    const currentUser = auth().currentUser;
+    const currentUser = auth()?.currentUser;
     LogRocket.init('2y6ler/lofft');
-
-    // Currently added with no restriction, though once the user will have option to approve that their data is stored.
 
     if (currentUser) {
       const credentials: any = {
@@ -74,13 +74,13 @@ const App = () => {
       };
       LogRocket.identify(currentUser.uid, credentials);
     }
-    return auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
   GoogleSignin.configure({
     webClientId:
       '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
   });
+
   // Use Effect for dev environment
   useEffect(() => {
     firestore().settings({
@@ -101,21 +101,28 @@ const App = () => {
       auth().useEmulator(`http://${host}:9099`);
     }
   }, []);
+  console.log('Initial Route: ', initialRoute);
 
-  if (initializing) {
-    return null;
-  }
+  const NavigationSelector = () => {
+    const userProfile = useAppSelector((state: any) => state.user);
+    if (userProfile.admin) {
+      setInitialRoute('admin');
+    } else if (userProfile.profile) {
+      setInitialRoute('dashboard');
+    } else {
+      setInitialRoute('profileFlow');
+    }
+  };
+
   return (
     <>
       {user ? (
-        <RootStack.Navigator screenOptions={{headerShown: false}}>
-          {admin ? (
-            <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : userProfile ? (
-            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
-          ) : (
-            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
-          )}
+        <RootStack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName={initialRoute}>
+          <RootStack.Screen name="admin" component={AdminScreen} />
+          <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
+          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
         </RootStack.Navigator>
       ) : (
         <GuestStackNavigator />
