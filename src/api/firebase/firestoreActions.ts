@@ -22,24 +22,13 @@ export const createUserProfile = async (data: any) => {
     savedFlats: [],
   };
   const currentUserId = data.userId || auth().currentUser?.uid;
-  console.log('currentUserId', currentUserId, 'userData', userData);
 
   try {
     await firestore().collection('users').doc(currentUserId).set(userData);
   } catch (error) {
-    console.log('error:', error);
+    console.log('createUserProfile:', error);
   }
 };
-
-// export const getCurrentUserProfile = async (uid: string) => {
-//   // const disppatch = useDispatch();
-//   try {
-//     const response = await firestore().collection('users').doc(uid).get();
-//     // disppatch(setUserProfile(response.data()));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 export const createFlatProfile = async (data: any) => {
   const currentUserId = data.userId || auth().currentUser?.uid;
@@ -54,7 +43,7 @@ export const createFlatProfile = async (data: any) => {
       .doc(currentUserId)
       .set({flats: [response.id], notionId: data?.notionId || null});
   } catch (error) {
-    console.log('error:', error);
+    console.log('createFlatProfile:', error);
   }
 };
 
@@ -67,7 +56,7 @@ export const checkUserProfileExist = async () => {
       .get();
     if (response.data()) return true;
   } catch (error) {
-    console.log(error);
+    console.log('checkUserProfileExist:', error);
     return false;
   }
 };
@@ -85,7 +74,6 @@ export const getFlatsFromDB = async () => {
     const response = await firestore().collection('flats').get();
     const flats: any = response.docs.map((flat: any) => {
       const data = flat.data();
-      console.log('data', data);
       return {
         flatId: flat.id,
         address: data.location,
@@ -148,14 +136,13 @@ export const seedCheckUserExists = async (userId: string) => {
       .get();
     return response.docs.length > 0;
   } catch (error) {
-    console.log(error);
+    console.log('seedCheckUserExists:', error);
   }
 };
 
 // Save Flat to user list
 
 export const saveFlatToUserLikes = async ({flatId, add}: any) => {
-  console.log(flatId);
   try {
     const currentUser: any = await auth()?.currentUser?.uid;
     if (add) {
@@ -182,6 +169,6 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
         .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
     }
   } catch (error) {
-    console.log(error);
+    console.log('saveFlatToUserLikes:', error);
   }
 };

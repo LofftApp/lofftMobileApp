@@ -33,9 +33,8 @@ export const fetchUserProfile = createAsyncThunk(
       const response = await firestore().collection('users').doc(uid).get();
       return response.data();
     } catch (error) {
-      console.log(error);
+      console.log('fetchUserProfile:', error);
     }
-    console.log("Getting user's profile");
   },
 );
 

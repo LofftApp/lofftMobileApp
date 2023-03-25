@@ -15,8 +15,6 @@ const HeaderPageContentSwitch = ({
   setActiveScreen,
   markers,
 }: any) => {
-  console.log('Active Screen:', activeScreen);
-  console.log('Active Screen:', toggleNames);
   return (
     <View style={styles.viewToggle}>
       <Pressable
