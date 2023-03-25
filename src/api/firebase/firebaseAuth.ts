@@ -63,7 +63,7 @@ export const handleSignIn = async ({email, password, setMessage}: any) => {
     const signIn = await auth().signInWithEmailAndPassword(email, password);
     return signIn;
   } catch (err: any) {
-    console.log(err);
+    console.log('handleSignIn:', err);
     return setMessage(errorHandling(err));
   }
 };

@@ -15,7 +15,9 @@
       // Assets
       "@Assets/*": ["./Assets/*"],
       // Redux
-      "@Redux/*": ["./features/*"]
+      "@Redux/*": ["./features/*"],
+      // Core Redux files
+      "@ReduxCore/*": ["./app/*"]
     }
   },
   "typeRoots": ["./types"]

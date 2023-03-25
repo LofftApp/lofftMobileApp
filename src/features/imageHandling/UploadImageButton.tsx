@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -10,7 +10,7 @@ import Colors from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
 const UploadImageButton = ({onPress}: any) => {
-  const userImages = useSelector(
+  const userImages = useAppSelector(
     (state: any) => state.imageUpload.imagesToUpload,
   );
   const disable = userImages.length >= 5;
