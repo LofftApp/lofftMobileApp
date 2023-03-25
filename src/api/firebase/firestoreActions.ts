@@ -150,6 +150,18 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
         .collection('flats')
         .doc(flatId)
         .update({
+          likedUsers: firestore.FieldValue.arrayUnion(currentUser),
+        });
+
+      await firestore()
+        .collection('users')
+        .doc(currentUser)
+        .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
+    } else {
+      await firestore()
+        .collection('flats')
+        .doc(flatId)
+        .update({
           likedUsers: firestore.FieldValue.arrayRemove(currentUser),
         });
 
@@ -157,16 +169,6 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
         .collection('users')
         .doc(currentUser)
         .update({savedFlats: firestore.FieldValue.arrayRemove(flatId)});
-    } else {
-      await firestore()
-        .collection('flats')
-        .doc(flatId)
-        .update({likedUsers: firestore.FieldValue.arrayUnion(currentUser)});
-
-      await firestore()
-        .collection('users')
-        .doc(currentUser)
-        .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
     }
   } catch (error) {
     console.log('saveFlatToUserLikes:', error);

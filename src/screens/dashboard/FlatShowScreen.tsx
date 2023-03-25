@@ -19,7 +19,8 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import {CrossIcon} from '../../assets';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
@@ -34,11 +35,14 @@ import {profile} from 'console';
 
 // Styles
 
-const FlatShowScreen = ({route, navigation, i}: any) => {
+const FlatShowScreen = ({route, navigation}: any) => {
   const [flatIndex] = useState(route.params.i);
   const flat = useAppSelector((state: any) => state.flats.allFlats[flatIndex]);
-
   const [description, setDescription] = useState(flat.description);
+  const dispatch = useAppDispatch();
+  const save = useAppSelector(state =>
+    state.user.savedFlats.includes(flat.flatId),
+  );
 
   /* Params are being passed classicly via the route helper instead of  */
   const {price, match} = route.params;
@@ -51,9 +55,7 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
 
   //Modal
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
-
   const [blurActivated, setBlurActivated] = useState(false);
-
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
@@ -88,9 +90,14 @@ const FlatShowScreen = ({route, navigation, i}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
       {!blurActivated ? (
-        <HighlightedButtons navigation={navigation} id={flatIndex} />
+        <HighlightedButtons
+          navigation={navigation}
+          save={save}
+          onPressHeart={() =>
+            dispatch(saveFlatsToFavorites({flatId: flat.flatId, add: !save}))
+          }
+        />
       ) : null}
       <LofftHeaderPhoto
         imageContainerHeight={300}

@@ -1,7 +1,8 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 
-// firestore
+// Firestore 🔥
 import firestore from '@react-native-firebase/firestore';
+import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
 
 interface UserState {
   loading: boolean;
@@ -9,12 +10,12 @@ interface UserState {
   type: string | null;
   admin: boolean;
   profile: boolean;
-  savedFlats: any[];
+  savedFlats: string[];
   profileDetails: any[];
   searchCriteria: any[];
 }
 
-const initialState = {
+const initialState: UserState = {
   loading: false,
   uid: null,
   type: null,
@@ -38,6 +39,17 @@ export const fetchUserProfile = createAsyncThunk(
   },
 );
 
+export const saveFlatsToFavorites = createAsyncThunk(
+  'users/saveFlatsToFavorites',
+  async (payload: any) => {
+    try {
+      await saveFlatToUserLikes(payload);
+    } catch (error) {
+      console.log('saveFlatsToFavorites:', error);
+    }
+  },
+);
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -54,6 +66,19 @@ const usersSlice = createSlice({
         state.profileDetails = action.payload?.profileDetails;
         state.searchCriteria = action.payload?.searchCriteria;
         state.savedFlats = action.payload?.savedFlats;
+      }
+    });
+    builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
+      const data: any = action.meta.arg;
+      console.log('data:', data);
+      if (data.add) {
+        state.savedFlats.push(data.flatId);
+        console.log('saved flats add:', state.savedFlats);
+      } else {
+        state.savedFlats = state.savedFlats.filter(
+          (flatId: string) => flatId !== data.flatId,
+        );
+        console.log('saved flats: remove', state.savedFlats);
       }
     });
   },

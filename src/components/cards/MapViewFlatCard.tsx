@@ -8,6 +8,10 @@ import {
   Dimensions,
 } from 'react-native';
 
+// Redux 🏪
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
+
 // Firebase & APIs
 import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
 import auth from '@react-native-firebase/auth';
@@ -32,12 +36,8 @@ const MapViewFlatCard = ({
   images,
   likedUsers,
 }: any) => {
-  const [save, setSave] = useState(false);
-  useEffect(() => {
-    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
-      setSave(true);
-    }
-  }, []);
+  const save = useAppSelector(state => state.user.savedFlats.includes(flatId));
+  const dispatch = useAppDispatch();
 
   return (
     <View style={styles.boundryContainer}>
@@ -54,8 +54,7 @@ const MapViewFlatCard = ({
               <MatchingScoreButton size="Small" score={match} />
               <Pressable
                 onPress={() => {
-                  setSave(!save);
-                  saveFlatToUserLikes({flatId, add: save});
+                  dispatch(saveFlatsToFavorites({flatId, add: !save}));
                 }}>
                 {save === true ? (
                   <LofftIcon
