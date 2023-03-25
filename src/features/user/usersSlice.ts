@@ -70,15 +70,12 @@ const usersSlice = createSlice({
     });
     builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
       const data: any = action.meta.arg;
-      console.log('data:', data);
       if (data.add) {
         state.savedFlats.push(data.flatId);
-        console.log('saved flats add:', state.savedFlats);
       } else {
         state.savedFlats = state.savedFlats.filter(
           (flatId: string) => flatId !== data.flatId,
         );
-        console.log('saved flats: remove', state.savedFlats);
       }
     });
   },
