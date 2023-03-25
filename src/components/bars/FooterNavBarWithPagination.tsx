@@ -18,7 +18,10 @@ const FooterNavBarWithPagination = ({
       <UserJourneyContinue
         value={buttonValue}
         disabled={disabled}
-        onPress={(value: any) => onPress(value)}
+        onPress={(value: any) => {
+          console.log('value', value);
+          onPress(value);
+        }}
         details={details}
       />
     </View>
