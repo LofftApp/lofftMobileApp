@@ -59,12 +59,10 @@ const FlatMap = () => {
   }, [flats]);
 
   const setActiveLocation = (index: number) => {
-    console.log(index);
     setSelectedIndex(index);
   };
 
   const onViewRef = React.useRef((viewableItems: any) => {
-    console.log(viewableItems.viewableItems[0]);
     setActiveLocation(Number(viewableItems.viewableItems[0].key));
   });
 

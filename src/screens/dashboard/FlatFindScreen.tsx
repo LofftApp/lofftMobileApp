@@ -28,11 +28,9 @@ const FlatListScreen = ({navigation}: any) => {
   useEffect(() => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
-      console.log('flats', flats[0]);
       if (flats) {
         if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-          console.log('reOrder', reOrder);
           dispatch(setAllFlats(reOrder));
           setSortedFlats(reOrder);
         } else {

@@ -60,7 +60,6 @@ const App = () => {
     }
   };
   const userProfile = useAppSelector((state: any) => state.user.profile);
-  console.log('userProfile', userProfile);
 
   useEffect(() => {
     const currentUser = auth().currentUser;

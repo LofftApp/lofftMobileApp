@@ -111,9 +111,7 @@ export const userJourneySlice = createSlice({
   initialState,
   reducers: {
     setUserType: (state, action: PayloadAction<string>) => {
-      console.log('action payload', action.payload);
       state.userType = action.payload;
-      console.log('state user type', state.userType);
       if (action.payload === 'lesser') {
         state.userJourney = lesserJourney();
       } else if (action.payload === 'renter') {
@@ -124,7 +122,6 @@ export const userJourneySlice = createSlice({
     setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
       const data = action.payload;
       const userDetails = state.userDetails;
-      console.log('data', data);
       // Renter
       if (state.userType === 'renter') {
         userDetails.genderIdentity =
@@ -158,7 +155,6 @@ export const userJourneySlice = createSlice({
     },
 
     saveUserDetails: (state: any) => {
-      console.log('state user type', state.userType);
       const userDetails = state.userDetails;
       if (state.userType === 'renter') {
         createUserProfile({

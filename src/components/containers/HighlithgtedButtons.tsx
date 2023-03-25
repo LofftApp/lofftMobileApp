@@ -25,14 +25,13 @@ const HighlightedButtons = ({navigation, id}) => {
   const [saved, setSaved] = useState(false);
 
   const pressHeart = async (currentHeartState, id) => {
-
     const uid = auth().currentUser?.uid;
     const db = firestore();
 
     setSaved(!currentHeartState);
 
     try {
-      if (saved){
+      if (saved) {
         await db
           .collection('users')
           .doc(uid)
@@ -48,9 +47,8 @@ const HighlightedButtons = ({navigation, id}) => {
           });
       }
     } catch (error) {
-      console.log(error);
+      console.log('HighlightedButtons:', error);
     }
-
   };
 
   return (
