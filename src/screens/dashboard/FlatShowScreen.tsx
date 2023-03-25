@@ -10,13 +10,11 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
-  Modal,
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
 import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import {CrossIcon} from '../../assets';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -215,24 +213,14 @@ const FlatShowScreen = ({route, navigation}: any) => {
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
-                    style={{
-                      borderWidth: 2,
-                      marginTop: 14,
-                      height: 45,
-                      marginBottom: 30,
-                    }}
+                    style={styles.applyCoreButton}
                     disabled={false}
                     onPress={() => navigation.navigate('applyforflat')}
                   />
                 ) : (
                   <CoreButton
                     value="Apply"
-                    style={{
-                      borderWidth: 2,
-                      marginTop: 14,
-                      height: 45,
-                      marginBottom: 30,
-                    }}
+                    style={styles.applyCoreButton}
                     disabled={false}
                     onPress={() => pullData(true)}
                   />
@@ -247,7 +235,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
                     : profileNotDoneObject
                 }
               />
-              {/* Continue codeing from here !!!! */}
+              {/* Continue coding from here !!!! */}
             </View>
           </View>
         </ScrollView>
@@ -323,6 +311,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
+  },
+  applyCoreButton: {
+    borderWidth: 2,
+    marginTop: 14,
+    height: 45,
+    marginBottom: 30,
   },
 });
 
