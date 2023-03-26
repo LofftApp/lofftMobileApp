@@ -37,12 +37,14 @@ import {profile} from 'console';
 
 const FlatShowScreen = ({route, navigation}: any) => {
   const [flatIndex] = useState(route.params.i);
+  const userType = useAppSelector((state: any) => state.user.userType);
+  let save = false;
   const flat = useAppSelector((state: any) => state.flats.allFlats[flatIndex]);
   const [description, setDescription] = useState(flat.description);
   const dispatch = useAppDispatch();
-  const save = useAppSelector(state =>
-    state.user.savedFlats.includes(flat.flatId),
-  );
+  if (userType === 'renter') {
+    save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
+  }
 
   /* Params are being passed classicly via the route helper instead of  */
   const {price, match} = route.params;
