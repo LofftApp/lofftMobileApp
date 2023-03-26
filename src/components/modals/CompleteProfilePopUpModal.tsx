@@ -1,33 +1,19 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Modal,
-  Pressable
-} from 'react-native';
-
-import Color from '@StyleSheets/lofftColorPallet.json';
-import IconButton from '@Components/buttons/IconButton';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import {CrossIcon} from '../../assets';
+import React from 'react';
+import {View, Text, StyleSheet, Image, Modal, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useSelector} from 'react-redux';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
-import PaginationBar from '@Components/bars/PaginationBar';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
-import ScreenImage from '@Assets/images/Illustration.png';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {CoreButton} from '@Components/buttons/CoreButton';
-import Chips from '@Components/buttons/Chips';
+import {CrossIcon} from '../../assets';
 
-
-const CompleteProfilePopUpModal = ({openModal, pullData, profileNotDoneObject}:any) => {
-
+const CompleteProfilePopUpModal = ({
+  openModal,
+  pullData,
+  profileNotDoneObject,
+}: any) => {
   return (
     <Modal visible={openModal} animationType="fade" transparent={true}>
       <View style={styles.modalContainer}>
@@ -37,10 +23,7 @@ const CompleteProfilePopUpModal = ({openModal, pullData, profileNotDoneObject}:a
               {profileNotDoneObject.header}
             </Text>
             <Pressable
-              style={{
-                marginTop: 16,
-                marginRight: 14,
-              }}
+              style={styles.pressableStyle}
               onPress={() => {
                 pullData(false);
               }}>
@@ -57,22 +40,12 @@ const CompleteProfilePopUpModal = ({openModal, pullData, profileNotDoneObject}:a
           </View>
           <CoreButton
             value="Complete my profile now"
-            style={{
-              borderWidth: 2,
-              marginTop: 14,
-              height: 45,
-              width: '100%',
-            }}
+            style={styles.coreButtonStyle}
             disabled={false}
           />
           <CoreButton
             value="Do it later"
-            style={{
-              borderWidth: 2,
-              marginTop: 5,
-              height: 45,
-              width: '100%',
-            }}
+            style={styles.coreButtonStyle}
             disabled={false}
             invert={true}
             onPress={() => {
@@ -103,6 +76,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
+  },
+  coreButtonStyle: {
+    borderWidth: 2,
+    marginTop: 5,
+    height: 45,
+    width: '100%',
+  },
+  pressableStyle: {
+    marginTop: 16,
+    marginRight: 14,
   },
 });
 
