@@ -37,9 +37,9 @@ const MapViewFlatCard = ({
   likedUsers,
 }: any) => {
   const userType = useAppSelector((state: any) => state.user.userType);
-  const [save, setSave] = useState(false);
+  let save = false;
   if (userType === 'renter') {
-    setSave(useAppSelector(state => state.user.savedFlats.includes(flatId)));
+    save = useAppSelector(state => state.user.savedFlats.includes(flatId));
   }
   const dispatch = useAppDispatch();
 

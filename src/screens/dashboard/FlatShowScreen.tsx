@@ -10,13 +10,11 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
-  Modal,
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
 import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import {CrossIcon} from '../../assets';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -38,14 +36,12 @@ import {profile} from 'console';
 const FlatShowScreen = ({route, navigation}: any) => {
   const [flatIndex] = useState(route.params.i);
   const userType = useAppSelector((state: any) => state.user.userType);
-  const [save, setSave] = useState(false);
+  let save = false;
   const flat = useAppSelector((state: any) => state.flats.allFlats[flatIndex]);
   const [description, setDescription] = useState(flat.description);
   const dispatch = useAppDispatch();
   if (userType === 'renter') {
-    setSave(
-      useAppSelector(state => state.user.savedFlats.includes(flat.flatId)),
-    );
+    save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
   }
 
   /* Params are being passed classicly via the route helper instead of  */
@@ -219,24 +215,14 @@ const FlatShowScreen = ({route, navigation}: any) => {
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
-                    style={{
-                      borderWidth: 2,
-                      marginTop: 14,
-                      height: 45,
-                      marginBottom: 30,
-                    }}
+                    style={styles.applyCoreButton}
                     disabled={false}
                     onPress={() => navigation.navigate('applyforflat')}
                   />
                 ) : (
                   <CoreButton
                     value="Apply"
-                    style={{
-                      borderWidth: 2,
-                      marginTop: 14,
-                      height: 45,
-                      marginBottom: 30,
-                    }}
+                    style={styles.applyCoreButton}
                     disabled={false}
                     onPress={() => pullData(true)}
                   />
@@ -251,7 +237,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
                     : profileNotDoneObject
                 }
               />
-              {/* Continue codeing from here !!!! */}
+              {/* Continue coding from here !!!! */}
             </View>
           </View>
         </ScrollView>
@@ -327,6 +313,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
+  },
+  applyCoreButton: {
+    borderWidth: 2,
+    marginTop: 14,
+    height: 45,
+    marginBottom: 30,
   },
 });
 
