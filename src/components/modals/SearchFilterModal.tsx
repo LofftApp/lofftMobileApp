@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sliderContainer: {
-    marginTop: 90,
+    marginTop: 72,
   },
   pagingationBarContainer: {
     marginVertical: 45,
