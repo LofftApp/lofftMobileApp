@@ -108,88 +108,88 @@ const SearchFilterModal = ({openModal, pullData}: any) => {
 
   return (
     <Modal visible={openModal} animationType="fade">
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.mainContainer}>
-          <View style={styles.filterHeight}>
-            <BackButton title="Filters" onPress={() => pullData(false)} />
-          </View>
-          <View>
-            <Text style={fontStyles.headerSmall}>Price Range</Text>
-            <View style={styles.priceRangeContainer}>
-              <View style={styles.priceFlex}>
-                <View style={styles.inputContainer}>
-                  <View style={styles.formContainer}>
-                    <Text>Min. price</Text>
-                    <InputFieldText
-                      style={styles.priceInputContainer}
-                      placeholder="0"
-                      // String is passed as value into text form.
-                      value={String(minPrice)}
-                      type="currency"
-                      onChangeText={(num: string) => {
-                        handleMin(num);
-                      }}
-                    />
-                  </View>
+      <View style={styles.mainContainer}>
+        <View style={styles.filterHeight}>
+          <BackButton title="Filters" onPress={() => pullData(false)} />
+        </View>
+        <View>
+          <Text style={fontStyles.headerSmall}>Price Range</Text>
+          <View style={styles.priceRangeContainer}>
+            <View style={styles.priceFlex}>
+              <View style={styles.inputContainer}>
+                <View style={styles.formContainer}>
+                  <Text>Min. price</Text>
+                  <InputFieldText
+                    style={styles.priceInputContainer}
+                    placeholder="0"
+                    // String is passed as value into text form.
+                    value={String(minPrice)}
+                    type="currency"
+                    onChangeText={(num: string) => {
+                      handleMin(num);
+                    }}
+                  />
+                </View>
 
-                  <View style={styles.formContainer}>
-                    <Text>Max. price</Text>
-                    <InputFieldText
-                      style={styles.priceInputContainer}
-                      placeholder="5000"
-                      // String is passed as value into text form.
-                      value={String(maxPrice)}
-                      type="currency"
-                      onChangeText={(num: string) => handleMax(num)}
-                    />
-                  </View>
+                <View style={styles.formContainer}>
+                  <Text>Max. price</Text>
+                  <InputFieldText
+                    style={styles.priceInputContainer}
+                    placeholder="5000"
+                    // String is passed as value into text form.
+                    value={String(maxPrice)}
+                    type="currency"
+                    onChangeText={(num: string) => handleMax(num)}
+                  />
                 </View>
               </View>
             </View>
           </View>
-          {Number(minPrice) > Number(maxPrice) ? (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorMessage}>
-                The min value must not be more than the max value!
-              </Text>
-            </View>
-          ) : null}
-          <View style={styles.sliderContainer}>
-            <Slider
-              thumbTintColor={Color.Lavendar[100]}
-              minimumTrackTintColor={Color.Lavendar[80]}
-              value={[minPrice, maxPrice]}
-              animateTransitions={true}
-              minimumValue={100}
-              maximumValue={5000}
-              onValueChange={value => {
-                taco(value);
-              }}
-              step={100}
-            />
-            <View style={styles.sliderLegend}>
-              <Text>{minPrice} €</Text>
-              <Text>{maxPrice} €</Text>
-            </View>
+        </View>
+        {Number(minPrice) > Number(maxPrice) ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorMessage}>
+              The min value must not be more than the max value!
+            </Text>
           </View>
-          <View style={styles.lowerPageHalfContainer}>
-            <View style={styles.flatDetails}>
-              <Text style={fontStyles.headerSmall}>Flat details</Text>
-            </View>
-            <View style={styles.emojiContainer}>{emojiElements}</View>
-          </View>
-          <View style={styles.pageBreak} />
-          <View style={styles.buttonsContainer}>
-            <CoreButton
-              value="Clear all"
-              invert={true}
-              style={styles.clearAllButton}
-              onPress={clearAll}
-            />
-            <CoreButton value="See Results" style={styles.seeResultButton} />
+        ) : null}
+        <View style={styles.sliderContainer}>
+          <Slider
+            thumbTintColor={Color.Lavendar[100]}
+            minimumTrackTintColor={Color.Lavendar[80]}
+            value={[minPrice, maxPrice]}
+            animateTransitions={true}
+            minimumValue={100}
+            maximumValue={5000}
+            onValueChange={value => {
+              taco(value);
+            }}
+            step={100}
+          />
+          <View style={styles.sliderLegend}>
+            <Text>{minPrice} €</Text>
+            <Text>{maxPrice} €</Text>
           </View>
         </View>
-      </ScrollView>
+        <View style={styles.lowerPageHalfContainer}>
+          <View style={styles.flatDetails}>
+            <Text style={fontStyles.headerSmall}>Flat details</Text>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.emojiContainer}>{emojiElements}</View>
+          </ScrollView>
+        </View>
+        <View style={styles.pageBreak} />
+        <View style={styles.buttonsContainer}>
+          <CoreButton
+            value="Clear all"
+            invert={true}
+            style={styles.clearAllButton}
+            onPress={clearAll}
+          />
+          <CoreButton value="See Results" style={styles.seeResultButton} />
+        </View>
+      </View>
     </Modal>
   );
 };
@@ -249,7 +249,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   filterHeight: {
-    height: 70,
+    flex: 1,
+    maxHeight: 76,
   },
   errorMessage: {
     color: Color.Tomato[100],
@@ -259,6 +260,7 @@ const styles = StyleSheet.create({
   },
   lowerPageHalfContainer: {
     paddingTop: 40,
+    flex: 2,
   },
   flatDetails: {
     paddingBottom: 20,
