@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {StyleSheet, FlatList, Image, Dimensions} from 'react-native';
+import {StyleSheet, FlatList, Image, Dimensions, View} from 'react-native';
 
 // Components
 import PaginationBar from '@Components/bars/PaginationBar';
@@ -20,7 +20,7 @@ const LofftHeaderPhoto = ({
   );
 
   return (
-    <>
+    <View>
       <FlatList
         data={images}
         horizontal
@@ -45,7 +45,7 @@ const LofftHeaderPhoto = ({
           onTop={true}
         />
       ) : null}
-    </>
+    </View>
   );
 };
 

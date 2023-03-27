@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -10,7 +10,7 @@ import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
 import auth from '@react-native-firebase/auth';
 
 // Components 🪢
-import PaginationBar from '@Components/bars/PaginationBar';
+import { CoreButton } from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
@@ -21,6 +21,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
+import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 const ListViewFlatCard = ({
   flatId,
@@ -28,7 +29,6 @@ const ListViewFlatCard = ({
   district,
   price,
   images,
-  likedUsers,
   navigation,
   i,
 }: any) => {
@@ -42,55 +42,38 @@ const ListViewFlatCard = ({
 
   return (
     <View style={styles.flatCardContainer}>
-      <Pressable
-        onPress={() =>
-          navigation.navigate('flatShow', {
-            price: {price},
-            match: {match},
-            district: {district},
-            i: i,
-            /* Add more Chips etc */
-          })
-        }>
-        <View>
-          <Image
-            // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
-            source={
-              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
-            }
-            style={styles.flatCardImage}
-          />
-          <View style={styles.flatCardButtonsOverlay}>
-            <View style={styles.flatCardbuttonsWrap}>
-              {match ? (
-                <View>
-                  <Pressable
-                    style={styles.flatCardSaveButton}
-                    onPress={() => {
-                      dispatch(saveFlatsToFavorites({flatId, add: !save}));
-                    }}>
-                    {save === true ? (
-                      <LofftIcon
-                        name="heart-filled"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    ) : (
-                      <LofftIcon
-                        name="heart"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    )}
-                  </Pressable>
-                </View>
-              ) : null}
-
-              <PaginationBar screen={screen} totalScreens={5} />
-            </View>
+      <View style={styles.flatCardImage}>
+        <LofftHeaderPhoto imageContainerHeight={300} images={images} />
+      </View>
+      <View>
+        <View style={styles.flatCardButtonsOverlay}>
+          <View style={styles.flatCardbuttonsWrap}>
+            {match ? (
+              <View>
+                <Pressable
+                  style={styles.flatCardSaveButton}
+                  onPress={() => {
+                    dispatch(saveFlatsToFavorites({flatId, add: !save}));
+                  }}>
+                  {save === true ? (
+                    <LofftIcon
+                      name="heart-filled"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  ) : (
+                    <LofftIcon
+                      name="heart"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         </View>
-      </Pressable>
+      </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
@@ -110,6 +93,18 @@ const ListViewFlatCard = ({
           <Chips />
         </View>
       </View>
+      <CoreButton
+        value="View flat"
+        onPress={() =>
+          navigation.navigate('flatShow', {
+            price: {price},
+            match: {match},
+            district: {district},
+            i: i,
+            /* Add more Chips etc */
+          })
+        }
+      />
     </View>
   );
 };
