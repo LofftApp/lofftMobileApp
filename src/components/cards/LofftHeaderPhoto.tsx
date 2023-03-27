@@ -24,6 +24,8 @@ const LofftHeaderPhoto = ({
       <FlatList
         data={images}
         horizontal
+        snapToInterval={Dimensions.get('window').width}
+        decelerationRate={'fast'}
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         renderItem={({item, index}) => (
