@@ -24,7 +24,7 @@ const LofftHeaderPhoto = ({
       <FlatList
         data={images}
         horizontal
-        showsHorizontalScrollIndicator={true}
+        showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         renderItem={({item, index}) => (
           <Image
