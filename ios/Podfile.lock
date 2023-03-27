@@ -1139,13 +1139,13 @@ PODS:
   - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
-  - rnmapbox-maps (10.0.0-rc.2):
+  - rnmapbox-maps (10.0.0-rc.3):
     - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.2)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.3)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.2):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.3):
     - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
@@ -1419,7 +1419,7 @@ SPEC CHECKSUMS:
   RNFBStorage: dbb6ce9ec899f3e8b3e5607b3461f7630a8ef21e
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
-  rnmapbox-maps: 7f885415603e81da67bdaf309289376e62f7820d
+  rnmapbox-maps: 71f2ac8b05e8597bb55f5a2484246b619adc492a
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
@@ -1427,4 +1427,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e4149538ad66e38a3ab1d7bc7cd297c39d41f8cd
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
