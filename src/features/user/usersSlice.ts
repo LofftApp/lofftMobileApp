@@ -31,10 +31,8 @@ const initialState: UserState = {
 
 // Middlewares
 export const checkAdmin = createAsyncThunk('users/checkAdmin', async () => {
-  console.log('checkAdmin');
   const userToken: any = await auth().currentUser?.getIdTokenResult();
-  console.log('UserToken', userToken.claims);
-  return userToken;
+  return userToken.claims.role === 'admin';
 });
 
 export const fetchUserProfile = createAsyncThunk(
@@ -70,16 +68,17 @@ const usersSlice = createSlice({
     setUserProfile: (state, action) => {},
   },
   extraReducers: builder => {
-    builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
-      if (action.payload) {
-        // setUserType(state);
-        state.profile = true;
-        state.profileDetails = action.payload?.profileDetails;
-        state.searchCriteria = action.payload?.searchCriteria;
-        state.savedFlats = action.payload?.savedFlats;
-        // console.log(state);
-      }
-    });
+    builder.addCase(checkAdmin.fulfilled, (state, action) => {
+      state.admin = action.payload || false;
+    }),
+      builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.profile = true;
+          state.profileDetails = action.payload?.profileDetails;
+          state.searchCriteria = action.payload?.searchCriteria;
+          state.savedFlats = action.payload?.savedFlats;
+        }
+      });
     builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
       const data: any = action.meta.arg;
       if (data.add) {

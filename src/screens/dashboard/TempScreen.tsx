@@ -9,18 +9,22 @@ import {
   Dimensions,
 } from 'react-native';
 
+import auth from '@react-native-firebase/auth';
+
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
   return (
     <View style={styles.pageContainer}>
-      <HighlightedButtons navigation={navigation} />
-      <LofftHeaderPhoto imageContainerHeight={300} />
+      <View style={{marginTop: 400}}>
+        <CoreButton value="Sign Out" onPress={() => auth().signOut()} />
+      </View>
     </View>
   );
 };
