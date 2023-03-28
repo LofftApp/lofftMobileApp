@@ -54,11 +54,6 @@ const DashboardNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="alerts"
-        component={FavoriteFlatScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
         name="user"
         component={UserScreen}
         options={{headerShown: false}}

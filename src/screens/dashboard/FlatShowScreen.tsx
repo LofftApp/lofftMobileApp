@@ -16,7 +16,6 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import IconButton from '@Components/buttons/IconButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
@@ -92,29 +91,38 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-<<<<<<< HEAD:src/screens/renterFlatFindScreens/FlatShowScreen.tsx
       {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
-  {
-    !blurActivated ? (
-      <HighlightedButtons
-        navigation={navigation}
-        save={save}
-        onPressHeart={() =>
-          dispatch(saveFlatsToFavorites({ flatId: flat.flatId, add: !save }))
-        }
-      />
-    ) : null
-  }
+      {!blurActivated ? (
+        <HighlightedButtons
+          navigation={navigation}
+          save={save}
+          onPressHeart={() =>
+            dispatch(saveFlatsToFavorites({flatId: flat.flatId, add: !save}))
+          }
+        />
+      ) : null}
       <LofftHeaderPhoto
         imageContainerHeight={300}
         images={flat.images}
         activeBlur={blurActivated}
       />
-      <SafeAreaView  style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
-        <ScrollView showsVerticalScrollIndicator={false}  style={styles.scrollView}>
-          <FlatInfoContainer address={flat.address} description={flat.description} untilDate={flat.untilDate} fromDate={flat.fromDate} flatId={flat.flatId} price={flat.price} district={flat.district} navigation={navigation} button={true}  />
-=======
-              {/* <View>
+      <SafeAreaView
+        style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollView}>
+          <FlatInfoContainer
+            address={flat.address}
+            description={flat.description}
+            untilDate={flat.untilDate}
+            fromDate={flat.fromDate}
+            flatId={flat.flatId}
+            price={flat.price}
+            district={flat.district}
+            navigation={navigation}
+            button={true}
+          />
+          {/* <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
@@ -131,17 +139,16 @@ const FlatShowScreen = ({route, navigation}: any) => {
                   />
                 )}
               </View> */}
-              <CompleteProfilePopUpModal
-                openModal={blurActivated}
-                pullData={pullData}
-                profileNotDoneObject={
-                  completeProfile && outOfTokens
-                    ? outOfTokensObject
-                    : profileNotDoneObject
-                }
-              />
-              {/* Continue coding from here !!!! */}
->>>>>>> ad96060d7e3f842a74a6873dc2a61bd0aab1b060:src/screens/dashboard/FlatShowScreen.tsx
+          <CompleteProfilePopUpModal
+            openModal={blurActivated}
+            pullData={pullData}
+            profileNotDoneObject={
+              completeProfile && outOfTokens
+                ? outOfTokensObject
+                : profileNotDoneObject
+            }
+          />
+          {/* Continue coding from here !!!! */}
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -156,7 +163,7 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     flex: 1,
-    backgroundColor: Color.White[100]
+    backgroundColor: Color.White[100],
   },
   imageContainer: {
     height: 300,
