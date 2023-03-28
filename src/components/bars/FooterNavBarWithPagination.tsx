@@ -19,7 +19,6 @@ const FooterNavBarWithPagination = ({
         value={buttonValue}
         disabled={disabled}
         onPress={(value: any) => {
-          console.log('value', value);
           onPress(value);
         }}
         details={details}
