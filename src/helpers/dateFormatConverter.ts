@@ -3,6 +3,8 @@ export const dateFormatConverter = ({date, format = 'EU'}: any) => {
 
   if (date?.seconds) {
     date = convertSecondsTODate(date.seconds);
+  } else {
+    date = new Date(date);
   }
 
   const day = date.getDate();

@@ -1,19 +1,25 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
+import type {RootState} from '@ReduxCore/store';
 
-const initialState = {
+interface CounterState {
+  allFlats: any[];
+}
+
+const initialState: CounterState = {
   allFlats: [],
-  favouriteFlats: [],
-  appliedFlats: [],
 };
+
+// Middlewares
 
 const flatsSlice = createSlice({
   name: 'flats',
   initialState,
   reducers: {
-    setAllFlats: (state, action) => {
+    setAllFlats: (state, action: PayloadAction<any[]>) => {
       state.allFlats = action.payload;
     },
   },
+  extraReducers: builder => {},
 });
 
 export const {setAllFlats} = flatsSlice.actions;

@@ -37,7 +37,7 @@ export const libraryImageUpload = async (limit = 1) => {
       const response = await uploadUserImages(images);
       return response;
     } catch (error) {
-      console.log(error);
+      console.log('libraryImageUpload:', error);
     }
   }
 };
@@ -67,7 +67,7 @@ const uploadUserImages = async (images: any, seed: boolean = false) => {
           );
         }
       } catch (error) {
-        console.log(`error: ${error}`);
+        console.log('uploadUserImages:', error);
       }
     }),
   );

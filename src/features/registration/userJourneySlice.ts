@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
   createUserProfile,
@@ -18,7 +18,7 @@ const renterJourney = () => {
         'Select all tags that describe who you are and find the Lofft of your life!',
     },
     '5': {screenName: 'SelfDescribeScreen'},
-    '6': {screenName: 'UserConditionsScreen'},
+    '6': {screenName: 'ConditionsOfUseScreen'},
   };
 };
 
@@ -38,18 +38,79 @@ const lesserJourney = () => {
       subHeaderText: 'Select all the tags that match your place.',
     },
     '4': {screenName: 'FlatPhotoUploadScreen'},
-    '5': {screenName: 'UserConditionsScreen'},
+    '5': {screenName: 'ConditionsOfUseScreen'},
   };
+};
+
+interface UserJourneyState {
+  userType: string | null;
+  userJourney: any;
+  userDetails: {
+    genderIdentity: string | null;
+    districts: any[] | null;
+    minRent: number | null;
+    maxRent: number | null;
+    userDescription: string | null;
+    textAboutUser: string | null;
+    cost: number | null;
+    location: string | null;
+    district: string | null;
+    fromDate: string | null;
+    perminant: boolean | null;
+    untilDate: string | null;
+    images: string[] | null;
+    flatFeatures: string[] | null;
+    flatMate: string[] | null;
+    warmRent: number | null;
+  };
+}
+
+interface UserJourneyActions {
+  genderIdentity: {id: number; toggle: boolean; value: string};
+  districts: any[] | null;
+  minRent: number;
+  maxRent: number;
+  textAboutUser: string;
+  cost: number;
+  location: string;
+  district: string;
+  fromDate: string;
+  perminant: boolean;
+  untilDate: string;
+  images: string[];
+  flatFeatures: string[];
+  flatMate: string[];
+  warmRent: number;
+}
+
+const initialState: UserJourneyState = {
+  userType: null,
+  userJourney: {},
+  userDetails: {
+    genderIdentity: null,
+    districts: null,
+    minRent: null,
+    maxRent: null,
+    userDescription: null,
+    textAboutUser: null,
+    cost: null,
+    location: null,
+    district: null,
+    fromDate: null,
+    perminant: null,
+    untilDate: null,
+    images: null,
+    flatFeatures: null,
+    flatMate: null,
+    warmRent: null,
+  },
 };
 
 export const userJourneySlice = createSlice({
   name: 'userDetails',
-  initialState: {
-    userType: null,
-    userDetails: {},
-  },
+  initialState,
   reducers: {
-    setUserType: (state: any, action: any) => {
+    setUserType: (state, action: PayloadAction<string>) => {
       state.userType = action.payload;
       if (action.payload === 'lesser') {
         state.userJourney = lesserJourney();
@@ -58,7 +119,7 @@ export const userJourneySlice = createSlice({
       }
     },
 
-    setDetails: (state: any, action: any) => {
+    setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
       const data = action.payload;
       const userDetails = state.userDetails;
       // Renter
