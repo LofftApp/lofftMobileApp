@@ -122,7 +122,9 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
         color={Color.Mint[100]}
       />
       <LofftHeaderPhoto imageContainerHeight={300} images={images} />
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
           <View
             style={[styles.progressContainer, {maxHeight: screenheight / 2}]}>
