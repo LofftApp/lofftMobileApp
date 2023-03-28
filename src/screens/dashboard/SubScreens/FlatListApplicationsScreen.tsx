@@ -4,12 +4,11 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({ active, flats, navigation }:any) => {
-
-
-
+const FlatListApplicationsScreen = ({active, flats, navigation}: any) => {
   return (
-    <ScrollView style={styles.flatCardContainer}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.flatCardContainer}>
       <SafeAreaView>
         {flats.map((el: any, index: number) => {
           return (
