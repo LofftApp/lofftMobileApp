@@ -24,13 +24,12 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import eye from '@Assets/images/eye.png';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
-const ApplicationShowScreen = ({route}: any) => {
+const ApplicationShowScreen = ({navigation, route}: any) => {
   const {
     images,
     active,
     currentApplicationStatus,
     flatId,
-    navigation,
     address,
     description,
     fromDate,
