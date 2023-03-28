@@ -1,6 +1,9 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+// Redux 🏪
+import {useAppSelector} from '@ReduxCore/hooks';
+
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
@@ -14,10 +17,13 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 import ApplicationIndexScreen from '@Screens/dashboard/ApplicationIndexScreen';
 import UserScreen from '@Screens/dashboard/UserScreen';
 import SavedListingsScreen from '@Screens/dashboard/SavedScreens/SavedListingsScreen';
+import AdminScreen from '@Screens/admin/adminScreen';
 import TempScreen from '@Screens/dashboard/TempScreen';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigator = () => {
+  const userType = useAppSelector(state => state.user.userType);
+  console.log('userType', userType);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -35,6 +41,9 @@ const DashboardNavigator = () => {
               break;
             case 'user':
               iconName = 'user';
+              break;
+            case 'admin':
+              iconName = 'gaming-pad';
               break;
           }
           return <LofftIcon name={iconName} size={25} color={color} />;
@@ -63,12 +72,18 @@ const DashboardNavigator = () => {
         component={UserScreen}
         options={{headerShown: false}}
       />
-
       <Tab.Screen
         name="Ello"
         component={TempScreen}
         options={{headerShown: false}}
       />
+      {userType === 'admin' ? (
+        <Tab.Screen
+          name="admin"
+          component={AdminScreen}
+          options={{headerShown: false}}
+        />
+      ) : null}
     </Tab.Navigator>
   );
 };

@@ -3,6 +3,7 @@ import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 // Firestore 🔥
 import firestore from '@react-native-firebase/firestore';
 import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
+import auth from '@react-native-firebase/auth';
 
 interface UserState {
   loading: boolean;
@@ -29,6 +30,13 @@ const initialState: UserState = {
 };
 
 // Middlewares
+export const checkAdmin = createAsyncThunk('users/checkAdmin', async () => {
+  console.log('checkAdmin');
+  const userToken: any = await auth().currentUser?.getIdTokenResult();
+  console.log('UserToken', userToken.claims);
+  return userToken;
+});
+
 export const fetchUserProfile = createAsyncThunk(
   'users/fetchUserProfile',
   async (uid: string) => {
@@ -64,11 +72,12 @@ const usersSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       if (action.payload) {
+        // setUserType(state);
         state.profile = true;
-        state.userType = action.payload?.flats ? 'lesser' : 'renter';
         state.profileDetails = action.payload?.profileDetails;
         state.searchCriteria = action.payload?.searchCriteria;
         state.savedFlats = action.payload?.savedFlats;
+        // console.log(state);
       }
     });
     builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
@@ -89,6 +98,7 @@ export const fetchCurrentUser = createAsyncThunk(
   'users/fetchCurrentUser',
   async () => {
     const response = await fetch('/api/current_user');
+    console.log(response);
     return await response.json();
   },
 );
