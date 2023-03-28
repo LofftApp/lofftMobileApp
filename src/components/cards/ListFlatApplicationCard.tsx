@@ -30,7 +30,7 @@ const ListFlatApplicationCard = ({
   address,
   description,
   fromDate,
-  untilDate
+  untilDate,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -83,7 +83,6 @@ const ListFlatApplicationCard = ({
             active: active,
             currentApplicationStatus: currentFlatStatusIndex,
             flatId: flatId,
-            navigation: navigation,
             address: address,
             description: description,
             fromDate: fromDate,
