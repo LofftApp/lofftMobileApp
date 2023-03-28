@@ -9,11 +9,15 @@ import React, {useState, useEffect} from 'react';
 import LogRocket from '@logrocket/react-native';
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {setUserID, fetchUserProfile} from '@Redux/user/usersSlice';
+import {
+  setUserID,
+  fetchUserProfile,
+  setUserProfile,
+  checkAdmin,
+} from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {checkUserProfileExist} from '@Api/firebase/firestoreActions';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -31,41 +35,23 @@ import AdminScreen from '@Screens/admin/adminScreen';
 
 const RootStack = createNativeStackNavigator();
 
-const checkUserDataExists = async (uid: string) => {};
-
 const App = () => {
   const dispatch = useAppDispatch();
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
-  const [userType, setUserType] = useState(false);
-  const [admin, setAdmin] = useState(false);
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
-    const userToken: any = await currentUser?.getIdTokenResult();
-    if (currentUser) dispatch(setUserID(currentUser?.uid));
-
-    // Get Current user profile
-    dispatch(fetchUserProfile(currentUser?.uid));
-    userToken?.claims?.role ? setAdmin(true) : setAdmin(false);
-
+    dispatch(checkAdmin());
+    dispatch(setUserID(currentUser?.uid || null));
+    dispatch(fetchUserProfile(currentUser?.uid || null));
     setUser(user);
-    if (user) {
-      const profileExist: any = await checkUserProfileExist();
-      setUserType(profileExist);
-    }
-    if (initializing) {
-      setInitializing(false);
-    }
   };
-  const userProfile = useAppSelector((state: any) => state.user.profile);
 
   useEffect(() => {
-    const currentUser = auth().currentUser;
+    const currentUser = auth()?.currentUser;
     LogRocket.init('2y6ler/lofft');
-
-    // Currently added with no restriction, though once the user will have option to approve that their data is stored.
 
     if (currentUser) {
       const credentials: any = {
@@ -74,6 +60,7 @@ const App = () => {
       };
       LogRocket.identify(currentUser.uid, credentials);
     }
+    if (initializing) setInitializing(false);
     return auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
@@ -81,6 +68,7 @@ const App = () => {
     webClientId:
       '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
   });
+
   // Use Effect for dev environment
   useEffect(() => {
     firestore().settings({
@@ -102,20 +90,21 @@ const App = () => {
     }
   }, []);
 
-  if (initializing) {
-    return null;
-  }
+  const [profile, admin] = useAppSelector(state => [
+    state.user.profile,
+    state.user.admin,
+  ]);
   return (
     <>
       {user ? (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : userProfile ? (
-            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
-          ) : (
+          ) : null}
+          {!profile ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
-          )}
+          ) : null}
+          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
         </RootStack.Navigator>
       ) : (
         <GuestStackNavigator />
