@@ -1,8 +1,13 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import FlatListScreen from '@Screens/renterFlatFindScreens/FlatFindScreen';
+// import FlatShowScreen from '@Screens/renterFlatFindScreens/FlatShowScreen';
+// import ApplyForFlatScreen from '@Screens/renterFlatFindScreens/ApplyForFlatScreen';
+// import ApplicationShowScreen from '@Screens/renterFlatFindScreens/ApplicationShowScreen';
 import FlatListScreen from '@Screens/dashboard/FlatFindScreen';
 import FlatShowScreen from '@Screens/dashboard/FlatShowScreen';
 import ApplyForFlatScreen from '@Screens/dashboard/ApplyForFlatScreen';
+import ApplicationShowScreen from '@Screens/dashboard/ApplicationShowScreen';
 
 const FlatFind = createNativeStackNavigator();
 const FlatSearchNavigator = () => {
@@ -11,6 +16,10 @@ const FlatSearchNavigator = () => {
       <FlatFind.Screen name="flatOverview" component={FlatListScreen} />
       <FlatFind.Screen name="flatShow" component={FlatShowScreen} />
       <FlatFind.Screen name="applyforflat" component={ApplyForFlatScreen} />
+      <FlatFind.Screen
+        name="applicationshow"
+        component={ApplicationShowScreen}
+      />
     </FlatFind.Navigator>
   );
 };

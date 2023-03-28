@@ -28,6 +28,7 @@ import CompleteProfileImage from '@Assets/images/Illustration.png';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
+import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
 import {profile} from 'console';
 
@@ -90,6 +91,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
+      {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
       {!blurActivated ? (
         <HighlightedButtons
           navigation={navigation}
@@ -104,114 +106,23 @@ const FlatShowScreen = ({route, navigation}: any) => {
         images={flat.images}
         activeBlur={blurActivated}
       />
-      <SafeAreaView>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.centralizerContainer}>
-            <View style={styles.matchContainer}>
-              <View>
-                <Text style={fontStyles.headerLarge}>🌟</Text>
-              </View>
-              <View>
-                <Text style={fontStyles.headerSmall}>
-                  {flat?.matchP}% match with your lifestyles
-                  {'\n'}& flat expectations
-                </Text>
-              </View>
-            </View>
-            <View style={styles.infoContainer}>
-              <Text style={{color: Color.Black[80]}}>{flat?.address}</Text>
-              <Text style={[fontStyles.headerSmall, {paddingTop: 20}]}>
-                🧘 Calm flat in the centre of Moabit
-              </Text>
-              <View style={styles.LegendContainer}>
-                <View style={styles.firstRowLegendContainer}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <LofftIcon
-                      name="banke-note"
-                      size={22}
-                      color={Color.Black[30]}
-                    />
-                    <Text
-                      style={[
-                        fontStyles.headerSmall,
-                        {marginLeft: 10, marginRight: 100},
-                      ]}>
-                      {flat?.price}€
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <LofftIcon name="ruler" size={22} color={Color.Black[30]} />
-                    <Text style={[fontStyles.headerSmall, {marginLeft: 10}]}>
-                      26m2
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.secondRowLegendContainer}>
-                  <LofftIcon
-                    name="calendar"
-                    size={22}
-                    color={Color.Black[30]}
-                  />
-                  <Text style={[fontStyles.headerSmall, {marginLeft: 10}]}>
-                    From: {flat.fromDate}{' '}
-                    {flat.untilDate ? `- ${flat.untilDate}` : null}
-                  </Text>
-                </View>
-              </View>
-              <View style={{marginTop: 10}}>
-                <Text style={{color: Color.Black[80]}}>
-                  {description.substring(
-                    0,
-                    `${descriptionExpanded ? description.length : 200}`,
-                  )}
-                </Text>
-                {description.length > 200 ? (
-                  <CoreButton
-                    value={descriptionExpanded ? 'Read Less' : 'Read More'}
-                    style={{
-                      backgroundColor: 'white',
-                      borderWidth: 2,
-                      marginTop: 14,
-                      height: 40,
-                    }}
-                    textStyle={[
-                      fontStyles.headerSmall,
-                      {color: Color.Lavendar[100]},
-                    ]}
-                    disabled={false}
-                    onPress={() => expander()}
-                  />
-                ) : null}
-              </View>
-              {/* ! Build logic to match the values common with the user */}
-              <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>
-                Match with you
-              </Text>
-              <View style={{marginTop: 10}}>
-                <Chips />
-              </View>
-
-              <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>
-                Other
-              </Text>
-              <View style={{marginTop: 10}}>
-                <Chips />
-              </View>
-
-              <View>
-                <Text
-                  style={[
-                    fontStyles.bodySmall,
-                    {
-                      textAlign: 'center',
-                      color: Color.Mint[100],
-                      marginTop: 20,
-                    },
-                  ]}>
-                  Application closing in 1d 8h
-                </Text>
-              </View>
-              <View>
+      <SafeAreaView
+        style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollView}>
+          <FlatInfoContainer
+            address={flat.address}
+            description={flat.description}
+            untilDate={flat.untilDate}
+            fromDate={flat.fromDate}
+            flatId={flat.flatId}
+            price={flat.price}
+            district={flat.district}
+            navigation={navigation}
+            button={true}
+          />
+          {/* <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
@@ -227,19 +138,17 @@ const FlatShowScreen = ({route, navigation}: any) => {
                     onPress={() => pullData(true)}
                   />
                 )}
-              </View>
-              <CompleteProfilePopUpModal
-                openModal={blurActivated}
-                pullData={pullData}
-                profileNotDoneObject={
-                  completeProfile && outOfTokens
-                    ? outOfTokensObject
-                    : profileNotDoneObject
-                }
-              />
-              {/* Continue coding from here !!!! */}
-            </View>
-          </View>
+              </View> */}
+          <CompleteProfilePopUpModal
+            openModal={blurActivated}
+            pullData={pullData}
+            profileNotDoneObject={
+              completeProfile && outOfTokens
+                ? outOfTokensObject
+                : profileNotDoneObject
+            }
+          />
+          {/* Continue coding from here !!!! */}
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -248,10 +157,12 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: '61%',
-    paddingBottom: 100,
+    height: '65%',
+    paddingBottom: 10,
+    width: '90%',
   },
   pageContainer: {
+    flex: 1,
     backgroundColor: Color.White[100],
   },
   imageContainer: {
