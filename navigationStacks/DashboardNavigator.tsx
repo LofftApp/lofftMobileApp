@@ -33,10 +33,10 @@ const DashboardNavigator = () => {
               iconName = 'search-sm';
               break;
             case 'favorite':
-              iconName = 'heart';
+              iconName = 'list';
               break;
             case 'alerts':
-              iconName = 'bell';
+              iconName = 'heart';
               break;
             case 'user':
               iconName = 'user';
@@ -58,11 +58,6 @@ const DashboardNavigator = () => {
       />
       <Tab.Screen
         name="favorite"
-        component={SavedListingsScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="alerts"
         component={ApplicationIndexScreen}
         options={{headerShown: false}}
       />
