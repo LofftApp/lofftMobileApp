@@ -10,7 +10,7 @@ import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
 import auth from '@react-native-firebase/auth';
 
 // Components 🪢
-import { CoreButton } from '@Components/buttons/CoreButton';
+import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
@@ -42,37 +42,31 @@ const ListViewFlatCard = ({
 
   return (
     <View style={styles.flatCardContainer}>
+      <View style={styles.flatCardButtonsOverlay}>
+        <View style={styles.flatCardbuttonsWrap}>
+          {match ? (
+            <View>
+              <Pressable
+                style={styles.flatCardSaveButton}
+                onPress={() => {
+                  dispatch(saveFlatsToFavorites({flatId, add: !save}));
+                }}>
+                {save === true ? (
+                  <LofftIcon
+                    name="heart-filled"
+                    size={25}
+                    color={Color.Tomato[100]}
+                  />
+                ) : (
+                  <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
+                )}
+              </Pressable>
+            </View>
+          ) : null}
+        </View>
+      </View>
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto imageContainerHeight={300} images={images} />
-      </View>
-      <View>
-        <View style={styles.flatCardButtonsOverlay}>
-          <View style={styles.flatCardbuttonsWrap}>
-            {match ? (
-              <View>
-                <Pressable
-                  style={styles.flatCardSaveButton}
-                  onPress={() => {
-                    dispatch(saveFlatsToFavorites({flatId, add: !save}));
-                  }}>
-                  {save === true ? (
-                    <LofftIcon
-                      name="heart-filled"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  ) : (
-                    <LofftIcon
-                      name="heart"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  )}
-                </Pressable>
-              </View>
-            ) : null}
-          </View>
-        </View>
       </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
@@ -119,23 +113,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
     borderRadius: 12,
   },
-
   flatCardButtonsOverlay: {
     position: 'absolute',
     zIndex: 2,
     width: '100%',
-    height: '100%',
-    padding: 16,
   },
   flatCardbuttonsWrap: {
     flex: 1,
-    justifyContent: 'space-between',
-  },
-
-  flatCardSaveButton: {
-    padding: 10,
-    position: 'absolute',
-    right: 0,
+    alignItems: 'flex-end',
+    padding: 15,
   },
   flatCardInfoWrap: {
     padding: 8,
