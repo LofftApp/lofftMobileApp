@@ -33,7 +33,7 @@ const initialState: UserState = {
 export const checkAdmin = createAsyncThunk('users/checkAdmin', async () => {
   try {
     const userToken: any = await auth().currentUser?.getIdTokenResult();
-    return userToken.claims.role === 'admin';
+    return userToken?.claims?.role === 'admin';
   } catch (error) {
     console.log('checkAdmin:', error);
   }
@@ -43,8 +43,10 @@ export const fetchUserProfile = createAsyncThunk(
   'users/fetchUserProfile',
   async (uid: string) => {
     try {
-      const response = await firestore().collection('users').doc(uid).get();
-      return response.data() || false;
+      const response = uid
+        ? await firestore().collection('users').doc(uid).get()
+        : null;
+      return response?.data() || null;
     } catch (error) {
       console.log('fetchUserProfile:', error);
     }
@@ -67,7 +69,7 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     setUserID: (state, action: PayloadAction<any>) => {
-      state.uid = action.payload.uid;
+      state.uid = action.payload;
     },
     setUserProfile: (state, action) => {},
   },
@@ -76,12 +78,13 @@ const usersSlice = createSlice({
       state.admin = action.payload || false;
     }),
       builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.profile = true;
-          state.profileDetails = action.payload?.profileDetails;
-          state.searchCriteria = action.payload?.searchCriteria;
-          state.savedFlats = action.payload?.savedFlats;
-        }
+        state.profile =
+          action.payload?.profileDetails || action.payload?.flats
+            ? true
+            : false;
+        state.profileDetails = action.payload?.profileDetails || null;
+        state.searchCriteria = action.payload?.searchCriteria || null;
+        state.savedFlats = action.payload?.savedFlats;
       });
     builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
       const data: any = action.meta.arg;
@@ -101,7 +104,6 @@ export const fetchCurrentUser = createAsyncThunk(
   'users/fetchCurrentUser',
   async () => {
     const response = await fetch('/api/current_user');
-    console.log(response);
     return await response.json();
   },
 );

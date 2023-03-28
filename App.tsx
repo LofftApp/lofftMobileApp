@@ -43,12 +43,9 @@ const App = () => {
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
-    if (currentUser) {
-      dispatch(checkAdmin());
-      dispatch(setUserID(currentUser?.uid));
-      dispatch(fetchUserProfile(currentUser?.uid));
-    }
-
+    dispatch(checkAdmin());
+    dispatch(setUserID(currentUser?.uid || null));
+    dispatch(fetchUserProfile(currentUser?.uid || null));
     setUser(user);
   };
 
@@ -93,16 +90,20 @@ const App = () => {
     }
   }, []);
 
-  const profile = useAppSelector(state => state.user.profile);
-  console.log('profile', profile);
+  const [profile, admin] = useAppSelector(state => [
+    state.user.profile,
+    state.user.admin,
+  ]);
   return (
     <>
       {user ? (
-        <RootStack.Navigator
-          screenOptions={{headerShown: false}}
-          initialRouteName={profile ? 'dashboard' : 'profileFlow'}>
-          <RootStack.Screen name="admin" component={AdminScreen} />
-          <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
+        <RootStack.Navigator screenOptions={{headerShown: false}}>
+          {admin ? (
+            <RootStack.Screen name="admin" component={AdminScreen} />
+          ) : null}
+          {!profile ? (
+            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
+          ) : null}
           <RootStack.Screen name="dashboard" component={DashboardNavigator} />
         </RootStack.Navigator>
       ) : (
