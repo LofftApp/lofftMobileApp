@@ -13,11 +13,11 @@ import {
   setUserID,
   fetchUserProfile,
   setUserProfile,
+  checkAdmin,
 } from '@Redux/user/usersSlice';
 // FireStore 🔥
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {checkUserProfileExist} from '@Api/firebase/firestoreActions';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -40,27 +40,16 @@ const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
-  const [userType, setUserType] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const [initialRoute, setInitialRoute] = useState('Guest');
 
   const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
     const currentUser: any = await auth()?.currentUser;
-    const userToken: any = await currentUser?.getIdTokenResult();
     if (currentUser) {
+      dispatch(checkAdmin());
       dispatch(setUserID(currentUser?.uid));
       dispatch(fetchUserProfile(currentUser?.uid));
     }
 
-    userToken?.claims?.role ? setAdmin(true) : setAdmin(false);
-
     setUser(user);
-    if (user) {
-      const profileExist: any = await checkUserProfileExist();
-      setUserType(profileExist);
-    }
-    if (initializing) setInitializing(false);
-    return auth().onAuthStateChanged(onAuthStateChanged);
   };
 
   useEffect(() => {
@@ -74,6 +63,8 @@ const App = () => {
       };
       LogRocket.identify(currentUser.uid, credentials);
     }
+    if (initializing) setInitializing(false);
+    return auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
   GoogleSignin.configure({
@@ -101,25 +92,13 @@ const App = () => {
       auth().useEmulator(`http://${host}:9099`);
     }
   }, []);
-  console.log('Initial Route: ', initialRoute);
-
-  const NavigationSelector = () => {
-    const userProfile = useAppSelector((state: any) => state.user);
-    if (userProfile.admin) {
-      setInitialRoute('admin');
-    } else if (userProfile.profile) {
-      setInitialRoute('dashboard');
-    } else {
-      setInitialRoute('profileFlow');
-    }
-  };
 
   return (
     <>
       {user ? (
         <RootStack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={initialRoute}>
+          initialRouteName={'dashboard'}>
           <RootStack.Screen name="admin" component={AdminScreen} />
           <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           <RootStack.Screen name="dashboard" component={DashboardNavigator} />

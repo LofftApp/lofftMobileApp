@@ -16,14 +16,11 @@ import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
-
-
-const TempScreen = ({navigation}) => {
-
+const TempScreen = ({navigation}: any) => {
   return (
     <View style={styles.pageContainer}>
       <HighlightedButtons navigation={navigation} />
-      <LofftHeaderPhoto imageContainerHeight={300}/>
+      <LofftHeaderPhoto imageContainerHeight={300} />
     </View>
   );
 };
