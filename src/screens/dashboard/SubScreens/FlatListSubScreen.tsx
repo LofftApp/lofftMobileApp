@@ -12,7 +12,9 @@ const FlatListSubScreen = ({navigation}: any) => {
   const flats = useAppSelector((state: any) => state.flats.allFlats);
 
   return (
-    <ScrollView style={styles.flatCardContainer}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.flatCardContainer}>
       <View>
         {flats.map((el: any, index: number) => {
           return (
