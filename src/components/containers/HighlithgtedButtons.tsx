@@ -10,22 +10,79 @@ import {
 import Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-const HighlightedButtons = ({navigation, save, onPressHeart}: any) => {
+// DB actions
+
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import {updateDoc} from '@react-native-firebase/firestore';
+
+// Important Notice !!
+/*
+  The navigation prop has to be passed on from the corresponding parent component
+*/
+
+const HighlightedButtons = ({
+  navigation,
+  id,
+  heartPresent = true,
+  color = null,
+}) => {
+  const [saved, setSaved] = useState(false);
+
+  const pressHeart = async (currentHeartState, id) => {
+    const uid = auth().currentUser?.uid;
+    const db = firestore();
+
+    setSaved(!currentHeartState);
+
+    try {
+      if (saved) {
+        await db
+          .collection('users')
+          .doc(uid)
+          .update({
+            savedFlats: firestore.FieldValue.arrayRemove(id), // '1234 should be replaced with id number'
+          });
+      } else {
+        await db
+          .collection('users')
+          .doc(uid)
+          .update({
+            savedFlats: firestore.FieldValue.arrayUnion(id), // '1234 should be replaced with id '
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.actionContainer}>
       <Pressable
         style={styles.iconContainer}
         onPress={() => navigation.goBack()}>
-        <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
+        <LofftIcon
+          name="chevron-left"
+          size={35}
+          color={color ? color : Color.Lavendar[80]}
+        />
       </Pressable>
 
-      <Pressable style={styles.iconContainer} onPress={onPressHeart}>
-        {save ? (
-          <LofftIcon name="heart-filled" size={35} color={Color.Tomato[100]} />
-        ) : (
-          <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
-        )}
-      </Pressable>
+      {heartPresent ? (
+        <Pressable
+          style={styles.iconContainer}
+          onPress={() => pressHeart(saved)}>
+          {saved ? (
+            <LofftIcon
+              name="heart-filled"
+              size={35}
+              color={Color.Tomato[100]}
+            />
+          ) : (
+            <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
+          )}
+        </Pressable>
+      ) : null}
     </View>
   );
 };
@@ -42,7 +99,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   iconContainer: {
-    backgroundColor: 'white',
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 7,
