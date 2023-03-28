@@ -27,6 +27,10 @@ const ListFlatApplicationCard = ({
   images,
   likedUsers,
   active,
+  address,
+  description,
+  fromDate,
+  untilDate,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -37,7 +41,7 @@ const ListFlatApplicationCard = ({
     'Offer',
   ]);
 
-  const [currentFlatStatusIndex, setFlatStatusIndex] = useState(0);
+  const [currentFlatStatusIndex, setFlatStatusIndex] = useState(2);
   const [currentStatusBar, setStatusBar] = useState('');
 
   useEffect(() => {
@@ -72,51 +76,66 @@ const ListFlatApplicationCard = ({
 
   return (
     <View style={styles.flatCardContainer}>
-      <View>
-        <Image
-          // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
-          source={
-            images ? {uri: images[0], width: 200, height: 300} : noFlatImage
-          }
-          style={styles.flatCardImage}
-        />
-        <View style={styles.flatCardButtonsOverlay}>
-          <View style={styles.flatCardbuttonsWrap}>
-            {match ? (
-              <View>
-                <Pressable
-                  style={styles.flatCardSaveButton}
-                  onPress={() => {
-                    setSave(!save);
-                    saveFlatToUserLikes({flatId, add: save});
-                  }}>
-                  {save === true ? (
-                    <LofftIcon
-                      name="heart-filled"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  ) : (
-                    <LofftIcon
-                      name="heart"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  )}
-                </Pressable>
-              </View>
-            ) : (
-              <View />
-            )}
+      <Pressable
+        onPress={() =>
+          navigation.navigate('applicationshow', {
+            images: images,
+            active: active,
+            currentApplicationStatus: currentFlatStatusIndex,
+            flatId: flatId,
+            address: address,
+            description: description,
+            fromDate: fromDate,
+            untilDate: untilDate,
+            price: price,
+          })
+        }>
+        <View>
+          <Image
+            // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
+            source={
+              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
+            }
+            style={styles.flatCardImage}
+          />
+          <View style={styles.flatCardButtonsOverlay}>
+            <View style={styles.flatCardbuttonsWrap}>
+              {match ? (
+                <View>
+                  <Pressable
+                    style={styles.flatCardSaveButton}
+                    onPress={() => {
+                      setSave(!save);
+                      saveFlatToUserLikes({flatId, add: save});
+                    }}>
+                    {save === true ? (
+                      <LofftIcon
+                        name="heart-filled"
+                        size={25}
+                        color={Color.Tomato[100]}
+                      />
+                    ) : (
+                      <LofftIcon
+                        name="heart"
+                        size={25}
+                        color={Color.Tomato[100]}
+                      />
+                    )}
+                  </Pressable>
+                </View>
+              ) : (
+                <View />
+              )}
 
-            <PaginationBar screen={screen} totalScreens={5} />
+              <PaginationBar screen={screen} totalScreens={5} />
+            </View>
           </View>
         </View>
-      </View>
+      </Pressable>
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
-            {price} {''} {''} 26 m2
+            {price}€ {''} {''} 26 m2
           </Text>
           <Text style={{color: '#8E8E8E'}}>{district}, Berlin </Text>
         </View>
@@ -196,7 +215,6 @@ const styles = StyleSheet.create({
   },
   progressBarOutline: {
     flex: 1,
-
     padding: 6,
     borderRadius: 8,
   },
