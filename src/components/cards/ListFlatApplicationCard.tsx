@@ -31,6 +31,7 @@ const ListFlatApplicationCard = ({
   description,
   fromDate,
   untilDate
+  active,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);

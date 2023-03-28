@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, FC} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
@@ -32,6 +32,13 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   const selectedEmojis = (id: any) => {
     const targets = [];
 
+    interface EmojiItem {
+      id: number;
+      emojiIcon: string;
+      value: string;
+      toggle: boolean;
+    }
+
     const preSeleted = intitalpreferencesArray.map(element => {
       if (element.id === id) {
         targets.push(element);
@@ -58,21 +65,24 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
     }, 800);
   };
 
-  const emojiElements = intitalpreferencesArray.map((emojiElement, index) => {
-    return (
-      <EmojiIcon
-        key={index + 1}
-        id={emojiElement.id}
-        emojiIcon={emojiElement.emoji}
-        value={emojiElement.value}
-        toggle={emojiElement.toggle}
-        selectedEmojis={selectedEmojis}
-        disabled={
-          selectedTracks.length === 10 && !selectedTracks.includes(emojiElement)
-        }
-      />
-    );
-  });
+  const emojiElements = intitalpreferencesArray.map(
+    (emojiElement: any, index: number) => {
+      return (
+        <EmojiIcon
+          key={index + 1}
+          id={emojiElement.id}
+          emojiIcon={emojiElement.emoji}
+          value={emojiElement.value}
+          toggle={emojiElement.toggle}
+          selectedEmojis={selectedEmojis}
+          disabled={
+            selectedTracks.length === 10 &&
+            !selectedTracks.includes(emojiElement)
+          }
+        />
+      );
+    },
+  );
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>

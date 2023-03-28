@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+
 // Save user profile
 
 export const createUserProfile = async (data: any) => {
@@ -21,22 +22,29 @@ export const createUserProfile = async (data: any) => {
     savedFlats: [],
   };
   const currentUserId = data.userId || auth().currentUser?.uid;
-  await firestore().collection('users').doc(currentUserId).set(userData);
+
+  try {
+    await firestore().collection('users').doc(currentUserId).set(userData);
+  } catch (error) {
+    console.log('createUserProfile:', error);
+  }
 };
 
 export const createFlatProfile = async (data: any) => {
   const currentUserId = data.userId || auth().currentUser?.uid;
   const userAddedToData = data;
   userAddedToData.user = currentUserId;
-
-  const response = await (
-    await firestore().collection('flats').add(userAddedToData)
-  ).get();
-  const flatId = response.id;
-  await firestore()
-    .collection('users')
-    .doc(currentUserId)
-    .set({flats: [flatId], notionId: data.notionId});
+  try {
+    const response = await (
+      await firestore().collection('flats').add(userAddedToData)
+    ).get();
+    await firestore()
+      .collection('users')
+      .doc(currentUserId)
+      .set({flats: [response.id], notionId: data?.notionId || null});
+  } catch (error) {
+    console.log('createFlatProfile:', error);
+  }
 };
 
 export const checkUserProfileExist = async () => {
@@ -48,7 +56,7 @@ export const checkUserProfileExist = async () => {
       .get();
     if (response.data()) return true;
   } catch (error) {
-    console.log(error);
+    console.log('checkUserProfileExist:', error);
     return false;
   }
 };
@@ -87,7 +95,7 @@ export const getFlatsFromDB = async () => {
     });
     return flats;
   } catch (error) {
-    console.log(error);
+    console.log('GetFlatsFromDB:', error);
   }
 };
 
@@ -128,17 +136,28 @@ export const seedCheckUserExists = async (userId: string) => {
       .get();
     return response.docs.length > 0;
   } catch (error) {
-    console.log(error);
+    console.log('seedCheckUserExists:', error);
   }
 };
 
 // Save Flat to user list
 
 export const saveFlatToUserLikes = async ({flatId, add}: any) => {
-  console.log(flatId);
   try {
     const currentUser: any = await auth()?.currentUser?.uid;
     if (add) {
+      await firestore()
+        .collection('flats')
+        .doc(flatId)
+        .update({
+          likedUsers: firestore.FieldValue.arrayUnion(currentUser),
+        });
+
+      await firestore()
+        .collection('users')
+        .doc(currentUser)
+        .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
+    } else {
       await firestore()
         .collection('flats')
         .doc(flatId)
@@ -150,18 +169,8 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
         .collection('users')
         .doc(currentUser)
         .update({savedFlats: firestore.FieldValue.arrayRemove(flatId)});
-    } else {
-      await firestore()
-        .collection('flats')
-        .doc(flatId)
-        .update({likedUsers: firestore.FieldValue.arrayUnion(currentUser)});
-
-      await firestore()
-        .collection('users')
-        .doc(currentUser)
-        .update({savedFlats: firestore.FieldValue.arrayUnion(flatId)});
     }
   } catch (error) {
-    console.log(error);
+    console.log('saveFlatToUserLikes:', error);
   }
 };

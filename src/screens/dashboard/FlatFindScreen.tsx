@@ -14,6 +14,8 @@ import InputFieldText from '@Components/coreComponents/inputField/InputFieldText
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
+import SearchFilterModal from '@Components/modals/SearchFilterModal';
+
 // Redux 🏪
 import {useDispatch} from 'react-redux';
 import {setAllFlats} from '@Redux/flat/flatsSlice';
@@ -23,12 +25,17 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FlatListScreen = ({navigation}: any) => {
+  const [openModal, setOpenModal] = useState(false);
   const [sortedFlats, setSortedFlats] = useState([]);
+
+  const pullData = (data: any) => {
+    setOpenModal(data);
+  };
+
   const dispatch = useDispatch();
   useEffect(() => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
-      console.log('flats', flats[0]);
       if (flats) {
         if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
@@ -62,7 +69,7 @@ const FlatListScreen = ({navigation}: any) => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={() => auth().signOut()} />
+        <FilterButton onPress={() => pullData(true)} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
@@ -78,6 +85,7 @@ const FlatListScreen = ({navigation}: any) => {
           <FlatMap />
         )}
       </View>
+      <SearchFilterModal openModal={openModal} pullData={pullData} />
     </View>
   );
 };
