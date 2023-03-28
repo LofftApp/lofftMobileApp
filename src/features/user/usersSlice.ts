@@ -31,8 +31,12 @@ const initialState: UserState = {
 
 // Middlewares
 export const checkAdmin = createAsyncThunk('users/checkAdmin', async () => {
-  const userToken: any = await auth().currentUser?.getIdTokenResult();
-  return userToken.claims.role === 'admin';
+  try {
+    const userToken: any = await auth().currentUser?.getIdTokenResult();
+    return userToken.claims.role === 'admin';
+  } catch (error) {
+    console.log('checkAdmin:', error);
+  }
 });
 
 export const fetchUserProfile = createAsyncThunk(
@@ -40,7 +44,7 @@ export const fetchUserProfile = createAsyncThunk(
   async (uid: string) => {
     try {
       const response = await firestore().collection('users').doc(uid).get();
-      return response.data();
+      return response.data() || false;
     } catch (error) {
       console.log('fetchUserProfile:', error);
     }

@@ -93,12 +93,14 @@ const App = () => {
     }
   }, []);
 
+  const profile = useAppSelector(state => state.user.profile);
+  console.log('profile', profile);
   return (
     <>
       {user ? (
         <RootStack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={'dashboard'}>
+          initialRouteName={profile ? 'dashboard' : 'profileFlow'}>
           <RootStack.Screen name="admin" component={AdminScreen} />
           <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           <RootStack.Screen name="dashboard" component={DashboardNavigator} />
