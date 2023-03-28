@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   pagination: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   paginationBlob: {
     width: 8,

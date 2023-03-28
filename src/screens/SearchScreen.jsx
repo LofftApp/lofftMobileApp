@@ -7,6 +7,7 @@ import SearchInputField from '../components/coreComponents/inputField/SearchInpu
 }
 
 const SearchScreen = ({navigation}) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.searchOverlay}>

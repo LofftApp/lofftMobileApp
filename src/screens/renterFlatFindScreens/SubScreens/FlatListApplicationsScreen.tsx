@@ -5,6 +5,9 @@ import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
 const FlatListApplicationsScreen = ({ active, flats, navigation }:any) => {
+
+
+
   return (
     <ScrollView style={styles.flatCardContainer}>
       <SafeAreaView>
@@ -19,6 +22,10 @@ const FlatListApplicationsScreen = ({ active, flats, navigation }:any) => {
               price={el.price}
               images={el.images}
               likedUsers={el.likedUsers}
+              address={el.address}
+              description={el.description}
+              fromDate={el.fromDate}
+              untilDate={el.untilDate}
               /*  active is just for demo 👇*/
               active={active}
             />

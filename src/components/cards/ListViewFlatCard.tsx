@@ -83,8 +83,9 @@ const ListViewFlatCard = ({
                 </View>
               ) : null}
 
-              <PaginationBar screen={screen} totalScreens={5} />
+
             </View>
+            <PaginationBar screen={screen} totalScreens={5} />
           </View>
         </View>
       </Pressable>
