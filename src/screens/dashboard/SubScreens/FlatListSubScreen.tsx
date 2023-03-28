@@ -1,5 +1,6 @@
 import React from 'react';
-import {ScrollView, SafeAreaView, StyleSheet} from 'react-native';
+import {ScrollView, SafeAreaView, StyleSheet, View} from 'react-native';
+import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
 // Redux 🏗️
 import {useAppSelector} from '@ReduxCore/hooks';
@@ -9,9 +10,10 @@ import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({navigation}: any) => {
   const flats = useAppSelector((state: any) => state.flats.allFlats);
+
   return (
     <ScrollView style={styles.flatCardContainer}>
-      <SafeAreaView>
+      <View>
         {flats.map((el: any, index: number) => {
           return (
             <ListViewFlatCard
@@ -27,7 +29,7 @@ const FlatListSubScreen = ({navigation}: any) => {
             />
           );
         })}
-      </SafeAreaView>
+      </View>
     </ScrollView>
   );
 };

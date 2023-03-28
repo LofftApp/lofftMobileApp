@@ -22,8 +22,7 @@ import TempScreen from '@Screens/dashboard/TempScreen';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigator = () => {
-  const userType = useAppSelector(state => state.user.userType);
-  console.log('userType', userType);
+  const admin = useAppSelector(state => state.user.admin);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -77,7 +76,7 @@ const DashboardNavigator = () => {
         component={TempScreen}
         options={{headerShown: false}}
       />
-      {userType === 'admin' ? (
+      {admin ? (
         <Tab.Screen
           name="admin"
           component={AdminScreen}
