@@ -6,6 +6,8 @@
  */
 
 import React, {useState, useEffect} from 'react';
+import MapboxGL from '@rnmapbox/maps';
+import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -49,6 +51,11 @@ const App = () => {
     setUser(user);
   };
 
+  // Mapbox
+  MapboxGL.setWellKnownTileServer('Mapbox');
+  MapboxGL.setAccessToken(MAPBOX_API_KEY);
+  // This is needed to use Mapbox in offline mode and with android emulator
+  MapboxGL.setConnected(true);
   useEffect(() => {
     if (initializing) setInitializing(false);
     return auth().onAuthStateChanged(onAuthStateChanged);
