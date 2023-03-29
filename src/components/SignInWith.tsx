@@ -17,9 +17,11 @@ import {GoogleIcon} from '../assets';
 const SignInWith = ({navigation}: any) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text1}>
-        ────────{'    '}Or sign in with {'    '}────────
-      </Text>
+      <View style={styles.signInWithContianer}>
+        <View style={styles.horizontalLine} />
+        <Text style={styles.text}>Or sign in with</Text>
+        <View style={styles.horizontalLine} />
+      </View>
       <View style={styles.buttonWrap}>
         <TouchableOpacity
           onPress={() => onAppleButtonPress()}
@@ -39,11 +41,13 @@ const SignInWith = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    width: '100%',
     flex: 1,
   },
-  text1: {
+  text: {
     color: Colors.Black[50],
     paddingVertical: 20,
+    marginHorizontal: 15,
   },
   buttonWrap: {
     flexDirection: 'row',
@@ -60,6 +64,18 @@ const styles = StyleSheet.create({
   },
   syncButton: {
     borderColor: Colors.Tomato[100],
+  },
+  signInWithContianer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+    width: '100%',
+  },
+  horizontalLine: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: Colors.Black[50],
   },
 });
 

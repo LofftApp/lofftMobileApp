@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {Platform} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -119,6 +119,7 @@ export default () => {
     <NavigationContainer
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
+      <StatusBar hidden={true} />
       <App />
     </NavigationContainer>
   );

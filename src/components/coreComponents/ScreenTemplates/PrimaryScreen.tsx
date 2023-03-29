@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Platform,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {View, Platform, StyleSheet} from 'react-native';
 
 // StyleSheets
 import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
@@ -13,16 +7,14 @@ import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
 const PrimaryScreen = ({background = false, children}: any) => {
   return (
     // Screen back button
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View
-        style={[
-          CoreStyleSheet.viewContainerStyle,
-          background ? {paddingHorizontal: 0} : null,
-          Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
-        ]}>
-        <View style={styles.boundries}>{children}</View>
-      </View>
-    </TouchableWithoutFeedback>
+    <View
+      style={[
+        CoreStyleSheet.viewContainerStyle,
+        background ? {paddingHorizontal: 0} : null,
+        Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
+      ]}>
+      <View style={styles.boundries}>{children}</View>
+    </View>
   );
 };
 

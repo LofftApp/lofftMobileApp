@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Components 🪢
+import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 import SignInForm from '@Components/Forms/SignInForm';
 import SignInWith from '@Components/SignInWith';
 
@@ -26,7 +27,7 @@ const SignInScreen = ({navigation}: any) => {
         <View style={styles.signInWith}>
           <SignInWith navigation={navigation} />
           <Text style={styles.text}>
-            Don't have an account yet?{'     '}
+            Don't have an account yet?
             <Text
               style={styles.link}
               onPress={() => navigation.navigate('SignUpScreen')}>
