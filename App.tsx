@@ -6,6 +6,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
+import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -52,10 +53,13 @@ const App = () => {
   };
 
   // Mapbox
-  MapboxGL.setWellKnownTileServer('Mapbox');
+  MapboxGL.setWellKnownTileServer(
+    Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
+  );
   MapboxGL.setAccessToken(MAPBOX_API_KEY);
   // This is needed to use Mapbox in offline mode and with android emulator
-  MapboxGL.setConnected(true);
+  if (Platform.OS === 'android') MapboxGL.setTelemetryEnabled(false);
+
   useEffect(() => {
     if (initializing) setInitializing(false);
     return auth().onAuthStateChanged(onAuthStateChanged);
