@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import LogRocket from '@logrocket/react-native';
+
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {
@@ -50,16 +50,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    const currentUser = auth()?.currentUser;
-    LogRocket.init('2y6ler/lofft');
-
-    if (currentUser) {
-      const credentials: any = {
-        name: currentUser.displayName,
-        email: currentUser.email,
-      };
-      LogRocket.identify(currentUser.uid, credentials);
-    }
     if (initializing) setInitializing(false);
     return auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
