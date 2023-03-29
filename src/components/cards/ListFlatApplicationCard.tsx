@@ -7,9 +7,7 @@ import auth from '@react-native-firebase/auth';
 
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
-import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

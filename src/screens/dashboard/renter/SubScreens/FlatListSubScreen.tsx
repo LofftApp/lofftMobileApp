@@ -1,6 +1,5 @@
 import React from 'react';
-import {ScrollView, SafeAreaView, StyleSheet, View} from 'react-native';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from '@ReduxCore/hooks';
