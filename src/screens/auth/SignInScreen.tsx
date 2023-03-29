@@ -2,9 +2,9 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Components 🪢
-import PrimaryScreen from '@Components/coreComponents/ScreenTemplates/PrimaryScreen';
 import SignInForm from '@Components/Forms/SignInForm';
 import SignInWith from '@Components/SignInWith';
+import AuthenticationHeader from '@Components/headers/AuthenticationHeader';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -16,10 +16,7 @@ import {HiFive} from '../../assets';
 const SignInScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
-      <View style={styles.imageWrap}>
-        <HiFive style={styles.image} />
-      </View>
-      <SignInBackground style={styles.backgroundImage} />
+      <AuthenticationHeader />
       <View style={styles.formWrap}>
         <View style={styles.signInForm}>
           <SignInForm />
@@ -27,7 +24,7 @@ const SignInScreen = ({navigation}: any) => {
         <View style={styles.signInWith}>
           <SignInWith navigation={navigation} />
           <Text style={styles.text}>
-            Don't have an account yet?
+            Don't have an account yet?{'     '}
             <Text
               style={styles.link}
               onPress={() => navigation.navigate('SignUpScreen')}>
