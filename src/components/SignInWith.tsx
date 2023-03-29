@@ -7,10 +7,6 @@ import {
   onGoogleButtonPress,
 } from '@Api/firebase/firebaseAuth';
 
-// Components 🪢
-import LofftIcon from './lofftIcons/LofftIcon';
-import {SeedButton} from '@Redux/seeding/SeedButton';
-
 // Styles 🖼️
 import Colors from '@StyleSheets/lofftColorPallet.json';
 
