@@ -1,4 +1,4 @@
-package com.lofftmobileapp;
+package app.lofft.lofft;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
@@ -9,8 +9,9 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 // Commented out during upgrade to 0.70.4 if issue uncomment
-// import java.util.List;
-import org.devio.rn.splashscreen.SplashScreenReactPackage; // Splash Screen
+import java.util.List;
+// SplashScreen
+// import org.devio.rn.splashscreen.SplashScreenReactPackage; Commented out during upgrade to 0.71.4 remove if found later and works
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -25,7 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
       protected List<ReactPackage> getPackages() {
         @SuppressWarnings("UnnecessaryLocalVariable")
         List<ReactPackage> packages = new PackageList(this).getPackages();
-        // Packages that cannot be autolinked yet can be added manually here, for example:
+        // Packages that cannot be auto linked yet can be added manually here, for example:
         // packages.add(new MyReactNativePackage());
 
         return packages;
@@ -54,7 +55,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
       super.onCreate();
-      SoLoader.init(this, /* native exopackage */ false);
+      SoLoader.init(this, /* native expo package */ false);
       if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
       DefaultNewArchitectureEntryPoint.load();
