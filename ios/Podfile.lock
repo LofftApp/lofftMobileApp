@@ -750,10 +750,6 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
-  - LogRocket (1.12.3)
-  - logrocket-react-native (1.12.3):
-    - LogRocket (= 1.12.3)
-    - React
   - MapboxCommon (23.4.0)
   - MapboxCoreMaps (10.12.0):
     - MapboxCommon (~> 23.4)
@@ -1166,7 +1162,6 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
-  - "logrocket-react-native (from `../node_modules/@logrocket/react-native`)"
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -1235,7 +1230,6 @@ SPEC REPOS:
     - leveldb-library
     - libevent
     - Libuv-gRPC
-    - LogRocket
     - MapboxCommon
     - MapboxCoreMaps
     - MapboxMaps
@@ -1257,8 +1251,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
-  logrocket-react-native:
-    :path: "../node_modules/@logrocket/react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -1373,8 +1365,6 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
-  LogRocket: 6aa00abdbc14fcafa563b063d226f4860367975a
-  logrocket-react-native: 1d1c482461757fdb1f4290a5f4f90ec508a19d47
   MapboxCommon: 2945d39158111455f353524f3c2ad356bd8d546a
   MapboxCoreMaps: 511ba1f7876e635431b741cab5e9278219d906f6
   MapboxMaps: a9978d13d1cba0403c5bdd2ab3b71418924075d2
@@ -1427,4 +1417,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e4149538ad66e38a3ab1d7bc7cd297c39d41f8cd
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
