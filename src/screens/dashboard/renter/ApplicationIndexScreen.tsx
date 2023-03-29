@@ -1,57 +1,38 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // Firebase 🔥
-import auth from '@react-native-firebase/auth';
 import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
-import FlatListSubScreen from './SubScreens/FlatListSubScreen';
+import FlatListApplicationsScreen from './SubScreens/FlatListApplicationsScreen';
 
 // Components 🪢
-import FilterButton from '@Components/buttons/FilterButton';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
-import SearchFilterModal from '@Components/modals/SearchFilterModal';
-
-// Redux 🏪
-import {useDispatch} from 'react-redux';
-import {setAllFlats} from '@Redux/flat/flatsSlice';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-const FlatListScreen = ({navigation}: any) => {
-  const [openModal, setOpenModal] = useState(false);
+const ApplicationIndexScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
 
-  const pullData = (data: any) => {
-    setOpenModal(data);
-  };
-
-  const dispatch = useDispatch();
   useEffect(() => {
     const getFlats = async () => {
       const flats = await getFlatsFromDB();
       if (flats) {
         if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-          dispatch(setAllFlats(reOrder));
           setSortedFlats(reOrder);
         } else {
           setSortedFlats(flats);
-          dispatch(setAllFlats(flats));
         }
       }
     };
     getFlats();
   }, []);
 
-  const [search, setSearch] = useState('');
-  const [screen, setScreen] = useState('list');
+  const [screen, setScreen] = useState('thumbs-up');
 
   const setActiveScreen = (screen: string) => {
     setScreen(screen);
@@ -59,33 +40,32 @@ const FlatListScreen = ({navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.searchContainer}>
-        <InputFieldText
-          type="search"
-          onChangeText={(t: string) => setSearch(t)}
-          value={search}
-          placeholder="City, Neighbourhood..."
-          onClear={() => setSearch('')}
-          keyboardType="email-address"
-          style={styles.inputField}
-        />
-        <FilterButton onPress={() => pullData(true)} />
+      <View style={styles.headerText}>
+        <Text style={fontStyles.headerLarge}>My Applications</Text>
       </View>
       <HeaderPageContentSwitch
-        toggleNames={['List View', 'Map View']}
-        toggleIcons={['list', 'map']}
-        markers={['list', 'map']}
+        toggleNames={['Active', 'Inactive']}
+        toggleIcons={['thumbs-up', 'thumbs-down']}
+        markers={['thumbs-up', 'thumbs-down']}
         activeScreen={screen}
         setActiveScreen={(screen: string) => setActiveScreen(screen)}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? (
-          <FlatListSubScreen navigation={navigation} />
+        {screen === 'thumbs-up' ? (
+          <FlatListApplicationsScreen
+            flats={sortedFlats}
+            navigation={navigation}
+            active={true}
+          />
         ) : (
-          <FlatMap />
+          <FlatListApplicationsScreen
+            flats={sortedFlats}
+            navigation={navigation}
+            /* Just for demo purposes 🚨 🚨 */
+            active={false}
+          />
         )}
       </View>
-      <SearchFilterModal openModal={openModal} pullData={pullData} />
     </View>
   );
 };
@@ -106,6 +86,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flexDirection: 'row',
     marginTop: 68, // Needs to be added to core view file, though not working when built
+  },
+  headerText: {
+    marginTop: 50,
+    marginHorizontal: 16,
   },
   // flatListSubScreen: {
   //   margin: 10,
@@ -139,4 +123,4 @@ const styles = StyleSheet.create({
   // },
 });
 
-export default FlatListScreen;
+export default ApplicationIndexScreen;

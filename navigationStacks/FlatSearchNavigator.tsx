@@ -4,10 +4,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import FlatShowScreen from '@Screens/renterFlatFindScreens/FlatShowScreen';
 // import ApplyForFlatScreen from '@Screens/renterFlatFindScreens/ApplyForFlatScreen';
 // import ApplicationShowScreen from '@Screens/renterFlatFindScreens/ApplicationShowScreen';
-import FlatListScreen from '@Screens/dashboard/FlatFindScreen';
-import FlatShowScreen from '@Screens/dashboard/FlatShowScreen';
-import ApplyForFlatScreen from '@Screens/dashboard/ApplyForFlatScreen';
-import ApplicationShowScreen from '@Screens/dashboard/ApplicationShowScreen';
+import FlatListScreen from '@Screens/dashboard/renter/FlatFindScreen';
+import FlatShowScreen from '@Screens/dashboard/renter/FlatShowScreen';
+import ApplyForFlatScreen from '@Screens/dashboard/renter/ApplyForFlatScreen';
+import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScreen';
 
 const FlatFind = createNativeStackNavigator();
 const FlatSearchNavigator = () => {

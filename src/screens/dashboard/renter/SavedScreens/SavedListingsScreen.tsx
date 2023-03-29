@@ -1,4 +1,4 @@
-import react from 'react';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Styles 🖼️
@@ -6,7 +6,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // assets 🛠️
-import {Looking} from './../../../assets';
+import {Looking} from '../../../../assets';
 
 const SavedListingsScreen = () => {
   return (

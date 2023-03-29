@@ -54,7 +54,9 @@ export const checkUserProfileExist = async () => {
       .collection('users')
       .doc(currentUserId)
       .get();
-    if (response.data()) return true;
+    if (response.data()) {
+      return true;
+    }
   } catch (error) {
     console.log('checkUserProfileExist:', error);
     return false;
@@ -109,7 +111,9 @@ const calculateMatchScore = ({userPreferences, flatPreferences}: any) => {
       let diff = 10;
       if (userIndexItem >= 0) {
         diff = i - userIndexItem;
-        if (diff < 0) diff *= -1;
+        if (diff < 0) {
+          diff *= -1;
+        }
       }
       points -= diff;
     });
