@@ -11,9 +11,9 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 import MapMarker from './MapMarker';
 
-MapboxGL.setAccessToken(MAPBOX_API_KEY);
+// MapboxGL.setAccessToken(MAPBOX_API_KEY);
 // // This is needed to use Mapbox in offline mode and with android emulator
-MapboxGL.setConnected(true);
+// MapboxGL.setConnected(true);
 
 const FlatMap = () => {
   const flats = useAppSelector((state: any) => state.flats.allFlats);

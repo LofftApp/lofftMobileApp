@@ -7,7 +7,7 @@ apply plugin: 'com.google.gms.google-services'
 
 // Icons and fonts
 project.ext.vectoricons = [
-    iconFontNames: [ 'Ionicons.ttf', 'icomoon.ttf' ] // Name of the font files you want to copy
+    iconFontNames: ['icomoon.ttf' ] // Name of the font files you want to copy
 ]
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -165,7 +165,7 @@ android {
 dependencies {
     // From node_modules
     implementation project(':react-native-splash-screen') // Added with React Native Splash Screen
-
+    implementation project(':react-native-vector-icons') // Added with React Native Vector Icons
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
