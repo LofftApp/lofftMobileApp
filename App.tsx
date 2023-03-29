@@ -58,7 +58,7 @@ const App = () => {
   );
   MapboxGL.setAccessToken(MAPBOX_API_KEY);
   // This is needed to use Mapbox in offline mode and with android emulator
-  if (Platform.OS === 'android') MapboxGL.setTelemetryEnabled(false);
+  MapboxGL.setTelemetryEnabled(false);
 
   useEffect(() => {
     if (initializing) setInitializing(false);
