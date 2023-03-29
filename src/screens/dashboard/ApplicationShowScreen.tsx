@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   progressTextContainer: {
     height: '98%', // '98%'
-    width: '80%',
+    width: '90%',
     justifyContent: 'space-around',
   },
 });

@@ -246,7 +246,7 @@ const StatusBar = ({landlord = false, currentApplicationStatus}: any) => {
         <View
           style={[
             styles.progressTextContainer,
-            {height: landlord ? landlordProgressTextContainerHeight : '98%'},
+            {height: landlord ? '95%' : '98%'},
           ]}>
           {landlord ? landLordStatusActions : renterStatusActions}
         </View>
@@ -285,14 +285,15 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   progressTextContainer: {
-    width: '80%',
+    width: '85%',
+    marginLeft: 15,
     justifyContent: 'space-around',
   },
   landlordActionButton: {
     backgroundColor: Color.Lavendar[100],
     justifyContent: 'center',
     alignItems: 'center',
-    width: '40%',
+    width: '50%',
     padding: 7,
     marginTop: 10,
     borderRadius: 12,
