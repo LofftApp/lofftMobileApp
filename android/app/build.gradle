@@ -1,5 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+
+// Firebase Installation
 apply plugin: 'com.google.gms.google-services'
 
 
@@ -88,7 +90,9 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * This reads the value from reactNativeArchitectures in your gradle.properties
  * file and works together with the --active-arch-only flag of react-native run-android.
  */
-def enableHermes = project.ext.react.get("enableHermes", false);
+
+// ! Commented out for bug and error testing
+//def enableHermes = project.ext.react.get("enableHermes", false);
 
 /**
  * Architectures to build native code for.
@@ -103,7 +107,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.lofftmobileapp"
+    namespace "app.lofft.lofft"
     defaultConfig {
       applicationId "app.lofft.lofft"
       minSdkVersion rootProject.ext.minSdkVersion
