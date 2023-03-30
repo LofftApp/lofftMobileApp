@@ -9,20 +9,23 @@ import {
   Dimensions,
 } from 'react-native';
 
+// External
 import Collapsible from 'react-native-collapsible';
 
+// Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import { fontStyles } from '@StyleSheets/fontStyles';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import {CoreButton} from '@Components/buttons/CoreButton';
+import StatusBar from '@Components/statusbar/StatusBar';
+import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
 // Assets 🪴
-import eye from '@Assets/images/eye.png';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const {
@@ -126,53 +129,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <View
-            style={[styles.progressContainer, {maxHeight: screenheight / 2}]}>
-            <View style={styles.progressBarOutline}>
-              <View style={styles.iconsPosition}>
-                {icons.map((el, index) => (
-                  <LofftIcon
-                    key={index + 1}
-                    name={el}
-                    size={28}
-                    color={
-                      currentFlatStatusIndex === index ||
-                      currentFlatStatusIndex > index
-                        ? Color.White[100]
-                        : Color.Mint[50]
-                    }
-                  />
-                ))}
-              </View>
-              <View
-                style={[styles.progressBar, {height: `${currentStatusBar}%`}]}
-              />
-            </View>
-            <View style={styles.progressTextContainer}>
-              {activeStatus.map((el, index) => (
-                <View key={index + 1}>
-                  <Text
-                    style={[
-                      fontStyles.headerSmall,
-                      {
-                        marginTop: 15,
-                        color:
-                          currentFlatStatusIndex === index ||
-                          currentFlatStatusIndex > index
-                            ? Color.Black[100]
-                            : Color.Black[50],
-                      },
-                    ]}>
-                    {el.header}
-                  </Text>
-                  <Text style={[fontStyles.bodySmall, Color.Black[50]]}>
-                    {el.subText}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
+          <StatusBar landlord={true} currentApplicationStatus={3} />
           <Text
             onPress={() => setHasCollapsed(!hascollaped)}
             style={[
@@ -195,6 +152,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
             />
           </Collapsible>
         </View>
+
       </ScrollView>
     </View>
   );
@@ -240,8 +198,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   progressTextContainer: {
-    height: '98%',
-    width: '80%',
+    height: '98%', // '98%'
+    width: '90%',
     justifyContent: 'space-around',
   },
 });
