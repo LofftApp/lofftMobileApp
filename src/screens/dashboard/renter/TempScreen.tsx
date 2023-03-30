@@ -9,8 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 
-import auth from '@react-native-firebase/auth';
-
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Components

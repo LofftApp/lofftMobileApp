@@ -1,9 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
-// Firebase Installation
-apply plugin: 'com.google.gms.google-services'
-
 
 // Icons and fonts
 project.ext.vectoricons = [

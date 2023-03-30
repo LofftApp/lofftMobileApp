@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
-import auth from '@react-native-firebase/auth';
-
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 

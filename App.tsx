@@ -18,9 +18,6 @@ import {
   setUserProfile,
   checkAdmin,
 } from '@Redux/user/usersSlice';
-// FireStore 🔥
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -44,13 +41,12 @@ const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 
-  const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
-    const currentUser: any = await auth()?.currentUser;
-    dispatch(checkAdmin());
-    dispatch(setUserID(currentUser?.uid || null));
-    dispatch(fetchUserProfile(currentUser?.uid || null));
-    setUser(user);
-  };
+  // TODO: sync with new api
+  // const currentUser: any = await auth()?.currentUser;
+  // dispatch(checkAdmin());
+  // dispatch(setUserID(currentUser?.uid || null));
+  // dispatch(fetchUserProfile(currentUser?.uid || null));
+  // setUser(user);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -60,10 +56,8 @@ const App = () => {
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
 
-  useEffect(() => {
-    if (initializing) setInitializing(false);
-    return auth().onAuthStateChanged(onAuthStateChanged);
-  }, []);
+  // TODO: This will need to be placed in another useEffect with new DB path.
+  if (initializing) setInitializing(false);
 
   GoogleSignin.configure({
     webClientId:
@@ -72,10 +66,6 @@ const App = () => {
 
   // Use Effect for dev environment
   useEffect(() => {
-    firestore().settings({
-      persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
-      cacheSizeBytes: 4e9,
-    });
     if (__DEV__) {
       console.log('FireStore Development Environment');
       let host = 'localhost';
@@ -86,8 +76,6 @@ const App = () => {
       } else {
         console.log(`Host is running on ${host}`);
       }
-      firestore().useEmulator(host, 8080);
-      auth().useEmulator(`http://${host}:9099`);
     }
   }, []);
 

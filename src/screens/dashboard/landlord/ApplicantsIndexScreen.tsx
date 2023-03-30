@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
-// Firebase 🔥
-import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
-
 // Screens 📺
 import ApplicantsListSubScreen from './SubScreens/ApplicantsListSubScreen';
 
@@ -14,7 +11,7 @@ import BackButton from '@Components/buttons/BackButton';
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
-import { CoreButton } from '@Components/buttons/CoreButton';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ApplicantsIndexScreen = ({navigation}: any) => {
   return (

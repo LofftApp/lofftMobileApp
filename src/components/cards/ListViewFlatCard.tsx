@@ -5,10 +5,6 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
-// Firebase & API 🧠
-import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
-import auth from '@react-native-firebase/auth';
-
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';

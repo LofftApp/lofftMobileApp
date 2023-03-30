@@ -1,10 +1,5 @@
 import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
-import {
-  createUserProfile,
-  createFlatProfile,
-} from '@Api/firebase/firestoreActions';
-
 const renterJourney = () => {
   return {
     '0': {screenName: 'AboutYouFlatHuntScreen'},

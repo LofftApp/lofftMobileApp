@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-// API 🧠
-import {handleSignIn} from '@Api/firebase/firebaseAuth';
-
 // Components 🪢
 import SignUpButton from '@Components/buttons/SignUpButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
