@@ -1,40 +1,20 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+// Components 🪢
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
-import {ApplyForFlatScreenBackground} from '@Assets';
-import {HiFive} from '@Assets';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import ConfirmationScreenComponent from '@Components/cards/confirmationScreenComponent';
 
-const ApplyForFlatScreen = ({navigation}: any) => {
+const ApplyForFlatScreen = ({navigation, route}: any) => {
+  const pageData =
+    route.params?.lessorObject || route.params?.renterObject || {};
+
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
-      <ApplyForFlatScreenBackground style={styles.backgroundImage} />
-      <View style={styles.itemsWrap}>
-        <HiFive />
-        <Text style={[fontStyles.headerSmall, styles.hack]}>
-          You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
-          to get back to you!
-        </Text>
-        <Text style={[fontStyles.bodyMedium, styles.hack]}>
-          ⚡️ Remaining tokens : 5
-        </Text>
-        <View style={styles.buttonsWrap}>
-          <CoreButton
-            style={styles.buttonStyle}
-            value={'See all applications'}
-            onPress={() => navigation.navigate('alerts')}
-          />
-          <CoreButton
-            style={styles.buttonStyle}
-            invert={true}
-            value={'Back to search'}
-            onPress={() => navigation.navigate('flatOverview')}
-          />
-        </View>
-      </View>
+      <ConfirmationScreenComponent
+        navigation={navigation}
+        pageData={pageData}
+      />
     </ScreenBackButton>
   );
 };

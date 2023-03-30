@@ -7,11 +7,9 @@ import {useAppSelector} from '@ReduxCore/hooks';
 // Components 🪢
 import ListViewApplicantCard from '@Components/cards/ListViewApplicantCard';
 
-const ApplicantsListSubScreen = ({navigation, checked}: any) => {
+const ApplicantsListSubScreen = ({navigation}: any) => {
   /* list all applicants from redux for the ListViewApplicantCard*/
   const applicants = useAppSelector((state: any) => state.flats.allFlats);
-
-  console.log(checked);
 
   return (
     <ScrollView
