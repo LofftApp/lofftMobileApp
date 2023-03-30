@@ -2,10 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 // API 🧠
-import {
-  onAppleButtonPress,
-  onGoogleButtonPress,
-} from '@Api/firebase/firebaseAuth';
 
 // Styles 🖼️
 import Colors from '@StyleSheets/lofftColorPallet.json';
@@ -21,7 +17,7 @@ const SignInWith = ({navigation}: any) => {
         ────────{'    '}Or sign in with {'    '}────────
       </Text>
       <View style={styles.buttonWrap}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => onAppleButtonPress()}
           style={styles.logInWithButton}>
           <AppleIcon />
@@ -30,7 +26,7 @@ const SignInWith = ({navigation}: any) => {
           onPress={() => onGoogleButtonPress()}
           style={styles.logInWithButton}>
           <GoogleIcon />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
-// Firebase 🔥
-import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
-
 // Screens 📺
 import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
 

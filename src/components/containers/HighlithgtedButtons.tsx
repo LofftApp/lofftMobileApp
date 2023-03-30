@@ -10,12 +10,6 @@ import {
 import Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-// DB actions
-
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import {updateDoc} from '@react-native-firebase/firestore';
-
 // Important Notice !!
 /*
   The navigation prop has to be passed on from the corresponding parent component
@@ -104,7 +98,7 @@ const styles = StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 7,
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)'
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
 });
 
