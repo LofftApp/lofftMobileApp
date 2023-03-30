@@ -16,7 +16,6 @@ const flatsSlice = createSlice({
   initialState,
   reducers: {
     setAllFlats: (state, action: PayloadAction<any[]>) => {
-      console.log('setAllFlats:', action.payload[0]);
       state.allFlats = action.payload;
     },
   },
