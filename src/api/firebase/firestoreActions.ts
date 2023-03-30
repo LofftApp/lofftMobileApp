@@ -176,6 +176,46 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
 };
 
 // Applications
+
+const makeApplication = async ({
+  currentAdd,
+  flatId,
+  matchP,
+}: {
+  currentAdd: any;
+  flatId: string;
+  matchP: number;
+}) => {
+  if (currentAdd.docs.length > 0) {
+    await firestore()
+      .collection('applications')
+      .doc(currentAdd.docs[0].id)
+      .update({
+        applicants: firestore.FieldValue.arrayUnion({
+          userId: auth().currentUser?.uid,
+          state: 0,
+          matchP,
+        }),
+      });
+    return currentAdd.docs[0].id;
+  } else {
+    const response = await firestore()
+      .collection('applications')
+      .add({
+        flatId,
+        state: 0,
+        applicants: [
+          {
+            userId: auth().currentUser?.uid,
+            state: 0,
+            matchP,
+          },
+        ],
+      });
+    return response.id;
+  }
+};
+
 export const firestoreApplyForFlat = async ({
   flatId,
   matchP,
@@ -183,42 +223,28 @@ export const firestoreApplyForFlat = async ({
   flatId: string;
   matchP: number;
 }) => {
-  console.log('firestoreApplyForFlat:', flatId);
   try {
     const currentAdd = await firestore()
       .collection('applications')
       .where('flatId', '==', flatId)
       .where('state', '==', 0)
       .get();
-
-    if (currentAdd.docs.length > 0) {
-      await firestore()
-        .collection('applications')
-        .doc(currentAdd.docs[0].id)
-        .update({
-          applicants: firestore.FieldValue.arrayUnion({
-            userId: auth().currentUser?.uid,
-            state: 0,
-            matchP,
-          }),
-        });
-    } else {
-      await firestore()
-        .collection('applications')
-        .add({
-          flatId,
+    const applicationId = await makeApplication({currentAdd, flatId, matchP});
+    await firestore()
+      .collection('users')
+      .doc(auth().currentUser?.uid)
+      .update({
+        applications: firestore.FieldValue.arrayUnion({
+          applicationId,
           state: 0,
-          applicants: [
-            {
-              userId: auth().currentUser?.uid,
-              state: 0,
-              matchP,
-            },
-          ],
-        });
-    }
-    // const currentUser: any = await auth()?.currentUser?.uid;
-    // await firestore().collection('applications').add({});
+        }),
+      });
+    return {
+      success: true,
+      applicationId,
+      state: 0,
+      userId: auth().currentUser?.uid,
+    };
   } catch (error) {
     console.log('firestoreApplyForFlat:', error);
   }

@@ -26,7 +26,9 @@ export const applyForFlat = createAsyncThunk(
   'applications/applyForFlat',
   async ({flatId, matchP}: {flatId: string; matchP: number}) => {
     try {
-      await firestoreApplyForFlat({flatId, matchP});
+      const response = await firestoreApplyForFlat({flatId, matchP});
+      console.log('response:', response);
+      return 12345;
     } catch (error) {
       console.log('applyForFlat:', error);
     }
@@ -38,7 +40,15 @@ const applicationsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(applyForFlat.fulfilled, (state, action) => {});
+    builder.addCase(applyForFlat.pending, (state, action) => {
+      console.log('action pending:', action);
+    });
+    builder.addCase(applyForFlat.fulfilled, (state, action) => {
+      console.log('action fulfilled:', action.payload);
+    });
+    builder.addCase(applyForFlat.rejected, (state, action) => {
+      console.log('action rejected:', action);
+    });
   },
 });
 

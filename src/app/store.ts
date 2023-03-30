@@ -13,6 +13,7 @@ export const store = configureStore({
     imageUpload: imageUploadReducer,
     user: userReducer,
     flats: flatsReducer,
+    applications: applicationsReducer,
   },
 });
 

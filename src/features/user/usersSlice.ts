@@ -76,16 +76,14 @@ const usersSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(checkAdmin.fulfilled, (state, action) => {
       state.admin = action.payload || false;
-    }),
-      builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
-        state.profile =
-          action.payload?.profileDetails || action.payload?.flats
-            ? true
-            : false;
-        state.profileDetails = action.payload?.profileDetails || null;
-        state.searchCriteria = action.payload?.searchCriteria || null;
-        state.savedFlats = action.payload?.savedFlats;
-      });
+    });
+    builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
+      state.profile =
+        action.payload?.profileDetails || action.payload?.flats ? true : false;
+      state.profileDetails = action.payload?.profileDetails || null;
+      state.searchCriteria = action.payload?.searchCriteria || null;
+      state.savedFlats = action.payload?.savedFlats;
+    });
     builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
       const data: any = action.meta.arg;
       if (data.add) {
@@ -98,15 +96,6 @@ const usersSlice = createSlice({
     });
   },
 });
-
-// WIP for code, below currently not used
-export const fetchCurrentUser = createAsyncThunk(
-  'users/fetchCurrentUser',
-  async () => {
-    const response = await fetch('/api/current_user');
-    return await response.json();
-  },
-);
 
 export const {setUserID, setUserProfile} = usersSlice.actions;
 export default usersSlice.reducer;
