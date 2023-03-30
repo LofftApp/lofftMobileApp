@@ -23,7 +23,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -58,11 +57,6 @@ const App = () => {
 
   // TODO: This will need to be placed in another useEffect with new DB path.
   if (initializing) setInitializing(false);
-
-  GoogleSignin.configure({
-    webClientId:
-      '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
-  });
 
   // Use Effect for dev environment
   useEffect(() => {
