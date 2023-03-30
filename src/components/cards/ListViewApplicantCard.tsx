@@ -26,31 +26,37 @@ const ApplicantsCard = ({}: any) => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.closedCardWrapper}>
-        <View style={styles.buttonTextContainer}>
-          <CheckBox
-            value={activateBox}
-            onPress={() => {
-              setActiveBox(!activateBox);
-            }}
-          />
-          <View style={styles.textContainer}>
-            <Text style={fontStyles.headerMedium}>J.</Text>
-            <Text style={[fontStyles.bodyMedium, styles.matchText]}>
-              (96%match)
-            </Text>
+      <View style={styles.insideContainer}>
+        <CheckBox
+          value={activateBox}
+          onPress={() => {
+            setActiveBox(!activateBox);
+          }}
+        />
+        <Pressable
+          onPress={() => setHasCollapsed(!hasCollapsed)}
+          style={styles.iconCollapser}>
+          <View style={styles.closedCardWrapper}>
+            <View style={styles.textContainer}>
+              <Text style={fontStyles.headerMedium}>J.</Text>
+              <Text style={[fontStyles.bodyMedium, styles.matchText]}>
+                (96%match)
+              </Text>
+            </View>
+            {hasCollapsed ? (
+              <LofftIcon
+                name="chevron-down"
+                size={24}
+                style={styles.iconColor}
+              />
+            ) : (
+              <LofftIcon name="chevron-up" size={24} style={styles.iconColor} />
+            )}
           </View>
-        </View>
-        <Pressable onPress={() => setHasCollapsed(!hasCollapsed)} style={styles.iconCollapser}>
-          {hasCollapsed ? (
-            <LofftIcon name="chevron-down" size={24} style={styles.iconColor} />
-          ) : (
-            <LofftIcon name="chevron-up" size={24} style={styles.iconColor} />
-          )}
         </Pressable>
       </View>
       <Collapsible collapsed={hasCollapsed}>
-        <View>
+        <View style={styles.collapisbleContainer}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
           <Chips />
           <Text style={[fontStyles.headerSmall, styles.otherText]}>Other</Text>
@@ -65,32 +71,42 @@ const styles = StyleSheet.create({
   mainContainer: {
     marginVertical: 8,
     backgroundColor: Color.Lavendar[5],
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  insideContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  collapisbleContainer: {
+    backgroundColor: Color.Lavendar[5],
+    paddingBottom: 12,
   },
   closedCardWrapper: {
     flexDirection: 'row',
-    flex: 1,
     justifyContent: 'space-between',
-    paddingVertical: 20,
-    borderRadius: 8,
-  },
-  buttonTextContainer: {
-    flexDirection: 'row',
+    paddingVertical: 16,
+    alignItems: 'center',
     paddingHorizontal: 16,
+    width: '87%',
   },
   textContainer: {
-    paddingLeft: 24,
     flexDirection: 'row',
     alignItems: 'center',
   },
   matchText: {
     color: Color.Mint[100],
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
   },
   otherText: {
     paddingTop: 10,
   },
   iconCollapser: {
-    paddingRight: 16,
+    paddingHorizontal: 16,
   },
   iconColor: {
     color: Color.Blue[100],
