@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, Dimensions, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {applyForFlat} from '@Redux/applications/applicationsSlice';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -21,6 +22,7 @@ const FlatInfoContainer = ({
   button: boolean;
   navigation: any;
 }) => {
+  const dispatch = useAppDispatch();
   const flat = useAppSelector(
     (state: any) =>
       state.flats.allFlats.filter((flat: any) => flat.flatId === flatId)[0],
@@ -139,7 +141,10 @@ const FlatInfoContainer = ({
                 marginBottom: 30,
               }}
               disabled={false}
-              onPress={() => navigation.navigate('applyforflat')}
+              onPress={(): void => {
+                dispatch(applyForFlat({flatId: flatId, matchP: flat.matchP}));
+                // navigation.navigate('applyforflat');
+              }}
             />
           </View>
         ) : null}

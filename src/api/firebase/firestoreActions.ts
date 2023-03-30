@@ -174,3 +174,52 @@ export const saveFlatToUserLikes = async ({flatId, add}: any) => {
     console.log('saveFlatToUserLikes:', error);
   }
 };
+
+// Applications
+export const firestoreApplyForFlat = async ({
+  flatId,
+  matchP,
+}: {
+  flatId: string;
+  matchP: number;
+}) => {
+  console.log('firestoreApplyForFlat:', flatId);
+  try {
+    const currentAdd = await firestore()
+      .collection('applications')
+      .where('flatId', '==', flatId)
+      .where('state', '==', 0)
+      .get();
+
+    if (currentAdd.docs.length > 0) {
+      await firestore()
+        .collection('applications')
+        .doc(currentAdd.docs[0].id)
+        .update({
+          applicants: firestore.FieldValue.arrayUnion({
+            userId: auth().currentUser?.uid,
+            state: 0,
+            matchP,
+          }),
+        });
+    } else {
+      await firestore()
+        .collection('applications')
+        .add({
+          flatId,
+          state: 0,
+          applicants: [
+            {
+              userId: auth().currentUser?.uid,
+              state: 0,
+              matchP,
+            },
+          ],
+        });
+    }
+    // const currentUser: any = await auth()?.currentUser?.uid;
+    // await firestore().collection('applications').add({});
+  } catch (error) {
+    console.log('firestoreApplyForFlat:', error);
+  }
+};

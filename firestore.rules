@@ -5,7 +5,10 @@ service cloud.firestore {
       allow read, write, create: if request.auth.uid == userId || request.auth.token.role == "admin"
     }
     match /flats/{flat_id} {
-      allow read, write, create: if request.auth != null || equest.auth.token.role == "admin"
+      allow read, write, create: if request.auth != null || request.auth.token.role == "admin"
+    }
+    match /applications/{application_id} {
+      allow read, write, create: if request.auth != null || request.auth.token.role == "admin"
     }
   }
 }
