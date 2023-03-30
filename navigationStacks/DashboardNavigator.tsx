@@ -14,15 +14,18 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import ApplicationIndexScreen from '@Screens/dashboard/ApplicationIndexScreen';
-import UserScreen from '@Screens/dashboard/UserScreen';
-import SavedListingsScreen from '@Screens/dashboard/SavedScreens/SavedListingsScreen';
+import ApplicationIndexScreen from '@Screens/dashboard/renter/ApplicationIndexScreen';
+import UserScreen from '@Screens/dashboard/renter/UserScreen';
 import AdminScreen from '@Screens/admin/adminScreen';
-import TempScreen from '@Screens/dashboard/TempScreen';
+import TempScreen from '@Screens/dashboard/renter/TempScreen';
+
+// LessorScreens
+import LessorNavigator from './LessorNavigator';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigator = () => {
   const admin = useAppSelector(state => state.user.admin);
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -43,6 +46,10 @@ const DashboardNavigator = () => {
               break;
             case 'admin':
               iconName = 'gaming-pad';
+              break;
+            // delete later this is just for working on applicants
+            case 'applicants':
+              iconName = 'chevron-down';
               break;
           }
           return <LofftIcon name={iconName} size={25} color={color} />;
@@ -69,6 +76,12 @@ const DashboardNavigator = () => {
       <Tab.Screen
         name="Ello"
         component={TempScreen}
+        options={{headerShown: false}}
+      />
+      {/*delete later this is just for me to work on the applicants page while there is no navigator*/}
+      <Tab.Screen
+        name="applicants"
+        component={LessorNavigator}
         options={{headerShown: false}}
       />
       {admin ? (
