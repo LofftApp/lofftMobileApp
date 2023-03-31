@@ -81,7 +81,7 @@ const App = () => {
   }, []);
 
   const [profile, admin] = useAppSelector(state => [
-    true,
+    false,
     state.authentication.admin,
   ]);
 
