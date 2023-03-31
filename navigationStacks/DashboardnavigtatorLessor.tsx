@@ -1,8 +1,8 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Redux 🏪
-import {useAppSelector} from '@ReduxCore/hooks';
+import { useAppSelector } from '@ReduxCore/hooks';
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -14,29 +14,26 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import ApplicationIndexScreen from '@Screens/dashboard/renter/ApplicationIndexScreen';
+
 import UserScreen from '@Screens/dashboard/renter/UserScreen';
-import SavedListingsScreen from '@Screens/dashboard/renter/SavedScreens/SavedListingsScreen';
 import AdminScreen from '@Screens/admin/adminScreen';
-import TempScreen from '@Screens/dashboard/renter/TempScreen';
+import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
+import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
 
 const Tab = createBottomTabNavigator();
-const DashboardNavigator = () => {
+const DashboardNavigatorLessor = () => {
   const admin = useAppSelector(state => state.user.admin);
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
           let iconName = 'settings';
           switch (route.name) {
-            case 'search':
-              iconName = 'search-sm';
+            case 'lessorAction':
+              iconName = 'bell';
               break;
-            case 'favorite':
+            case 'lessorIndex':
               iconName = 'list';
-              break;
-            case 'alerts':
-              iconName = 'heart';
               break;
             case 'user':
               iconName = 'user';
@@ -51,35 +48,36 @@ const DashboardNavigator = () => {
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,
       })}>
+
       <Tab.Screen
-        name="search"
-        component={FlatSearchNavigator}
-        options={{headerShown: false}}
+        name="lessorIndex"
+        component={LessorIndexScreen}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="favorite"
-        component={ApplicationIndexScreen}
-        options={{headerShown: false}}
+        name="lessorAction"
+        component={LessorActionScreen}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name="user"
         component={UserScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Ello"
         component={TempScreen}
-        options={{headerShown: false}}
-      />
+        options={{ headerShown: false }}
+      /> */}
       {admin ? (
         <Tab.Screen
           name="admin"
           component={AdminScreen}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
       ) : null}
     </Tab.Navigator>
   );
 };
 
-export default DashboardNavigator;
+export default DashboardNavigatorLessor;

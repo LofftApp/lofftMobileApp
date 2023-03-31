@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+// API 🌎
+import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {signUp} from '@Redux/authentication/authenticationMiddleware';
+
 // Components 🪢
 import SignUpButton from '@Components/buttons/SignUpButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
@@ -11,6 +15,7 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const SignUpForm = () => {
+  const dispatch = useAppDispatch();
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,7 +54,7 @@ const SignUpForm = () => {
     validation = pageValidation(checkbox, password, repeatPassword);
     setMessage(validation);
     if (!validation.error) {
-      validation = await handleSignUp({email, password});
+      // validation = await handleSignUp({email, password});
       if (validation?.error) {
         setMessage(validation);
       }
@@ -96,7 +101,7 @@ const SignUpForm = () => {
       <View style={styles.signUpButtonView}>
         <SignUpButton
           title="Sign up"
-          onPress={() => submitValidation({email, password})}
+          onPress={() => dispatch(signUp({email, password}))}
         />
       </View>
     </View>
