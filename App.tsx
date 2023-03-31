@@ -38,7 +38,12 @@ const App = () => {
   const dispatch = useAppDispatch();
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState(null);
+
+  const user = useAppSelector(state => {
+    console.log('state', state.authentication);
+    return state.authentication.token;
+  });
+  console.log('user', user);
 
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
@@ -74,8 +79,8 @@ const App = () => {
   }, []);
 
   const [profile, admin] = useAppSelector(state => [
-    state.user.profile,
-    state.user.admin,
+    true,
+    state.authentication.admin,
   ]);
   return (
     <>
