@@ -10,6 +10,7 @@ interface UserState {
   savedFlats: string[];
   profileDetails: any[];
   searchCriteria: any[];
+  flats: any[];
 }
 
 const initialState: UserState = {
@@ -22,6 +23,7 @@ const initialState: UserState = {
   savedFlats: [],
   profileDetails: [],
   searchCriteria: [],
+  flats: [],
 };
 
 // Middlewares
@@ -80,6 +82,7 @@ const usersSlice = createSlice({
         state.profileDetails = action.payload?.profileDetails || null;
         state.searchCriteria = action.payload?.searchCriteria || null;
         state.savedFlats = action.payload?.savedFlats;
+        state.flats = action.payload?.flats || null;
       });
     builder.addCase(saveFlatsToFavorites.fulfilled, (state, action) => {
       const data: any = action.meta.arg;

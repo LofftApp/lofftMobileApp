@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+// API 🌎
+import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {signIn} from '@Redux/authentication/authenticationMiddleware';
+
 // Components 🪢
 import SignUpButton from '@Components/buttons/SignUpButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
@@ -9,6 +13,7 @@ import InputFieldText from '@Components/coreComponents/inputField/InputFieldText
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const SignInForm = () => {
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState({target: '', message: ''});
@@ -38,7 +43,7 @@ const SignInForm = () => {
       <View style={styles.signUpButtonView}>
         <SignUpButton
           title="Sign in"
-          onPress={() => handleSignIn({email, password, setMessage})}
+          onPress={() => dispatch(signIn({email, password}))}
         />
       </View>
     </View>
