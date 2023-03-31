@@ -28,6 +28,8 @@ import {navigationRef} from './src/navigation/RootNavigation';
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
 import NewUserNavigator from './navigationStacks/NewUserNavigator';
 import DashboardNavigator from './navigationStacks/DashboardNavigator';
+import LessorNavigator from './navigationStacks/LessorNavigator';
+import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
 import AdminScreen from '@Screens/admin/adminScreen';
@@ -82,6 +84,12 @@ const App = () => {
     true,
     state.authentication.admin,
   ]);
+
+  const [landlord, setLandLord] = useAppSelector(state => [state.user.flats]);
+  // console.log('landlord:', landlord.length > 0 || null);
+
+  console.log(landlord);
+
   return (
     <>
       {user ? (
@@ -92,7 +100,14 @@ const App = () => {
           {!profile ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
-          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          {landlord && landlord.length > 0 ? (
+            <RootStack.Screen
+              name="dashboardLessor"
+              component={DashboardNavigatorLessor}
+            />
+          ) : (
+            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          )}
         </RootStack.Navigator>
       ) : (
         <GuestStackNavigator />
