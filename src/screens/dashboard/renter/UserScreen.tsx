@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import {CoreButton} from '@Components/buttons/CoreButton';
-import auth from '@react-native-firebase/auth';
 
 const UserScreen = () => {
   return (
@@ -11,7 +10,7 @@ const UserScreen = () => {
       <CoreButton
         value="Sign Out"
         style={{width: '40%', marginTop: 20}}
-        onPress={() => auth().signOut()}
+        onPress={() => {}}
       />
     </View>
   );
