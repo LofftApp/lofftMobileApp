@@ -1,20 +1,20 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {signUp, signIn, signOut} from './authenticationMiddleware';
+import {checkToken, signUp, signIn, signOut} from './authenticationMiddleware';
 
 interface AuthenticationState {
   id: number | null;
   email: string | null;
   loading: boolean;
-  token: string | null;
   admin: boolean;
+  authenticated: boolean;
 }
 
 const initialState: AuthenticationState = {
   id: null,
   email: null,
   loading: false,
-  token: null,
   admin: false,
+  authenticated: false,
 };
 
 export const authenticationSlice = createSlice({
@@ -22,6 +22,17 @@ export const authenticationSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(checkToken.pending, state => {
+      state.loading = true;
+      console.log('checkToken pending');
+    });
+    builder.addCase(
+      checkToken.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.authenticated = action.payload;
+      },
+    );
     builder.addCase(signUp.pending, state => {
       state.loading = true;
       console.log('signUp pending');
@@ -30,8 +41,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = action.payload.id;
       state.email = action.payload.email;
-      state.token = action.payload.token;
-      state.admin = action.payload.admin;
     });
     builder.addCase(signUp.rejected, state => {
       state.loading = false;
@@ -45,7 +54,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = action.payload.id;
       state.email = action.payload.email;
-      state.token = action.payload.token;
       state.admin = action.payload.admin;
     });
     builder.addCase(signIn.rejected, state => {
@@ -60,7 +68,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = null;
       state.email = null;
-      state.token = null;
       state.admin = false;
     });
     builder.addCase(signOut.rejected, state => {

@@ -340,6 +340,8 @@ PODS:
     - glog
   - react-native-date-picker (4.2.10):
     - React-Core
+  - react-native-encrypted-storage (4.0.3):
+    - React-Core
   - react-native-image-picker (5.3.1):
     - React-Core
   - react-native-safe-area-context (4.5.0):
@@ -438,13 +440,13 @@ PODS:
     - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
-  - rnmapbox-maps (10.0.0-rc.5):
+  - rnmapbox-maps (10.0.0-rc.6):
     - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.5)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.6)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.5):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.6):
     - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
@@ -507,6 +509,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -596,6 +599,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-encrypted-storage:
+    :path: "../node_modules/react-native-encrypted-storage"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
@@ -680,6 +685,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 14a342151ab810862998dfc99e2720746734e9b3
   React-logger: 94ec392ae471683635e4bf874d4e82f675399d2d
   react-native-date-picker: 89c419d88fa8e3c5f2d3cbae0bb7f7454ae8ea55
+  react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: ec9b713e248760bfa0f879f0715391de4651a7cb
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
@@ -698,7 +704,7 @@ SPEC CHECKSUMS:
   ReactCommon: 4f43b72066f27bfe1f63838c61763f59e7112536
   RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
-  rnmapbox-maps: bdfe08573876b9d02659a82b8d8733507446661b
+  rnmapbox-maps: 280965e4276eef286cb1de606245ba9b3f66d227
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
