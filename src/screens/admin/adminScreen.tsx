@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 
 // Api
-import {getUsersFromNotion} from '@Api/seeding/notionSeedingSetup';
-import {syncUser} from '@Api/seeding/notionSeedingSetup';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -24,7 +22,7 @@ const AdminScreen = () => {
     assignUsers();
   }, []);
   return (
-    <ScreenBackButton nav={() => auth().signOut()} title={'Admin Screen'}>
+    <ScreenBackButton nav={() => {}} title={'Admin Screen'}>
       <Text style={fontStyles.bodySmall}>
         This is the admin screen, use this to seed and update details in the
         applicaiton.
@@ -39,7 +37,6 @@ const AdminScreen = () => {
                 <Text style={fontStyles.headerSmall}>
                   {user.userType ? user.userType : 'New User'}
                 </Text>
-                <Button title="Sync" onPress={() => syncUser(user)} />
               </View>
             </View>
           </View>

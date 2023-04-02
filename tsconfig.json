@@ -3,6 +3,8 @@
   "compilerOptions": {
     "jsx": "react",
     "baseUrl": "src",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "paths": {
       // API
       "@Api/*": ["./api/*"],

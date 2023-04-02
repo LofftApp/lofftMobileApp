@@ -9,15 +9,11 @@ import React, {useState, useEffect} from 'react';
 import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {
-  setUserID,
-  fetchUserProfile,
-  setUserProfile,
-  checkAdmin,
-} from '@Redux/user/usersSlice';
+import {checkToken} from '@Redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -41,15 +37,14 @@ const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
-  const user = useAppSelector(state => {
-    console.log('state', state.authentication);
-    return state.authentication.token;
-  });
-  console.log('user', user);
+  // const user = useAppSelector((state: any) => state.authentication.token);
 
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
-  // dispatch(checkAdmin());
+  useEffect(() => {
+    dispatch(checkToken());
+  }, []);
+  const user = useAppSelector((state: any) => state.authentication.token);
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
@@ -80,15 +75,14 @@ const App = () => {
     }
   }, []);
 
-  const [profile, admin] = useAppSelector(state => [
-    false,
+  const [profile, admin] = useAppSelector((state: any) => [
+    true,
     state.authentication.admin,
   ]);
 
-  const [landlord, setLandLord] = useAppSelector(state => [state.user.flats]);
-  // console.log('landlord:', landlord.length > 0 || null);
-
-  console.log(landlord);
+  const landlord = useAppSelector(
+    (state: any) => state.authentication.landlord,
+  );
 
   return (
     <>
