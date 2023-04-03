@@ -102,9 +102,8 @@ const App = () => {
   ]);
 
   const [landlord, setLandLord] = useAppSelector(state => [state.user.flats]);
-  // console.log('landlord:', landlord.length > 0 || null);
 
-  console.log(landlord);
+
 
   return (
     <>

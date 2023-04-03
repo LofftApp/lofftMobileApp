@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({active, flats, navigation, isLessor}: any) => {
+const FlatListApplicationsScreen = ({active, flats, navigation}: any) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -28,7 +28,7 @@ const FlatListApplicationsScreen = ({active, flats, navigation, isLessor}: any) 
               /*  active is just for demo 👇*/
               active={active}
               posted={true}
-              isLessor={isLessor}
+              isLessor={true}
             />
           );
         })}

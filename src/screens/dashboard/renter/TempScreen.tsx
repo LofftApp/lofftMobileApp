@@ -14,7 +14,7 @@ import auth from '@react-native-firebase/auth';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
+import HighlightedButtons from '@Components/containers/HighlightButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import {CoreButton} from '@Components/buttons/CoreButton';
