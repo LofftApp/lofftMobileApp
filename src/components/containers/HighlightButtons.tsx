@@ -21,7 +21,8 @@ import {updateDoc} from '@react-native-firebase/firestore';
   The navigation prop has to be passed on from the corresponding parent component
 */
 
-const HighlightedButtons = ({
+const HighlightButtons = ({
+  goBack = true,
   navigation,
   id,
   heartPresent = true,
@@ -57,7 +58,8 @@ const HighlightedButtons = ({
   };
 
   return (
-    <View style={styles.actionContainer}>
+    <View style={[styles.actionContainer, { justifyContent: goBack ? 'space-between': 'flex-end' }]}>
+      {goBack ?
       <Pressable
         style={styles.iconContainer}
         onPress={() => navigation.goBack()}>
@@ -67,6 +69,8 @@ const HighlightedButtons = ({
           color={color ? color : Color.Lavendar[80]}
         />
       </Pressable>
+      : null
+      }
 
       {heartPresent ? (
         <Pressable
@@ -95,7 +99,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
   iconContainer: {
@@ -108,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HighlightedButtons;
+export default HighlightButtons;
