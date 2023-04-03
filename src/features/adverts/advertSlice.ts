@@ -3,32 +3,42 @@ import {fetchAdverts} from './advertMiddleware';
 
 interface AdvertState {
   loading: boolean;
-  id: number | null;
-  status: string | null;
-  currency: string | null;
-  price: number | null;
-  created_at: string | null;
-  flat: {
-    id: number | null;
-    address: string | null;
-    description: string | null;
-    tagLine: string | null;
-  };
+  adverts: [
+    {
+      id: number | null;
+      status: string | null;
+      currency: string | null;
+      price: number | null;
+      created_at: string | null;
+      flat: {
+        id: number | null;
+        address: string | null;
+        description: string | null;
+        tagLine: string | null;
+        photos: string[] | null;
+      };
+    },
+  ];
 }
 
 const initialState: AdvertState = {
   loading: false,
-  id: null,
-  status: null,
-  currency: null,
-  price: null,
-  created_at: null,
-  flat: {
-    id: null,
-    address: null,
-    description: null,
-    tagLine: null,
-  },
+  adverts: [
+    {
+      id: null,
+      status: null,
+      currency: null,
+      price: null,
+      created_at: null,
+      flat: {
+        id: null,
+        address: null,
+        description: null,
+        tagLine: null,
+        photos: null,
+      },
+    },
+  ],
 };
 
 export const advertSlice = createSlice({
@@ -44,15 +54,23 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.id = action.payload.id;
-        state.status = action.payload.status;
-        state.currency = action.payload.currency;
-        state.price = action.payload.price;
-        state.created_at = action.payload.created_at;
-        state.flat.id = action.payload.flat.id;
-        state.flat.address = action.payload.flat.address;
-        state.flat.description = action.payload.flat.description;
-        state.flat.tagLine = action.payload.flat.tagLine;
+        const values = action.payload.parse.map((advert: any) => {
+          return {
+            id: advert.id,
+            status: advert.status,
+            currency: advert.currency,
+            price: advert.price,
+            created_at: advert.created_at,
+            flat: {
+              id: advert.flat.id,
+              address: advert.flat.address,
+              description: advert.flat.description,
+              tagLine: advert.flat.tagLine,
+              photos: advert.flat.photos,
+            },
+          };
+        });
+        state.adverts = values;
       },
     );
     builder.addCase(fetchAdverts.rejected, state => {

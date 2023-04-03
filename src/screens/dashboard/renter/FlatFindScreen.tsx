@@ -21,15 +21,12 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 const FlatListScreen = ({navigation}: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [sortedFlats, setSortedFlats] = useState([]);
-  const token = useAppSelector((state: any) =>
-    console.log(state.authentication.token),
-  );
   const pullData = (data: any) => {
     setOpenModal(data);
   };
 
   const dispatch = useAppDispatch();
-  dispatch(fetchAdverts(token));
+  dispatch(fetchAdverts());
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');

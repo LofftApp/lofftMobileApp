@@ -63,15 +63,15 @@ const App = () => {
   // Use Effect for dev environment
   useEffect(() => {
     if (__DEV__) {
-      console.log('FireStore Development Environment');
+      console.log('Lofft API Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
       host = '127.0.0.1';
-      if (host === 'localhost') {
-        console.log('Host running on local host');
-      } else {
-        console.log(`Host is running on ${host}`);
-      }
+      console.log(
+        host === 'localhost'
+          ? 'Host running on local host'
+          : `Host is running on ${host}`,
+      );
     }
   }, []);
 
