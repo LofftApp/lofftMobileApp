@@ -10,7 +10,7 @@ const LofftHeaderPhoto = ({
   activeBlur = null,
 }: any) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-
+  console.log('images', images);
   const onViewableItemsChanged = useCallback(
     ({viewableItems, changed}: any) => {
       const index = viewableItems[0].index;
@@ -28,14 +28,17 @@ const LofftHeaderPhoto = ({
         decelerationRate={'fast'}
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
-        renderItem={({item, index}) => (
-          <Image
-            style={[styles.imageContainer, {height: imageContainerHeight}]}
-            source={{uri: item}}
-            key={index + 1}
-            blurRadius={activeBlur ? 65 : 0}
-          />
-        )}
+        renderItem={({item, index}) => {
+          console.log(item);
+          return (
+            <Image
+              style={[styles.imageContainer, {height: imageContainerHeight}]}
+              source={{uri: item}}
+              key={index + 1}
+              blurRadius={activeBlur ? 65 : 0}
+            />
+          );
+        }}
         disableIntervalMomentum
         pagingEnabled
       />

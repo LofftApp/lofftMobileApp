@@ -32,7 +32,7 @@ const ListViewFlatCard = ({
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
   if (userType === 'renter') {
-    save = useAppSelector(state => state.user.savedFlats.includes(flatId));
+    // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
   }
   const dispatch = useAppDispatch();
 
@@ -43,7 +43,7 @@ const ListViewFlatCard = ({
           {match ? (
             <View>
               <Pressable
-                style={styles.flatCardSaveButton}
+                // style={styles.flatCardSaveButton}
                 onPress={() => {
                   dispatch(saveFlatsToFavorites({flatId, add: !save}));
                 }}>
