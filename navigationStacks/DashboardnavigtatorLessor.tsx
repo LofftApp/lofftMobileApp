@@ -19,6 +19,8 @@ import UserScreen from '@Screens/dashboard/renter/UserScreen';
 import AdminScreen from '@Screens/admin/adminScreen';
 import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
+import LessorNavigator from './LessorNavigator';
+
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigatorLessor = () => {
@@ -29,11 +31,11 @@ const DashboardNavigatorLessor = () => {
         tabBarIcon: ({ color }) => {
           let iconName = 'settings';
           switch (route.name) {
-            case 'lessorAction':
-              iconName = 'bell';
-              break;
             case 'lessorIndex':
               iconName = 'list';
+              break;
+            case 'lessorAction':
+              iconName = 'bell';
               break;
             case 'user':
               iconName = 'user';
@@ -51,7 +53,7 @@ const DashboardNavigatorLessor = () => {
 
       <Tab.Screen
         name="lessorIndex"
-        component={LessorIndexScreen}
+        component={LessorNavigator}
         options={{ headerShown: false }}
       />
       <Tab.Screen

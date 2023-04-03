@@ -14,6 +14,7 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
+import HighlightedButtons from '@Components/containers/HighlightButtons';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -35,6 +36,9 @@ const ListViewFlatCard = ({
   const [screen] = useState(1);
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
+
+  console.log("Hey I am userType:", userType)
+
   if (userType === 'renter') {
     save = useAppSelector(state => state.user.savedFlats.includes(flatId));
   }
@@ -63,6 +67,7 @@ const ListViewFlatCard = ({
               </Pressable>
             </View>
           ) : null}
+          {/* <HighlightedButtons navigation={navigation} id={flatId} goBack={false}  />  For refactoring above 👆*/}
         </View>
       </View>
       <View style={styles.flatCardImage}>

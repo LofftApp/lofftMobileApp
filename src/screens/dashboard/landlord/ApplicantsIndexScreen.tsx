@@ -5,7 +5,6 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
 
 // Screens 📺
-import ApplicantsListSubScreen from './SubScreens/ApplicantsListSubScreen';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
@@ -23,7 +22,7 @@ const ApplicantsIndexScreen = ({navigation}: any) => {
         <BackButton title="Applicants" />
       </View>
       <ScrollView style={styles.scrollViewContainer}>
-        <ApplicantsListSubScreen />
+         {/* <ApplicantsListSubScreen /> */}
       </ScrollView>
       <View style={styles.selectedButton}>
         <CoreButton value="Confirm selected (add interpolation of selected boxes)" />
