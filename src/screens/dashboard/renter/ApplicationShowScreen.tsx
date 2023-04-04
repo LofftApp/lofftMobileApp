@@ -14,10 +14,10 @@ import Collapsible from 'react-native-collapsible';
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
-import { fontStyles } from '@StyleSheets/fontStyles';
+import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
+import HighlightedButtons from '@Components/containers/HighlightButtons';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import StatusBar from '@Components/statusbar/StatusBar';
@@ -25,7 +25,6 @@ import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
 // Assets 🪴
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
-
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const {
@@ -39,6 +38,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
     untilDate,
     district,
     price,
+    isLessor,
   } = route.params;
 
   const [hascollaped, setHasCollapsed] = useState(true);
@@ -122,14 +122,17 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
         navigation={navigation}
         id={flatId}
         heartPresent={false}
-        color={Color.Mint[100]}
+        color={isLessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
       <LofftHeaderPhoto imageContainerHeight={300} images={images} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar landlord={true} currentApplicationStatus={3} />
+          <StatusBar
+            landlord={isLessor}
+            currentApplicationStatus={currentApplicationStatus}
+          />
           <Text
             onPress={() => setHasCollapsed(!hascollaped)}
             style={[
@@ -149,10 +152,10 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
               price={price}
               flatId={flatId}
               button={false}
+              isLessor={isLessor}
             />
           </Collapsible>
         </View>
-
       </ScrollView>
     </View>
   );

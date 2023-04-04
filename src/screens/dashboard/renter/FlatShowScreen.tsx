@@ -21,7 +21,7 @@ import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
+import HighlightedButtons from '@Components/containers/HighlightButtons';
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import CompleteProfileImage from '@Assets/images/Illustration.png';

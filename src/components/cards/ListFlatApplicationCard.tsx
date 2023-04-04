@@ -11,6 +11,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ListFlatApplicationCard = ({
   navigation,
@@ -25,15 +26,26 @@ const ListFlatApplicationCard = ({
   description,
   fromDate,
   untilDate,
+  posted = null,
+  isLessor = false,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
-  const [activeStatus, setActiveStatus] = useState([
+  const [renterActiveStatus, setRenterActiveStatus] = useState([
     'Applied',
     'In review',
     'Flat viewing',
     'Offer',
   ]);
+
+  const [lessorActiveStatus, setLessorActiveStatus] = useState([
+    'Recieved',
+    'Review',
+    'Flat viewing',
+    'Offer',
+  ]);
+
+  let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
   const [currentFlatStatusIndex, setFlatStatusIndex] = useState(2);
   const [currentStatusBar, setStatusBar] = useState('');
@@ -82,6 +94,7 @@ const ListFlatApplicationCard = ({
             fromDate: fromDate,
             untilDate: untilDate,
             price: price,
+            isLessor: isLessor,
           })
         }>
         <View>
@@ -131,14 +144,28 @@ const ListFlatApplicationCard = ({
           <Text style={fontStyles.headerSmall}>
             {price}€ {''} {''} 26 m2
           </Text>
-          <Text style={{color: '#8E8E8E'}}>{district}, Berlin </Text>
+          <Text style={{color: '#8E8E8E', marginTop: 3}}>
+            {district}, Berlin{' '}
+          </Text>
         </View>
         <View>
-          <Text style={[fontStyles.bodySmall, {color: Color.Mint[100]}]}>
-            Applied on 14.04.23
+          <Text
+            style={[
+              fontStyles.bodySmall,
+              {color: posted ? Color.Black[50] : Color.Mint[100]},
+            ]}>
+            {posted ? 'Posted on 12.03.23' : 'Applied on 14.04.23'}
           </Text>
         </View>
       </View>
+      {isLessor ? (
+        <View style={styles.timeWrapper}>
+          <LofftIcon size={20} name={'alarm-clock'} color={Color.Tomato[100]} />
+          <Text style={{color: Color.Tomato[100], marginTop: 2, marginLeft: 7}}>
+            3h left to make the decision for this round!
+          </Text>
+        </View>
+      ) : null}
       <View style={styles.progressBarContainer}>
         <View
           style={[
@@ -156,10 +183,11 @@ const ListFlatApplicationCard = ({
           />
         </View>
         <View style={styles.statusContainer}>
-          {activeStatus.map((el, index) => (
+          {textForStatusBar.map((el, index) => (
             <Text
               style={
-                index === currentFlatStatusIndex
+                currentFlatStatusIndex === index ||
+                currentFlatStatusIndex > index
                   ? styles.active
                   : styles.inactive
               }
@@ -169,6 +197,19 @@ const ListFlatApplicationCard = ({
           ))}
         </View>
       </View>
+      {isLessor ? (
+        <View style={styles.landlordButtonContainer}>
+          <CoreButton
+            value="Edit listing"
+            invert={true}
+            style={{width: '45%', height: '34%'}}
+          />
+          <CoreButton
+            value="See applicants"
+            style={{width: '45%', height: '34%'}}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -227,6 +268,17 @@ const styles = StyleSheet.create({
   actualProgress: {
     padding: 8,
     borderRadius: 8,
+  },
+  timeWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+    marginTop: 7,
+  },
+  landlordButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
 });
 
