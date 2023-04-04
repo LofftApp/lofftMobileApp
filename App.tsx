@@ -44,7 +44,10 @@ const App = () => {
   useEffect(() => {
     dispatch(checkToken());
   }, []);
-  const user = useAppSelector((state: any) => state.authentication.token);
+  dispatch(checkToken());
+  const user = useAppSelector(
+    (state: any) => state.authentication.authenticated,
+  );
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
