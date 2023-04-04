@@ -45,7 +45,7 @@ const LofftHeaderPhoto = ({
       {!activeBlur ? (
         <PaginationBar
           screen={currentCardIndex}
-          totalScreens={images.length}
+          totalScreens={images?.length || 3}
           marginVertical={imageContainerHeight - 20}
           onTop={true}
         />
