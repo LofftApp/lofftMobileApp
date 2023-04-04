@@ -12,10 +12,6 @@ import {
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
-// Firebase & APIs
-import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
-import auth from '@react-native-firebase/auth';
-
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';

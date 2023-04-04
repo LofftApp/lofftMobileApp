@@ -4,9 +4,6 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 
-// Firebase & API 🧠
-import auth from '@react-native-firebase/auth';
-
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';

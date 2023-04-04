@@ -5,9 +5,6 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useAppDispatch} from '@ReduxCore/hooks';
 import {saveUserDetails} from '@Redux/registration/userJourneySlice';
 
-// API - Firebase 🔥
-import auth from '@react-native-firebase/auth';
-
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 

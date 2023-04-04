@@ -1,10 +1,5 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 
-// Firestore 🔥
-import firestore from '@react-native-firebase/firestore';
-import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
-import auth from '@react-native-firebase/auth';
-
 interface UserState {
   loading: boolean;
   uid: string | null;

@@ -1,13 +1,6 @@
 // ! This is a page for seeding data to the database, and has no basis in production, only development.
 import {Client} from '@notionhq/client';
 import {NOTION_API_KEY} from '@env';
-import auth from '@react-native-firebase/auth';
-import {handleSignUp, handleSignIn} from '@Api/firebase/firebaseAuth';
-import {
-  createUserProfile,
-  createFlatProfile,
-  seedCheckUserExists,
-} from '@Api/firebase/firestoreActions';
 
 // Data 💿
 import userPreferences from '@Components/componentData/userPreferences.json';
