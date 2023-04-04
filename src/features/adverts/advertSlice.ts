@@ -8,6 +8,7 @@ interface AdvertState {
       id: number | null;
       status: string | null;
       currency: string | null;
+      matchScore: number | null;
       price: number | null;
       created_at: string | null;
       flat: {
@@ -29,6 +30,7 @@ const initialState: AdvertState = {
       status: null,
       currency: null,
       price: null,
+      matchScore: null,
       created_at: null,
       flat: {
         id: null,
@@ -55,10 +57,12 @@ export const advertSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         state.loading = false;
         const values = action.payload.parse.map((advert: any) => {
+          console.log('advert:', advert);
           return {
             id: advert.id,
             status: advert.status,
             currency: advert.currency,
+            matchScore: advert.match_score,
             price: advert.price,
             created_at: advert.created_at,
             flat: {
