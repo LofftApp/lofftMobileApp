@@ -1,18 +1,23 @@
 import React from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
+// Redux 🏗️
+import {useAppSelector} from '@ReduxCore/hooks';
+
+// Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
-import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({active, flats, navigation, isLessor}: any) => {
+const FlatListSubScreen = ({navigation}: any) => {
+  const flats = useAppSelector((state: any) => state.flats.allFlats);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={styles.flatCardContainer}>
-      <SafeAreaView>
+      <View>
         {flats.map((el: any, index: number) => {
           return (
-            <ListFlatApplicationCard
+            <ListViewFlatCard
               navigation={navigation}
               key={index + 1}
               match={el?.matchP}
@@ -21,18 +26,11 @@ const FlatListApplicationsScreen = ({active, flats, navigation, isLessor}: any) 
               price={el.price}
               images={el.images}
               likedUsers={el.likedUsers}
-              address={el.address}
-              description={el.description}
-              fromDate={el.fromDate}
-              untilDate={el.untilDate}
-              /*  active is just for demo 👇*/
-              active={active}
-              posted={true}
-              isLessor={isLessor}
+              i={index}
             />
           );
         })}
-      </SafeAreaView>
+      </View>
     </ScrollView>
   );
 };
@@ -43,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatListApplicationsScreen;
+export default FlatListSubScreen;

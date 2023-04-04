@@ -7,9 +7,6 @@ import {useAppDispatch} from '@ReduxCore/hooks';
 import {signOut} from '@Redux/authentication/authenticationMiddleware';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
-import PaginationBar from '@Components/bars/PaginationBar';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
