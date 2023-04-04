@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
+// Redux 🏪
+import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
+
 // Screens 📺
 import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
 
@@ -11,38 +15,18 @@ import FlatMap from '@Components/Maps/FlatMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from '@Components/modals/SearchFilterModal';
 
-// Redux 🏪
-import {useDispatch} from 'react-redux';
-import {setAllFlats} from '@Redux/flat/flatsSlice';
-
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FlatListScreen = ({navigation}: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [sortedFlats, setSortedFlats] = useState([]);
-
   const pullData = (data: any) => {
     setOpenModal(data);
   };
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const getFlats = async () => {
-      const flats = await getFlatsFromDB();
-      if (flats) {
-        if (flats[0]?.matchP) {
-          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-          dispatch(setAllFlats(reOrder));
-          setSortedFlats(reOrder);
-        } else {
-          setSortedFlats(flats);
-          dispatch(setAllFlats(flats));
-        }
-      }
-    };
-    getFlats();
-  }, []);
+  const dispatch = useAppDispatch();
+  dispatch(fetchAdverts());
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
