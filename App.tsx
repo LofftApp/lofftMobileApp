@@ -9,6 +9,8 @@ import React, {useState, useEffect} from 'react';
 import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
+
+// Storage 📁
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Redux 🏗️
@@ -37,8 +39,6 @@ const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
-  // const user = useAppSelector((state: any) => state.authentication.token);
-
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
   useEffect(() => {
@@ -51,6 +51,8 @@ const App = () => {
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
+
+  const user = useAppSelector((state: any) => state.authentication.id);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -82,10 +84,7 @@ const App = () => {
     true,
     state.authentication.admin,
   ]);
-
-  const landlord = useAppSelector(
-    (state: any) => state.authentication.landlord,
-  );
+  const [landlord, setLandlord] = useState(false);
 
   return (
     <>

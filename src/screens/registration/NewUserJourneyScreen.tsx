@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 
+// Redux 🧠
+import {useDispatch} from 'react-redux';
+import {signOut} from '@Redux/authentication/authenticationMiddleware';
+
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
 
@@ -15,6 +19,7 @@ import UserJourneyButton from '@Redux/registration/UserJourneyButton';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 const StartJourney = ({navigation}: any) => {
+  const dispatch = useDispatch();
   const [routeFlatHunt, setRouteFlatHunt] = useState('');
 
   const handleClick = (routeName: string, routeButton: string) => {
@@ -32,7 +37,7 @@ const StartJourney = ({navigation}: any) => {
   const subHeaderText =
     'Tell us what you want to do on Lofft and we will create the matching experience!';
   return (
-    <ScreenBackButton nav={() => auth().signOut()} title={undefined}>
+    <ScreenBackButton nav={() => dispatch(signOut())} title={undefined}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
         subDescription={subHeaderText}
