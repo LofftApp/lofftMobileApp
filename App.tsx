@@ -10,14 +10,11 @@ import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
+// Storage 📁
+import EncryptedStorage from 'react-native-encrypted-storage';
+
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {
-  setUserID,
-  fetchUserProfile,
-  setUserProfile,
-  checkAdmin,
-} from '@Redux/user/usersSlice';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -41,18 +38,14 @@ const App = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
-  const user = useAppSelector(state => {
-    console.log('state', state.authentication);
-    return state.authentication.token;
-  });
-  console.log('user', user);
-
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
   // dispatch(checkAdmin());
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
+
+  const user = useAppSelector((state: any) => state.authentication.id);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -68,7 +61,7 @@ const App = () => {
   // Use Effect for dev environment
   useEffect(() => {
     if (__DEV__) {
-      console.log('FireStore Development Environment');
+      console.log('Lofft API Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
       host = '127.0.0.1';
@@ -81,14 +74,10 @@ const App = () => {
   }, []);
 
   const [profile, admin] = useAppSelector(state => [
-    false,
+    true,
     state.authentication.admin,
   ]);
-
-  const [landlord, setLandLord] = useAppSelector(state => [state.user.flats]);
-  // console.log('landlord:', landlord.length > 0 || null);
-
-  console.log(landlord);
+  const [landlord, setLandlord] = useState(false);
 
   return (
     <>
