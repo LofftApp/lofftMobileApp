@@ -1,15 +1,47 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Slices (Reducers)
+import authenticationReducer from '@Redux/authentication/authenticationSlice';
 import userJourneyReducer from '@Redux/registration/userJourneySlice';
 import imageUploadReducer from '@Redux/imageHandling/userImageUploadSlice';
 import userReducer from '@Redux/user/usersSlice';
 import flatsSlice from '@Redux/flat/flatsSlice';
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  version: 1,
+};
+
+const reducers: any = combineReducers({
+  authentication: authenticationReducer,
+  userDetails: userJourneyReducer,
+  imageUpload: imageUploadReducer,
+  user: userReducer,
+  flats: flatsSlice,
+});
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 export const store = configureStore({
-  reducer: {
-    userDetails: userJourneyReducer,
-    imageUpload: imageUploadReducer,
-    user: userReducer,
-    flats: flatsSlice,
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    });
   },
 });
 

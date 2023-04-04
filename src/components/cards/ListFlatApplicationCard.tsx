@@ -1,10 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Pressable, Image} from 'react-native';
 
-// Firebase & API 🧠
-import {saveFlatToUserLikes} from '@Api/firebase/firestoreActions';
-import auth from '@react-native-firebase/auth';
-
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';

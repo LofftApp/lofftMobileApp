@@ -10,23 +10,16 @@ import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
+// Storage 📁
+import EncryptedStorage from 'react-native-encrypted-storage';
+
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {
-  setUserID,
-  fetchUserProfile,
-  setUserProfile,
-  checkAdmin,
-} from '@Redux/user/usersSlice';
-// FireStore 🔥
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -44,15 +37,15 @@ const App = () => {
   const dispatch = useAppDispatch();
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState(null);
 
-  const onAuthStateChanged = async (user: React.SetStateAction<any>) => {
-    const currentUser: any = await auth()?.currentUser;
-    dispatch(checkAdmin());
-    dispatch(setUserID(currentUser?.uid || null));
-    dispatch(fetchUserProfile(currentUser?.uid || null));
-    setUser(user);
-  };
+  // TODO: sync with new api
+  // const currentUser: any = await auth()?.currentUser;
+  // dispatch(checkAdmin());
+  // dispatch(setUserID(currentUser?.uid || null));
+  // dispatch(fetchUserProfile(currentUser?.uid || null));
+  // setUser(user);
+
+  const user = useAppSelector((state: any) => state.authentication.id);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -62,26 +55,13 @@ const App = () => {
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
 
-  useEffect(() => {
-    if (initializing) {
-      setInitializing(false);
-    }
-    return auth().onAuthStateChanged(onAuthStateChanged);
-  }, []);
-
-  GoogleSignin.configure({
-    webClientId:
-      '25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com',
-  });
+  // TODO: This will need to be placed in another useEffect with new DB path.
+  if (initializing) setInitializing(false);
 
   // Use Effect for dev environment
   useEffect(() => {
-    firestore().settings({
-      persistence: false, // ! This should be true when in production and limited to 50mb or 4e+8
-      cacheSizeBytes: 4e9,
-    });
     if (__DEV__) {
-      console.log('FireStore Development Environment');
+      console.log('Lofft API Development Environment');
       let host = 'localhost';
       // If using Mobile device set the host as local IP
       host = '127.0.0.1';
@@ -90,20 +70,14 @@ const App = () => {
       } else {
         console.log(`Host is running on ${host}`);
       }
-      firestore().useEmulator(host, 8080);
-      auth().useEmulator(`http://${host}:9099`);
     }
   }, []);
 
   const [profile, admin] = useAppSelector(state => [
-    state.user.profile,
-    state.user.admin,
-    state.user.flats,
+    true,
+    state.authentication.admin,
   ]);
-
-  const [landlord, setLandLord] = useAppSelector(state => [state.user.flats]);
-
-
+  const [landlord, setLandlord] = useState(false);
 
   return (
     <>
@@ -116,12 +90,12 @@ const App = () => {
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
           {landlord && landlord.length > 0 ? (
-             <RootStack.Screen
+            <RootStack.Screen
               name="dashboardLessor"
               component={DashboardNavigatorLessor}
             />
           ) : (
-              <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
           )}
         </RootStack.Navigator>
       ) : (
