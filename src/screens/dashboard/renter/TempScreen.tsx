@@ -9,19 +9,21 @@ import {
   Dimensions,
 } from 'react-native';
 
+// Redux 🧠
+import {useDispatch} from 'react-redux';
+import {signOut} from '@Redux/authentication/authenticationMiddleware';
+
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlithgtedButtons';
-import PaginationBar from '@Components/bars/PaginationBar';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
+  const dispatch = useDispatch();
   return (
     <View style={styles.pageContainer}>
       <View style={{marginTop: 400}}>
-        <CoreButton value="Sign Out" onPress={() => auth().signOut()} />
+        <CoreButton value="Sign Out" onPress={() => dispatch(signOut())} />
       </View>
     </View>
   );

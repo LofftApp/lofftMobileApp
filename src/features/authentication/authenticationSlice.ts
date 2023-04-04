@@ -5,7 +5,6 @@ interface AuthenticationState {
   id: number | null;
   email: string | null;
   loading: boolean;
-  token: string | null;
   admin: boolean;
 }
 
@@ -13,7 +12,6 @@ const initialState: AuthenticationState = {
   id: null,
   email: null,
   loading: false,
-  token: null,
   admin: false,
 };
 
@@ -30,7 +28,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = action.payload.id;
       state.email = action.payload.email;
-      state.token = action.payload.token;
       state.admin = action.payload.admin;
     });
     builder.addCase(signUp.rejected, state => {
@@ -45,7 +42,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = action.payload.id;
       state.email = action.payload.email;
-      state.token = action.payload.token;
       state.admin = action.payload.admin;
     });
     builder.addCase(signIn.rejected, state => {
@@ -60,7 +56,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = null;
       state.email = null;
-      state.token = null;
       state.admin = false;
     });
     builder.addCase(signOut.rejected, state => {
