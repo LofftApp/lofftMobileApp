@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
-// Firebase 🔥
-import {getFlatsFromDB} from '@Api/firebase/firestoreActions';
-
 // Screens 📺
 import FlatListApplicationsScreen from '../renter/SubScreens/FlatListApplicationsScreen';
 
@@ -12,7 +9,7 @@ import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import * as Color from '@StyleSheets/lofftColorPallet.json';
 
 // Assets
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -21,10 +18,9 @@ const LessorIndexScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
   const oneFlat = sortedFlats.slice(0, 1);
 
-
   useEffect(() => {
     const getFlats = async () => {
-      const flats = await getFlatsFromDB();
+      const flats: any = [];
       if (flats) {
         if (flats[0]?.matchP) {
           const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
@@ -48,15 +44,18 @@ const LessorIndexScreen = ({navigation}: any) => {
       <View style={styles.headerText}>
         <Text style={fontStyles.headerLarge}>My Listings</Text>
         <View style={styles.actionContainer}>
-        <Pressable style={[styles.addButton, {marginRight: 15,}]}>
-            <LofftIcon name={'annotation-heart'} size={33} color={Color.Lavendar[100]} />
-        </Pressable>
-        <Pressable style={styles.addButton}>
+          <Pressable style={[styles.addButton, {marginRight: 15}]}>
+            <LofftIcon
+              name={'annotation-heart'}
+              size={33}
+              color={Color.Lavendar[100]}
+            />
+          </Pressable>
+          <Pressable style={styles.addButton}>
             <LofftIcon name={'plus'} size={33} color={Color.Lavendar[100]} />
-        </Pressable>
+          </Pressable>
         </View>
       </View>
-
 
       <View style={styles.viewContainer}>
         <FlatListApplicationsScreen
@@ -100,10 +99,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 12,
   },
-  actionContainer:{
+  actionContainer: {
     flexDirection: 'row',
-
-  }
+  },
 });
 
 export default LessorIndexScreen;

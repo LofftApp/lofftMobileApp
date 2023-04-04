@@ -22,7 +22,7 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 const ListViewFlatCard = ({
   flatId,
-  match,
+  matchScore,
   district,
   price,
   images,
@@ -33,7 +33,7 @@ const ListViewFlatCard = ({
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
 
-  console.log("Hey I am userType:", userType)
+  console.log('Hey I am userType:', userType);
 
   if (userType === 'renter') {
     // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
@@ -44,7 +44,7 @@ const ListViewFlatCard = ({
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          {match ? (
+          {matchScore ? (
             <View>
               <Pressable
                 // style={styles.flatCardSaveButton}
@@ -75,7 +75,7 @@ const ListViewFlatCard = ({
             {/* Size of WG is not in DB - 26 m2 */}
             <Text style={[fontStyles.headerSmall]}>{price} €</Text>
 
-            <MatchingScoreButton size="Big" score={match} />
+            <MatchingScoreButton size="Big" score={matchScore} />
           </View>
           {district ? (
             <Text
@@ -93,7 +93,7 @@ const ListViewFlatCard = ({
         onPress={() =>
           navigation.navigate('flatShow', {
             price: {price},
-            match: {match},
+            matchScore: {matchScore},
             district: {district},
             i: i,
             /* Add more Chips etc */

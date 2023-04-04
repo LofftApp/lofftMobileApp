@@ -44,15 +44,12 @@ const App = () => {
   useEffect(() => {
     dispatch(checkToken());
   }, []);
-  dispatch(checkToken());
   const user = useAppSelector(
     (state: any) => state.authentication.authenticated,
   );
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
-
-  const user = useAppSelector((state: any) => state.authentication.id);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
