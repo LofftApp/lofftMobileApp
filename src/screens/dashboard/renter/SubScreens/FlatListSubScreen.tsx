@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from '@ReduxCore/hooks';
@@ -8,30 +8,33 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({navigation}: any) => {
-  const flats = useAppSelector((state: any) => state.flats.allFlats);
-
+  // ! two adverts caused by how it is passed through, this should be investigated
+  const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
+  console.log(adverts[0].flat.photos);
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={styles.flatCardContainer}>
-      <View>
-        {flats.map((el: any, index: number) => {
-          return (
-            <ListViewFlatCard
-              navigation={navigation}
-              key={index + 1}
-              match={el?.matchP}
-              flatId={el.flatId}
-              district={el.district}
-              price={el.price}
-              images={el.images}
-              likedUsers={el.likedUsers}
-              i={index}
-            />
-          );
-        })}
-      </View>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.flatCardContainer}>
+        <View>
+          {adverts.map((el: any, index: number) => {
+            return (
+              <ListViewFlatCard
+                navigation={navigation}
+                key={index + 1}
+                matchScore={el.matchScore}
+                flatId={el.flat.id}
+                district={'Berlin, Moabit'}
+                price={el.price}
+                images={el.flat.photos}
+                likedUsers={[]}
+                i={index}
+              />
+            );
+          })}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -1,6 +1,18 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import axios from 'axios';
+
+export const checkToken = createAsyncThunk(
+  'authentication/checkToken',
+  async () => {
+    try {
+      const token = await EncryptedStorage.getItem('token');
+      return token ? true : false;
+    } catch (error) {
+      console.log('checkToken error:', error);
+    }
+  },
+);
 
 export const signUp = createAsyncThunk(
   'authentication/signUp',
@@ -10,6 +22,7 @@ export const signUp = createAsyncThunk(
 
     try {
       const response = await axios.post(url, {user: {email, password}});
+      await EncryptedStorage.setItem('token', response.data.user.token);
       await EncryptedStorage.setItem('token', response.data.user.token);
       return response.data.user;
     } catch (error) {
@@ -26,6 +39,7 @@ export const signIn = createAsyncThunk(
     try {
       const response = await axios.post(url, {user: {email, password}});
       await EncryptedStorage.setItem('token', response.data.user.token);
+      await EncryptedStorage.setItem('token', response.data.user.token);
       return response.data.user;
     } catch (error) {
       console.log('signIn error:', error);
@@ -39,6 +53,7 @@ export const signOut = createAsyncThunk('authentication/signOut', async () => {
   try {
     const response = await axios.delete(url);
     await EncryptedStorage.removeItem('token');
+    return response.data;
   } catch (error) {
     console.log('signOut error:', error);
   }

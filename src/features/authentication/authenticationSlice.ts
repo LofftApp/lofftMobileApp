@@ -1,11 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {signUp, signIn, signOut} from './authenticationMiddleware';
+import {checkToken, signUp, signIn, signOut} from './authenticationMiddleware';
 
 interface AuthenticationState {
   id: number | null;
   email: string | null;
   loading: boolean;
   admin: boolean;
+  authenticated: boolean;
 }
 
 const initialState: AuthenticationState = {
@@ -13,6 +14,7 @@ const initialState: AuthenticationState = {
   email: null,
   loading: false,
   admin: false,
+  authenticated: false,
 };
 
 export const authenticationSlice = createSlice({
@@ -20,6 +22,17 @@ export const authenticationSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(checkToken.pending, state => {
+      state.loading = true;
+      console.log('checkToken pending');
+    });
+    builder.addCase(
+      checkToken.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.authenticated = action.payload;
+      },
+    );
     builder.addCase(signUp.pending, state => {
       state.loading = true;
       console.log('signUp pending');
@@ -28,7 +41,6 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = action.payload.id;
       state.email = action.payload.email;
-      state.admin = action.payload.admin;
     });
     builder.addCase(signUp.rejected, state => {
       state.loading = false;

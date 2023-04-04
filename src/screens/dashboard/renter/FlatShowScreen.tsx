@@ -30,7 +30,6 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
-import {profile} from 'console';
 
 // Styles
 

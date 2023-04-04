@@ -16,7 +16,8 @@ import authenticationReducer from '@Redux/authentication/authenticationSlice';
 import userJourneyReducer from '@Redux/registration/userJourneySlice';
 import imageUploadReducer from '@Redux/imageHandling/userImageUploadSlice';
 import userReducer from '@Redux/user/usersSlice';
-import flatsSlice from '@Redux/flat/flatsSlice';
+import flatsReducer from '@Redux/flat/flatsSlice';
+import advertReducer from '@Redux/adverts/advertSlice';
 
 const persistConfig = {
   key: 'root',
@@ -29,7 +30,8 @@ const reducers: any = combineReducers({
   userDetails: userJourneyReducer,
   imageUpload: imageUploadReducer,
   user: userReducer,
-  flats: flatsSlice,
+  flats: flatsReducer,
+  adverts: advertReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

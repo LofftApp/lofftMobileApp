@@ -1,25 +1,16 @@
 import React, {useState, useCallback} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  Dimensions,
-} from 'react-native';
-
-// Redux 🧠
-import {useDispatch} from 'react-redux';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
+import {View, StyleSheet, Dimensions} from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
+// Redux
+import {useAppDispatch} from '@ReduxCore/hooks';
+import {signOut} from '@Redux/authentication/authenticationMiddleware';
 
 // Components
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <View style={styles.pageContainer}>
       <View style={{marginTop: 400}}>

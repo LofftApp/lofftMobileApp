@@ -15,6 +15,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {checkToken} from '@Redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -40,12 +41,15 @@ const App = () => {
 
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
-  // dispatch(checkAdmin());
+  useEffect(() => {
+    dispatch(checkToken());
+  }, []);
+  const user = useAppSelector(
+    (state: any) => state.authentication.authenticated,
+  );
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
-
-  const user = useAppSelector((state: any) => state.authentication.id);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -65,15 +69,15 @@ const App = () => {
       let host = 'localhost';
       // If using Mobile device set the host as local IP
       host = '127.0.0.1';
-      if (host === 'localhost') {
-        console.log('Host running on local host');
-      } else {
-        console.log(`Host is running on ${host}`);
-      }
+      console.log(
+        host === 'localhost'
+          ? 'Host running on local host'
+          : `Host is running on ${host}`,
+      );
     }
   }, []);
 
-  const [profile, admin] = useAppSelector(state => [
+  const [profile, admin] = useAppSelector((state: any) => [
     true,
     state.authentication.admin,
   ]);
