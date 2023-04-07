@@ -22,8 +22,7 @@ export const signUp = createAsyncThunk(
 
     try {
       const response = await axios.post(url, {user: {email, password}});
-      await EncryptedStorage.setItem('token', response.data.user.token);
-      await EncryptedStorage.setItem('token', response.data.user.token);
+      await EncryptedStorage.setItem('token', response.headers.authorization);
       return response.data.user;
     } catch (error) {
       console.log('signUp error:', error);
@@ -35,11 +34,10 @@ export const signIn = createAsyncThunk(
   'authentication/signIn',
   async ({email, password}: {email: string; password: string}) => {
     // development url
-    const url = 'http://localhost:3000/api/users/login';
+    const url = 'http://localhost:3000/users/sign_in';
     try {
       const response = await axios.post(url, {user: {email, password}});
-      await EncryptedStorage.setItem('token', response.data.user.token);
-      await EncryptedStorage.setItem('token', response.data.user.token);
+      await EncryptedStorage.setItem('token', response.headers.authorization);
       return response.data.user;
     } catch (error) {
       console.log('signIn error:', error);
