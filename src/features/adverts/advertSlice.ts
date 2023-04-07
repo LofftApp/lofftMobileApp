@@ -16,6 +16,8 @@ interface AdvertState {
         address: string | null;
         description: string | null;
         tagLine: string | null;
+        district: string | null;
+        city: string | null;
         photos: string[] | null;
       };
     },
@@ -37,6 +39,8 @@ const initialState: AdvertState = {
         address: null,
         description: null,
         tagLine: null,
+        district: null,
+        city: null,
         photos: null,
       },
     },
@@ -56,9 +60,7 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log(action.payload);
         const values = action.payload.map((advert: any) => {
-          console.log('advert:', advert);
           return {
             id: advert.id,
             status: advert.status,
@@ -70,7 +72,9 @@ export const advertSlice = createSlice({
               id: advert.flat.id,
               address: advert.flat.address,
               description: advert.flat.description,
-              tagLine: advert.flat.tagLine,
+              tagline: advert.flat.tag_line,
+              district: advert.flat.district,
+              city: advert.flat.city,
               photos: advert.flat.photos,
             },
           };

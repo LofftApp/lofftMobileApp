@@ -29,16 +29,14 @@ const MapViewFlatCard = ({
   price,
   match,
   district,
+  city,
   images,
+  tagline,
   likedUsers,
 }: any) => {
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
-  if (userType === 'renter') {
-    save = useAppSelector(state => state.user.savedFlats.includes(flatId));
-  }
   const dispatch = useAppDispatch();
-
   return (
     <View style={styles.boundryContainer}>
       <View style={styles.flatCardContainer}>
@@ -56,7 +54,8 @@ const MapViewFlatCard = ({
                 onPress={() => {
                   dispatch(saveFlatsToFavorites({flatId, add: !save}));
                 }}>
-                {save === true ? (
+                {/* ! This need to be updated with validation */}
+                {false ? (
                   <LofftIcon
                     name="heart-filled"
                     size={20}
@@ -70,13 +69,11 @@ const MapViewFlatCard = ({
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
                 <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
-                <Text style={fontStyles.bodyMedium}>
-                  🧘 Calm flat in the centre of {district}
-                </Text>
+                <Text style={fontStyles.bodyMedium}>{tagline}</Text>
               </View>
               <Text
                 style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-                {district}, Berlin
+                {district}, {city}
               </Text>
             </View>
           </View>
