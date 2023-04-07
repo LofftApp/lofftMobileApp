@@ -7,7 +7,7 @@ export const fetchAdverts = createAsyncThunk(
   'advert/fetchAdverts',
   async () => {
     // development url
-    const url = 'http://localhost:3000/api/adverts';
+    const url = 'http://localhost:3000/adverts';
     try {
       const token = await EncryptedStorage.getItem('token');
       const response = await axios.get(url, {
