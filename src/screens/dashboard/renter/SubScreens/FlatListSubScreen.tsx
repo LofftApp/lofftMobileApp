@@ -8,9 +8,7 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({navigation}: any) => {
-  // ! two adverts caused by how it is passed through, this should be investigated
   const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
-  console.log(adverts[0].flat.photos);
   return (
     <SafeAreaView>
       <ScrollView
