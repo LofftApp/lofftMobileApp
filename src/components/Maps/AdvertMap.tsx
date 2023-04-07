@@ -11,54 +11,52 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 import MapMarker from './MapMarker';
 
-// MapboxGL.setAccessToken(MAPBOX_API_KEY);
-// // This is needed to use Mapbox in offline mode and with android emulator
-// MapboxGL.setConnected(true);
-
 const FlatMap = () => {
-  const flats = useAppSelector((state: any) => state.flats.allFlats);
-  const [activeAddress, setActiveAddress] = useState();
+  const adverts = useAppSelector((state: any) => state.adverts.adverts);
   const [selectedIndex, setSelectedIndex] = useState(0);
   // States
 
-  const [mapboxFlats, setMapboxFlats] = useState<any[]>([]);
+  const [mapboxAdverts, setMapboxAdverts] = useState<any[]>([]);
 
   // API
   useEffect(() => {
-    const geoCoding = async (flats: any) => {
+    const geoCoding = async (adverts: any) => {
       let formatedCordinates = await Promise.all(
-        flats.map(async (el: any) => {
-          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.address}.json?access_token=${MAPBOX_API_KEY}`;
+        adverts.map(async (el: any, index: number) => {
+          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.flat.address}.json?access_token=${MAPBOX_API_KEY}`;
           const response = await fetch(endpoint);
           const data = await response.json();
+          interface flatState {
+            address: string | null;
+            matchP: number | null;
+            price: number | null;
+            images: any | null;
+            district: string | null;
+            id: number | null;
+            flatId: number | null;
+            likedUsers: any | null;
+            tagLine: string | null;
+          }
 
-          let flatObject = {
-            address: null,
-            matchP: null,
-            price: null,
-            images: null,
-            district: null,
-            id: null,
-            flatId: null,
-            likedUsers: null,
+          const flatObject: flatState = {
+            address: data.features[0].geometry.coordinates,
+            price: el.price,
+            matchP: el?.matchP,
+            images: el.images,
+            district: el.district,
+            id: index,
+            flatId: el.flatId,
+            likedUsers: el.likedUsers,
+            tagLine: el.tagLine,
           };
-          flatObject.address = data.features[0].geometry.coordinates;
-          flatObject.price = el.price;
-          flatObject.matchP = el?.matchP;
-          flatObject.images = el.images;
-          flatObject.district = el.district;
-          flatObject.id = el.id;
-          flatObject.flatId = el.flatId;
-          flatObject.likedUsers = el.likedUsers;
 
           return flatObject;
         }),
       );
-      setMapboxFlats(formatedCordinates);
+      setMapboxAdverts(formatedCordinates);
     };
-    setActiveAddress(mapboxFlats[0]);
-    geoCoding(flats);
-  }, [flats]);
+    geoCoding(adverts);
+  }, [adverts]);
 
   const setActiveLocation = (index: number) => {
     setSelectedIndex(index);
@@ -84,11 +82,11 @@ const FlatMap = () => {
           <MapboxGL.Camera
             zoomLevel={15}
             centerCoordinate={coordinateViewConverter(
-              mapboxFlats[selectedIndex]?.address,
+              mapboxAdverts[selectedIndex]?.address,
             )}
             animationMode="flyTo"
           />
-          {mapboxFlats.map((el: any, index: number) => (
+          {mapboxAdverts.map((el: any, index: number) => (
             <MapboxGL.MarkerView
               key={index + 1}
               coordinate={[el.address[0], el.address[1]]}>
@@ -97,9 +95,9 @@ const FlatMap = () => {
           ))}
         </MapboxGL.MapView>
         <View style={styles.scrollContainer}>
-          {mapboxFlats !== null ? (
+          {mapboxAdverts !== null ? (
             <FlatList
-              data={flats}
+              data={adverts}
               disableIntervalMomentum={true}
               horizontal
               pagingEnabled
@@ -107,14 +105,16 @@ const FlatMap = () => {
               onViewableItemsChanged={onViewRef.current}
               renderItem={({item, index}) => (
                 <MapViewFlatCard
-                  flatId={item.flatId}
+                  flatId={item.id}
                   price={item.price}
-                  match={item.matchP}
+                  match={item.matchScore}
                   key={index + 1}
-                  district={item.district}
-                  images={item.images}
+                  district={item.flat.district}
+                  city={item.flat.city}
+                  images={item.flat.photos}
+                  tagline={item.flat.tagline}
                   id={item.id}
-                  likedUsers={item.likedUsers}
+                  // likedUsers={item.likedUsers}
                 />
               )}
             />

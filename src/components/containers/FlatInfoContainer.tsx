@@ -25,7 +25,6 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-  console.log(isLessor)
 
   return (
     <View style={styles.centralizerContainer}>
@@ -44,7 +43,11 @@ const FlatInfoContainer = ({
       ) : null}
 
       <View style={styles.infoContainer}>
-        {isLessor ? <Text style={[fontStyles.bodyLarge, {marginBottom: 20 }]}>Details</Text> : null}
+        {isLessor ? (
+          <Text style={[fontStyles.bodyLarge, {marginBottom: 20}]}>
+            Details
+          </Text>
+        ) : null}
         <Text style={{color: Color.Black[80]}}>{address}</Text>
         <Text style={[fontStyles.headerSmall, {paddingTop: 20}]}>
           🧘 Calm flat in the centre of Moabit
