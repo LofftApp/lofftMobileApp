@@ -28,7 +28,6 @@ const ListViewFlatCard = ({
   price,
   images,
   navigation,
-  i,
   favorite,
 }: any) => {
   const [screen] = useState(1);
@@ -90,15 +89,7 @@ const ListViewFlatCard = ({
       </View>
       <CoreButton
         value="View flat"
-        onPress={() =>
-          navigation.navigate('flatShow', {
-            price: {price},
-            matchScore: {matchScore},
-            district: {district},
-            i: i,
-            /* Add more Chips etc */
-          })
-        }
+        onPress={() => navigation.navigate('flatShow', {id})}
       />
     </View>
   );

@@ -11,6 +11,8 @@ interface AdvertState {
       matchScore: number | null;
       price: number | null;
       favorite: boolean | null;
+      fromDate: number | null;
+      toDate: number | null;
       created_at: string | null;
       flat: {
         id: number | null;
@@ -34,6 +36,8 @@ const initialState: AdvertState = {
       currency: null,
       price: null,
       favorite: null,
+      fromDate: null,
+      toDate: null,
       matchScore: null,
       created_at: null,
       flat: {
@@ -70,6 +74,8 @@ export const advertSlice = createSlice({
             matchScore: advert.match_score,
             price: advert.price,
             favorite: advert.favorite,
+            fromDate: advert.from_date,
+            toDate: advert.to_date,
             created_at: advert.created_at,
             flat: {
               id: advert.flat.id,
