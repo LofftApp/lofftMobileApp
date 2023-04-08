@@ -18,14 +18,15 @@ const FlatListSubScreen = ({navigation}: any) => {
           {adverts.map((el: any, index: number) => {
             return (
               <ListViewFlatCard
+                id={el.id}
                 navigation={navigation}
                 key={index + 1}
                 matchScore={el.matchScore}
                 flatId={el.flat.id}
-                district={'Berlin, Moabit'}
+                district={el.flat.district}
                 price={el.price}
                 images={el.flat.photos}
-                likedUsers={[]}
+                favorite={el.favorite}
                 i={index}
               />
             );

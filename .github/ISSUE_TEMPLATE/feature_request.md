@@ -6,14 +6,21 @@ labels: 'enhancement'
 assignees: ''
 ---
 
-<!-- V1.3 -->
+<!-- V1.4 -->
 
 # Feature Request
 
+### Notion Reference
+
+<!-- Paste the notion reference link here -->
+
 ### Limiting Branches
-The following issues limit this feature, which will need to be closed and added to this branch before it can be added. 
-<!-- Place any limitations to the development in this section --> 
-- This issue is not limited by other PRs or Issues. 
+
+The following issues limit this feature, which will need to be closed and added to this branch before it can be added.
+
+<!-- Place any limitations to the development in this section -->
+
+- This issue is not limited by other PRs or Issues.
 
 _Use this form to outline potential new features or planned features in lofft_
 

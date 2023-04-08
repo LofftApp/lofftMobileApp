@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
+// import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
@@ -19,8 +19,10 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
+import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 const ListViewFlatCard = ({
+  id,
   flatId,
   matchScore,
   district,
@@ -28,6 +30,7 @@ const ListViewFlatCard = ({
   images,
   navigation,
   i,
+  favorite,
 }: any) => {
   const [screen] = useState(1);
   const userType = useAppSelector((state: any) => state.user.userType);
@@ -37,19 +40,19 @@ const ListViewFlatCard = ({
     // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
   }
   const dispatch = useAppDispatch();
-
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
+          {/* Match score checks if from lessor, if true then its renter */}
           {matchScore ? (
             <View>
               <Pressable
                 // style={styles.flatCardSaveButton}
                 onPress={() => {
-                  dispatch(saveFlatsToFavorites({flatId, add: !save}));
+                  dispatch(toggleFavorite(id));
                 }}>
-                {save === true ? (
+                {favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={25}
