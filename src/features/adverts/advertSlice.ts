@@ -11,7 +11,7 @@ interface AdvertState {
       matchScore: number | null;
       price: number | null;
       created_at: string | null;
-      user: boolean | null;
+      // user: boolean | null;
       flat: {
         id: number | null;
         address: string | null;
@@ -33,7 +33,7 @@ const initialState: AdvertState = {
       price: null,
       matchScore: null,
       created_at: null,
-      user: null,
+      // user: null,
       flat: {
         id: null,
         address: null,
