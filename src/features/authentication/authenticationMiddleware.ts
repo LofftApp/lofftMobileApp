@@ -47,9 +47,10 @@ export const signIn = createAsyncThunk(
 
 export const signOut = createAsyncThunk('authentication/signOut', async () => {
   // development url
-  const url = 'http://localhost:3000/api/users/sign_out';
+  const url = 'http://localhost:3000/users/sign_out';
   try {
-    const response = await axios.delete(url);
+    const token = await EncryptedStorage.getItem('token');
+    const response = await axios.delete(url, {headers: {Authorization: token}});
     await EncryptedStorage.removeItem('token');
     return response.data;
   } catch (error) {
