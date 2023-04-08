@@ -1,11 +1,7 @@
 export const dateFormatConverter = ({date, format = 'EU'}: any) => {
   if (!date) return null;
 
-  if (date?.seconds) {
-    date = convertSecondsTODate(date.seconds);
-  } else {
-    date = new Date(date);
-  }
+  date = date?.seconds ? convertSecondsTODate(date.seconds) : new Date(date);
 
   const day = date.getDate();
   const month = date.getMonth() + 1;

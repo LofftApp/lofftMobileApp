@@ -21,56 +21,32 @@ const HighlightButtons = ({
   id,
   heartPresent = true,
   color = null,
-}) => {
+  favorite,
+  onPressHeart,
+}: any) => {
   const [saved, setSaved] = useState(false);
 
-  const pressHeart = async (currentHeartState, id) => {
-    const uid = auth().currentUser?.uid;
-    const db = firestore();
-
-    setSaved(!currentHeartState);
-
-    try {
-      if (saved) {
-        await db
-          .collection('users')
-          .doc(uid)
-          .update({
-            savedFlats: firestore.FieldValue.arrayRemove(id), // '1234 should be replaced with id number'
-          });
-      } else {
-        await db
-          .collection('users')
-          .doc(uid)
-          .update({
-            savedFlats: firestore.FieldValue.arrayUnion(id), // '1234 should be replaced with id '
-          });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
-    <View style={[styles.actionContainer, { justifyContent: goBack ? 'space-between': 'flex-end' }]}>
-      {goBack ?
-      <Pressable
-        style={styles.iconContainer}
-        onPress={() => navigation.goBack()}>
-        <LofftIcon
-          name="chevron-left"
-          size={35}
-          color={color ? color : Color.Lavendar[80]}
-        />
-      </Pressable>
-      : null
-      }
-
-      {heartPresent ? (
+    <View
+      style={[
+        styles.actionContainer,
+        {justifyContent: goBack ? 'space-between' : 'flex-end'},
+      ]}>
+      {goBack ? (
         <Pressable
           style={styles.iconContainer}
-          onPress={() => pressHeart(saved)}>
-          {saved ? (
+          onPress={() => navigation.goBack()}>
+          <LofftIcon
+            name="chevron-left"
+            size={35}
+            color={color ? color : Color.Lavendar[80]}
+          />
+        </Pressable>
+      ) : null}
+
+      {heartPresent ? (
+        <Pressable style={styles.iconContainer} onPress={onPressHeart}>
+          {favorite ? (
             <LofftIcon
               name="heart-filled"
               size={35}
