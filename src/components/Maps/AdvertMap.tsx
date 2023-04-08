@@ -115,7 +115,7 @@ const FlatMap = () => {
                   images={item.flat.photos}
                   tagline={item.flat.tagline}
                   id={item.id}
-                  // likedUsers={item.likedUsers}
+                  favorite={item.favorite}
                 />
               )}
             />

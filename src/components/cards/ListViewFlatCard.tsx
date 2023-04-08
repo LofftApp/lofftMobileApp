@@ -23,7 +23,6 @@ import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 const ListViewFlatCard = ({
   id,
-  flatId,
   matchScore,
   district,
   price,
