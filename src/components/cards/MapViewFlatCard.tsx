@@ -10,7 +10,7 @@ import {
 
 // Redux 🏪
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
+import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
@@ -25,6 +25,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
 const MapViewFlatCard = ({
+  id,
   flatId,
   price,
   match,
@@ -32,7 +33,7 @@ const MapViewFlatCard = ({
   city,
   images,
   tagline,
-  likedUsers,
+  favorite,
 }: any) => {
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
@@ -52,10 +53,10 @@ const MapViewFlatCard = ({
               <MatchingScoreButton size="Small" score={match} />
               <Pressable
                 onPress={() => {
-                  dispatch(saveFlatsToFavorites({flatId, add: !save}));
+                  dispatch(toggleFavorite(id));
                 }}>
                 {/* ! This need to be updated with validation */}
-                {false ? (
+                {favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={20}

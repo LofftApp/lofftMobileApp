@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchAdverts} from './advertMiddleware';
+import {fetchAdverts, toggleFavorite} from './advertMiddleware';
 
 interface AdvertState {
   loading: boolean;
@@ -10,6 +10,7 @@ interface AdvertState {
       currency: string | null;
       matchScore: number | null;
       price: number | null;
+      favorite: boolean | null;
       created_at: string | null;
       flat: {
         id: number | null;
@@ -32,6 +33,7 @@ const initialState: AdvertState = {
       status: null,
       currency: null,
       price: null,
+      favorite: null,
       matchScore: null,
       created_at: null,
       flat: {
@@ -67,6 +69,7 @@ export const advertSlice = createSlice({
             currency: advert.currency,
             matchScore: advert.match_score,
             price: advert.price,
+            favorite: advert.favorite,
             created_at: advert.created_at,
             flat: {
               id: advert.flat.id,
@@ -86,6 +89,16 @@ export const advertSlice = createSlice({
       state.loading = false;
       console.log('fetchAdverts rejected');
     });
+    builder.addCase(
+      toggleFavorite.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        const advertId = action.payload.id;
+        const advert = state.adverts.find(advert => advert.id === advertId);
+        if (advert) {
+          advert.favorite = !advert.favorite;
+        }
+      },
+    );
   },
 });
 

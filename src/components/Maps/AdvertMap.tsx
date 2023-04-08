@@ -59,7 +59,8 @@ const FlatMap = () => {
   }, [adverts]);
 
   const setActiveLocation = (index: number) => {
-    setSelectedIndex(index);
+    // ! Made -1 to match the index of the flatlist, this should fix it though was a bit of a hack
+    setSelectedIndex(index - 1);
   };
 
   const onViewRef = React.useRef((viewableItems: any) => {
@@ -114,7 +115,7 @@ const FlatMap = () => {
                   images={item.flat.photos}
                   tagline={item.flat.tagline}
                   id={item.id}
-                  // likedUsers={item.likedUsers}
+                  favorite={item.favorite}
                 />
               )}
             />
