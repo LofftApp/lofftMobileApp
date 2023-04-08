@@ -18,7 +18,7 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
+import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlightButtons';
@@ -31,18 +31,23 @@ import Chips from '@Components/buttons/Chips';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
 
+// Helpers
+import {dateFormatConverter} from '@Helpers/dateFormatConverter';
 // Styles
 
 const FlatShowScreen = ({route, navigation}: any) => {
-  const [flatIndex] = useState(route.params.i);
+  const [advertIndex] = useState(route.params.id);
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
-  const flat = useAppSelector((state: any) => state.flats.allFlats[flatIndex]);
-  const [description, setDescription] = useState(flat.description);
+  const advert = useAppSelector((state: any) =>
+    state.adverts.adverts.find((advert: any) => advert.id === advertIndex),
+  );
+  console.log(advert.fromDate);
   const dispatch = useAppDispatch();
-  if (userType === 'renter') {
-    save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
-  }
+
+  // if (userType === 'renter') {
+  //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
+  // }
 
   /* Params are being passed classicly via the route helper instead of  */
   const {price, match} = route.params;
@@ -90,19 +95,16 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      {/* Added flatindex to ID, please confirm what is needed there @AdamTomczyk or @DonJuanKim */}
       {!blurActivated ? (
         <HighlightedButtons
           navigation={navigation}
-          save={save}
-          onPressHeart={() =>
-            dispatch(saveFlatsToFavorites({flatId: flat.flatId, add: !save}))
-          }
+          favorite={advert.favorite}
+          onPressHeart={() => dispatch(toggleFavorite(advert.id))}
         />
       ) : null}
       <LofftHeaderPhoto
         imageContainerHeight={300}
-        images={flat.images}
+        images={advert.flat.photos}
         activeBlur={blurActivated}
       />
       <SafeAreaView
@@ -111,13 +113,21 @@ const FlatShowScreen = ({route, navigation}: any) => {
           showsVerticalScrollIndicator={false}
           style={styles.scrollView}>
           <FlatInfoContainer
-            address={flat.address}
-            description={flat.description}
-            untilDate={flat.untilDate}
-            fromDate={flat.fromDate}
-            flatId={flat.flatId}
-            price={flat.price}
-            district={flat.district}
+            address={advert.flat.address}
+            description={advert.flat.description}
+            fromDate={
+              advert.fromDate
+                ? dateFormatConverter({date: {seconds: advert.fromDate}})
+                : null
+            }
+            untilDate={
+              advert.toDate
+                ? dateFormatConverter({date: {seconds: advert.toDate}})
+                : null
+            }
+            flatId={advert.flat.flatId}
+            price={advert.price}
+            district={advert.flat.district}
             navigation={navigation}
             button={true}
           />
