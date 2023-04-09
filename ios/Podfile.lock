@@ -78,11 +78,11 @@ PODS:
   - hermes-engine/Pre-built (0.71.6)
   - libevent (2.1.12)
   - MapboxCommon (23.4.0)
-  - MapboxCoreMaps (10.12.1):
+  - MapboxCoreMaps (10.12.0):
     - MapboxCommon (~> 23.4)
-  - MapboxMaps (10.12.1):
+  - MapboxMaps (10.12.0):
     - MapboxCommon (= 23.4.0)
-    - MapboxCoreMaps (= 10.12.1)
+    - MapboxCoreMaps (= 10.12.0)
     - MapboxMobileEvents (= 1.0.10)
     - Turf (~> 2.0)
   - MapboxMobileEvents (1.0.10)
@@ -440,13 +440,13 @@ PODS:
     - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
-  - rnmapbox-maps (10.0.0-rc.8):
+  - rnmapbox-maps (10.0.0-rc.13):
     - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.8)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.13)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.8):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.13):
     - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
@@ -666,8 +666,8 @@ SPEC CHECKSUMS:
   hermes-engine: b434cea529ad0152c56c7cb6486b0c4c0b23b5de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   MapboxCommon: 2945d39158111455f353524f3c2ad356bd8d546a
-  MapboxCoreMaps: c20f2bb1eb57b328982b1dead1258a5dd3bf09fe
-  MapboxMaps: a673c0923f645dc6f90e40bdc034b8567d8dead4
+  MapboxCoreMaps: 511ba1f7876e635431b741cab5e9278219d906f6
+  MapboxMaps: a9978d13d1cba0403c5bdd2ab3b71418924075d2
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -704,7 +704,7 @@ SPEC CHECKSUMS:
   ReactCommon: 0c43eaeaaee231d7d8dc24fc5a6e4cf2b75bf196
   RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
-  rnmapbox-maps: c7563f381e11cb73558bf062403aed2973dbaa85
+  rnmapbox-maps: f13df9c2551f0f5495be6d5b3e0e46dacc4f4d0a
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
@@ -714,4 +714,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1b8f16d796d68ae469032ed335a48ca50d7415c4
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.3
