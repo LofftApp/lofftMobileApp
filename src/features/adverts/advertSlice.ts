@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchAdverts} from './advertMiddleware';
+import {fetchAdverts, toggleFavorite} from './advertMiddleware';
 
 interface AdvertState {
   loading: boolean;
@@ -10,6 +10,9 @@ interface AdvertState {
       currency: string | null;
       matchScore: number | null;
       price: number | null;
+      favorite: boolean | null;
+      fromDate: number | null;
+      toDate: number | null;
       created_at: string | null;
       // user: boolean | null;
       flat: {
@@ -17,6 +20,8 @@ interface AdvertState {
         address: string | null;
         description: string | null;
         tagLine: string | null;
+        district: string | null;
+        city: string | null;
         photos: string[] | null;
       };
     },
@@ -31,6 +36,9 @@ const initialState: AdvertState = {
       status: null,
       currency: null,
       price: null,
+      favorite: null,
+      fromDate: null,
+      toDate: null,
       matchScore: null,
       created_at: null,
       // user: null,
@@ -39,6 +47,8 @@ const initialState: AdvertState = {
         address: null,
         description: null,
         tagLine: null,
+        district: null,
+        city: null,
         photos: null,
       },
     },
@@ -58,22 +68,25 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log(action.payload);
         const values = action.payload.map((advert: any) => {
-          console.log('advert:', advert);
           return {
             id: advert.id,
             status: advert.status,
             currency: advert.currency,
             matchScore: advert.match_score,
             price: advert.price,
+            favorite: advert.favorite,
+            fromDate: advert.from_date,
+            toDate: advert.to_date,
             created_at: advert.created_at,
             user: advert.user,
             flat: {
               id: advert.flat.id,
               address: advert.flat.address,
               description: advert.flat.description,
-              tagLine: advert.flat.tagLine,
+              tagline: advert.flat.tag_line,
+              district: advert.flat.district,
+              city: advert.flat.city,
               photos: advert.flat.photos,
             },
           };
@@ -85,6 +98,16 @@ export const advertSlice = createSlice({
       state.loading = false;
       console.log('fetchAdverts rejected');
     });
+    builder.addCase(
+      toggleFavorite.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        const advertId = action.payload.id;
+        const advert = state.adverts.find(advert => advert.id === advertId);
+        if (advert) {
+          advert.favorite = !advert.favorite;
+        }
+      },
+    );
   },
 });
 

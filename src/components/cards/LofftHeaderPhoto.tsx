@@ -29,7 +29,6 @@ const LofftHeaderPhoto = ({
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         renderItem={({item, index}) => {
-          console.log(item);
           return (
             <Image
               style={[styles.imageContainer, {height: imageContainerHeight}]}

@@ -23,6 +23,25 @@ export const fetchAdverts = createAsyncThunk(
   },
 );
 
+export const toggleFavorite = createAsyncThunk(
+  'advert/toggleFavorite',
+  async (id: number) => {
+    const url = `http://localhost:3000/adverts/${id}/favorite`;
+    try {
+      const token = await EncryptedStorage.getItem('token');
+      const response = await axios.post(
+        url,
+        {},
+        {headers: {Authorization: token}},
+      );
+      return {data: response.data, id};
+    } catch (error) {
+      console.log('toggleFavorite error:', error);
+    }
+    return id;
+  },
+);
+
 
 export const fetchLessorAdverts = createAsyncThunk(
   'advert/fetchLessorAdverts',
