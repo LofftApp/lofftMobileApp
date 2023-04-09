@@ -8,9 +8,7 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({navigation}: any) => {
-  // ! two adverts caused by how it is passed through, this should be investigated
   const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
-  console.log(adverts[0].flat.photos);
   return (
     <SafeAreaView>
       <ScrollView
@@ -20,14 +18,15 @@ const FlatListSubScreen = ({navigation}: any) => {
           {adverts.map((el: any, index: number) => {
             return (
               <ListViewFlatCard
+                id={el.id}
                 navigation={navigation}
                 key={index + 1}
                 matchScore={el.matchScore}
                 flatId={el.flat.id}
-                district={'Berlin, Moabit'}
+                district={el.flat.district}
                 price={el.price}
                 images={el.flat.photos}
-                likedUsers={[]}
+                favorite={el.favorite}
                 i={index}
               />
             );

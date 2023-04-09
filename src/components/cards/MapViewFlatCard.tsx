@@ -10,7 +10,7 @@ import {
 
 // Redux 🏪
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
+import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // Components 🪢
 import Chips from '@Components/buttons/Chips';
@@ -25,20 +25,19 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
 const MapViewFlatCard = ({
+  id,
   flatId,
   price,
   match,
   district,
+  city,
   images,
-  likedUsers,
+  tagline,
+  favorite,
 }: any) => {
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
-  if (userType === 'renter') {
-    save = useAppSelector(state => state.user.savedFlats.includes(flatId));
-  }
   const dispatch = useAppDispatch();
-
   return (
     <View style={styles.boundryContainer}>
       <View style={styles.flatCardContainer}>
@@ -54,9 +53,10 @@ const MapViewFlatCard = ({
               <MatchingScoreButton size="Small" score={match} />
               <Pressable
                 onPress={() => {
-                  dispatch(saveFlatsToFavorites({flatId, add: !save}));
+                  dispatch(toggleFavorite(id));
                 }}>
-                {save === true ? (
+                {/* ! This need to be updated with validation */}
+                {favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={20}
@@ -70,13 +70,11 @@ const MapViewFlatCard = ({
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
                 <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
-                <Text style={fontStyles.bodyMedium}>
-                  🧘 Calm flat in the centre of {district}
-                </Text>
+                <Text style={fontStyles.bodyMedium}>{tagline}</Text>
               </View>
               <Text
                 style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-                {district}, Berlin
+                {district}, {city}
               </Text>
             </View>
           </View>

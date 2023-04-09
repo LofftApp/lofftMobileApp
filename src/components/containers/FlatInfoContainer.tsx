@@ -18,33 +18,33 @@ const FlatInfoContainer = ({
   flatId,
   button,
   navigation,
-  isLessor,
-}) => {
+}: any) => {
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
 
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
 
-
   return (
     <View style={styles.centralizerContainer}>
-      {!isLessor ? (
-        <View style={styles.matchContainer}>
-          <View>
-            <Text style={fontStyles.headerLarge}>🌟</Text>
-          </View>
-          <View>
-            <Text style={fontStyles.headerSmall}>
-              93% match with your lifestyles
-              {'\n'}& flat expectations
-            </Text>
-          </View>
+      {/* {!isLessor ? ( */}
+      <View style={styles.matchContainer}>
+        <View>
+          <Text style={fontStyles.headerLarge}>🌟</Text>
         </View>
-      ) : null}
+        <View>
+          <Text style={fontStyles.headerSmall}>
+            93% match with your lifestyles
+            {'\n'}& flat expectations
+          </Text>
+        </View>
+      </View>
+      {/* ) : null} */}
 
       <View style={styles.infoContainer}>
-        {isLessor ? <Text style={[fontStyles.bodyLarge, {marginBottom: 20 }]}>Details</Text> : null}
+        {/* {isLessor ? ( */}
+        <Text style={[fontStyles.bodyLarge, {marginBottom: 20}]}>Details</Text>
+        {/* ) : null} */}
         <Text style={{color: Color.Black[80]}}>{address}</Text>
         <Text style={[fontStyles.headerSmall, {paddingTop: 20}]}>
           🧘 Calm flat in the centre of Moabit

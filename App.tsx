@@ -36,13 +36,20 @@ import AdminScreen from '@Screens/admin/adminScreen';
 const RootStack = createNativeStackNavigator();
 
 const App = () => {
+  const [authenticated, profile, admin] = useAppSelector((state: any) => [
+    state.authentication.authenticated,
+    true,
+    state.authentication.admin,
+  ]);
   const dispatch = useAppDispatch();
 
   // Set an initializing state whilst Firebase connects
+  const [token, setToken] = useState(null);
   const [initializing, setInitializing] = useState(true);
 
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
+
   useEffect(() => {
     dispatch(checkToken());
   }, []);
@@ -60,6 +67,8 @@ const App = () => {
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
+    if (initializing) setInitializing(false);
+  }, [authenticated]);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -99,7 +108,9 @@ const App = () => {
 
   return (
     <>
-      {user ? (
+      {!authenticated ? (
+        <GuestStackNavigator />
+      ) : (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
@@ -112,12 +123,10 @@ const App = () => {
               name="dashboardLessor"
               component={DashboardNavigatorLessor}
             />
-          ) : (
-            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
-          )}
+          ) : ( */}
+          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          {/* )} */}
         </RootStack.Navigator>
-      ) : (
-        <GuestStackNavigator />
       )}
     </>
   );
