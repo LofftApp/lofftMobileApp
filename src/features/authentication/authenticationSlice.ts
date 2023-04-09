@@ -7,6 +7,7 @@ interface AuthenticationState {
   loading: boolean;
   admin: boolean;
   authenticated: boolean;
+  userType: string;
 }
 
 const initialState: AuthenticationState = {
@@ -15,6 +16,7 @@ const initialState: AuthenticationState = {
   loading: false,
   admin: false,
   authenticated: false,
+  userType: null,
 };
 
 export const authenticationSlice = createSlice({
@@ -41,6 +43,7 @@ export const authenticationSlice = createSlice({
       state.loading = false;
       state.id = action.payload.id;
       state.email = action.payload.email;
+      state.userType = action.payload.user_type;
     });
     builder.addCase(signUp.rejected, state => {
       state.loading = false;

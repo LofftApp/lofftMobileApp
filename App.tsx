@@ -17,6 +17,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {checkToken} from '@Redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {currentUser} from '@Redux/user/usersMiddleware';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -36,6 +37,7 @@ const RootStack = createNativeStackNavigator();
 
 const App = () => {
   const dispatch = useAppDispatch();
+
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
 
@@ -44,9 +46,17 @@ const App = () => {
   useEffect(() => {
     dispatch(checkToken());
   }, []);
+
+  useEffect(() => {
+    dispatch(currentUser());
+  }, []);
+
+
   const user = useAppSelector(
     (state: any) => state.authentication.authenticated,
   );
+
+  const userType = useAppSelector((state: any) => state.user.userType);
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
@@ -60,7 +70,9 @@ const App = () => {
   MapboxGL.setTelemetryEnabled(false);
 
   // TODO: This will need to be placed in another useEffect with new DB path.
-  if (initializing) setInitializing(false);
+  if (initializing) {
+    setInitializing(false);
+  }
 
   // Use Effect for dev environment
   useEffect(() => {
@@ -83,6 +95,8 @@ const App = () => {
   ]);
   const [landlord, setLandlord] = useState(false);
 
+  console.log('userLessor', userType);
+
   return (
     <>
       {user ? (
@@ -93,7 +107,7 @@ const App = () => {
           {!profile ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
-          {landlord && landlord.length > 0 ? (
+          {userType === 'lessor' ? (
             <RootStack.Screen
               name="dashboardLessor"
               component={DashboardNavigatorLessor}

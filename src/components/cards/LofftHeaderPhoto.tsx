@@ -10,7 +10,7 @@ const LofftHeaderPhoto = ({
   activeBlur = null,
 }: any) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  console.log('images', images);
+
   const onViewableItemsChanged = useCallback(
     ({viewableItems, changed}: any) => {
       const index = viewableItems[0].index;

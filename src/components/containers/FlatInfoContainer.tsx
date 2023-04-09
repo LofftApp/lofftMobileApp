@@ -25,7 +25,7 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-  console.log(isLessor)
+
 
   return (
     <View style={styles.centralizerContainer}>

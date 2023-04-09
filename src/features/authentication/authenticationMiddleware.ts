@@ -37,6 +37,7 @@ export const signIn = createAsyncThunk(
     const url = 'http://localhost:3000/users/sign_in';
     try {
       const response = await axios.post(url, {user: {email, password}});
+
       await EncryptedStorage.setItem('token', response.headers.authorization);
       return response.data.user;
     } catch (error) {

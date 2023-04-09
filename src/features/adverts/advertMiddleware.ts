@@ -22,3 +22,24 @@ export const fetchAdverts = createAsyncThunk(
     }
   },
 );
+
+
+export const fetchLessorAdverts = createAsyncThunk(
+  'advert/fetchLessorAdverts',
+  async () => {
+    // development url
+    const url = 'http://localhost:3000/adverts/lessor';
+    try {
+      const token = await EncryptedStorage.getItem('token');
+      const response = await axios.get(url, {
+        headers: {
+          ContentType: 'application/json',
+          Authorization: token,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log('fetchFlats error:', error);
+    }
+  },
+);
