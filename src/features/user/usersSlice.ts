@@ -1,42 +1,61 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
+import {currentUser} from './usersMiddleware';
 
 interface UserState {
   loading: boolean;
-  uid: string | null;
-  type: string | null;
+  id: number;
+  email: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
   admin: boolean;
-  profile: boolean;
+  termsAndConditions: boolean;
+  jti: string | null;
   userType: string | null;
-  savedFlats: string[];
-  profileDetails: any[];
-  searchCriteria: any[];
-  flats: any[];
 }
 
 const initialState: UserState = {
   loading: false,
-  uid: null,
-  type: null,
+  id: null,
+  email: null,
+  createdAt: null,
+  updatedAt: null,
   admin: false,
-  profile: false,
+  jti: null,
   userType: null,
-  savedFlats: [],
-  profileDetails: [],
-  searchCriteria: [],
-  flats: [],
 };
 
-const usersSlice = createSlice({
+// Middlewares
+
+const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
     setUserID: (state, action: PayloadAction<any>) => {
-      state.uid = action.payload;
+      state.id = action.payload;
     },
     setUserProfile: (state, action) => {},
   },
-  extraReducers: builder => {},
+  extraReducers: builder => {
+    builder.addCase(currentUser.pending, state => {
+      state.loading = true;
+      console.log('current user data is on its way');
+    }),
+      builder.addCase(
+        currentUser.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.userType = action.payload.user_type;
+          state.id = action.payload.id;
+          state.termsAndConditions = action.payload.terms_and_condtions;
+          state.updatedAt = action.payload.updated_at;
+          state.createdAt = action.payload.created_at;
+          state.admin = action.payload.admin;
+          state.email = action.payload.email;
+        },
+      );
+  },
+
 });
 
-export const {setUserID, setUserProfile} = usersSlice.actions;
-export default usersSlice.reducer;
+export const { } = userSlice.actions;
+export default userSlice.reducer;

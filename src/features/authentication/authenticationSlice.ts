@@ -4,11 +4,13 @@ import {checkToken, signUp, signIn, signOut} from './authenticationMiddleware';
 interface AuthenticationState {
   loading: boolean;
   authenticated: boolean;
+  userType: string;
 }
 
 const initialState: AuthenticationState = {
   loading: false,
   authenticated: false,
+  userType: null,
 };
 
 export const authenticationSlice = createSlice({

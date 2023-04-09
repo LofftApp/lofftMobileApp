@@ -17,6 +17,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {checkToken} from '@Redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {currentUser} from '@Redux/user/usersMiddleware';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -41,6 +42,7 @@ const App = () => {
     state.authentication.admin,
   ]);
   const dispatch = useAppDispatch();
+
   // Set an initializing state whilst Firebase connects
   const [token, setToken] = useState(null);
   const [initializing, setInitializing] = useState(true);
@@ -50,8 +52,23 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkToken());
-    if (initializing) setInitializing(false);
-  }, [authenticated]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(currentUser());
+  }, []);
+
+
+  const user = useAppSelector(
+    (state: any) => state.authentication.authenticated,
+  );
+
+  const userType = useAppSelector((state: any) => state.user.userType);
+  // dispatch(setUserID(currentUser?.uid || null));
+  // dispatch(fetchUserProfile(currentUser?.uid || null));
+  // setUser(user);
+  useEffect(() => { if (initializing) setInitializing(false) }, [authenticated])
+
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -60,7 +77,28 @@ const App = () => {
   MapboxGL.setAccessToken(MAPBOX_API_KEY);
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
-  console.log('authenticated', authenticated);
+
+  // TODO: This will need to be placed in another useEffect with new DB path.
+
+
+  // Use Effect for dev environment
+  useEffect(() => {
+    if (__DEV__) {
+      console.log('Lofft API Development Environment');
+      let host = 'localhost';
+      // If using Mobile device set the host as local IP
+      host = '127.0.0.1';
+      console.log(
+        host === 'localhost'
+          ? 'Host running on local host'
+          : `Host is running on ${host}`,
+      );
+    }
+  }, []);
+
+
+
+
   return (
     <>
       {!authenticated ? (
@@ -73,14 +111,14 @@ const App = () => {
           {!profile ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
-          {/* {landlord && landlord.length > 0 ? (
+          {userType === 'lessor' ? (
             <RootStack.Screen
               name="dashboardLessor"
               component={DashboardNavigatorLessor}
             />
-          ) : ( */}
-          <RootStack.Screen name="dashboard" component={DashboardNavigator} />
-          {/* )} */}
+            ) : (<RootStack.Screen name="dashboard" component={DashboardNavigator} />)}
+
+
         </RootStack.Navigator>
       )}
     </>
