@@ -10,6 +10,9 @@ import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
+// Google Auth
+// import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
 // Storage 📁
 import EncryptedStorage from 'react-native-encrypted-storage';
 
@@ -48,6 +51,13 @@ const App = () => {
   // TODO: sync with new api
   // const currentUser: any = await auth()?.currentUser;
 
+  // useEffect(() => {
+  //   GoogleSignin.configure({
+  //     webClientId:
+  //       '25055797109-1sk2pvk5a2n796hlagtm37afpb4d47tk.apps.googleusercontent.com',
+  //     offlineAccess: true,
+  //   });
+  // }, []);
   useEffect(() => {
     dispatch(checkToken());
     if (initializing) setInitializing(false);

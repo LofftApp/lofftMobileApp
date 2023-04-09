@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-
+import {GoogleSignUp} from '@Api/googleAuth/googleAuth';
 // API 🧠
 
 // Styles 🖼️
@@ -17,16 +17,14 @@ const SignInWith = ({navigation}: any) => {
         ────────{'    '}Or sign in with {'    '}────────
       </Text>
       <View style={styles.buttonWrap}>
-        {/* <TouchableOpacity
-          onPress={() => onAppleButtonPress()}
-          style={styles.logInWithButton}>
+        <TouchableOpacity onPress={() => {}} style={styles.logInWithButton}>
           <AppleIcon />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => onGoogleButtonPress()}
+          onPress={() => GoogleSignUp()}
           style={styles.logInWithButton}>
           <GoogleIcon />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </View>
   );

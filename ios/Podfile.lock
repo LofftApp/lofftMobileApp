@@ -1,4 +1,10 @@
 PODS:
+  - AppAuth (1.6.1):
+    - AppAuth/Core (= 1.6.1)
+    - AppAuth/ExternalUserAgent (= 1.6.1)
+  - AppAuth/Core (1.6.1)
+  - AppAuth/ExternalUserAgent (1.6.1):
+    - AppAuth/Core
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -73,6 +79,14 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
+  - GoogleSignIn (6.2.4):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (~> 1.3)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
+  - GTMAppAuth (1.3.1):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
+  - GTMSessionFetcher/Core (2.3.0)
   - hermes-engine (0.71.6):
     - hermes-engine/Pre-built (= 0.71.6)
   - hermes-engine/Pre-built (0.71.6)
@@ -440,6 +454,9 @@ PODS:
     - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
+  - RNGoogleSignin (9.0.2):
+    - GoogleSignIn (~> 6.2)
+    - React-Core
   - rnmapbox-maps (10.0.0-rc.8):
     - MapboxMaps (~> 10.12.0)
     - React
@@ -528,6 +545,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - "rnmapbox-maps (from `../node_modules/@rnmapbox/maps`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -535,6 +553,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppAuth
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -546,6 +565,9 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
     - libevent
     - MapboxCommon
     - MapboxCoreMaps
@@ -637,6 +659,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNGoogleSignin:
+    :path: "../node_modules/@react-native-google-signin/google-signin"
   rnmapbox-maps:
     :path: "../node_modules/@rnmapbox/maps"
   RNScreens:
@@ -647,6 +671,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppAuth: e48b432bb4ba88b10cb2bcc50d7f3af21e78b9c2
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -663,6 +688,9 @@ SPEC CHECKSUMS:
   FlipperKit: cbdee19bdd4e7f05472a66ce290f1b729ba3cb86
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
+  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
+  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   hermes-engine: b434cea529ad0152c56c7cb6486b0c4c0b23b5de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   MapboxCommon: 2945d39158111455f353524f3c2ad356bd8d546a
@@ -704,6 +732,7 @@ SPEC CHECKSUMS:
   ReactCommon: 0c43eaeaaee231d7d8dc24fc5a6e4cf2b75bf196
   RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
+  RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
   rnmapbox-maps: c7563f381e11cb73558bf062403aed2973dbaa85
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315

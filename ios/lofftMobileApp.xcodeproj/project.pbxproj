@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1A2F53AE29E2FCAD00E76060 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A2F53AD29E2FCAD00E76060 /* GoogleService-Info.plist */; };
 		1A3477CC295676DE00CF61F4 /* Inter-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C9295676D700CF61F4 /* Inter-Black.otf */; };
 		1A3477CD295676DE00CF61F4 /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C5295676D600CF61F4 /* Inter-Bold.otf */; };
 		1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C6295676D600CF61F4 /* Inter-Medium.otf */; };
@@ -42,6 +43,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lofftMobileApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lofftMobileApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lofftMobileApp/main.m; sourceTree = "<group>"; };
+		1A2F53AD29E2FCAD00E76060 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "lofftMobileApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A3477C5295676D600CF61F4 /* Inter-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Bold.otf"; path = "../../assets/fonts/Inter-Bold.otf"; sourceTree = "<group>"; };
 		1A3477C6295676D600CF61F4 /* Inter-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Medium.otf"; path = "../../assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; };
 		1A3477C8295676D600CF61F4 /* Inter-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-SemiBold.otf"; path = "../../assets/fonts/Inter-SemiBold.otf"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				1A9F9146293D637E00738116 /* lofftMobileApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				1A2F53AD29E2FCAD00E76060 /* GoogleService-Info.plist */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -273,6 +276,7 @@
 			files = (
 				1A646643299412CA005768C2 /* icomoon.ttf in Resources */,
 				1A3477CC295676DE00CF61F4 /* Inter-Black.otf in Resources */,
+				1A2F53AE29E2FCAD00E76060 /* GoogleService-Info.plist in Resources */,
 				1A3477CD295676DE00CF61F4 /* Inter-Bold.otf in Resources */,
 				1A3477CE295676DE00CF61F4 /* Inter-Medium.otf in Resources */,
 				1A3477CF295676DE00CF61F4 /* Inter-SemiBold.otf in Resources */,
