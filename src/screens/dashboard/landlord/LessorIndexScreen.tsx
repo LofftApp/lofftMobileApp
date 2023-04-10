@@ -7,6 +7,10 @@ import FlatListApplicationsScreen from '../renter/SubScreens/FlatListApplication
 // Components 🪢
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
+// Redux
+import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {fetchLessorAdverts} from '@Redux/adverts/advertMiddleware';
+
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import * as Color from '@StyleSheets/lofftColorPallet.json';
@@ -17,6 +21,14 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 const LessorIndexScreen = ({navigation}: any) => {
   const [sortedFlats, setSortedFlats] = useState([]);
   const oneFlat = sortedFlats.slice(0, 1);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchLessorAdverts());
+  }, []);
+
+  const lessor_flats = useAppSelector((state: any) => state.adverts.adverts);
 
   useEffect(() => {
     const getFlats = async () => {
@@ -59,7 +71,7 @@ const LessorIndexScreen = ({navigation}: any) => {
 
       <View style={styles.viewContainer}>
         <FlatListApplicationsScreen
-          flats={oneFlat}
+          flats={lessor_flats}
           navigation={navigation}
           active={true}
           isLessor={true}

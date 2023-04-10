@@ -58,17 +58,23 @@ const App = () => {
     dispatch(currentUser());
   }, []);
 
+  // const user = useAppSelector(
+  //   (state: any) => state.authentication.authenticated,
+  // );
 
-  const user = useAppSelector(
-    (state: any) => state.authentication.authenticated,
-  );
+
 
   const userType = useAppSelector((state: any) => state.user.userType);
+
+  console.log("Hey I am user:", userType)
   // dispatch(setUserID(currentUser?.uid || null));
   // dispatch(fetchUserProfile(currentUser?.uid || null));
   // setUser(user);
-  useEffect(() => { if (initializing) setInitializing(false) }, [authenticated])
-
+  useEffect(() => {
+    if (initializing) {
+      setInitializing(false);
+    }
+  }, [authenticated]);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -79,7 +85,6 @@ const App = () => {
   MapboxGL.setTelemetryEnabled(false);
 
   // TODO: This will need to be placed in another useEffect with new DB path.
-
 
   // Use Effect for dev environment
   useEffect(() => {
@@ -95,9 +100,6 @@ const App = () => {
       );
     }
   }, []);
-
-
-
 
   return (
     <>
@@ -116,9 +118,9 @@ const App = () => {
               name="dashboardLessor"
               component={DashboardNavigatorLessor}
             />
-            ) : (<RootStack.Screen name="dashboard" component={DashboardNavigator} />)}
-
-
+          ) : (
+            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+          )}
         </RootStack.Navigator>
       )}
     </>
