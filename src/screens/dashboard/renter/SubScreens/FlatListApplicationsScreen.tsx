@@ -4,7 +4,12 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({active, flats, navigation, isLessor}: any) => {
+const FlatListApplicationsScreen = ({
+  active,
+  flats,
+  navigation,
+  isLessor,
+}: any) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -17,18 +22,23 @@ const FlatListApplicationsScreen = ({active, flats, navigation, isLessor}: any) 
               key={index + 1}
               match={el?.matchP}
               flatId={el.flatId}
-              district={el.district}
+              district={el.district ? el.district : el.flat.district}
               price={el.price}
-              images={el.images}
+              images={el.images ? el.images : el.flat.images}
               likedUsers={el.likedUsers}
-              address={el.address}
-              description={el.description}
-              fromDate={el.fromDate}
+              address={el.address ? el.address : el.flat.address}
+              description={
+                el.description ? el.description : el.flat.description
+              }
+              fromDate={el.fromDate ? el.fromDate : el.flat.created_at}
               untilDate={el.untilDate}
+              tagLine={el.tagLine}
+              city={el.city ? el.city : el.flat.city}
               /*  active is just for demo 👇*/
               active={active}
               posted={true}
               isLessor={isLessor}
+              lessorId={el.user ? el.user : null}
             />
           );
         })}
