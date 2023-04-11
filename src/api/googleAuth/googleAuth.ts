@@ -2,6 +2,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {googleSignUp} from '@Redux/authentication/authenticationMiddleware';
 
 GoogleSignin.configure({
   webClientId:
@@ -13,7 +14,7 @@ export const GoogleSignUp = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     await GoogleSignin.signIn().then(result => {
-      console.log(result);
+      googleSignUp(result);
     });
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {

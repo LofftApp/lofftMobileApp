@@ -57,3 +57,10 @@ export const signOut = createAsyncThunk('authentication/signOut', async () => {
     console.log('signOut error:', error);
   }
 });
+
+export const googleSignUp = createAsyncThunk(
+  'authentication/googleSignUp',
+  async (data: any) => {
+    console.log(data);
+  },
+);
