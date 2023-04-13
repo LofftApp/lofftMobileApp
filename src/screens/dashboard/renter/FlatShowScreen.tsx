@@ -95,25 +95,26 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      <SafeAreaView
-        style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.scrollView}>
-          <View style={{borderStyle: 'solid', borderWidth: 2, borderColor: 'red'}}>
-            {!blurActivated ? (
-              <HighlightedButtons
-                navigation={navigation}
-                favorite={advert.favorite}
-                onPressHeart={() => dispatch(toggleFavorite(advert.id))}
-              />
-            ) : null}
-            <LofftHeaderPhoto
-              imageContainerHeight={300}
-              images={advert.flat.photos}
-              activeBlur={blurActivated}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}>
+        <View
+          style={{borderStyle: 'solid', borderWidth: 2, borderColor: 'red'}}>
+          {!blurActivated ? (
+            <HighlightedButtons
+              navigation={navigation}
+              favorite={advert.favorite}
+              onPressHeart={() => dispatch(toggleFavorite(advert.id))}
             />
-          </View>
+          ) : null}
+          <LofftHeaderPhoto
+            imageContainerHeight={300}
+            images={advert.flat.photos}
+            activeBlur={blurActivated}
+          />
+        </View>
+        <SafeAreaView
+          style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
             <FlatInfoContainer
               address={advert.flat.address}
@@ -162,8 +163,8 @@ const FlatShowScreen = ({route, navigation}: any) => {
             />
             {/* Continue coding from here !!!! */}
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ScrollView>
     </View>
   );
 };
