@@ -78,11 +78,11 @@ PODS:
   - hermes-engine/Pre-built (0.71.6)
   - libevent (2.1.12)
   - MapboxCommon (23.4.0)
-  - MapboxCoreMaps (10.12.0):
+  - MapboxCoreMaps (10.12.2):
     - MapboxCommon (~> 23.4)
-  - MapboxMaps (10.12.0):
+  - MapboxMaps (10.12.2):
     - MapboxCommon (= 23.4.0)
-    - MapboxCoreMaps (= 10.12.0)
+    - MapboxCoreMaps (= 10.12.2)
     - MapboxMobileEvents (= 1.0.10)
     - Turf (~> 2.0)
   - MapboxMobileEvents (1.0.10)
@@ -344,7 +344,7 @@ PODS:
     - React-Core
   - react-native-image-picker (5.3.1):
     - React-Core
-  - react-native-safe-area-context (4.5.0):
+  - react-native-safe-area-context (4.5.1):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -666,8 +666,8 @@ SPEC CHECKSUMS:
   hermes-engine: b434cea529ad0152c56c7cb6486b0c4c0b23b5de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   MapboxCommon: 2945d39158111455f353524f3c2ad356bd8d546a
-  MapboxCoreMaps: 511ba1f7876e635431b741cab5e9278219d906f6
-  MapboxMaps: a9978d13d1cba0403c5bdd2ab3b71418924075d2
+  MapboxCoreMaps: 8f355514ac5b573967badd9cf8e482561d6e8e2d
+  MapboxMaps: 9e0873d7f8bddf5751791da7be2560b4157f3c95
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -687,7 +687,7 @@ SPEC CHECKSUMS:
   react-native-date-picker: 89c419d88fa8e3c5f2d3cbae0bb7f7454ae8ea55
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: ec9b713e248760bfa0f879f0715391de4651a7cb
-  react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
+  react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   React-perflogger: 43392072a5b867a504e2b4857606f8fc5a403d7f
   React-RCTActionSheet: c7b67c125bebeda9fb19fc7b200d85cb9d6899c4
@@ -714,4 +714,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1b8f16d796d68ae469032ed335a48ca50d7415c4
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
