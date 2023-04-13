@@ -95,43 +95,46 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      {!blurActivated ? (
-        <HighlightedButtons
-          navigation={navigation}
-          favorite={advert.favorite}
-          onPressHeart={() => dispatch(toggleFavorite(advert.id))}
-        />
-      ) : null}
-      <LofftHeaderPhoto
-        imageContainerHeight={300}
-        images={advert.flat.photos}
-        activeBlur={blurActivated}
-      />
-      <SafeAreaView
-        style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.scrollView}>
-          <FlatInfoContainer
-            address={advert.flat.address}
-            description={advert.flat.description}
-            fromDate={
-              advert.fromDate
-                ? dateFormatConverter({date: {seconds: advert.fromDate}})
-                : null
-            }
-            untilDate={
-              advert.toDate
-                ? dateFormatConverter({date: {seconds: advert.toDate}})
-                : null
-            }
-            flatId={advert.flat.flatId}
-            price={advert.price}
-            district={advert.flat.district}
-            navigation={navigation}
-            button={true}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}>
+        <View>
+          {!blurActivated ? (
+            <HighlightedButtons
+              navigation={navigation}
+              favorite={advert.favorite}
+              onPressHeart={() => dispatch(toggleFavorite(advert.id))}
+            />
+          ) : null}
+          <LofftHeaderPhoto
+            imageContainerHeight={300}
+            images={advert.flat.photos}
+            activeBlur={blurActivated}
           />
-          {/* <View>
+        </View>
+        <SafeAreaView
+          style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
+          <View style={styles.flatCardView}>
+            <FlatInfoContainer
+              address={advert.flat.address}
+              description={advert.flat.description}
+              fromDate={
+                advert.fromDate
+                  ? dateFormatConverter({date: {seconds: advert.fromDate}})
+                  : null
+              }
+              untilDate={
+                advert.toDate
+                  ? dateFormatConverter({date: {seconds: advert.toDate}})
+                  : null
+              }
+              flatId={advert.flat.flatId}
+              price={advert.price}
+              district={advert.flat.district}
+              navigation={navigation}
+              button={true}
+            />
+            {/* <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
@@ -148,27 +151,32 @@ const FlatShowScreen = ({route, navigation}: any) => {
                   />
                 )}
               </View> */}
-          <CompleteProfilePopUpModal
-            openModal={blurActivated}
-            pullData={pullData}
-            profileNotDoneObject={
-              completeProfile && outOfTokens
-                ? outOfTokensObject
-                : profileNotDoneObject
-            }
-          />
-          {/* Continue coding from here !!!! */}
-        </ScrollView>
-      </SafeAreaView>
+            <CompleteProfilePopUpModal
+              openModal={blurActivated}
+              pullData={pullData}
+              profileNotDoneObject={
+                completeProfile && outOfTokens
+                  ? outOfTokensObject
+                  : profileNotDoneObject
+              }
+            />
+            {/* Continue coding from here !!!! */}
+          </View>
+        </SafeAreaView>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: '65%',
     paddingBottom: 10,
+    width: '100%',
+  },
+  flatCardView: {
     width: '90%',
+    alignContent: 'center',
+    marginHorizontal: 16,
   },
   pageContainer: {
     flex: 1,

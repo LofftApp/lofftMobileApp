@@ -63,6 +63,9 @@ const App = () => {
   // );
 
 
+  const myState = useAppSelector((state: any) => console.log(state));
+
+  console.log("Hey I am state:", myState)
 
   const userType = useAppSelector((state: any) => state.user.userType);
 
