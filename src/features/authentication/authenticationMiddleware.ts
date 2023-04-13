@@ -1,7 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
-
 export const checkToken = createAsyncThunk(
   'authentication/checkToken',
   async () => {
@@ -18,7 +17,7 @@ export const signUp = createAsyncThunk(
   'authentication/signUp',
   async ({email, password}: {email: string; password: string}) => {
     // development url
-    const url = 'http://localhost:3000/api/users';
+    const url = 'http://localhost:3000/users/sign_up';
 
     try {
       const response = await axios.post(url, {user: {email, password}});
@@ -58,9 +57,15 @@ export const signOut = createAsyncThunk('authentication/signOut', async () => {
   }
 });
 
-export const googleSignUp = createAsyncThunk(
-  'authentication/googleSignUp',
-  async (data: any) => {
-    console.log(data);
-  },
-);
+// Social authentication 📱
+// export const googleSignUp = createAsyncThunk(
+//   'authentication/googleSignUp',
+//   async (data: any) => {
+//     try {
+//       const url = 'http://localhost:3000/users/auth/google_oauth2';
+//       axios.post(url, {token: data});
+//     } catch (error) {
+//       console.log('googleSignUp error:', error);
+//     }
+//   },
+// );

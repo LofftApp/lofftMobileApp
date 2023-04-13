@@ -2,7 +2,10 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {googleSignUp} from '@Redux/authentication/authenticationMiddleware';
+// import {googleSignUp} from '@Redux/authentication/authenticationMiddleware';
+import axios from 'axios';
+
+import {AppDispatch} from '@ReduxCore/store';
 
 GoogleSignin.configure({
   webClientId:
@@ -14,7 +17,10 @@ export const GoogleSignUp = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     await GoogleSignin.signIn().then(result => {
-      googleSignUp(result);
+      // googleSignUp(result);
+      console.log('GoogleSignUp result:', result);
+      const url = 'http://localhost:3000/users/auth/google_oauth2';
+      axios.post(url, result);
     });
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
