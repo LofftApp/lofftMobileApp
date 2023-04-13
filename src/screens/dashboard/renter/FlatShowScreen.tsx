@@ -98,8 +98,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
-        <View
-          style={{borderStyle: 'solid', borderWidth: 2, borderColor: 'red'}}>
+        <View>
           {!blurActivated ? (
             <HighlightedButtons
               navigation={navigation}
