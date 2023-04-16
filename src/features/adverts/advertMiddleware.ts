@@ -13,7 +13,7 @@ export const fetchAdverts = createAsyncThunk(
       const response = await axios.get(url, {
         headers: {
           ContentType: 'application/json',
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -41,7 +41,6 @@ export const toggleFavorite = createAsyncThunk(
     return id;
   },
 );
-
 
 export const fetchLessorAdverts = createAsyncThunk(
   'advert/fetchLessorAdverts',

@@ -36,15 +36,13 @@ import AdminScreen from '@Screens/admin/adminScreen';
 const RootStack = createNativeStackNavigator();
 
 const App = () => {
-  const [authenticated, profile, admin] = useAppSelector((state: any) => [
+  const [authenticated, userType, admin] = useAppSelector((state: any) => [
     state.authentication.authenticated,
-    true,
+    'renter',
     state.authentication.admin,
   ]);
   const dispatch = useAppDispatch();
 
-  // Set an initializing state whilst Firebase connects
-  const [token, setToken] = useState(null);
   const [initializing, setInitializing] = useState(true);
 
   // TODO: sync with new api
@@ -54,25 +52,6 @@ const App = () => {
     dispatch(checkToken());
   }, []);
 
-  useEffect(() => {
-    dispatch(currentUser());
-  }, []);
-
-  // const user = useAppSelector(
-  //   (state: any) => state.authentication.authenticated,
-  // );
-
-
-  const myState = useAppSelector((state: any) => console.log(state));
-
-  console.log("Hey I am state:", myState)
-
-  const userType = useAppSelector((state: any) => state.user.userType);
-
-  console.log("Hey I am user:", userType)
-  // dispatch(setUserID(currentUser?.uid || null));
-  // dispatch(fetchUserProfile(currentUser?.uid || null));
-  // setUser(user);
   useEffect(() => {
     if (initializing) {
       setInitializing(false);
@@ -113,7 +92,7 @@ const App = () => {
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
           ) : null}
-          {!profile ? (
+          {!userType ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
           {userType === 'lessor' ? (

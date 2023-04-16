@@ -1,5 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
 import axios from 'axios';
 
 export const checkToken = createAsyncThunk(
@@ -18,12 +19,18 @@ export const signUp = createAsyncThunk(
   'authentication/signUp',
   async ({email, password}: {email: string; password: string}) => {
     // development url
-    const url = 'http://localhost:3000/api/users';
+    const url = 'http://localhost:3000/users';
 
     try {
-      const response = await axios.post(url, {user: {email, password}});
+      const response = await axios.post(url, {
+        user: {
+          email,
+          password,
+        },
+        client_id: LOFFT_API_CLIENT_ID,
+      });
       await EncryptedStorage.setItem('token', response.headers.authorization);
-      return response.data.user;
+      return;
     } catch (error) {
       console.log('signUp error:', error);
     }
@@ -34,12 +41,18 @@ export const signIn = createAsyncThunk(
   'authentication/signIn',
   async ({email, password}: {email: string; password: string}) => {
     // development url
-    const url = 'http://localhost:3000/users/sign_in';
+    const url = 'http://localhost:3000/oauth/token';
     try {
-      const response = await axios.post(url, {user: {email, password}});
-
-      await EncryptedStorage.setItem('token', response.headers.authorization);
-      return response.data.user;
+      const response = await axios.post(url, {
+        email,
+        password,
+        client_id: LOFFT_API_CLIENT_ID,
+        client_secret: LOFFT_API_CLIENT_SECRET,
+        grant_type: 'password',
+      });
+      console.log('response:', response);
+      await EncryptedStorage.setItem('token', response.data.access_token);
+      return;
     } catch (error) {
       console.log('signIn error:', error);
     }
@@ -48,12 +61,17 @@ export const signIn = createAsyncThunk(
 
 export const signOut = createAsyncThunk('authentication/signOut', async () => {
   // development url
-  const url = 'http://localhost:3000/users/sign_out';
+  const url = 'http://localhost:3000/oauth/revoke';
   try {
     const token = await EncryptedStorage.getItem('token');
-    const response = await axios.delete(url, {headers: {Authorization: token}});
+    console.log('token:', token);
+    await axios.post(url, {
+      token,
+      client_id: LOFFT_API_CLIENT_ID,
+      client_secret: LOFFT_API_CLIENT_SECRET,
+    });
     await EncryptedStorage.removeItem('token');
-    return response.data;
+    return;
   } catch (error) {
     console.log('signOut error:', error);
   }

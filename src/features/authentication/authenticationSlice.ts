@@ -4,7 +4,7 @@ import {checkToken, signUp, signIn, signOut} from './authenticationMiddleware';
 interface AuthenticationState {
   loading: boolean;
   authenticated: boolean;
-  userType: string;
+  userType: string | null;
 }
 
 const initialState: AuthenticationState = {
