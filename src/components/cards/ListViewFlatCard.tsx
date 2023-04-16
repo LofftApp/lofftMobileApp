@@ -34,8 +34,6 @@ const ListViewFlatCard = ({
   const userType = useAppSelector((state: any) => state.user.userType);
   let save = false;
 
-
-
   if (userType === 'renter') {
     // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
   }
