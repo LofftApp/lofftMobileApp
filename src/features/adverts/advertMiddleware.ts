@@ -13,12 +13,12 @@ export const fetchAdverts = createAsyncThunk(
       const response = await axios.get(url, {
         headers: {
           ContentType: 'application/json',
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('fetchFlats error:', error);
+      console.log('fetchAdverts error:', error);
     }
   },
 );
@@ -32,7 +32,12 @@ export const toggleFavorite = createAsyncThunk(
       const response = await axios.post(
         url,
         {},
-        {headers: {Authorization: token}},
+        {
+          headers: {
+            ContentType: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       return {data: response.data, id};
     } catch (error) {
@@ -41,7 +46,6 @@ export const toggleFavorite = createAsyncThunk(
     return id;
   },
 );
-
 
 export const fetchLessorAdverts = createAsyncThunk(
   'advert/fetchLessorAdverts',
@@ -58,7 +62,7 @@ export const fetchLessorAdverts = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.log('fetchFlats error:', error);
+      console.log('fetch Adverts error:', error);
     }
   },
 );
