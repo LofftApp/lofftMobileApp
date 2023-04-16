@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, Dimensions, StyleSheet} from 'react-native';
+
+// Redux 🏗️
+import {useAppDispatch} from '@ReduxCore/hooks';
+import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
+
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -8,19 +13,34 @@ import Chips from '@Components/buttons/Chips';
 import {CoreButton} from '@Components/buttons/CoreButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
+// Helpers
+import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+
+interface FlatInfoContainerProps {
+  advert: {
+    id: number;
+    matchScore: number;
+    address: string;
+    price: number;
+    fromDate: number;
+    untilDate: number;
+    applied: boolean;
+    flat: {
+      tagline: string;
+      description: any;
+    };
+  };
+  button: boolean;
+  navigation: any;
+}
+
 const FlatInfoContainer = ({
-  address,
-  district,
-  description,
-  fromDate,
-  untilDate,
-  price,
-  flatId,
+  advert,
   button,
   navigation,
-}: any) => {
+}: FlatInfoContainerProps) => {
+  const dispatch = useAppDispatch();
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
-
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
@@ -34,7 +54,7 @@ const FlatInfoContainer = ({
         </View>
         <View>
           <Text style={fontStyles.headerSmall}>
-            93% match with your lifestyles
+            {advert.matchScore}% match with your lifestyles
             {'\n'}& flat expectations
           </Text>
         </View>
@@ -45,9 +65,9 @@ const FlatInfoContainer = ({
         {/* {isLessor ? ( */}
         <Text style={[fontStyles.bodyLarge, {marginBottom: 20}]}>Details</Text>
         {/* ) : null} */}
-        <Text style={{color: Color.Black[80]}}>{address}</Text>
+        <Text style={{color: Color.Black[80]}}>{advert.address}</Text>
         <Text style={[fontStyles.headerSmall, {paddingTop: 20}]}>
-          🧘 Calm flat in the centre of Moabit
+          {advert.flat.tagline}
         </Text>
         <View style={styles.LegendContainer}>
           <View style={styles.firstRowLegendContainer}>
@@ -58,7 +78,7 @@ const FlatInfoContainer = ({
                   fontStyles.bodyMedium,
                   {marginLeft: 10, marginRight: 100},
                 ]}>
-                {price}€
+                {advert.price}€
               </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -71,18 +91,23 @@ const FlatInfoContainer = ({
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
             <Text style={[fontStyles.bodyMedium, {marginLeft: 10}]}>
-              From: {fromDate} {untilDate ? `- ${untilDate}` : null}
+              From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
+              {advert.untilDate
+                ? `- ${dateFormatConverter({
+                    date: {seconds: advert.untilDate},
+                  })}`
+                : null}
             </Text>
           </View>
         </View>
         <View style={{marginTop: 21}}>
           <Text style={{color: Color.Black[80]}}>
-            {description.substring(
+            {advert.flat.description.substring(
               0,
-              `${descriptionExpanded ? description.length : 200}`,
+              `${descriptionExpanded ? advert.flat.description.length : 200}`,
             )}
           </Text>
-          {description.length > 200 ? (
+          {advert.flat.description.length > 200 ? (
             <CoreButton
               value={descriptionExpanded ? 'Read Less' : 'Read More'}
               style={{
@@ -116,28 +141,18 @@ const FlatInfoContainer = ({
 
         {button ? (
           <View>
-            <Text
-              style={[
-                fontStyles.bodySmall,
-                {
-                  textAlign: 'center',
-                  color: Color.Mint[100],
-                  marginTop: 20,
-                },
-              ]}>
+            <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
               Application closing in 1d 8h
             </Text>
 
             <CoreButton
-              value="Apply"
-              style={{
-                borderWidth: 2,
-                marginTop: 14,
-                height: 45,
-                marginBottom: 30,
+              value={advert.applied ? 'Applied' : 'Apply'}
+              style={styles.coreButtonCustom}
+              disabled={advert.applied}
+              onPress={() => {
+                dispatch(applyForAdvert(advert.id));
+                navigation.navigate('applyforflat');
               }}
-              disabled={false}
-              onPress={() => navigation.navigate('applyforflat')}
             />
           </View>
         ) : null}
@@ -188,5 +203,13 @@ const styles = StyleSheet.create({
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
+  },
+  countDownTimer: {
+    textAlign: 'center',
+    color: Color.Mint[100],
+    marginTop: 20,
+  },
+  coreButtonCustom: {
+    marginTop: 14,
   },
 });
