@@ -1,27 +1,26 @@
-import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
-import {currentUser} from './usersMiddleware';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {getProfile} from './usersMiddleware';
 
 interface UserState {
   loading: boolean;
-  id: number;
-  email: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  admin: boolean;
-  termsAndConditions: boolean;
-  jti: string | null;
-  userType: string | null;
+  profile: {
+    userType: string | null;
+    genderIdentity: string | null;
+    tokens: number | null;
+    admin: boolean;
+    terms_and_conditions: boolean;
+  };
 }
 
 const initialState: UserState = {
   loading: false,
-  id: null,
-  email: null,
-  createdAt: null,
-  updatedAt: null,
-  admin: false,
-  jti: null,
-  userType: null,
+  profile: {
+    userType: null,
+    genderIdentity: null,
+    tokens: null,
+    admin: false,
+    terms_and_conditions: false,
+  },
 };
 
 // Middlewares
@@ -29,30 +28,23 @@ const initialState: UserState = {
 const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {
-    setUserID: (state, action: PayloadAction<any>) => {
-      state.id = action.payload;
-    },
-    setUserProfile: (state, action) => {},
-  },
+  reducers: {},
   extraReducers: builder => {
-    builder.addCase(currentUser.pending, state => {
+    builder.addCase(getProfile.pending, state => {
       state.loading = true;
-      console.log('current user data is on its way');
-    }),
-      builder.addCase(
-        currentUser.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.loading = false;
-          state.userType = action.payload.user_type;
-          state.id = action.payload.id;
-          state.termsAndConditions = action.payload.terms_and_condtions;
-          state.updatedAt = action.payload.updated_at;
-          state.createdAt = action.payload.created_at;
-          state.admin = action.payload.admin;
-          state.email = action.payload.email;
-        },
-      );
+    });
+    builder.addCase(
+      getProfile.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.profile.userType = action.payload.user_type;
+        state.profile.genderIdentity = action.payload.gender_identity;
+        state.profile.tokens = action.payload.tokens;
+        state.profile.admin = action.payload.admin;
+        state.profile.terms_and_conditions =
+          action.payload.terms_and_conditions;
+      },
+    );
   },
 });
 

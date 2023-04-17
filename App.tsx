@@ -10,18 +10,15 @@ import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
-// Storage 📁
-import EncryptedStorage from 'react-native-encrypted-storage';
-
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {checkToken} from '@Redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {currentUser} from '@Redux/user/usersMiddleware';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
+import {getProfile} from '@Redux/user/usersMiddleware';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -36,26 +33,23 @@ import AdminScreen from '@Screens/admin/adminScreen';
 const RootStack = createNativeStackNavigator();
 
 const App = () => {
-  const [authenticated, userType, admin] = useAppSelector((state: any) => [
+  const [authenticated] = useAppSelector((state: any) => [
     state.authentication.authenticated,
-    'renter',
-    state.authentication.admin,
+  ]);
+  const [userType, admin] = useAppSelector((state: any) => [
+    state.user.profile.userType,
+    state.user.profile.admin,
   ]);
   const dispatch = useAppDispatch();
-
   const [initializing, setInitializing] = useState(true);
-
-  // TODO: sync with new api
-  // const currentUser: any = await auth()?.currentUser;
 
   useEffect(() => {
     dispatch(checkToken());
   }, []);
 
   useEffect(() => {
-    if (initializing) {
-      setInitializing(false);
-    }
+    if (initializing) setInitializing(false);
+    if (authenticated && !userType) dispatch(getProfile());
   }, [authenticated]);
 
   // Mapbox
