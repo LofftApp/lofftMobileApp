@@ -2,17 +2,15 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 
-export const currentUser = createAsyncThunk('users/current', async () => {
-  const url = 'http://localhost:3000/users/current';
+export const getProfile = createAsyncThunk('users/profile', async () => {
+  const url = 'http://localhost:3000/users/profile';
   try {
-
     const token = await EncryptedStorage.getItem('token');
     const response = await axios.get(url, {
       headers: {
         ContentType: 'application/json',
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
-
     });
     return response.data;
   } catch (error) {
