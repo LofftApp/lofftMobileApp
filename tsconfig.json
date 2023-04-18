@@ -20,6 +20,8 @@
       "@Assets/*": ["./Assets/*"],
       // Redux
       "@Redux/*": ["./features/*"],
+      // Persistance
+      "@Persistance/*": ["./persistance/"],
       // Core Redux files
       "@ReduxCore/*": ["./app/*"]
     }
