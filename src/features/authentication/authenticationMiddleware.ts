@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
+// ! Error triggerd unkown, but works
 import {clearPersister} from '@Persistance/persister';
 import axios from 'axios';
 

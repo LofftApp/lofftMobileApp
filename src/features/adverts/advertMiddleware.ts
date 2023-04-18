@@ -34,7 +34,6 @@ export const toggleFavorite = createAsyncThunk(
         {},
         {
           headers: {
-            ContentType: 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -44,6 +43,19 @@ export const toggleFavorite = createAsyncThunk(
       console.log('toggleFavorite error:', error);
     }
     return id;
+  },
+);
+
+export const applyForAdvert = createAsyncThunk(
+  'advert/applyForAdvert',
+  async (id: number) => {
+    const url = `http://localhost:3000/adverts/${id}/apply`;
+    try {
+      const token = await EncryptedStorage.getItem('token');
+      axios.post(url, {}, {headers: {Authorization: `Bearer ${token}`}});
+    } catch (error) {
+      console.log('applyForAdvert error:', error);
+    }
   },
 );
 
