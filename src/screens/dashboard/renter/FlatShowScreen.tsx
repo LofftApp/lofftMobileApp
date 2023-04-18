@@ -42,7 +42,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
   const advert = useAppSelector((state: any) =>
     state.adverts.adverts.find((advert: any) => advert.id === advertIndex),
   );
-  console.log(advert.fromDate);
+
   const dispatch = useAppDispatch();
 
   // if (userType === 'renter') {
