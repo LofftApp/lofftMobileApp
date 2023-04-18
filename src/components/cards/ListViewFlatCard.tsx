@@ -30,13 +30,8 @@ const ListViewFlatCard = ({
   navigation,
   favorite,
 }: any) => {
-  const [screen] = useState(1);
-  const userType = useAppSelector((state: any) => state.user.userType);
-  let save = false;
-
-  if (userType === 'renter') {
-    // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
-  }
+  const userType = useAppSelector((state: any) => state.user.profile.userType);
+  // console.log('userType', userType);
   const dispatch = useAppDispatch();
   return (
     <View style={styles.flatCardContainer}>

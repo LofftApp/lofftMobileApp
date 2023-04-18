@@ -37,6 +37,7 @@ const userSlice = createSlice({
       getProfile.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
+        console.log('userType:', action.payload.user_type);
         state.profile.userType = action.payload.user_type;
         state.profile.genderIdentity = action.payload.gender_identity;
         state.profile.tokens = action.payload.tokens;

@@ -49,7 +49,7 @@ const App = () => {
 
   useEffect(() => {
     if (initializing) setInitializing(false);
-    if (authenticated && !userType) dispatch(getProfile());
+    if (authenticated) dispatch(getProfile());
   }, [authenticated]);
 
   // Mapbox

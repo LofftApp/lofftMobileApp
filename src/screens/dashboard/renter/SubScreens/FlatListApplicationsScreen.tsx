@@ -6,7 +6,7 @@ import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
 const FlatListApplicationsScreen = ({
   active,
-  flats,
+  adverts,
   navigation,
   isLessor,
 }: any) => {
@@ -15,10 +15,11 @@ const FlatListApplicationsScreen = ({
       showsVerticalScrollIndicator={false}
       style={styles.flatCardContainer}>
       <SafeAreaView>
-        {flats.map((el: any, index: number) => {
+        {adverts.map((el: any, index: number) => {
           return (
             <ListFlatApplicationCard
               navigation={navigation}
+              advert={el}
               key={index + 1}
               match={el?.matchP}
               flatId={el.flatId}

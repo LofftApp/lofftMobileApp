@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Pressable, Image} from 'react-native';
 
+// Redux
+import {useAppSelector} from '@ReduxCore/hooks';
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -13,24 +15,21 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import noFlatImage from '@Assets/images/no-flat-image.png';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
+// Helpers 🧰
+import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+
 const ListFlatApplicationCard = ({
   navigation,
-  match,
-  flatId,
-  district,
-  price,
-  images,
-  likedUsers,
-  active,
-  address,
-  description,
-  fromDate,
-  untilDate,
-  posted = null,
-  isLessor = false,
+  advert,
+  match, // ! To Delete
+  likedUsers, // ! To Delete
+  active, // ! To Delete
+  posted = null, // ! To Delete
+  isLessor = false, // ! To Delete
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
+  const userType = useAppSelector((state: any) => state.user.userType);
   const [renterActiveStatus, setRenterActiveStatus] = useState([
     'Applied',
     'In review',
@@ -85,23 +84,17 @@ const ListFlatApplicationCard = ({
       <Pressable
         onPress={() =>
           navigation.navigate('applicationshow', {
-            images: images,
-            active: active,
-            currentApplicationStatus: currentFlatStatusIndex,
-            flatId: flatId,
-            address: address,
-            description: description,
-            fromDate: fromDate,
-            untilDate: untilDate,
-            price: price,
-            isLessor: isLessor,
+            advert: advert,
+            userType: userType,
           })
         }>
         <View>
           <Image
             // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
             source={
-              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
+              advert.flat.photos
+                ? {uri: advert.flat.photos[0], width: 200, height: 300}
+                : noFlatImage
             }
             style={styles.flatCardImage}
           />
@@ -142,10 +135,10 @@ const ListFlatApplicationCard = ({
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
-            {price}€ {''} {''} 26 m2
+            {advert.price}€ {''} {''} 26 m2
           </Text>
           <Text style={{color: '#8E8E8E', marginTop: 3}}>
-            {district}, Berlin{' '}
+            {advert.flat.district}, Berlin{' '}
           </Text>
         </View>
         <View>
@@ -154,7 +147,11 @@ const ListFlatApplicationCard = ({
               fontStyles.bodySmall,
               {color: posted ? Color.Black[50] : Color.Mint[100]},
             ]}>
-            {posted ? 'Posted on 12.03.23' : 'Applied on 14.04.23'}
+            {posted
+              ? `Posted on: ${dateFormatConverter({
+                  date: {seconds: advert.fromDate},
+                })}`
+              : 'Applied on 14.04.23'}
           </Text>
         </View>
       </View>
@@ -220,6 +217,7 @@ const styles = StyleSheet.create({
   },
   flatCardImage: {
     width: '100%',
+    height: 382,
     overflow: 'hidden',
     zIndex: 1,
     borderRadius: 12,

@@ -27,19 +27,7 @@ import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
-  const {
-    images,
-    active,
-    currentApplicationStatus,
-    flatId,
-    address,
-    description,
-    fromDate,
-    untilDate,
-    district,
-    price,
-    isLessor,
-  } = route.params;
+  const [advert, userType] = [route.params.advert, route.params.userType];
 
   const [hascollaped, setHasCollapsed] = useState(true);
   const screenheight = Dimensions.get('window').height;
@@ -84,54 +72,51 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
     'rocket',
   ]);
 
-  const [currentFlatStatusIndex, setFlatStatusIndex] = useState(
-    currentApplicationStatus,
-  );
-  const [currentStatusBar, setStatusBar] = useState('');
-
-  const calculateStatusBar = currentStatusIndex => {
+  const calculateStatusBar = (currentStatusIndex: any) => {
     let status = null;
 
     switch (currentStatusIndex) {
-      case 1:
+      case 'active':
         status = '40';
         break;
-      case 2:
+      case 'closed':
         status = '60';
         break;
-      case 3:
+      case 'offered':
         status = '80';
         break;
-      case 4:
+      case 'deleted':
         status = '100';
         break;
       default:
         status = '20';
         break;
     }
-    setStatusBar(status);
+    // setStatusBar(status);
   };
 
   useEffect(() => {
-    calculateStatusBar(currentFlatStatusIndex);
+    calculateStatusBar(advert.status);
   });
 
   return (
     <View style={styles.pageWrapper}>
       <HighlightedButtons
         navigation={navigation}
-        id={flatId}
         heartPresent={false}
-        color={isLessor ? Color.Lavendar[100] : Color.Mint[100]}
+        color={userType === 'lessor' ? Color.Lavendar[100] : Color.Mint[100]}
       />
-      <LofftHeaderPhoto imageContainerHeight={300} images={images} />
+      <LofftHeaderPhoto
+        imageContainerHeight={300}
+        images={advert.flat.photos}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
           <StatusBar
-            landlord={isLessor}
-            currentApplicationStatus={currentApplicationStatus}
+            landlord={userType === 'lessor'}
+            currentApplicationStatus={advert.status}
           />
           <Text
             onPress={() => setHasCollapsed(!hascollaped)}
@@ -144,15 +129,9 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
 
           <Collapsible collapsed={hascollaped} duration={300}>
             <FlatInfoContainer
-              address={address}
-              district={district}
-              description={description}
-              fromDate={fromDate}
-              untilDate={untilDate}
-              price={price}
-              flatId={flatId}
+              navigation={navigation}
+              advert={advert}
               button={false}
-              isLessor={isLessor}
             />
           </Collapsible>
         </View>
