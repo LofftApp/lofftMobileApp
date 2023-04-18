@@ -2,19 +2,13 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  Image,
   Dimensions,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
-import IconButton from '@Components/buttons/IconButton';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -22,27 +16,18 @@ import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // Components
 import HighlightedButtons from '@Components/containers/HighlightButtons';
-import PaginationBar from '@Components/bars/PaginationBar';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import CompleteProfileImage from '@Assets/images/Illustration.png';
-import {fontStyles} from '@StyleSheets/fontStyles';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import Chips from '@Components/buttons/Chips';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
-
-// Helpers
-import {dateFormatConverter} from '@Helpers/dateFormatConverter';
-// Styles
 
 const FlatShowScreen = ({route, navigation}: any) => {
   const [advertIndex] = useState(route.params.id);
   const userType = useAppSelector((state: any) => state.user.userType);
-  let save = false;
+
   const advert = useAppSelector((state: any) =>
     state.adverts.adverts.find((advert: any) => advert.id === advertIndex),
   );
-
   const dispatch = useAppDispatch();
 
   // if (userType === 'renter') {
@@ -116,21 +101,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
             <FlatInfoContainer
-              address={advert.flat.address}
-              description={advert.flat.description}
-              fromDate={
-                advert.fromDate
-                  ? dateFormatConverter({date: {seconds: advert.fromDate}})
-                  : null
-              }
-              untilDate={
-                advert.toDate
-                  ? dateFormatConverter({date: {seconds: advert.toDate}})
-                  : null
-              }
-              flatId={advert.flat.flatId}
-              price={advert.price}
-              district={advert.flat.district}
+              advert={advert}
               navigation={navigation}
               button={true}
             />
