@@ -1,6 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
+// ! Error triggerd unkown, but works
+import {clearPersister} from '@Persistance/persister';
 import axios from 'axios';
 
 export const checkToken = createAsyncThunk(
@@ -50,7 +52,6 @@ export const signIn = createAsyncThunk(
         client_secret: LOFFT_API_CLIENT_SECRET,
         grant_type: 'password',
       });
-      console.log('response:', response);
       await EncryptedStorage.setItem('token', response.data.access_token);
       return;
     } catch (error) {
@@ -64,13 +65,13 @@ export const signOut = createAsyncThunk('authentication/signOut', async () => {
   const url = 'http://localhost:3000/oauth/revoke';
   try {
     const token = await EncryptedStorage.getItem('token');
-    console.log('token:', token);
     await axios.post(url, {
       token,
       client_id: LOFFT_API_CLIENT_ID,
       client_secret: LOFFT_API_CLIENT_SECRET,
     });
     await EncryptedStorage.removeItem('token');
+    clearPersister();
     return;
   } catch (error) {
     console.log('signOut error:', error);
