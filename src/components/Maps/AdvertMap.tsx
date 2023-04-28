@@ -11,8 +11,7 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 import MapMarker from './MapMarker';
 
-const FlatMap = () => {
-  const adverts = useAppSelector((state: any) => state.adverts.adverts);
+const FlatMap = (adverts: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   // States
 

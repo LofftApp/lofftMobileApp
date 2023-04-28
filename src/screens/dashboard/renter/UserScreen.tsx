@@ -1,16 +1,18 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-
+import {useAppDispatch} from '@ReduxCore/hooks';
+import {signOut} from '@Redux/authentication/authenticationMiddleware';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const UserScreen = () => {
+  const dispatch = useAppDispatch();
   return (
     <View style={styles.userScreenContainer}>
-      <Text>Hi from User Scren 👋</Text>
+      <Text>Hi from User Screen 👋</Text>
       <CoreButton
         value="Sign Out"
         style={{width: '40%', marginTop: 20}}
-        onPress={() => {}}
+        onPress={() => dispatch(signOut())}
       />
     </View>
   );

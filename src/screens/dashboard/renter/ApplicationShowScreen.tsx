@@ -28,6 +28,7 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const [advert, userType] = [route.params.advert, route.params.userType];
+  console.log('userType', userType);
 
   const [hascollaped, setHasCollapsed] = useState(true);
   const screenheight = Dimensions.get('window').height;

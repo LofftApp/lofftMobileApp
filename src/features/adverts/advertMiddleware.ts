@@ -6,6 +6,7 @@ import axios from 'axios';
 export const fetchAdverts = createAsyncThunk(
   'advert/fetchAdverts',
   async () => {
+    console.log('fetchAdverts');
     // development url
     const url = 'http://localhost:3000/adverts';
     try {

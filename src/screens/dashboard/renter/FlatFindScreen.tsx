@@ -26,7 +26,12 @@ const FlatListScreen = ({navigation}: any) => {
   };
 
   const dispatch = useAppDispatch();
-  dispatch(fetchAdverts());
+
+  useEffect(() => {
+    dispatch(fetchAdverts());
+  }, []);
+
+  const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
@@ -58,7 +63,7 @@ const FlatListScreen = ({navigation}: any) => {
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
-          <FlatListSubScreen navigation={navigation} />
+          <FlatListSubScreen navigation={navigation} adverts={adverts} />
         ) : (
           <FlatMap />
         )}

@@ -19,6 +19,7 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const LessorIndexScreen = ({navigation}: any) => {
   const adverts = useAppSelector((state: any) => state.adverts.adverts);
+  console.log(adverts.length);
 
   const [screen, setScreen] = useState('thumbs-up');
 

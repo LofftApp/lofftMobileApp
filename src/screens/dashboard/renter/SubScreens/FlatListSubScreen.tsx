@@ -7,8 +7,7 @@ import {useAppSelector} from '@ReduxCore/hooks';
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
-const FlatListSubScreen = ({navigation}: any) => {
-  const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
+const FlatListSubScreen = ({navigation, adverts}: any) => {
   return (
     <SafeAreaView>
       <ScrollView
