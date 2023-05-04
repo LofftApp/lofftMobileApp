@@ -73,32 +73,32 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log('action.payload:', action.payload);
-        // const values = action.payload.map((advert: any) => {
-        //   return {
-        //     id: advert.id,
-        //     status: advert.status,
-        //     currency: advert.currency,
-        //     matchScore: advert.match_score,
-        //     price: advert.price,
-        //     favorite: advert.favorite,
-        //     applied: advert.application,
-        //     fromDate: advert.from_date,
-        //     toDate: advert.to_date,
-        //     created_at: advert.created_at,
-        //     user: advert.user,
-        //     flat: {
-        //       id: advert.flat.id,
-        //       address: advert.flat.address,
-        //       description: advert.flat.description,
-        //       tagline: advert.flat.tag_line,
-        //       district: advert.flat.district,
-        //       city: advert.flat.city,
-        //       photos: advert.flat.photos.map((photo: any) => photo.url),
-        //     },
-        //   };
-        // });
-        // state.adverts = values;
+        console.log('action.payload1:', action.payload.adverts[0]);
+        const values = action.payload.adverts.map((advert: any) => {
+          return {
+            id: advert.id,
+            status: advert.status,
+            currency: advert.currency,
+            matchScore: advert.match_score,
+            price: advert.monthly_rent,
+            favorite: advert.favorite,
+            applied: advert.application,
+            fromDate: advert.from_date,
+            toDate: advert.to_date,
+            created_at: advert.created_at,
+            user: advert.user,
+            flat: {
+              id: advert.flat.id,
+              address: advert.flat.address,
+              description: advert.flat.description,
+              tagline: advert.flat.tag_line,
+              // district: advert.flat.district,
+              city: advert.flat.city,
+              photos: advert.flat.photos.map((photo: any) => photo.url),
+            },
+          };
+        });
+        state.adverts = values;
       },
     );
     builder.addCase(fetchAdverts.rejected, state => {
@@ -119,7 +119,7 @@ export const advertSlice = createSlice({
       fetchLessorAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log('action.payload:', action.payload);
+        console.log('action.payload2:', action.payload);
         // const values = action.payload.adverts.map((advert: any) => {
         //   return {
         //     id: advert.id,
