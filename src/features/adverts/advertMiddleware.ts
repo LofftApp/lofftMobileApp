@@ -7,9 +7,10 @@ export const fetchAdverts = createAsyncThunk(
   'advert/fetchAdverts',
   async () => {
     // development url
-    const url = 'http://localhost:3000/adverts';
+    const url = 'http://localhost:3000/api/adverts';
     try {
       const token = await EncryptedStorage.getItem('token');
+      console.log('token:', token);
       const response = await axios.get(url, {
         headers: {
           ContentType: 'application/json',
@@ -59,17 +60,18 @@ export const applyForAdvert = createAsyncThunk(
   },
 );
 
+// @AdamTomczyk or @xxjmsxx This needs refactoring into the api/adverts above.
 export const fetchLessorAdverts = createAsyncThunk(
   'advert/fetchLessorAdverts',
   async () => {
     // development url
-    const url = 'http://localhost:3000/adverts/lessor';
+    const url = 'http://localhost:3000/api/adverts';
     try {
       const token = await EncryptedStorage.getItem('token');
       const response = await axios.get(url, {
         headers: {
           ContentType: 'application/json',
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
