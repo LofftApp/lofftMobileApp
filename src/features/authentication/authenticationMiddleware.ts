@@ -72,7 +72,7 @@ export const signOut = createAsyncThunk('authentication/signOut', async () => {
     });
     await EncryptedStorage.removeItem('token');
     clearPersister();
-    return;
+    return true;
   } catch (error) {
     console.log('signOut error:', error);
   }

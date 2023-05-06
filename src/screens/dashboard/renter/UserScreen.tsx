@@ -6,6 +6,7 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 // Redux
 import {useAppDispatch} from '@ReduxCore/hooks';
 import {signOut} from '@Redux/authentication/authenticationMiddleware';
+import {clearProfile} from '@Redux/user/usersSlice';
 
 const UserScreen = () => {
   const dispatch = useAppDispatch();
@@ -16,7 +17,10 @@ const UserScreen = () => {
       <CoreButton
         value="Sign Out"
         style={{width: '40%', marginTop: 20}}
-        onPress={() => dispatch(signOut())}
+        onPress={() => {
+          dispatch(signOut());
+          dispatch(clearProfile());
+        }}
       />
     </View>
   );
