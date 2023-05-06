@@ -4,37 +4,21 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({flats, navigation, isLessor}: any) => {
+const FlatListApplicationsScreen = ({adverts, navigation, isLessor}: any) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={styles.flatCardContainer}>
       <SafeAreaView>
-        {flats.map((el: any, index: number) => {
+        {adverts.map((advert: any, index: number) => {
           return (
             <ListFlatApplicationCard
               navigation={navigation}
               key={index + 1}
-              match={el?.matchP}
-              flatId={el.flatId}
-              district={el.district ? el.district : el.flat.district}
-              price={el.price}
-              images={el.images ? el.images : el.flat.photos}
-              likedUsers={el.likedUsers}
-              address={el.address ? el.address : el.flat.address}
-              description={
-                el.description ? el.description : el.flat.description
-              }
-              fromDate={el.fromDate ? el.fromDate : el.flat.created_at}
-              untilDate={el.untilDate}
-              tagLine={el.tagLine}
-              city={el.city ? el.city : el.flat.city}
+              advert={advert}
               /*  active is just for demo 👇*/
-              active={!['offered', 'closed'].includes(el.status)}
               posted={true}
               isLessor={isLessor}
-              lessorId={el.user ? el.user : null}
-              status={el.status}
             />
           );
         })}
