@@ -25,9 +25,11 @@ interface FlatInfoContainerProps {
     fromDate: number;
     untilDate: number;
     applied: boolean;
+    lessor: boolean;
     flat: {
       tagline: string;
-      description: any;
+      description: string;
+      address: string;
     };
   };
   button: boolean;
@@ -44,31 +46,28 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
+  console.log(advert, 'advert');
 
   return (
     <View style={styles.centralizerContainer}>
-      {/* {!isLessor ? ( */}
-      <View style={styles.matchContainer}>
-        <View>
-          <Text style={fontStyles.headerLarge}>🌟</Text>
+      {!advert.lessor ? (
+        <View style={styles.matchContainer}>
+          <View>
+            <Text style={fontStyles.headerLarge}>🌟</Text>
+          </View>
+          <View>
+            <Text style={fontStyles.headerSmall}>
+              {advert.matchScore}% match with your lifestyles
+              {'\n'}& flat expectations
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={fontStyles.headerSmall}>
-            {advert.matchScore}% match with your lifestyles
-            {'\n'}& flat expectations
-          </Text>
-        </View>
-      </View>
-      {/* ) : null} */}
+      ) : null}
 
       <View style={styles.infoContainer}>
-        {/* {isLessor ? ( */}
-        <Text style={[fontStyles.bodyLarge, {marginBottom: 20}]}>Details</Text>
-        {/* ) : null} */}
+        <Text style={fontStyles.bodySmall}>{advert.flat.address}</Text>
         <Text style={{color: Color.Black[80]}}>{advert.address}</Text>
-        <Text style={[fontStyles.headerSmall, {paddingTop: 20}]}>
-          {advert.flat.tagline}
-        </Text>
+        <Text style={[fontStyles.headerSmall]}>{advert.flat.tagline}</Text>
         <View style={styles.LegendContainer}>
           <View style={styles.firstRowLegendContainer}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>

@@ -17,6 +17,7 @@ interface AdvertState {
       created_at: string | null;
       applicants: any[] | null;
       user: boolean | null;
+      lessor: boolean;
       flat: {
         id: number | null;
         address: string | null;
@@ -46,6 +47,7 @@ const initialState: AdvertState = {
       created_at: null,
       applicants: null,
       user: null,
+      lessor: false,
       flat: {
         id: null,
         address: null,
@@ -87,6 +89,7 @@ export const advertSlice = createSlice({
             created_at: advert.created_at,
             applicants: advert.applicants,
             user: advert.user,
+            lessor: advert.lessor,
             flat: {
               id: advert.flat.id,
               address: advert.flat.address,
