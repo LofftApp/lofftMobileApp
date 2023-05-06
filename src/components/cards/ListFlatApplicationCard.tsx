@@ -4,6 +4,11 @@ import {Text, View, StyleSheet, Pressable, Image} from 'react-native';
 // Components 🪢
 import PaginationBar from '@Components/bars/PaginationBar';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftHeaderPhoto from './LofftHeaderPhoto';
+
+// Redux 🏗️
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -14,8 +19,9 @@ import noFlatImage from '@Assets/images/no-flat-image.png';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ListFlatApplicationCard = ({
+  id,
   navigation,
-  match,
+  matchScore,
   flatId,
   district,
   price,
@@ -29,6 +35,7 @@ const ListFlatApplicationCard = ({
   posted = null,
   isLessor = false,
   status,
+  favorite,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -74,10 +81,10 @@ const ListFlatApplicationCard = ({
   useEffect(() => {
     calculateStatusBar(status);
   });
-
+  const dispatch = useAppDispatch();
   return (
     <View style={styles.flatCardContainer}>
-      <Pressable
+      {/* <Pressable
         onPress={() =>
           navigation.navigate('applicationshow', {
             images: images,
@@ -91,49 +98,40 @@ const ListFlatApplicationCard = ({
             price: price,
             isLessor: isLessor,
           })
-        }>
-        <View>
-          <Image
-            // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
-            source={
-              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
-            }
-            style={styles.flatCardImage}
-          />
-          <View style={styles.flatCardButtonsOverlay}>
-            <View style={styles.flatCardbuttonsWrap}>
-              {match ? (
-                <View>
-                  <Pressable
-                    style={styles.flatCardSaveButton}
-                    onPress={() => {
-                      // setSave(!save);
-                      // saveFlatToUserLikes({flatId, add: save});
-                    }}>
-                    {save === true ? (
-                      <LofftIcon
-                        name="heart-filled"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    ) : (
-                      <LofftIcon
-                        name="heart"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    )}
-                  </Pressable>
-                </View>
-              ) : (
-                <View />
-              )}
-
-              <PaginationBar screen={screen} totalScreens={5} />
-            </View>
+        }> */}
+      <View>
+        <View style={styles.flatCardImage}>
+          <LofftHeaderPhoto imageContainerHeight={300} images={images} />
+        </View>
+        <View style={styles.flatCardButtonsOverlay}>
+          <View style={styles.flatCardbuttonsWrap}>
+            {matchScore ? (
+              <View>
+                <Pressable
+                  // style={styles.flatCardSaveButton}
+                  onPress={() => {
+                    dispatch(toggleFavorite(id));
+                  }}>
+                  {favorite ? (
+                    <LofftIcon
+                      name="heart-filled"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  ) : (
+                    <LofftIcon
+                      name="heart"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         </View>
-      </Pressable>
+      </View>
+      {/* </Pressable> */}
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
@@ -223,14 +221,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     width: '100%',
-    height: '100%',
-    padding: 16,
   },
   flatCardbuttonsWrap: {
     flex: 1,
-    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    padding: 15,
   },
-
   flatCardSaveButton: {
     padding: 10,
     position: 'absolute',
