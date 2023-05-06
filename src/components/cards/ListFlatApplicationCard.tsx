@@ -19,19 +19,20 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ListFlatApplicationCard = ({
   id,
+  navigation,
   advert,
   posted = null,
   isLessor = false,
 }: any) => {
   const [active] = useState(!['offered', 'closed'].includes(advert.status));
-  const [renterActiveStatus, setRenterActiveStatus] = useState([
+  const [renterActiveStatus] = useState([
     'Applied',
     'In review',
     'Viewing',
     'Offer',
   ]);
 
-  const [lessorActiveStatus, setLessorActiveStatus] = useState([
+  const [lessorActiveStatus] = useState([
     'Open',
     'Applicantions',
     'Viewing',
@@ -66,7 +67,7 @@ const ListFlatApplicationCard = ({
     calculateStatusBar(advert.status);
   });
   const dispatch = useAppDispatch();
-  console.log('photos');
+  console.log('advert', advert);
   return (
     <View style={styles.advertCardContainer}>
       {/* <Pressable
@@ -185,8 +186,14 @@ const ListFlatApplicationCard = ({
             style={{width: '45%', height: '34%'}}
           />
           <CoreButton
-            value="See applicants"
+            value="View listing"
             style={{width: '45%', height: '34%'}}
+            onPress={() =>
+              navigation.navigate('applicationshow', {
+                advert: advert,
+                active: active,
+              })
+            }
           />
         </View>
       ) : null}
