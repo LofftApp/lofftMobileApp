@@ -12,77 +12,17 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import statusBarText from '@Assets/coreText/statusBarText.json';
 
-const StatusBarComponent = ({currentApplicationStatus, advert}: any) => {
-  //   // const [hascollaped, setHasCollapsed] = useState(true);
+const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;
-  //   // const [screen] = useState(1);
-  //   // const [save, setSave] = useState(false);
+  const [statusBar, setStatusBar] = useState('');
 
-  //   // const [currentFlatStatusIndex, setFlatStatusIndex] = useState(
-  //   //   currentApplicationStatus,
-  //   // );
-  const [currentStatusBar, setStatusBar] = useState('');
-
-  //   const [renterIcons, setRenterIcons] = useState([
-  //     'file-check',
-  //     // 'eye',
-  //     'user-check',
-  //     'calendar',
-  //     'rocket',
-  //   ]);
-
-  //   let landlordProgressTextContainerHeight = null;
-
-  //   if (currentApplicationStatus === 3) {
-  //     landlordProgressTextContainerHeight = '100%';
-  //   } else {
-  //     landlordProgressTextContainerHeight = '92%';
-  //   }
-
-  //   const renterIconsCreated = renterIcons.map((el, index) => {
-  //     return (
-  //       <LofftIcon
-  //         key={index + 1}
-  //         name={el}
-  //         size={28}
-  //         color={
-  //           currentApplicationStatus === index || currentApplicationStatus > index
-  //             ? Color.White[100]
-  //             : Color.Mint[50]
-  //         }
-  //       />
-  //     );
-  //   });
-
-  //   const renterStatusActions = rentorActiveStatus.map((el, index) => {
-  //     return (
-  //       <View key={index + 1}>
-  //         <Text
-  //           style={[
-  //             fontStyles.headerSmall,
-  //             {
-  //               marginTop: 15,
-  //               color:
-  //                 currentApplicationStatus === index ||
-  //                 currentApplicationStatus > index
-  //                   ? Color.Black[100]
-  //                   : Color.Black[50],
-  //             },
-  //           ]}>
-  //           {el.header}
-  //         </Text>
-  //         <Text style={[fontStyles.bodySmall]}>{el.subText}</Text>
-
-  //         {currentApplicationStatus === index && index === 2 ? (
-  //           <View style={styles.rentorActionButton}>
-  //             <Text style={(fontStyles.bodyMedium, {color: Color.White[100]})}>
-  //               Go to Chat 💭
-  //             </Text>
-  //           </View>
-  //         ) : null}
-  //       </View>
-  //     );
-  //   });
+  const currentApplicationStatus = [
+    'open',
+    'review',
+    'viewing',
+    'offered',
+    'closed',
+  ].indexOf(advert.status);
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
@@ -109,22 +49,28 @@ const StatusBarComponent = ({currentApplicationStatus, advert}: any) => {
           <Text
             style={[
               fontStyles.headerSmall,
-              {
-                marginTop: 15,
-                color:
-                  currentApplicationStatus === index ||
-                  currentApplicationStatus > index
-                    ? Color.Black[100]
-                    : Color.Black[50],
-              },
+              styles.infoBlockHeader,
+              currentApplicationStatus === index ||
+              currentApplicationStatus > index
+                ? styles.infoBlockActive
+                : styles.infoBlock,
             ]}>
             {key.header}
           </Text>
-          <Text style={[fontStyles.bodySmall]}>{key.subText}</Text>
+          <Text
+            style={[
+              fontStyles.bodySmall,
+              currentApplicationStatus === index ||
+              currentApplicationStatus > index
+                ? styles.infoBlockActive
+                : styles.infoBlock,
+            ]}>
+            {key.subText}
+          </Text>
 
           {currentApplicationStatus === index ? (
-            <View style={styles.landlordActionButton}>
-              <Text style={(fontStyles.bodyMedium, {color: Color.White[100]})}>
+            <View style={[styles.landlordActionButton, styles.button]}>
+              <Text style={[fontStyles.headerSmall, styles.buttonText]}>
                 {key.buttonText}
               </Text>
             </View>
@@ -134,29 +80,28 @@ const StatusBarComponent = ({currentApplicationStatus, advert}: any) => {
     },
   );
 
-  //   const calculateStatusBar = currentStatusIndex => {
-  //     let status = null;
+  const calculateStatusBar = (currentStatusIndex: any) => {
+    let status = null;
+    switch (currentStatusIndex) {
+      case 1:
+        status = '50';
+        break;
+      case 2:
+        status = '75';
+        break;
+      case 3:
+        status = '100';
+        break;
+      default:
+        status = '25';
+        break;
+    }
+    setStatusBar(status);
+  };
 
-  //     switch (currentStatusIndex) {
-  //       case 1:
-  //         status = '50';
-  //         break;
-  //       case 2:
-  //         status = '75';
-  //         break;
-  //       case 3:
-  //         status = '100';
-  //         break;
-  //       default:
-  //         status = '25';
-  //         break;
-  //     }
-  //     setStatusBar(status);
-  //   };
-
-  //   useEffect(() => {
-  //     calculateStatusBar(currentApplicationStatus);
-  //   });
+  useEffect(() => {
+    calculateStatusBar(advert.status);
+  });
 
   return (
     <View style={[styles.maincontainer]}>
@@ -179,7 +124,7 @@ const StatusBarComponent = ({currentApplicationStatus, advert}: any) => {
             style={[
               styles.progressBar,
               {
-                height: `${currentStatusBar}%`,
+                height: `${statusBar}%`,
                 backgroundColor: advert.lessor
                   ? Color.Lavendar[100]
                   : Color.Mint[100],
@@ -201,9 +146,19 @@ const StatusBarComponent = ({currentApplicationStatus, advert}: any) => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    width: '90%',
-    paddingTop: 30,
-    paddingBottom: 20,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderColor: Color.Black[10],
+    paddingTop: 15,
+  },
+  infoBlockHeader: {
+    marginTop: 15,
+  },
+  infoBlock: {
+    color: Color.Black[50],
+  },
+  infoBlockActive: {
+    color: Color.Black[100],
   },
   progressContainer: {
     flexDirection: 'row',
@@ -235,21 +190,21 @@ const styles = StyleSheet.create({
   },
   landlordActionButton: {
     backgroundColor: Color.Lavendar[100],
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '50%',
-    padding: 7,
-    marginTop: 10,
-    borderRadius: 12,
   },
-  rentorActionButton: {
-    backgroundColor: Color.Mint[100],
+  // rentorActionButton: {
+  //   backgroundColor: Color.Mint[100],
+  // },
+  button: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '40%',
-    padding: 7,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     marginTop: 10,
     borderRadius: 12,
+    alignSelf: 'flex-start',
+  },
+  buttonText: {
+    color: Color.White[100],
   },
 });
 
