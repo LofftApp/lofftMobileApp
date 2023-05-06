@@ -5,6 +5,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Redux
 import {useAppDispatch} from '@ReduxCore/hooks';
 import {signOut} from '@Redux/authentication/authenticationMiddleware';
+import {clearProfile} from '@Redux/user/usersSlice';
 
 // Components
 import {CoreButton} from '@Components/buttons/CoreButton';
@@ -14,7 +15,13 @@ const TempScreen = ({navigation}: any) => {
   return (
     <View style={styles.pageContainer}>
       <View style={{marginTop: 400}}>
-        <CoreButton value="Sign Out" onPress={() => dispatch(signOut())} />
+        <CoreButton
+          value="Sign Out"
+          onPress={() => {
+            dispatch(signOut());
+            dispatch(clearProfile());
+          }}
+        />
       </View>
     </View>
   );
