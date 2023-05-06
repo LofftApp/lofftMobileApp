@@ -1,5 +1,6 @@
 export const dateFormatConverter = ({date, format = 'EU'}: any) => {
   if (!date) return null;
+  console.log('date', date.seconds);
 
   date = date?.seconds ? convertSecondsTODate(date.seconds) : new Date(date);
 
