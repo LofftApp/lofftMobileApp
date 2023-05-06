@@ -2,8 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Pressable, Image} from 'react-native';
 
 // Components 🪢
-import PaginationBar from '@Components/bars/PaginationBar';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftHeaderPhoto from './LofftHeaderPhoto';
+
+// Redux 🏗️
+import {useAppDispatch} from '@ReduxCore/hooks';
+import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -14,49 +18,31 @@ import noFlatImage from '@Assets/images/no-flat-image.png';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ListFlatApplicationCard = ({
-  navigation,
-  match,
-  flatId,
-  district,
-  price,
-  images,
-  likedUsers,
-  active,
-  address,
-  description,
-  fromDate,
-  untilDate,
+  id,
+  advert,
   posted = null,
   isLessor = false,
 }: any) => {
-  const [screen] = useState(1);
-  const [save, setSave] = useState(false);
+  const [active] = useState(!['offered', 'closed'].includes(advert.status));
   const [renterActiveStatus, setRenterActiveStatus] = useState([
     'Applied',
     'In review',
-    'Flat viewing',
+    'Viewing',
     'Offer',
   ]);
 
   const [lessorActiveStatus, setLessorActiveStatus] = useState([
-    'Recieved',
-    'Review',
-    'Flat viewing',
+    'Open',
+    'Applicantions',
+    'Viewing',
     'Offer',
   ]);
 
   let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
-  const [currentFlatStatusIndex, setFlatStatusIndex] = useState(2);
   const [currentStatusBar, setStatusBar] = useState('');
 
-  useEffect(() => {
-    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
-      setSave(true);
-    }
-  }, []);
-
-  const calculateStatusBar = currentStatusIndex => {
+  const calculateStatusBar = (currentStatusIndex: number) => {
     let status = null;
 
     switch (currentStatusIndex) {
@@ -77,18 +63,19 @@ const ListFlatApplicationCard = ({
   };
 
   useEffect(() => {
-    calculateStatusBar(currentFlatStatusIndex);
+    calculateStatusBar(advert.status);
   });
-
+  const dispatch = useAppDispatch();
+  console.log('photos');
   return (
-    <View style={styles.flatCardContainer}>
-      <Pressable
+    <View style={styles.advertCardContainer}>
+      {/* <Pressable
         onPress={() =>
           navigation.navigate('applicationshow', {
             images: images,
             active: active,
-            currentApplicationStatus: currentFlatStatusIndex,
-            flatId: flatId,
+            currentApplicationStatus: status,
+            advertId: advertId,
             address: address,
             description: description,
             fromDate: fromDate,
@@ -96,56 +83,50 @@ const ListFlatApplicationCard = ({
             price: price,
             isLessor: isLessor,
           })
-        }>
-        <View>
-          <Image
-            // ! Currently only chooses the first image this will need to be enhanced with the swiped function and all images in a flatlist.
-            source={
-              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
-            }
-            style={styles.flatCardImage}
+        }> */}
+      <View>
+        <View style={styles.advertCardImage}>
+          <LofftHeaderPhoto
+            imageContainerHeight={300}
+            images={advert.flat.photos}
           />
-          <View style={styles.flatCardButtonsOverlay}>
-            <View style={styles.flatCardbuttonsWrap}>
-              {match ? (
-                <View>
-                  <Pressable
-                    style={styles.flatCardSaveButton}
-                    onPress={() => {
-                      setSave(!save);
-                      saveFlatToUserLikes({flatId, add: save});
-                    }}>
-                    {save === true ? (
-                      <LofftIcon
-                        name="heart-filled"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    ) : (
-                      <LofftIcon
-                        name="heart"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    )}
-                  </Pressable>
-                </View>
-              ) : (
-                <View />
-              )}
-
-              <PaginationBar screen={screen} totalScreens={5} />
-            </View>
+        </View>
+        <View style={styles.advertCardButtonsOverlay}>
+          <View style={styles.advertCardbuttonsWrap}>
+            {advert.matchP ? (
+              <View>
+                <Pressable
+                  // style={styles.advertCardSaveButton}
+                  onPress={() => {
+                    dispatch(toggleFavorite(id));
+                  }}>
+                  {advert.favorite ? (
+                    <LofftIcon
+                      name="heart-filled"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  ) : (
+                    <LofftIcon
+                      name="heart"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         </View>
-      </Pressable>
+      </View>
+      {/* </Pressable> */}
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
-            {price}€ {''} {''} 26 m2
+            {advert.price}€ {''} {''} 26 m2
           </Text>
           <Text style={{color: '#8E8E8E', marginTop: 3}}>
-            {district}, Berlin{' '}
+            {advert.district}, {advert.city}
           </Text>
         </View>
         <View>
@@ -166,7 +147,7 @@ const ListFlatApplicationCard = ({
           </Text>
         </View>
       ) : null}
-      <View style={styles.progressBarContainer}>
+      <View>
         <View
           style={[
             styles.progressBarOutline,
@@ -186,10 +167,9 @@ const ListFlatApplicationCard = ({
           {textForStatusBar.map((el, index) => (
             <Text
               style={
-                currentFlatStatusIndex === index ||
-                currentFlatStatusIndex > index
-                  ? styles.active
-                  : styles.inactive
+                ['offered', 'closed'].includes(advert.status)
+                  ? styles.inactive
+                  : styles.active
               }
               key={index + 1}>
               {el}
@@ -215,29 +195,27 @@ const ListFlatApplicationCard = ({
 };
 
 const styles = StyleSheet.create({
-  flatCardContainer: {
+  advertCardContainer: {
     marginBottom: 16,
   },
-  flatCardImage: {
+  advertCardImage: {
     width: '100%',
     overflow: 'hidden',
     zIndex: 1,
     borderRadius: 12,
   },
 
-  flatCardButtonsOverlay: {
+  advertCardButtonsOverlay: {
     position: 'absolute',
     zIndex: 2,
     width: '100%',
-    height: '100%',
-    padding: 16,
   },
-  flatCardbuttonsWrap: {
+  advertCardbuttonsWrap: {
     flex: 1,
-    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    padding: 15,
   },
-
-  flatCardSaveButton: {
+  advertCardSaveButton: {
     padding: 10,
     position: 'absolute',
     right: 0,

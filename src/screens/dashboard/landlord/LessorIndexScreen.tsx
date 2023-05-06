@@ -9,7 +9,7 @@ import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch
 
 // Redux
 import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
-import {fetchLessorAdverts} from '@Redux/adverts/advertMiddleware';
+import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -19,30 +19,29 @@ import * as Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const LessorIndexScreen = ({navigation}: any) => {
-  const [sortedFlats, setSortedFlats] = useState([]);
-  const oneFlat = sortedFlats.slice(0, 1);
+  const [sortedadverts, setSortedadverts] = useState([]);
+  const oneFlat = sortedadverts.slice(0, 1);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchLessorAdverts());
+    dispatch(fetchAdverts());
   }, []);
 
-  const lessor_flats = useAppSelector((state: any) => state.adverts.adverts);
-
+  const adverts = useAppSelector((state: any) => state.adverts.adverts);
   useEffect(() => {
-    const getFlats = async () => {
-      const flats: any = [];
-      if (flats) {
-        if (flats[0]?.matchP) {
-          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-          setSortedFlats(reOrder);
+    const getadverts = async () => {
+      const adverts: any = [];
+      if (adverts) {
+        if (adverts[0]?.matchP) {
+          const reOrder = adverts.sort((a: any, b: any) => b.matchP - a.matchP);
+          setSortedadverts(reOrder);
         } else {
-          setSortedFlats(flats);
+          setSortedadverts(adverts);
         }
       }
     };
-    getFlats();
+    getadverts();
   }, []);
 
   const [screen, setScreen] = useState('thumbs-up');
@@ -71,9 +70,8 @@ const LessorIndexScreen = ({navigation}: any) => {
 
       <View style={styles.viewContainer}>
         <FlatListApplicationsScreen
-          flats={lessor_flats}
+          adverts={adverts}
           navigation={navigation}
-          active={true}
           isLessor={true}
         />
       </View>

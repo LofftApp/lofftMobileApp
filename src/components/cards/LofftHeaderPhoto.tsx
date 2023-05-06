@@ -7,7 +7,7 @@ import PaginationBar from '@Components/bars/PaginationBar';
 const LofftHeaderPhoto = ({
   imageContainerHeight,
   images,
-  activeBlur = null,
+  activeBlur = false,
 }: any) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
@@ -44,7 +44,7 @@ const LofftHeaderPhoto = ({
       {!activeBlur ? (
         <PaginationBar
           screen={currentCardIndex}
-          totalScreens={images?.length || 3}
+          totalScreens={images?.length}
           marginVertical={imageContainerHeight - 20}
           onTop={true}
         />
