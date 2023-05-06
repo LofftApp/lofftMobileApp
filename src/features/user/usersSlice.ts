@@ -36,7 +36,6 @@ const userSlice = createSlice({
     builder.addCase(
       getProfile.fulfilled,
       (state, action: PayloadAction<any>) => {
-        console.log('Profile', action.payload.user.user_type);
         state.loading = false;
         state.profile.userType = action.payload.user.user_type;
         state.profile.genderIdentity = action.payload.user.gender_identity;

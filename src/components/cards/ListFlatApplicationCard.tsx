@@ -28,6 +28,7 @@ const ListFlatApplicationCard = ({
   untilDate,
   posted = null,
   isLessor = false,
+  status,
 }: any) => {
   const [screen] = useState(1);
   const [save, setSave] = useState(false);
@@ -37,6 +38,7 @@ const ListFlatApplicationCard = ({
     'Flat viewing',
     'Offer',
   ]);
+  console.log('status', status);
 
   const [lessorActiveStatus, setLessorActiveStatus] = useState([
     'Recieved',
@@ -47,16 +49,9 @@ const ListFlatApplicationCard = ({
 
   let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
-  const [currentFlatStatusIndex, setFlatStatusIndex] = useState(2);
   const [currentStatusBar, setStatusBar] = useState('');
 
-  useEffect(() => {
-    if (likedUsers && likedUsers.includes(auth()?.currentUser?.uid)) {
-      setSave(true);
-    }
-  }, []);
-
-  const calculateStatusBar = currentStatusIndex => {
+  const calculateStatusBar = (currentStatusIndex: number) => {
     let status = null;
 
     switch (currentStatusIndex) {
@@ -77,7 +72,7 @@ const ListFlatApplicationCard = ({
   };
 
   useEffect(() => {
-    calculateStatusBar(currentFlatStatusIndex);
+    calculateStatusBar(status);
   });
 
   return (
@@ -87,7 +82,7 @@ const ListFlatApplicationCard = ({
           navigation.navigate('applicationshow', {
             images: images,
             active: active,
-            currentApplicationStatus: currentFlatStatusIndex,
+            currentApplicationStatus: status,
             flatId: flatId,
             address: address,
             description: description,
@@ -112,8 +107,8 @@ const ListFlatApplicationCard = ({
                   <Pressable
                     style={styles.flatCardSaveButton}
                     onPress={() => {
-                      setSave(!save);
-                      saveFlatToUserLikes({flatId, add: save});
+                      // setSave(!save);
+                      // saveFlatToUserLikes({flatId, add: save});
                     }}>
                     {save === true ? (
                       <LofftIcon
@@ -166,7 +161,7 @@ const ListFlatApplicationCard = ({
           </Text>
         </View>
       ) : null}
-      <View style={styles.progressBarContainer}>
+      <View>
         <View
           style={[
             styles.progressBarOutline,
@@ -186,10 +181,9 @@ const ListFlatApplicationCard = ({
           {textForStatusBar.map((el, index) => (
             <Text
               style={
-                currentFlatStatusIndex === index ||
-                currentFlatStatusIndex > index
-                  ? styles.active
-                  : styles.inactive
+                ['offered', 'closed'].includes(status)
+                  ? styles.inactive
+                  : styles.active
               }
               key={index + 1}>
               {el}

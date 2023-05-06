@@ -9,7 +9,7 @@ import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch
 
 // Redux
 import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
-import {fetchLessorAdverts} from '@Redux/adverts/advertMiddleware';
+import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -25,11 +25,11 @@ const LessorIndexScreen = ({navigation}: any) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchLessorAdverts());
+    dispatch(fetchAdverts());
   }, []);
 
-  const lessor_flats = useAppSelector((state: any) => state.adverts.adverts);
-
+  const flats = useAppSelector((state: any) => state.adverts.adverts);
+  console.log('flats', flats);
   useEffect(() => {
     const getFlats = async () => {
       const flats: any = [];
@@ -71,9 +71,8 @@ const LessorIndexScreen = ({navigation}: any) => {
 
       <View style={styles.viewContainer}>
         <FlatListApplicationsScreen
-          flats={lessor_flats}
+          flats={flats}
           navigation={navigation}
-          active={true}
           isLessor={true}
         />
       </View>

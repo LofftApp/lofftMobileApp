@@ -1,9 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {
-  fetchAdverts,
-  toggleFavorite,
-  fetchLessorAdverts,
-} from './advertMiddleware';
+import {fetchAdverts, toggleFavorite} from './advertMiddleware';
 
 interface AdvertState {
   loading: boolean;
@@ -15,11 +11,12 @@ interface AdvertState {
       matchScore: number | null;
       price: number | null;
       favorite: boolean | null;
-      applied: number | null;
+      applied: number;
       fromDate: number | null;
       toDate: number | null;
       created_at: string | null;
-      // user: boolean | null;
+      applicants: any[] | null;
+      user: boolean | null;
       flat: {
         id: number | null;
         address: string | null;
@@ -42,11 +39,13 @@ const initialState: AdvertState = {
       currency: null,
       price: null,
       favorite: null,
-      applied: null,
+      applied: 0,
       fromDate: null,
       toDate: null,
       matchScore: null,
       created_at: null,
+      applicants: null,
+      user: null,
       flat: {
         id: null,
         address: null,
@@ -73,8 +72,8 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log('action.payload1:', action.payload.adverts[0]);
         const values = action.payload.adverts.map((advert: any) => {
+          console.log('advert:', advert);
           return {
             id: advert.id,
             status: advert.status,
@@ -86,13 +85,14 @@ export const advertSlice = createSlice({
             fromDate: advert.from_date,
             toDate: advert.to_date,
             created_at: advert.created_at,
+            applicants: advert.applicants,
             user: advert.user,
             flat: {
               id: advert.flat.id,
               address: advert.flat.address,
               description: advert.flat.description,
               tagline: advert.flat.tag_line,
-              // district: advert.flat.district,
+              district: advert.flat.district,
               city: advert.flat.city,
               photos: advert.flat.photos.map((photo: any) => photo.url),
             },
@@ -113,37 +113,6 @@ export const advertSlice = createSlice({
         if (advert) {
           advert.favorite = !advert.favorite;
         }
-      },
-    );
-    builder.addCase(
-      fetchLessorAdverts.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        console.log('action.payload2:', action.payload);
-        // const values = action.payload.adverts.map((advert: any) => {
-        //   return {
-        //     id: advert.id,
-        //     status: advert.status,
-        //     currency: advert.currency,
-        //     matchScore: advert.match_score,
-        //     price: advert.price,
-        //     favorite: advert.favorite,
-        //     fromDate: advert.from_date,
-        //     toDate: advert.to_date,
-        //     created_at: advert.created_at,
-        //     user: advert.user,
-        //     flat: {
-        //       id: advert.flat.id,
-        //       address: advert.flat.address,
-        //       description: advert.flat.description,
-        //       tagline: advert.flat.tag_line,
-        //       district: advert.flat.district,
-        //       city: advert.flat.city,
-        //       images: advert.flat.photos.map((photo: any) => photo.url),
-        //     },
-        //   };
-        // });
-        // state.adverts = values;
       },
     );
   },
