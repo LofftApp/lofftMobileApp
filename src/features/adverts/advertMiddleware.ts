@@ -27,7 +27,7 @@ export const fetchAdverts = createAsyncThunk(
 export const toggleFavorite = createAsyncThunk(
   'advert/toggleFavorite',
   async (id: number) => {
-    const url = `http://localhost:3000/adverts/${id}/favorite`;
+    const url = `http://localhost:3000/api/adverts/${id}/favorite`;
     try {
       const token = await EncryptedStorage.getItem('token');
       const response = await axios.post(
