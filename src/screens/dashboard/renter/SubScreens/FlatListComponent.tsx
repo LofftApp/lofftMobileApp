@@ -1,10 +1,9 @@
 import React from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
-import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListApplicationsScreen = ({adverts, navigation, isLessor}: any) => {
+const FlatListComponent = ({adverts, navigation}: any) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -18,7 +17,7 @@ const FlatListApplicationsScreen = ({adverts, navigation, isLessor}: any) => {
               advert={advert}
               /*  active is just for demo 👇*/
               posted={true}
-              isLessor={isLessor}
+              isLessor={advert.lessor}
             />
           );
         })}
@@ -33,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatListApplicationsScreen;
+export default FlatListComponent;

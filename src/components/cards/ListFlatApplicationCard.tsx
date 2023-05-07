@@ -67,7 +67,6 @@ const ListFlatApplicationCard = ({
     calculateStatusBar(advert.status);
   });
   const dispatch = useAppDispatch();
-  console.log('advert', advert);
   return (
     <View style={styles.advertCardContainer}>
       {/* <Pressable
