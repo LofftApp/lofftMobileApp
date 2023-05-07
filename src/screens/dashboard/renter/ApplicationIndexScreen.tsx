@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+// Redux 🏗️
+import {useAppSelector} from '@ReduxCore/hooks';
 // Screens 📺
-import FlatListApplicationsScreen from './SubScreens/FlatListApplicationsScreen';
+import FlatListComponent from './SubScreens/FlatListComponent';
 
 // Components 🪢
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
@@ -10,24 +12,14 @@ import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+// helpers 🧰
+import {advertPartition} from '@Helpers/advertPartition';
 
 const ApplicationIndexScreen = ({navigation}: any) => {
-  const [sortedFlats, setSortedFlats] = useState([]);
-
-  useEffect(() => {
-    const getFlats = async () => {
-      const flats = await getFlatsFromDB();
-      if (flats) {
-        if (flats[0]?.matchP) {
-          const reOrder = flats.sort((a: any, b: any) => b.matchP - a.matchP);
-          setSortedFlats(reOrder);
-        } else {
-          setSortedFlats(flats);
-        }
-      }
-    };
-    getFlats();
-  }, []);
+  const adverts = useAppSelector((state: any) =>
+    state.adverts.adverts.filter((advert: any) => advert.applied),
+  );
+  const [activeAdverts, inactiveAdverts] = advertPartition(adverts);
 
   const [screen, setScreen] = useState('thumbs-up');
 
@@ -49,17 +41,11 @@ const ApplicationIndexScreen = ({navigation}: any) => {
       />
       <View style={styles.viewContainer}>
         {screen === 'thumbs-up' ? (
-          <FlatListApplicationsScreen
-            flats={sortedFlats}
-            navigation={navigation}
-            active={true}
-          />
+          <FlatListComponent adverts={activeAdverts} navigation={navigation} />
         ) : (
-          <FlatListApplicationsScreen
-            flats={sortedFlats}
+          <FlatListComponent
+            adverts={inactiveAdverts}
             navigation={navigation}
-            /* Just for demo purposes 🚨 🚨 */
-            active={false}
           />
         )}
       </View>

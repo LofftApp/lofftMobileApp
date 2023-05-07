@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Screens 📺
-import FlatListApplicationsScreen from '../renter/SubScreens/FlatListApplicationsScreen';
+import FlatListComponent from '../renter/SubScreens/FlatListComponent';
 
 // Components 🪢
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
@@ -69,7 +69,7 @@ const LessorIndexScreen = ({navigation}: any) => {
       </View>
 
       <View style={styles.viewContainer}>
-        <FlatListApplicationsScreen
+        <FlatListComponent
           adverts={adverts}
           navigation={navigation}
           isLessor={true}
