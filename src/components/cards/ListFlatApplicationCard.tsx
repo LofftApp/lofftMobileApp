@@ -69,57 +69,48 @@ const ListFlatApplicationCard = ({
   const dispatch = useAppDispatch();
   return (
     <View style={styles.advertCardContainer}>
-      {/* <Pressable
+      <Pressable
         onPress={() =>
           navigation.navigate('applicationshow', {
-            images: images,
-            active: active,
-            currentApplicationStatus: status,
-            advertId: advertId,
-            address: address,
-            description: description,
-            fromDate: fromDate,
-            untilDate: untilDate,
-            price: price,
-            isLessor: isLessor,
+            advert,
           })
-        }> */}
-      <View>
-        <View style={styles.advertCardImage}>
-          <LofftHeaderPhoto
-            imageContainerHeight={300}
-            images={advert.flat.photos}
-          />
-        </View>
-        <View style={styles.advertCardButtonsOverlay}>
-          <View style={styles.advertCardbuttonsWrap}>
-            {advert.matchP ? (
-              <View>
-                <Pressable
-                  // style={styles.advertCardSaveButton}
-                  onPress={() => {
-                    dispatch(toggleFavorite(id));
-                  }}>
-                  {advert.favorite ? (
-                    <LofftIcon
-                      name="heart-filled"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  ) : (
-                    <LofftIcon
-                      name="heart"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  )}
-                </Pressable>
-              </View>
-            ) : null}
+        }>
+        <View>
+          <View style={styles.advertCardImage}>
+            <LofftHeaderPhoto
+              imageContainerHeight={300}
+              images={advert.flat.photos}
+            />
+          </View>
+          <View style={styles.advertCardButtonsOverlay}>
+            <View style={styles.advertCardbuttonsWrap}>
+              {advert.matchP ? (
+                <View>
+                  <Pressable
+                    // style={styles.advertCardSaveButton}
+                    onPress={() => {
+                      dispatch(toggleFavorite(id));
+                    }}>
+                    {advert.favorite ? (
+                      <LofftIcon
+                        name="heart-filled"
+                        size={25}
+                        color={Color.Tomato[100]}
+                      />
+                    ) : (
+                      <LofftIcon
+                        name="heart"
+                        size={25}
+                        color={Color.Tomato[100]}
+                      />
+                    )}
+                  </Pressable>
+                </View>
+              ) : null}
+            </View>
           </View>
         </View>
-      </View>
-      {/* </Pressable> */}
+      </Pressable>
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
