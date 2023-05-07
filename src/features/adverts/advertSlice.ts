@@ -75,7 +75,6 @@ export const advertSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         state.loading = false;
         const values = action.payload.adverts.map((advert: any) => {
-          console.log('advert:', advert);
           return {
             id: advert.id,
             status: advert.status,
