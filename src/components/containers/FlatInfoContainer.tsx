@@ -46,7 +46,6 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-  console.log(advert, 'advert');
 
   return (
     <View style={styles.centralizerContainer}>
