@@ -48,7 +48,7 @@ const StartJourney = ({navigation}: any) => {
         style={
           routeFlatHunt === 'renting' ? styles.buttonActive : styles.button
         }
-        onPress={() => handleClick('AboutYouFlatHuntScreen', 'renting')}
+        onPress={() => handleClick('LanguageSelectionScreen', 'renting')}
         type="renter"
       />
       <UserJourneyButton
