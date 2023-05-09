@@ -21,9 +21,8 @@ const ApplicantsIndexScreen = ({navigation}: any) => {
     (state: any) => state.adverts.adverts[0].applicants,
   );
 
-  const finder = useAppSelector((state: any) => state.adverts.adverts[0]);
+  console.log(applicants);
 
-  console.log(finder, 'finder');
   return (
     <View style={styles.mainContainer}>
       <View style={styles.applicantsHeight}>
