@@ -10,14 +10,12 @@ export const fetchAdverts = createAsyncThunk(
     const url = 'http://localhost:3000/api/adverts';
     try {
       const token = await EncryptedStorage.getItem('token');
-      console.log('token:', token);
       const response = await axios.get(url, {
         headers: {
           ContentType: 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('response.data:', response.data);
       return response.data;
     } catch (error) {
       console.log('fetchAdverts error:', error);

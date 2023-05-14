@@ -3,23 +3,33 @@ import {getProfile} from './usersMiddleware';
 
 interface UserState {
   loading: boolean;
-  profile: {
+  user: {
+    id: number | null;
+    email: string | null;
+    admin: boolean | null;
+    termsAccepted: boolean | null;
     userType: string | null;
-    genderIdentity: string | null;
-    tokens: number | null;
-    admin: boolean;
-    terms_and_conditions: boolean;
+    profile: {
+      genderIdentity: string | null;
+      tokens: number | null;
+      description: string | null;
+    };
   };
 }
 
 const initialState: UserState = {
   loading: false,
-  profile: {
+  user: {
+    id: null,
+    email: null,
+    admin: null,
+    termsAccepted: null,
     userType: null,
-    genderIdentity: null,
-    tokens: null,
-    admin: false,
-    terms_and_conditions: false,
+    profile: {
+      description: null,
+      genderIdentity: null,
+      tokens: null,
+    },
   },
 };
 
@@ -30,11 +40,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearProfile: state => {
-      state.profile.userType = null;
-      state.profile.genderIdentity = null;
-      state.profile.tokens = null;
-      state.profile.admin = false;
-      state.profile.terms_and_conditions = false;
+      state.user.id = null;
+      state.user.userType = null;
+      state.user.profile.genderIdentity = null;
+      state.user.profile.tokens = null;
+      state.user.admin = false;
+      state.user.termsAccepted = false;
     },
   },
   extraReducers: builder => {
@@ -45,12 +56,17 @@ const userSlice = createSlice({
       getProfile.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.profile.userType = action.payload.user.user_type;
-        state.profile.genderIdentity = action.payload.user.gender_identity;
-        state.profile.tokens = action.payload.user.tokens;
-        state.profile.admin = action.payload.user.admin;
-        state.profile.terms_and_conditions =
-          action.payload.user.terms_and_conditions;
+        state.user.id = action.payload.user.id;
+        state.user.email = action.payload.user.email;
+        state.user.admin = action.payload.user.admin;
+        state.user.termsAccepted = action.payload.user.termsAccepted;
+        state.user.userType = action.payload.user.user_type;
+        state.user.profile.genderIdentity =
+          action.payload.user.profile.gender_identity;
+        state.user.profile.tokens = action.payload.user.profile.tokens;
+        state.user.profile.description =
+          action.payload.user.profile.description;
+        console.log('state.user', state);
       },
     );
   },
