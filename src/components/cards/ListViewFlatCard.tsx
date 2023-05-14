@@ -37,7 +37,6 @@ const ListViewFlatCard = ({
     // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
   }
   const dispatch = useAppDispatch();
-  console.log('id', id);
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
