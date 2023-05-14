@@ -10,7 +10,6 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
-import HighlightedButtons from '@Components/containers/HighlightButtons';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
