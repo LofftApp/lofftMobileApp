@@ -25,26 +25,18 @@ import {tagSorter} from '@Helpers/tagSorter';
 const ListViewFlatCard = ({navigation, advert, id}: any) => {
   const userProfile = useAppSelector((state: any) => state.user.user);
 
-  const [positiveCharacteristics, negativeCharacteristics] = tagSorter(
+  const characteristicsTags = tagSorter(
     userProfile.profile.characteristics,
     advert.flat.characteristics,
   );
 
-  const [positiveFeatures, negativeFeatures] = tagSorter(
-    userProfile.filter,
-    advert.flat.features,
-  );
-
-  // if (userType === 'renter') {
-  // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
-  // }
+  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   const dispatch = useAppDispatch();
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          {/* Match score checks if from lessor, if true then its renter */}
           {advert.matchScore ? (
             <View>
               <Pressable
@@ -89,13 +81,13 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           ) : null}
         </View>
         <View>
-          <Chips tags={positiveFeatures} features={true} />
-          <Chips tags={positiveCharacteristics} features={false} />
+          <Chips tags={featuresTags.positiveTags} features={true} />
+          <Chips tags={characteristicsTags.positiveTags} features={false} />
         </View>
       </View>
       <CoreButton
         value="View flat"
-        onPress={() => navigation.navigate('flatShow', {id})}
+        onPress={() => navigation.navigate('flatShow', {advert: advert})}
       />
     </View>
   );

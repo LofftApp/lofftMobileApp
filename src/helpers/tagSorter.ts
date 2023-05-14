@@ -16,5 +16,5 @@ export const tagSorter = (userTags: [], flatTags: []) => {
       negativeTags.push(tag);
     }
   });
-  return [positiveTags, negativeTags];
+  return {positiveTags, negativeTags};
 };
