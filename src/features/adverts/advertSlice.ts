@@ -26,6 +26,22 @@ interface AdvertState {
         district: string | null;
         city: string | null;
         photos: string[] | null;
+        charachteristics:
+          | [
+              {
+                emoji: string | null;
+                name: string | null;
+              },
+            ]
+          | null;
+        features:
+          | [
+              {
+                emoji: string | null;
+                name: string | null;
+              },
+            ]
+          | null;
       };
     },
   ];
@@ -56,6 +72,8 @@ const initialState: AdvertState = {
         district: null,
         city: null,
         photos: null,
+        charachteristics: null,
+        features: null,
       },
     },
   ],
@@ -96,8 +114,8 @@ export const advertSlice = createSlice({
               tagline: advert.flat.tag_line,
               district: advert.flat.district,
               city: advert.flat.city,
-              charachteristics: advert.flat.charachteristics,
-              featrues: advert.flat.featrues,
+              characteristics: advert.flat.characteristics,
+              features: advert.flat.features,
               photos: advert.flat.photos.map((photo: any) => photo.url),
             },
           };

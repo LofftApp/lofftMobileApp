@@ -1,8 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Color from '../../styles/lofftColorPallet.json';
+import Color from '@StyleSheets/lofftColorPallet.json';
 
-const Chips = ({flatData}: any) => {
+import {tagSorter} from '@Helpers/tagSorter';
+
+const Chips = ({userData, flatData, type}: any) => {
+  tagSorter(userData, flatData);
   // flat data example
   const flatInfo = {
     flatProperties: [
@@ -27,10 +30,10 @@ const Chips = ({flatData}: any) => {
         style={[styles.propertyChip, styles.propertyChipFont]}
         list={flatInfo.flatProperties}
       />
-      <ListChips
+      {/* <ListChips
         style={[styles.personalityChip, styles.personalityChipFont]}
         list={flatInfo.flatPersonalities}
-      />
+      /> */}
     </View>
   );
 };
