@@ -1,16 +1,14 @@
-import React, {useState, useCallback} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-// import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
 import Chips from '@Components/buttons/Chips';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
-import HighlightedButtons from '@Components/containers/HighlightButtons';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -21,37 +19,32 @@ import noFlatImage from '@Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
-const ListViewFlatCard = ({
-  id,
-  matchScore,
-  district,
-  price,
-  images,
-  navigation,
-  favorite,
-}: any) => {
-  const [screen] = useState(1);
-  const userType = useAppSelector((state: any) => state.user.userType);
-  let save = false;
+// Helpers
+import {tagSorter} from '@Helpers/tagSorter';
 
-  if (userType === 'renter') {
-    // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
-  }
+const ListViewFlatCard = ({navigation, advert, id}: any) => {
+  const userProfile = useAppSelector((state: any) => state.user.user);
+
+  const characteristicsTags = tagSorter(
+    userProfile.profile.characteristics,
+    advert.flat.characteristics,
+  );
+
+  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
+
   const dispatch = useAppDispatch();
-  console.log('id', id);
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          {/* Match score checks if from lessor, if true then its renter */}
-          {matchScore ? (
+          {advert.matchScore ? (
             <View>
               <Pressable
                 // style={styles.flatCardSaveButton}
                 onPress={() => {
-                  dispatch(toggleFavorite(id));
+                  dispatch(toggleFavorite(advert.id));
                 }}>
-                {favorite ? (
+                {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={25}
@@ -67,30 +60,34 @@ const ListViewFlatCard = ({
         </View>
       </View>
       <View style={styles.flatCardImage}>
-        <LofftHeaderPhoto imageContainerHeight={300} images={images} />
+        <LofftHeaderPhoto
+          imageContainerHeight={300}
+          images={advert.flat.photos}
+        />
       </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
             {/* Size of WG is not in DB - 26 m2 */}
-            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+            <Text style={[fontStyles.headerSmall]}>{advert.price} €</Text>
 
-            <MatchingScoreButton size="Big" score={matchScore} />
+            <MatchingScoreButton size="Big" score={advert.matchScore} />
           </View>
-          {district ? (
+          {advert.flat.district ? (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {district}, Berlin
+              {advert.flat.district}, {advert.flat.city}
             </Text>
           ) : null}
         </View>
         <View>
-          <Chips />
+          <Chips tags={featuresTags.positiveTags} features={true} />
+          <Chips tags={characteristicsTags.positiveTags} features={false} />
         </View>
       </View>
       <CoreButton
         value="View flat"
-        onPress={() => navigation.navigate('flatShow', {id})}
+        onPress={() => navigation.navigate('flatShow', {advert: advert})}
       />
     </View>
   );

@@ -105,18 +105,7 @@ const FlatMap = () => {
               showsHorizontalScrollIndicator={false}
               onViewableItemsChanged={onViewRef.current}
               renderItem={({item, index}) => (
-                <MapViewFlatCard
-                  flatId={item.id}
-                  price={item.price}
-                  match={item.matchScore}
-                  key={index + 1}
-                  district={item.flat.district}
-                  city={item.flat.city}
-                  images={item.flat.photos}
-                  tagline={item.flat.tagline}
-                  id={item.id}
-                  favorite={item.favorite}
-                />
+                <MapViewFlatCard advert={item} key={index + 1} id={item.id} />
               )}
             />
           ) : null}

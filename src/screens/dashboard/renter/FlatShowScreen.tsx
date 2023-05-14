@@ -21,13 +21,20 @@ import CompleteProfileImage from '@Assets/images/Illustration.png';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
 
-const FlatShowScreen = ({route, navigation}: any) => {
-  const [advertIndex] = useState(route.params.id);
-  const userType = useAppSelector((state: any) => state.user.userType);
+// Helpers
+import {tagSorter} from '@Helpers/tagSorter';
 
-  const advert = useAppSelector((state: any) =>
-    state.adverts.adverts.find((advert: any) => advert.id === advertIndex),
+const FlatShowScreen = ({route, navigation}: any) => {
+  const [advert] = useState(route.params.advert);
+  const userProfile = useAppSelector((state: any) => state.user.user);
+
+  const characteristicsTags = tagSorter(
+    userProfile.profile.characteristics,
+    advert.flat.characteristics,
   );
+
+  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
+
   const dispatch = useAppDispatch();
 
   // if (userType === 'renter') {
@@ -35,7 +42,6 @@ const FlatShowScreen = ({route, navigation}: any) => {
   // }
 
   /* Params are being passed classicly via the route helper instead of  */
-  const {price, match} = route.params;
 
   //This is a placeholder for the CompleteProfileStep
   const [completeProfile, setCompleteProfile] = useState(false);
@@ -49,17 +55,6 @@ const FlatShowScreen = ({route, navigation}: any) => {
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-
-  const [matches, setMatches] = useState([
-    '🚉',
-    '🏳️‍🌈',
-    '🎉',
-    '👩🏽‍🍳',
-    '🥦',
-    '🗺',
-    '🚭',
-    '🌱',
-  ]);
 
   const profileNotDoneObject = {
     header: "Your application profile isn't complete",
@@ -104,6 +99,8 @@ const FlatShowScreen = ({route, navigation}: any) => {
               advert={advert}
               navigation={navigation}
               button={true}
+              characteristicsTags={characteristicsTags}
+              featuresTags={featuresTags}
             />
             {/* <View>
                 {completeProfile && !outOfTokens ? (
