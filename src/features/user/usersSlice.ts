@@ -13,7 +13,18 @@ interface UserState {
       genderIdentity: string | null;
       tokens: number | null;
       description: string | null;
+      characteristics:
+        | [
+            {
+              emoji: string | null;
+              name: string | null;
+            },
+          ]
+        | null;
     };
+    filter:
+      | [{id: number | null; emoji: string | null; name: string | null}]
+      | null;
   };
 }
 
@@ -29,7 +40,9 @@ const initialState: UserState = {
       description: null,
       genderIdentity: null,
       tokens: null,
+      characteristics: null,
     },
+    filter: null,
   },
 };
 
@@ -46,6 +59,9 @@ const userSlice = createSlice({
       state.user.profile.tokens = null;
       state.user.admin = false;
       state.user.termsAccepted = false;
+      state.user.profile.description = null;
+      state.user.filter = null;
+      state.user.profile.characteristics = null;
     },
   },
   extraReducers: builder => {
@@ -66,7 +82,9 @@ const userSlice = createSlice({
         state.user.profile.tokens = action.payload.user.profile.tokens;
         state.user.profile.description =
           action.payload.user.profile.description;
-        console.log('state.user', state);
+        state.user.profile.characteristics =
+          action.payload.user.profile.characteristics;
+        state.user.filter = action.payload.user.filter;
       },
     );
   },

@@ -20,11 +20,12 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 const ListViewFlatCard = ({navigation, advert, id}: any) => {
-  const userType = useAppSelector((state: any) => state.user.userType);
+  const userProfile = useAppSelector((state: any) => state.user.user);
 
-  if (userType === 'renter') {
-    // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
-  }
+  // if (userType === 'renter') {
+  // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
+  // }
+
   const dispatch = useAppDispatch();
   return (
     <View style={styles.flatCardContainer}>
@@ -75,7 +76,11 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           ) : null}
         </View>
         <View>
-          <Chips />
+          <Chips
+            userData={userProfile.profile.characteristics}
+            flatData={advert.flat.characteristics}
+          />
+          {/* <Chips /> */}
         </View>
       </View>
       <CoreButton
