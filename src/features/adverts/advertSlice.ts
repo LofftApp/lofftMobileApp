@@ -74,7 +74,6 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log('action.payload.adverts', action.payload.adverts);
         const values = action.payload.adverts.map((advert: any) => {
           return {
             id: advert.id,

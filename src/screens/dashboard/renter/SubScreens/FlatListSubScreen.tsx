@@ -15,19 +15,14 @@ const FlatListSubScreen = ({navigation}: any) => {
         showsVerticalScrollIndicator={false}
         style={styles.flatCardContainer}>
         <View>
-          {adverts.map((el: any, index: number) => {
+          {adverts.map((advert: any, index: number) => {
             return (
               <ListViewFlatCard
-                id={el.id}
                 navigation={navigation}
                 key={index + 1}
-                matchScore={el.matchScore}
-                flatId={el.flat.id}
-                district={el.flat.district}
-                price={el.price}
-                images={el.flat.photos}
-                favorite={el.favorite}
                 i={index}
+                advert={advert}
+                id={advert.id}
               />
             );
           })}

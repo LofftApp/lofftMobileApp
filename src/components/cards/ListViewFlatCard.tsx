@@ -1,9 +1,8 @@
-import React, {useState, useCallback} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-// import {saveFlatsToFavorites} from '@Redux/user/usersSlice';
 
 // Components 🪢
 import {CoreButton} from '@Components/buttons/CoreButton';
@@ -20,18 +19,8 @@ import noFlatImage from '@Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
-const ListViewFlatCard = ({
-  id,
-  matchScore,
-  district,
-  price,
-  images,
-  navigation,
-  favorite,
-}: any) => {
-  const [screen] = useState(1);
+const ListViewFlatCard = ({navigation, advert, id}: any) => {
   const userType = useAppSelector((state: any) => state.user.userType);
-  let save = false;
 
   if (userType === 'renter') {
     // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
@@ -42,14 +31,14 @@ const ListViewFlatCard = ({
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
           {/* Match score checks if from lessor, if true then its renter */}
-          {matchScore ? (
+          {advert.matchScore ? (
             <View>
               <Pressable
                 // style={styles.flatCardSaveButton}
                 onPress={() => {
-                  dispatch(toggleFavorite(id));
+                  dispatch(toggleFavorite(advert.id));
                 }}>
-                {favorite ? (
+                {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={25}
@@ -65,20 +54,23 @@ const ListViewFlatCard = ({
         </View>
       </View>
       <View style={styles.flatCardImage}>
-        <LofftHeaderPhoto imageContainerHeight={300} images={images} />
+        <LofftHeaderPhoto
+          imageContainerHeight={300}
+          images={advert.flat.photos}
+        />
       </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
             {/* Size of WG is not in DB - 26 m2 */}
-            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+            <Text style={[fontStyles.headerSmall]}>{advert.price} €</Text>
 
-            <MatchingScoreButton size="Big" score={matchScore} />
+            <MatchingScoreButton size="Big" score={advert.matchScore} />
           </View>
-          {district ? (
+          {advert.flat.district ? (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {district}, Berlin
+              {advert.flat.district}, {advert.flat.city}
             </Text>
           ) : null}
         </View>
