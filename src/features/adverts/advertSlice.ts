@@ -96,6 +96,8 @@ export const advertSlice = createSlice({
               tagline: advert.flat.tag_line,
               district: advert.flat.district,
               city: advert.flat.city,
+              charachteristics: advert.flat.charachteristics,
+              featrues: advert.flat.featrues,
               photos: advert.flat.photos.map((photo: any) => photo.url),
             },
           };
