@@ -34,12 +34,16 @@ interface FlatInfoContainerProps {
   };
   button: boolean;
   navigation: any;
+  characteristicsTags: any;
+  featuresTags: any;
 }
 
 const FlatInfoContainer = ({
   advert,
   button,
   navigation,
+  characteristicsTags,
+  featuresTags,
 }: FlatInfoContainerProps) => {
   const dispatch = useAppDispatch();
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
@@ -127,7 +131,12 @@ const FlatInfoContainer = ({
           Match with you
         </Text>
         <View style={{marginTop: 10}}>
-          <Chips />
+          <Chips tags={featuresTags.positiveTags} features={true} emoji />
+          <Chips
+            tags={characteristicsTags.positiveTags}
+            features={false}
+            emoji
+          />
         </View>
 
         <Text
@@ -135,7 +144,12 @@ const FlatInfoContainer = ({
           Other
         </Text>
         <View style={{marginTop: 10}}>
-          <Chips />
+          <Chips tags={featuresTags.negativeTags} features={true} emoji />
+          <Chips
+            tags={characteristicsTags.negativeTags}
+            features={false}
+            emoji
+          />
         </View>
 
         {button ? (
