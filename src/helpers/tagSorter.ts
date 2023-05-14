@@ -1,7 +1,3 @@
-import {useAppSelector} from '@ReduxCore/hooks';
-
-// const userTags = useAppSelector(state => state);
-
 interface Tag {
   name: string;
   emoji: string;

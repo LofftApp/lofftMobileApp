@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -24,19 +24,22 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';
 
-const MapViewFlatCard = ({
-  id,
-  flatId,
-  price,
-  match,
-  district,
-  city,
-  images,
-  tagline,
-  favorite,
-}: any) => {
-  const userType = useAppSelector((state: any) => state.user.userType);
-  let save = false;
+// Helpers
+import {tagSorter} from '@Helpers/tagSorter';
+
+const MapViewFlatCard = (advertR: any, id: number) => {
+  const userProfile = useAppSelector((state: any) => state.user.user);
+  const advert = advertR.advert;
+  const [positiveCharacteristics, negativeCharacteristics] = tagSorter(
+    userProfile.profile.characteristics,
+    advert.flat.characteristics,
+  );
+
+  const [positiveFeatures, negativeFeatures] = tagSorter(
+    userProfile.filter,
+    advert.flat.features,
+  );
+
   const dispatch = useAppDispatch();
   return (
     <View style={styles.boundryContainer}>
@@ -44,19 +47,21 @@ const MapViewFlatCard = ({
         <View style={styles.imageDetailsBlock}>
           <Image
             source={
-              images ? {uri: images[0], width: 200, height: 300} : noFlatImage
+              advert.flat.photos
+                ? {uri: advert.flat.photos[0], width: 200, height: 300}
+                : noFlatImage
             }
             style={styles.flatCardImage}
           />
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
-              <MatchingScoreButton size="Small" score={match} />
+              <MatchingScoreButton size="Small" score={advert.matchScore} />
               <Pressable
                 onPress={() => {
                   dispatch(toggleFavorite(id));
                 }}>
                 {/* ! This need to be updated with validation */}
-                {favorite ? (
+                {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={20}
@@ -69,17 +74,20 @@ const MapViewFlatCard = ({
             </View>
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
-                <Text style={fontStyles.headerSmall}>{price} € 26 m2</Text>
-                <Text style={fontStyles.bodyMedium}>{tagline}</Text>
+                <Text style={fontStyles.headerSmall}>
+                  {advert.price} € 26 m2
+                </Text>
+                <Text style={fontStyles.bodyMedium}>{advert.tagline}</Text>
               </View>
               <Text
                 style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-                {district}, {city}
+                {advert.flat.district}, {advert.flat.city}
               </Text>
             </View>
           </View>
         </View>
-        <Chips />
+        <Chips tags={positiveFeatures} features={true} />
+        <Chips tags={positiveCharacteristics} features={false} />
       </View>
     </View>
   );

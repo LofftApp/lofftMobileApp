@@ -19,8 +19,21 @@ import noFlatImage from '@Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
+// Helpers
+import {tagSorter} from '@Helpers/tagSorter';
+
 const ListViewFlatCard = ({navigation, advert, id}: any) => {
   const userProfile = useAppSelector((state: any) => state.user.user);
+
+  const [positiveCharacteristics, negativeCharacteristics] = tagSorter(
+    userProfile.profile.characteristics,
+    advert.flat.characteristics,
+  );
+
+  const [positiveFeatures, negativeFeatures] = tagSorter(
+    userProfile.filter,
+    advert.flat.features,
+  );
 
   // if (userType === 'renter') {
   // save = useAppSelector(state => state.user.savedFlats.includes(flatId));
@@ -76,11 +89,8 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           ) : null}
         </View>
         <View>
-          <Chips
-            userData={userProfile.profile.characteristics}
-            flatData={advert.flat.characteristics}
-          />
-          {/* <Chips /> */}
+          <Chips tags={positiveFeatures} features={true} />
+          <Chips tags={positiveCharacteristics} features={false} />
         </View>
       </View>
       <CoreButton
