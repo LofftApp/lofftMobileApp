@@ -30,15 +30,12 @@ import {tagSorter} from '@Helpers/tagSorter';
 const MapViewFlatCard = (advertR: any, id: number) => {
   const userProfile = useAppSelector((state: any) => state.user.user);
   const advert = advertR.advert;
-  const [positiveCharacteristics, negativeCharacteristics] = tagSorter(
+  const characteristicsTags = tagSorter(
     userProfile.profile.characteristics,
     advert.flat.characteristics,
   );
 
-  const [positiveFeatures, negativeFeatures] = tagSorter(
-    userProfile.filter,
-    advert.flat.features,
-  );
+  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   const dispatch = useAppDispatch();
   return (
@@ -86,8 +83,8 @@ const MapViewFlatCard = (advertR: any, id: number) => {
             </View>
           </View>
         </View>
-        <Chips tags={positiveFeatures} features={true} />
-        <Chips tags={positiveCharacteristics} features={false} />
+        <Chips tags={featuresTags.positiveTags} features={true} />
+        <Chips tags={characteristicsTags.positiveTags} features={false} />
       </View>
     </View>
   );
