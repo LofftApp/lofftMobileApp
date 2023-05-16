@@ -147,11 +147,6 @@ const FlatInfoContainer = ({
             </Text>
             <View style={{marginTop: 10}}>
               <Chips tags={advert.flat.characteristics} features={true} emoji />
-    {/* <Chips
-      tags={characteristicsTags.positiveTags}
-      features={false}
-      emoji
-    /> */}
             </View>
             <Text
               style={[
@@ -162,11 +157,6 @@ const FlatInfoContainer = ({
             </Text>
             <View style={{marginTop: 10}}>
               <Chips tags={advert.flat.features} features={true} emoji />
-    {/* <Chips
-      tags={characteristicsTags.negativeTags}
-      features={false}
-      emoji
-    /> */}
             </View>
           </>
         ) : (
@@ -177,12 +167,12 @@ const FlatInfoContainer = ({
           Match with you
         </Text>
         <View style={{marginTop: 10}}>
-          {/* <Chips tags={featuresTags.positiveTags} features={true} emoji />
+          <Chips tags={featuresTags.positiveTags} features={true} emoji />
           <Chips
             tags={characteristicsTags.positiveTags}
             features={false}
             emoji
-          /> */}
+          />
         </View>
 
         <Text
@@ -190,12 +180,12 @@ const FlatInfoContainer = ({
           Other
         </Text>
         <View style={{marginTop: 10}}>
-          {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
+          <Chips tags={featuresTags.negativeTags} features={true} emoji />
           <Chips
             tags={characteristicsTags.negativeTags}
             features={false}
             emoji
-          /> */}
+          />
         </View>
               </>
         )
