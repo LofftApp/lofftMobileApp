@@ -55,7 +55,9 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
           </Text>
 
           <Collapsible collapsed={hascollaped} duration={300}>
+            <View style={styles.flatInfoContainerWrapper}>
             <FlatInfoContainer advert={advert} button={false} navigation />
+            </View>
           </Collapsible>
         </View>
       </ScrollView>
@@ -81,6 +83,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 10,
     marginBottom: 10,
+  },
+  flatInfoContainerWrapper: {
+    marginHorizontal: 16,
+    marginBottom: 20,
   },
 });
 
