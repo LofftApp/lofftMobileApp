@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Dimensions, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
+import {getProfile} from '@Redux/user/usersMiddleware';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -50,7 +51,16 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-  console.log(advert, 'advert');
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
+  const [userType, admin] = useAppSelector((state: any) => [
+    state.user.user.userType,
+    state.user.user.admin,
+  ]);
+
 
   return (
     <View style={styles.centralizerContainer}>
@@ -126,6 +136,32 @@ const FlatInfoContainer = ({
           ) : null}
         </View>
         {/* ! Build logic to match the values common with the user */}
+        {userType === 'lessor' ? (
+          <>
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              My Values
+            </Text>
+            <View style={{marginTop: 10}}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Flat Perks
+            </Text>
+            <View style={{marginTop: 10}}>
+              <Chips tags={advert.flat.features} features={true} emoji />
+            </View>
+          </>
+        ) : (
+          <>
+
         <Text
           style={[fontStyles.headerSmall, {marginTop: 23, marginBottom: 5}]}>
           Match with you
@@ -151,6 +187,9 @@ const FlatInfoContainer = ({
             emoji
           />
         </View>
+              </>
+        )
+        }
 
         {button ? (
           <View>
