@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-const SeeApplicantsScreen = () => {
+const LessorAcceptScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>See 100 Applicants Screen</Text>
+      <Text>Welcome at the Accept Lessor Side Screen</Text>
     </View>
   );
 };
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SeeApplicantsScreen;
+export default LessorAcceptScreen;

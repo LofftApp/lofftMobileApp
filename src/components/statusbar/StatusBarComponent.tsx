@@ -22,7 +22,7 @@ const StatusBarComponent = ({advert, navigation}: any) => {
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
 
-  console;
+
 
   const currentApplicationStatus = [
     'open',
@@ -31,6 +31,10 @@ const StatusBarComponent = ({advert, navigation}: any) => {
     'offered',
     'closed',
   ].indexOf(advert.status);
+
+
+
+
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
@@ -48,7 +52,7 @@ const StatusBarComponent = ({advert, navigation}: any) => {
               : currentApplicationStatus === index ||
                 currentApplicationStatus > index
               ? Color.White[100]
-                : Color.Mint[50]
+              : Color.Mint[50]
           }
         />
       );

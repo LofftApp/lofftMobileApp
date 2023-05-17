@@ -1,10 +1,14 @@
 import React from 'react';
+
 import {Text, View, StyleSheet} from 'react-native';
 
-const SeeApplicantsScreen = () => {
+const ShortListApplicantsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>See 100 Applicants Screen</Text>
+      <Text>
+        Welcome Short List Application Screen where you will Select 20
+        Applicants
+      </Text>
     </View>
   );
 };
@@ -12,9 +16,9 @@ const SeeApplicantsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-export default SeeApplicantsScreen;
+export default ShortListApplicantsScreen;
