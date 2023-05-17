@@ -2,13 +2,13 @@
   "lessor": [
     {
       "header": "Recived applications",
-      "subText": "You can decide within 48 hours to narrow down to up to 100 applicants. To ensure a fair selection, here you can only see essential information about the applicants.",
+      "subText": "Decide within 48 hours and narrow down 100 applicants. Here you see only essential informations about the applicants.",
       "buttonText": "See applicants",
       "icon": "file-check"
     },
     {
       "header": "ShortList",
-      "subText": "Here you have full access to selected applicants’ profile. You have 48 hours to select up to 20 applicants to chat with, schedule an interview, and/or flat viewing.",
+      "subText": "Congrats, you have now full access to the selected applicants’ profiles. But Hurry! You only have 48 hours to select the next 20 applicants to chat and to  schedule an interview/ flat viewing.",
       "buttonText": "See profiles",
       "icon": "eye"
     },
@@ -29,7 +29,7 @@
     {
       "header": "Applied",
       "subText": "The landlord has up to 48 hrs after the ad has expired to review your application",
-      "icon": "file- check"
+      "icon": "file-check"
     },
     {
       "header": "Opened",
