@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
-// ! Error triggerd unkown, but works
+// @ts-ignore
 import {clearPersister} from '@Persistance/persister';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ export const checkToken = createAsyncThunk(
   async () => {
     try {
       const token = await EncryptedStorage.getItem('token');
-      return token ? true : false;
+      return !!token;
     } catch (error) {
       console.log('checkToken error:', error);
     }
@@ -21,8 +21,7 @@ export const signUp = createAsyncThunk(
   'authentication/signUp',
   async ({email, password}: {email: string; password: string}) => {
     // development url
-    const url = 'http://localhost:3000/users';
-
+    const url = 'http://localhost:3000/api/users';
     try {
       const response = await axios.post(url, {
         user: {

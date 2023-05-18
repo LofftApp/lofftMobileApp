@@ -37,8 +37,8 @@ const App = () => {
     state.authentication.authenticated,
   ]);
   const [userType, admin] = useAppSelector((state: any) => [
-    state.user.profile.userType,
-    state.user.profile.admin,
+    state.user.user.userType,
+    state.user.user.admin,
   ]);
   const dispatch = useAppDispatch();
   const [initializing, setInitializing] = useState(true);
