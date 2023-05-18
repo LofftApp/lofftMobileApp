@@ -17,6 +17,10 @@ const LessorNavigator = () => {
       <Lessor.Screen name="LessorIndex" component={LessorIndexScreen} />
       <Lessor.Screen name="LessorAction" component={LessorActionScreen} />
       <Lessor.Screen name="applicationshow" component={ApplicationShowScreen} />
+      <Lessor.Screen
+        name="applicantsOverview"
+        component={ApplicantsIndexScreen}
+      />
     </Lessor.Navigator>
   );
 };
