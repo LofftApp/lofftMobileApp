@@ -7,6 +7,8 @@ import {useAppSelector} from '@ReduxCore/hooks';
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
+// ! This is  a duplicat page, for landord and renter, refactor this to be one page
+
 const FlatListSubScreen = ({navigation}: any) => {
   const flats = useAppSelector((state: any) => state.flats.allFlats);
 

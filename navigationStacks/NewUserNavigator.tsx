@@ -10,6 +10,7 @@ import FinderBudgetScreen from '@Screens/registration/renter/FinderBudgetScreen'
 import FlatFeaturesScreen from '@Screens/registration/renter/FlatFeaturesScreen';
 import SelfDescribeScreen from '@Screens/registration/renter/SelfDescribeScreen';
 import ConditionsOfUseScreen from '@Screens/registration/ConditionsOfUseScreen';
+import LanguageSelectionScreen from '@Screens/registration/renter/LanguageSelectionScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from '@Screens/registration/lessor/WhereIsFlatScreen';
@@ -26,6 +27,10 @@ const NewUserNavigator = () => {
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
+        />
+        <NewUserNavigatorFlow.Screen
+          name="LanguageSelectionScreen"
+          component={LanguageSelectionScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"

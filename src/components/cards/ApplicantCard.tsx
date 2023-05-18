@@ -61,9 +61,10 @@ const ApplicantsCard = ({email}: any) => {
       <Collapsible collapsed={hasCollapsed}>
         <View style={styles.collapisbleContainer}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
-          <Chips />
+          {/* <Chips /> */}
+          <Text>Hello</Text>
           <Text style={[fontStyles.headerSmall, styles.otherText]}>Other</Text>
-          <Chips />
+          {/* <Chips /> */}
         </View>
       </Collapsible>
     </View>
