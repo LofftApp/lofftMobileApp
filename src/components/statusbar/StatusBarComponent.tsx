@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -13,8 +14,10 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import statusBarText from '@Assets/coreText/statusBarText.json';
 
 const StatusBarComponent = ({advert}: any) => {
+  const navigation = useNavigation();
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
+
 
   const currentApplicationStatus = [
     'open',
@@ -70,9 +73,15 @@ const StatusBarComponent = ({advert}: any) => {
 
           {currentApplicationStatus === index ? (
             <View style={[styles.landlordActionButton, styles.button]}>
-              <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                {key.buttonText}
-              </Text>
+              <CoreButton
+                value={key.buttonText}
+                style={[fontStyles.headerSmall, styles.buttonText]}
+                onPress={() =>
+                  navigation.navigate('applicantsOverview', {
+                    advert: advert,
+                  })
+                }
+              />
             </View>
           ) : null}
         </View>
