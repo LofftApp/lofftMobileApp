@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
-// Screens 📺
+// Cards 🃏
+import ApplicantsCard from '@Components/cards/ApplicantCard';
+
+// Redux 🏗️
+import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
@@ -13,13 +17,21 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ApplicantsIndexScreen = ({navigation}: any) => {
+  const applicants = useAppSelector(
+    (state: any) => state.adverts.adverts[0].applicants,
+  );
+
+  console.log(applicants);
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.applicantsHeight}>
-        <BackButton title="Applicants" />
+        <BackButton title="Applicants" onPress={() => navigation.goBack()} />
       </View>
       <ScrollView style={styles.scrollViewContainer}>
-         {/* <ApplicantsListSubScreen /> */}
+        {applicants.map((el: any, index: number) => {
+          return <ApplicantsCard key={index} email={el.email} />;
+        })}
       </ScrollView>
       <View style={styles.selectedButton}>
         <CoreButton value="Confirm selected (add interpolation of selected boxes)" />

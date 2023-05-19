@@ -17,9 +17,15 @@ import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
 // Assets 🪴
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-const ApplicantsCard = ({}: any) => {
+const ApplicantsCard = ({email}: any) => {
   const [activateBox, setActiveBox] = useState(false);
   const [hasCollapsed, setHasCollapsed] = useState(true);
+
+  // getting the first name from the database+capitalizing it
+  // getting the Match percentage from the database
+  // annoy james into showing me how to do the whole thing so i can do it myself
+
+  const firstLetter = email.charAt(0).toUpperCase();
 
   return (
     <View style={styles.mainContainer}>
@@ -35,9 +41,9 @@ const ApplicantsCard = ({}: any) => {
           style={styles.iconCollapser}>
           <View style={styles.closedCardWrapper}>
             <View style={styles.textContainer}>
-              <Text style={fontStyles.headerMedium}>J.</Text>
+              <Text style={fontStyles.headerMedium}>{firstLetter}.</Text>
               <Text style={[fontStyles.bodyMedium, styles.matchText]}>
-                (96%match)
+                (92%match)
               </Text>
             </View>
             {hasCollapsed ? (
@@ -70,7 +76,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     backgroundColor: Color.Lavendar[5],
     flex: 1,
-    width: '100%',
+    width: '95%',
+    alignSelf: 'center',
     paddingHorizontal: 16,
     borderRadius: 8,
   },

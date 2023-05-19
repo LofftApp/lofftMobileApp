@@ -20,11 +20,10 @@ const LessorNavigator = () => {
       <Lessor.Screen name="LessorIndex" component={LessorIndexScreen} />
       <Lessor.Screen name="LessorAction" component={LessorActionScreen} />
       <Lessor.Screen name="applicationshow" component={ApplicationShowScreen} />
-      <Lessor.Screen name="Seeapplicants" component={SeeApplicantsScreen} />
+      <Lessor.Screen name="Seeapplicants" component={ApplicantsIndexScreen} />
       <Lessor.Screen name="Seeprofiles" component={ShortListApplicantsScreen} />
       <Lessor.Screen name="Gotochat💭" component={ChatScreen} />
       <Lessor.Screen name="Finalizeit" component={LessorAcceptScreen} />
-
     </Lessor.Navigator>
   );
 };
