@@ -18,7 +18,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const WhereIsFlatScreen = ({navigation}: any) => {
+const LessorWhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');
   const [cost, setCost] = useState('');
   const [addresses, setAddresses] = useState<any[]>([]);
@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WhereIsFlatScreen;
+export default LessorWhereIsFlatScreen;
