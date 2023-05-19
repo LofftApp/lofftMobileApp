@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
+import {View, StyleSheet, TextInput, Modal} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -28,7 +20,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const FlatPhotoUploadScreen = ({navigation}: any) => {
+const LessorFlatDescriptionScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -117,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatPhotoUploadScreen;
+export default LessorFlatDescriptionScreen;

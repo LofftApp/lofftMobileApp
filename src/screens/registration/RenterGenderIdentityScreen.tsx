@@ -16,7 +16,7 @@ import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
 import {navigationHelper} from '@Helpers/navigationHelper';
 import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
 
-const GenderIdentityScreen = ({navigation, route}: any) => {
+const RenterGenderIdentityScreen = ({navigation, route}: any) => {
   const genders = [
     {value: 'Male', id: 1, toggle: false},
     {value: 'Female', id: 2, toggle: false},
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenderIdentityScreen;
+export default RenterGenderIdentityScreen;

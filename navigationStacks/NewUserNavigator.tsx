@@ -4,18 +4,18 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // Find Lofft Journey
 import NewUserJourney from '@Screens/registration/NewUserJourneyScreen';
 import AboutYouFlatHuntScreen from '@Screens/registration/renter/AboutUserScreen';
-import GenderIdentityScreen from '@Screens/registration/renter/GenderIdentityScreen';
-import SelectCityScreen from '@Screens/registration/renter/SelectCityScreen';
-import FinderBudgetScreen from '@Screens/registration/renter/FinderBudgetScreen';
-import FlatFeaturesScreen from '@Screens/registration/renter/FlatFeaturesScreen';
-import SelfDescribeScreen from '@Screens/registration/renter/SelfDescribeScreen';
+import RenterGenderIdentityScreen from '@Screens/registration/RenterGenderIdentityScreen';
+import RenterSelectCityScreen from '@Screens/registration/RenterSelectCityScreen';
+import RenterBudgetScreen from '@Screens/registration/RenterBudgetScreen';
+import FlatFeaturesScreen from '@Screens/registration/FlatFeaturesScreen';
+import SelfDescribeScreen from '@Screens/registration/SelfDescribeScreen';
 import ConditionsOfUseScreen from '@Screens/registration/ConditionsOfUseScreen';
-import LanguageSelectionScreen from '@Screens/registration/renter/LanguageSelectionScreen';
+import LanguageSelectionScreen from '@Screens/registration/LanguageSelectionScreen';
 
 // Lessor Journey
-import WhereIsFlatScreen from '@Screens/registration/lessor/WhereIsFlatScreen';
-import FlatLengthAvailableScreen from '@Screens/registration/lessor/FlatLengthAvailableScreen';
-import FlatPhotoUploadScreen from '@Screens/registration/lessor/FlatPhotoUploadScreen';
+import LessorWhereIsFlatScreen from '@Screens/registration/LessorWhereIsFlatScreen';
+import LessorFlatAvailableScreen from '@Screens/registration/LessorFlatAvailableScreen';
+import LessorFlatDescriptionScreen from '@Screens/registration/LessorFlatDescriptionScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -34,15 +34,15 @@ const NewUserNavigator = () => {
         />
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
-          component={GenderIdentityScreen}
+          component={RenterGenderIdentityScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="SelectCityScreen"
-          component={SelectCityScreen}
+          component={RenterSelectCityScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="FinderBudgetScreen"
-          component={FinderBudgetScreen}
+          component={RenterBudgetScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="SelfDescribeScreen"
@@ -51,15 +51,15 @@ const NewUserNavigator = () => {
         {/* Lessor Screens */}
         <NewUserNavigatorFlow.Screen
           name="WhereIsFlatScreen"
-          component={WhereIsFlatScreen}
+          component={LessorWhereIsFlatScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="FlatLengthAvailableScreen"
-          component={FlatLengthAvailableScreen}
+          component={LessorFlatAvailableScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="FlatPhotoUploadScreen"
-          component={FlatPhotoUploadScreen}
+          component={LessorFlatDescriptionScreen}
         />
         {/* Shared screens */}
         <NewUserNavigatorFlow.Screen
