@@ -20,44 +20,45 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 const StartJourney = ({navigation}: any) => {
   const dispatch = useDispatch();
-  const [routeFlatHunt, setRouteFlatHunt] = useState('');
 
-  const handleClick = (routeName: string, routeButton: string) => {
-    setRouteFlatHunt(routeButton);
-    setTimeout(() => {
-      navigation.navigate(routeName, {
-        headerText: 'Tell us a bit about yourself',
-        subText:
-          "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!",
-      });
-      setRouteFlatHunt('');
-    }, 500);
+  const renterText = {
+    headerText: 'What language(s) do you speak?',
   };
 
-  const subHeaderText =
-    'Tell us what you want to do on Lofft and we will create the matching experience!';
+  const lessorText = {
+    headerText: 'What are the common languages in your Lofft?',
+  };
+
   return (
     <ScreenBackButton nav={() => dispatch(signOut())} title={undefined}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
-        subDescription={subHeaderText}
+        subDescription={
+          'Tell us what you want to do on Lofft and we will create the matching experience!'
+        }
       />
       <UserJourneyButton
         text="I'm looking for a flat"
         icon="search-sm"
-        style={
-          routeFlatHunt === 'renting' ? styles.buttonActive : styles.button
-        }
-        onPress={() => handleClick('LanguageSelectionScreen', 'renting')}
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('LanguageSelectionScreen', [
+            renterText,
+            'renter',
+          ]);
+        }}
         type="renter"
       />
       <UserJourneyButton
         text="I have a room to rent"
         icon="home-door"
-        style={
-          routeFlatHunt === 'leesing' ? styles.buttonActive : styles.button
-        }
-        onPress={() => handleClick('WhereIsFlatScreen', 'leesing')}
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('LanguageSelectionScreen', [
+            lessorText,
+            'lessor',
+          ]);
+        }}
         type="lesser"
       />
     </ScreenBackButton>
