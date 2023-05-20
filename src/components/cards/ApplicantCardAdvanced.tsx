@@ -8,7 +8,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // External
 import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
 
-const ApplicantsCardAdvanced = ({name, match, image}: any) => {
+const ApplicantsCardAdvanced = ({name, match, image, id, selectProfile}: any) => {
   const [activateBox, setActiveBox] = useState(false);
   return (
     <View style={styles.cardContainer}>
@@ -17,6 +17,7 @@ const ApplicantsCardAdvanced = ({name, match, image}: any) => {
         value={activateBox}
         onPress={() => {
           setActiveBox(!activateBox);
+          selectProfile(id);
         }}
       />
     </View>
