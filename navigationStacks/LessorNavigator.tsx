@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-// import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
+import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
 import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScreen';
 import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
 import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
