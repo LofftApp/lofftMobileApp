@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -16,6 +16,7 @@ import flatPreferences from '@Components/componentData/flatPreferences.json';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
 const FlatFeaturesScreen = ({navigation, route}: any) => {
+  const headerText = route.params.headerText;
   const subHeaderText = route.params.subText;
   const preferences = flatPreferences;
 
@@ -60,7 +61,7 @@ const FlatFeaturesScreen = ({navigation, route}: any) => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
-        headlineText={route.params.headerText}
+        headlineText={headerText}
         subDescription={subHeaderText}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
