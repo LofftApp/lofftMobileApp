@@ -8,9 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-
 import {useNavigation} from '@react-navigation/native';
-
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -23,26 +21,20 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import statusBarText from '@Assets/coreText/statusBarText.json';
 
-
 const StatusBarComponent = ({advert, navigation}: any) => {
-
-const StatusBarComponent = ({advert}: any) => {
   //const navigation = useNavigation();
-
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
 
+  // const currentApplicationStatus = [
+  //   'open',
+  //   'review',
+  //   'viewing',
+  //   'offered',
+  //   'closed',
+  // ].indexOf(advert.status);
 
-  const currentApplicationStatus = [
-    'open',
-    'review',
-    'viewing',
-    'offered',
-    'closed',
-  ].indexOf(advert.status);
-
-
-
+  const currentApplicationStatus = 1;
 
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
@@ -60,8 +52,8 @@ const StatusBarComponent = ({advert}: any) => {
                 : Color.Lavendar[50]
               : currentApplicationStatus === index ||
                 currentApplicationStatus > index
-              ? Color.White[100]
-              : Color.Mint[50]
+                ? Color.White[100]
+                : Color.Mint[50]
           }
         />
       );
@@ -95,7 +87,7 @@ const StatusBarComponent = ({advert}: any) => {
               fontStyles.headerSmall,
               styles.infoBlockHeader,
               currentApplicationStatus === index ||
-              currentApplicationStatus > index
+                currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
@@ -105,7 +97,7 @@ const StatusBarComponent = ({advert}: any) => {
             style={[
               fontStyles.bodySmall,
               currentApplicationStatus === index ||
-              currentApplicationStatus > index
+                currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
@@ -115,15 +107,15 @@ const StatusBarComponent = ({advert}: any) => {
 
           {currentApplicationStatus === index ? (
             <View style={[styles.landlordActionButton, styles.button]}>
-              <CoreButton
-                value={key.buttonText}
-                style={[fontStyles.headerSmall, styles.buttonText]}
-                onPress={() =>
-                  navigation.navigate('applicantsOverview', {
-                    advert: advert,
-                  })
-                }
-              />
+              <TouchableOpacity
+                onPress={() => navigation.navigate(navigationScreen)}>
+                <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                  {key.buttonText}
+                </Text>
+                {/* <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                {key.buttonText}
+              </Text> */}
+              </TouchableOpacity>
             </View>
           ) : null}
         </View>
@@ -159,7 +151,7 @@ const StatusBarComponent = ({advert}: any) => {
       <View
         style={[
           styles.progressContainer,
-          {maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2},
+          { maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2 },
         ]}>
         <View
           style={[
@@ -186,7 +178,7 @@ const StatusBarComponent = ({advert}: any) => {
         <View
           style={[
             styles.progressTextContainer,
-            {height: advert.lessor ? '95%' : '98%'},
+            { height: advert.lessor ? '95%' : '98%' },
           ]}>
           {statusText}
         </View>
@@ -194,6 +186,7 @@ const StatusBarComponent = ({advert}: any) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   maincontainer: {
