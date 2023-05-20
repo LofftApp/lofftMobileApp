@@ -8,9 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-
 import {useNavigation} from '@react-navigation/native';
-
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -23,15 +21,9 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import statusBarText from '@Assets/coreText/statusBarText.json';
 
-
 const StatusBarComponent = ({advert, navigation}: any) => {
-
-const StatusBarComponent = ({advert}: any) => {
-  //const navigation = useNavigation();
-
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
-
 
   const currentApplicationStatus = [
     'open',
@@ -40,10 +32,6 @@ const StatusBarComponent = ({advert}: any) => {
     'offered',
     'closed',
   ].indexOf(advert.status);
-
-
-
-
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
@@ -111,7 +99,6 @@ const StatusBarComponent = ({advert}: any) => {
             ]}>
             {key.subText}
           </Text>
-
 
           {currentApplicationStatus === index ? (
             <View style={[styles.landlordActionButton, styles.button]}>
