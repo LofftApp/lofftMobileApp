@@ -17,62 +17,59 @@ const ApplicantsCardAdvanced = ({
   image,
   id,
   selectProfile,
+  index,
+  userProfilesJsonLength,
 }: any) => {
-
   const [activateBox, setActiveBox] = useState(false);
 
+  console.log(index + 1, userProfilesJsonLength);
+
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.cardInnerWrapper}>
-        <CheckBox
-          value={activateBox}
-          onPress={() => {
-            setActiveBox(!activateBox);
-            selectProfile(id);
-          }}
-        />
+    <View style={styles.cardInnerWrapper}>
+      <CheckBox
+        value={activateBox}
+        style={{marginLeft: 10}}
+        onPress={() => {
+          setActiveBox(!activateBox);
+          selectProfile(id);
+        }}
+      />
 
-        <Image
-          source={{
-            uri: `${image}`,
-          }}
-          style={styles.avatar}
-        />
-        <View>
-          <Text>{name}</Text>
-          <Text>{match}</Text>
-        </View>
-
-        <LofftIcon
-          style={styles.icon}
-          name={'chevron-right'}
-          size={28}
-          color={Color.Blue[100]}
-        />
+      <Image
+        source={{
+          uri: `${image}`,
+        }}
+        style={styles.avatar}
+      />
+      <View>
+        <Text>{name}</Text>
+        <Text>{match}</Text>
       </View>
+
+      <LofftIcon
+        style={styles.icon}
+        name={'chevron-right'}
+        size={28}
+        color={Color.Blue[100]}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    height: '14%',
-    marginTop: 10,
-    backgroundColor: Color.Lavendar[10],
-    marginHorizontal: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-    width: '90%'
-  },
   cardInnerWrapper: {
     width: '90%',
-    height: '100%',
+    padding: 30,
+    marginTop: 10,
+    backgroundColor: Color.Lavendar[10],
+    marginHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
+    borderRadius: 12,
   },
   avatar: {
-    height: '80%',
+    height: 90,
     width: '32%',
     borderRadius: 8,
     marginLeft: 20,
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     right: 0,
-  }
+  },
 });
 
 export default ApplicantsCardAdvanced;

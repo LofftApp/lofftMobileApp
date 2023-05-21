@@ -20,6 +20,35 @@
       "match": "96%",
       "image": "https://lofft.app/people/freddie.png",
       "selected": false
-    }
+    },
+    {
+      "id": 4,
+      "name": "Freddie",
+      "match": "96%",
+      "image": "https://lofft.app/people/freddie.png",
+      "selected": false
+    },
+    {
+      "id": 5,
+      "name": "Freddie",
+      "match": "96%",
+      "image": "https://lofft.app/people/freddie.png",
+      "selected": false
+    },
+      {
+        "id": 6,
+        "name": "Freddie",
+        "match": "96%",
+        "image": "https://lofft.app/people/freddie.png",
+        "selected": false
+      },
+      {
+        "id": 7,
+        "name": "Freddie",
+        "match": "96%",
+        "image": "https://lofft.app/people/freddie.png",
+        "selected": false
+      }
+
   ]
 }
