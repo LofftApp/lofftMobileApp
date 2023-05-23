@@ -36,7 +36,6 @@ const StatusBarComponent = ({advert, navigation}: any) => {
 
   const currentApplicationStatus = 1;
 
-
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
       return (
@@ -52,8 +51,8 @@ const StatusBarComponent = ({advert, navigation}: any) => {
                 : Color.Lavendar[50]
               : currentApplicationStatus === index ||
                 currentApplicationStatus > index
-                ? Color.White[100]
-                : Color.Mint[50]
+              ? Color.White[100]
+              : Color.Mint[50]
           }
         />
       );
@@ -87,7 +86,7 @@ const StatusBarComponent = ({advert, navigation}: any) => {
               fontStyles.headerSmall,
               styles.infoBlockHeader,
               currentApplicationStatus === index ||
-                currentApplicationStatus > index
+              currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
@@ -97,13 +96,12 @@ const StatusBarComponent = ({advert, navigation}: any) => {
             style={[
               fontStyles.bodySmall,
               currentApplicationStatus === index ||
-                currentApplicationStatus > index
+              currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
             {key.subText}
           </Text>
-
 
           {currentApplicationStatus === index ? (
             <View style={[styles.landlordActionButton, styles.button]}>
@@ -151,7 +149,7 @@ const StatusBarComponent = ({advert, navigation}: any) => {
       <View
         style={[
           styles.progressContainer,
-          { maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2 },
+          {maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2},
         ]}>
         <View
           style={[
@@ -178,7 +176,7 @@ const StatusBarComponent = ({advert, navigation}: any) => {
         <View
           style={[
             styles.progressTextContainer,
-            { height: advert.lessor ? '95%' : '98%' },
+            {height: advert.lessor ? '95%' : '98%'},
           ]}>
           {statusText}
         </View>
@@ -186,7 +184,6 @@ const StatusBarComponent = ({advert, navigation}: any) => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   maincontainer: {

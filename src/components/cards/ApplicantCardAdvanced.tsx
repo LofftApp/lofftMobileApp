@@ -17,12 +17,22 @@ const ApplicantsCardAdvanced = ({
   image,
   id,
   selectProfile,
-  index,
-  userProfilesJsonLength,
+  maxSelect,
+  currentSelectedNums,
 }: any) => {
   const [activateBox, setActiveBox] = useState(false);
 
-  console.log(index + 1, userProfilesJsonLength);
+  const defaultBehaviour = () => {
+    if (currentSelectedNums >= maxSelect) {
+      if (activateBox) {
+        setActiveBox(false);
+        selectProfile(id);
+      }
+    } else {
+      setActiveBox(!activateBox);
+      selectProfile(id);
+    }
+  };
 
   return (
     <View style={styles.cardInnerWrapper}>
@@ -30,8 +40,7 @@ const ApplicantsCardAdvanced = ({
         value={activateBox}
         style={{marginLeft: 10}}
         onPress={() => {
-          setActiveBox(!activateBox);
-          selectProfile(id);
+          defaultBehaviour();
         }}
       />
 
@@ -59,7 +68,7 @@ const ApplicantsCardAdvanced = ({
 const styles = StyleSheet.create({
   cardInnerWrapper: {
     width: '90%',
-    padding: 30,
+    padding: 20,
     marginTop: 10,
     backgroundColor: Color.Lavendar[10],
     marginHorizontal: 10,
