@@ -72,34 +72,36 @@ const ShortListApplicantsScreen = ({navigation}) => {
   console.log(windowHeight);
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <BackButton
         style={styles.backButtonOptions}
         title="Applicants"
         onPress={() => navigation.goBack()}
       />
-      <SafeAreaView style={styles.safeareaview}>
-        <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {userProfilesJson.map((el, index) => (
-            <ApplicantsCardAdvanced
-              key={index + 1}
-              name={el.name}
-              match={el.match}
-              image={el.image}
-              id={el.id}
-              selectProfile={selectProfile}
-              currentSelectedNums={finalRound.length}
-              maxSelect={maxSelect}
-              index={index}
-              userProfilesJsonLength={userProfilesJson.length}
-            />
-          ))}
-        </ScrollView>
-      </SafeAreaView>
-      <CoreButton
-        value={`Selected ${finalRound.length}/${maxSelect}`}
-        style={{width: '90%', position: 'absolute', bottom: 10}}
-      />
+      <View style={styles.container}>
+        <SafeAreaView style={styles.safeareaview}>
+          <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
+            {userProfilesJson.map((el, index) => (
+              <ApplicantsCardAdvanced
+                key={index + 1}
+                name={el.name}
+                match={el.match}
+                image={el.image}
+                id={el.id}
+                selectProfile={selectProfile}
+                currentSelectedNums={finalRound.length}
+                maxSelect={maxSelect}
+                index={index}
+                userProfilesJsonLength={userProfilesJson.length}
+              />
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+        <CoreButton
+          value={`Selected ${finalRound.length}/${maxSelect}`}
+          style={{width: '90%', position: 'absolute', bottom: 10}}
+        />
+      </View>
     </View>
   );
 };
@@ -113,18 +115,18 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   backButtonOptions: {
-
+    marginTop: 30,
+    marginHorizontal: 10,
   },
   safeareaview: {
     width: '100%',
-    backgroundColor: 'blue'
+    position: 'relative',
   },
-
   scrollView: {
     width: '100%',
     alignItems: 'center',
     paddingBottom: 130,
-    backgroundColor: 'red'
+    marginTop: 10,
   },
 });
 
