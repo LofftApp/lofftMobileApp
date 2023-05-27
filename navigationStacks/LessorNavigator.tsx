@@ -6,7 +6,7 @@ import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen
 import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
 import ShortListApplicantsScreen from '@Screens/dashboard/landlord/ShortListApplicantsScreen';
-import ChatScreen from '@Screens/dashboard/landlord/ChatScreen';
+import ChatIndexScreen from '@Screens/chat/ChatIndexScreen';
 import LessorAcceptScreen from '@Screens/dashboard/landlord/LessorAcceptScreen';
 
 const Lessor = createNativeStackNavigator();
@@ -26,7 +26,7 @@ const LessorNavigator = () => {
       {/* ! This was renamed due to error */}
       <Lessor.Screen name="Seeapplicants" component={SeeApplicantsScreen} />
       <Lessor.Screen name="Seeprofiles" component={ShortListApplicantsScreen} />
-      <Lessor.Screen name="Gotochat💭" component={ChatScreen} />
+      <Lessor.Screen name="Gotochat💭" component={ChatIndexScreen} />
       <Lessor.Screen name="Finalizeit" component={LessorAcceptScreen} />
     </Lessor.Navigator>
   );
