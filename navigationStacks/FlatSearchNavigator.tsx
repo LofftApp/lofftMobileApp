@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import FlatListScreen from '@Screens/dashboard/renter/FlatFindScreen';
+import FlatListScreen from '@Screens/adverts/AdvertIndexScreen';
 import FlatShowScreen from '@Screens/dashboard/renter/FlatShowScreen';
 import ApplyForFlatScreen from '@Screens/dashboard/renter/ApplyForFlatScreen';
 import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScreen';

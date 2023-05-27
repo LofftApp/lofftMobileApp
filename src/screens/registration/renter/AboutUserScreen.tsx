@@ -20,6 +20,7 @@ import userPreferences from '@Components/componentData/userPreferences.json';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
 const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
+  const headerText = route.params.headerText;
   const subHeaderText = route.params.subText;
   const preferences = userPreferences;
 
@@ -87,7 +88,7 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
-        headlineText={route.params.headerText}
+        headlineText={headerText}
         subDescription={subHeaderText}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
