@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* lofftMobileAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* lofftMobileAppTests.m */; };
-		0B91EFA02E7F09C96ADAC868 /* libPods-lofftMobileApp-lofftMobileAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B98B54576D089F6FE5738E /* libPods-lofftMobileApp-lofftMobileAppTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -18,8 +17,9 @@
 		1A3477CF295676DE00CF61F4 /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C8295676D600CF61F4 /* Inter-SemiBold.otf */; };
 		1A3477D0295676DE00CF61F4 /* InterV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477CA295676D700CF61F4 /* InterV.ttf */; };
 		1A646643299412CA005768C2 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A646642299412B9005768C2 /* icomoon.ttf */; };
-		2949A10B977FDB60C3752D5E /* libPods-lofftMobileApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D7B03AA1302C932671B5849 /* libPods-lofftMobileApp.a */; };
+		31224D21A181FCA983B74C89 /* libPods-lofftMobileApp-lofftMobileAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B377205D266A75F612E9283A /* libPods-lofftMobileApp-lofftMobileAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		94F983575B8912C2512C66DF /* libPods-lofftMobileApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,7 @@
 		00E356EE1AD99517003FC87E /* lofftMobileAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lofftMobileAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* lofftMobileAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lofftMobileAppTests.m; sourceTree = "<group>"; };
-		10B98B54576D089F6FE5738E /* libPods-lofftMobileApp-lofftMobileAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp-lofftMobileAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		112BEBC93FDE8C8D643DB6F2 /* Pods-lofftMobileApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* lofftMobileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lofftMobileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = lofftMobileApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = lofftMobileApp/AppDelegate.mm; sourceTree = "<group>"; };
@@ -50,12 +50,12 @@
 		1A3477CA295676D700CF61F4 /* InterV.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = InterV.ttf; path = ../../assets/fonts/InterV.ttf; sourceTree = "<group>"; };
 		1A646642299412B9005768C2 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = icomoon.ttf; path = ../../assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		1A9F9146293D637E00738116 /* lofftMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lofftMobileApp.entitlements; path = lofftMobileApp/lofftMobileApp.entitlements; sourceTree = "<group>"; };
-		2FEFC894254C1E6206F5BD27 /* Pods-lofftMobileApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.release.xcconfig"; sourceTree = "<group>"; };
-		7B1CBB97C72173DBAFF46EC3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		463CE714B8F8790C8BCF0B3D /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lofftMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8AD337EBCF5EDE10A14C8773 /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		9D7B03AA1302C932671B5849 /* libPods-lofftMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E83A57DA7D0848565DD8BA12 /* Pods-lofftMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
+		971FE7CCBF6F2C690D0D78C3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A9B2A04444A2644D2D4E9C3D /* Pods-lofftMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
+		B377205D266A75F612E9283A /* libPods-lofftMobileApp-lofftMobileAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp-lofftMobileAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B91EFA02E7F09C96ADAC868 /* libPods-lofftMobileApp-lofftMobileAppTests.a in Frameworks */,
+				31224D21A181FCA983B74C89 /* libPods-lofftMobileApp-lofftMobileAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2949A10B977FDB60C3752D5E /* libPods-lofftMobileApp.a in Frameworks */,
+				94F983575B8912C2512C66DF /* libPods-lofftMobileApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,8 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				9D7B03AA1302C932671B5849 /* libPods-lofftMobileApp.a */,
-				10B98B54576D089F6FE5738E /* libPods-lofftMobileApp-lofftMobileAppTests.a */,
+				56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */,
+				B377205D266A75F612E9283A /* libPods-lofftMobileApp-lofftMobileAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -168,10 +168,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E83A57DA7D0848565DD8BA12 /* Pods-lofftMobileApp.debug.xcconfig */,
-				2FEFC894254C1E6206F5BD27 /* Pods-lofftMobileApp.release.xcconfig */,
-				7B1CBB97C72173DBAFF46EC3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */,
-				8AD337EBCF5EDE10A14C8773 /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */,
+				A9B2A04444A2644D2D4E9C3D /* Pods-lofftMobileApp.debug.xcconfig */,
+				112BEBC93FDE8C8D643DB6F2 /* Pods-lofftMobileApp.release.xcconfig */,
+				971FE7CCBF6F2C690D0D78C3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */,
+				463CE714B8F8790C8BCF0B3D /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -183,12 +183,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "lofftMobileAppTests" */;
 			buildPhases = (
-				7C7C993B770CBC4519AF8478 /* [CP] Check Pods Manifest.lock */,
+				7648D491A26243D7B517C9ED /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				1731CEBACF5F0980564C4016 /* [CP] Embed Pods Frameworks */,
-				F5ED6FE8DF8190B7991CFD0C /* [CP] Copy Pods Resources */,
+				2E57B48F250F8B0717B4D3D1 /* [CP] Embed Pods Frameworks */,
+				735EB9E51D36CAFF79A3128A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,14 +204,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lofftMobileApp" */;
 			buildPhases = (
-				DF3FAC54CEBD675235CDBEC5 /* [CP] Check Pods Manifest.lock */,
+				CB9099D1E36FF9F6C27E5B5D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				EB335A93F9B0F09BEB782DFD /* [CP] Embed Pods Frameworks */,
-				9D846AC3BF949616EC0D64D2 /* [CP] Copy Pods Resources */,
+				08D67B3CEAC804CF4E6E8908 /* [CP] Embed Pods Frameworks */,
+				D0ECB66E8D7E1920CD81C41C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -301,7 +301,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		1731CEBACF5F0980564C4016 /* [CP] Embed Pods Frameworks */ = {
+		08D67B3CEAC804CF4E6E8908 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2E57B48F250F8B0717B4D3D1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -318,7 +335,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7C7C993B770CBC4519AF8478 /* [CP] Check Pods Manifest.lock */ = {
+		735EB9E51D36CAFF79A3128A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7648D491A26243D7B517C9ED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -340,24 +374,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9D846AC3BF949616EC0D64D2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DF3FAC54CEBD675235CDBEC5 /* [CP] Check Pods Manifest.lock */ = {
+		CB9099D1E36FF9F6C27E5B5D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -379,38 +396,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EB335A93F9B0F09BEB782DFD /* [CP] Embed Pods Frameworks */ = {
+		D0ECB66E8D7E1920CD81C41C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F5ED6FE8DF8190B7991CFD0C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -465,7 +465,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B1CBB97C72173DBAFF46EC3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */;
+			baseConfigurationReference = 971FE7CCBF6F2C690D0D78C3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -494,7 +494,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AD337EBCF5EDE10A14C8773 /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */;
+			baseConfigurationReference = 463CE714B8F8790C8BCF0B3D /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -520,7 +520,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E83A57DA7D0848565DD8BA12 /* Pods-lofftMobileApp.debug.xcconfig */;
+			baseConfigurationReference = A9B2A04444A2644D2D4E9C3D /* Pods-lofftMobileApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -549,7 +549,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FEFC894254C1E6206F5BD27 /* Pods-lofftMobileApp.release.xcconfig */;
+			baseConfigurationReference = 112BEBC93FDE8C8D643DB6F2 /* Pods-lofftMobileApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

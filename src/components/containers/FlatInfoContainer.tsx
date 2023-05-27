@@ -61,7 +61,6 @@ const FlatInfoContainer = ({
     state.user.user.admin,
   ]);
 
-
   return (
     <View style={styles.centralizerContainer}>
       {!advert.lessor ? (
@@ -161,35 +160,39 @@ const FlatInfoContainer = ({
           </>
         ) : (
           <>
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Match with you
+            </Text>
+            <View style={{marginTop: 10}}>
+              {/* <Chips tags={featuresTags.positiveTags} features={true} emoji />
+              <Chips
+                tags={characteristicsTags.positiveTags}
+                features={false}
+                emoji
+              /> */}
+            </View>
 
-        <Text
-          style={[fontStyles.headerSmall, {marginTop: 23, marginBottom: 5}]}>
-          Match with you
-        </Text>
-        <View style={{marginTop: 10}}>
-          <Chips tags={featuresTags.positiveTags} features={true} emoji />
-          <Chips
-            tags={characteristicsTags.positiveTags}
-            features={false}
-            emoji
-          />
-        </View>
-
-        <Text
-          style={[fontStyles.headerSmall, {marginTop: 23, marginBottom: 5}]}>
-          Other
-        </Text>
-        <View style={{marginTop: 10}}>
-          <Chips tags={featuresTags.negativeTags} features={true} emoji />
-          <Chips
-            tags={characteristicsTags.negativeTags}
-            features={false}
-            emoji
-          />
-        </View>
-              </>
-        )
-        }
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Other
+            </Text>
+            <View style={{marginTop: 10}}>
+              {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
+              <Chips
+                tags={characteristicsTags.negativeTags}
+                features={false}
+                emoji
+              /> */}
+            </View>
+          </>
+        )}
 
         {button ? (
           <View>
