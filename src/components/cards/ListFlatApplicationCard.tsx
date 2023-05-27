@@ -33,8 +33,8 @@ const ListFlatApplicationCard = ({
   ]);
 
   const [lessorActiveStatus] = useState([
-    'Open',
-    'Applicantions',
+    'Received',
+    'Review',
     'Viewing',
     'Offer',
   ]);
