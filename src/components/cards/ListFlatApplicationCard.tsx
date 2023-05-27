@@ -21,7 +21,6 @@ const ListFlatApplicationCard = ({
   id,
   navigation,
   advert,
-  posted = null,
   isLessor = false,
 }: any) => {
   const [active] = useState(!['offered', 'closed'].includes(advert.status));
@@ -131,9 +130,9 @@ const ListFlatApplicationCard = ({
           <Text
             style={[
               fontStyles.bodySmall,
-              {color: posted ? Color.Black[50] : Color.Mint[100]},
+              {color: isLessor ? Color.Black[50] : Color.Mint[100]},
             ]}>
-            {posted ? 'Posted on 12.03.23' : 'Applied on 14.04.23'}
+            {isLessor ? 'Posted on 12.03.23' : 'Applied on 14.04.23'}
           </Text>
         </View>
       </View>
