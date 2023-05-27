@@ -169,15 +169,15 @@ const ListFlatApplicationCard = ({
         </View>
       </View>
       {isLessor ? (
-        <View style={styles.landlordButtonContainer}>
+        <View style={styles.buttonContainer}>
           <CoreButton
             value="Edit listing"
             invert={true}
-            style={{width: '45%', height: '34%'}}
+            style={styles.button}
           />
           <CoreButton
-            value="View listing"
-            style={{width: '45%', height: '34%'}}
+            value="See applicants"
+            style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
                 advert: advert,
@@ -203,7 +203,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     borderRadius: 12,
   },
-
   advertCardButtonsOverlay: {
     position: 'absolute',
     zIndex: 2,
@@ -218,6 +217,17 @@ const styles = StyleSheet.create({
     padding: 10,
     position: 'absolute',
     right: 0,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 16,
+    marginTop: 10,
+  },
+  button: {
+    flex: 1,
+    maxWidth: 183,
+    height: 48,
   },
   metaDataContainer: {
     display: 'flex',
@@ -251,11 +261,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
     marginTop: 7,
-  },
-  landlordButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
   },
 });
 
