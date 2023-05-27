@@ -23,13 +23,13 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const FlatLengthAvailableScreen = ({navigation}: any) => {
+const LessorFlatAvailableScreen = ({navigation}: any) => {
   const [selector, setSelector] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
   const [untilDate, setUntilDate] = useState(new Date());
   const [untilDateSelected, setUntilDateSelected] = useState(false);
-  const [today, setToday ] = useState(false);
+  const [today, setToday] = useState(false);
   const [perminant, setPerminant] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -72,7 +72,11 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                 setFromDateSelected(true);
                 setToday(true);
               }}>
-              <Text style={[fontStyles.bodyMedium, today ? styles.activeButtonText : null]}>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  today ? styles.activeButtonText : null,
+                ]}>
                 Today
               </Text>
             </TouchableOpacity>
@@ -207,4 +211,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatLengthAvailableScreen;
+export default LessorFlatAvailableScreen;

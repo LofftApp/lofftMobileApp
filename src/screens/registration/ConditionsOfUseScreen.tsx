@@ -16,6 +16,7 @@ import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
+import {signOut} from '@Redux/authentication/authenticationMiddleware';
 
 const ConditionsOfUseScreen = ({navigation, route}: any) => {
   const dispatch = useAppDispatch();
@@ -60,7 +61,7 @@ const ConditionsOfUseScreen = ({navigation, route}: any) => {
           style={{backgroundColor: 'white', borderWidth: 2, marginTop: 10}}
           textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
           disabled={false}
-          onPress={() => auth().signOut()}
+          onPress={() => dispatch(signOut())}
         />
       </View>
     </ScreenBackButton>

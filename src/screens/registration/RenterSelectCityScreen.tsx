@@ -33,7 +33,7 @@ import CityDistricts from '@Components/componentData/cityDistricts.json';
 // Helper 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const SelectCityScreen = ({navigation, route}: any) => {
+const RenterSelectCityScreen = ({navigation, route}: any) => {
   const [city, setCity] = useState('');
   const [districtTags, setDistrictTags] = useState([]);
   const [focusedCity, setFocusCity] = useState(false);
@@ -172,7 +172,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
     <ScreenBackButton nav={() => navigation.goBack()}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <HeadlineContainer
-          headlineText={`Where are you looking for ${''} the flat?`}
+          headlineText={'Where are you looking for the flat?'}
           subDescription={''}
         />
         <View>
@@ -287,4 +287,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectCityScreen;
+export default RenterSelectCityScreen;
