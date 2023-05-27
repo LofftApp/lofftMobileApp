@@ -13,7 +13,7 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import languagesData from '@Assets/coreText/languagesText.json';
 import LanguagesCard from '@Components/cards/LanguagesCard';
 
-const LanguageSelectionScreen = ({route}) => {
+const LanguageSelectionScreen = ({route}: any) => {
   const navigation = useNavigation();
   const params = route.params;
 

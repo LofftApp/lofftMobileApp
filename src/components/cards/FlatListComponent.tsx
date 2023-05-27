@@ -1,3 +1,4 @@
+// ! Testing if required.
 import React from 'react';
 import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
@@ -17,7 +18,7 @@ const FlatListComponent = ({adverts, navigation}: any) => {
               advert={advert}
               /*  active is just for demo 👇*/
               posted={true}
-              isLessor={advert.lessor}
+              isLessor={true}
             />
           );
         })}
