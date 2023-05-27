@@ -193,6 +193,8 @@ const ListFlatApplicationCard = ({
 
 const styles = StyleSheet.create({
   advertCardContainer: {
+    flex: 1,
+    paddingBottom: 8,
     marginBottom: 16,
   },
   advertCardImage: {
