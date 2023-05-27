@@ -1,13 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  Dimensions,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -47,7 +39,11 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar advert={advert} currentApplicationStatus={advert.status} navigation={navigation} />
+          <StatusBar
+            advert={advert}
+            currentApplicationStatus={advert.status}
+            navigation={navigation}
+          />
           <Text
             onPress={() => setHasCollapsed(!hascollaped)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
@@ -56,7 +52,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
 
           <Collapsible collapsed={hascollaped} duration={300}>
             <View style={styles.flatInfoContainerWrapper}>
-            <FlatInfoContainer advert={advert} button={false} navigation />
+              <FlatInfoContainer advert={advert} button={false} navigation />
             </View>
           </Collapsible>
         </View>

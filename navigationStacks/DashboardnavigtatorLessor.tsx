@@ -1,8 +1,8 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Redux 🏪
-import { useAppSelector } from '@ReduxCore/hooks';
+import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components 🪢
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -17,18 +17,16 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 
 import UserScreen from '@Screens/dashboard/renter/UserScreen';
 import AdminScreen from '@Screens/admin/adminScreen';
-import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
 import LessorNavigator from './LessorNavigator';
-
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigatorLessor = () => {
   const admin = useAppSelector(state => state.user.admin);
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color}) => {
           let iconName = 'settings';
           switch (route.name) {
             case 'lessorIndex':
@@ -50,21 +48,20 @@ const DashboardNavigatorLessor = () => {
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,
       })}>
-
       <Tab.Screen
         name="lessorIndex"
         component={LessorNavigator}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="lessorAction"
         component={LessorActionScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="user"
         component={UserScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       {/* <Tab.Screen
         name="Ello"
@@ -75,7 +72,7 @@ const DashboardNavigatorLessor = () => {
         <Tab.Screen
           name="admin"
           component={AdminScreen}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
       ) : null}
     </Tab.Navigator>
