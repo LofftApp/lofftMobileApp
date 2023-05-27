@@ -1,8 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
-import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScreen';
-import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
+import ApplicationShowScreen from '@Screens/applications/ApplicationShowScreen';
+import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen';
 import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
 import ShortListApplicantsScreen from '@Screens/dashboard/landlord/ShortListApplicantsScreen';
@@ -17,7 +17,10 @@ const LessorNavigator = () => {
         name="applicantsOverview"
         component={ApplicantsIndexScreen}
       /> Joshes Part*/}
-      <Lessor.Screen name="LessorIndex" component={LessorIndexScreen} />
+      <Lessor.Screen
+        name="ApplicationIndex"
+        component={ApplicationIndexScreen}
+      />
       <Lessor.Screen name="LessorAction" component={LessorActionScreen} />
       <Lessor.Screen name="applicationshow" component={ApplicationShowScreen} />
       {/* ! This was renamed due to error */}
