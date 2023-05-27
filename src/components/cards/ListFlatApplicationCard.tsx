@@ -42,25 +42,32 @@ const ListFlatApplicationCard = ({
   let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
   const [currentStatusBar, setStatusBar] = useState('');
+  const [activeStage, setActiveStage] = useState(0);
 
   const calculateStatusBar = (currentStatusIndex: number) => {
-    let status = null;
+    let status: string | null;
+    let activeStage: number = 0;
 
     switch (currentStatusIndex) {
       case 1:
         status = '40';
+        activeStage = 1;
         break;
       case 2:
         status = '80';
+        activeStage = 2;
         break;
       case 3:
         status = '100';
+        activeStage = 3;
         break;
       default:
         status = '20';
+        activeStage = 0;
         break;
     }
     setStatusBar(status);
+    setActiveStage(activeStage);
   };
 
   useEffect(() => {
@@ -116,8 +123,8 @@ const ListFlatApplicationCard = ({
           <Text style={fontStyles.headerSmall}>
             {advert.price}€ {''} {''} 26 m2
           </Text>
-          <Text style={{color: '#8E8E8E', marginTop: 3}}>
-            {advert.district}, {advert.city}
+          <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
+            {advert.flat.district}, {advert.flat.city}
           </Text>
         </View>
         <View>
@@ -155,17 +162,22 @@ const ListFlatApplicationCard = ({
           />
         </View>
         <View style={styles.statusContainer}>
-          {textForStatusBar.map((el, index) => (
-            <Text
-              style={
-                ['offered', 'closed'].includes(advert.status)
-                  ? styles.inactive
-                  : styles.active
-              }
-              key={index + 1}>
-              {el}
-            </Text>
-          ))}
+          {textForStatusBar.map(
+            (el, index) => (
+              console.log('el', el),
+              (
+                <Text
+                  style={
+                    el === textForStatusBar[activeStage]
+                      ? styles.active
+                      : styles.inactive
+                  }
+                  key={index + 1}>
+                  {el}
+                </Text>
+              )
+            ),
+          )}
         </View>
       </View>
       {isLessor ? (
@@ -234,6 +246,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 8,
+  },
+  flatLocation: {
+    color: Color.Black['50'],
+    margin: 0,
   },
   progressBarOutline: {
     flex: 1,
