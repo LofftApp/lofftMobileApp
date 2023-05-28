@@ -18,7 +18,6 @@ import noFlatImage from '@Assets/images/no-flat-image.png';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ListFlatApplicationCard = ({
-  id,
   navigation,
   advert,
   isLessor = false,
@@ -90,12 +89,12 @@ const ListFlatApplicationCard = ({
           </View>
           <View style={styles.advertCardButtonsOverlay}>
             <View style={styles.advertCardbuttonsWrap}>
-              {advert.matchP ? (
+              {!isLessor ? (
                 <View>
                   <Pressable
-                    // style={styles.advertCardSaveButton}
+                    style={styles.advertCardSaveButton}
                     onPress={() => {
-                      dispatch(toggleFavorite(id));
+                      dispatch(toggleFavorite(advert.id));
                     }}>
                     {advert.favorite ? (
                       <LofftIcon
