@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -31,6 +37,8 @@ interface FlatInfoContainerProps {
       tagline: string;
       description: string;
       address: string;
+      characteristics: any;
+      features: any;
     };
   };
   button: boolean;
@@ -160,20 +168,26 @@ const FlatInfoContainer = ({
           </>
         ) : (
           <>
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {marginTop: 23, marginBottom: 5},
-              ]}>
-              Match with you
-            </Text>
+            <View style={styles.seeAllContainer}>
+              <Text style={[fontStyles.headerSmall]}>Match with you</Text>
+              <TouchableOpacity style={styles.seeAllButton}>
+                <Text style={[fontStyles.bodyMedium, styles.seeAllButton.text]}>
+                  See all
+                </Text>
+                <LofftIcon
+                  name="chevron-down"
+                  size={23}
+                  color={Color.Blue[100]}
+                />
+              </TouchableOpacity>
+            </View>
             <View style={{marginTop: 10}}>
-              {/* <Chips tags={featuresTags.positiveTags} features={true} emoji />
+              <Chips tags={featuresTags.positiveTags} features={true} emoji />
               <Chips
                 tags={characteristicsTags.positiveTags}
                 features={false}
                 emoji
-              /> */}
+              />
             </View>
 
             <Text
@@ -184,12 +198,12 @@ const FlatInfoContainer = ({
               Other
             </Text>
             <View style={{marginTop: 10}}>
-              {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
+              <Chips tags={featuresTags.negativeTags} features={true} emoji />
               <Chips
                 tags={characteristicsTags.negativeTags}
                 features={false}
                 emoji
-              /> */}
+              />
             </View>
           </>
         )}
@@ -238,6 +252,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
     alignItems: 'center',
+  },
+  seeAllContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 23,
+    marginBottom: 5,
+  },
+  seeAllButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    text: {
+      color: Color.Blue[100],
+    },
   },
   infoContainer: {
     width: '100%',
