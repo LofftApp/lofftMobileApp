@@ -1,11 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+
+import {ChipBlock} from '@Components/containers/ChipBlock';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -176,55 +172,28 @@ const FlatInfoContainer = ({
           </>
         ) : (
           <>
-            <View style={styles.seeAllContainer}>
-              <Text style={[fontStyles.headerSmall]}>Match with you</Text>
-              {featuresTags.positiveTags.length > 2 ||
-              characteristicsTags.positiveTags.length > 2 ? (
-                <TouchableOpacity
-                  style={styles.seeAllButton}
-                  onPress={() => setSeeAllMatch(!seeAllMatch)}>
-                  <Text
-                    style={[fontStyles.bodyMedium, styles.seeAllButton.text]}>
-                    See all
-                  </Text>
-                  <LofftIcon
-                    name="chevron-down"
-                    size={23}
-                    color={Color.Blue[100]}
-                  />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-            <View style={{marginTop: 10}}>
-              <Chips
-                chips={featuresTags.positiveTags}
-                features={true}
-                emoji
-                seeAll={seeAllMatch}
-              />
-              <Chips
-                chips={characteristicsTags.positiveTags}
-                features={false}
-                seeAll={seeAllMatch}
-                emoji
-              />
-            </View>
-
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {marginTop: 23, marginBottom: 5},
-              ]}>
-              Other
-            </Text>
-            <View style={{marginTop: 10}}>
-              <Chips chips={featuresTags.negativeTags} features={true} emoji />
-              <Chips
-                chips={characteristicsTags.negativeTags}
-                features={false}
-                emoji
-              />
-            </View>
+            <ChipBlock
+              seeAll={seeAllMatch}
+              onPress={() => {
+                setSeeAllMatch(!seeAllMatch);
+              }}
+              header="Match with you"
+              chips={{
+                features: featuresTags.positiveTags,
+                characteristics: characteristicsTags.positiveTags,
+              }}
+            />
+            <ChipBlock
+              seeAll={seeAllOther}
+              onPress={() => {
+                setSeeAllOther(!seeAllOther);
+              }}
+              header="Other"
+              chips={{
+                features: featuresTags.negativeTags,
+                characteristics: characteristicsTags.negativeTags,
+              }}
+            />
           </>
         )}
 
