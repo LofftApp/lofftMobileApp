@@ -34,6 +34,8 @@ interface FlatInfoContainerProps {
     applied: boolean;
     lessor: boolean;
     flat: {
+      size: number;
+      measurementUnit: string;
       tagline: string;
       description: string;
       address: string;
@@ -104,7 +106,7 @@ const FlatInfoContainer = ({
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <LofftIcon name="ruler" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, {marginLeft: 10}]}>
-                26m2
+                {advert.flat.size} {advert.flat.measurementUnit}
               </Text>
             </View>
           </View>

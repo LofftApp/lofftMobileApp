@@ -72,7 +72,8 @@ const MapViewFlatCard = (advertR: any, id: number) => {
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
                 <Text style={fontStyles.headerSmall}>
-                  {advert.price} € 26 m2
+                  {advert.price} € {advert.flat.size}{' '}
+                  {advert.flat.measurementUnit}
                 </Text>
                 <Text style={fontStyles.bodyMedium}>{advert.tagline}</Text>
               </View>
