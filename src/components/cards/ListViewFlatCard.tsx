@@ -80,8 +80,8 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           ) : null}
         </View>
         <View>
-          <Chips tags={featuresTags.positiveTags} features={true} />
-          <Chips tags={characteristicsTags.positiveTags} features={false} />
+          <Chips chips={featuresTags.positiveTags} features={true} />
+          <Chips chips={characteristicsTags.positiveTags} features={false} />
         </View>
       </View>
       <CoreButton

@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+
+import {ChipBlock} from '@Components/containers/ChipBlock';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
@@ -33,6 +35,8 @@ interface FlatInfoContainerProps {
       tagline: string;
       description: string;
       address: string;
+      characteristics: any;
+      features: any;
     };
   };
   button: boolean;
@@ -50,6 +54,8 @@ const FlatInfoContainer = ({
 }: FlatInfoContainerProps) => {
   const dispatch = useAppDispatch();
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
+  const [seeAllMatch, setSeeAllMatch] = useState(false);
+  const [seeAllOther, setSeeAllOther] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
@@ -118,7 +124,7 @@ const FlatInfoContainer = ({
           <Text style={{color: Color.Black[80]}}>
             {advert.flat.description.substring(
               0,
-              `${descriptionExpanded ? advert.flat.description.length : 200}`,
+              descriptionExpanded ? advert.flat.description.length : 200,
             )}
           </Text>
           {advert.flat.description.length > 200 ? (
@@ -147,7 +153,11 @@ const FlatInfoContainer = ({
               My Values
             </Text>
             <View style={{marginTop: 10}}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
+              <Chips
+                chips={advert.flat.characteristics}
+                features={true}
+                emoji
+              />
             </View>
             <Text
               style={[
@@ -157,42 +167,33 @@ const FlatInfoContainer = ({
               Flat Perks
             </Text>
             <View style={{marginTop: 10}}>
-              <Chips tags={advert.flat.features} features={true} emoji />
+              <Chips chips={advert.flat.features} features={true} emoji />
             </View>
           </>
         ) : (
           <>
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {marginTop: 23, marginBottom: 5},
-              ]}>
-              Match with you
-            </Text>
-            <View style={{marginTop: 10}}>
-              {/* <Chips tags={featuresTags.positiveTags} features={true} emoji />
-              <Chips
-                tags={characteristicsTags.positiveTags}
-                features={false}
-                emoji
-              /> */}
-            </View>
-
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {marginTop: 23, marginBottom: 5},
-              ]}>
-              Other
-            </Text>
-            <View style={{marginTop: 10}}>
-              {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
-              <Chips
-                tags={characteristicsTags.negativeTags}
-                features={false}
-                emoji
-              /> */}
-            </View>
+            <ChipBlock
+              seeAll={seeAllMatch}
+              onPress={() => {
+                setSeeAllMatch(!seeAllMatch);
+              }}
+              header="Match with you"
+              chips={{
+                features: featuresTags.positiveTags,
+                characteristics: characteristicsTags.positiveTags,
+              }}
+            />
+            <ChipBlock
+              seeAll={seeAllOther}
+              onPress={() => {
+                setSeeAllOther(!seeAllOther);
+              }}
+              header="Other"
+              chips={{
+                features: featuresTags.negativeTags,
+                characteristics: characteristicsTags.negativeTags,
+              }}
+            />
           </>
         )}
 
@@ -240,6 +241,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
     alignItems: 'center',
+  },
+  seeAllContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 23,
+    marginBottom: 5,
+  },
+  seeAllButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    text: {
+      color: Color.Blue[100],
+    },
   },
   infoContainer: {
     width: '100%',

@@ -84,8 +84,8 @@ const MapViewFlatCard = (advertR: any, id: number) => {
             </View>
           </View>
         </View>
-        <Chips tags={featuresTags.positiveTags} features={true} />
-        <Chips tags={characteristicsTags.positiveTags} features={false} />
+        <Chips chips={featuresTags.positiveTags} features={true} />
+        <Chips chips={characteristicsTags.positiveTags} features={false} />
       </View>
     </View>
   );
