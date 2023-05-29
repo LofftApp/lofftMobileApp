@@ -4,6 +4,9 @@ import {Text, View, StyleSheet, ScrollView} from 'react-native';
 // External
 import Collapsible from 'react-native-collapsible';
 
+// Redux 🏗️
+import {useAppSelector} from '@ReduxCore/hooks';
+
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -11,17 +14,23 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Components
 import HighlightedButtons from '@Components/containers/HighlightButtons';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
 import StatusBar from '@Components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
-// Assets 🪴
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+// Helpers
+import {tagSorter} from '@Helpers/tagSorter';
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const {advert} = route.params;
-
+  const userProfile = useAppSelector((state: any) => state.user.user);
   const [hascollaped, setHasCollapsed] = useState(true);
+
+  const characteristicsTags = tagSorter(
+    userProfile.profile.characteristics,
+    advert.flat.characteristics,
+  );
+
+  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   return (
     <View style={styles.pageWrapper}>
@@ -52,7 +61,13 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
 
           <Collapsible collapsed={hascollaped} duration={300}>
             <View style={styles.flatInfoContainerWrapper}>
-              <FlatInfoContainer advert={advert} button={false} navigation />
+              <FlatInfoContainer
+                advert={advert}
+                button={false}
+                navigation
+                characteristicsTags={characteristicsTags}
+                featuresTags={featuresTags}
+              />
             </View>
           </Collapsible>
         </View>
