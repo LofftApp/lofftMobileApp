@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
-const Chips = ({chips, features, seeAll = true, emoji = false}: any) => (
+const Chips = ({chips, features, seeAll = false, emoji = false}: any) => (
   <ListChips chips={chips} emoji={emoji} features={features} seeAll={seeAll} />
 );
 
