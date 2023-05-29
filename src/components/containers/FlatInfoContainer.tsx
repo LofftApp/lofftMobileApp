@@ -58,6 +58,8 @@ const FlatInfoContainer = ({
 }: FlatInfoContainerProps) => {
   const dispatch = useAppDispatch();
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
+  const [seeAllMatch, setSeeAllMatch] = useState(false);
+  const [seeAllOther, setSeeAllOther] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
@@ -155,7 +157,11 @@ const FlatInfoContainer = ({
               My Values
             </Text>
             <View style={{marginTop: 10}}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
+              <Chips
+                chips={advert.flat.characteristics}
+                features={true}
+                emoji
+              />
             </View>
             <Text
               style={[
@@ -165,29 +171,41 @@ const FlatInfoContainer = ({
               Flat Perks
             </Text>
             <View style={{marginTop: 10}}>
-              <Chips tags={advert.flat.features} features={true} emoji />
+              <Chips chips={advert.flat.features} features={true} emoji />
             </View>
           </>
         ) : (
           <>
             <View style={styles.seeAllContainer}>
               <Text style={[fontStyles.headerSmall]}>Match with you</Text>
-              <TouchableOpacity style={styles.seeAllButton}>
-                <Text style={[fontStyles.bodyMedium, styles.seeAllButton.text]}>
-                  See all
-                </Text>
-                <LofftIcon
-                  name="chevron-down"
-                  size={23}
-                  color={Color.Blue[100]}
-                />
-              </TouchableOpacity>
+              {featuresTags.positiveTags.length > 2 ||
+              characteristicsTags.positiveTags.length > 2 ? (
+                <TouchableOpacity
+                  style={styles.seeAllButton}
+                  onPress={() => setSeeAllMatch(!seeAllMatch)}>
+                  <Text
+                    style={[fontStyles.bodyMedium, styles.seeAllButton.text]}>
+                    See all
+                  </Text>
+                  <LofftIcon
+                    name="chevron-down"
+                    size={23}
+                    color={Color.Blue[100]}
+                  />
+                </TouchableOpacity>
+              ) : null}
             </View>
             <View style={{marginTop: 10}}>
-              <Chips tags={featuresTags.positiveTags} features={true} emoji />
               <Chips
-                tags={characteristicsTags.positiveTags}
+                chips={featuresTags.positiveTags}
+                features={true}
+                emoji
+                seeAll={seeAllMatch}
+              />
+              <Chips
+                chips={characteristicsTags.positiveTags}
                 features={false}
+                seeAll={seeAllMatch}
                 emoji
               />
             </View>
@@ -200,9 +218,9 @@ const FlatInfoContainer = ({
               Other
             </Text>
             <View style={{marginTop: 10}}>
-              <Chips tags={featuresTags.negativeTags} features={true} emoji />
+              <Chips chips={featuresTags.negativeTags} features={true} emoji />
               <Chips
-                tags={characteristicsTags.negativeTags}
+                chips={characteristicsTags.negativeTags}
                 features={false}
                 emoji
               />
