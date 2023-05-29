@@ -124,7 +124,7 @@ const FlatInfoContainer = ({
           <Text style={{color: Color.Black[80]}}>
             {advert.flat.description.substring(
               0,
-              `${descriptionExpanded ? advert.flat.description.length : 200}`,
+              descriptionExpanded ? advert.flat.description.length : 200,
             )}
           </Text>
           {advert.flat.description.length > 200 ? (
