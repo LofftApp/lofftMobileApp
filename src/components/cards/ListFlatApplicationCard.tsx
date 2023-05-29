@@ -119,7 +119,8 @@ const ListFlatApplicationCard = ({
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
-            {advert.price}€ {''} {''} 26 m2
+            {advert.price}€ {''} {''} {advert.flat.size}
+            {advert.flat.measurementUnit}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
             {advert.flat.district}, {advert.flat.city}
