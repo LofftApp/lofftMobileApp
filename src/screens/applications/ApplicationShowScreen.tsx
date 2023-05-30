@@ -63,10 +63,16 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
             <View style={styles.flatInfoContainerWrapper}>
               <FlatInfoContainer
                 advert={advert}
-                button={false}
-                navigation
-                characteristicsTags={characteristicsTags}
-                featuresTags={featuresTags}
+                navigation={navigation}
+                button={true}
+                chips={{
+                  features:
+                    featuresTags !== null ? featuresTags : advert.flat.features,
+                  characteristics:
+                    characteristicsTags !== null
+                      ? characteristicsTags
+                      : advert.flat.characteristics,
+                }}
               />
             </View>
           </Collapsible>

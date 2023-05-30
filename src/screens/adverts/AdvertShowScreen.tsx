@@ -99,8 +99,14 @@ const AdvertShowScreen = ({route, navigation}: any) => {
               advert={advert}
               navigation={navigation}
               button={true}
-              characteristicsTags={characteristicsTags}
-              featuresTags={featuresTags}
+              chips={{
+                features:
+                  featuresTags !== null ? featuresTags : advert.flat.features,
+                characteristics:
+                  characteristicsTags !== null
+                    ? characteristicsTags
+                    : advert.flat.characteristics,
+              }}
             />
             {/* <View>
                 {completeProfile && !outOfTokens ? (
