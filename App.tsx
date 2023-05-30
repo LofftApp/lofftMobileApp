@@ -76,7 +76,6 @@ const App = () => {
       );
     }
   }, []);
-  console.log('userType', userType);
   return (
     <>
       {!authenticated ? (
