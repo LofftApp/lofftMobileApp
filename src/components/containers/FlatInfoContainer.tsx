@@ -41,16 +41,17 @@ interface FlatInfoContainerProps {
   };
   button: boolean;
   navigation: any;
-  characteristicsTags: any;
-  featuresTags: any;
+  chips: {
+    features: any;
+    characteristics: any;
+  };
 }
 
 const FlatInfoContainer = ({
   advert,
   button,
   navigation,
-  characteristicsTags,
-  featuresTags,
+  chips,
 }: FlatInfoContainerProps) => {
   const dispatch = useAppDispatch();
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
@@ -59,7 +60,6 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-
   useEffect(() => {
     dispatch(getProfile());
   }, []);
@@ -145,30 +145,22 @@ const FlatInfoContainer = ({
         {/* ! Build logic to match the values common with the user */}
         {userType === 'lessor' ? (
           <>
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {marginTop: 23, marginBottom: 5},
-              ]}>
-              My Values
-            </Text>
-            <View style={{marginTop: 10}}>
-              <Chips
-                chips={advert.flat.characteristics}
-                features={true}
-                emoji
-              />
-            </View>
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {marginTop: 23, marginBottom: 5},
-              ]}>
-              Flat Perks
-            </Text>
-            <View style={{marginTop: 10}}>
-              <Chips chips={advert.flat.features} features={true} emoji />
-            </View>
+            <ChipBlock
+              seeAll={seeAllMatch}
+              onPress={() => {
+                setSeeAllMatch(!seeAllMatch);
+              }}
+              header="My Values"
+              chips={{features: [], characteristics: chips.characteristics}}
+            />
+            <ChipBlock
+              seeAll={seeAllOther}
+              onPress={() => {
+                setSeeAllOther(!seeAllOther);
+              }}
+              header="Flat Perks"
+              chips={{features: chips.features, characteristics: []}}
+            />
           </>
         ) : (
           <>
@@ -179,8 +171,8 @@ const FlatInfoContainer = ({
               }}
               header="Match with you"
               chips={{
-                features: featuresTags.positiveTags,
-                characteristics: characteristicsTags.positiveTags,
+                features: chips.features.positiveTags,
+                characteristics: chips.characteristics.positiveTags,
               }}
             />
             <ChipBlock
@@ -190,8 +182,8 @@ const FlatInfoContainer = ({
               }}
               header="Other"
               chips={{
-                features: featuresTags.negativeTags,
-                characteristics: characteristicsTags.negativeTags,
+                features: chips.features.negativeTags,
+                characteristics: chips.characteristics.negativeTags,
               }}
             />
           </>

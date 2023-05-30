@@ -161,22 +161,17 @@ const ListFlatApplicationCard = ({
           />
         </View>
         <View style={styles.statusContainer}>
-          {textForStatusBar.map(
-            (el, index) => (
-              console.log('el', el),
-              (
-                <Text
-                  style={
-                    el === textForStatusBar[activeStage]
-                      ? styles.active
-                      : styles.inactive
-                  }
-                  key={index + 1}>
-                  {el}
-                </Text>
-              )
-            ),
-          )}
+          {textForStatusBar.map((el, index) => (
+            <Text
+              style={
+                el === textForStatusBar[activeStage]
+                  ? styles.active
+                  : styles.inactive
+              }
+              key={index + 1}>
+              {el}
+            </Text>
+          ))}
         </View>
       </View>
       {isLessor ? (

@@ -16,7 +16,7 @@ interface ChipBlockProps {
 }
 
 export const ChipBlock = ({seeAll, onPress, header, chips}: ChipBlockProps) => {
-  return (
+  return chips.characteristics.length > 0 || chips.features.length > 0 ? (
     <>
       <View style={styles.seeAllContainer}>
         <Text style={[fontStyles.headerSmall]}>{header}</Text>
@@ -33,17 +33,21 @@ export const ChipBlock = ({seeAll, onPress, header, chips}: ChipBlockProps) => {
           </TouchableOpacity>
         ) : null}
       </View>
-      <View style={{marginTop: 10}}>
-        <Chips chips={chips.features} features={true} emoji seeAll={seeAll} />
-        <Chips
-          chips={chips.characteristics}
-          features={false}
-          seeAll={seeAll}
-          emoji
-        />
+      <View>
+        {chips.features.length > 0 ? (
+          <Chips chips={chips.features} features={true} emoji seeAll={seeAll} />
+        ) : null}
+        {chips.characteristics.length > 0 ? (
+          <Chips
+            chips={chips.characteristics}
+            features={false}
+            seeAll={seeAll}
+            emoji
+          />
+        ) : null}
       </View>
     </>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({

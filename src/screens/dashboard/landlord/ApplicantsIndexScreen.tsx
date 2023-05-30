@@ -21,8 +21,6 @@ const ApplicantsIndexScreen = ({navigation}: any) => {
     (state: any) => state.adverts.adverts[0].applicants,
   );
 
-  console.log(applicants);
-
   return (
     <View style={styles.mainContainer}>
       <View style={styles.applicantsHeight}>
