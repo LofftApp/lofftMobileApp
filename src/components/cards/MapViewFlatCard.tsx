@@ -72,7 +72,8 @@ const MapViewFlatCard = (advertR: any, id: number) => {
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
                 <Text style={fontStyles.headerSmall}>
-                  {advert.price} € 26 m2
+                  {advert.price} € {advert.flat.size}{' '}
+                  {advert.flat.measurementUnit}
                 </Text>
                 <Text style={fontStyles.bodyMedium}>{advert.tagline}</Text>
               </View>
@@ -83,8 +84,8 @@ const MapViewFlatCard = (advertR: any, id: number) => {
             </View>
           </View>
         </View>
-        <Chips tags={featuresTags.positiveTags} features={true} />
-        <Chips tags={characteristicsTags.positiveTags} features={false} />
+        <Chips chips={featuresTags.positiveTags} features={true} />
+        <Chips chips={characteristicsTags.positiveTags} features={false} />
       </View>
     </View>
   );

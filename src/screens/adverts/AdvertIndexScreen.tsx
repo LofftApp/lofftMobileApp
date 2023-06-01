@@ -6,12 +6,12 @@ import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
 import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 
 // Screens 📺
-import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
+import ListScreen from '@Screens/adverts/subscreen/ListScreen';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import FlatMap from '@Components/Maps/AdvertMap';
+import MapScreen from '@Screens/adverts/subscreen/MapScreen';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from '@Components/modals/SearchFilterModal';
 
@@ -20,7 +20,6 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 
 const FlatListScreen = ({navigation}: any) => {
   const [openModal, setOpenModal] = useState(false);
-  const [sortedFlats, setSortedFlats] = useState([]);
   const pullData = (data: any) => {
     setOpenModal(data);
   };
@@ -31,8 +30,8 @@ const FlatListScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
 
-  const setActiveScreen = (screen: string) => {
-    setScreen(screen);
+  const setActiveScreen = (newScreen: string) => {
+    setScreen(newScreen);
   };
 
   return (
@@ -54,13 +53,13 @@ const FlatListScreen = ({navigation}: any) => {
         toggleIcons={['list', 'map']}
         markers={['list', 'map']}
         activeScreen={screen}
-        setActiveScreen={(screen: string) => setActiveScreen(screen)}
+        setActiveScreen={(newScreen: string) => setActiveScreen(newScreen)}
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
-          <FlatListSubScreen navigation={navigation} />
+          <ListScreen navigation={navigation} />
         ) : (
-          <FlatMap />
+          <MapScreen />
         )}
       </View>
       <SearchFilterModal openModal={openModal} pullData={pullData} />

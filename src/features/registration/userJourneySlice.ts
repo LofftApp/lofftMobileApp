@@ -8,7 +8,7 @@ const renterJourney = () => {
     '3': {screenName: 'FinderBudgetScreen'},
     '4': {
       screenName: 'FlatFeaturesScreen',
-      headerText: 'What is your ideal flat?',
+      headerText: 'What is your flat?',
       subHeaderText:
         'Select all tags that describe who you are and find the Lofft of your life!',
     },

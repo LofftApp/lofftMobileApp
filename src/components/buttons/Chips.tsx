@@ -3,42 +3,37 @@ import {View, Text, StyleSheet} from 'react-native';
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
-const Chips = ({tags, features, positive = true, emoji = false}: any) => {
-  return (
-    <View style={styles.chipContainer}>
-      <ListChips
-        list={tags}
-        emoji={emoji}
-        positive={positive}
-        features={features}
-      />
-    </View>
-  );
-};
+const Chips = ({chips, features, seeAll = false, emoji = false}: any) => (
+  <ListChips chips={chips} emoji={emoji} features={features} seeAll={seeAll} />
+);
 
-const ListChips = ({list, emoji, positive, features}: any) => {
+const ListChips = ({chips, emoji, features, seeAll}: any) => {
   return (
     <View style={styles.chipsWrap}>
-      {list.slice(0, 2).map((tag: any, index: number) => {
-        return (
-          <View
-            style={[
-              styles.chip,
-              features ? styles.featureTag : styles.characteristicTag,
-            ]}
-            key={index}>
-            {emoji ? <Text>{tag.emoji}</Text> : null}
-            <Text
+      {chips
+        .slice(0, seeAll ? chips.length : 2)
+        .map((tag: any, index: number) => {
+          return (
+            <View
               style={[
-                fontStyles.bodySmall,
-                features ? styles.featureTagFont : styles.characteristicTagFont,
-              ]}>
-              {tag.name}
-            </Text>
-          </View>
-        );
-      })}
-      {list.length > 2 ? (
+                styles.chip,
+                features ? styles.featureTag : styles.characteristicTag,
+              ]}
+              key={index}>
+              {emoji ? <Text>{tag.emoji}</Text> : null}
+              <Text
+                style={[
+                  fontStyles.bodySmall,
+                  features
+                    ? styles.featureTagFont
+                    : styles.characteristicTagFont,
+                ]}>
+                {tag.name}
+              </Text>
+            </View>
+          );
+        })}
+      {chips.length > 2 && !seeAll ? (
         <View
           style={[
             styles.chip,
@@ -49,7 +44,7 @@ const ListChips = ({list, emoji, positive, features}: any) => {
               fontStyles.bodySmall,
               features ? styles.featureTagFont : styles.characteristicTagFont,
             ]}>
-            +{list.slice(1, -1).length}
+            +{chips.slice(1, -1).length}
           </Text>
         </View>
       ) : null}
@@ -58,11 +53,9 @@ const ListChips = ({list, emoji, positive, features}: any) => {
 };
 
 const styles = StyleSheet.create({
-  chipContainer: {
-    flexDirection: 'column',
-  },
   chipsWrap: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     paddingVertical: 4,
   },
   chip: {
@@ -74,6 +67,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     borderRadius: 8,
     marginRight: 4,
+    marginVertical: 4,
   },
   featureTag: {
     backgroundColor: Color.Blue[10],

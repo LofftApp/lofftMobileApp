@@ -24,7 +24,7 @@ import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpMo
 // Helpers
 import {tagSorter} from '@Helpers/tagSorter';
 
-const FlatShowScreen = ({route, navigation}: any) => {
+const AdvertShowScreen = ({route, navigation}: any) => {
   const [advert] = useState(route.params.advert);
   const userProfile = useAppSelector((state: any) => state.user.user);
 
@@ -99,8 +99,14 @@ const FlatShowScreen = ({route, navigation}: any) => {
               advert={advert}
               navigation={navigation}
               button={true}
-              characteristicsTags={characteristicsTags}
-              featuresTags={featuresTags}
+              chips={{
+                features:
+                  featuresTags !== null ? featuresTags : advert.flat.features,
+                characteristics:
+                  characteristicsTags !== null
+                    ? characteristicsTags
+                    : advert.flat.characteristics,
+              }}
             />
             {/* <View>
                 {completeProfile && !outOfTokens ? (
@@ -218,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatShowScreen;
+export default AdvertShowScreen;
