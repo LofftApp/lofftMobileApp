@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-const ChatScreen = () => {
+const ChatIndexScreen = () => {
   return (
     <View style={styles.container}>
       <Text />
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatScreen;
+export default ChatIndexScreen;

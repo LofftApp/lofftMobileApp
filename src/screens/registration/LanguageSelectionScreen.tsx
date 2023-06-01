@@ -13,8 +13,9 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import languagesData from '@Assets/coreText/languagesText.json';
 import LanguagesCard from '@Components/cards/LanguagesCard';
 
-const LanguageSelectionScreen = () => {
+const LanguageSelectionScreen = ({route}: any) => {
   const navigation = useNavigation();
+  const params = route.params;
 
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
@@ -41,10 +42,21 @@ const LanguageSelectionScreen = () => {
         return [...prevSelectedLanguages, l];
       }
     });
-    scrollViewRef.current?.scrollTo({x: 0, y: 0, animated: true, duration: 4000});
+    scrollViewRef.current?.scrollTo({
+      x: 0,
+      y: 0,
+      animated: true,
+      duration: 4000,
+    });
   };
 
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const renterText = {
+    headerText: 'Tell us a bit about yourself',
+    subText:
+      "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!",
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -55,7 +67,7 @@ const LanguageSelectionScreen = () => {
           }}
         />
         <Text style={[fontStyles.headerDisplay, styles.textHeader]}>
-          What {'\n'}language(s) do{'\n'}you speak?
+          {params[0].headerText}
         </Text>
         <View style={styles.searchBar}>
           <InputFieldText
@@ -107,7 +119,11 @@ const LanguageSelectionScreen = () => {
       <View style={styles.continueButtonView}>
         <CoreButton
           value="Continue"
-          onPress={() => {}}
+          onPress={() => {
+            params[1] === 'renter'
+              ? navigation.navigate('AboutYouFlatHuntScreen', renterText)
+              : navigation.navigate('WhereIsFlatScreen');
+          }}
           style={styles.button}
           disabled={selectedLanguages.length === 0}
         />

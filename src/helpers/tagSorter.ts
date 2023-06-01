@@ -4,6 +4,8 @@ interface Tag {
 }
 
 export const tagSorter = (userTags: [], flatTags: []) => {
+  if (!userTags || !flatTags) return null;
+
   const positiveTags: any = [];
   const negativeTags: any = [];
   flatTags.forEach((tag: Tag) => {
