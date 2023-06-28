@@ -7,8 +7,8 @@ import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
 
 // import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
 // import ApplicationShowScreen from '@Screens/applications/ApplicationShowScreen';
-// import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen';
-// import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
+import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen';
+import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
 /* The above changes are currently kept in uncommented as this has to be resolved once we come together  */
 
 
