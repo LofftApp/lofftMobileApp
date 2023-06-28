@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Adam",
+      "match": "98%",
+      "image": "https://lofft.app/people/adam.png",
+      "selected": false
+    },
+    {
+      "id": 2,
+      "name": "James",
+      "match": "97%",
+      "image": "https://lofft.app/people/james.png",
+      "selected": false
+    },
+    {
+      "id": 3,
+      "name": "Freddie",
+      "match": "96%",
+      "image": "https://lofft.app/people/freddie.png",
+      "selected": false
+    },
+    {
+      "id": 4,
+      "name": "Freddie",
+      "match": "96%",
+      "image": "https://lofft.app/people/freddie.png",
+      "selected": false
+    },
+    {
+      "id": 5,
+      "name": "Freddie",
+      "match": "96%",
+      "image": "https://lofft.app/people/freddie.png",
+      "selected": false
+    },
+      {
+        "id": 6,
+        "name": "Freddie",
+        "match": "96%",
+        "image": "https://lofft.app/people/freddie.png",
+        "selected": false
+      },
+      {
+        "id": 7,
+        "name": "Freddie",
+        "match": "96%",
+        "image": "https://lofft.app/people/freddie.png",
+        "selected": false
+      }
+
+  ]
+}

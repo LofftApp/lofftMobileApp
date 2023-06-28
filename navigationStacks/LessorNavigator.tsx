@@ -1,9 +1,17 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
+import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScreen';
+import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
+
 // import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
-import ApplicationShowScreen from '@Screens/applications/ApplicationShowScreen';
-import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen';
-import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
+// import ApplicationShowScreen from '@Screens/applications/ApplicationShowScreen';
+// import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen';
+// import SeeApplicantsScreen from '@Screens/dashboard/landlord/SeeApplicantsScreen';
+/* The above changes are currently kept in uncommented as this has to be resolved once we come together  */
+
+
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
 import ShortListApplicantsScreen from '@Screens/dashboard/landlord/ShortListApplicantsScreen';
 import ChatIndexScreen from '@Screens/chat/ChatIndexScreen';
