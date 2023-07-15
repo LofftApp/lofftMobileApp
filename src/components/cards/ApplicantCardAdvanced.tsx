@@ -19,6 +19,7 @@ const ApplicantsCardAdvanced = ({
   selectProfile,
   maxSelect,
   currentSelectedNums,
+  navigation,
 }: any) => {
   const [activateBox, setActiveBox] = useState(false);
 
@@ -55,12 +56,14 @@ const ApplicantsCardAdvanced = ({
         <Text>{match}</Text>
       </View>
 
-      <LofftIcon
-        style={styles.icon}
-        name={'chevron-right'}
-        size={28}
-        color={Color.Blue[100]}
-      />
+        <LofftIcon
+          style={styles.icon}
+          name={'chevron-right'}
+          size={28}
+          color={Color.Blue[100]}
+        onPress={() => navigation.navigate('ApplicantProfile')}
+        />
+
     </View>
   );
 };
