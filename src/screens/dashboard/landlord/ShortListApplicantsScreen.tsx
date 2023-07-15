@@ -93,6 +93,7 @@ const ShortListApplicantsScreen = ({navigation}) => {
                 maxSelect={maxSelect}
                 index={index}
                 userProfilesJsonLength={userProfilesJson.length}
+                navigation={navigation}
               />
             ))}
           </ScrollView>
