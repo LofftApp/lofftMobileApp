@@ -68,6 +68,7 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
+            {/* Size of WG is not in DB - 26 m2 */}
             <Text style={[fontStyles.headerSmall]}>{advert.price} €</Text>
 
             <MatchingScoreButton size="Big" score={advert.matchScore} />
@@ -80,8 +81,8 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           ) : null}
         </View>
         <View>
-          <Chips chips={featuresTags.positiveTags} features={true} />
-          <Chips chips={characteristicsTags.positiveTags} features={false} />
+          <Chips tags={featuresTags.positiveTags} features={true} />
+          <Chips tags={characteristicsTags.positiveTags} features={false} />
         </View>
       </View>
       <CoreButton

@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Redux 🏗️
 import {useAppSelector} from '@ReduxCore/hooks';
 // Screens 📺
-import FlatListComponent from '@Components/cards/FlatListComponent';
+import FlatListComponent from '@Screens/dashboard/renter/SubScreens/FlatListComponent';
 
 // Components 🪢
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';

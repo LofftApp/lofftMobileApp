@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Cards 🃏
-import ApplicantsCard from '@Components/cards/ApplicantCard';
+import ApplicantsCard from '@Components/cards/ListViewApplicantCard';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';

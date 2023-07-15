@@ -7,7 +7,7 @@ import {useAppSelector} from '@ReduxCore/hooks';
 // Components 🪢
 import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
 
-const ListScreen = ({navigation}: any) => {
+const FlatListSubScreen = ({navigation}: any) => {
   const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
   return (
     <SafeAreaView>
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListScreen;
+export default FlatListSubScreen;

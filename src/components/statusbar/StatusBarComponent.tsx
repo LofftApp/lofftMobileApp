@@ -1,14 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
-import {
-  Text,
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-
-import {useNavigation} from '@react-navigation/native';
+import {Text, View, StyleSheet, Dimensions} from 'react-native';
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -21,9 +12,7 @@ import {CoreButton} from '@Components/buttons/CoreButton';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import statusBarText from '@Assets/coreText/statusBarText.json';
 
-const StatusBarComponent = ({advert, navigation}: any) => {
-
-  //const navigation = useNavigation();
+const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
 
@@ -34,10 +23,6 @@ const StatusBarComponent = ({advert, navigation}: any) => {
     'offered',
     'closed',
   ].indexOf(advert.status);
-  
-  // Lower code needed to test access to different routes 
-  // const currentApplicationStatus = 1;
-
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
@@ -47,15 +32,10 @@ const StatusBarComponent = ({advert, navigation}: any) => {
           name={key.icon}
           size={28}
           color={
-            advert.lessor
-              ? currentApplicationStatus === index ||
-                currentApplicationStatus > index
-                ? Color.White[100]
-                : Color.Lavendar[50]
-              : currentApplicationStatus === index ||
-                currentApplicationStatus > index
+            currentApplicationStatus === index ||
+            currentApplicationStatus > index
               ? Color.White[100]
-              : Color.Mint[50]
+              : Color.Lavendar[50]
           }
         />
       );
@@ -64,24 +44,6 @@ const StatusBarComponent = ({advert, navigation}: any) => {
 
   const statusText = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
-      const navigationScreen = advert.lessor
-        ? key.buttonText.split(' ').join('')
-        : null;
-
-      const actionView = advert.lessor ? (
-        <View style={[styles.landlordActionButton, styles.button]}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate(navigationScreen)}>
-            <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-              {key.buttonText}
-            </Text>
-            {/* <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                {key.buttonText}
-              </Text> */}
-          </TouchableOpacity>
-        </View>
-      ) : null;
-
       return (
         <View key={index + 1}>
           <Text
@@ -108,15 +70,9 @@ const StatusBarComponent = ({advert, navigation}: any) => {
 
           {currentApplicationStatus === index ? (
             <View style={[styles.landlordActionButton, styles.button]}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate(navigationScreen)}>
-                <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                  {key.buttonText}
-                </Text>
-                {/* <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+              <Text style={[fontStyles.headerSmall, styles.buttonText]}>
                 {key.buttonText}
-              </Text> */}
-              </TouchableOpacity>
+              </Text>
             </View>
           ) : null}
         </View>
