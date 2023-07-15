@@ -26,8 +26,6 @@ interface AdvertState {
         district: string | null;
         city: string | null;
         photos: string[] | null;
-        size: number | null;
-        measurement_unit: string | null;
         charachteristics:
           | [
               {
@@ -74,8 +72,6 @@ const initialState: AdvertState = {
         district: null,
         city: null,
         photos: null,
-        size: null,
-        measurement_unit: null,
         charachteristics: null,
         features: null,
       },
@@ -120,8 +116,6 @@ export const advertSlice = createSlice({
               city: advert.flat.city,
               characteristics: advert.flat.characteristics,
               features: advert.flat.features,
-              size: advert.flat.size,
-              measurementUnit: advert.flat.measurement_unit,
               photos: advert.flat.photos.map((photo: any) => photo.url),
             },
           };

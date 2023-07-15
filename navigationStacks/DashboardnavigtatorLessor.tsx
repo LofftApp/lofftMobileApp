@@ -17,6 +17,7 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 
 import UserScreen from '@Screens/dashboard/renter/UserScreen';
 import AdminScreen from '@Screens/admin/adminScreen';
+import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
 import LessorNavigator from './LessorNavigator';
 
@@ -63,11 +64,6 @@ const DashboardNavigatorLessor = () => {
         component={UserScreen}
         options={{headerShown: false}}
       />
-      {/* <Tab.Screen
-        name="Ello"
-        component={TempScreen}
-        options={{ headerShown: false }}
-      /> */}
       {admin ? (
         <Tab.Screen
           name="admin"
