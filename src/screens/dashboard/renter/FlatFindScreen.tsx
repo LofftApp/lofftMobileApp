@@ -6,20 +6,21 @@ import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
 import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 
 // Screens 📺
-import ListScreen from '@Screens/adverts/subscreen/ListScreen';
+import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
 
 // Components 🪢
 import FilterButton from '@Components/buttons/FilterButton';
 import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import MapScreen from '@Screens/adverts/subscreen/MapScreen';
+import FlatMap from '@Components/Maps/AdvertMap';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from '@Components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
-const FlatListScreen = ({navigation}: any) => {
+const FlatFindScreen = ({navigation}: any) => {
   const [openModal, setOpenModal] = useState(false);
+  const [sortedFlats, setSortedFlats] = useState([]);
   const pullData = (data: any) => {
     setOpenModal(data);
   };
@@ -30,8 +31,8 @@ const FlatListScreen = ({navigation}: any) => {
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
 
-  const setActiveScreen = (newScreen: string) => {
-    setScreen(newScreen);
+  const setActiveScreen = (screen: string) => {
+    setScreen(screen);
   };
 
   return (
@@ -53,13 +54,13 @@ const FlatListScreen = ({navigation}: any) => {
         toggleIcons={['list', 'map']}
         markers={['list', 'map']}
         activeScreen={screen}
-        setActiveScreen={(newScreen: string) => setActiveScreen(newScreen)}
+        setActiveScreen={(screen: string) => setActiveScreen(screen)}
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
-          <ListScreen navigation={navigation} />
+          <FlatListSubScreen navigation={navigation} />
         ) : (
-          <MapScreen />
+          <FlatMap />
         )}
       </View>
       <SearchFilterModal openModal={openModal} pullData={pullData} />
@@ -86,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatListScreen;
+export default FlatFindScreen;

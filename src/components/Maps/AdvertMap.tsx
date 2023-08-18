@@ -11,7 +11,7 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import MapViewFlatCard from '@Components/cards/MapViewFlatCard';
 import MapMarker from '@Components/Maps/MapMarker';
 
-const MapScreen = () => {
+const AdvertMap = () => {
   const adverts = useAppSelector((state: any) => state.adverts.adverts);
   const [selectedIndex, setSelectedIndex] = useState(0);
   // States
@@ -134,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapScreen;
+export default AdvertMap;

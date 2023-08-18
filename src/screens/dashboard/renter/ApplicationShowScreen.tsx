@@ -1,11 +1,16 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
 
 // External
 import Collapsible from 'react-native-collapsible';
-
-// Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -14,23 +19,17 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 // Components
 import HighlightedButtons from '@Components/containers/HighlightButtons';
 import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
+import {CoreButton} from '@Components/buttons/CoreButton';
 import StatusBar from '@Components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 
-// Helpers
-import {tagSorter} from '@Helpers/tagSorter';
+// Assets 🪴
+import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const {advert} = route.params;
-  const userProfile = useAppSelector((state: any) => state.user.user);
+
   const [hascollaped, setHasCollapsed] = useState(true);
-
-  const characteristicsTags = tagSorter(
-    userProfile.profile.characteristics,
-    advert.flat.characteristics,
-  );
-
-  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   return (
     <View style={styles.pageWrapper}>
@@ -48,11 +47,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar
-            advert={advert}
-            currentApplicationStatus={advert.status}
-            navigation={navigation}
-          />
+          <StatusBar advert={advert} currentApplicationStatus={advert.status} />
           <Text
             onPress={() => setHasCollapsed(!hascollaped)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
@@ -60,21 +55,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
           </Text>
 
           <Collapsible collapsed={hascollaped} duration={300}>
-            <View style={styles.flatInfoContainerWrapper}>
-              <FlatInfoContainer
-                advert={advert}
-                navigation={navigation}
-                button={true}
-                chips={{
-                  features:
-                    featuresTags !== null ? featuresTags : advert.flat.features,
-                  characteristics:
-                    characteristicsTags !== null
-                      ? characteristicsTags
-                      : advert.flat.characteristics,
-                }}
-              />
-            </View>
+            <FlatInfoContainer advert={advert} button={false} navigation />
           </Collapsible>
         </View>
       </ScrollView>
@@ -100,10 +81,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 10,
     marginBottom: 10,
-  },
-  flatInfoContainerWrapper: {
-    marginHorizontal: 16,
-    marginBottom: 20,
   },
 });
 
