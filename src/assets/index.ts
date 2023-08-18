@@ -1,3 +1,3 @@
 export * from './background';
-export * from './ilustration';
+export * from '././illustrations';
 export * from './icons';

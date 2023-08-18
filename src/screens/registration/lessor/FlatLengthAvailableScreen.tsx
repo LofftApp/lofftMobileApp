@@ -23,7 +23,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const LessorFlatAvailableScreen = ({navigation}: any) => {
+const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [selector, setSelector] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
@@ -211,4 +211,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LessorFlatAvailableScreen;
+export default FlatLengthAvailableScreen;

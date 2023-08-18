@@ -17,7 +17,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const RenterBudgetScreen = ({navigation}: any) => {
+const BudgetScreen = ({navigation}: any) => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
   const [minFocus, setMinFocus] = useState(false);
@@ -179,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RenterBudgetScreen;
+export default BudgetScreen;
