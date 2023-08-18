@@ -49,7 +49,7 @@ const HeaderPageContentSwitch = ({
           name={toggleIcons[1]}
           size={20}
           color={
-            activeScreen === markers[1] ? Color.White[100] : Color.Lavendar[100]
+            activeScreen === markers[1] ? Color.White[100] : Color.Lavendar[50]
           }
         />
         <Text

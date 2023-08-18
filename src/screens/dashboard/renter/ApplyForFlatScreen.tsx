@@ -1,11 +1,11 @@
-// TODO: Refactor this into a pop instead of screen
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
-import {ApplyForFlatScreenBackground, HiFive} from '@Assets';
+import {ApplyForFlatScreenBackground} from '@Assets/background/apply-for-flat-screen.svg';
+import {HiFive} from '@Assets/illustrations/Hi-five.svg';
 import {CoreButton} from '@Components/buttons/CoreButton';
 
 const ApplyForFlatScreen = ({navigation}: any) => {
