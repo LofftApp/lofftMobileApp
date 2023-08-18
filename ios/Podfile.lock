@@ -436,7 +436,7 @@ PODS:
     - React-jsi (= 0.71.11)
     - React-logger (= 0.71.11)
     - React-perflogger (= 0.71.11)
-  - RNCAsyncStorage (1.18.2):
+  - RNCAsyncStorage (1.19.0):
     - React-Core
   - RNGestureHandler (2.12.0):
     - React-Core
@@ -456,7 +456,7 @@ PODS:
     - React-RCTImage
   - RNSVG (13.9.0):
     - React-Core
-  - SocketRocket (0.6.0)
+  - SocketRocket (0.6.1)
   - Turf (2.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -702,12 +702,12 @@ SPEC CHECKSUMS:
   React-RCTVibration: f09f08de63e4122deb32506e20ca4cae6e4e14c1
   React-runtimeexecutor: 4817d63dbc9d658f8dc0ec56bd9b83ce531129f0
   ReactCommon: 08723d2ed328c5cbcb0de168f231bc7bae7f8aa1
-  RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
+  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   rnmapbox-maps: 3e48c433d2165dbb5cf277f277d58a4c50bbbd05
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: f7decafdc5e8c125e6fa0da38a687e35238420fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
