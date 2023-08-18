@@ -20,7 +20,7 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
 
-const LessorFlatDescriptionScreen = ({navigation}: any) => {
+const FlatPhotoUploadScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LessorFlatDescriptionScreen;
+export default FlatPhotoUploadScreen;

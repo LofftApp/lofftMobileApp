@@ -1,10 +1,9 @@
-// ! Testing if required.
 import React from 'react';
 import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
 import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
 
-const FlatListComponent = ({adverts, isLessor, navigation}: any) => {
+const FlatListComponent = ({adverts, navigation}: any) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -18,7 +17,7 @@ const FlatListComponent = ({adverts, isLessor, navigation}: any) => {
               advert={advert}
               /*  active is just for demo 👇*/
               posted={true}
-              isLessor={isLessor}
+              isLessor={advert.lessor}
             />
           );
         })}

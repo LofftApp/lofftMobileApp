@@ -14,9 +14,9 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import ApplicationIndexScreen from '@Screens/applications/ApplicationIndexScreen';
+import ApplicationIndexScreen from '@Screens/dashboard/renter/ApplicationIndexScreen';
 import UserScreen from '@Screens/dashboard/renter/UserScreen';
-import SavedListingsScreen from '@Screens/dashboard/renter/SavedScreens/SavedListingsScreen';
+// import SavedListingsScreen from '@Screens/dashboard/renter/SavedScreens/SavedListingsScreen'; Commented out because it is not used
 import AdminScreen from '@Screens/admin/adminScreen';
 import TempScreen from '@Screens/dashboard/renter/TempScreen';
 
