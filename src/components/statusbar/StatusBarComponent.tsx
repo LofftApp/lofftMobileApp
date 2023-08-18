@@ -24,16 +24,18 @@ const StatusBarComponent = ({advert}: any) => {
   //   'closed',
   // ].indexOf(advert.status);
 
-  // Lower code needed to test access to different routes
-   const currentApplicationStatus = 1;
 
-  const currentApplicationStatus = [
-    'open',
-    'review',
-    'viewing',
-    'offered',
-    'closed',
-  ].indexOf(advert.status);
+
+  // const currentApplicationStatus = [
+  //   'open',
+  //   'review',
+  //   'viewing',
+  //   'offered',
+  //   'closed',
+  // ].indexOf(advert.status);
+
+  // Lower code needed to test access to different routes
+  const currentApplicationStatus = 0;
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
@@ -110,6 +112,8 @@ const StatusBarComponent = ({advert}: any) => {
     setStatusBar(status);
   };
 
+
+  // The background color height of the statusbar is set here 👨🏻‍🍳
   useEffect(() => {
     calculateStatusBar(advert.status);
   });
