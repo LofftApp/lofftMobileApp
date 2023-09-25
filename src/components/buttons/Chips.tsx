@@ -4,6 +4,10 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
 const Chips = ({tags, features, positive = true, emoji = false}: any) => {
+
+
+
+
   return (
     <View style={styles.chipContainer}>
       <ListChips
