@@ -28,7 +28,6 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const {advert} = route.params;
-
   const [hascollaped, setHasCollapsed] = useState(true);
 
   return (
