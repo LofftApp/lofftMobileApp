@@ -5,13 +5,18 @@ import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
+
+
 const BackButton = ({
   onPress,
   title = '',
   close = false,
   style = {},
   neutral = false,
+  navigation = false,
 }: any) => {
+
+
   return (
     <View
       style={[
