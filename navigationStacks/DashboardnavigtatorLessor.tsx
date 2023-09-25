@@ -51,7 +51,7 @@ const DashboardNavigatorLessor = () => {
       })}>
       <Tab.Screen
         name="lessorIndex"
-        component={LessorIndexScreen}
+        component={LessorNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen

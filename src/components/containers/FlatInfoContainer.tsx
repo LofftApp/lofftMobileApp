@@ -46,11 +46,12 @@ const FlatInfoContainer = ({
   featuresTags,
 }: FlatInfoContainerProps) => {
   const dispatch = useAppDispatch();
+
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-  console.log(advert, 'advert');
+
 
   return (
     <View style={styles.centralizerContainer}>
@@ -125,32 +126,54 @@ const FlatInfoContainer = ({
             />
           ) : null}
         </View>
-        {/* ! Build logic to match the values common with the user */}
-        <Text
-          style={[fontStyles.headerSmall, {marginTop: 23, marginBottom: 5}]}>
-          Match with you
-        </Text>
-        <View style={{marginTop: 10}}>
-          <Chips tags={featuresTags.positiveTags} features={true} emoji />
-          <Chips
-            tags={characteristicsTags.positiveTags}
-            features={false}
-            emoji
-          />
-        </View>
 
-        <Text
-          style={[fontStyles.headerSmall, {marginTop: 23, marginBottom: 5}]}>
-          Other
-        </Text>
-        <View style={{marginTop: 10}}>
-          <Chips tags={featuresTags.negativeTags} features={true} emoji />
+        {advert.user.user_type === 'lessor' ? (
+          <>
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Flat Characteristics
+            </Text>
+            <View style={{marginTop: 10, marginBottom: 20}}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
+          </>
+        ) : (
+          <>
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Match with you
+            </Text>
+            <View style={{marginTop: 10}}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
+
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Other
+            </Text>
+            <View style={{marginTop: 10}}>
+              {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
           <Chips
             tags={characteristicsTags.negativeTags}
             features={false}
             emoji
-          />
-        </View>
+          /> */}
+            </View>
+          </>
+        )}
+
+
+
+
 
         {button ? (
           <View>
@@ -186,6 +209,7 @@ const styles = StyleSheet.create({
   centralizerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
   },
   matchContainer: {
     width: '100%',
