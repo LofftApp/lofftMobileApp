@@ -1,12 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-
-import {ChipBlock} from '@Components/containers/ChipBlock';
+import React, {useState} from 'react';
+import {View, Text, Dimensions, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppDispatch} from '@ReduxCore/hooks';
 import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
-import {getProfile} from '@Redux/user/usersMiddleware';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -30,44 +27,31 @@ interface FlatInfoContainerProps {
     applied: boolean;
     lessor: boolean;
     flat: {
-      size: number;
-      measurementUnit: string;
       tagline: string;
       description: string;
       address: string;
-      characteristics: any;
-      features: any;
     };
   };
   button: boolean;
   navigation: any;
-  chips: {
-    features: any;
-    characteristics: any;
-  };
+  characteristicsTags: any;
+  featuresTags: any;
 }
 
 const FlatInfoContainer = ({
   advert,
   button,
   navigation,
-  chips,
+  characteristicsTags,
+  featuresTags,
 }: FlatInfoContainerProps) => {
   const dispatch = useAppDispatch();
+
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
-  const [seeAllMatch, setSeeAllMatch] = useState(false);
-  const [seeAllOther, setSeeAllOther] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-  useEffect(() => {
-    dispatch(getProfile());
-  }, []);
 
-  const [userType, admin] = useAppSelector((state: any) => [
-    state.user.user.userType,
-    state.user.user.admin,
-  ]);
 
   return (
     <View style={styles.centralizerContainer}>
@@ -104,7 +88,7 @@ const FlatInfoContainer = ({
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <LofftIcon name="ruler" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, {marginLeft: 10}]}>
-                {advert.flat.size} {advert.flat.measurementUnit}
+                26m2
               </Text>
             </View>
           </View>
@@ -124,7 +108,7 @@ const FlatInfoContainer = ({
           <Text style={{color: Color.Black[80]}}>
             {advert.flat.description.substring(
               0,
-              descriptionExpanded ? advert.flat.description.length : 200,
+              `${descriptionExpanded ? advert.flat.description.length : 200}`,
             )}
           </Text>
           {advert.flat.description.length > 200 ? (
@@ -142,52 +126,54 @@ const FlatInfoContainer = ({
             />
           ) : null}
         </View>
-        {/* ! Build logic to match the values common with the user */}
-        {userType === 'lessor' ? (
+
+        {advert.user.user_type === 'lessor' ? (
           <>
-            <ChipBlock
-              seeAll={seeAllMatch}
-              onPress={() => {
-                setSeeAllMatch(!seeAllMatch);
-              }}
-              header="My Values"
-              chips={{features: [], characteristics: chips.characteristics}}
-            />
-            <ChipBlock
-              seeAll={seeAllOther}
-              onPress={() => {
-                setSeeAllOther(!seeAllOther);
-              }}
-              header="Flat Perks"
-              chips={{features: chips.features, characteristics: []}}
-            />
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Flat Characteristics
+            </Text>
+            <View style={{marginTop: 10, marginBottom: 20}}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
           </>
         ) : (
           <>
-            <ChipBlock
-              seeAll={seeAllMatch}
-              onPress={() => {
-                setSeeAllMatch(!seeAllMatch);
-              }}
-              header="Match with you"
-              chips={{
-                features: chips.features.positiveTags,
-                characteristics: chips.characteristics.positiveTags,
-              }}
-            />
-            <ChipBlock
-              seeAll={seeAllOther}
-              onPress={() => {
-                setSeeAllOther(!seeAllOther);
-              }}
-              header="Other"
-              chips={{
-                features: chips.features.negativeTags,
-                characteristics: chips.characteristics.negativeTags,
-              }}
-            />
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Match with you
+            </Text>
+            <View style={{marginTop: 10}}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
+
+            <Text
+              style={[
+                fontStyles.headerSmall,
+                {marginTop: 23, marginBottom: 5},
+              ]}>
+              Other
+            </Text>
+            <View style={{marginTop: 10}}>
+              {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
+          <Chips
+            tags={characteristicsTags.negativeTags}
+            features={false}
+            emoji
+          /> */}
+            </View>
           </>
         )}
+
+
+
+
 
         {button ? (
           <View>
@@ -223,6 +209,7 @@ const styles = StyleSheet.create({
   centralizerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
   },
   matchContainer: {
     width: '100%',
@@ -233,20 +220,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
     alignItems: 'center',
-  },
-  seeAllContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 23,
-    marginBottom: 5,
-  },
-  seeAllButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    text: {
-      color: Color.Blue[100],
-    },
   },
   infoContainer: {
     width: '100%',
