@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -11,11 +18,15 @@ import {useNavigation} from '@react-navigation/native';
 
 import ApplicantCard from '@Components/cards/ApplicantCard';
 import BackButton from '@Components/buttons/BackButton';
+import ApplicantsCardAdvanced from '@Components/cards/ApplicantCardAdvanced';
+import {CoreButton} from '@Components/buttons/CoreButton';
 
 const SeeApplicantsScreen = ({route}: any) => {
   const {advert} = route.params;
   const [applicants, setApplicants] = useState(advert.applicants);
   const navigation = useNavigation();
+  const [maxSelect, setMaxSelected] = useState(5);
+  const [finalRound, setFinalRound] = useState([]);
 
   const mutateApplicants = () => {
     setApplicants(
@@ -27,49 +38,79 @@ const SeeApplicantsScreen = ({route}: any) => {
 
   useEffect(() => {
     mutateApplicants();
-  }, [])
+  },[]);
 
 
+
+  const selectProfile = id => {
+    // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
+    const updatedProfiles = applicants.map(el => {
+      if (el.id === id) {
+        return {
+          ...el,
+          selected: !el.selected,
+        };
+      } else {
+        return el;
+      }
+    });
+
+    setApplicants(updatedProfiles);
+
+    const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
+
+    setFinalRound(selectedProfilesOnly);
+
+  };
+
+  console.log(applicants)
 
   return (
     <View style={styles.pageWrapper}>
-      <View style={styles.center}>
-        <View style={styles.header}>
-          <Pressable
-            style={styles.iconContainer}
-            onPress={() => navigation.goBack()}>
-            <LofftIcon
-              name="chevron-left"
-              size={35}
-              color={Color.Lavendar[80]}
-            />
-          </Pressable>
-          <View style={styles.headerText}>
-            <Text style={fontStyles.headerSmall}>Applicants</Text>
-          </View>
+      <View style={styles.header}>
+        <Pressable
+          style={styles.iconContainer}
+          onPress={() => navigation.goBack()}>
+          <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
+        </Pressable>
+        <View style={styles.headerText}>
+          <Text style={fontStyles.headerSmall}>Applicants</Text>
         </View>
-
-        {applicants.map((el, index) => (
-          <ApplicantCard key={index + 1} />
-        ))}
       </View>
+
+      <SafeAreaView style={styles.safeareaview}>
+        <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
+          {applicants.map((el, index) => (
+            <ApplicantCard
+              key={index + 1}
+              maxSelect={maxSelect}
+              selectProfile={selectProfile}
+              currentSelectedNums={finalRound.length}
+              name={el.email}
+              id={el.id}
+            />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+      <CoreButton
+        value={`Selected ${finalRound.length}/${maxSelect}`}
+        style={{width: '90%', position: 'absolute', bottom: 10}}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   pageWrapper: {
-    backgroundColor: Color.White[100],
     flex: 1,
-  },
-  center: {
-    paddingHorizontal: 20,
-    marginTop: 40,
+    backgroundColor: 'white',
+    position: 'relative',
+    alignItems: 'center',
+    width: '100%',
   },
   header: {
-    flexDirection: 'row',
-    textAlign: 'center',
-    position: 'relative',
+    marginTop: 60,
+    width: '100%',
   },
   headerText: {
     position: 'absolute',
@@ -78,6 +119,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+  },
+  safeareaview: {
+    position: 'relative',
+  },
+  scrollView: {
+    paddingBottom: 130,
+    marginTop: 20,
   },
 });
 
