@@ -17,6 +17,7 @@ const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation();
+  console.log(statusBar)
   // const currentApplicationStatus = [
   //   'open',
   //   'review',
@@ -123,8 +124,9 @@ const StatusBarComponent = ({advert}: any) => {
 
 
   // The background color height of the statusbar is set here 👨🏻‍🍳
+  // The Index needs to be stored in state or in the advert.status enum for the color to change
   useEffect(() => {
-    calculateStatusBar(advert.status);
+    calculateStatusBar(currentApplicationStatus);
   });
 
   return (
