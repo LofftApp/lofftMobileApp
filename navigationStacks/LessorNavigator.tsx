@@ -5,6 +5,9 @@ import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScre
 import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
 
 import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
+import SeeApplicantsScreen from '@Screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+import ShortListApplicantsScreen from '@Screens/dashboard/landlord/ShortListApplicantsScreen';
+import SeeProfilesScreen from '@Screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 
 const Lessor = createNativeStackNavigator();
 const LessorNavigator = () => {
@@ -17,6 +20,10 @@ const LessorNavigator = () => {
       <Lessor.Screen name="LessorIndex" component={LessorIndexScreen} />
       <Lessor.Screen name="LessorAction" component={LessorActionScreen} />
       <Lessor.Screen name="applicationshow" component={ApplicationShowScreen} />
+
+      {/* {Dynamic Status Bar Screen for Landlord Applicaiton Selection Process} */}
+      <Lessor.Screen name="Seeapplicants" component={SeeApplicantsScreen} />
+      <Lessor.Screen name="Seeprofiles" component={SeeProfilesScreen} />
     </Lessor.Navigator>
   );
 };

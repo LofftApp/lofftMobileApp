@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Dimensions} from 'react-native';
+import {Text, View, StyleSheet, Dimensions, Pressable} from 'react-native';
 
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -7,6 +7,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 
 // Components
 import {CoreButton} from '@Components/buttons/CoreButton';
+import { useNavigation } from '@react-navigation/native';
 
 // Assets 🪴
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
@@ -15,7 +16,8 @@ import statusBarText from '@Assets/coreText/statusBarText.json';
 const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
-
+  const navigation = useNavigation();
+  console.log(statusBar)
   // const currentApplicationStatus = [
   //   'open',
   //   'review',
@@ -83,9 +85,17 @@ const StatusBarComponent = ({advert}: any) => {
 
           {currentApplicationStatus === index ? (
             <View style={[styles.landlordActionButton, styles.button]}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate(key.buttonText.split(" ").join(""), {
+                    advert,
+                  })
+                }
+              >
               <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                {key.buttonText}
+                  {key.buttonText}
               </Text>
+            </Pressable>
             </View>
           ) : null}
         </View>
@@ -114,8 +124,9 @@ const StatusBarComponent = ({advert}: any) => {
 
 
   // The background color height of the statusbar is set here 👨🏻‍🍳
+  // The Index needs to be stored in state or in the advert.status enum for the color to change
   useEffect(() => {
-    calculateStatusBar(advert.status);
+    calculateStatusBar(currentApplicationStatus);
   });
 
   return (
