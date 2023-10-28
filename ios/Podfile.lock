@@ -390,7 +390,7 @@ PODS:
     - React-Core
   - react-native-image-picker (7.0.2):
     - React-Core
-  - react-native-safe-area-context (4.7.3):
+  - react-native-safe-area-context (4.7.4):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -770,7 +770,7 @@ SPEC CHECKSUMS:
   react-native-date-picker: 1d61c76315098a6ad4c643a356f005916c7d4875
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: 2e2e82aba9b6a91a7c78f7d9afde341a2659c7b8
-  react-native-safe-area-context: 238cd8b619e05cb904ccad97ef42e84d1b5ae6ec
+  react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   React-NativeModulesApple: 02e35e9a51e10c6422f04f5e4076a7c02243fff2
   React-perflogger: e3596db7e753f51766bceadc061936ef1472edc3
@@ -801,4 +801,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 36f7fd54436539c248810f07d25ca2eaeccffca2
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.0
