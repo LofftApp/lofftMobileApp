@@ -17,7 +17,7 @@ const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation();
-  console.log(statusBar)
+
   // const currentApplicationStatus = [
   //   'open',
   //   'review',

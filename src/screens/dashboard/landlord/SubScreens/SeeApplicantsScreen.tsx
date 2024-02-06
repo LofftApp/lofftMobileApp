@@ -17,6 +17,7 @@ import {getProfile} from '@Redux/user/usersMiddleware';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 import {useNavigation} from '@react-navigation/native';
+import { changeAdvertStatus } from '@Redux/adverts/advertMiddleware';
 
 import ApplicantCard from '@Components/cards/ApplicantCard';
 import BackButton from '@Components/buttons/BackButton';
@@ -42,6 +43,11 @@ const SeeApplicantsScreen = ({route}: any) => {
   useEffect(() => {
     mutateApplicants();
   }, []);
+
+
+
+
+
 
   const selectProfile = id => {
     // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
@@ -124,6 +130,7 @@ const SeeApplicantsScreen = ({route}: any) => {
               <Pressable
                 style={[styles.button, styles.buttonClose, {marginLeft: 30}]}
                 onPress={() => {
+                  changeAdvertStatus(advert.id);
                   setModalVisible(!modalVisible);
                   navigation.navigate('Seeprofiles', { secondRoundApplicants: finalRound });
 
