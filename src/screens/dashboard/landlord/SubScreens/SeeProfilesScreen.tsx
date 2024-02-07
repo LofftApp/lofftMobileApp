@@ -13,11 +13,14 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const SeeProfilesScreen = ({route}:any) => {
+
   const [modalVisible, setModalVisible] = useState(false);
   const [maxSelect, setMaxSelect] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
   const [secondRoundProfiles, setSecondRoundProfiles] = useState([])
   const navigation = useNavigation();
+
+
   const mutateApplicants = () => {
     setSecondRoundProfiles(
       route.params.secondRoundApplicants.map(applicant => {

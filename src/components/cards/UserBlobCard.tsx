@@ -13,7 +13,7 @@ import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from "@Components/lofftIcons/LofftIcon";
 
 
-const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation }) => {
+const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation }:any) => {
   const [activateBox, setActivateBox] = useState(false)
 
   const clickBox = () => {
@@ -42,9 +42,9 @@ const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigatio
         <Text style={fontStyles.headerMedium}>{capitalize(name.split("@")[0])}</Text>
         <Text style={fontStyles.bodyMedium}>🌟 98% Match</Text>
       </View>
-      <LofftIcon name="chevron-right" size={35} color={Color.Blue[80]} title="Profile page" navigation={navigation} onPress={() => navigation.navigate('ApplicantProfile', {
+      <LofftIcon name="chevron-right" size={35} color={Color.Blue[80]} title="Profile page" onPress={() => navigation.navigate('ApplicantProfile', {
         userId: id,
-        otherParam: 'anything you want here',
+        firstName: name,
       })} />
     </View>
   )
