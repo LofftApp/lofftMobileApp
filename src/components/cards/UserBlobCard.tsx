@@ -13,11 +13,11 @@ import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from "@Components/lofftIcons/LofftIcon";
 
 
-const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation, characteristics }:any) => {
-  const [activateBox, setActivateBox] = useState(false)
+const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation, characteristics, currentAdvert }:any) => {
+  const [activateBox, setActivateBox] = useState(secondRoundselected)
+
 
   const clickBox = () => {
-    console.log("selection:", secondRoundselected, "id:", id )
     setActivateBox(!activateBox)
     selectProfiles(id)
   }
@@ -27,10 +27,11 @@ const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigatio
   }
 
 
+  console.log("From UserBlob", secondRoundselected)
 
   return(
     <View style={styles.blobContainer}>
-      <CheckBox style={{marginLeft:10}} value={activateBox} onPress={() => clickBox()} />
+      <CheckBox style={{ marginLeft: 10 }} value={secondRoundselected} onPress={() => clickBox()} />
       <Image
         style={styles.profilePic}
         source={
@@ -45,7 +46,13 @@ const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigatio
       <LofftIcon name="chevron-right" size={35} color={Color.Blue[80]} title="Profile page" onPress={() => navigation.navigate('ApplicantProfile', {
         userId: id,
         firstName: name,
-        characteristics: characteristics
+        characteristics: characteristics,
+        selectedProfile: {
+          userId: id,
+          selected: secondRoundselected,
+        },
+        currentAdvert: currentAdvert,
+        selectProfilesFunc: selectProfiles,
       })} />
     </View>
   )

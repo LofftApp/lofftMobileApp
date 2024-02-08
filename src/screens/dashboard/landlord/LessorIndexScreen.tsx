@@ -34,7 +34,7 @@ const LessorIndexScreen = ({navigation}: any) => {
 
   const adverts = useAppSelector((state: any) => state.adverts.adverts);
 
-  console.log(adverts[0]);
+
   useEffect(() => {
     const getadverts = async () => {
       const adverts: any = [];
