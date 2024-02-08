@@ -20,6 +20,9 @@ const SeeProfilesScreen = ({route}:any) => {
   const [secondRoundProfiles, setSecondRoundProfiles] = useState([])
   const navigation = useNavigation();
 
+  const {currentAdvert} = route.params;
+
+
 
   const mutateApplicants = () => {
     setSecondRoundProfiles(
@@ -59,7 +62,7 @@ const SeeProfilesScreen = ({route}:any) => {
       <Text style={[styles.header, fontStyles.headerSmall]}>Applicants</Text>
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {secondRoundProfiles.map((el, index) => <UserBlobCard id={el.id} name={el.email} secondRoundselected={el.secondRoundselected} key={index + 1} selectProfiles={selectProfiles} navigation={navigation} />)}
+          {secondRoundProfiles.map((el, index) => <UserBlobCard id={el.id} name={el.email} secondRoundselected={el.secondRoundselected} key={index + 1} selectProfiles={selectProfiles} navigation={navigation} characteristics={currentAdvert.flat.characteristics} />)}
         </ScrollView>
       </SafeAreaView>
 

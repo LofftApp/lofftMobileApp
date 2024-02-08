@@ -132,7 +132,9 @@ const SeeApplicantsScreen = ({route}: any) => {
                 onPress={() => {
                   changeAdvertStatus(advert.id);
                   setModalVisible(!modalVisible);
-                  navigation.navigate('Seeprofiles', { secondRoundApplicants: finalRound });
+                  navigation.navigate('Seeprofiles', {
+                    secondRoundApplicants: finalRound,
+                     currentAdvert: advert });
 
                 }}>
                 <Text style={styles.textStyle}>Yes</Text>
