@@ -8,7 +8,7 @@ import FlatListComponent from '../renter/SubScreens/FlatListComponent';
 import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
 
 // Redux
-import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import { useAppDispatch, useAppSelector } from '@ReduxCore/hooks';
 import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
@@ -26,9 +26,15 @@ const LessorIndexScreen = ({navigation}: any) => {
 
   useEffect(() => {
     dispatch(fetchAdverts());
+    // dispatch(getProfile())
+
   }, []);
 
+
+
   const adverts = useAppSelector((state: any) => state.adverts.adverts);
+
+  console.log(adverts[0]);
   useEffect(() => {
     const getadverts = async () => {
       const adverts: any = [];

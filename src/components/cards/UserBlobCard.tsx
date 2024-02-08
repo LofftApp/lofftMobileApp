@@ -13,7 +13,7 @@ import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from "@Components/lofftIcons/LofftIcon";
 
 
-const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation }:any) => {
+const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation, characteristics }:any) => {
   const [activateBox, setActivateBox] = useState(false)
 
   const clickBox = () => {
@@ -45,6 +45,7 @@ const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigatio
       <LofftIcon name="chevron-right" size={35} color={Color.Blue[80]} title="Profile page" onPress={() => navigation.navigate('ApplicantProfile', {
         userId: id,
         firstName: name,
+        characteristics: characteristics
       })} />
     </View>
   )

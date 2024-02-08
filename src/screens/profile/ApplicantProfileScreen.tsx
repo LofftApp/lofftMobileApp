@@ -6,10 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 /* Redux Api Calls etc */
 import { getSpecificUserProfile } from '@Redux/user/usersMiddleware';
 
+
 /* Components */
 import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
 import HighlightButtons from '@Components/containers/HighlightButtons';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
+
+
 
 /* Styles */
 import { fontStyles } from '@StyleSheets/fontStyles';
@@ -19,11 +22,14 @@ import Color from '@StyleSheets/lofftColorPallet.json';
 const ApplicantProfileScreen = ({route}:any) => {
 
   const navigation = useNavigation()
-  const { userId, firstName } = route.params
+  const { userId, firstName, characteristics } = route.params
   const [profileDetails, setProfileDetails] = useState({})
   const [profileChars, setProfileCharts] = useState([])
   const images = ["https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp", "https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp", "https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp","https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp"]
 
+  const [matches, setMatches] = useState([])
+
+  const landlordChars = characteristics;
 
   useEffect(() => {
       const apiCallToRetriveUser = getSpecificUserProfile(userId)
@@ -33,14 +39,18 @@ const ApplicantProfileScreen = ({route}:any) => {
           setProfileCharts(result.data.profile_characteristics)
     })
 
+
   },[])
 
   const capitalize = word => {
     return word.charAt(0).toUpperCase() + word.substring(1)
   }
 
-  console.log(profileDetails)
+  console.log(landlordChars, profileChars)
 
+  const showMatches = () => {
+
+  }
 
   return (
     <View style={styles.container}>
