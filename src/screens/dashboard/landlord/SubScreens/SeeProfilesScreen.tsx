@@ -13,14 +13,14 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const SeeProfilesScreen = ({route}:any) => {
-
+  const [userSelectedByProfile, setUserSelectedByProfile] = useState({})
   const [modalVisible, setModalVisible] = useState(false);
   const [maxSelect, setMaxSelect] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
   const [secondRoundProfiles, setSecondRoundProfiles] = useState([])
   const navigation = useNavigation();
 
-  const {currentAdvert} = route.params;
+  const { currentAdvert, selectedProfile } = route.params || null;
 
 
 
@@ -34,6 +34,7 @@ const SeeProfilesScreen = ({route}:any) => {
 
   useEffect(() => {
     mutateApplicants();
+    setUserSelectedByProfile(selectedProfile);
   },[]);
 
   const selectProfiles = id => {
@@ -56,13 +57,16 @@ const SeeProfilesScreen = ({route}:any) => {
   }
 
 
+  const sayHi = () => {
+    console.log("Hi")
+  }
 
   return (
     <View style={styles.pageWrapper}>
       <Text style={[styles.header, fontStyles.headerSmall]}>Applicants</Text>
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {secondRoundProfiles.map((el, index) => <UserBlobCard id={el.id} name={el.email} secondRoundselected={el.secondRoundselected} key={index + 1} selectProfiles={selectProfiles} navigation={navigation} characteristics={currentAdvert.flat.characteristics} />)}
+          {secondRoundProfiles.map((el, index) => <UserBlobCard id={el.id} name={el.email} secondRoundselected={el.secondRoundselected} key={index + 1} selectProfiles={selectProfiles} navigation={navigation} currentAdvert={currentAdvert} characteristics={currentAdvert.flat.characteristics} sayHi={sayHi}/>)}
         </ScrollView>
       </SafeAreaView>
 
