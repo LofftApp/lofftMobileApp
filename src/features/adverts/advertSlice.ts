@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchAdverts, toggleFavorite} from './advertMiddleware';
+import {fetchAdverts, toggleFavorite, changeAdvertStatus} from './advertMiddleware';
 
 interface AdvertState {
   loading: boolean;
@@ -137,6 +137,19 @@ export const advertSlice = createSlice({
         }
       },
     );
+    builder.addCase(changeAdvertStatus.fulfilled, (state,action) => {
+      const advertId = action.payload.id;
+      state.adverts.map((el) => {
+        if (el.id === advertId) {
+          return {
+            ...el,
+            status: action.payload.status
+          }
+        } else {
+          return el
+        }
+      })
+    })
   },
 });
 

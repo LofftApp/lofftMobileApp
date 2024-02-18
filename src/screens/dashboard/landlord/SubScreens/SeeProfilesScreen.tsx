@@ -57,9 +57,6 @@ const SeeProfilesScreen = ({route}:any) => {
   }
 
 
-  const sayHi = () => {
-    console.log("Hi")
-  }
 
   return (
     <View style={styles.pageWrapper}>
