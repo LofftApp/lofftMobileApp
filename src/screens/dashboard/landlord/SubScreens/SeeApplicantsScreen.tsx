@@ -31,10 +31,15 @@ const SeeApplicantsScreen = ({route}: any) => {
   const [maxSelect, setMaxSelected] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useAppDispatch()
+
+  const generealState = useAppSelector(state => state)
+
+  console.log()
 
   const mutateApplicants = () => {
     setApplicants(
-      applicants.map(applicant => {
+      applicants.map((applicant:any) => {
         return {...applicant, selected: false};
       }),
     );
@@ -43,6 +48,7 @@ const SeeApplicantsScreen = ({route}: any) => {
   useEffect(() => {
     mutateApplicants();
   }, []);
+
 
 
 
@@ -130,7 +136,7 @@ const SeeApplicantsScreen = ({route}: any) => {
               <Pressable
                 style={[styles.button, styles.buttonClose, {marginLeft: 30}]}
                 onPress={() => {
-                  changeAdvertStatus(advert.id);
+                  dispatch(changeAdvertStatus(advert.id));
                   setModalVisible(!modalVisible);
                   navigation.navigate('Seeprofiles', {
                     secondRoundApplicants: finalRound,

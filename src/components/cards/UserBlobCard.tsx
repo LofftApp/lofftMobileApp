@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 import {View, Text, StyleSheet, Image} from "react-native"
 
+
 // Styles
 import Color from '@StyleSheets/lofftColorPallet.json';
 import { fontStyles } from '@StyleSheets/fontStyles';
@@ -13,6 +14,7 @@ import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from "@Components/lofftIcons/LofftIcon";
 
 
+
 const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigation, characteristics, currentAdvert }:any) => {
   const [activateBox, setActivateBox] = useState(secondRoundselected)
 
@@ -22,12 +24,11 @@ const UserBlobCard = ({ id, selectProfiles, name, secondRoundselected, navigatio
     selectProfiles(id)
   }
 
-  const capitalize = word => {
+  const capitalize = (word:any) => {
    return  word.charAt(0).toUpperCase() + word.substring(1)
   }
 
 
-  console.log("From UserBlob", secondRoundselected)
 
   return(
     <View style={styles.blobContainer}>
