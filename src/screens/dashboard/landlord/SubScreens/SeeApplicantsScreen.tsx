@@ -35,7 +35,7 @@ const SeeApplicantsScreen = ({route}: any) => {
 
   const generealState = useAppSelector(state => state)
 
-  console.log()
+
 
   const mutateApplicants = () => {
     setApplicants(
