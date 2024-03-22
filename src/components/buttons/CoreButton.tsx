@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar[100],
     borderColor: Color.Lavendar[100],
     borderRadius: 12,
-    height: 53,
+    padding: 10,
     borderWidth: 2,
   },
   buttonTextStyle: {

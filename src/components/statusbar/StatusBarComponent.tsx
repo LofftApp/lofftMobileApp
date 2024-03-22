@@ -17,14 +17,14 @@ const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation();
-  console.log(statusBar)
-  // const currentApplicationStatus = [
-  //   'open',
-  //   'review',
-  //   'viewing',
-  //   'offered',
-  //   'closed',
-  // ].indexOf(advert.status);
+
+  const currentApplicationStatus = [
+    'open',
+    'review',
+    'viewing',
+    'offered',
+    'closed',
+  ].indexOf(advert.status);
 
 
 
@@ -37,7 +37,7 @@ const StatusBarComponent = ({advert}: any) => {
   // ].indexOf(advert.status);
 
   // Lower code needed to test access to different routes
-  const currentApplicationStatus = 0;
+  // const currentApplicationStatus = 0;
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key: any, index: number) => {
