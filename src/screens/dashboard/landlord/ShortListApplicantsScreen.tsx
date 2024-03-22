@@ -69,7 +69,7 @@ const ShortListApplicantsScreen = ({navigation}) => {
     // });
   };
 
-  console.log(windowHeight);
+
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
