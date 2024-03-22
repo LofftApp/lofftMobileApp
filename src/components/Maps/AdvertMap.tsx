@@ -79,7 +79,8 @@ const AdvertMap = () => {
       <View style={styles.container}>
         <MapboxGL.MapView
           style={styles.map}
-          styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
+          // styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}
+          >
           <MapboxGL.Camera
             zoomLevel={15}
             centerCoordinate={coordinateViewConverter(
