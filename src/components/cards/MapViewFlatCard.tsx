@@ -35,6 +35,8 @@ const MapViewFlatCard = (advertR: any, id: number) => {
     advert.flat.characteristics,
   );
 
+  console.log("hello from Flat view", advert.id)
+
   const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   const dispatch = useAppDispatch();
@@ -55,7 +57,7 @@ const MapViewFlatCard = (advertR: any, id: number) => {
               <MatchingScoreButton size="Small" score={advert.matchScore} />
               <Pressable
                 onPress={() => {
-                  dispatch(toggleFavorite(id));
+                  dispatch(toggleFavorite(advert.id));
                 }}>
                 {/* ! This need to be updated with validation */}
                 {advert.favorite ? (
