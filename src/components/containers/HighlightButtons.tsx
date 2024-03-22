@@ -10,10 +10,14 @@ import {
 import Color from '@StyleSheets/lofftColorPallet.json';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
-// Important Notice !!
-/*
-  The navigation prop has to be passed on from the corresponding parent component
-*/
+
+// Redux 🏗️
+import { useAppSelector, useAppDispatch } from '@ReduxCore/hooks';
+import { toggleFavorite } from '@Redux/adverts/advertMiddleware';
+import { useSelector } from 'react-redux';
+
+
+
 
 const HighlightButtons = ({
   goBack = true,
@@ -22,9 +26,18 @@ const HighlightButtons = ({
   heartPresent = true,
   color = null,
   favorite,
+  advert = null,
   onPressHeart,
 }: any) => {
-  const [saved, setSaved] = useState(false);
+
+  const [saved, setSaved] = useState(advert.favorite)
+  const dispatch = useAppDispatch()
+
+  const changeSaved = (id) => {
+      setSaved(!saved)
+      dispatch(toggleFavorite(id))
+  }
+
 
   return (
     <View
@@ -45,17 +58,17 @@ const HighlightButtons = ({
       ) : null}
 
       {heartPresent ? (
-        <Pressable style={styles.iconContainer} onPress={onPressHeart}>
-          {favorite ? (
+        < Pressable style={styles.iconContainer} onPress={() => changeSaved(advert.id) }>
+          {saved ? (
             <LofftIcon
               name="heart-filled"
               size={35}
               color={Color.Tomato[100]}
             />
           ) : (
-            <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
+              <LofftIcon name="heart" size={35} color={Color.Tomato[100]}  />
           )}
-        </Pressable>
+        </ Pressable>
       ) : null}
     </View>
   );

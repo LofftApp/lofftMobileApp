@@ -26,8 +26,6 @@ const LessorIndexScreen = ({navigation}: any) => {
 
   useEffect(() => {
     dispatch(fetchAdverts());
-    // dispatch(getProfile())
-
   }, []);
 
 

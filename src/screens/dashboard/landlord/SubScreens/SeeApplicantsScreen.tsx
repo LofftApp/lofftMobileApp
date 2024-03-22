@@ -33,10 +33,6 @@ const SeeApplicantsScreen = ({route}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useAppDispatch()
 
-  const generealState = useAppSelector(state => state)
-
-
-
   const mutateApplicants = () => {
     setApplicants(
       applicants.map((applicant:any) => {
@@ -48,11 +44,6 @@ const SeeApplicantsScreen = ({route}: any) => {
   useEffect(() => {
     mutateApplicants();
   }, []);
-
-
-
-
-
 
 
   const selectProfile = id => {

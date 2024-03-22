@@ -40,7 +40,6 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           {advert.matchScore ? (
             <View>
               <Pressable
-                // style={styles.flatCardSaveButton}
                 onPress={() => {
                   dispatch(toggleFavorite(advert.id));
                 }}>

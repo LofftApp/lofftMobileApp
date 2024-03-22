@@ -36,6 +36,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
   const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   const dispatch = useAppDispatch();
+  console.log(advert)
 
   // if (userType === 'renter') {
   //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
@@ -83,7 +84,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
             <HighlightedButtons
               navigation={navigation}
               favorite={advert.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert.id))}
+              advert={advert}
             />
           ) : null}
           <LofftHeaderPhoto
