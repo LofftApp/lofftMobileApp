@@ -74,14 +74,14 @@ PODS:
     - hermes-engine/Pre-built (= 0.72.12)
   - hermes-engine/Pre-built (0.72.12)
   - libevent (2.1.12)
-  - MapboxCommon (23.8.6)
-  - MapboxCoreMaps (10.16.4):
-    - MapboxCommon (~> 23.8)
-  - MapboxMaps (10.16.4):
-    - MapboxCommon (= 23.8.6)
-    - MapboxCoreMaps (= 10.16.4)
+  - MapboxCommon (23.9.1)
+  - MapboxCoreMaps (10.16.6):
+    - MapboxCommon (~> 23.9)
+  - MapboxMaps (10.16.6):
+    - MapboxCommon (= 23.9.1)
+    - MapboxCoreMaps (= 10.16.6)
     - MapboxMobileEvents (= 1.0.10)
-    - Turf (~> 2.0)
+    - Turf (= 2.7.0)
   - MapboxMobileEvents (1.0.10)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.07.22.00):
@@ -521,13 +521,13 @@ PODS:
     - React
     - React-Core
     - Turf
-  - RNScreens (3.29.0):
+  - RNScreens (3.30.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSVG (13.14.0):
     - React-Core
   - SocketRocket (0.6.1)
-  - Turf (2.8.0)
+  - Turf (2.7.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -747,9 +747,9 @@ SPEC CHECKSUMS:
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: e89344b9e9e54351c3c5cac075e0275148fb37ba
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  MapboxCommon: 90f76693dc02438acbb5ea9a5b266a4c0eb1c875
-  MapboxCoreMaps: 7b07d1ca8c454a4381daf09df901b9d6bf90bce0
-  MapboxMaps: cbb38845a9bf49b124f0e937975d560a4e01894e
+  MapboxCommon: 20466d839cc43381c44df09d19f7f794b55b9a93
+  MapboxCoreMaps: c21f433decbb295874f0c2464e492166db813b56
+  MapboxMaps: c3b36646b9038706bbceb5de203bcdd0f411e9d0
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -792,13 +792,13 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNGestureHandler: fc754e30bb46d093b46b47824e1a04e722fd8a3d
   rnmapbox-maps: 9c1b8403c28d354c8f0ad142d765054544f90cea
-  RNScreens: 8ba3eeb8f5cb9f13662df564e785d64ef7214bf2
+  RNScreens: e5ee7223f7c8fa261f0c4594a0541c56ea99bbfc
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
+  Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
   Yoga: 87e59f6d458e5061d2421086c5de994b3f7cd151
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 36f7fd54436539c248810f07d25ca2eaeccffca2
 
-COCOAPODS: 1.14.0
+COCOAPODS: 1.15.2
