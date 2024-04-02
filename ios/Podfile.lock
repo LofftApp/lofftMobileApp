@@ -507,7 +507,7 @@ PODS:
     - React-perflogger (= 0.72.12)
   - RNCAsyncStorage (1.23.1):
     - React-Core
-  - RNGestureHandler (2.15.0):
+  - RNGestureHandler (2.16.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - rnmapbox-maps (10.1.19):
@@ -790,7 +790,7 @@ SPEC CHECKSUMS:
   React-utils: 9a24cb88f950d1020ee55bddacbc8c16a611e2dc
   ReactCommon: 76843a9bb140596351ac2786257ac9fe60cafabb
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
-  RNGestureHandler: fc754e30bb46d093b46b47824e1a04e722fd8a3d
+  RNGestureHandler: b83cf821f60b7ec59827f0ed9e5b8c46b1de2c99
   rnmapbox-maps: 9c1b8403c28d354c8f0ad142d765054544f90cea
   RNScreens: e5ee7223f7c8fa261f0c4594a0541c56ea99bbfc
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
