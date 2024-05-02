@@ -17,7 +17,10 @@
 		1A3477CF295676DE00CF61F4 /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477C8295676D600CF61F4 /* Inter-SemiBold.otf */; };
 		1A3477D0295676DE00CF61F4 /* InterV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A3477CA295676D700CF61F4 /* InterV.ttf */; };
 		1A646643299412CA005768C2 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A646642299412B9005768C2 /* icomoon.ttf */; };
+		1A8154A32BE3A665003B22F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		1A8154A42BE3A665003B22F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		31224D21A181FCA983B74C89 /* libPods-lofftMobileApp-lofftMobileAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B377205D266A75F612E9283A /* libPods-lofftMobileApp-lofftMobileAppTests.a */; };
+		6132EF182BDFF13200BBE14D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6132EF172BDFF13200BBE14D /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		94F983575B8912C2512C66DF /* libPods-lofftMobileApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */; };
 /* End PBXBuildFile section */
@@ -52,6 +55,7 @@
 		1A9F9146293D637E00738116 /* lofftMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lofftMobileApp.entitlements; path = lofftMobileApp/lofftMobileApp.entitlements; sourceTree = "<group>"; };
 		463CE714B8F8790C8BCF0B3D /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6132EF172BDFF13200BBE14D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = lofftMobileApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lofftMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		971FE7CCBF6F2C690D0D78C3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A9B2A04444A2644D2D4E9C3D /* Pods-lofftMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6132EF172BDFF13200BBE14D /* PrivacyInfo.xcprivacy */,
 				1A01BF5E290055B100529A35 /* Resources */,
 				13B07FAE1A68108700A75B9A /* lofftMobileApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -264,6 +269,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6132EF182BDFF13200BBE14D /* PrivacyInfo.xcprivacy in Resources */,
+				1A8154A32BE3A665003B22F4 /* LaunchScreen.storyboard in Resources */,
+				1A8154A42BE3A665003B22F4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
