@@ -35,6 +35,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MBXAccessToken</key>
+	<string>pk.eyJ1IjoiamhpYmJzODkiLCJhIjoiY2x2cDRlZnA3MHVraTJrbzZjamlhN2diaiJ9._C5MWhHUYiHejXvzm8ypCQ</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
