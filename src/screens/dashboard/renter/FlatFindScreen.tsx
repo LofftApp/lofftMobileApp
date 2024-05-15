@@ -26,7 +26,10 @@ const FlatFindScreen = ({navigation}: any) => {
   };
 
   const dispatch = useAppDispatch();
-  dispatch(fetchAdverts());
+  
+  useEffect(() => {
+    dispatch(fetchAdverts());
+  }, [dispatch]);
 
   const [search, setSearch] = useState('');
   const [screen, setScreen] = useState('list');
