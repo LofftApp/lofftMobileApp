@@ -56,7 +56,6 @@ const App = () => {
   MapboxGL.setWellKnownTileServer(
     Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
   );
-  console.log('Mapbox API Key:', MAPBOX_API_KEY);
   MapboxGL.setAccessToken(MAPBOX_API_KEY);
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);

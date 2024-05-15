@@ -51,17 +51,13 @@ const ApplicationIndexScreen = ({navigation}: any) => {
             <View style={styles.actionContainer}>
               <Pressable style={[styles.addButton, {marginRight: 15}]}>
                 <LofftIcon
-                  name={'message-circle'}
+                  name="message-circle"
                   size={33}
                   color={Color.Lavendar[100]}
                 />
               </Pressable>
               <Pressable style={styles.addButton}>
-                <LofftIcon
-                  name={'plus'}
-                  size={33}
-                  color={Color.Lavendar[100]}
-                />
+                <LofftIcon name="plus" size={33} color={Color.Lavendar[100]} />
               </Pressable>
             </View>
           </>
