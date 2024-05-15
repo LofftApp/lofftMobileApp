@@ -507,16 +507,16 @@ PODS:
     - React-perflogger (= 0.72.14)
   - RNCAsyncStorage (1.23.1):
     - React-Core
-  - RNGestureHandler (2.16.1):
+  - RNGestureHandler (2.16.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - rnmapbox-maps (10.1.21):
+  - rnmapbox-maps (10.1.24):
     - MapboxMaps (~> 10.17.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.1.21)
+    - rnmapbox-maps/DynamicLibrary (= 10.1.24)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.1.21):
+  - rnmapbox-maps/DynamicLibrary (10.1.24):
     - MapboxMaps (~> 10.17.0)
     - React
     - React-Core
@@ -525,7 +525,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
-  - RNSVG (13.14.0):
+  - RNSVG (13.14.1):
     - React-Core
   - SocketRocket (0.6.1)
   - Turf (2.7.0)
@@ -791,10 +791,10 @@ SPEC CHECKSUMS:
   React-utils: 22a77b05da25ce49c744faa82e73856dcae1734e
   ReactCommon: ff94462e007c568d8cdebc32e3c97af86ec93bb5
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
-  RNGestureHandler: 57b260d9fb69c5dd2bb3a7e4dadcf0d2d4a7027c
-  rnmapbox-maps: f8beebfd696f25ac33d15ffda38125327d54a65a
+  RNGestureHandler: 982741f345785f2927e7b28f67dc83679cf3bfc8
+  rnmapbox-maps: 8005faa8e35b413ea5f387d8e057e9c2d7bcfbff
   RNScreens: b8d370282cdeae9df85dd5eab20c88eb5181243b
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Turf: 13d1a92d969ca0311bbc26e8356cca178ce95da2
   Yoga: c32e0be1a17f8f1f0e633a3122f7666441f52c82
