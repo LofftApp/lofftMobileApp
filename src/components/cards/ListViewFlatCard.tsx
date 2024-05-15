@@ -49,6 +49,7 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
                     name="heart-filled"
                     size={25}
                     color={Color.Tomato[100]}
+
                   />
                 ) : (
                   <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />

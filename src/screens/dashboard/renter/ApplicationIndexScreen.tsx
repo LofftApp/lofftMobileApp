@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from '@ReduxCore/hooks';
+import {createSelector} from '@reduxjs/toolkit';
 // Screens 📺
 import FlatListComponent from '@Screens/dashboard/renter/SubScreens/FlatListComponent';
 
@@ -17,13 +18,21 @@ import {advertPartition} from '@Helpers/advertPartition';
 import LofftIcon from '@Components/lofftIcons/LofftIcon';
 
 const ApplicationIndexScreen = ({navigation}: any) => {
-  const [userType, adverts] = useAppSelector((state: any) => {
-    let userAdverts = state.adverts.adverts;
-    if (userType === 'tenant') {
-      userAdverts = userAdverts.filter((advert: any) => advert.applied);
-    }
-    return [state.user.user.userType, userAdverts];
-  });
+  const getUserType = (state: any) => state.user.user.userType;
+  const getAdverts = (state: any) => state.adverts.adverts;
+
+  const selectUserTypeAndAdverts = createSelector(
+    [getUserType, getAdverts],
+    (userType, adverts) => {
+      let userAdverts = adverts;
+      if (userType === 'tenant') {
+        userAdverts = userAdverts.filter((advert: any) => advert.applied);
+      }
+      return [userType, userAdverts];
+    },
+  );
+
+  const [userType, adverts] = useAppSelector(selectUserTypeAndAdverts);
 
   const [activeAdverts, inactiveAdverts] = advertPartition(adverts);
 
@@ -78,8 +87,8 @@ const ApplicationIndexScreen = ({navigation}: any) => {
             userType === 'lessor'
               ? adverts
               : screen === 'thumbs-down'
-              ? inactiveAdverts
-              : activeAdverts
+                ? inactiveAdverts
+                : activeAdverts
           }
           navigation={navigation}
           isLessor={userType === 'lessor'}
