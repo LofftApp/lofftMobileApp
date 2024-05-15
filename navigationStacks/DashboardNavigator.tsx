@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

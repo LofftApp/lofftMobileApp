@@ -8,7 +8,7 @@ import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Components
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const LanguagesCard = ({language, selected, handleSelectedLanguages}: any) => {
   const [isSelected, setIsSelected] = useState(false);

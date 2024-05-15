@@ -5,7 +5,7 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {useAppSelector} from '@ReduxCore/hooks';
 
 // Components 🪢
-import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
+import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // ! This is  a duplicat page, for landord and renter, refactor this to be one page
 

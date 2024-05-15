@@ -2,19 +2,19 @@ import React, {useState, FC} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import EmojiIcon from '@Components/Emojicon/EmojiIcon';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import EmojiIcon from 'components/Emojicon/EmojiIcon';
 import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
 
 // StylesSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Data 💿
-import userPreferences from '@Components/componentData/userPreferences.json';
+import userPreferences from 'components/componentData/userPreferences.json';
 
 // Helper 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';

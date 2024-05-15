@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TextInput} from 'react-native';
 
 // Components 🖼️
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';

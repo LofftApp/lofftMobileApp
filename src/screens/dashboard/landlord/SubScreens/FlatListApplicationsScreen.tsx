@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
-import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
-import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
+import ListViewFlatCard from 'components/cards/ListViewFlatCard';
+import ListFlatApplicationCard from 'components/cards/ListFlatApplicationCard';
 
 const FlatListComponent = ({active, flats, navigation}: any) => {
   return (

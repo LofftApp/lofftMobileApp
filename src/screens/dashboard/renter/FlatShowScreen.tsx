@@ -15,11 +15,11 @@ import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlightButtons';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
+import HighlightedButtons from 'components/containers/HighlightButtons';
+import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import CompleteProfileImage from '@Assets/images/Illustration.png';
-import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
-import CompleteProfilePopUpModal from '@Components/modals/CompleteProfilePopUpModal';
+import FlatInfoContainer from 'components/containers/FlatInfoContainer';
+import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
 
 // Helpers
 import {tagSorter} from '@Helpers/tagSorter';

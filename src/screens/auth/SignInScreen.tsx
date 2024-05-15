@@ -2,8 +2,8 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Components 🪢
-import SignInForm from '@Components/Forms/SignInForm';
-import SignInWith from '@Components/SignInWith';
+import SignInForm from 'components/Forms/SignInForm';
+import SignInWith from 'components/SignInWith';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

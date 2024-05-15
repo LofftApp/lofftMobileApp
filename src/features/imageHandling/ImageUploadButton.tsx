@@ -5,7 +5,7 @@ import {setImageToUpload} from './userImageUploadSlice';
 import {setDetails} from '@Redux/registration/userJourneySlice';
 
 // Componetne 🪢
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const ImageUploadButton = ({onPress = () => {}}) => {
   const dispatch = useAppDispatch();

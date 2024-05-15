@@ -2,19 +2,19 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Cards 🃏
-import ApplicantsCard from '@Components/cards/ListViewApplicantCard';
+import ApplicantsCard from 'components/cards/ListViewApplicantCard';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 
 // Components 🪢
-import FilterButton from '@Components/buttons/FilterButton';
-import BackButton from '@Components/buttons/BackButton';
+import FilterButton from 'components/buttons/FilterButton';
+import BackButton from 'components/buttons/BackButton';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const ApplicantsIndexScreen = ({navigation}: any) => {
   const applicants = useAppSelector(

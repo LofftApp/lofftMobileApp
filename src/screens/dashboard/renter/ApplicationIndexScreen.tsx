@@ -8,14 +8,14 @@ import {createSelector} from '@reduxjs/toolkit';
 import FlatListComponent from '@Screens/dashboard/renter/SubScreens/FlatListComponent';
 
 // Components 🪢
-import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
+import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 // helpers 🧰
 import {advertPartition} from '@Helpers/advertPartition';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const ApplicationIndexScreen = ({navigation}: any) => {
   const getUserType = (state: any) => state.user.user.userType;

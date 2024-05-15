@@ -9,9 +9,9 @@ import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 
-import Chips from '@Components/buttons/Chips';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import Chips from 'components/buttons/Chips';
+import {CoreButton} from 'components/buttons/CoreButton';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Helpers
 import {dateFormatConverter} from '@Helpers/dateFormatConverter';
@@ -51,7 +51,6 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-
 
   return (
     <View style={styles.centralizerContainer}>
@@ -170,10 +169,6 @@ const FlatInfoContainer = ({
             </View>
           </>
         )}
-
-
-
-
 
         {button ? (
           <View>

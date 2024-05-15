@@ -9,11 +9,11 @@ import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
 
 // Components 🪢
-import FilterButton from '@Components/buttons/FilterButton';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import FlatMap from '@Components/Maps/AdvertMap';
-import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
-import SearchFilterModal from '@Components/modals/SearchFilterModal';
+import FilterButton from 'components/buttons/FilterButton';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import FlatMap from 'components/Maps/AdvertMap';
+import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
+import SearchFilterModal from 'components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
@@ -26,7 +26,7 @@ const FlatFindScreen = ({navigation}: any) => {
   };
 
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     dispatch(fetchAdverts());
   }, [dispatch]);

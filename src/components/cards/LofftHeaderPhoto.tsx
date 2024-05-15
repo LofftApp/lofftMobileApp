@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {StyleSheet, FlatList, Image, Dimensions, View} from 'react-native';
 
 // Components
-import PaginationBar from '@Components/bars/PaginationBar';
+import PaginationBar from 'components/bars/PaginationBar';
 
 const LofftHeaderPhoto = ({
   imageContainerHeight,

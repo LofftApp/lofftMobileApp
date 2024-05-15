@@ -12,23 +12,23 @@ import {
 } from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import EmojiIcon from '@Components/Emojicon/EmojiIcon';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import EmojiIcon from 'components/Emojicon/EmojiIcon';
 import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
 import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
-import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Color from '@StyleSheets/lofftColorPallet.json';
 
 // Data 💿
-import CityDistricts from '@Components/componentData/cityDistricts.json';
+import CityDistricts from 'components/componentData/cityDistricts.json';
 
 // Helper 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';

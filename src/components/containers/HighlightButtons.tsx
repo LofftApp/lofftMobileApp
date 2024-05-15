@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Important Notice !!
 /*

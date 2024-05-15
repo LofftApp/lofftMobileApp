@@ -13,9 +13,9 @@ import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // Components 🪢
-import Chips from '@Components/buttons/Chips';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
+import Chips from 'components/buttons/Chips';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

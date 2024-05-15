@@ -9,11 +9,11 @@ import {
 import DatePicker from 'react-native-date-picker';
 
 // Screen 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
@@ -60,8 +60,8 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                 {today
                   ? 'Today'
                   : fromDateSelected
-                  ? dateFormatConverter({date: fromDate})
-                  : 'Choose date'}
+                    ? dateFormatConverter({date: fromDate})
+                    : 'Choose date'}
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
@@ -102,8 +102,8 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                 {perminant
                   ? 'Choose date'
                   : untilDateSelected
-                  ? dateFormatConverter({date: untilDate})
-                  : 'Last day'}
+                    ? dateFormatConverter({date: untilDate})
+                    : 'Last day'}
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>

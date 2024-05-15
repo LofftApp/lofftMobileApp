@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

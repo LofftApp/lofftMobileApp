@@ -6,8 +6,8 @@ import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
 import {signIn} from '@Redux/authentication/authenticationMiddleware';
 
 // Components 🪢
-import SignUpButton from '@Components/buttons/SignUpButton';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import SignUpButton from 'components/buttons/SignUpButton';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

@@ -6,11 +6,11 @@ import {useAppDispatch} from '@ReduxCore/hooks';
 import {saveUserDetails} from '@Redux/registration/userJourneySlice';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import {CoreButton} from 'components/buttons/CoreButton';
 import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
 
 // Styles 🖼️

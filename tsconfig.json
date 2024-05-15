@@ -11,7 +11,7 @@
       // API
       "api/*": ["./api/*"],
       // Components
-      "@Components/*": ["./components/*"],
+      "components/*": ["./components/*"],
       "@Screens/*": ["./screens/*"],
       // Stylesheets
       "@StyleSheets/*": ["./styles/*"],

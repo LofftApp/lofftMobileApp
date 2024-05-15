@@ -3,16 +3,16 @@ import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
 // Data 💿
-import flatPreferences from '@Components/componentData/flatPreferences.json';
+import flatPreferences from 'components/componentData/flatPreferences.json';
 
 // Screens 📺
-import BackButton from '@Components/buttons/BackButton';
+import BackButton from 'components/buttons/BackButton';
 
 // Components 🪢
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import {fontStyles} from '@StyleSheets/fontStyles';
-import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // StyleSheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

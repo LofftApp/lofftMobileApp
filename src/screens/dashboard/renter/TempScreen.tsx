@@ -8,7 +8,7 @@ import {signOut} from '@Redux/authentication/authenticationMiddleware';
 import {clearProfile} from '@Redux/user/usersSlice';
 
 // Components
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
   const dispatch = useAppDispatch();

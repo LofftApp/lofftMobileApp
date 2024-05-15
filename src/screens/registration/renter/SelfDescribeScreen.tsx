@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Pressable, TextInput} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';

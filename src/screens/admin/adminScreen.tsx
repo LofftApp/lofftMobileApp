@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, Button} from 'react-native';
 // Api
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Redux 🧠
 import UserJourneyButton from '@Redux/registration/UserJourneyButton';

@@ -6,11 +6,11 @@ import {useDispatch} from 'react-redux';
 import {signOut} from '@Redux/authentication/authenticationMiddleware';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import IconButton from '@Components/buttons/IconButton';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import IconButton from 'components/buttons/IconButton';
 
 // Redux 🧠
 import UserJourneyButton from '@Redux/registration/UserJourneyButton';

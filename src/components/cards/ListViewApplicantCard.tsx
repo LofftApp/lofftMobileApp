@@ -5,17 +5,17 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 
 // Components 🪢
-import {CoreButton} from '@Components/buttons/CoreButton';
-import Chips from '@Components/buttons/Chips';
+import {CoreButton} from 'components/buttons/CoreButton';
+import Chips from 'components/buttons/Chips';
 
 // StyleSheet 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
 import Collapsible from 'react-native-collapsible';
-import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Assets 🪴
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const ApplicantsCard = ({email}: any) => {
   const [activateBox, setActiveBox] = useState(false);

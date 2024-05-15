@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 
 // Components 🧬
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux 🐙
 import {useAppDispatch} from '@ReduxCore/hooks';
@@ -280,17 +280,17 @@ export default ListFlatApplicationCard;
 // import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 
 // // Components 🪢
-// import {CoreButton} from '@Components/buttons/CoreButton';
-// import Chips from '@Components/buttons/Chips';
+// import {CoreButton} from 'components/buttons/CoreButton';
+// import Chips from 'components/buttons/Chips';
 
 // // StyleSheet 🖼️
 // import Color from '@StyleSheets/lofftColorPallet.json';
 // import {fontStyles} from '@StyleSheets/fontStyles';
 // import Collapsible from 'react-native-collapsible';
-// import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
+// import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // // Assets 🪴
-// import LofftIcon from '@Components/lofftIcons/LofftIcon';
+// import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // const ApplicantsCard = ({}: any) => {
 //   const [activateBox, setActiveBox] = useState(false);

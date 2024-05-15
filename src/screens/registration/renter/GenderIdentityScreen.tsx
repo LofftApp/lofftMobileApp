@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
-import SelectButton from '@Components/buttons/SelectButton';
+import SelectButton from 'components/buttons/SelectButton';
 import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
 
 // Styles 🖼️
 
 // Helper 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 const GenderIdentityScreen = ({navigation, route}: any) => {
   const genders = [

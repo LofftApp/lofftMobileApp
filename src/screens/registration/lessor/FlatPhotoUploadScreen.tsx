@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {View, StyleSheet, TextInput, Modal} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import {CoreButton} from 'components/buttons/CoreButton';
 import ImageUploadButton from '@Redux/imageHandling/ImageUploadButton';
 import ImagePreviewRow from '@Redux/imageHandling/ImagePreviewRow';
 import UploadImageButton from '@Redux/imageHandling/UploadImageButton';

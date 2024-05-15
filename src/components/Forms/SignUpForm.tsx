@@ -6,10 +6,10 @@ import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
 import {signUp} from '@Redux/authentication/authenticationMiddleware';
 
 // Components 🪢
-import SignUpButton from '@Components/buttons/SignUpButton';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import SignUpButton from 'components/buttons/SignUpButton';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Stylesheets 🖼️
 import Color from '@StyleSheets/lofftColorPallet.json';

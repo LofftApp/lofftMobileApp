@@ -3,10 +3,10 @@ import {Text, View, StyleSheet} from 'react-native';
 
 import Color from '@StyleSheets/lofftColorPallet.json';
 import {fontStyles} from '@StyleSheets/fontStyles';
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 import {ApplyForFlatScreenBackground} from '@Assets/background/apply-for-flat-screen.svg';
 import {HiFive} from '@Assets/illustrations/Hi-five.svg';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const ApplyForFlatScreen = ({navigation}: any) => {
   return (

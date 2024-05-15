@@ -6,7 +6,7 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {deleteImageToUpload} from './userImageUploadSlice';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Stylesheets 🖼️
 import Colors from '@StyleSheets/lofftColorPallet.json';

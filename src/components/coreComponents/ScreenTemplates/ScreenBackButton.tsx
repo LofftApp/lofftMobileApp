@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 // Components 🪢
-import BackButton from '@Components/buttons/BackButton';
+import BackButton from 'components/buttons/BackButton';
 
 // StyleSheets
 import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';

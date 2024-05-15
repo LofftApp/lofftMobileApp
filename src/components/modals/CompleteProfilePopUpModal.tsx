@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 
 // Components
 import {fontStyles} from '@StyleSheets/fontStyles';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 import {CrossIcon} from '../../assets';
 
 const CompleteProfilePopUpModal = ({

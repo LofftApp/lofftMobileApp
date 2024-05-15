@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Screen 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // APIs
 import {findAddress} from 'api/mapbox/findAddress';
 
 // Components 🪢
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from '@StyleSheets/fontStyles';
