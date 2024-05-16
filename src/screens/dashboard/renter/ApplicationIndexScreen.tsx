@@ -2,28 +2,37 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
+import {createSelector} from '@reduxjs/toolkit';
 // Screens 📺
-import FlatListComponent from '@Screens/dashboard/renter/SubScreens/FlatListComponent';
+import FlatListComponent from 'screens/dashboard/renter/SubScreens/FlatListComponent';
 
 // Components 🪢
-import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
+import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 // helpers 🧰
-import {advertPartition} from '@Helpers/advertPartition';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import {advertPartition} from 'helpers/advertPartition';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const ApplicationIndexScreen = ({navigation}: any) => {
-  const [userType, adverts] = useAppSelector((state: any) => {
-    let userAdverts = state.adverts.adverts;
-    if (userType === 'tenant') {
-      userAdverts = userAdverts.filter((advert: any) => advert.applied);
-    }
-    return [state.user.user.userType, userAdverts];
-  });
+  const getUserType = (state: any) => state.user.user.userType;
+  const getAdverts = (state: any) => state.adverts.adverts;
+
+  const selectUserTypeAndAdverts = createSelector(
+    [getUserType, getAdverts],
+    (userType, adverts) => {
+      let userAdverts = adverts;
+      if (userType === 'tenant') {
+        userAdverts = userAdverts.filter((advert: any) => advert.applied);
+      }
+      return [userType, userAdverts];
+    },
+  );
+
+  const [userType, adverts] = useAppSelector(selectUserTypeAndAdverts);
 
   const [activeAdverts, inactiveAdverts] = advertPartition(adverts);
 
@@ -42,17 +51,13 @@ const ApplicationIndexScreen = ({navigation}: any) => {
             <View style={styles.actionContainer}>
               <Pressable style={[styles.addButton, {marginRight: 15}]}>
                 <LofftIcon
-                  name={'message-circle'}
+                  name="message-circle"
                   size={33}
                   color={Color.Lavendar[100]}
                 />
               </Pressable>
               <Pressable style={styles.addButton}>
-                <LofftIcon
-                  name={'plus'}
-                  size={33}
-                  color={Color.Lavendar[100]}
-                />
+                <LofftIcon name="plus" size={33} color={Color.Lavendar[100]} />
               </Pressable>
             </View>
           </>
@@ -78,8 +83,8 @@ const ApplicationIndexScreen = ({navigation}: any) => {
             userType === 'lessor'
               ? adverts
               : screen === 'thumbs-down'
-              ? inactiveAdverts
-              : activeAdverts
+                ? inactiveAdverts
+                : activeAdverts
           }
           navigation={navigation}
           isLessor={userType === 'lessor'}

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {setDetails} from './userJourneySlice';
 
 // Components 🪢
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Helpers 🤝
-import {getKeyByValue} from '@Helpers/getKeyByValue';
+import {getKeyByValue} from 'helpers/getKeyByValue';
 
 const UserJourneyContinue = ({
   onPress,

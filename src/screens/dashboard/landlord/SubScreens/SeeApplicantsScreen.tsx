@@ -10,19 +10,19 @@ import {
   Alert,
 } from 'react-native';
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
-import {getProfile} from '@Redux/user/usersMiddleware';
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import {getProfile} from 'reduxFeatures/user/usersMiddleware';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {useNavigation} from '@react-navigation/native';
-import { changeAdvertStatus } from '@Redux/adverts/advertMiddleware';
+import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
 
-import ApplicantCard from '@Components/cards/ApplicantCard';
-import BackButton from '@Components/buttons/BackButton';
-import ApplicantsCardAdvanced from '@Components/cards/ApplicantCardAdvanced';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import ApplicantCard from 'components/cards/ApplicantCard';
+import BackButton from 'components/buttons/BackButton';
+import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const SeeApplicantsScreen = ({route}: any) => {
   const {advert} = route.params;
@@ -31,15 +31,13 @@ const SeeApplicantsScreen = ({route}: any) => {
   const [maxSelect, setMaxSelected] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const generealState = useAppSelector(state => state)
-
-
+  const generealState = useAppSelector(state => state);
 
   const mutateApplicants = () => {
     setApplicants(
-      applicants.map((applicant:any) => {
+      applicants.map((applicant: any) => {
         return {...applicant, selected: false};
       }),
     );
@@ -48,12 +46,6 @@ const SeeApplicantsScreen = ({route}: any) => {
   useEffect(() => {
     mutateApplicants();
   }, []);
-
-
-
-
-
-
 
   const selectProfile = id => {
     // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
@@ -103,7 +95,7 @@ const SeeApplicantsScreen = ({route}: any) => {
         </ScrollView>
       </SafeAreaView>
       <CoreButton
-        disabled={finalRound.length >= 1 ? false : true }
+        disabled={finalRound.length >= 1 ? false : true}
         value={`Selected ${finalRound.length}/${maxSelect}`}
         style={{width: '90%', position: 'absolute', bottom: 10}}
         onPress={() => {
@@ -122,9 +114,8 @@ const SeeApplicantsScreen = ({route}: any) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={[fontStyles.bodyMedium, {textAlign: 'center'}]}>
-              🖐 {"\n"}
-              Are you sure about your selection? There is no way back
-              later on!!
+              🖐 {'\n'}
+              Are you sure about your selection? There is no way back later on!!
             </Text>
             <View style={styles.choicesContainer}>
               <Pressable
@@ -140,8 +131,8 @@ const SeeApplicantsScreen = ({route}: any) => {
                   setModalVisible(!modalVisible);
                   navigation.navigate('Seeprofiles', {
                     secondRoundApplicants: finalRound,
-                     currentAdvert: advert });
-
+                    currentAdvert: advert,
+                  });
                 }}>
                 <Text style={styles.textStyle}>Yes</Text>
               </Pressable>

@@ -13,18 +13,18 @@ import {
 import Collapsible from 'react-native-collapsible';
 
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
-import HighlightedButtons from '@Components/containers/HighlightButtons';
-import FlatInfoContainer from '@Components/containers/FlatInfoContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import StatusBar from '@Components/statusbar/StatusBarComponent';
-import LofftHeaderPhoto from '@Components/cards/LofftHeaderPhoto';
+import HighlightedButtons from 'components/containers/HighlightButtons';
+import FlatInfoContainer from 'components/containers/FlatInfoContainer';
+import {CoreButton} from 'components/buttons/CoreButton';
+import StatusBar from 'components/statusbar/StatusBarComponent';
+import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 
 // Assets 🪴
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const ApplicationShowScreen = ({navigation, route}: any) => {
   const {advert} = route.params;

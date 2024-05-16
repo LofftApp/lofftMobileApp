@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 // API 🧠
 
 // Styles 🖼️
-import Colors from '@StyleSheets/lofftColorPallet.json';
+import Colors from 'styleSheets/lofftColorPallet.json';
 
 // Assets 💿
 import {AppleIcon} from '../assets';

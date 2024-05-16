@@ -3,19 +3,19 @@ import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import CustomSwitch from '@Components/coreComponents/interactiveElements/CustomSwitch';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const BudgetScreen = ({navigation}: any) => {
   const [minPrice, setMinPrice] = useState(0);

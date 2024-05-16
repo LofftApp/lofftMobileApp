@@ -1,14 +1,14 @@
 import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 // Redux
-import {useAppDispatch} from '@ReduxCore/hooks';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
-import {clearProfile} from '@Redux/user/usersSlice';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
+import {clearProfile} from 'reduxFeatures/user/usersSlice';
 
 // Components
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
   const dispatch = useAppDispatch();

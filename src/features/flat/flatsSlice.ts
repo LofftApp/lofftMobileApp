@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
-import type {RootState} from '@ReduxCore/store';
+import type {RootState} from 'reduxCore/store';
 
 interface CounterState {
   allFlats: any[];

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {useAppSelector} from '@ReduxCore/hooks';
-import PaginationBar from '@Components/bars/PaginationBar';
-import {getKeyByValue} from '@Helpers/getKeyByValue';
+import {useAppSelector} from 'reduxCore/hooks';
+import PaginationBar from 'components/bars/PaginationBar';
+import {getKeyByValue} from 'helpers/getKeyByValue';
 
 const UserJourneyPaginationBar = () => {
   const userJourney = useAppSelector(

@@ -7,8 +7,8 @@ import {
   Pressable,
 } from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import Color from 'styleSheets/lofftColorPallet.json';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Important Notice !!
 /*

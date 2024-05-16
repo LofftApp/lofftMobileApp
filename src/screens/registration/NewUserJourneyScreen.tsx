@@ -3,20 +3,20 @@ import {StyleSheet} from 'react-native';
 
 // Redux 🧠
 import {useDispatch} from 'react-redux';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
+import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import IconButton from '@Components/buttons/IconButton';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import IconButton from 'components/buttons/IconButton';
 
 // Redux 🧠
-import UserJourneyButton from '@Redux/registration/UserJourneyButton';
+import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 
 // Styles 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const StartJourney = ({navigation}: any) => {
   const dispatch = useDispatch();

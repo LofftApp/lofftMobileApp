@@ -2,10 +2,10 @@ import React from 'react';
 import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import ListViewFlatCard from '@Components/cards/ListViewFlatCard';
+import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 const FlatListSubScreen = ({navigation}: any) => {
   const adverts = useAppSelector((state: any) => state?.adverts?.adverts);

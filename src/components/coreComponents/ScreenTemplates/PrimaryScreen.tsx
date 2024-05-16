@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 // StyleSheets
-import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const PrimaryScreen = ({background = false, children}: any) => {
   return (

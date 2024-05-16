@@ -2,11 +2,11 @@ import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 // Components 🪢
-import SignUpForm from '@Components/Forms/SignUpForm';
-import SignInWith from '@Components/SignInWith';
+import SignUpForm from 'components/Forms/SignUpForm';
+import SignInWith from 'components/SignInWith';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Assets 🛠️
 import {Search} from '../../assets';

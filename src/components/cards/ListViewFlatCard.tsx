@@ -2,25 +2,25 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 
 // Components 🪢
-import {CoreButton} from '@Components/buttons/CoreButton';
-import Chips from '@Components/buttons/Chips';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import MatchingScoreButton from '@Components/buttons/MatchingScoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
+import Chips from 'components/buttons/Chips';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from '@Assets/images/no-flat-image.png';
+import noFlatImage from 'Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
-import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helpers
-import {tagSorter} from '@Helpers/tagSorter';
+import {tagSorter} from 'helpers/tagSorter';
 
 const ListViewFlatCard = ({navigation, advert, id}: any) => {
   const userProfile = useAppSelector((state: any) => state.user.user);

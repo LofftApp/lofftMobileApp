@@ -2,23 +2,23 @@ import React, {useState} from 'react';
 import {View, StyleSheet, TextInput, Modal} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import ImageUploadButton from '@Redux/imageHandling/ImageUploadButton';
-import ImagePreviewRow from '@Redux/imageHandling/ImagePreviewRow';
-import UploadImageButton from '@Redux/imageHandling/UploadImageButton';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import {CoreButton} from 'components/buttons/CoreButton';
+import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
+import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
+import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const FlatPhotoUploadScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);

@@ -11,15 +11,15 @@ import {
   Dimensions,
 } from 'react-native';
 
-// import userProfiles from '@Assets/mockTempData/userProfiles.json';
-import ApplicantsCardAdvanced from '@Components/cards/ApplicantCardAdvanced';
+// import userProfiles from 'Assets/mockTempData/userProfiles.json';
+import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 
 import {useNavigation} from '@react-navigation/native';
 
 // Components 🪢
-import FilterButton from '@Components/buttons/FilterButton';
-import BackButton from '@Components/buttons/BackButton';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import FilterButton from 'components/buttons/FilterButton';
+import BackButton from 'components/buttons/BackButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const ShortListApplicantsScreen = ({navigation}) => {
   const [userProfilesJson, setUserProfilesJson] = useState(userProfiles.users);
@@ -68,8 +68,6 @@ const ShortListApplicantsScreen = ({navigation}) => {
     //   }).start();
     // });
   };
-
-
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>

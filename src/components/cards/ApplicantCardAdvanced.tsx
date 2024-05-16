@@ -2,14 +2,14 @@ import React, {useState, useCallback} from 'react';
 import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
 
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Icons
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // External
-import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 const ApplicantsCardAdvanced = ({
   name,
@@ -56,14 +56,13 @@ const ApplicantsCardAdvanced = ({
         <Text>{match}</Text>
       </View>
 
-        <LofftIcon
-          style={styles.icon}
-          name={'chevron-right'}
-          size={28}
-          color={Color.Blue[100]}
+      <LofftIcon
+        style={styles.icon}
+        name={'chevron-right'}
+        size={28}
+        color={Color.Blue[100]}
         onPress={() => navigation.navigate('ApplicantProfile')}
-        />
-
+      />
     </View>
   );
 };

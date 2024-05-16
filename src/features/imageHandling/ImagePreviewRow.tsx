@@ -1,15 +1,15 @@
 import React from 'react';
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 
 // Redux 🐰
 import {deleteImageToUpload} from './userImageUploadSlice';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Stylesheets 🖼️
-import Colors from '@StyleSheets/lofftColorPallet.json';
+import Colors from 'styleSheets/lofftColorPallet.json';
 
 const ImagePreviewRow = () => {
   const dispatch = useAppDispatch();

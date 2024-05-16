@@ -2,20 +2,20 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
-import NewUserJourney from '@Screens/registration/NewUserJourneyScreen';
-import AboutYouFlatHuntScreen from '@Screens/registration/renter/AboutUserScreen';
-import GenderIdentityScreen from '@Screens/registration/renter/GenderIdentityScreen';
-import SelectCityScreen from '@Screens/registration/renter/SelectCityScreen';
-import BudgetScreen from '@Screens/registration/renter/BudgetScreen';
-import FlatFeaturesScreen from '@Screens/registration/renter/FlatFeaturesScreen';
-import SelfDescribeScreen from '@Screens/registration/renter/SelfDescribeScreen';
-import ConditionsOfUseScreen from '@Screens/registration/ConditionsOfUseScreen';
-import LanguageSelectionScreen from '@Screens/registration/renter/LanguageSelectionScreen';
+import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
+import AboutYouFlatHuntScreen from 'screens/registration/renter/AboutUserScreen';
+import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
+import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
+import BudgetScreen from 'screens/registration/renter/BudgetScreen';
+import FlatFeaturesScreen from 'screens/registration/renter/FlatFeaturesScreen';
+import SelfDescribeScreen from 'screens/registration/renter/SelfDescribeScreen';
+import ConditionsOfUseScreen from 'screens/registration/ConditionsOfUseScreen';
+import LanguageSelectionScreen from 'screens/registration/renter/LanguageSelectionScreen';
 
 // Lessor Journey
-import WhereIsFlatScreen from '@Screens/registration/lessor/WhereIsFlatScreen';
-import FlatLengthAvailableScreen from '@Screens/registration/lessor/FlatLengthAvailableScreen';
-import FlatPhotoUploadScreen from '@Screens/registration/lessor/FlatPhotoUploadScreen';
+import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
+import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAvailableScreen';
+import FlatPhotoUploadScreen from 'screens/registration/lessor/FlatPhotoUploadScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 

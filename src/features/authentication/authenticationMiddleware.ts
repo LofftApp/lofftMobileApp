@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
 // @ts-ignore
-import {clearPersister} from '@Persistance/persister';
+import {clearPersister} from 'persistance/persister';
 import axios from 'axios';
 
 export const checkToken = createAsyncThunk(

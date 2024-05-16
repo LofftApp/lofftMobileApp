@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux
-import {useAppDispatch} from '@ReduxCore/hooks';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
-import {clearProfile} from '@Redux/user/usersSlice';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
+import {clearProfile} from 'reduxFeatures/user/usersSlice';
 
 const UserScreen = () => {
   const dispatch = useAppDispatch();

@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import {View, Text, Dimensions, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppDispatch} from '@ReduxCore/hooks';
-import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
-import Chips from '@Components/buttons/Chips';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import Chips from 'components/buttons/Chips';
+import {CoreButton} from 'components/buttons/CoreButton';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Helpers
-import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 interface FlatInfoContainerProps {
   advert: {
@@ -51,7 +51,6 @@ const FlatInfoContainer = ({
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
-
 
   return (
     <View style={styles.centralizerContainer}>
@@ -170,10 +169,6 @@ const FlatInfoContainer = ({
             </View>
           </>
         )}
-
-
-
-
 
         {button ? (
           <View>
