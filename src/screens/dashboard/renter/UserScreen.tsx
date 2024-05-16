@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux
-import {useAppDispatch} from '@ReduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signOut} from 'redux/authentication/authenticationMiddleware';
 import {clearProfile} from 'redux/user/usersSlice';
 

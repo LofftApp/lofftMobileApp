@@ -3,7 +3,7 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 
 import Color from 'styleSheets/lofftColorPallet.json';
 // Redux
-import {useAppDispatch} from '@ReduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signOut} from 'redux/authentication/authenticationMiddleware';
 import {clearProfile} from 'redux/user/usersSlice';
 

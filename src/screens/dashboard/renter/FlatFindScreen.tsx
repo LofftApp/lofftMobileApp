@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
 // Redux 🏪
-import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {fetchAdverts} from 'redux/adverts/advertMiddleware';
 
 // Screens 📺

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 import {createSelector} from '@reduxjs/toolkit';
 // Screens 📺
 import FlatListComponent from 'screens/dashboard/renter/SubScreens/FlatListComponent';

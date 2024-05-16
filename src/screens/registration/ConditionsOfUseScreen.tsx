@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppDispatch} from '@ReduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {saveUserDetails} from 'redux/registration/userJourneySlice';
 
 // Screens 📺

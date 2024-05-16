@@ -5,7 +5,7 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import ApplicantsCard from 'components/cards/ListViewApplicantCard';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 
 // Components 🪢
 import FilterButton from 'components/buttons/FilterButton';

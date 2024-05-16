@@ -8,7 +8,7 @@ import FlatListComponent from '../renter/SubScreens/FlatListComponent';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 
 // Redux
-import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {fetchAdverts} from 'redux/adverts/advertMiddleware';
 
 // StyleSheets 🖼️

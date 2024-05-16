@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 import PaginationBar from 'components/bars/PaginationBar';
 import {getKeyByValue} from 'helpers/getKeyByValue';
 

@@ -5,7 +5,7 @@ import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import MapViewFlatCard from 'components/cards/MapViewFlatCard';

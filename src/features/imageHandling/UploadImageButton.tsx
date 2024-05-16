@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';

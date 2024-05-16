@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 // Redux 🏪
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {toggleFavorite} from 'redux/adverts/advertMiddleware';
 
 // Components 🪢

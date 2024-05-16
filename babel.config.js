@@ -5,12 +5,14 @@ module.exports = {
       'module-resolver',
       {
         alias: {
+          src: './src',
           api: './src/api',
           components: './src/components',
           screens: './src/screens',
           styleSheets: './src/styles',
           Assets: './src/assets',
           redux: './src/features',
+          reduxCore: './src/app',
         },
       },
     ],

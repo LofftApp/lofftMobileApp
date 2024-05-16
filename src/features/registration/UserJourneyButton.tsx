@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {setUserType} from './userJourneySlice';
 import IconButton from 'components/buttons/IconButton';
 

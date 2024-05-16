@@ -7,7 +7,7 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux 🐙
-import {useAppDispatch} from '@ReduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {toggleFavorite} from 'redux/adverts/advertMiddleware';
 
 // StyleSheet 🖼
@@ -277,7 +277,7 @@ export default ListFlatApplicationCard;
 // import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // // Redux 🏗️
-// import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+// import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 
 // // Components 🪢
 // import {CoreButton} from 'components/buttons/CoreButton';

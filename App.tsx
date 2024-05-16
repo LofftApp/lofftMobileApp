@@ -11,7 +11,7 @@ import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {checkToken} from 'redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 

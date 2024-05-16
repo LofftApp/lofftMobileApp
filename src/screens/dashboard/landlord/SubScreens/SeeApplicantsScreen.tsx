@@ -14,7 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 import {getProfile} from 'redux/user/usersMiddleware';
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {useNavigation} from '@react-navigation/native';
 import {changeAdvertStatus} from 'redux/adverts/advertMiddleware';

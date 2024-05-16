@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {setDetails} from './userJourneySlice';
 
 // Components 🪢

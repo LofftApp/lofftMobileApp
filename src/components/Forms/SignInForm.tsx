@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {signIn} from 'redux/authentication/authenticationMiddleware';
 
 // Components 🪢

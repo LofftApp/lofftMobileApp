@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
