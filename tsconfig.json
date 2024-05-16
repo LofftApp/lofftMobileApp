@@ -22,7 +22,7 @@
       // Redux
       "redux/*": ["./features/*"],
       // Persistance
-      "@Persistance/*": ["./persistance/"],
+      "persistance/*": ["./persistance/"],
       // Core Redux files
       "@ReduxCore/*": ["./app/*"]
     }
