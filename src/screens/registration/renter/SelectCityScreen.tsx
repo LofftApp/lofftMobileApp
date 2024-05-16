@@ -17,8 +17,8 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import EmojiIcon from 'components/Emojicon/EmojiIcon';
-import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
-import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
+import UserJourneyContinue from 'redux/registration/UserJourneyContinue';
+import UserJourneyPaginationBar from 'redux/registration/UserJourneyPaginationBar';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
@@ -31,7 +31,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import CityDistricts from 'components/componentData/cityDistricts.json';
 
 // Helper 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const SelectCityScreen = ({navigation, route}: any) => {
   const [city, setCity] = useState('');

@@ -5,8 +5,8 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux
 import {useAppDispatch} from '@ReduxCore/hooks';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
-import {clearProfile} from '@Redux/user/usersSlice';
+import {signOut} from 'redux/authentication/authenticationMiddleware';
+import {clearProfile} from 'redux/user/usersSlice';
 
 const UserScreen = () => {
   const dispatch = useAppDispatch();

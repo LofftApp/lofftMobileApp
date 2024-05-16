@@ -6,14 +6,14 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'redux/registration/UserJourneyPaginationBar';
 import SelectButton from 'components/buttons/SelectButton';
-import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
+import UserJourneyContinue from 'redux/registration/UserJourneyContinue';
 
 // Styles 🖼️
 
 // Helper 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 const GenderIdentityScreen = ({navigation, route}: any) => {

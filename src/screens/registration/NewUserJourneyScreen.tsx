@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 
 // Redux 🧠
 import {useDispatch} from 'react-redux';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
+import {signOut} from 'redux/authentication/authenticationMiddleware';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -13,7 +13,7 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import IconButton from 'components/buttons/IconButton';
 
 // Redux 🧠
-import UserJourneyButton from '@Redux/registration/UserJourneyButton';
+import UserJourneyButton from 'redux/registration/UserJourneyButton';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

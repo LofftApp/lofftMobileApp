@@ -16,7 +16,7 @@ import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPaginati
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Helpers 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const WhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');

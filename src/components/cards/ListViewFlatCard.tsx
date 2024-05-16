@@ -15,12 +15,12 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from '@Assets/images/no-flat-image.png';
+import noFlatImage from 'Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
-import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'redux/adverts/advertMiddleware';
 
 // Helpers
-import {tagSorter} from '@Helpers/tagSorter';
+import {tagSorter} from 'helpers/tagSorter';
 
 const ListViewFlatCard = ({navigation, advert, id}: any) => {
   const userProfile = useAppSelector((state: any) => state.user.user);

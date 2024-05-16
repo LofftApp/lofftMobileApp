@@ -6,7 +6,7 @@ import {setDetails} from './userJourneySlice';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Helpers 🤝
-import {getKeyByValue} from '@Helpers/getKeyByValue';
+import {getKeyByValue} from 'helpers/getKeyByValue';
 
 const UserJourneyContinue = ({
   onPress,

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
 import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
-import {signUp} from '@Redux/authentication/authenticationMiddleware';
+import {signUp} from 'redux/authentication/authenticationMiddleware';
 
 // Components 🪢
 import SignUpButton from 'components/buttons/SignUpButton';

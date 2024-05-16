@@ -5,10 +5,10 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'redux/registration/UserJourneyPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import EmojiIcon from 'components/Emojicon/EmojiIcon';
-import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
+import UserJourneyContinue from 'redux/registration/UserJourneyContinue';
 
 // StylesSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -17,7 +17,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import userPreferences from 'components/componentData/userPreferences.json';
 
 // Helper 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   const headerText = route.params.headerText;

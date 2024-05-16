@@ -13,7 +13,7 @@ import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPaginati
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
 // Helper 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const FlatFeaturesScreen = ({navigation, route}: any) => {
   const headerText = route.params.headerText;

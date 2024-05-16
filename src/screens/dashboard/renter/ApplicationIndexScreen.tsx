@@ -14,7 +14,7 @@ import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch'
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 // helpers 🧰
-import {advertPartition} from '@Helpers/advertPartition';
+import {advertPartition} from 'helpers/advertPartition';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const ApplicationIndexScreen = ({navigation}: any) => {

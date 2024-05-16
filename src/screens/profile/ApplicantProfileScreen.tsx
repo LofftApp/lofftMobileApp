@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 /* Redux Api Calls etc */
-import {getSpecificUserProfile} from '@Redux/user/usersMiddleware';
+import {getSpecificUserProfile} from 'redux/user/usersMiddleware';
 
 /* Components */
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
@@ -14,7 +14,7 @@ import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 /* Helpers */
-import {matchMaker} from '@Helpers/matchMaker';
+import {matchMaker} from 'helpers/matchMaker';
 
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';

@@ -2,7 +2,7 @@ import React from 'react';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 // API 🧠
 import {setImageToUpload} from './userImageUploadSlice';
-import {setDetails} from '@Redux/registration/userJourneySlice';
+import {setDetails} from 'redux/registration/userJourneySlice';
 
 // Componetne 🪢
 import {CoreButton} from 'components/buttons/CoreButton';

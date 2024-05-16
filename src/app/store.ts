@@ -12,12 +12,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Slices (Reducers)
-import authenticationReducer from '@Redux/authentication/authenticationSlice';
-import userJourneyReducer from '@Redux/registration/userJourneySlice';
-import imageUploadReducer from '@Redux/imageHandling/userImageUploadSlice';
-import userReducer from '@Redux/user/usersSlice';
-import flatsReducer from '@Redux/flat/flatsSlice';
-import advertReducer from '@Redux/adverts/advertSlice';
+import authenticationReducer from 'redux/authentication/authenticationSlice';
+import userJourneyReducer from 'redux/registration/userJourneySlice';
+import imageUploadReducer from 'redux/imageHandling/userImageUploadSlice';
+import userReducer from 'redux/user/usersSlice';
+import flatsReducer from 'redux/flat/flatsSlice';
+import advertReducer from 'redux/adverts/advertSlice';
 
 const persistConfig = {
   key: 'root',

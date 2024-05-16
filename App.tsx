@@ -12,13 +12,13 @@ import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {checkToken} from '@Redux/authentication/authenticationMiddleware';
+import {checkToken} from 'redux/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {getProfile} from '@Redux/user/usersMiddleware';
+import {getProfile} from 'redux/user/usersMiddleware';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';

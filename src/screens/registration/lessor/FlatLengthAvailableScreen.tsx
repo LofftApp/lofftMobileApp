@@ -20,8 +20,8 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {dateFormatConverter} from '@Helpers/dateFormatConverter';
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [selector, setSelector] = useState('');

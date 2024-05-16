@@ -4,8 +4,8 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 // Redux
 import {useAppDispatch} from '@ReduxCore/hooks';
-import {signOut} from '@Redux/authentication/authenticationMiddleware';
-import {clearProfile} from '@Redux/user/usersSlice';
+import {signOut} from 'redux/authentication/authenticationMiddleware';
+import {clearProfile} from 'redux/user/usersSlice';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';

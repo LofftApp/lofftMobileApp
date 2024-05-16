@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Assets 🪴
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import statusBarText from '@Assets/coreText/statusBarText.json';
+import statusBarText from 'Assets/coreText/statusBarText.json';
 
 const StatusBarComponent = ({advert}: any) => {
   const screenheight = Dimensions.get('window').height;

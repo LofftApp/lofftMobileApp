@@ -16,11 +16,11 @@
       // Stylesheets
       "styleSheets/*": ["./styles/*"],
       // Helpers
-      "@Helpers/*": ["./helpers/*"],
+      "helpers/*": ["./helpers/*"],
       // Assets
-      "@Assets/*": ["./Assets/*"],
+      "Assets/*": ["./Assets/*"],
       // Redux
-      "@Redux/*": ["./features/*"],
+      "redux/*": ["./features/*"],
       // Persistance
       "@Persistance/*": ["./persistance/"],
       // Core Redux files

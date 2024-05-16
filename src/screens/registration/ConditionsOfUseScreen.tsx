@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppDispatch} from '@ReduxCore/hooks';
-import {saveUserDetails} from '@Redux/registration/userJourneySlice';
+import {saveUserDetails} from 'redux/registration/userJourneySlice';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -11,7 +11,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
-import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
+import UserJourneySaveButton from 'redux/registration/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';

@@ -13,7 +13,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const SelfDescribeScreen = ({navigation, route}: any) => {
   const [text, setText] = useState('');

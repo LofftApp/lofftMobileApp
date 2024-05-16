@@ -9,6 +9,8 @@ module.exports = {
           components: './src/components',
           screens: './src/screens',
           styleSheets: './src/styles',
+          Assets: './src/assets',
+          redux: './src/features',
         },
       },
     ],

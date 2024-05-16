@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
-import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
+import UserJourneyPaginationBar from 'redux/registration/UserJourneyPaginationBar';
+import UserJourneyContinue from 'redux/registration/UserJourneyContinue';
 
 const FooterNavBarWithPagination = ({
   onPress,

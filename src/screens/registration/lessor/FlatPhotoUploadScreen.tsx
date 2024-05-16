@@ -9,16 +9,16 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {CoreButton} from 'components/buttons/CoreButton';
-import ImageUploadButton from '@Redux/imageHandling/ImageUploadButton';
-import ImagePreviewRow from '@Redux/imageHandling/ImagePreviewRow';
-import UploadImageButton from '@Redux/imageHandling/UploadImageButton';
+import ImageUploadButton from 'redux/imageHandling/ImageUploadButton';
+import ImagePreviewRow from 'redux/imageHandling/ImagePreviewRow';
+import UploadImageButton from 'redux/imageHandling/UploadImageButton';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const FlatPhotoUploadScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);

@@ -13,11 +13,11 @@ import {
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-import {getProfile} from '@Redux/user/usersMiddleware';
+import {getProfile} from 'redux/user/usersMiddleware';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {useNavigation} from '@react-navigation/native';
-import {changeAdvertStatus} from '@Redux/adverts/advertMiddleware';
+import {changeAdvertStatus} from 'redux/adverts/advertMiddleware';
 
 import ApplicantCard from 'components/cards/ApplicantCard';
 import BackButton from 'components/buttons/BackButton';

@@ -15,7 +15,7 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const BudgetScreen = ({navigation}: any) => {
   const [minPrice, setMinPrice] = useState(0);

@@ -3,7 +3,7 @@ import {View, Text, Dimensions, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppDispatch} from '@ReduxCore/hooks';
-import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
+import {applyForAdvert} from 'redux/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -14,7 +14,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Helpers
-import {dateFormatConverter} from '@Helpers/dateFormatConverter';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 interface FlatInfoContainerProps {
   advert: {

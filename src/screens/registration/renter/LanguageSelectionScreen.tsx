@@ -10,7 +10,7 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 // Components 🧰
 import {CoreButton} from 'components/buttons/CoreButton';
 
-import languagesData from '@Assets/coreText/languagesText.json';
+import languagesData from 'Assets/coreText/languagesText.json';
 import LanguagesCard from 'components/cards/LanguagesCard';
 
 const LanguageSelectionScreen = () => {

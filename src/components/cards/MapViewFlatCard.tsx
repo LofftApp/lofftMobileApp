@@ -10,7 +10,7 @@ import {
 
 // Redux 🏪
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'redux/adverts/advertMiddleware';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';
@@ -22,10 +22,10 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from '@Assets/images/no-flat-image.png';
+import noFlatImage from 'Assets/images/no-flat-image.png';
 
 // Helpers
-import {tagSorter} from '@Helpers/tagSorter';
+import {tagSorter} from 'helpers/tagSorter';
 
 const MapViewFlatCard = (advertR: any, id: number) => {
   const userProfile = useAppSelector((state: any) => state.user.user);

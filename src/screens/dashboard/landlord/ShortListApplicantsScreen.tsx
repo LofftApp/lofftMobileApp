@@ -11,7 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 
-// import userProfiles from '@Assets/mockTempData/userProfiles.json';
+// import userProfiles from 'Assets/mockTempData/userProfiles.json';
 import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 
 import {useNavigation} from '@react-navigation/native';

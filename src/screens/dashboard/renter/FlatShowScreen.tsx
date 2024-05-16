@@ -12,17 +12,17 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'redux/adverts/advertMiddleware';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
-import CompleteProfileImage from '@Assets/images/Illustration.png';
+import CompleteProfileImage from 'Assets/images/Illustration.png';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
 
 // Helpers
-import {tagSorter} from '@Helpers/tagSorter';
+import {tagSorter} from 'helpers/tagSorter';
 
 const FlatShowScreen = ({route, navigation}: any) => {
   const [advert] = useState(route.params.advert);
