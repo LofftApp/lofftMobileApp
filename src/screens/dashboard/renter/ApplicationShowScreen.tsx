@@ -13,8 +13,8 @@ import {
 import Collapsible from 'react-native-collapsible';
 
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';

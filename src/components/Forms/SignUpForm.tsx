@@ -12,7 +12,7 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Stylesheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();

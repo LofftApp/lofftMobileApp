@@ -5,7 +5,7 @@ import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const FilterButton = ({onPress}: any) => {
   return (

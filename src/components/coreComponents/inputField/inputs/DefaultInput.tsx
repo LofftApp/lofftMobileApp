@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TextInput} from 'react-native';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
 
 const DefaultInput = ({

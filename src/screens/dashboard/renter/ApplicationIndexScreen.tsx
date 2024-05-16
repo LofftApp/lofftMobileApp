@@ -5,14 +5,14 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useAppSelector} from '@ReduxCore/hooks';
 import {createSelector} from '@reduxjs/toolkit';
 // Screens 📺
-import FlatListComponent from '@Screens/dashboard/renter/SubScreens/FlatListComponent';
+import FlatListComponent from 'screens/dashboard/renter/SubScreens/FlatListComponent';
 
 // Components 🪢
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 // helpers 🧰
 import {advertPartition} from '@Helpers/advertPartition';
 import LofftIcon from 'components/lofftIcons/LofftIcon';

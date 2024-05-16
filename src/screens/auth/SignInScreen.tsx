@@ -6,7 +6,7 @@ import SignInForm from 'components/Forms/SignInForm';
 import SignInWith from 'components/SignInWith';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Assets 🛠️
 import {SignInBackground} from '../../assets';

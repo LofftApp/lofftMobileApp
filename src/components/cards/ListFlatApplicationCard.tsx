@@ -11,8 +11,8 @@ import {useAppDispatch} from '@ReduxCore/hooks';
 import {toggleFavorite} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheet 🖼
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const ListFlatApplicationCard = ({
   navigation,
@@ -284,8 +284,8 @@ export default ListFlatApplicationCard;
 // import Chips from 'components/buttons/Chips';
 
 // // StyleSheet 🖼️
-// import Color from '@StyleSheets/lofftColorPallet.json';
-// import {fontStyles} from '@StyleSheets/fontStyles';
+// import Color from 'styleSheets/lofftColorPallet.json';
+// import {fontStyles} from 'styleSheets/fontStyles';
 // import Collapsible from 'react-native-collapsible';
 // import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 

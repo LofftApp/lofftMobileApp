@@ -11,7 +11,7 @@ import EmojiIcon from 'components/Emojicon/EmojiIcon';
 import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
 
 // StylesSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Data 💿
 import userPreferences from 'components/componentData/userPreferences.json';

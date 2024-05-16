@@ -7,8 +7,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // External
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';

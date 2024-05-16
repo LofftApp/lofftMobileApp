@@ -2,8 +2,8 @@ import React, {useState, useCallback} from 'react';
 import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
 
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Icons
 import LofftIcon from 'components/lofftIcons/LofftIcon';

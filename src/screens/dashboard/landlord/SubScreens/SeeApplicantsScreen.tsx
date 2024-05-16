@@ -10,8 +10,8 @@ import {
   Alert,
 } from 'react-native';
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 import {getProfile} from '@Redux/user/usersMiddleware';
 import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';

@@ -9,8 +9,8 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import Chips from 'components/buttons/Chips';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 import Collapsible from 'react-native-collapsible';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 

@@ -12,7 +12,7 @@ import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPaginati
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';

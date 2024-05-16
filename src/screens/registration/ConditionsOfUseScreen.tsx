@@ -14,8 +14,8 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const ConditionsOfUseScreen = ({navigation, route}: any) => {
   const dispatch = useAppDispatch();

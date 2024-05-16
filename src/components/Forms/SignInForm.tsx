@@ -10,7 +10,7 @@ import SignUpButton from 'components/buttons/SignUpButton';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const SignInForm = () => {
   const dispatch = useAppDispatch();

@@ -4,7 +4,7 @@ import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles 🎨
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // Components 🧰

@@ -5,7 +5,7 @@ import {View, Text, StyleSheet, Image, Modal, Pressable} from 'react-native';
 import {useSelector} from 'react-redux';
 
 // Components
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {CrossIcon} from '../../assets';
 

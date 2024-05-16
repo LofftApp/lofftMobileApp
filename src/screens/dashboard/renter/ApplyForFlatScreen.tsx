@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 import {ApplyForFlatScreenBackground} from '@Assets/background/apply-for-flat-screen.svg';
 import {HiFive} from '@Assets/illustrations/Hi-five.svg';

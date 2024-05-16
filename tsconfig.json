@@ -12,9 +12,9 @@
       "api/*": ["./api/*"],
       // Components
       "components/*": ["./components/*"],
-      "@Screens/*": ["./screens/*"],
+      "screens/*": ["./screens/*"],
       // Stylesheets
-      "@StyleSheets/*": ["./styles/*"],
+      "styleSheets/*": ["./styles/*"],
       // Helpers
       "@Helpers/*": ["./helpers/*"],
       // Assets

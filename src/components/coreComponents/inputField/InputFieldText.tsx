@@ -8,8 +8,8 @@ import CurrencyInput from './inputs/CurrencyInput';
 import DefaultInput from './inputs/DefaultInput';
 
 // Style 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const InputFieldText = ({
   placeholder = null,

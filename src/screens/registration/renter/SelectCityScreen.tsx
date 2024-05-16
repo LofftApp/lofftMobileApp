@@ -24,8 +24,8 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Data 💿
 import CityDistricts from 'components/componentData/cityDistricts.json';

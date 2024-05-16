@@ -5,7 +5,7 @@ import {View, TextInput, TouchableOpacity} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
 
 const PasswordInput = ({

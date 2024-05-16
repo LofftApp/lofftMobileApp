@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 
 // Styles
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const EmojiIcon = ({
   id,

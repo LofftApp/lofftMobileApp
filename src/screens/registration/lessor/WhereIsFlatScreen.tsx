@@ -13,7 +13,7 @@ import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSw
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';

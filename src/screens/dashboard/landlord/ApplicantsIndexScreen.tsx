@@ -12,8 +12,8 @@ import FilterButton from 'components/buttons/FilterButton';
 import BackButton from 'components/buttons/BackButton';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 const ApplicantsIndexScreen = ({navigation}: any) => {

@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 // Redux
 import {useAppDispatch} from '@ReduxCore/hooks';
 import {signOut} from '@Redux/authentication/authenticationMiddleware';

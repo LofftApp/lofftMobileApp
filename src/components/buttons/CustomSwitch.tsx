@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch} from 'react-native';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const CustomSwitch = ({value, onValueChange}: any) => {
   return (

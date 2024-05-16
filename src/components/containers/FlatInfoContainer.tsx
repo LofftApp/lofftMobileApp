@@ -6,8 +6,8 @@ import {useAppDispatch} from '@ReduxCore/hooks';
 import {applyForAdvert} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';

@@ -12,8 +12,8 @@ import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
 import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import * as Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import * as Color from 'styleSheets/lofftColorPallet.json';
 
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';

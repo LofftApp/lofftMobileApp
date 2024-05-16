@@ -12,7 +12,7 @@ import {
 import BackButton from 'components/buttons/BackButton';
 
 // StyleSheets
-import {CoreStyleSheet} from '@StyleSheets/CoreDesignStyleSheet';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const ScreenBackButton = ({nav = null, title = null, children}: any) => {
   return (

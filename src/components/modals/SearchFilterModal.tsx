@@ -10,12 +10,12 @@ import BackButton from 'components/buttons/BackButton';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 import EmojiIcon from 'components/Emojicon/EmojiIcon';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const SearchFilterModal = ({openModal, pullData}: any) => {
   const [minPrice, setMinPrice] = useState(100);

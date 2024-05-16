@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Dimensions, Pressable} from 'react-native';
 
 // Styles
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';

@@ -16,7 +16,7 @@ import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch'
 import SearchFilterModal from 'components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const FlatFindScreen = ({navigation}: any) => {
   const [openModal, setOpenModal] = useState(false);

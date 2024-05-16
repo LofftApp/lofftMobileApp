@@ -11,8 +11,8 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
 
 // StyleSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
 import noFlatImage from '@Assets/images/no-flat-image.png';

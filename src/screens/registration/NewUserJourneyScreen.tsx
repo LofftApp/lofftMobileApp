@@ -16,7 +16,7 @@ import IconButton from 'components/buttons/IconButton';
 import UserJourneyButton from '@Redux/registration/UserJourneyButton';
 
 // Styles 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const StartJourney = ({navigation}: any) => {
   const dispatch = useDispatch();

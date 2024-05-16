@@ -2,8 +2,8 @@ import React from 'react';
 import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 export const CoreButton = ({
   value,

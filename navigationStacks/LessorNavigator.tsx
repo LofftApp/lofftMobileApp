@@ -1,14 +1,14 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ApplicantsIndexScreen from '@Screens/dashboard/landlord/ApplicantsIndexScreen';
-import ApplicationShowScreen from '@Screens/dashboard/renter/ApplicationShowScreen';
-import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
+import ApplicantsIndexScreen from 'screens/dashboard/landlord/ApplicantsIndexScreen';
+import ApplicationShowScreen from 'screens/dashboard/renter/ApplicationShowScreen';
+import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 
-import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
-import SeeApplicantsScreen from '@Screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
-import ShortListApplicantsScreen from '@Screens/dashboard/landlord/ShortListApplicantsScreen';
-import SeeProfilesScreen from '@Screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
-import ApplicantProfileScreen from '@Screens/profile/ApplicantProfileScreen';
+import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
+import SeeApplicantsScreen from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+import ShortListApplicantsScreen from 'screens/dashboard/landlord/ShortListApplicantsScreen';
+import SeeProfilesScreen from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
+import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 
 const Lessor = createNativeStackNavigator();
 const LessorNavigator = () => {
@@ -25,7 +25,10 @@ const LessorNavigator = () => {
       {/* {Dynamic Status Bar Screen for Landlord Applicaiton Selection Process} */}
       <Lessor.Screen name="Seeapplicants" component={SeeApplicantsScreen} />
       <Lessor.Screen name="Seeprofiles" component={SeeProfilesScreen} />
-      <Lessor.Screen name="ApplicantProfile" component={ApplicantProfileScreen} />
+      <Lessor.Screen
+        name="ApplicantProfile"
+        component={ApplicantProfileScreen}
+      />
     </Lessor.Navigator>
   );
 };

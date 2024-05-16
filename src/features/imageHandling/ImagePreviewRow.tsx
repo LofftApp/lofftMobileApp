@@ -9,7 +9,7 @@ import {deleteImageToUpload} from './userImageUploadSlice';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Stylesheets 🖼️
-import Colors from '@StyleSheets/lofftColorPallet.json';
+import Colors from 'styleSheets/lofftColorPallet.json';
 
 const ImagePreviewRow = () => {
   const dispatch = useAppDispatch();

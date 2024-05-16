@@ -14,8 +14,8 @@ import ImagePreviewRow from '@Redux/imageHandling/ImagePreviewRow';
 import UploadImageButton from '@Redux/imageHandling/UploadImageButton';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from '@Helpers/navigationHelper';

@@ -28,27 +28,26 @@ import LessorNavigator from './navigationStacks/LessorNavigator';
 import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
-import AdminScreen from '@Screens/admin/adminScreen';
+import AdminScreen from 'screens/admin/adminScreen';
 import {createSelector} from '@reduxjs/toolkit';
 
 const RootStack = createNativeStackNavigator();
 
-
 const App = () => {
   // Define selectors
-const getAuthenticated = (state: any) => state.authentication.authenticated;
-const getUserType = (state: any) => state.user.user.userType;
-const getAdmin = (state: any) => state.user.user.admin;
+  const getAuthenticated = (state: any) => state.authentication.authenticated;
+  const getUserType = (state: any) => state.user.user.userType;
+  const getAdmin = (state: any) => state.user.user.admin;
 
-// Create memoized selectors
-const selectAuthenticated = createSelector(
-  [getAuthenticated],
-  authenticated => authenticated,
-);
-const selectUserTypeAndAdmin = createSelector(
-  [getUserType, getAdmin],
-  (userType, admin) => [userType, admin],
-);
+  // Create memoized selectors
+  const selectAuthenticated = createSelector(
+    [getAuthenticated],
+    authenticated => authenticated,
+  );
+  const selectUserTypeAndAdmin = createSelector(
+    [getUserType, getAdmin],
+    (userType, admin) => [userType, admin],
+  );
   const authenticated = useAppSelector(selectAuthenticated);
   const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
 

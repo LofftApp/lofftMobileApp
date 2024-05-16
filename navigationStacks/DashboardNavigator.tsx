@@ -8,17 +8,17 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import ApplicationIndexScreen from '@Screens/dashboard/renter/ApplicationIndexScreen';
-import UserScreen from '@Screens/dashboard/renter/UserScreen';
-// import SavedListingsScreen from '@Screens/dashboard/renter/SavedScreens/SavedListingsScreen'; Commented out because it is not used
-import AdminScreen from '@Screens/admin/adminScreen';
-import TempScreen from '@Screens/dashboard/renter/TempScreen';
+import ApplicationIndexScreen from 'screens/dashboard/renter/ApplicationIndexScreen';
+import UserScreen from 'screens/dashboard/renter/UserScreen';
+// import SavedListingsScreen from 'screens/dashboard/renter/SavedScreens/SavedListingsScreen'; Commented out because it is not used
+import AdminScreen from 'screens/admin/adminScreen';
+import TempScreen from 'screens/dashboard/renter/TempScreen';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigator = () => {

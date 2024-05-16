@@ -3,8 +3,8 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheet🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const IconButton = ({text, icon, iconSize = 20, onPress, style}: any) => {
   return (

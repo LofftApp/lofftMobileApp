@@ -17,8 +17,8 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import {matchMaker} from '@Helpers/matchMaker';
 
 /* Styles */
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const ApplicantProfileScreen = ({route}: any) => {
   const navigation = useNavigation();

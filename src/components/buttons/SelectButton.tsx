@@ -3,8 +3,8 @@ import React, {useState, useRef, useEffect} from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const SelectButton = ({value, id, toggle, selectGender}: any) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0

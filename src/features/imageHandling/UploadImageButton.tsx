@@ -6,8 +6,8 @@ import {useAppSelector} from '@ReduxCore/hooks';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets
-import Colors from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Colors from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const UploadImageButton = ({onPress}: any) => {
   const userImages = useAppSelector(

@@ -10,7 +10,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 import UserJourneyButton from '@Redux/registration/UserJourneyButton';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const AdminScreen = () => {
   const [users, setUsers] = useState([]);

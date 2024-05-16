@@ -1,13 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const Chips = ({tags, features, positive = true, emoji = false}: any) => {
-
-
-
-
   return (
     <View style={styles.chipContainer}>
       <ListChips
