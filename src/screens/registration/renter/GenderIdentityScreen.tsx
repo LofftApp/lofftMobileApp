@@ -6,9 +6,9 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import UserJourneyPaginationBar from 'redux/registration/UserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
 import SelectButton from 'components/buttons/SelectButton';
-import UserJourneyContinue from 'redux/registration/UserJourneyContinue';
+import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
 
 // Styles 🖼️
 

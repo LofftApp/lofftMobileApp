@@ -10,7 +10,7 @@ import {
 
 // Redux 🏪
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';

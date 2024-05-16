@@ -17,7 +17,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 // Assets 🪴
 import noFlatImage from 'Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
-import {toggleFavorite} from 'redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';

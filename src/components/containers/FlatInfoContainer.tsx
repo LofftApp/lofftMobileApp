@@ -3,7 +3,7 @@ import {View, Text, Dimensions, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
-import {applyForAdvert} from 'redux/adverts/advertMiddleware';
+import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

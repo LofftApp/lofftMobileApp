@@ -8,7 +8,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux 🐙
 import {useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';

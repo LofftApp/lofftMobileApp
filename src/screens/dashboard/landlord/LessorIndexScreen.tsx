@@ -9,7 +9,7 @@ import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch'
 
 // Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {fetchAdverts} from 'redux/adverts/advertMiddleware';
+import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';

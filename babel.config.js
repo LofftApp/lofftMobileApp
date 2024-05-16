@@ -11,7 +11,7 @@ module.exports = {
           screens: './src/screens',
           styleSheets: './src/styles',
           Assets: './src/assets',
-          redux: './src/features',
+          reduxFeatures: './src/features',
           reduxCore: './src/app',
         },
       },

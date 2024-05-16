@@ -20,7 +20,7 @@
       // Assets
       "Assets/*": ["./Assets/*"],
       // Redux
-      "redux/*": ["./features/*"],
+      "reduxFeatures/*": ["./features/*"],
       // Persistance
       "persistance/*": ["./persistance/"],
       // Core Redux files

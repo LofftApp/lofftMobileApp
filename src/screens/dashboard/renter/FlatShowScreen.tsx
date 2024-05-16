@@ -12,7 +12,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'redux/adverts/advertMiddleware';
+import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';

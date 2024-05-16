@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 /* Redux Api Calls etc */
-import {getSpecificUserProfile} from 'redux/user/usersMiddleware';
+import {getSpecificUserProfile} from 'reduxFeatures/user/usersMiddleware';
 
 /* Components */
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';

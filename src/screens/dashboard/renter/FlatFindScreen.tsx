@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 
 // Redux 🏪
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {fetchAdverts} from 'redux/adverts/advertMiddleware';
+import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Screens 📺
 import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
