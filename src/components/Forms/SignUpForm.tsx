@@ -2,17 +2,17 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch, useAppSelector} from '@ReduxCore/hooks';
-import {signUp} from '@Redux/authentication/authenticationMiddleware';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {signUp} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Components 🪢
-import SignUpButton from '@Components/buttons/SignUpButton';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
-import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
-import {CoreButton} from '@Components/buttons/CoreButton';
+import SignUpButton from 'components/buttons/SignUpButton';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Stylesheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();

@@ -1,11 +1,9 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Stylesheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
-
-
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const BackButton = ({
   onPress,
@@ -15,8 +13,6 @@ const BackButton = ({
   neutral = false,
   navigation = false,
 }: any) => {
-
-
   return (
     <View
       style={[

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
-import ListFlatApplicationCard from '@Components/cards/ListFlatApplicationCard';
+import ListFlatApplicationCard from 'components/cards/ListFlatApplicationCard';
 
 const FlatListComponent = ({adverts, navigation}: any) => {
   return (

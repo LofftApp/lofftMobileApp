@@ -4,13 +4,13 @@ import {StyleSheet, View, Text, Button} from 'react-native';
 // Api
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Redux 🧠
-import UserJourneyButton from '@Redux/registration/UserJourneyButton';
+import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const AdminScreen = () => {
   const [users, setUsers] = useState([]);

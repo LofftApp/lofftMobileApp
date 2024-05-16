@@ -2,23 +2,23 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Redux 🏪
-import {useAppSelector} from '@ReduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
 
-import UserScreen from '@Screens/dashboard/renter/UserScreen';
-import AdminScreen from '@Screens/admin/adminScreen';
-import LessorIndexScreen from '@Screens/dashboard/landlord/LessorIndexScreen';
-import LessorActionScreen from '@Screens/dashboard/landlord/LessorActionScreen';
+import UserScreen from 'screens/dashboard/renter/UserScreen';
+import AdminScreen from 'screens/admin/adminScreen';
+import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
+import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
 import LessorNavigator from './LessorNavigator';
 
 const Tab = createBottomTabNavigator();

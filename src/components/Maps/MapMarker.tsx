@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheet 🖼️
-import Colors from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Colors from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const MapMarker = ({data}: any) => {
   const [color] = useState(data?.matchP > 85 ? 'lavendar' : 'mint');

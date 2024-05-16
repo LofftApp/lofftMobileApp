@@ -2,12 +2,12 @@ import React from 'react';
 import {View, TextInput} from 'react-native';
 
 // Components 🖼️
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const CurrencyInput = ({
   placeholder = 'Text',

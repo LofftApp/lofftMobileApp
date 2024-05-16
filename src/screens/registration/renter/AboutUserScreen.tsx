@@ -2,22 +2,22 @@ import React, {useState, FC} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import UserJourneyPaginationBar from '@Redux/registration/UserJourneyPaginationBar';
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import UserJourneyContinue from '@Redux/registration/UserJourneyContinue';
+import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
 
 // StylesSheet 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Data 💿
-import userPreferences from '@Components/componentData/userPreferences.json';
+import userPreferences from 'components/componentData/userPreferences.json';
 
 // Helper 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   const headerText = route.params.headerText;

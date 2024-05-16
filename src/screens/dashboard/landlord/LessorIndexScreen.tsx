@@ -5,18 +5,18 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import FlatListComponent from '../renter/SubScreens/FlatListComponent';
 
 // Components 🪢
-import HeaderPageContentSwitch from '@Components/buttons/HeaderPageContentSwitch';
+import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 
 // Redux
-import { useAppDispatch, useAppSelector } from '@ReduxCore/hooks';
-import {fetchAdverts} from '@Redux/adverts/advertMiddleware';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import * as Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import * as Color from 'styleSheets/lofftColorPallet.json';
 
 // Assets
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const LessorIndexScreen = ({navigation}: any) => {
   const [sortedadverts, setSortedadverts] = useState([]);
@@ -27,13 +27,9 @@ const LessorIndexScreen = ({navigation}: any) => {
   useEffect(() => {
     dispatch(fetchAdverts());
     // dispatch(getProfile())
-
   }, []);
 
-
-
   const adverts = useAppSelector((state: any) => state.adverts.adverts);
-
 
   useEffect(() => {
     const getadverts = async () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
 // Assets 🖼
-import Color from '@StyleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const buildNumberArray = (length: any) => {
   let i = 1;
@@ -14,10 +14,22 @@ const buildNumberArray = (length: any) => {
   return response;
 };
 
-const PaginationBar = ({screen, totalScreens, onTop = false, marginVertical}: any) => {
+const PaginationBar = ({
+  screen,
+  totalScreens,
+  onTop = false,
+  marginVertical,
+}: any) => {
   const blobs = buildNumberArray(totalScreens);
   return (
-    <View style={[styles.pagination, { position: onTop ? 'absolute' : 'relative', marginVertical: marginVertical }]}>
+    <View
+      style={[
+        styles.pagination,
+        {
+          position: onTop ? 'absolute' : 'relative',
+          marginVertical: marginVertical,
+        },
+      ]}>
       {blobs.map((i, index) => {
         const active =
           index === screen
@@ -33,7 +45,7 @@ const styles = StyleSheet.create({
   pagination: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   paginationBlob: {
     width: 8,

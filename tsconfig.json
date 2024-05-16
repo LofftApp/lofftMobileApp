@@ -1,29 +1,30 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",
+  "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
+      "src/*": ["/api/*"],
       // API
-      "@Api/*": ["./api/*"],
+      "api/*": ["./api/*"],
       // Components
-      "@Components/*": ["./components/*"],
-      "@Screens/*": ["./screens/*"],
+      "components/*": ["./components/*"],
+      "screens/*": ["./screens/*"],
       // Stylesheets
-      "@StyleSheets/*": ["./styles/*"],
+      "styleSheets/*": ["./styles/*"],
       // Helpers
-      "@Helpers/*": ["./helpers/*"],
+      "helpers/*": ["./helpers/*"],
       // Assets
-      "@Assets/*": ["./Assets/*"],
+      "Assets/*": ["./Assets/*"],
       // Redux
-      "@Redux/*": ["./features/*"],
+      "reduxFeatures/*": ["./features/*"],
       // Persistance
-      "@Persistance/*": ["./persistance/"],
+      "persistance/*": ["./persistance/"],
       // Core Redux files
-      "@ReduxCore/*": ["./app/*"]
+      "reduxCore/*": ["./app/*"]
     }
   },
   "typeRoots": ["./types"]

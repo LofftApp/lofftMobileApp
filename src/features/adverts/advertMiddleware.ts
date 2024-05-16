@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {lofftRequest} from '@Api/apiRequest';
+import {lofftRequest} from 'api/apiRequest';
 import axios from 'axios';
 
 export const fetchAdverts = createAsyncThunk(

@@ -11,14 +11,14 @@ import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from '@ReduxCore/hooks';
-import {checkToken} from '@Redux/authentication/authenticationMiddleware';
+import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {getProfile} from '@Redux/user/usersMiddleware';
+import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -28,27 +28,26 @@ import LessorNavigator from './navigationStacks/LessorNavigator';
 import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
-import AdminScreen from '@Screens/admin/adminScreen';
+import AdminScreen from 'screens/admin/adminScreen';
 import {createSelector} from '@reduxjs/toolkit';
 
 const RootStack = createNativeStackNavigator();
 
-
 const App = () => {
   // Define selectors
-const getAuthenticated = (state: any) => state.authentication.authenticated;
-const getUserType = (state: any) => state.user.user.userType;
-const getAdmin = (state: any) => state.user.user.admin;
+  const getAuthenticated = (state: any) => state.authentication.authenticated;
+  const getUserType = (state: any) => state.user.user.userType;
+  const getAdmin = (state: any) => state.user.user.admin;
 
-// Create memoized selectors
-const selectAuthenticated = createSelector(
-  [getAuthenticated],
-  authenticated => authenticated,
-);
-const selectUserTypeAndAdmin = createSelector(
-  [getUserType, getAdmin],
-  (userType, admin) => [userType, admin],
-);
+  // Create memoized selectors
+  const selectAuthenticated = createSelector(
+    [getAuthenticated],
+    authenticated => authenticated,
+  );
+  const selectUserTypeAndAdmin = createSelector(
+    [getUserType, getAdmin],
+    (userType, admin) => [userType, admin],
+  );
   const authenticated = useAppSelector(selectAuthenticated);
   const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
 

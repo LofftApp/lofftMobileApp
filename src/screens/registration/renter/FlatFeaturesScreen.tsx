@@ -2,18 +2,18 @@ import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import EmojiIcon from '@Components/Emojicon/EmojiIcon';
-import FooterNavBarWithPagination from '@Components/bars/FooterNavBarWithPagination';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Data 💿
-import flatPreferences from '@Components/componentData/flatPreferences.json';
+import flatPreferences from 'components/componentData/flatPreferences.json';
 
 // Helper 🤝
-import {navigationHelper} from '@Helpers/navigationHelper';
+import {navigationHelper} from 'helpers/navigationHelper';
 
 const FlatFeaturesScreen = ({navigation, route}: any) => {
   const headerText = route.params.headerText;

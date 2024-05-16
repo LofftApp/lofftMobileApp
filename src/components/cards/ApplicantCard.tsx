@@ -1,13 +1,19 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, Pressable, useWindowDimensions} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+} from 'react-native';
 
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // External
-import CheckBox from '@Components/coreComponents/interactiveElements/CheckBox';
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
-import Chips from '@Components/buttons/Chips';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import Chips from 'components/buttons/Chips';
 
 const ApplicantCard = ({
   finalRound,
@@ -36,10 +42,10 @@ const ApplicantCard = ({
     setAccordion(!accordion);
   };
 
-  const { height, width } = useWindowDimensions();
+  const {height, width} = useWindowDimensions();
 
   return (
-    <View style={[styles.outterContainer, { width: width - 20 }]}>
+    <View style={[styles.outterContainer, {width: width - 20}]}>
       <View style={[styles.innerContainer]}>
         <CheckBox value={activateBox} onPress={() => checkClick()} />
         <View style={styles.details}>
@@ -87,7 +93,7 @@ const ApplicantCard = ({
             features={true}
           />
 
-          <Text style={[fontStyles.headerSmall, {marginTop: 20,}]}>Other</Text>
+          <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>Other</Text>
           <Chips
             tags={[
               {

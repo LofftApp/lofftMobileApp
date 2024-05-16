@@ -39,16 +39,13 @@
 	<string>pk.eyJ1IjoiamhpYmJzODkiLCJhIjoiY2x2cDRlZnA3MHVraTJrbzZjamlhN2diaiJ9._C5MWhHUYiHejXvzm8ypCQ</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
+    <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+      <key>NSIncludesSubdomains</key>
+      <true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera.</string>

@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {saveUserDetails} from './userJourneySlice';
 
 // Components 🪢
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const UserJourneySaveButton = ({onPress, value}: any) => {
   const dispatch = useDispatch();

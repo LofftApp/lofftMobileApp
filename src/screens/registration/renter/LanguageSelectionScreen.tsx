@@ -1,17 +1,17 @@
-import BackButton from '@Components/buttons/BackButton';
+import BackButton from 'components/buttons/BackButton';
 import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles 🎨
-import {fontStyles} from '@StyleSheets/fontStyles';
-import InputFieldText from '@Components/coreComponents/inputField/InputFieldText';
+import {fontStyles} from 'styleSheets/fontStyles';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // Components 🧰
-import {CoreButton} from '@Components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
-import languagesData from '@Assets/coreText/languagesText.json';
-import LanguagesCard from '@Components/cards/LanguagesCard';
+import languagesData from 'Assets/coreText/languagesText.json';
+import LanguagesCard from 'components/cards/LanguagesCard';
 
 const LanguageSelectionScreen = () => {
   const navigation = useNavigation();

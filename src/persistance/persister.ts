@@ -1,5 +1,5 @@
 import {persistStore} from 'redux-persist';
-import {store} from '@ReduxCore/store';
+import {store} from 'reduxCore/store';
 
 export const persister: any = persistStore(store);
 

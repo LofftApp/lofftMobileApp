@@ -2,20 +2,20 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppDispatch} from '@ReduxCore/hooks';
-import {saveUserDetails} from '@Redux/registration/userJourneySlice';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {saveUserDetails} from 'reduxFeatures/registration/userJourneySlice';
 
 // Screens 📺
-import ScreenBackButton from '@Components/coreComponents/ScreenTemplates/ScreenBackButton';
+import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import HeadlineContainer from '@Components/containers/HeadlineContainer';
-import {CoreButton} from '@Components/buttons/CoreButton';
-import UserJourneySaveButton from '@Redux/registration/UserJourneySaveButton';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import {CoreButton} from 'components/buttons/CoreButton';
+import UserJourneySaveButton from 'reduxFeatures/registration/UserJourneySaveButton';
 
 // Styles 🖼️
-import {fontStyles} from '@StyleSheets/fontStyles';
-import Color from '@StyleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const ConditionsOfUseScreen = ({navigation, route}: any) => {
   const dispatch = useAppDispatch();

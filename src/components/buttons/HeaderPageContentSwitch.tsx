@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 
 // Components 🪢
-import LofftIcon from '@Components/lofftIcons/LofftIcon';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
-import Color from '@StyleSheets/lofftColorPallet.json';
-import {fontStyles} from '@StyleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const HeaderPageContentSwitch = ({
   toggleNames,
