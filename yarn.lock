@@ -2394,7 +2394,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/babel-preset@npm:0.74.83, @react-native/babel-preset@npm:^0.74.81":
+"@react-native/babel-preset@npm:0.74.83, @react-native/babel-preset@npm:^0.74.83":
   version: 0.74.83
   resolution: "@react-native/babel-preset@npm:0.74.83"
   dependencies:
@@ -2512,7 +2512,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/eslint-config@npm:^0.74.81":
+"@react-native/eslint-config@npm:^0.74.83":
   version: 0.74.83
   resolution: "@react-native/eslint-config@npm:0.74.83"
   dependencies:
@@ -2571,7 +2571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/metro-config@npm:^0.74.81":
+"@react-native/metro-config@npm:^0.74.83":
   version: 0.74.83
   resolution: "@react-native/metro-config@npm:0.74.83"
   dependencies:
@@ -2590,10 +2590,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/typescript-config@npm:0.74.81":
-  version: 0.74.81
-  resolution: "@react-native/typescript-config@npm:0.74.81"
-  checksum: 10c0/915b8777a94bdac74fdb4c2a61b7c94918171a1ae4a6d67bd5806c397e221d713a155785a5c23c3029a21c390249bc1c06fe813970f0328f2a61e1ecb522cce6
+"@react-native/typescript-config@npm:0.74.83":
+  version: 0.74.83
+  resolution: "@react-native/typescript-config@npm:0.74.83"
+  checksum: 10c0/9dc231eb6c3432dad35cb455bd89cd7749d068fe36829fce071c18c54775ee034d65eeb7e0680f5b4cba27056d9254e6392bdf88bbfd8d2d8b6f2d547c64d48c
   languageName: node
   linkType: hard
 
@@ -8114,10 +8114,10 @@ __metadata:
     "@babel/runtime": "npm:^7.20.0"
     "@miblanchard/react-native-slider": "npm:^2.3.1"
     "@react-native-async-storage/async-storage": "npm:^1.18.1"
-    "@react-native/babel-preset": "npm:^0.74.81"
-    "@react-native/eslint-config": "npm:^0.74.81"
-    "@react-native/metro-config": "npm:^0.74.81"
-    "@react-native/typescript-config": "npm:0.74.81"
+    "@react-native/babel-preset": "npm:^0.74.83"
+    "@react-native/eslint-config": "npm:^0.74.83"
+    "@react-native/metro-config": "npm:^0.74.83"
+    "@react-native/typescript-config": "npm:0.74.83"
     "@react-navigation/bottom-tabs": "npm:^6.5.7"
     "@react-navigation/native": "npm:^6.1.6"
     "@react-navigation/native-stack": "npm:^6.9.12"
@@ -8144,7 +8144,7 @@ __metadata:
     prop-types: "npm:^15.8.1"
     react: "npm:18.2.0"
     react-devtools: "npm:^4.28.4"
-    react-native: "npm:^0.74.0"
+    react-native: "npm:^0.74.1"
     react-native-collapsible: "npm:^1.6.1"
     react-native-date-picker: "npm:^4.2.9"
     react-native-dotenv: "npm:^3.4.8"
@@ -9966,7 +9966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native@npm:^0.74.0":
+"react-native@npm:^0.74.1":
   version: 0.74.1
   resolution: "react-native@npm:0.74.1"
   dependencies:
