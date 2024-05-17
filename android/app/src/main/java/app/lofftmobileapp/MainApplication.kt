@@ -9,7 +9,6 @@ import com.facebook.react.ReactPackage
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
-import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
 
 // Commented out during upgrade to 0.70.4 if issue uncomment
@@ -36,7 +35,7 @@ class MainApplication : Application(), ReactApplication {
     }
 
     override val reactHost: ReactHost
-      get() = getDefaultReactHost(this.applicationContext, reactNativeHost)
+      get() = getDefaultReactHost(applicationContext, reactNativeHost)
 
     override fun onCreate() {
       super.onCreate()
