@@ -4,18 +4,19 @@ module.exports = {
     [
       'module-resolver',
       {
-        alias: {
-          src: './src',
-          api: './src/api',
-          components: './src/components',
-          screens: './src/screens',
-          styleSheets: './src/styles',
-          helpers: './src/helpers',
-          Assets: './src/assets',
-          reduxFeatures: './src/features',
-          persistance: './src/persistance',
-          reduxCore: './src/app',
-        },
+        root: ['./src'],
+        alias: [
+          {api: './src/api'},
+          {components: './src/components'},
+          {screens: './src/screens'},
+          {styleSheets: './src/styles'},
+          {helpers: './src/helpers'},
+          {Assets: './src/assets'},
+          {reduxFeatures: './src/features'},
+          {persistance: './src/persistance'},
+          {reduxCore: './src/app'},
+        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     ],
     [

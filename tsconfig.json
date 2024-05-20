@@ -2,12 +2,11 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
-      "src/*": ["/api/*"],
       // API
       "api/*": ["./api/*"],
       // Components
@@ -22,7 +21,7 @@
       // Redux
       "reduxFeatures/*": ["./features/*"],
       // Persistance
-      "persistance/*": ["./persistance/"],
+      "persistance/*": ["./persistance/*"],
       // Core Redux files
       "reduxCore/*": ["./app/*"]
     }
