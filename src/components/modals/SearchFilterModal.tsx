@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
+
+
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
@@ -23,6 +25,8 @@ const SearchFilterModal = ({openModal, pullData}: any) => {
   const [minFocus, setMinFocus] = useState(false);
   const [maxFocus, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
+
+
 
   const handleMin = (num: any) => {
     setMinPrice(num.toString());
@@ -196,7 +200,7 @@ const SearchFilterModal = ({openModal, pullData}: any) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginVertical: 65,
+    marginVertical: '5%',
     height: '100%',
     paddingHorizontal: 16,
   },
@@ -266,14 +270,15 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   buttonsContainer: {
-    flex: 1,
+    height: '20%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: 20,
   },
   seeResultButton: {
-    paddingHorizontal: 25,
+
   },
+
   clearAllButton: {
     paddingHorizontal: 25,
   },

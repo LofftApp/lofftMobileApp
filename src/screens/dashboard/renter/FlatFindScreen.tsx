@@ -79,14 +79,13 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
   },
-
   inputField: {
     flex: 1,
   },
   searchContainer: {
     paddingHorizontal: 16,
     flexDirection: 'row',
-    marginTop: 68, // Needs to be added to core view file, though not working when built
+    marginTop: '10%', // Needs to be added to core view file, though not working when built
   },
 });
 

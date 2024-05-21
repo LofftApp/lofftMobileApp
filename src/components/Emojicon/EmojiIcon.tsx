@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
+import { fontPixelRatio } from 'helpers/fontPixelRatio';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -39,7 +40,7 @@ const EmojiIcon = ({
         ]}
         disabled={disabled}>
         <Text
-          style={[fontStyles.bodyMedium, {color: toggle ? 'white' : 'black'}]}>
+          style={[fontStyles.bodyMedium, { fontSize: fontPixelRatio(fontStyles.bodyMedium.fontSize) ,color: toggle ? 'white' : 'black'}]}>
           {emojiIcon} {value}
         </Text>
       </Pressable>
@@ -56,9 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar[100],
   },
   buttonStyle: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    flexDirction: 'row',
+    paddingVertical: '3%',
+    paddingHorizontal: 20,
     marginRight: 8,
     marginBottom: 16,
     borderRadius: 16,

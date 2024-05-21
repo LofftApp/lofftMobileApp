@@ -25,12 +25,12 @@ import {tagSorter} from 'helpers/tagSorter';
 const ListViewFlatCard = ({navigation, advert, id}: any) => {
   const userProfile = useAppSelector((state: any) => state.user.user);
 
-  const characteristicsTags = tagSorter(
-    userProfile.profile.characteristics,
-    advert.flat.characteristics,
-  );
+  // const characteristicsTags = tagSorter(
+  //   userProfile.profile.characteristics,
+  //   advert.flat.characteristics,
+  // );
 
-  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
+  // const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   const dispatch = useAppDispatch();
   return (
@@ -81,8 +81,8 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
           ) : null}
         </View>
         <View>
-          <Chips tags={featuresTags.positiveTags} features={true} />
-          <Chips tags={characteristicsTags.positiveTags} features={false} />
+          {/* <Chips tags={featuresTags.positiveTags} features={true} />
+          <Chips tags={characteristicsTags.positiveTags} features={false} /> */}
         </View>
       </View>
       <CoreButton
@@ -95,7 +95,7 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    marginBottom: 16,
+    marginBottom: '10%',
   },
   flatCardImage: {
     width: '100%',
