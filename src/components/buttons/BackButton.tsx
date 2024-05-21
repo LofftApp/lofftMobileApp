@@ -1,6 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
+
 // Stylesheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -45,8 +47,7 @@ const BackButton = ({
 
 const styles = StyleSheet.create({
   headerContainer: {
-    flex: 1,
-    maxHeight: 75,
+    maxHeight: height(75),
     alignContent: 'flex-start',
     flexDirection: 'row-reverse',
     alignItems: 'center',
@@ -58,19 +59,19 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40,
-    height: 40,
+    width: width(40),
+    height: height(40),
     borderRadius: 22,
   },
   header: {
     flex: 1,
-    marginLeft: -48,
-    marginTop: 12,
+    marginLeft: size(-48),
+    marginTop: size(12),
     textAlign: 'center',
   },
   headerRight: {
     marginLeft: 0,
-    marginRight: -48,
+    marginRight: size(-48),
   },
   neutral: {
     backgroundColor: Color.White[50],

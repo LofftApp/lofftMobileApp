@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -56,13 +57,13 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar[100],
   },
   buttonStyle: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    flexDirction: 'row',
-    marginRight: 8,
-    marginBottom: 16,
+    paddingVertical: size(12),
+    paddingHorizontal: size(16),
+
+    marginRight: size(8),
+    marginBottom: size(16),
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: size(2),
   },
   disabled: {
     backgroundColor: Color.Black[5],

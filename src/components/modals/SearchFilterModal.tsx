@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
-
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
@@ -196,28 +196,29 @@ const SearchFilterModal = ({openModal, pullData}: any) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginVertical: 65,
+    marginVertical: size(65),
     height: '100%',
-    paddingHorizontal: 16,
+    paddingHorizontal: size(16),
   },
   priceRangeContainer: {
-    paddingVertical: 20,
+    paddingVertical: size(20),
   },
   emojiContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'center',
   },
   inputForm: {
-    borderWidth: 2,
-    padding: 15,
+    borderWidth: size(2),
+    padding: size(15),
     borderColor: Color.Black[100],
     borderRadius: 12,
-    marginTop: 10,
+    marginTop: size(10),
   },
   inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 20,
+    height: height(20),
   },
   formContainer: {
     width: '48%',
@@ -228,16 +229,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sliderContainer: {
-    marginTop: 72,
+    marginTop: size(72),
   },
   pagingationBarContainer: {
-    marginVertical: 45,
+    marginVertical: size(45),
   },
   buttonContainer: {
-    marginBottom: 55,
+    marginBottom: size(55),
   },
   switchContainer: {
-    marginTop: 15,
+    marginTop: size(15),
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -250,36 +251,37 @@ const styles = StyleSheet.create({
   },
   filterHeight: {
     flex: 1,
-    maxHeight: 76,
+    maxHeight: size(66),
   },
   errorMessage: {
     color: Color.Tomato[100],
   },
   priceInputContainer: {
-    marginVertical: 10,
+    marginVertical: size(10),
   },
   lowerPageHalfContainer: {
-    paddingTop: 40,
+    paddingTop: size(20),
     flex: 2,
   },
   flatDetails: {
-    paddingBottom: 20,
+    paddingBottom: size(10),
   },
   buttonsContainer: {
-    flex: 1,
+    flex: 0.5,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingTop: 20,
+    paddingTop: size(10),
+    marginBottom: size(80),
   },
   seeResultButton: {
-    paddingHorizontal: 25,
+    paddingHorizontal: size(25),
   },
   clearAllButton: {
-    paddingHorizontal: 25,
+    paddingHorizontal: size(25),
   },
   pageBreak: {
-    borderBottomWidth: 1,
-    paddingVertical: 5,
+    borderBottomWidth: size(1),
+    paddingVertical: size(5),
   },
 });
 
