@@ -1,4 +1,4 @@
-export const logWithLocation = (...messages: string[]) => {
+export const logWithLocation = (...messages: unknown[]) => {
   const err = new Error();
   const stack = err.stack ? err.stack.split('\n') : [];
 

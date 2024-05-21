@@ -30,14 +30,17 @@ import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLess
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
 import {createSelector} from '@reduxjs/toolkit';
+import { logWithLocation } from 'helpers/logWithLocation';
 
 const RootStack = createNativeStackNavigator();
 
 const App = () => {
+  logWithLocation('App Rendered');
   // Define selectors
   const getAuthenticated = (state: any) => state.authentication.authenticated;
   const getUserType = (state: any) => state.user.user.userType;
   const getAdmin = (state: any) => state.user.user.admin;
+
 
   // Create memoized selectors
   const selectAuthenticated = createSelector(
