@@ -17,16 +17,22 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {advertPartition} from 'helpers/advertPartition';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
-const ApplicationIndexScreen = ({navigation}: any) => {
-  const getUserType = (state: any) => state.user.user.userType;
-  const getAdverts = (state: any) => state.adverts.adverts;
+// Types 🏷
+import type {ApplicationIndexScreenProp} from './types';
+import type {UserState} from 'reduxFeatures/user/types';
+import type {AdvertState, Advert} from 'reduxFeatures/adverts/types';
+
+const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
+  const getUserType = (state: {user: UserState}) => state.user.user.userType;
+
+  const getAdverts = (state: {adverts: AdvertState}) => state.adverts.adverts;
 
   const selectUserTypeAndAdverts = createSelector(
     [getUserType, getAdverts],
-    (userType, adverts) => {
+    (userType, adverts): [string | null, Advert[]] => {
       let userAdverts = adverts;
       if (userType === 'tenant') {
-        userAdverts = userAdverts.filter((advert: any) => advert.applied);
+        userAdverts = userAdverts.filter(advert => advert.applied);
       }
       return [userType, userAdverts];
     },
@@ -38,8 +44,8 @@ const ApplicationIndexScreen = ({navigation}: any) => {
 
   const [screen, setScreen] = useState('thumbs-up');
 
-  const setActiveScreen = (screen: string) => {
-    setScreen(screen);
+  const setActiveScreen = (activeScreen: string) => {
+    setScreen(activeScreen);
   };
 
   return (
@@ -73,7 +79,9 @@ const ApplicationIndexScreen = ({navigation}: any) => {
           toggleIcons={['thumbs-up', 'thumbs-down']}
           markers={['thumbs-up', 'thumbs-down']}
           activeScreen={screen}
-          setActiveScreen={(screen: string) => setActiveScreen(screen)}
+          setActiveScreen={(activeScreen: string) =>
+            setActiveScreen(activeScreen)
+          }
         />
       )}
       <View style={styles.viewContainer}>
@@ -83,8 +91,8 @@ const ApplicationIndexScreen = ({navigation}: any) => {
             userType === 'lessor'
               ? adverts
               : screen === 'thumbs-down'
-                ? inactiveAdverts
-                : activeAdverts
+              ? inactiveAdverts
+              : activeAdverts
           }
           navigation={navigation}
           isLessor={userType === 'lessor'}
