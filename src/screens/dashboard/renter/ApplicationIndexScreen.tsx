@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
 import {createSelector} from '@reduxjs/toolkit';
+
 // Screens 📺
 import FlatListComponent from 'screens/dashboard/renter/SubScreens/FlatListComponent';
 
@@ -13,9 +14,11 @@ import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch'
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+
 // helpers 🧰
 import {advertPartition} from 'helpers/advertPartition';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {ApplicationIndexScreenProp} from './types';
@@ -55,7 +58,7 @@ const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
           <>
             <Text style={fontStyles.headerLarge}>My Listings</Text>
             <View style={styles.actionContainer}>
-              <Pressable style={[styles.addButton, {marginRight: 15}]}>
+              <Pressable style={[styles.addButton, styles.marginRight]}>
                 <LofftIcon
                   name="message-circle"
                   size={33}
@@ -79,9 +82,7 @@ const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
           toggleIcons={['thumbs-up', 'thumbs-down']}
           markers={['thumbs-up', 'thumbs-down']}
           activeScreen={screen}
-          setActiveScreen={(activeScreen: string) =>
-            setActiveScreen(activeScreen)
-          }
+          setActiveScreen={setActiveScreen}
         />
       )}
       <View style={styles.viewContainer}>
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewContainer: {
-    marginVertical: 15,
+    marginVertical: size(15),
     position: 'relative',
   },
 
@@ -116,24 +117,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: size(16),
     flexDirection: 'row',
-    marginTop: 68, // Needs to be added to core view file, though not working when built
+    marginTop: size(68), // Needs to be added to core view file, though not working when built
   },
   headerText: {
-    marginTop: 70,
-    marginHorizontal: 16,
+    marginTop: size(70),
+    marginHorizontal: size(16),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   addButton: {
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    borderRadius: 12,
+    paddingVertical: size(7),
+    paddingHorizontal: size(12),
+    borderRadius: size(12),
   },
   actionContainer: {
     flexDirection: 'row',
+  },
+  marginRight: {
+    marginRight: size(20),
   },
 });
 
