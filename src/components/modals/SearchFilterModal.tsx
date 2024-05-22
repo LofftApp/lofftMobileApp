@@ -267,11 +267,10 @@ const styles = StyleSheet.create({
     paddingBottom: size(10),
   },
   buttonsContainer: {
-    flex: 0.5,
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: size(10),
-    marginBottom: size(80),
+    marginBottom: size(90),
   },
   seeResultButton: {
     paddingHorizontal: size(25),
