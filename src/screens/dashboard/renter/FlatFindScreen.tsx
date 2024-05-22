@@ -4,6 +4,7 @@ import {View, StyleSheet} from 'react-native';
 // Redux 🏪
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 
 // Screens 📺
 import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
@@ -79,14 +80,13 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
   },
-
   inputField: {
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: size(16),
     flexDirection: 'row',
-    marginTop: 68, // Needs to be added to core view file, though not working when built
+    marginTop: size(68), // Needs to be added to core view file, though not working when built
   },
 });
 

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 
 // Components 🪢
 import PasswordInput from './inputs/PasswordInput';
@@ -107,12 +108,12 @@ const InputFieldText = ({
 
 const styles = StyleSheet.create({
   inputFieldStyle: {
-    marginBottom: 8,
-    borderWidth: 2,
-    borderRadius: 12,
+    marginBottom: size(8),
+    borderWidth: size(2),
+    borderRadius: size(12),
     borderColor: Color.Black[50],
-    paddingHorizontal: 8,
-    height: 48,
+    paddingHorizontal: size(8),
+    height: size(48),
     justifyContent: 'center',
   },
   focus: {
@@ -125,26 +126,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   dropDown: {
-    borderWidth: 2,
-    borderTopWidth: 1,
+    borderWidth: size(2),
+    borderTopWidth: size(1),
     borderTopColor: Color.Lavendar[30],
     borderColor: Color.Lavendar[100],
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    minHeight: 48,
+    borderBottomLeftRadius: size(16),
+    borderBottomRightRadius: size(16),
+    minHeight: size(48),
     justifyContent: 'center',
   },
   dropDownItem: {
-    marginVertical: 2,
-    borderBottomWidth: 3,
-    padding: 3,
+    marginVertical: size(2),
+    borderBottomWidth: size(3),
+    padding: size(3),
     borderBottomColor: Color.Black[100],
   },
   oddPlaceList: {
     backgroundColor: Color.Lavendar[10],
   },
   errorMessage: {
-    margin: 5,
+    margin: size(5),
     color: Color.Tomato[100],
   },
   errorActive: {

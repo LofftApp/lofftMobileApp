@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
-
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
@@ -25,7 +25,7 @@ const HeaderPageContentSwitch = ({
         onPress={() => setActiveScreen(markers[0])}>
         <LofftIcon
           name={toggleIcons[0]}
-          size={20}
+          size={size(20)}
           color={
             activeScreen === markers[0] ? Color.White[100] : Color.Lavendar[50]
           }
@@ -47,7 +47,7 @@ const HeaderPageContentSwitch = ({
         onPress={() => setActiveScreen(markers[1])}>
         <LofftIcon
           name={toggleIcons[1]}
-          size={20}
+          size={size(20)}
           color={
             activeScreen === markers[1] ? Color.White[100] : Color.Lavendar[50]
           }
@@ -70,14 +70,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderColor: Color.Lavendar[100],
-    borderWidth: 2,
+    borderWidth: size(2),
     borderRadius: 12,
-    marginTop: 15,
-    height: 40,
-    marginBottom: 8,
-    marginHorizontal: 16,
+    marginTop: size(7),
+    height: size(40),
+    marginBottom: size(12),
+    marginHorizontal: size(16),
     backgroundColor: Color.White[100],
-    zIndex: 2,
+    zIndex: 4,
   },
   toggleButton: {
     flex: 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
-
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 
@@ -61,7 +61,7 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
       </View>
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
-          imageContainerHeight={300}
+          imageContainerHeight={size(300)}
           images={advert.flat.photos}
         />
       </View>
@@ -95,7 +95,7 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    marginBottom: 16,
+    marginBottom: size(18),
   },
   flatCardImage: {
     width: '100%',
@@ -111,10 +111,10 @@ const styles = StyleSheet.create({
   flatCardbuttonsWrap: {
     flex: 1,
     alignItems: 'flex-end',
-    padding: 15,
+    padding: size(15),
   },
   flatCardInfoWrap: {
-    padding: 8,
+    padding: size(8),
   },
   flatCardMetadataWrap: {
     flexDirection: 'column',

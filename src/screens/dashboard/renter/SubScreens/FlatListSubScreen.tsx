@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
-
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
 
@@ -34,7 +34,7 @@ const FlatListSubScreen = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    marginHorizontal: 16,
+    marginHorizontal: size(16),
   },
 });
 

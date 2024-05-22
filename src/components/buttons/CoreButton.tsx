@@ -1,5 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Text} from 'react-native';
+import { width, height, size, fontSize } from "react-native-responsive-sizes";
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -44,8 +45,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar[100],
     borderColor: Color.Lavendar[100],
     borderRadius: 12,
-    padding: 10,
-    borderWidth: 2,
+    padding: size(7),
+    borderWidth: size(2),
   },
   buttonTextStyle: {
     color: Color.White[100],
