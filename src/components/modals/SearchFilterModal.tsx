@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {width, height, size, fontSize} from 'react-native-responsive-sizes';
+
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
