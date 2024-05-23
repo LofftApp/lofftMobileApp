@@ -76,7 +76,7 @@ const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
           </>
         )}
       </View>
-      {userType === 'lessor' ? null : (
+      {userType !== 'lessor' && (
         <HeaderPageContentSwitch
           toggleNames={['Active', 'Inactive']}
           toggleIcons={['thumbs-up', 'thumbs-down']}

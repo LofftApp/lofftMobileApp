@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
@@ -8,19 +8,22 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
+// Types 🏷
+import type {HeaderPageContentSwitchProps} from './types';
+
 const HeaderPageContentSwitch = ({
   toggleNames,
   toggleIcons,
   activeScreen,
   setActiveScreen,
   markers,
-}: any) => {
+}: HeaderPageContentSwitchProps) => {
   return (
     <View style={styles.viewToggle}>
       <Pressable
         style={[
           styles.toggleButton,
-          activeScreen === markers[0] ? styles.toggleButtonActive : null,
+          activeScreen === markers[0] && styles.toggleButtonActive,
         ]}
         onPress={() => setActiveScreen(markers[0])}>
         <LofftIcon
@@ -34,7 +37,7 @@ const HeaderPageContentSwitch = ({
           style={[
             fontStyles.bodyMedium,
             styles.toggleButtonText,
-            activeScreen === markers[0] ? styles.toggleButtonTextActive : null,
+            activeScreen === markers[0] && styles.toggleButtonTextActive,
           ]}>
           {toggleNames[0]}
         </Text>
@@ -42,7 +45,7 @@ const HeaderPageContentSwitch = ({
       <Pressable
         style={[
           styles.toggleButton,
-          activeScreen === markers[1] ? styles.toggleButtonActive : null,
+          activeScreen === markers[1] && styles.toggleButtonActive,
         ]}
         onPress={() => setActiveScreen(markers[1])}>
         <LofftIcon
@@ -56,7 +59,7 @@ const HeaderPageContentSwitch = ({
           style={[
             fontStyles.bodyMedium,
             styles.toggleButtonText,
-            activeScreen === markers[1] ? styles.toggleButtonTextActive : null,
+            activeScreen === markers[1] && styles.toggleButtonTextActive,
           ]}>
           {toggleNames[1]}
         </Text>
