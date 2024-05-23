@@ -50,7 +50,7 @@ const HeaderPageContentSwitch = ({
         onPress={() => setActiveScreen(markers[1])}>
         <LofftIcon
           name={toggleIcons[1]}
-          size={size(20)}
+          size={20}
           color={
             activeScreen === markers[1] ? Color.White[100] : Color.Lavendar[50]
           }

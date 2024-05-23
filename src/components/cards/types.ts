@@ -4,7 +4,7 @@ import type {FavoriteScreenNavigationProp} from 'screens/dashboard/renter/types'
 type ListFlatApplicationCardProps = {
   navigation: FavoriteScreenNavigationProp;
   advert: Advert;
-  posted: boolean;
+  posted?: boolean;
   isLessor: boolean;
 };
 

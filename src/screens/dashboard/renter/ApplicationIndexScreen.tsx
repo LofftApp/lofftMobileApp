@@ -26,7 +26,6 @@ import type {UserState} from 'reduxFeatures/user/types';
 import type {AdvertState, Advert} from 'reduxFeatures/adverts/types';
 
 const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
-  console.log('navigation', navigation);
   const getUserType = (state: {user: UserState}) => state.user.user.userType;
 
   const getAdverts = (state: {adverts: AdvertState}) => state.adverts.adverts;
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
   addButton: {
     paddingVertical: size(7),
     paddingHorizontal: size(12),
-    borderRadius: size(12),
+    borderRadius: 12,
   },
   actionContainer: {
     flexDirection: 'row',

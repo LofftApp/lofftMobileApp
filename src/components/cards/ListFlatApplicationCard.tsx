@@ -87,7 +87,7 @@ const ListFlatApplicationCard = ({
         <View>
           <View style={styles.advertCardImage}>
             <LofftHeaderPhoto
-              imageContainerHeight={300}
+              imageContainerHeight={size(300)}
               images={advert.flat.photos ?? []}
             />
           </View>
