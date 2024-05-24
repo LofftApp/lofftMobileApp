@@ -1,22 +1,30 @@
 import React from 'react';
 import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
+// Components  🪢
 import ListFlatApplicationCard from 'components/cards/ListFlatApplicationCard';
 
-const FlatListComponent = ({adverts, navigation}: any) => {
+// Helpers 🧰
+import {size} from 'react-native-responsive-sizes';
+
+// Types  🏷
+import type {FlatListComponentProps} from './types';
+import type {Advert} from 'reduxFeatures/adverts/types';
+
+const FlatListComponent = ({adverts, navigation}: FlatListComponentProps) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={styles.flatCardContainer}>
       <SafeAreaView>
-        {adverts.map((advert: any, index: number) => {
+        {adverts.map((advert: Advert, index: number) => {
           return (
             <ListFlatApplicationCard
-              navigation={navigation}
               key={index + 1}
+              navigation={navigation}
               advert={advert}
               /*  active is just for demo 👇*/
-              posted={true}
+              posted
               isLessor={advert.lessor}
             />
           );
@@ -28,7 +36,7 @@ const FlatListComponent = ({adverts, navigation}: any) => {
 
 const styles = StyleSheet.create({
   flatCardContainer: {
-    marginHorizontal: 16,
+    marginHorizontal: size(16),
   },
 });
 

@@ -76,7 +76,7 @@ const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
           </>
         )}
       </View>
-      {userType === 'lessor' ? null : (
+      {userType !== 'lessor' && (
         <HeaderPageContentSwitch
           toggleNames={['Active', 'Inactive']}
           toggleIcons={['thumbs-up', 'thumbs-down']}
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   addButton: {
     paddingVertical: size(7),
     paddingHorizontal: size(12),
-    borderRadius: size(12),
+    borderRadius: 12,
   },
   actionContainer: {
     flexDirection: 'row',
