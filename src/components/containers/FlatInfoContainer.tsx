@@ -18,6 +18,7 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
+import {size} from 'react-native-responsive-sizes';
 
 const FlatInfoContainer = ({
   advert,
@@ -172,29 +173,29 @@ const styles = StyleSheet.create({
   centralizerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: size(20),
   },
   matchContainer: {
     width: '100%',
     backgroundColor: Color.Mint[10],
-    marginVertical: 10,
+    marginVertical: size(10),
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: size(20),
     alignItems: 'center',
   },
   infoContainer: {
     width: '100%',
-    marginTop: 15,
+    marginTop: size(15),
   },
   LegendContainer: {
     width: '90%',
-    marginTop: 20,
+    marginTop: size(20),
   },
   firstRowLegendContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: size(20),
   },
   secondRowLegendContainer: {
     flexDirection: 'row',
@@ -207,23 +208,23 @@ const styles = StyleSheet.create({
   countDownTimer: {
     textAlign: 'center',
     color: Color.Mint[100],
-    marginTop: 20,
+    marginTop: size(20),
   },
   coreButtonCustom: {
-    marginTop: 14,
+    marginTop: size(14),
   },
   iconContainer: {flexDirection: 'row', alignItems: 'center'},
-  iconMargin: {marginLeft: 10, marginRight: 100},
-  descriptionMargin: {marginTop: 20},
+  iconMargin: {marginLeft: size(10), marginRight: size(100)},
+  descriptionMargin: {marginTop: size(20)},
   readMoreButton: {
     backgroundColor: 'white',
     borderWidth: 2,
-    marginTop: 14,
-    height: 40,
+    marginTop: size(14),
+    height: size(40),
   },
-  marginFlatCharacteristics: {marginTop: 23, marginBottom: 5},
-  marginChipsCharacteristics: {marginTop: 10, marginBottom: 20},
-  marginChipsOther: {marginTop: 10},
+  marginFlatCharacteristics: {marginTop: size(23), marginBottom: size(5)},
+  marginChipsCharacteristics: {marginTop: size(10), marginBottom: size(20)},
+  marginChipsOther: {marginTop: size(10)},
 });
 
 export default FlatInfoContainer;

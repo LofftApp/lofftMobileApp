@@ -1,13 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  Dimensions,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -19,13 +11,13 @@ import {fontStyles} from 'styleSheets/fontStyles';
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
-import {CoreButton} from 'components/buttons/CoreButton';
 import StatusBar from 'components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 
-// Assets 🪴
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+// Helpers
+import {size} from 'react-native-responsive-sizes';
 
+// Types
 import type {ApplicationShowScreenProp} from './types';
 
 const ApplicationShowScreen = ({
@@ -83,8 +75,8 @@ const styles = StyleSheet.create({
   seeMoreLessButton: {
     color: Color.Blue[100],
     alignSelf: 'flex-end',
-    marginRight: 10,
-    marginBottom: 10,
+    marginRight: size(10),
+    marginBottom: size(10),
   },
 });
 
