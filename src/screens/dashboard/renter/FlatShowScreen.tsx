@@ -21,8 +21,9 @@ import CompleteProfileImage from 'Assets/images/Illustration.png';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
 
-// Helpers
+// Helpers 🥷🏻
 import {tagSorter} from 'helpers/tagSorter';
+import {width, height, size, fontSize} from 'react-native-responsive-sizes';
 
 const FlatShowScreen = ({route, navigation}: any) => {
   const [advert] = useState(route.params.advert);
@@ -51,6 +52,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   //Modal
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
+  const [modalstate, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
@@ -70,7 +72,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
   };
 
   const pullData = (data: any) => {
-    setBlurActivated(data);
+    setModalState(data);
   };
 
   return (
@@ -79,13 +81,13 @@ const FlatShowScreen = ({route, navigation}: any) => {
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
         <View>
-          {!blurActivated ? (
+          {!blurActivated && (
             <HighlightedButtons
               navigation={navigation}
               favorite={advert.favorite}
               onPressHeart={() => dispatch(toggleFavorite(advert.id))}
             />
-          ) : null}
+          )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
             images={advert.flat.photos}
@@ -120,7 +122,7 @@ const FlatShowScreen = ({route, navigation}: any) => {
                 )}
               </View> */}
             <CompleteProfilePopUpModal
-              openModal={blurActivated}
+              openModal={modalstate}
               pullData={pullData}
               profileNotDoneObject={
                 completeProfile && outOfTokens
@@ -138,20 +140,20 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    paddingBottom: 10,
+    paddingBottom: size(10),
     width: '100%',
   },
   flatCardView: {
-    width: '90%',
+    width: '100%',
     alignContent: 'center',
-    marginHorizontal: 16,
+    marginHorizontal: size(16),
   },
   pageContainer: {
     flex: 1,
     backgroundColor: Color.White[100],
   },
   imageContainer: {
-    height: 300,
+    height: height(300),
     width: Dimensions.get('window').width,
     resizeMode: 'cover',
     justifyContent: 'flex-end',
@@ -163,13 +165,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   matchContainer: {
-    width: '90%',
+    width: '100%',
     backgroundColor: Color.Mint[10],
-    marginVertical: 10,
+    marginVertical: size(10),
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: size(20),
     alignItems: 'center',
   },
   infoContainer: {
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
   },
   firstRowLegendContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: size(10),
   },
   secondRowLegendContainer: {
     flexDirection: 'row',
@@ -202,8 +204,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 80,
+    paddingHorizontal: size(16),
+    paddingBottom: size(80),
   },
   headerContainer: {
     flexDirection: 'row',
@@ -211,10 +213,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   applyCoreButton: {
-    borderWidth: 2,
-    marginTop: 14,
-    height: 45,
-    marginBottom: 30,
+    borderWidth: size(2),
+    marginTop: size(14),
+    height: height(45),
+    marginBottom: size(100),
   },
 });
 

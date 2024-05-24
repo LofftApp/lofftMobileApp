@@ -9,11 +9,16 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {CrossIcon} from '../../assets';
 
+// Helpers 🥷🏻
+import { width, height, size, fontSize } from 'react-native-responsive-sizes';
+
 const CompleteProfilePopUpModal = ({
   openModal,
   pullData,
   profileNotDoneObject,
 }: any) => {
+
+  console.log("hehe", openModal)
   return (
     <Modal visible={openModal} animationType="fade" transparent={true}>
       <View style={styles.modalContainer}>
@@ -60,7 +65,7 @@ const CompleteProfilePopUpModal = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: '64%',
+    height: '74%',
     marginTop: 'auto',
     backgroundColor: 'white',
     borderRadius: 10,
@@ -69,8 +74,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 80,
+    paddingHorizontal: size(16),
+    paddingBottom: size(80),
   },
   headerContainer: {
     flexDirection: 'row',
@@ -79,13 +84,13 @@ const styles = StyleSheet.create({
   },
   coreButtonStyle: {
     borderWidth: 2,
-    marginTop: 5,
-    height: 45,
+    marginTop: size(5),
+    height: size(45),
     width: '100%',
   },
   pressableStyle: {
-    marginTop: 16,
-    marginRight: 14,
+    marginTop: size(16),
+    marginRight: size(14),
   },
 });
 
