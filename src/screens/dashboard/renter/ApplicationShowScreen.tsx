@@ -26,7 +26,12 @@ import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 // Assets 🪴
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
-const ApplicationShowScreen = ({navigation, route}: any) => {
+import type {ApplicationShowScreenProp} from './types';
+
+const ApplicationShowScreen = ({
+  navigation,
+  route,
+}: ApplicationShowScreenProp) => {
   const {advert} = route.params;
   const [hascollaped, setHasCollapsed] = useState(true);
 
@@ -40,7 +45,7 @@ const ApplicationShowScreen = ({navigation, route}: any) => {
       />
       <LofftHeaderPhoto
         imageContainerHeight={300}
-        images={advert.flat.photos}
+        images={advert.flat.photos ?? []}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

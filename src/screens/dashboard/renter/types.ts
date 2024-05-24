@@ -16,4 +16,14 @@ type FavoriteScreenNavigationProp = CompositeNavigationProp<
 type ApplicationIndexScreenProp = {
   navigation: FavoriteScreenNavigationProp;
 };
-export type {FavoriteScreenNavigationProp, ApplicationIndexScreenProp};
+
+type ApplicationShowScreenProp = {
+  navigation: FavoriteScreenNavigationProp;
+  route: {params: {advert: Advert}};
+};
+
+export type {
+  FavoriteScreenNavigationProp,
+  ApplicationIndexScreenProp,
+  ApplicationShowScreenProp,
+};
