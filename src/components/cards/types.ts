@@ -1,3 +1,4 @@
+import {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import type {FavoriteScreenNavigationProp} from 'screens/dashboard/renter/types';
 
@@ -14,4 +15,13 @@ type LofftHeaderPhotoProps = {
   activeBlur?: boolean;
 };
 
-export type {ListFlatApplicationCardProps, LofftHeaderPhotoProps};
+type onViewableItemsChangedParams = {
+  viewableItems: Array<ViewToken>;
+  changed?: Array<ViewToken>;
+};
+
+export type {
+  ListFlatApplicationCardProps,
+  LofftHeaderPhotoProps,
+  onViewableItemsChangedParams,
+};

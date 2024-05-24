@@ -6,6 +6,7 @@ import PaginationBar from 'components/bars/PaginationBar';
 
 // Types 🏷
 import type {LofftHeaderPhotoProps} from './types';
+import type {onViewableItemsChangedParams} from './types';
 
 const LofftHeaderPhoto = ({
   imageContainerHeight,
@@ -15,8 +16,8 @@ const LofftHeaderPhoto = ({
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   const onViewableItemsChanged = useCallback(
-    ({viewableItems, _changed}: any) => {
-      const index = viewableItems[0].index;
+    ({viewableItems}: onViewableItemsChangedParams) => {
+      const index = viewableItems[0].index ?? 0;
       setCurrentCardIndex(index);
     },
     [],
