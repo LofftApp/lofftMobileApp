@@ -43,7 +43,7 @@ const ApplicationShowScreen = ({
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar advert={advert} currentApplicationStatus={advert.status} />
+          <StatusBar advert={advert} />
           <Text
             onPress={() => setHasCollapsed(!hascollaped)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
