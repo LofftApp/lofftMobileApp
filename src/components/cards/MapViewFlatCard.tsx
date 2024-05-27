@@ -26,6 +26,7 @@ import noFlatImage from 'Assets/images/no-flat-image.png';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+import {width, height, size, fontSize} from 'react-native-responsive-sizes';
 
 const MapViewFlatCard = (advertR: any, id: number) => {
   const userProfile = useAppSelector((state: any) => state.user.user);
@@ -34,7 +35,6 @@ const MapViewFlatCard = (advertR: any, id: number) => {
     userProfile.profile.characteristics,
     advert.flat.characteristics,
   );
-
   const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
 
   const dispatch = useAppDispatch();
@@ -45,7 +45,11 @@ const MapViewFlatCard = (advertR: any, id: number) => {
           <Image
             source={
               advert.flat.photos
-                ? {uri: advert.flat.photos[0], width: 200, height: 300}
+                ? {
+                    uri: advert.flat.photos[0],
+                    width: width(200),
+                    height: height(300),
+                  }
                 : noFlatImage
             }
             style={styles.flatCardImage}
@@ -55,24 +59,24 @@ const MapViewFlatCard = (advertR: any, id: number) => {
               <MatchingScoreButton size="Small" score={advert.matchScore} />
               <Pressable
                 onPress={() => {
-                  dispatch(toggleFavorite(id));
+                  dispatch(toggleFavorite(advert.id));
                 }}>
                 {/* ! This need to be updated with validation */}
                 {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
-                    size={20}
+                    size={26}
                     color={Color.Tomato[100]}
                   />
                 ) : (
-                  <LofftIcon name="heart" size={20} color={Color.Tomato[100]} />
+                  <LofftIcon name="heart" size={26} color={Color.Tomato[100]} />
                 )}
               </Pressable>
             </View>
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
                 <Text style={fontStyles.headerSmall}>
-                  {advert.price} € 26 m2
+                   {advert.price}€   26 m2
                 </Text>
                 <Text style={fontStyles.bodyMedium}>{advert.tagline}</Text>
               </View>
@@ -93,13 +97,13 @@ const MapViewFlatCard = (advertR: any, id: number) => {
 const styles = StyleSheet.create({
   boundryContainer: {
     flex: 1,
-    paddingLeft: 16,
+    paddingLeft: size(16),
     width: Dimensions.get('screen').width,
   },
   flatCardContainer: {
-    height: 260,
-    width: 333,
-    padding: 8,
+    height: size(260),
+    width: width(90),
+    padding: size(8),
     justifyContent: 'space-between',
     borderRadius: 12,
     backgroundColor: Color.White[100],
@@ -108,19 +112,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     overflow: 'hidden',
-    marginBottom: 8,
   },
   details: {
     flex: 1,
     justifyContent: 'space-between',
-    marginHorizontal: 4,
+    marginHorizontal: size(4),
   },
   coreDetails: {
-    marginTop: 15,
+    marginTop: size(15),
   },
   flatCardImage: {
-    height: 168,
-    width: 168,
+    width: size(168),
+    height: size(168),
     borderRadius: 12,
   },
 
@@ -131,8 +134,8 @@ const styles = StyleSheet.create({
 
   flatCardMatchingScoreButton: {
     backgroundColor: Color.Mint[10],
-    height: 27,
-    width: 63,
+    height: size(27),
+    width: size(63),
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
 
   flatCardMatchingScoreButtonFont: {
     fontWeight: '700',
-    fontSize: 15,
+    fontSize: size(15),
     color: Color.Mint[100],
   },
 
