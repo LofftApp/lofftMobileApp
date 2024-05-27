@@ -31,7 +31,6 @@ const ApplicationShowScreen = ({
     <View style={styles.pageWrapper}>
       <HighlightButtons
         navigation={navigation}
-        id={advert.flat.id}
         heartPresent={!advert.lessor}
         color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
@@ -51,7 +50,11 @@ const ApplicationShowScreen = ({
           </Text>
 
           <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoContainer advert={advert} button={false} navigation />
+            <FlatInfoContainer
+              advert={advert}
+              button={false}
+              navigation={navigation}
+            />
           </Collapsible>
         </View>
       </ScrollView>
