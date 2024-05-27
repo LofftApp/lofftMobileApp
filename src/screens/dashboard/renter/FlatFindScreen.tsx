@@ -4,6 +4,8 @@ import {View, StyleSheet} from 'react-native';
 // Redux 🏪
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
+
+// Helper 🥷🏻
 import { width, height, size, fontSize } from "react-native-responsive-sizes";
 
 // Screens 📺
