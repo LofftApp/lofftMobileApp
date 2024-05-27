@@ -23,7 +23,7 @@ import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpMod
 
 // Helpers 🥷🏻
 import {tagSorter} from 'helpers/tagSorter';
-import {width, height, size, fontSize} from 'react-native-responsive-sizes';
+import {height, size} from 'react-native-responsive-sizes';
 
 const FlatShowScreen = ({route, navigation}: any) => {
   const [advert] = useState(route.params.advert);
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     width: '90%',
-    marginTop: 15,
+    marginTop: size(15),
   },
   LegendContainer: {
     width: '90%',
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     height: '64%',
     marginTop: 'auto',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: size(10),
   },
   completeProfileContainer: {
     flex: 1,

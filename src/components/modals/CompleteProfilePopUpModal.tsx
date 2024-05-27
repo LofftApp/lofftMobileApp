@@ -18,7 +18,6 @@ const CompleteProfilePopUpModal = ({
   profileNotDoneObject,
 }: any) => {
 
-  console.log("hehe", openModal)
   return (
     <Modal visible={openModal} animationType="fade" transparent={true}>
       <View style={styles.modalContainer}>

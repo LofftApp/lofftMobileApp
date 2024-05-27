@@ -10,6 +10,9 @@ import {
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
+// Helpers 🥷🏻
+import { width, height, size, fontSize } from 'react-native-responsive-sizes';
+
 // Important Notice !!
 /*
   The navigation prop has to be passed on from the corresponding parent component
@@ -20,7 +23,7 @@ const HighlightButtons = ({
   navigation,
   id,
   heartPresent = true,
-  color = null,
+  color = "null",
   favorite,
   onPressHeart,
 }: any) => {
@@ -63,19 +66,19 @@ const HighlightButtons = ({
 
 const styles = StyleSheet.create({
   actionContainer: {
-    marginVertical: 50, // Might
+    marginVertical: size(50), // Might
     position: 'absolute',
     zIndex: 100,
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: size(20),
   },
   iconContainer: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 7,
-    paddingBottom: 7,
+    paddingLeft: size(10),
+    paddingRight: size(10),
+    paddingTop: size(7),
+    paddingBottom: size(7),
     borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
