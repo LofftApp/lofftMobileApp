@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   matchContainer: {
     width: '100%',
     backgroundColor: Color.Mint[10],
-    marginVertical: size(10),
+    marginVertical: size(20),
     borderRadius: size(8),
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     width: '100%',
-    marginTop: size(15),
+    marginTop: size(10),
   },
   LegendContainer: {
     width: '90%',

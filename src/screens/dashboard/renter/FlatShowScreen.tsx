@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   LegendContainer: {
     width: '90%',
-    marginTop: 10,
+    marginTop: size(10),
   },
   firstRowLegendContainer: {
     flexDirection: 'row',
@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
   secondRowLegendContainer: {
     flexDirection: 'row',
   },
-
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
