@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
