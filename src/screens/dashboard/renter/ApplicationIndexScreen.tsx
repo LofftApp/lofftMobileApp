@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   addButton: {
     paddingVertical: size(7),
     paddingHorizontal: size(12),
-    borderRadius: size(12),
+    borderRadius: 12,
   },
   actionContainer: {
     flexDirection: 'row',

@@ -1,7 +1,18 @@
-export const dateFormatConverter = ({date, format = 'EU'}: any) => {
-  if (!date) return null;
+import type {DateFormatConverterArgs} from './types';
 
-  date = date?.seconds ? convertSecondsTODate(date.seconds) : new Date(date);
+export const dateFormatConverter = ({
+  date,
+  format = 'EU',
+}: DateFormatConverterArgs) => {
+  if (!date) {
+    return;
+  }
+
+  if (typeof date === 'object' && 'seconds' in date) {
+    date = convertSecondsTODate(date.seconds);
+  } else {
+    date = new Date(date);
+  }
 
   const day = date.getDate();
   const month = date.getMonth() + 1;

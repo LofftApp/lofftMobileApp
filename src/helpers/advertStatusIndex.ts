@@ -12,3 +12,7 @@ export const advertStatusIndex = (status: string) => {
       return 0;
   }
 };
+
+export const currentApplicationStatus = (status: string) => {
+  ['open', 'review', 'viewing', 'offered', 'closed'].indexOf(status ?? '');
+};

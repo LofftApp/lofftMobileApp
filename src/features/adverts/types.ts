@@ -52,4 +52,4 @@ interface AdvertState {
   adverts: Advert[];
 }
 
-export type {Advert, AdvertState};
+export type {Advert, AdvertState, AdvertCharacteristics, AdvertFeatures};

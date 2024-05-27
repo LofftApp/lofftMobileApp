@@ -15,10 +15,10 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Helpers
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
-import {size} from 'react-native-responsive-sizes';
 
 const FlatInfoContainer = ({
   advert,
@@ -69,7 +69,8 @@ const FlatInfoContainer = ({
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
             <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-              From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
+              From:{' '}
+              {dateFormatConverter({date: {seconds: advert.fromDate ?? 0}})}{' '}
               {advert.toDate &&
                 `- ${dateFormatConverter({
                   date: {seconds: advert.toDate},
