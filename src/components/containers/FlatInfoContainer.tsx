@@ -56,6 +56,7 @@ const FlatInfoContainer = ({
             <View style={styles.iconContainer}>
               <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
+
                 {advert.price}€
               </Text>
             </View>
@@ -68,9 +69,14 @@ const FlatInfoContainer = ({
           </View>
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
+<<<<<<< T-screen_responsive-2
             <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
               From:{' '}
               {dateFormatConverter({date: {seconds: advert.fromDate ?? 0}})}{' '}
+=======
+            <Text style={[fontStyles.bodyMedium, styles.dateText]}>      
+              From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
+>>>>>>> main
               {advert.toDate &&
                 `- ${dateFormatConverter({
                   date: {seconds: advert.toDate},
@@ -87,10 +93,11 @@ const FlatInfoContainer = ({
               ),
             )}
           </Text>
-          {advert.flat.description && advert.flat.description.length > 200 && (
+
+          {advert.flat.description.length > 200 && (
             <CoreButton
               value={descriptionExpanded ? 'Read Less' : 'Read More'}
-              style={styles.readMoreButton}
+              style={styles.coreButtonStyle}
               textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
               disabled={false}
               onPress={() => expander()}
@@ -100,45 +107,26 @@ const FlatInfoContainer = ({
 
         {advert.user?.user_type === 'lessor' ? (
           <>
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                styles.marginFlatCharacteristics,
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.flatCharText]}>
               Flat Characteristics
             </Text>
-            <View style={styles.marginChipsCharacteristics}>
+            <View style={styles.chipsContainer}>
+
               <Chips tags={advert.flat.characteristics} features={true} emoji />
             </View>
           </>
         ) : (
           <>
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                styles.marginFlatCharacteristics,
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.matchText]}>
               Match with you
             </Text>
-            <View style={styles.marginChipsOther}>
+            <View style={styles.matchWithYouContainer}>
               <Chips tags={advert.flat.characteristics} features={true} emoji />
             </View>
 
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                styles.marginFlatCharacteristics,
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.otherText]}>
               Other
             </Text>
-            <View style={styles.marginChipsOther}>
-              {/* <Chips tags={featuresTags.negativeTags} features={true} emoji />
-          <Chips
-            tags={characteristicsTags.negativeTags}
-            features={false}
-            emoji
-          /> */}
-            </View>
           </>
         )}
 
@@ -179,8 +167,8 @@ const styles = StyleSheet.create({
   matchContainer: {
     width: '100%',
     backgroundColor: Color.Mint[10],
-    marginVertical: size(10),
-    borderRadius: 8,
+    marginVertical: size(20),
+    borderRadius: size(8),
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: size(20),
@@ -189,7 +177,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: '100%',
     marginTop: size(15),
-  },
+   },
   LegendContainer: {
     width: '90%',
     marginTop: size(20),
@@ -201,6 +189,38 @@ const styles = StyleSheet.create({
   secondRowLegendContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  pricePlacementContainer: {
+    marginLeft: size(10),
+    marginRight: size(100),
+  },
+  sizePlacementContainer: {
+    marginLeft: size(10),
+  },
+  dateText: {
+    marginLeft: size(10),
+  },
+  descriptionContainer: {
+    marginTop: size(10),
+  },
+  flatCharText: {
+    marginTop: size(23),
+    marginBottom: size(5),
+  },
+  chipsContainer: {
+    marginTop: size(10),
+    marginBottom: size(20),
+  },
+  matchText: {
+    marginTop: size(23),
+    marginBottom: size(5),
+  },
+  matchWithYouContainer: {
+    marginTop: size(10),
+  },
+  otherText: {
+    marginTop: size(23),
+    marginBottom: size(5),
   },
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -214,9 +234,20 @@ const styles = StyleSheet.create({
   coreButtonCustom: {
     marginTop: size(14),
   },
-  iconContainer: {flexDirection: 'row', alignItems: 'center'},
-  iconMargin: {marginLeft: size(10), marginRight: size(100)},
-  descriptionMargin: {marginTop: size(20)},
+  coreButtonStyle: {
+    backgroundColor: 'white',
+    borderWidth: size(2),
+  },
+  iconContainer: {
+    flexDirection: 'row', 
+     alignItems: 'center'},
+  iconMargin: {
+    marginLeft: size(10), 
+    marginRight: size(100)
+  },
+  descriptionMargin: {
+    marginTop: size(20)
+  },
   readMoreButton: {
     backgroundColor: 'white',
     borderWidth: 2,
