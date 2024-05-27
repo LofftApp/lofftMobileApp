@@ -88,7 +88,7 @@ const FlatInfoContainer = ({
             )}
           </Text>
 
-          {advert.flat.description.length > 200 && (
+          {advert.flat.description && advert.flat.description.length > 200 && (
             <CoreButton
               value={descriptionExpanded ? 'Read Less' : 'Read More'}
               style={styles.coreButtonStyle}
