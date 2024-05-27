@@ -1,3 +1,35 @@
+interface AdvertUser {
+  admin: boolean | null;
+  created_at: string | null;
+  email: string | null;
+  id: number | null;
+  terms_accepted: boolean | null;
+  updated_at: string | null;
+  user_type: string | null;
+}
+
+interface AdvertCharacteristics {
+  emoji: string | null;
+  name: string | null;
+}
+
+interface AdvertFeatures {
+  emoji: string | null;
+  name: string | null;
+}
+
+interface AdvertFlat {
+  id: number | null;
+  address: string | null;
+  description: string | null;
+  tagline: string | null;
+  district: string | null;
+  city: string | null;
+  photos: string[] | null;
+  characteristics: AdvertCharacteristics[] | null;
+  features: AdvertFeatures[] | null;
+}
+
 interface Advert {
   id: number | null;
   status: string | null;
@@ -10,33 +42,9 @@ interface Advert {
   toDate: number | null;
   created_at: string | null;
   applicants: any[] | null;
-  user: boolean | null;
+  user: AdvertUser | null;
   lessor: boolean;
-  flat: {
-    id: number | null;
-    address: string | null;
-    description: string | null;
-    tagLine: string | null;
-    district: string | null;
-    city: string | null;
-    photos: string[] | null;
-    charachteristics:
-      | [
-          {
-            emoji: string | null;
-            name: string | null;
-          },
-        ]
-      | null;
-    features:
-      | [
-          {
-            emoji: string | null;
-            name: string | null;
-          },
-        ]
-      | null;
-  };
+  flat: AdvertFlat;
 }
 
 interface AdvertState {

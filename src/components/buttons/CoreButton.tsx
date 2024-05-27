@@ -1,10 +1,13 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Text} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+
+// Types 🏷
+import type {CoreButtonProps} from './types';
 
 export const CoreButton = ({
   value,
@@ -13,7 +16,7 @@ export const CoreButton = ({
   textStyle = null,
   onPress,
   disabled = false,
-}: any) => {
+}: CoreButtonProps) => {
   return (
     <TouchableOpacity
       disabled={disabled}

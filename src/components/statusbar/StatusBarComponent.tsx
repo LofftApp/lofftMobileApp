@@ -1,19 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Dimensions, Pressable} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  DimensionValue,
+} from 'react-native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
-import {CoreButton} from 'components/buttons/CoreButton';
 import {useNavigation} from '@react-navigation/native';
 
 // Assets 🪴
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import statusBarText from 'Assets/coreText/statusBarText.json';
+import {Advert} from 'reduxFeatures/adverts/types';
 
-const StatusBarComponent = ({advert}: any) => {
+const StatusBarComponent = ({advert}: {advert: Advert}) => {
+  const {status} = advert;
+
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation();
@@ -24,7 +33,7 @@ const StatusBarComponent = ({advert}: any) => {
     'viewing',
     'offered',
     'closed',
-  ].indexOf(advert.status);
+  ].indexOf(status ?? '');
 
   // const currentApplicationStatus = [
   //   'open',
@@ -146,7 +155,7 @@ const StatusBarComponent = ({advert}: any) => {
             style={[
               styles.progressBar,
               {
-                height: `${statusBar}%`,
+                height: `${statusBar}%` as DimensionValue,
                 backgroundColor: advert.lessor
                   ? Color.Lavendar[100]
                   : Color.Mint[100],
