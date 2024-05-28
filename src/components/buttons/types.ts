@@ -4,6 +4,10 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
+import {
+  AdvertCharacteristics,
+  AdvertFeatures,
+} from 'reduxFeatures/adverts/types';
 
 type HeaderPageContentSwitchProps = {
   toggleNames: string[];
@@ -22,4 +26,11 @@ type CoreButtonProps = {
   disabled?: boolean;
 };
 
-export type {HeaderPageContentSwitchProps, CoreButtonProps};
+type ChipsProps = {
+  tags: AdvertCharacteristics[] | AdvertFeatures[] | null;
+  emoji?: boolean;
+  positive?: boolean;
+  features?: boolean;
+};
+
+export type {HeaderPageContentSwitchProps, CoreButtonProps, ChipsProps};

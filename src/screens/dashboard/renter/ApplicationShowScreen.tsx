@@ -9,7 +9,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
-import HighlightedButtons from 'components/containers/HighlightButtons';
+import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
 import StatusBar from 'components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
@@ -25,13 +25,12 @@ const ApplicationShowScreen = ({
   route,
 }: ApplicationShowScreenProp) => {
   const {advert} = route.params;
-  const [hascollaped, setHasCollapsed] = useState(true);
+  const [hasCollapsed, setHasCollapsed] = useState(true);
 
   return (
     <View style={styles.pageWrapper}>
-      <HighlightedButtons
+      <HighlightButtons
         navigation={navigation}
-        id={advert.flat.id}
         heartPresent={!advert.lessor}
         color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
@@ -45,13 +44,17 @@ const ApplicationShowScreen = ({
         <View style={[styles.maincontainer]}>
           <StatusBar advert={advert} />
           <Text
-            onPress={() => setHasCollapsed(!hascollaped)}
+            onPress={() => setHasCollapsed(!hasCollapsed)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
-            {hascollaped ? 'see more' : 'see less'}
+            {hasCollapsed ? 'see more' : 'see less'}
           </Text>
 
-          <Collapsible collapsed={hascollaped} duration={300}>
-            <FlatInfoContainer advert={advert} button={false} navigation />
+          <Collapsible collapsed={hasCollapsed} duration={300}>
+            <FlatInfoContainer
+              advert={advert}
+              button={false}
+              navigation={navigation}
+            />
           </Collapsible>
         </View>
       </ScrollView>

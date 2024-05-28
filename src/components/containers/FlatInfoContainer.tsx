@@ -19,7 +19,6 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
-import {size} from 'react-native-responsive-sizes';
 
 const FlatInfoContainer = ({
   advert,
@@ -57,7 +56,6 @@ const FlatInfoContainer = ({
             <View style={styles.iconContainer}>
               <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-
                 {advert.price}€
               </Text>
             </View>
@@ -70,8 +68,9 @@ const FlatInfoContainer = ({
           </View>
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
-            <Text style={[fontStyles.bodyMedium, styles.dateText]}>      
-              From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
+            <Text style={[fontStyles.bodyMedium, styles.dateText]}>
+              From:{' '}
+              {dateFormatConverter({date: {seconds: advert.fromDate ?? 0}})}{' '}
               {advert.toDate &&
                 `- ${dateFormatConverter({
                   date: {seconds: advert.toDate},
@@ -89,7 +88,7 @@ const FlatInfoContainer = ({
             )}
           </Text>
 
-          {advert.flat.description.length > 200 && (
+          {advert.flat.description && advert.flat.description.length > 200 && (
             <CoreButton
               value={descriptionExpanded ? 'Read Less' : 'Read More'}
               style={styles.coreButtonStyle}
@@ -106,7 +105,6 @@ const FlatInfoContainer = ({
               Flat Characteristics
             </Text>
             <View style={styles.chipsContainer}>
-
               <Chips tags={advert.flat.characteristics} features={true} emoji />
             </View>
           </>
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: '100%',
     marginTop: size(15),
-   },
+  },
   LegendContainer: {
     width: '90%',
     marginTop: size(20),
@@ -234,14 +232,15 @@ const styles = StyleSheet.create({
     borderWidth: size(2),
   },
   iconContainer: {
-    flexDirection: 'row', 
-     alignItems: 'center'},
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   iconMargin: {
-    marginLeft: size(10), 
-    marginRight: size(100)
+    marginLeft: size(10),
+    marginRight: size(100),
   },
   descriptionMargin: {
-    marginTop: size(20)
+    marginTop: size(20),
   },
   readMoreButton: {
     backgroundColor: 'white',

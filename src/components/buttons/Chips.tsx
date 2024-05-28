@@ -3,56 +3,54 @@ import {View, Text, StyleSheet} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-const Chips = ({tags, features, positive = true, emoji = false}: any) => {
+import type {ChipsProps} from './types';
+
+const Chips = ({
+  tags,
+  emoji = false,
+  positive = true,
+  features,
+}: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
-      <ListChips
-        list={tags}
-        emoji={emoji}
-        positive={positive}
-        features={features}
-      />
-    </View>
-  );
-};
-
-const ListChips = ({list, emoji, positive, features}: any) => {
-  return (
-    <View style={styles.chipsWrap}>
-      {list.slice(0, 2).map((tag: any, index: number) => {
-        return (
+      <View style={styles.chipsWrap}>
+        {tags?.slice(0, 2).map((tag, index: number) => {
+          return (
+            <View
+              style={[
+                styles.chip,
+                features ? styles.featureTag : styles.characteristicTag,
+              ]}
+              key={index}>
+              {emoji && <Text>{tag.emoji}</Text>}
+              <Text
+                style={[
+                  fontStyles.bodySmall,
+                  features
+                    ? styles.featureTagFont
+                    : styles.characteristicTagFont,
+                ]}>
+                {tag.name}
+              </Text>
+            </View>
+          );
+        })}
+        {tags && tags.length > 2 && (
           <View
             style={[
               styles.chip,
               features ? styles.featureTag : styles.characteristicTag,
-            ]}
-            key={index}>
-            {emoji ? <Text>{tag.emoji}</Text> : null}
+            ]}>
             <Text
               style={[
                 fontStyles.bodySmall,
                 features ? styles.featureTagFont : styles.characteristicTagFont,
               ]}>
-              {tag.name}
+              +{tags.slice(1, -1).length}
             </Text>
           </View>
-        );
-      })}
-      {list.length > 2 ? (
-        <View
-          style={[
-            styles.chip,
-            features ? styles.featureTag : styles.characteristicTag,
-          ]}>
-          <Text
-            style={[
-              fontStyles.bodySmall,
-              features ? styles.featureTagFont : styles.characteristicTagFont,
-            ]}>
-            +{list.slice(1, -1).length}
-          </Text>
-        </View>
-      ) : null}
+        )}
+      </View>
     </View>
   );
 };

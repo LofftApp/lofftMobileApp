@@ -12,7 +12,6 @@ type FlatInfoContainerProps = {
 type HighlightButtonsProps = {
   goBack?: boolean;
   navigation: FavoriteScreenNavigationProp;
-  id: number | null;
   heartPresent?: boolean;
   color?: string | null;
   favorite?: boolean;

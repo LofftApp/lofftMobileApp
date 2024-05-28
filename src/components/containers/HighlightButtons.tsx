@@ -5,8 +5,6 @@ import {View, StyleSheet, Pressable} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
-
-
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
@@ -22,7 +20,7 @@ const HighlightButtons = ({
   goBack = true,
   navigation,
   heartPresent = true,
-  color = "null",
+  color = 'null',
   favorite,
   onPressHeart,
 }: HighlightButtonsProps) => {

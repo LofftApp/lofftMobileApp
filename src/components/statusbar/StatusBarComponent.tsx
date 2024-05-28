@@ -18,7 +18,12 @@ import {useNavigation} from '@react-navigation/native';
 // Assets 🪴
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import statusBarText from 'Assets/coreText/statusBarText.json';
-import {Advert} from 'reduxFeatures/adverts/types';
+
+// Helpers
+import {advertStatusIndex} from 'helpers/advertStatusIndex';
+
+// Types
+import type {Advert} from 'reduxFeatures/adverts/types';
 
 const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const {status} = advert;
@@ -27,27 +32,13 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation();
 
-  const currentApplicationStatus = [
-    'open',
-    'review',
-    'viewing',
-    'offered',
-    'closed',
-  ].indexOf(status ?? '');
-
-  // const currentApplicationStatus = [
-  //   'open',
-  //   'review',
-  //   'viewing',
-  //   'offered',
-  //   'closed',
-  // ].indexOf(advert.status);
+  const currentApplicationStatus = advertStatusIndex(status ?? '');
 
   // Lower code needed to test access to different routes
   // const currentApplicationStatus = 0;
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
-    (key: any, index: number) => {
+    (key, index: number) => {
       return (
         <LofftIcon
           key={index + 1}
@@ -65,7 +56,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   );
 
   const statusText = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
-    (key: any, index: number) => {
+    (key, index: number) => {
       return (
         <View key={index + 1}>
           <Text
@@ -90,7 +81,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
             {key.subText}
           </Text>
 
-          {currentApplicationStatus === index ? (
+          {currentApplicationStatus === index && (
             <View style={[styles.landlordActionButton, styles.button]}>
               <Pressable
                 onPress={() =>
@@ -103,36 +94,34 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
                 </Text>
               </Pressable>
             </View>
-          ) : null}
+          )}
         </View>
       );
     },
   );
 
-  const calculateStatusBar = (currentStatusIndex: any) => {
-    let status = null;
+  const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
-        status = '50';
+        setStatusBar('50');
         break;
       case 2:
-        status = '75';
+        setStatusBar('75');
         break;
       case 3:
-        status = '100';
+        setStatusBar('100');
         break;
       default:
-        status = '25';
+        setStatusBar('25');
         break;
     }
-    setStatusBar(status);
   };
 
   // The background color height of the statusbar is set here 👨🏻‍🍳
   // The Index needs to be stored in state or in the advert.status enum for the color to change
   useEffect(() => {
     calculateStatusBar(currentApplicationStatus);
-  });
+  }, [currentApplicationStatus]);
 
   return (
     <View style={[styles.maincontainer]}>
@@ -166,7 +155,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
         <View
           style={[
             styles.progressTextContainer,
-            {height: advert.lessor ? '95%' : '98%'},
+            advert.lessor ? styles.height95 : styles.height98,
           ]}>
           {statusText}
         </View>
@@ -236,6 +225,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: Color.White[100],
+  },
+  height95: {
+    height: '95%',
+  },
+  height98: {
+    height: '98%',
   },
 });
 
