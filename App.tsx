@@ -5,42 +5,43 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Platform} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
-// Redux 🏗️
+// Redux
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createSelector} from '@reduxjs/toolkit';
 
-import SplashScreen from 'react-native-splash-screen';
+// Navigation
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {getProfile} from 'reduxFeatures/user/usersMiddleware';
-
-// Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
 import NewUserNavigator from './navigationStacks/NewUserNavigator';
 import DashboardNavigator from './navigationStacks/DashboardNavigator';
 import LessorNavigator from './navigationStacks/LessorNavigator';
-import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
+import DashboardNavigatorLessor from './navigationStacks/DashboardNavigatorLessor';
 
-// Dev Screesn 🛠️
+// Screens
 import AdminScreen from 'screens/admin/adminScreen';
-import {createSelector} from '@reduxjs/toolkit';
-import { logWithLocation } from 'helpers/logWithLocation';
+
+// Utils
+import {logWithLocation} from 'helpers/logWithLocation';
+import SplashScreen from 'react-native-splash-screen';
+import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 
 const RootStack = createNativeStackNavigator();
 
 const App = () => {
   logWithLocation('App Rendered');
+
   // Define selectors
   const getAuthenticated = (state: any) => state.authentication.authenticated;
   const getUserType = (state: any) => state.user.user.userType;
   const getAdmin = (state: any) => state.user.user.admin;
-
 
   // Create memoized selectors
   const selectAuthenticated = createSelector(
@@ -51,58 +52,49 @@ const App = () => {
     [getUserType, getAdmin],
     (userType, admin) => [userType, admin],
   );
+
   const authenticated = useAppSelector(selectAuthenticated);
   const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
-
   const dispatch = useAppDispatch();
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
     dispatch(checkToken());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (initializing) setInitializing(false);
     if (authenticated && !userType) dispatch(getProfile());
-  }, [authenticated]);
+  }, [authenticated, dispatch, initializing, userType]);
 
-  // Mapbox
-  MapboxGL.setWellKnownTileServer(
-    Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
-  );
-  MapboxGL.setAccessToken(MAPBOX_API_KEY);
-  // This is needed to use Mapbox in offline mode and with android emulator
-  MapboxGL.setTelemetryEnabled(false);
+  // Mapbox Configuration
+  useEffect(() => {
+    MapboxGL.setWellKnownTileServer(
+      Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
+    );
+    MapboxGL.setAccessToken(MAPBOX_API_KEY);
+    MapboxGL.setTelemetryEnabled(false);
+  }, []);
 
-  // TODO: This will need to be placed in another useEffect with new DB path.
-
-  // Use Effect for dev environment
+  // Dev Environment Logging
   useEffect(() => {
     if (__DEV__) {
       console.log('Lofft API Development Environment');
-      let host = 'localhost';
-      // If using Mobile device set the host as local IP
-      host = '127.0.0.1';
-      console.log(
-        host === 'localhost'
-          ? 'Host running on local host'
-          : `Host is running on ${host}`,
-      );
+      const host = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+      console.log(`Host is running on ${host}`);
     }
   }, []);
+
   return (
     <>
       {!authenticated ? (
         <GuestStackNavigator />
       ) : (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
-          {admin ? (
-            <RootStack.Screen name="admin" component={AdminScreen} />
-          ) : null}
+          {admin && <RootStack.Screen name="admin" component={AdminScreen} />}
           {!userType ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
-          ) : null}
-          {userType === 'lessor' ? (
+          ) : userType === 'lessor' ? (
             <RootStack.Screen
               name="dashboardLessor"
               component={DashboardNavigatorLessor}
@@ -116,12 +108,10 @@ const App = () => {
   );
 };
 
-export default () => {
-  return (
-    <NavigationContainer
-      ref={navigationRef}
-      onReady={() => SplashScreen.hide()}>
-      <App />
-    </NavigationContainer>
-  );
-};
+const MainApp = () => (
+  <NavigationContainer ref={navigationRef} onReady={() => SplashScreen.hide()}>
+    <App />
+  </NavigationContainer>
+);
+
+export default MainApp;

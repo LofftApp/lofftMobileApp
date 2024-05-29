@@ -25,6 +25,7 @@ buildscript {
         compileSdkVersion = 34
         targetSdkVersion = 34
         RNMapboxMapsImpl = 'mapbox'
+        RNMapboxMapsVersion = '11.0.0'
         // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
         ndkVersion = "26.1.10909125"
         kotlinVersion = "1.9.22"
