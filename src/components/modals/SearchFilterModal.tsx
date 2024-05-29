@@ -18,7 +18,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const SearchFilterModal = ({openModal, pullData}: any) => {
+const SearchFilterModal = ({openModal, setOpenModal}: any) => {
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(5000);
   const [minFocus, setMinFocus] = useState(false);
@@ -111,7 +111,7 @@ const SearchFilterModal = ({openModal, pullData}: any) => {
     <Modal visible={openModal} animationType="fade">
       <View style={styles.mainContainer}>
         <View style={styles.filterHeight}>
-          <BackButton title="Filters" onPress={() => pullData(false)} />
+          <BackButton title="Filters" onPress={() => setOpenModal(false)} />
         </View>
         <View>
           <Text style={fontStyles.headerSmall}>Price Range</Text>

@@ -9,10 +9,24 @@ type FavoriteStackParamsList = {
   applicationshow: {advert: Advert; active?: boolean};
 };
 
+type SearchStackParamsList = {
+  search: undefined;
+};
+
 type FavoriteScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<RootTabParamsList, 'favorite'>,
   StackNavigationProp<FavoriteStackParamsList>
 >;
+
+type SearchScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamsList, 'search'>,
+  StackNavigationProp<SearchStackParamsList>
+>;
+
+type FlatFindScreenProp = {
+  navigation: SearchScreenNavigationProp;
+};
+
 type ApplicationIndexScreenProp = {
   navigation: FavoriteScreenNavigationProp;
 };
@@ -26,4 +40,6 @@ export type {
   FavoriteScreenNavigationProp,
   ApplicationIndexScreenProp,
   ApplicationShowScreenProp,
+  FlatFindScreenProp,
+  SearchScreenNavigationProp,
 };
