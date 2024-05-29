@@ -6,5 +6,7 @@ module.exports = {
     '^@rnmapbox/maps$': '<rootDir>/__mocks__/@rnmapbox/maps.ts',
     '^react-native-encrypted-storage$':
       '<rootDir>/__mocks__/react-native-encrypted-storage.ts',
+    '^@AsyncStorage/async-storage$':
+      '<rootDir>/__mocks__/@AsyncStorage/async-storage.ts',
   },
 };
