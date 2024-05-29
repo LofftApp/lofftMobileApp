@@ -8,5 +8,7 @@ module.exports = {
       '<rootDir>/__mocks__/react-native-encrypted-storage.ts',
     '^@AsyncStorage/async-storage$':
       '<rootDir>/__mocks__/@AsyncStorage/async-storage.ts',
+    '^@react-navigation/native-stack$':
+      '<rootDir>/__mocks__/@react-navigation/native-stack.ts',
   },
 };

@@ -1,3 +1,4 @@
+// Temporary while debugging jest tests
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {checkToken, signUp, signIn, signOut} from './authenticationMiddleware';
 
@@ -18,53 +19,53 @@ export const authenticationSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(checkToken.pending, state => {
-      state.loading = true;
-      console.log('checkToken pending');
-    });
-    builder.addCase(
-      checkToken.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.authenticated = action.payload;
-      },
-    );
-    builder.addCase(signUp.pending, state => {
-      state.loading = true;
-      console.log('signUp pending');
-    });
-    builder.addCase(signUp.fulfilled, (state, action: PayloadAction<any>) => {
-      state.loading = false;
-      state.authenticated = true;
-    });
-    builder.addCase(signUp.rejected, state => {
-      state.loading = false;
-      console.log('signUp rejected');
-    });
-    builder.addCase(signIn.pending, state => {
-      state.loading = true;
-      console.log('signIn pending');
-    });
-    builder.addCase(signIn.fulfilled, (state, action: PayloadAction<any>) => {
-      state.loading = false;
-      state.authenticated = true;
-    });
-    builder.addCase(signIn.rejected, state => {
-      state.loading = false;
-      console.log('signIn rejected');
-    });
-    builder.addCase(signOut.pending, state => {
-      state.loading = true;
-      console.log('signOut pending');
-    });
-    builder.addCase(signOut.fulfilled, state => {
-      state.loading = false;
-      state.authenticated = false;
-    });
-    builder.addCase(signOut.rejected, state => {
-      state.loading = false;
-      console.log('signOut rejected');
-    });
+    // builder.addCase(checkToken.pending, state => {
+    //   state.loading = true;
+    //   console.log('checkToken pending');
+    // });
+    // builder.addCase(
+    //   checkToken.fulfilled,
+    //   (state, action: PayloadAction<any>) => {
+    //     state.loading = false;
+    //     state.authenticated = action.payload;
+    //   },
+    // );
+    // builder.addCase(signUp.pending, state => {
+    //   state.loading = true;
+    //   console.log('signUp pending');
+    // });
+    // builder.addCase(signUp.fulfilled, (state, action: PayloadAction<any>) => {
+    //   state.loading = false;
+    //   state.authenticated = true;
+    // });
+    // builder.addCase(signUp.rejected, state => {
+    //   state.loading = false;
+    //   console.log('signUp rejected');
+    // });
+    // builder.addCase(signIn.pending, state => {
+    //   state.loading = true;
+    //   console.log('signIn pending');
+    // });
+    // builder.addCase(signIn.fulfilled, (state, action: PayloadAction<any>) => {
+    //   state.loading = false;
+    //   state.authenticated = true;
+    // });
+    // builder.addCase(signIn.rejected, state => {
+    //   state.loading = false;
+    //   console.log('signIn rejected');
+    // });
+    // builder.addCase(signOut.pending, state => {
+    //   state.loading = true;
+    //   console.log('signOut pending');
+    // });
+    // builder.addCase(signOut.fulfilled, state => {
+    //   state.loading = false;
+    //   state.authenticated = false;
+    // });
+    // builder.addCase(signOut.rejected, state => {
+    //   state.loading = false;
+    //   console.log('signOut rejected');
+    // });
   },
 });
 

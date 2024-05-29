@@ -12,7 +12,7 @@ import {MAPBOX_API_KEY} from '@env';
 
 // Redux
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
+// import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createSelector} from '@reduxjs/toolkit';
 
