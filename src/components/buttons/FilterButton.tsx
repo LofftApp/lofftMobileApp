@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -8,11 +8,19 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const FilterButton = ({onPress}: any) => {
+// Types 🏷️
+import type {FilterButtonProps} from './types';
+
+const FilterButton = ({onPress}: FilterButtonProps) => {
+  console.log(onPress);
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.buttonOutline}>
-        <LofftIcon name="filter-funnel" size={size(25)} color={Color.Black[50]} />
+        <LofftIcon
+          name="filter-funnel"
+          size={size(25)}
+          color={Color.Black[50]}
+        />
       </View>
     </TouchableOpacity>
   );

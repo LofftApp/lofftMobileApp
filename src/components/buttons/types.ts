@@ -22,7 +22,7 @@ type CoreButtonProps = {
   invert?: boolean;
   style?: StyleProp<ViewStyle>;
   textStyle?: TextStyle | TextStyle[] | null;
-  onPress?: (event: GestureResponderEvent) => void | undefined;
+  onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;
 };
 
@@ -33,4 +33,13 @@ type ChipsProps = {
   features?: boolean;
 };
 
-export type {HeaderPageContentSwitchProps, CoreButtonProps, ChipsProps};
+type FilterButtonProps = {
+  onPress: () => void;
+};
+
+export type {
+  HeaderPageContentSwitchProps,
+  CoreButtonProps,
+  ChipsProps,
+  FilterButtonProps,
+};
