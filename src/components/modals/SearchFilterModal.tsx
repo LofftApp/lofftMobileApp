@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
-import {width, height, size, fontSize} from 'react-native-responsive-sizes';
+import {height, size} from 'react-native-responsive-sizes';
 
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
@@ -18,25 +18,36 @@ import {CoreButton} from 'components/buttons/CoreButton';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const SearchFilterModal = ({openModal, setOpenModal}: any) => {
-  const [minPrice, setMinPrice] = useState(100);
-  const [maxPrice, setMaxPrice] = useState(5000);
+// Types 🏷️
+import type {SearchFilterModalProps} from './types';
+
+const SearchFilterModal = ({
+  openModal,
+  setOpenModal,
+}: SearchFilterModalProps) => {
+  const [minPrice, setMinPrice] = useState<string | number>(100);
+  const [maxPrice, setMaxPrice] = useState<string | number>(5000);
   const [minFocus, setMinFocus] = useState(false);
   const [maxFocus, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
+  const [intitalpreferencesArray, seIintitalPreferencesArray] =
+    useState<typeof flatPreferences>(flatPreferences);
+  const [selectedTrack, setSelectedTrack] = useState<typeof flatPreferences>(
+    [],
+  );
 
-  const handleMin = (num: any) => {
-    setMinPrice(num.toString());
+  const handleMin = (num: string | number) => {
+    setMinPrice(num);
     handleMinFocus();
   };
 
-  const handleMax = (num: any) => {
+  const handleMax = (num: string | number) => {
     setMaxPrice(num.toString());
     handleMaxFocus();
   };
 
   const handleMinFocus = () => {
-    if (minPrice > 0) {
+    if (+minPrice > 0) {
       setMinFocus(true);
     } else {
       setMinFocus(false);
@@ -44,30 +55,22 @@ const SearchFilterModal = ({openModal, setOpenModal}: any) => {
   };
 
   const handleMaxFocus = () => {
-    if (minPrice > 0) {
+    if (+minPrice > 0) {
       setMaxFocus(true);
     } else {
       setMaxFocus(false);
     }
   };
 
-  const taco = (array: any) => {
+  const taco = (array: number[] | string[]) => {
     handleMin(array[0]);
     handleMax(array[1]);
   };
 
-  const preferences = flatPreferences;
-
-  const [intitalpreferencesArray, seIintitalPreferencesArray] =
-    useState(preferences);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedTrack, setselectedTrack] = useState([]);
-
-  const selectedEmojis = (id: any) => {
+  const selectedEmojis = (id: number) => {
     const targets = [];
 
-    const preSeleted = intitalpreferencesArray.map(element => {
+    const preSelected = intitalpreferencesArray.map(element => {
       if (element.id === id) {
         targets.push(element);
         return {
@@ -79,10 +82,10 @@ const SearchFilterModal = ({openModal, setOpenModal}: any) => {
       }
     });
 
-    const wash: any = preSeleted.filter(el => el.toggle);
+    const wash = preSelected.filter(el => el.toggle);
 
-    setselectedTrack(wash);
-    seIintitalPreferencesArray(preSeleted);
+    setSelectedTrack(wash);
+    seIintitalPreferencesArray(preSelected);
   };
 
   const emojiElements = intitalpreferencesArray.map((emojiElement, index) => {
@@ -104,7 +107,7 @@ const SearchFilterModal = ({openModal, setOpenModal}: any) => {
       toggle: false,
     }));
     seIintitalPreferencesArray(clearedPreferences);
-    setselectedTrack([]);
+    setSelectedTrack([]);
   };
 
   return (
@@ -147,18 +150,18 @@ const SearchFilterModal = ({openModal, setOpenModal}: any) => {
             </View>
           </View>
         </View>
-        {Number(minPrice) > Number(maxPrice) ? (
+        {Number(minPrice) > Number(maxPrice) && (
           <View style={styles.errorContainer}>
             <Text style={styles.errorMessage}>
               The min value must not be more than the max value!
             </Text>
           </View>
-        ) : null}
+        )}
         <View style={styles.sliderContainer}>
           <Slider
             thumbTintColor={Color.Lavendar[100]}
             minimumTrackTintColor={Color.Lavendar[80]}
-            value={[minPrice, maxPrice]}
+            value={[+minPrice, +maxPrice]}
             animateTransitions={true}
             minimumValue={100}
             maximumValue={5000}

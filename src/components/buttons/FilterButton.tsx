@@ -12,7 +12,6 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import type {FilterButtonProps} from './types';
 
 const FilterButton = ({onPress}: FilterButtonProps) => {
-  console.log(onPress);
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.buttonOutline}>
