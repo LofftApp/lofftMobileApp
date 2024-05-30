@@ -1,7 +1,4 @@
-interface Tag {
-  name: string;
-  emoji: string;
-}
+import type {Tag} from 'helpers/types';
 
 export const tagSorter = (userTags: Tag[], flatTags: Tag[]) => {
   const positiveTags: Tag[] = [];
@@ -16,7 +13,7 @@ export const tagSorter = (userTags: Tag[], flatTags: Tag[]) => {
       return;
     }
     const tagFound = userTags.findIndex((userTag: Tag) => {
-      return userTag.name === tag.name;
+      return userTag?.name === tag?.name;
     });
     if (tagFound !== -1) {
       positiveTags.push(tag);

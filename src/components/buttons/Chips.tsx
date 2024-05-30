@@ -22,7 +22,7 @@ const Chips = ({
                 features ? styles.featureTag : styles.characteristicTag,
               ]}
               key={index}>
-              {emoji && <Text>{tag.emoji}</Text>}
+              {emoji && <Text>{tag?.emoji}</Text>}
               <Text
                 style={[
                   fontStyles.bodySmall,
@@ -30,7 +30,7 @@ const Chips = ({
                     ? styles.featureTagFont
                     : styles.characteristicTagFont,
                 ]}>
-                {tag.name}
+                {tag?.name}
               </Text>
             </View>
           );

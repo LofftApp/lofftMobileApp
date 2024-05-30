@@ -96,7 +96,7 @@ const AdvertMap = () => {
               showsHorizontalScrollIndicator={false}
               onViewableItemsChanged={onViewRef.current}
               renderItem={({item, index}) => (
-                <MapViewFlatCard advert={item} key={index} id={item.id} />
+                <MapViewFlatCard advert={item} key={index} />
               )}
             />
           )}

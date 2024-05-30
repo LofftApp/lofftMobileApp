@@ -1,13 +1,10 @@
+import {Tag} from 'helpers/types';
 import {
   GestureResponderEvent,
   StyleProp,
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import {
-  AdvertCharacteristics,
-  AdvertFeatures,
-} from 'reduxFeatures/adverts/types';
 
 type HeaderPageContentSwitchProps = {
   toggleNames: string[];
@@ -27,7 +24,7 @@ type CoreButtonProps = {
 };
 
 type ChipsProps = {
-  tags: AdvertCharacteristics[] | AdvertFeatures[] | null;
+  tags: Tag[];
   emoji?: boolean;
   positive?: boolean;
   features?: boolean;

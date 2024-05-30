@@ -26,27 +26,46 @@ import noFlatImage from 'Assets/images/no-flat-image.png';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
-import {width, height, size, fontSize} from 'react-native-responsive-sizes';
+import {width, height, size} from 'react-native-responsive-sizes';
 
-const MapViewFlatCard = (advertR: any, id: number) => {
-  const userProfile = useAppSelector((state: any) => state.user.user);
-  const advert = advertR.advert;
+// Types 🏷️
+
+import {Advert} from 'reduxFeatures/adverts/types';
+import {UserState} from 'reduxFeatures/user/types';
+
+const MapViewFlatCard = ({advert}: {advert: Advert}) => {
+  const user = useAppSelector((state: {user: UserState}) => state.user.user);
+
+  const {profile, filter: userFilter} = user;
+  const {characteristics: userCharacteristics} = profile;
+
+  const {flat, matchScore, id, favorite, price} = advert;
+  const {
+    tagline,
+    district,
+    city,
+    characteristics: flatCharacteristics,
+    features: flatFeatures,
+    photos,
+  } = flat;
+
   const characteristicsTags = tagSorter(
-    userProfile.profile.characteristics,
-    advert.flat.characteristics,
+    userCharacteristics ?? [],
+    flatCharacteristics ?? [],
   );
-  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
+  const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
 
   const dispatch = useAppDispatch();
+
   return (
     <View style={styles.boundryContainer}>
       <View style={styles.flatCardContainer}>
         <View style={styles.imageDetailsBlock}>
           <Image
             source={
-              advert.flat.photos
+              photos
                 ? {
-                    uri: advert.flat.photos[0],
+                    uri: photos[0],
                     width: width(200),
                     height: height(300),
                   }
@@ -56,13 +75,13 @@ const MapViewFlatCard = (advertR: any, id: number) => {
           />
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
-              <MatchingScoreButton size="Small" score={advert.matchScore} />
+              <MatchingScoreButton size="Small" score={matchScore} />
               <Pressable
                 onPress={() => {
-                  dispatch(toggleFavorite(advert.id));
+                  dispatch(toggleFavorite(id ?? 0));
                 }}>
                 {/* ! This need to be updated with validation */}
-                {advert.favorite ? (
+                {favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={26}
@@ -75,14 +94,12 @@ const MapViewFlatCard = (advertR: any, id: number) => {
             </View>
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
-                <Text style={fontStyles.headerSmall}>
-                   {advert.price}€   26 m2
-                </Text>
-                <Text style={fontStyles.bodyMedium}>{advert.tagline}</Text>
+                <Text style={fontStyles.headerSmall}>{price}€ 26 m2</Text>
+                <Text style={fontStyles.bodyMedium}>{tagline}</Text>
               </View>
               <Text
                 style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-                {advert.flat.district}, {advert.flat.city}
+                {district}, {city}
               </Text>
             </View>
           </View>
