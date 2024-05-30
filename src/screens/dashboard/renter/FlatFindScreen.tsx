@@ -14,7 +14,7 @@ import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
 // Components 🪢
 import FilterButton from 'components/buttons/FilterButton';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import AdvertMap from 'components/Maps/AdvertMap';
+import FlatMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
 
@@ -66,7 +66,7 @@ const FlatFindScreen = ({navigation}: FlatFindScreenProp) => {
         {screen === 'list' ? (
           <FlatListSubScreen navigation={navigation} />
         ) : (
-          <AdvertMap />
+          <FlatMap />
         )}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
