@@ -1,5 +1,8 @@
 import {Advert} from 'reduxFeatures/adverts/types';
-import type {FavoriteScreenNavigationProp} from '../types';
+import type {
+  FavoriteScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from '../types';
 
 type FlatListComponentProps = {
   adverts: Advert[];
@@ -7,4 +10,8 @@ type FlatListComponentProps = {
   isLessor: boolean;
 };
 
-export type {FlatListComponentProps};
+type FlatListSubScreen = {
+  navigation: SearchScreenNavigationProp;
+};
+
+export type {FlatListComponentProps, FlatListSubScreen};
