@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 
 // Components 🪢
 import PasswordInput from './inputs/PasswordInput';
@@ -12,28 +12,31 @@ import DefaultInput from './inputs/DefaultInput';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
+// Types 🏷️
+import type {InputFieldTextProps} from './types';
+
 const InputFieldText = ({
   placeholder = null,
   type = null,
   onChangeText,
   value,
-  onClear = null,
+  onClear = () => {},
   errorMessage = '',
   keyboardType = 'default',
   dropdown = false,
   dropDownContent = [],
-  dropDownPressAction = null,
+  dropDownPressAction = () => {},
   style,
-}: any) => {
+}: InputFieldTextProps) => {
   const [focus, setFocus] = useState(false);
   return (
     <>
       <View
         style={[
           styles.inputFieldStyle,
-          dropdown && value.length > 0 ? styles.inputDropDown : null,
-          focus ? styles.focus : null,
-          errorMessage ? styles.errorActive : null,
+          dropdown && value.length > 0 && styles.inputDropDown,
+          focus && styles.focus,
+          !!errorMessage && styles.errorActive,
           style,
         ]}>
         {type === 'password' ? (
@@ -57,7 +60,7 @@ const InputFieldText = ({
             keyboardType={keyboardType}
             dropdown={dropdown}
           />
-        ) : type == 'currency' ? (
+        ) : type === 'currency' ? (
           <CurrencyInput
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
@@ -81,27 +84,25 @@ const InputFieldText = ({
           />
         )}
       </View>
-      {dropdown && value.length > 0 ? (
+      {dropdown && value.length > 0 && (
         <View style={styles.dropDown}>
-          {dropDownContent.map((value: any, i: number) => {
+          {dropDownContent.map((val, i) => {
             return (
-              <Pressable onPress={() => dropDownPressAction(value)} key={i}>
+              <Pressable onPress={() => dropDownPressAction(val)} key={i}>
                 <Text
                   style={[
                     fontStyles.bodyMedium,
                     styles.dropDownItem,
-                    i % 2 !== 0 ? styles.oddPlaceList : null,
+                    i % 2 !== 0 && styles.oddPlaceList,
                   ]}>
-                  {value}
+                  {val}
                 </Text>
               </Pressable>
             );
           })}
         </View>
-      ) : null}
-      {errorMessage ? (
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
-      ) : null}
+      )}
+      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
     </>
   );
 };

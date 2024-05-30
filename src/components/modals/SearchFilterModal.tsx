@@ -37,7 +37,7 @@ const SearchFilterModal = ({
   );
 
   const handleMin = (num: string | number) => {
-    setMinPrice(num);
+    setMinPrice(num.toString());
     handleMinFocus();
   };
 
