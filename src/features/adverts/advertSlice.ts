@@ -27,6 +27,7 @@ const initialState: AdvertState = {
       flat: {
         id: null,
         address: null,
+        price: null,
         description: null,
         tagline: null,
         district: null,

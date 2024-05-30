@@ -28,7 +28,10 @@ import type {AdvertState, Advert} from 'reduxFeatures/adverts/types';
 const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
   const getUserType = (state: {user: UserState}) => state.user.user.userType;
 
-  const getAdverts = (state: {adverts: AdvertState}) => state.adverts.adverts;
+  const getAdverts = (state: {adverts: AdvertState}) => {
+    console.log(state.adverts.adverts);
+    return state.adverts.adverts;
+  };
 
   const selectUserTypeAndAdverts = createSelector(
     [getUserType, getAdverts],

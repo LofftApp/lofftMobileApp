@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useCallback, useRef, useMemo} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
-import {View, StyleSheet, FlatList, StatusBar} from 'react-native';
+import {View, StyleSheet, FlatList, StatusBar, ViewToken} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
@@ -11,63 +11,54 @@ import {useAppSelector} from 'reduxCore/hooks';
 import MapViewFlatCard from 'components/cards/MapViewFlatCard';
 import MapMarker from 'components/Maps/MapMarker';
 
-const AdvertMap = () => {
-  const adverts = useAppSelector((state: any) => state.adverts.adverts);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  // States
+// Types 🏷️
+import {Advert, AdvertState} from 'reduxFeatures/adverts/types';
+import {AdvertWithCoordinates} from './types';
 
-  const [mapboxAdverts, setMapboxAdverts] = useState<any[]>([]);
+const AdvertMap = () => {
+  const adverts = useAppSelector(
+    // States
+    (state: {adverts: AdvertState}) => state.adverts.adverts,
+  );
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [mapboxAdverts, setMapboxAdverts] = useState<AdvertWithCoordinates[]>(
+    [],
+  );
 
   // API
   useEffect(() => {
-    const geoCoding = async (adverts: any) => {
-      let formatedCordinates = await Promise.all(
-        adverts.map(async (el: any, index: number) => {
-          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.flat.address}.json?access_token=${MAPBOX_API_KEY}`;
-          const response = await fetch(endpoint);
-          const data = await response.json();
-          interface flatState {
-            address: string | null;
-            matchP: number | null;
-            price: number | null;
-            images: any | null;
-            district: string | null;
-            id: number | null;
-            flatId: number | null;
-            likedUsers: any | null;
-            tagLine: string | null;
-          }
+    const geoCoding = async () => {
+      try {
+        const advertsWithCoordinates = await Promise.all(
+          adverts.map(async (el: Advert, i: number) => {
+            const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.flat.address}.json?access_token=${MAPBOX_API_KEY}`;
+            const response = await fetch(endpoint);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch data for advert at index ${i}`);
+            }
+            const data = await response.json();
 
-          const flatObject: flatState = {
-            address: data.features[0].geometry.coordinates,
-            price: el.price,
-            matchP: el?.matchP,
-            images: el.images,
-            district: el.district,
-            id: index,
-            flatId: el.flatId,
-            likedUsers: el.likedUsers,
-            tagLine: el.tagLine,
-          };
+            const flatObject = {
+              ...el,
+              coordinates: data.features[0].geometry.coordinates,
+            };
 
-          return flatObject;
-        }),
-      );
-      setMapboxAdverts(formatedCordinates);
+            return flatObject;
+          }),
+        );
+        setMapboxAdverts(advertsWithCoordinates);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    geoCoding(adverts);
+    geoCoding();
   }, [adverts]);
 
-  const setActiveLocation = (index: number) => {
-    // ! Made -1 to match the index of the flatlist, this should fix it though was a bit of a hack
-    setSelectedIndex(index - 1);
-  };
-
-  const onViewRef = React.useRef((viewableItems: any) => {
-    setActiveLocation(Number(viewableItems.viewableItems[0].key));
+  const onViewRef = useRef(({viewableItems}: {viewableItems: ViewToken[]}) => {
+    setSelectedIndex(Number(viewableItems[0].index));
   });
 
-  const coordinateViewConverter = (coordinates: any) => {
+  const coordinateViewConverter = (coordinates: number[]) => {
     if (coordinates) {
       return [coordinates[0], coordinates[1] - 0.001];
     }
@@ -83,20 +74,20 @@ const AdvertMap = () => {
           <MapboxGL.Camera
             zoomLevel={15}
             centerCoordinate={coordinateViewConverter(
-              mapboxAdverts[selectedIndex]?.address,
+              mapboxAdverts[selectedIndex]?.coordinates,
             )}
             animationMode="flyTo"
           />
-          {mapboxAdverts.map((el: any, index: number) => (
+          {mapboxAdverts.map((el: AdvertWithCoordinates, index: number) => (
             <MapboxGL.MarkerView
-              key={index + 1}
-              coordinate={[el.address[0], el.address[1]]}>
+              key={index}
+              coordinate={[el.coordinates[0], el.coordinates[1]]}>
               <MapMarker data={el} />
             </MapboxGL.MarkerView>
           ))}
         </MapboxGL.MapView>
         <View style={styles.scrollContainer}>
-          {mapboxAdverts !== null ? (
+          {mapboxAdverts && (
             <FlatList
               data={adverts}
               disableIntervalMomentum={true}
@@ -105,10 +96,10 @@ const AdvertMap = () => {
               showsHorizontalScrollIndicator={false}
               onViewableItemsChanged={onViewRef.current}
               renderItem={({item, index}) => (
-                <MapViewFlatCard advert={item} key={index + 1} id={item.id} />
+                <MapViewFlatCard advert={item} key={index} id={item.id} />
               )}
             />
-          ) : null}
+          )}
         </View>
       </View>
     </>
