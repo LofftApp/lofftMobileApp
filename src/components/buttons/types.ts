@@ -1,13 +1,10 @@
+import {Tag} from 'helpers/types';
 import {
   GestureResponderEvent,
   StyleProp,
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import {
-  AdvertCharacteristics,
-  AdvertFeatures,
-} from 'reduxFeatures/adverts/types';
 
 type HeaderPageContentSwitchProps = {
   toggleNames: string[];
@@ -22,15 +19,24 @@ type CoreButtonProps = {
   invert?: boolean;
   style?: StyleProp<ViewStyle>;
   textStyle?: TextStyle | TextStyle[] | null;
-  onPress?: (event: GestureResponderEvent) => void | undefined;
+  onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;
 };
 
 type ChipsProps = {
-  tags: AdvertCharacteristics[] | AdvertFeatures[] | null;
+  tags: Tag[];
   emoji?: boolean;
   positive?: boolean;
   features?: boolean;
 };
 
-export type {HeaderPageContentSwitchProps, CoreButtonProps, ChipsProps};
+type FilterButtonProps = {
+  onPress: () => void;
+};
+
+export type {
+  HeaderPageContentSwitchProps,
+  CoreButtonProps,
+  ChipsProps,
+  FilterButtonProps,
+};

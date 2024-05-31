@@ -21,6 +21,7 @@ interface AdvertFeatures {
 interface AdvertFlat {
   id: number | null;
   address: string | null;
+  price: number | null;
   description: string | null;
   tagline: string | null;
   district: string | null;
@@ -52,4 +53,11 @@ interface AdvertState {
   adverts: Advert[];
 }
 
-export type {Advert, AdvertState, AdvertCharacteristics, AdvertFeatures};
+export type {
+  Advert,
+  AdvertState,
+  AdvertCharacteristics,
+  AdvertFeatures,
+  AdvertFlat,
+  AdvertUser,
+};

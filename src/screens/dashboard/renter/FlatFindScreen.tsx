@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
 // Redux 🏪
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helper 🥷🏻
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 
 // Screens 📺
 import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
@@ -14,19 +14,22 @@ import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
 // Components 🪢
 import FilterButton from 'components/buttons/FilterButton';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import FlatMap from 'components/Maps/AdvertMap';
+import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const FlatFindScreen = ({navigation}: any) => {
+// Types 🏷️
+import type {FlatFindScreenProp} from './types';
+
+const FlatFindScreen = ({navigation}: FlatFindScreenProp) => {
   const [openModal, setOpenModal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
-  const pullData = (data: any) => {
-    setOpenModal(data);
-  };
+  const [search, setSearch] = useState('');
+  const [screen, setScreen] = useState('list');
 
   const dispatch = useAppDispatch();
 
@@ -34,11 +37,8 @@ const FlatFindScreen = ({navigation}: any) => {
     dispatch(fetchAdverts());
   }, [dispatch]);
 
-  const [search, setSearch] = useState('');
-  const [screen, setScreen] = useState('list');
-
-  const setActiveScreen = (screen: string) => {
-    setScreen(screen);
+  const setActiveScreen = (activeScreen: string) => {
+    setScreen(activeScreen);
   };
 
   return (
@@ -53,23 +53,23 @@ const FlatFindScreen = ({navigation}: any) => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={() => pullData(true)} />
+        <FilterButton onPress={() => setOpenModal(true)} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
         toggleIcons={['list', 'map']}
         markers={['list', 'map']}
         activeScreen={screen}
-        setActiveScreen={(screen: string) => setActiveScreen(screen)}
+        setActiveScreen={setActiveScreen}
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
           <FlatListSubScreen navigation={navigation} />
         ) : (
-          <FlatMap />
+          <AdvertMap />
         )}
       </View>
-      <SearchFilterModal openModal={openModal} pullData={pullData} />
+      <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </View>
   );
 };
