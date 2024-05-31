@@ -11,6 +11,7 @@ type FavoriteStackParamsList = {
 
 type SearchStackParamsList = {
   search: undefined;
+  flatShow: {advert: Advert};
 };
 
 type FavoriteScreenNavigationProp = CompositeNavigationProp<

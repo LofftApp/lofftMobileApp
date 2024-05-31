@@ -21,16 +21,8 @@ const FlatListSubScreen = ({navigation}: FlatListSubScreenProps) => {
         showsVerticalScrollIndicator={false}
         style={styles.flatCardContainer}>
         <View>
-          {adverts.map((advert, index) => {
-            return (
-              <ListViewFlatCard
-                navigation={navigation}
-                key={index + 1}
-                i={index}
-                advert={advert}
-                id={advert.id}
-              />
-            );
+          {adverts.map(advert => {
+            return <ListViewFlatCard key={advert.id} advert={advert} />;
           })}
         </View>
       </ScrollView>

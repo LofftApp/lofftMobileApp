@@ -1,6 +1,9 @@
-import {ViewToken} from 'react-native';
+import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
-import type {FavoriteScreenNavigationProp} from 'screens/dashboard/renter/types';
+import type {
+  FavoriteScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from 'screens/dashboard/renter/types';
 
 type ListFlatApplicationCardProps = {
   navigation: FavoriteScreenNavigationProp;
@@ -20,8 +23,15 @@ type onViewableItemsChangedParams = {
   changed?: Array<ViewToken>;
 };
 
+type ListViewFlatCardProps = {
+  navigation: SearchScreenNavigationProp;
+
+  advert: Advert;
+};
+
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
   onViewableItemsChangedParams,
+  ListViewFlatCardProps,
 };
