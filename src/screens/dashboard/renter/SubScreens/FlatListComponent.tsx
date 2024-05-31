@@ -9,7 +9,6 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types  🏷
 import type {FlatListComponentProps} from './types';
-import type {Advert} from 'reduxFeatures/adverts/types';
 
 const FlatListComponent = ({adverts, navigation}: FlatListComponentProps) => {
   return (
@@ -17,7 +16,7 @@ const FlatListComponent = ({adverts, navigation}: FlatListComponentProps) => {
       showsVerticalScrollIndicator={false}
       style={styles.flatCardContainer}>
       <SafeAreaView>
-        {adverts.map((advert: Advert, index: number) => {
+        {adverts.map((advert, index: number) => {
           return (
             <ListFlatApplicationCard
               key={index + 1}
