@@ -23,13 +23,15 @@ import type {FlatInfoContainerProps} from './types';
 import {SearchScreenNavigationProp} from 'screens/dashboard/renter/types';
 
 const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
-  const navigation = useNavigation<SearchScreenNavigationProp>();
-  const dispatch = useAppDispatch();
-
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
+  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const dispatch = useAppDispatch();
+
+  const {flat} = advert;
+  const {characteristics: flatCharacteristics} = flat;
 
   return (
     <View style={styles.centralizerContainer}>
@@ -104,7 +106,7 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
               Flat Characteristics
             </Text>
             <View style={styles.chipsContainer}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
+              <Chips tags={flatCharacteristics ?? []} features={true} emoji />
             </View>
           </>
         ) : (
@@ -113,7 +115,7 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
               Match with you
             </Text>
             <View style={styles.matchWithYouContainer}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
+              <Chips tags={flatCharacteristics ?? []} features={true} emoji />
             </View>
 
             <Text style={[fontStyles.headerSmall, styles.otherText]}>
