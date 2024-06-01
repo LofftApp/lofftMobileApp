@@ -25,25 +25,24 @@ import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpMod
 import {tagSorter} from 'helpers/tagSorter';
 import {height, size} from 'react-native-responsive-sizes';
 
-const FlatShowScreen = ({route, navigation}: any) => {
-  const [advert] = useState(route.params.advert);
-  const userProfile = useAppSelector((state: any) => state.user.user);
+// Types 🏷️
+import type {FlatShowScreenProp} from './types';
+import type {UserState} from 'reduxFeatures/user/types';
 
-  const characteristicsTags = tagSorter(
-    userProfile.profile.characteristics,
-    advert.flat.characteristics,
-  );
+const profileNotDoneObject = {
+  header: "Your application profile isn't complete",
+  description:
+    'To apply for this flat, please go to the profile section and complete your application. This takes only 5 minutes!',
+  icon: CompleteProfileImage,
+};
+const outOfTokensObject = {
+  header: 'Why are tokens limited?',
+  description:
+    "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
+  icon: CompleteProfileImage,
+};
 
-  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
-
-  const dispatch = useAppDispatch();
-
-  // if (userType === 'renter') {
-  //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
-  // }
-
-  /* Params are being passed classicly via the route helper instead of  */
-
+const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   //This is a placeholder for the CompleteProfileStep
   const [completeProfile, setCompleteProfile] = useState(false);
 
@@ -52,28 +51,35 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   //Modal
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
-  const [modalstate, setModalState] = useState(false);
+  const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
-  const expander = () => {
-    setDescriptionExpansion(!descriptionExpanded);
-  };
 
-  const profileNotDoneObject = {
-    header: "Your application profile isn't complete",
-    description:
-      'To apply for this flat, please go to the profile section and complete your application. This takes only 5 minutes!',
-    icon: CompleteProfileImage,
-  };
-  const outOfTokensObject = {
-    header: 'Why are tokens limited?',
-    description:
-      "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
-    icon: CompleteProfileImage,
-  };
+  const {advert} = route.params;
+  const {flat} = advert;
+  const {
+    characteristics: flatCharacteristics,
+    features: flatFeatures,
+    photos,
+  } = flat;
 
-  const pullData = (data: any) => {
-    setModalState(data);
-  };
+  const user = useAppSelector((state: {user: UserState}) => state.user.user);
+  const {profile, filter: userFilter} = user;
+  const {characteristics: userCharacteristics} = profile;
+
+  const dispatch = useAppDispatch();
+
+  // const characteristicsTags = tagSorter(
+  //   userCharacteristics ?? [],
+  //   flatCharacteristics ?? [],
+  // );
+
+  // const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+
+  // if (userType === 'renter') {
+  //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
+  // }
+
+  /* Params are being passed classicly via the route helper instead of  */
 
   return (
     <View style={styles.pageContainer}>
@@ -83,27 +89,20 @@ const FlatShowScreen = ({route, navigation}: any) => {
         <View>
           {!blurActivated && (
             <HighlightedButtons
-              navigation={navigation}
               favorite={advert.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert.id))}
+              onPressHeart={() => dispatch(toggleFavorite(advert.id ?? 0))}
             />
           )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
-            images={advert.flat.photos}
+            images={photos ?? []}
             activeBlur={blurActivated}
           />
         </View>
         <SafeAreaView
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
-            <FlatInfoContainer
-              advert={advert}
-              navigation={navigation}
-              button={true}
-              characteristicsTags={characteristicsTags}
-              featuresTags={featuresTags}
-            />
+            <FlatInfoContainer advert={advert} button={true} />
             {/* <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
@@ -117,13 +116,13 @@ const FlatShowScreen = ({route, navigation}: any) => {
                     value="Apply"
                     style={styles.applyCoreButton}
                     disabled={false}
-                    onPress={() => pullData(true)}
+                    onPress={() => setModalState(true)}
                   />
                 )}
               </View> */}
             <CompleteProfilePopUpModal
-              openModal={modalstate}
-              pullData={pullData}
+              openModal={modalState}
+              setModalState={setModalState}
               profileNotDoneObject={
                 completeProfile && outOfTokens
                   ? outOfTokensObject

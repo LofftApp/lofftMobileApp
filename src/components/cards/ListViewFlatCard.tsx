@@ -16,16 +16,15 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from 'Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
 // Types 🏷️
-import {UserState} from 'reduxFeatures/user/types';
-import {SearchScreenNavigationProp} from 'screens/dashboard/renter/types';
-import {Advert} from 'reduxFeatures/adverts/types';
+import type {UserState} from 'reduxFeatures/user/types';
+import type {SearchScreenNavigationProp} from 'screens/dashboard/renter/types';
+import type {Advert} from 'reduxFeatures/adverts/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
@@ -89,7 +88,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
             {/* Size of WG is not in DB - 26 m2 */}
             <Text style={[fontStyles.headerSmall]}>{price} €</Text>
 
-            <MatchingScoreButton size="Big" score={matchScore} />
+            <MatchingScoreButton size="Big" score={matchScore ?? 0} />
           </View>
           {district && (
             <Text

@@ -1,17 +1,22 @@
 import type {Advert} from 'reduxFeatures/adverts/types';
 import type {RootTabParamsList} from '../../../../navigationStacks/types';
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import type {CompositeNavigationProp} from '@react-navigation/native';
+import type {
+  CompositeNavigationProp,
+  RouteProp,
+} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 
 type FavoriteStackParamsList = {
   favorite: undefined;
-  applicationshow: {advert: Advert; active?: boolean};
 };
 
 type SearchStackParamsList = {
   search: undefined;
+  flatOverview: undefined;
   flatShow: {advert: Advert};
+  applyforflat: {advert: Advert};
+  applicationshow: {advert: Advert};
 };
 
 type FavoriteScreenNavigationProp = CompositeNavigationProp<
@@ -26,6 +31,11 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
 
 type FlatFindScreenProp = {
   navigation: SearchScreenNavigationProp;
+};
+
+type FlatShowScreenProp = {
+  navigation: SearchScreenNavigationProp;
+  route: RouteProp<SearchStackParamsList, 'flatShow'>;
 };
 
 type ApplicationIndexScreenProp = {
@@ -43,4 +53,6 @@ export type {
   ApplicationShowScreenProp,
   FlatFindScreenProp,
   SearchScreenNavigationProp,
+  FlatShowScreenProp,
+  SearchStackParamsList,
 };

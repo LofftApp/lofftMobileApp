@@ -34,9 +34,15 @@ type FilterButtonProps = {
   onPress: () => void;
 };
 
+type MatchingScoreButtonProps = {
+  size: string;
+  score: number;
+};
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
   ChipsProps,
   FilterButtonProps,
+  MatchingScoreButtonProps,
 };

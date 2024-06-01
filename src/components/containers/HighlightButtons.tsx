@@ -10,6 +10,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {HighlightButtonsProps} from './types';
+import {useNavigation} from '@react-navigation/native';
 
 // Important Notice !!
 /*
@@ -18,12 +19,12 @@ import type {HighlightButtonsProps} from './types';
 
 const HighlightButtons = ({
   goBack = true,
-  navigation,
   heartPresent = true,
   color = 'null',
   favorite,
   onPressHeart,
 }: HighlightButtonsProps) => {
+  const navigation = useNavigation();
   return (
     <View
       style={[

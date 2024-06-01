@@ -8,10 +8,9 @@ import {useAppSelector} from 'reduxCore/hooks';
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // Types 🏷️
-import type {FlatListSubScreenProps} from './types';
 import type {AdvertState} from 'reduxFeatures/adverts/types';
 
-const FlatListSubScreen = ({navigation}: FlatListSubScreenProps) => {
+const FlatListSubScreen = () => {
   const adverts = useAppSelector(
     (state: {adverts: AdvertState}) => state.adverts.adverts,
   );

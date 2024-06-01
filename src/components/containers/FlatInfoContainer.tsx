@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
@@ -19,12 +20,10 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
+import {SearchScreenNavigationProp} from 'screens/dashboard/renter/types';
 
-const FlatInfoContainer = ({
-  advert,
-  button,
-  navigation,
-}: FlatInfoContainerProps) => {
+const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
+  const navigation = useNavigation<SearchScreenNavigationProp>();
   const dispatch = useAppDispatch();
 
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
@@ -135,7 +134,7 @@ const FlatInfoContainer = ({
               disabled={advert.applied}
               onPress={() => {
                 dispatch(applyForAdvert(advert.id ?? 1));
-                navigation.navigate('applyforflat');
+                navigation.navigate('applyforflat', {advert});
               }}
             />
           </View>
