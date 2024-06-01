@@ -39,10 +39,19 @@ type MatchingScoreButtonProps = {
   score: number;
 };
 
+type BackButtonProps = {
+  onPress: () => void;
+  title?: string;
+  close?: boolean;
+  style?: StyleProp<ViewStyle>;
+  neutral?: boolean;
+};
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
   ChipsProps,
   FilterButtonProps,
   MatchingScoreButtonProps,
+  BackButtonProps,
 };

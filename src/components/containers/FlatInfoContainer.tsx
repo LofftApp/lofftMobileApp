@@ -20,7 +20,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
-import {SearchScreenNavigationProp} from 'screens/dashboard/renter/types';
+import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);

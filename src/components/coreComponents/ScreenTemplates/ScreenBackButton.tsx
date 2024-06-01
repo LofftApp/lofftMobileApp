@@ -4,7 +4,6 @@ import {
   Platform,
   StyleSheet,
   TouchableWithoutFeedback,
-  SafeAreaView,
   Keyboard,
 } from 'react-native';
 
@@ -14,7 +13,14 @@ import BackButton from 'components/buttons/BackButton';
 // StyleSheets
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
-const ScreenBackButton = ({nav = null, title = null, children}: any) => {
+// types 🏷️
+import {ScreenBackButtonProp} from './types';
+
+const ScreenBackButton = ({
+  nav,
+  title = null,
+  children,
+}: ScreenBackButtonProp) => {
   return (
     // Screen back button
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -23,7 +29,7 @@ const ScreenBackButton = ({nav = null, title = null, children}: any) => {
           CoreStyleSheet.viewContainerStyle,
           Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
         ]}>
-        {nav ? <BackButton onPress={nav} title={title} /> : null}
+        {nav && <BackButton onPress={nav} title={title ?? ''} />}
         <View style={styles.safeViewContainer}>{children}</View>
       </View>
     </TouchableWithoutFeedback>

@@ -23,8 +23,8 @@ import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 import {tagSorter} from 'helpers/tagSorter';
 // Types 🏷️
 import type {UserState} from 'reduxFeatures/user/types';
-import type {SearchScreenNavigationProp} from 'screens/dashboard/renter/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
+import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
