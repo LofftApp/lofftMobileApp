@@ -1,3 +1,5 @@
+import {Advert} from 'reduxFeatures/adverts/types';
+
 type RootTabParamsList = {
   search: undefined;
   favorite: undefined;
@@ -6,4 +8,16 @@ type RootTabParamsList = {
   admin: undefined;
 };
 
-export type {RootTabParamsList};
+type FavoriteStackParamsList = {
+  favorite: undefined;
+};
+
+type SearchStackParamsList = {
+  search: undefined;
+  flatOverview: undefined;
+  flatShow: {advert: Advert};
+  applyforflat: {advert: Advert};
+  applicationshow: {advert: Advert};
+};
+
+export type {RootTabParamsList, FavoriteStackParamsList, SearchStackParamsList};

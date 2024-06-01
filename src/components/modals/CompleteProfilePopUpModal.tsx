@@ -12,15 +12,8 @@ import {CrossIcon} from '../../assets';
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
-type CompleteProfilePopUpModalProps = {
-  openModal: boolean;
-  setModalState: (state: boolean) => void;
-  profileNotDoneObject: {
-    header: string;
-    description: string;
-    icon: any;
-  };
-};
+// Types 🏷️
+import type {CompleteProfilePopUpModalProps} from './types';
 
 const CompleteProfilePopUpModal = ({
   openModal,
