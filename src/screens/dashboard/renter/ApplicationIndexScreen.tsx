@@ -95,7 +95,6 @@ const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
               ? inactiveAdverts
               : activeAdverts
           }
-          navigation={navigation}
           isLessor={userType === 'lessor'}
         />
       </View>

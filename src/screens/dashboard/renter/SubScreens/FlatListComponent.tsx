@@ -11,7 +11,7 @@ import {size} from 'react-native-responsive-sizes';
 import type {FlatListComponentProps} from './types';
 import type {Advert} from 'reduxFeatures/adverts/types';
 
-const FlatListComponent = ({adverts, navigation}: FlatListComponentProps) => {
+const FlatListComponent = ({adverts, isLessor}: FlatListComponentProps) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -21,7 +21,6 @@ const FlatListComponent = ({adverts, navigation}: FlatListComponentProps) => {
           return (
             <ListFlatApplicationCard
               key={index + 1}
-              navigation={navigation}
               advert={advert}
               /*  active is just for demo 👇*/
               posted

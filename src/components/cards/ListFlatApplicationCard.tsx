@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, Pressable, DimensionValue} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -21,14 +22,17 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷
 import type {ListFlatApplicationCardProps} from './types';
 
+// Types
+import {FavoriteScreenNavigationProp} from '../../../navigationStacks/types';
+
 const ListFlatApplicationCard = ({
-  navigation,
   advert,
   isLessor = false,
 }: ListFlatApplicationCardProps) => {
-  const [active] = useState(
-    !['offered', 'closed'].includes(advert.status ?? ''),
-  );
+  const {flat, status, price, id, favorite} = advert;
+  const {photos, city, district} = flat;
+
+  const [active] = useState(!['offered', 'closed'].includes(status ?? ''));
   const [renterActiveStatus] = useState([
     'Applied',
     'In review',
@@ -43,10 +47,12 @@ const ListFlatApplicationCard = ({
     'Offer',
   ]);
 
-  let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
-
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
+
+  const navigation = useNavigation<FavoriteScreenNavigationProp>();
+
+  let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
   const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
@@ -70,9 +76,9 @@ const ListFlatApplicationCard = ({
   };
 
   useEffect(() => {
-    const index = advertStatusIndex(advert.status ?? '');
+    const index = advertStatusIndex(status ?? '');
     calculateStatusBar(index);
-  }, [advert.status]);
+  }, [status]);
 
   const dispatch = useAppDispatch();
 
@@ -88,7 +94,7 @@ const ListFlatApplicationCard = ({
           <View style={styles.advertCardImage}>
             <LofftHeaderPhoto
               imageContainerHeight={size(300)}
-              images={advert.flat.photos ?? []}
+              images={photos ?? []}
             />
           </View>
           <View style={styles.advertCardButtonsOverlay}>
@@ -99,9 +105,9 @@ const ListFlatApplicationCard = ({
                     style={styles.advertCardSaveButton}
                     onPress={() => {
                       // toggleFavorite error status 401 👇
-                      dispatch(toggleFavorite(advert.id ?? 0));
+                      dispatch(toggleFavorite(id ?? 0));
                     }}>
-                    {advert.favorite ? (
+                    {favorite ? (
                       <LofftIcon
                         name="heart-filled"
                         size={25}
@@ -124,10 +130,10 @@ const ListFlatApplicationCard = ({
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
-            {advert.price}€ {''} {''}
+            {price}€ {''} {''}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {advert.flat.district}, {advert.flat.city}
+            {district}, {city}
           </Text>
         </View>
         <View>

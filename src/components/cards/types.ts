@@ -1,9 +1,7 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
-import type {FavoriteScreenNavigationProp} from 'screens/dashboard/renter/types';
 
 type ListFlatApplicationCardProps = {
-  navigation: FavoriteScreenNavigationProp;
   advert: Advert;
   posted?: boolean;
   isLessor: boolean;
