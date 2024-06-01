@@ -39,6 +39,10 @@ type ApplicationShowScreenProp = {
   route: {params: {advert: Advert}};
 };
 
+type ApplyForFlatScreenProp = {
+  navigation: SearchScreenNavigationProp;
+};
+
 export type {
   FavoriteScreenNavigationProp,
   ApplicationIndexScreenProp,
@@ -47,4 +51,5 @@ export type {
   SearchScreenNavigationProp,
   FlatShowScreenProp,
   SearchStackParamsList,
+  ApplyForFlatScreenProp,
 };
