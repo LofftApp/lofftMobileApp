@@ -18,6 +18,9 @@ import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
+// Helper
+import {size} from 'react-native-responsive-sizes';
+
 const StartJourney = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -68,26 +71,26 @@ const StartJourney = () => {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: size(12),
+    borderWidth: size(2),
     borderColor: Color.Black[100],
-    marginBottom: 16,
+    marginBottom: size(16),
     flexDirection: 'row',
     alignItems: 'center',
   },
   buttonActive: {
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: size(12),
+    borderWidth: size(2),
     borderColor: Color.Lavendar[100],
-    marginBottom: 16,
+    marginBottom: size(16),
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Color.Lavendar[10],
   },
   icon: {
-    width: 40,
-    height: 40,
-    marginRight: 8,
+    width: size(40),
+    height: size(40),
+    marginRight: size(8),
   },
 });
 
