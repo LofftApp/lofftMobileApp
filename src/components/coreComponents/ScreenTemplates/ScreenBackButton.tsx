@@ -10,6 +10,9 @@ import {
 // Components 🪢
 import BackButton from 'components/buttons/BackButton';
 
+// Helper
+import { size } from 'react-native-responsive-sizes';
+
 // StyleSheets
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
@@ -39,7 +42,7 @@ const ScreenBackButton = ({
 const styles = StyleSheet.create({
   safeViewContainer: {
     flex: 1,
-    marginBottom: 25,
+    marginBottom: size(25),
   },
 });
 
