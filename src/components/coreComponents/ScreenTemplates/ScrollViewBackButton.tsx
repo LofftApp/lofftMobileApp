@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {Platform, SafeAreaView, ScrollView} from 'react-native';
 
 // Components 🪢
 import BackButton from 'components/buttons/BackButton';
@@ -22,7 +22,5 @@ const ScrollViewBackButton = ({nav = null, title = null, children}: any) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default ScrollViewBackButton;

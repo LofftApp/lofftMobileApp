@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
 import {useDispatch} from 'react-redux';
@@ -10,7 +11,6 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import IconButton from 'components/buttons/IconButton';
 
 // Redux 🧠
 import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
@@ -18,8 +18,9 @@ import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const StartJourney = ({navigation}: any) => {
+const StartJourney = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const renterText = {
     headerText: 'What language(s) do you speak?',
@@ -30,7 +31,7 @@ const StartJourney = ({navigation}: any) => {
   };
 
   return (
-    <ScreenBackButton nav={() => dispatch(signOut())} title={undefined}>
+    <ScreenBackButton nav={() => dispatch(signOut())}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
         subDescription={
