@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
@@ -19,18 +20,18 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
+import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
-const FlatInfoContainer = ({
-  advert,
-  button,
-  navigation,
-}: FlatInfoContainerProps) => {
-  const dispatch = useAppDispatch();
-
+const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
   };
+  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const dispatch = useAppDispatch();
+
+  const {flat} = advert;
+  const {characteristics: flatCharacteristics} = flat;
 
   return (
     <View style={styles.centralizerContainer}>
@@ -105,7 +106,7 @@ const FlatInfoContainer = ({
               Flat Characteristics
             </Text>
             <View style={styles.chipsContainer}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
+              <Chips tags={flatCharacteristics ?? []} features={true} emoji />
             </View>
           </>
         ) : (
@@ -114,7 +115,7 @@ const FlatInfoContainer = ({
               Match with you
             </Text>
             <View style={styles.matchWithYouContainer}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
+              <Chips tags={flatCharacteristics ?? []} features={true} emoji />
             </View>
 
             <Text style={[fontStyles.headerSmall, styles.otherText]}>
@@ -135,7 +136,7 @@ const FlatInfoContainer = ({
               disabled={advert.applied}
               onPress={() => {
                 dispatch(applyForAdvert(advert.id ?? 1));
-                navigation.navigate('applyforflat');
+                navigation.navigate('applyforflat', {advert});
               }}
             />
           </View>

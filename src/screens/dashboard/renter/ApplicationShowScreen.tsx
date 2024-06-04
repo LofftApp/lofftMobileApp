@@ -20,17 +20,13 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {ApplicationShowScreenProp} from './types';
 
-const ApplicationShowScreen = ({
-  navigation,
-  route,
-}: ApplicationShowScreenProp) => {
+const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {advert} = route.params;
   const [hasCollapsed, setHasCollapsed] = useState(true);
 
   return (
     <View style={styles.pageWrapper}>
       <HighlightButtons
-        navigation={navigation}
         heartPresent={!advert.lessor}
         color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
@@ -50,11 +46,7 @@ const ApplicationShowScreen = ({
           </Text>
 
           <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoContainer
-              advert={advert}
-              button={false}
-              navigation={navigation}
-            />
+            <FlatInfoContainer advert={advert} button={false} />
           </Collapsible>
         </View>
       </ScrollView>

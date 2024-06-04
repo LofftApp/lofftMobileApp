@@ -8,10 +8,9 @@ import {useAppSelector} from 'reduxCore/hooks';
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // Types 🏷️
-import type {FlatListSubScreenProps} from './types';
 import type {AdvertState} from 'reduxFeatures/adverts/types';
 
-const FlatListSubScreen = ({navigation}: FlatListSubScreenProps) => {
+const FlatListSubScreen = () => {
   const adverts = useAppSelector(
     (state: {adverts: AdvertState}) => state.adverts.adverts,
   );
@@ -21,16 +20,8 @@ const FlatListSubScreen = ({navigation}: FlatListSubScreenProps) => {
         showsVerticalScrollIndicator={false}
         style={styles.flatCardContainer}>
         <View>
-          {adverts.map((advert, index) => {
-            return (
-              <ListViewFlatCard
-                navigation={navigation}
-                key={index + 1}
-                i={index}
-                advert={advert}
-                id={advert.id}
-              />
-            );
+          {adverts.map(advert => {
+            return <ListViewFlatCard key={advert.id} advert={advert} />;
           })}
         </View>
       </ScrollView>
@@ -43,5 +34,7 @@ const styles = StyleSheet.create({
     marginHorizontal: size(16),
   },
 });
+
+
 
 export default FlatListSubScreen;

@@ -1,12 +1,8 @@
 import {Advert} from 'reduxFeatures/adverts/types';
-import type {
-  FavoriteScreenNavigationProp,
-  SearchScreenNavigationProp,
-} from '../types';
+import type {SearchScreenNavigationProp} from '../../../../../navigationStacks/types';
 
 type FlatListComponentProps = {
   adverts: Advert[];
-  navigation: FavoriteScreenNavigationProp;
   isLessor: boolean;
 };
 

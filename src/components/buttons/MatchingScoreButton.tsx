@@ -5,7 +5,13 @@ import {View, Text, StyleSheet} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-const MatchingScoreButton = ({size, score}: any) => {
+// Helpers 🥷🏻
+import {size as sizeResponsive} from 'react-native-responsive-sizes';
+
+// Types 🏷️
+import type {MatchingScoreButtonProps} from './types';
+
+const MatchingScoreButton = ({size, score}: MatchingScoreButtonProps) => {
   return (
     <View
       style={
@@ -27,8 +33,8 @@ const MatchingScoreButton = ({size, score}: any) => {
 
 const styles = StyleSheet.create({
   flatCardMatchingScoreButtonBig: {
-    height: 38,
-    width: 77,
+    height: sizeResponsive(38),
+    width: sizeResponsive(77),
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -38,8 +44,8 @@ const styles = StyleSheet.create({
   },
   flatCardMatchingScoreButtonSmall: {
     backgroundColor: Color.Mint[10],
-    height: 27,
-    width: 63,
+    height: sizeResponsive(27),
+    width: sizeResponsive(63),
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',

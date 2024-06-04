@@ -29,9 +29,8 @@ import {tagSorter} from 'helpers/tagSorter';
 import {width, height, size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-
-import {Advert} from 'reduxFeatures/adverts/types';
-import {UserState} from 'reduxFeatures/user/types';
+import type {Advert} from 'reduxFeatures/adverts/types';
+import type {UserState} from 'reduxFeatures/user/types';
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
   const user = useAppSelector((state: {user: UserState}) => state.user.user);
@@ -75,7 +74,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
           />
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
-              <MatchingScoreButton size="Small" score={matchScore} />
+              <MatchingScoreButton size="Small" score={matchScore ?? 0} />
               <Pressable
                 onPress={() => {
                   dispatch(toggleFavorite(id ?? 0));

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, Modal, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useSelector} from 'react-redux';
+// import {useSelector} from 'react-redux';
 
 // Components
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -10,14 +10,16 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import {CrossIcon} from '../../assets';
 
 // Helpers 🥷🏻
-import { width, height, size, fontSize } from 'react-native-responsive-sizes';
+import {size} from 'react-native-responsive-sizes';
+
+// Types 🏷️
+import type {CompleteProfilePopUpModalProps} from './types';
 
 const CompleteProfilePopUpModal = ({
   openModal,
-  pullData,
+  setModalState,
   profileNotDoneObject,
-}: any) => {
-
+}: CompleteProfilePopUpModalProps) => {
   return (
     <Modal visible={openModal} animationType="fade" transparent={true}>
       <View style={styles.modalContainer}>
@@ -29,7 +31,7 @@ const CompleteProfilePopUpModal = ({
             <Pressable
               style={styles.pressableStyle}
               onPress={() => {
-                pullData(false);
+                setModalState(false);
               }}>
               <CrossIcon />
             </Pressable>
@@ -53,7 +55,7 @@ const CompleteProfilePopUpModal = ({
             disabled={false}
             invert={true}
             onPress={() => {
-              pullData(false);
+              setModalState(false);
             }}
           />
         </View>

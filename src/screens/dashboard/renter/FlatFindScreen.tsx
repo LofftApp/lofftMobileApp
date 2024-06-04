@@ -22,9 +22,8 @@ import SearchFilterModal from 'components/modals/SearchFilterModal';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
-import type {FlatFindScreenProp} from './types';
 
-const FlatFindScreen = ({navigation}: FlatFindScreenProp) => {
+const FlatFindScreen = () => {
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
@@ -63,11 +62,7 @@ const FlatFindScreen = ({navigation}: FlatFindScreenProp) => {
         setActiveScreen={setActiveScreen}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? (
-          <FlatListSubScreen navigation={navigation} />
-        ) : (
-          <AdvertMap />
-        )}
+        {screen === 'list' ? <FlatListSubScreen /> : <AdvertMap />}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </View>
