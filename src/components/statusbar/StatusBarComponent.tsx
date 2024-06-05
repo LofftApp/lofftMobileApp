@@ -85,7 +85,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
             <View style={[styles.landlordActionButton, styles.button]}>
               <Pressable
                 onPress={() =>
-                  navigation.navigate(key.buttonText.split(' ').join(''), {
+                  navigation.navigate(key.route, {
                     advert,
                   })
                 }>
