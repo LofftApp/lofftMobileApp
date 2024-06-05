@@ -1,10 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import type {AppDispatch} from 'reduxCore/store';
 
 // Redux 🧠
-import { useAppDispatch } from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Screens 📺
@@ -21,10 +20,11 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helper
 import {size} from 'react-native-responsive-sizes';
+import {NewUserNavigatorProp} from '../../../navigationStacks/types';
 
 const StartJourney = () => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NewUserNavigatorProp>();
 
   const renterText = {
     headerText: 'What language(s) do you speak?',
@@ -48,7 +48,7 @@ const StartJourney = () => {
         style={styles.button}
         onPress={() => {
           navigation.navigate('LanguageSelectionScreen', [
-            renterText,
+            renterText.headerText,
             'renter',
           ]);
         }}
@@ -60,7 +60,7 @@ const StartJourney = () => {
         style={styles.button}
         onPress={() => {
           navigation.navigate('LanguageSelectionScreen', [
-            lessorText,
+            lessorText.headerText,
             'lessor',
           ]);
         }}
