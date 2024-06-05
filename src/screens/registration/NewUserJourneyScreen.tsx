@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import type {AppDispatch} from 'reduxCore/store';
 
 // Redux 🧠
-import {useDispatch} from 'react-redux';
+import { useAppDispatch } from 'reduxCore/hooks';
 import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Screens 📺
@@ -22,7 +23,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 
 const StartJourney = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
   const renterText = {
