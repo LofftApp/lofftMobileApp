@@ -11,7 +11,7 @@
       "header": "ShortList",
       "subText": "Here you have full access to selected applicants’ profile. You have 48 hours to select up to 20 applicants to chat with, schedule an interview, and/or flat viewing.",
       "buttonText": "See profiles",
-      "route": "profiles",
+      "route": "shortlist",
       "icon": "eye"
     },
     {
@@ -33,26 +33,36 @@
     {
       "header": "Applied",
       "subText": "The landlord has up to 48 hrs after the ad has expired to review your application",
-      "icon": "file- check"
+      "buttonText": "",
+      "route": "",
+      "icon": "file-check"
     },
     {
       "header": "Opened",
       "subText": "Landlord has opened your application. You’ll know the first-round decision in 48 hrs",
+      "buttonText": "",
+      "route": "",
       "icon": "eye"
     },
     {
       "header": "In Review",
       "subText": "You’ll be notified if you’ve made it to the shortlist in 48 hrs ",
+      "buttonText": "",
+      "route": "",
       "icon": "user-check"
     },
     {
       "header": "Schedule flat viewing",
       "subText": "You can now message the landlord and organise a flat viewing",
+      "buttonText": "",
+      "route": "",
       "icon": "calendar"
     },
     {
       "header": "Offer!",
       "subText": "Congratulations, you made it!",
+      "buttonText": "See applicants",
+      "route": "",
       "icon": "rocket"
     }
   ]
