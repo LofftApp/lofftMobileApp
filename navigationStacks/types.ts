@@ -11,6 +11,10 @@ type RootTabParamsList = {
   admin: undefined;
 };
 
+type newUserNavigatorParamsList = {
+  LanguageSelectionScreen: [string, string];
+};
+
 type FavoriteStackParamsList = {
   favorite: undefined;
   applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
@@ -34,10 +38,16 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<SearchStackParamsList>
 >;
 
+type NewUserNavigatorProp = StackNavigationProp<
+  newUserNavigatorParamsList,
+  'LanguageSelectionScreen'
+>;
+
 export type {
   RootTabParamsList,
   FavoriteStackParamsList,
   SearchStackParamsList,
   FavoriteScreenNavigationProp,
   SearchScreenNavigationProp,
+  NewUserNavigatorProp,
 };

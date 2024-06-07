@@ -70,7 +70,7 @@ const SeeProfilesScreen = ({route}: any) => {
               navigation={navigation}
               currentAdvert={currentAdvert}
               characteristics={currentAdvert.flat.characteristics}
-              sayHi={sayHi}
+              // sayHi={sayHi}
             />
           ))}
         </ScrollView>

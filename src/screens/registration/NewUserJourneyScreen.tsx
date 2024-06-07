@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
-import {useDispatch} from 'react-redux';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Screens 📺
@@ -10,7 +11,6 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import IconButton from 'components/buttons/IconButton';
 
 // Redux 🧠
 import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
@@ -18,8 +18,13 @@ import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const StartJourney = ({navigation}: any) => {
-  const dispatch = useDispatch();
+// Helper
+import {size} from 'react-native-responsive-sizes';
+import {NewUserNavigatorProp} from '../../../navigationStacks/types';
+
+const StartJourney = () => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<NewUserNavigatorProp>();
 
   const renterText = {
     headerText: 'What language(s) do you speak?',
@@ -30,7 +35,7 @@ const StartJourney = ({navigation}: any) => {
   };
 
   return (
-    <ScreenBackButton nav={() => dispatch(signOut())} title={undefined}>
+    <ScreenBackButton nav={() => dispatch(signOut())}>
       <HeadlineContainer
         headlineText={'What brings you here?'}
         subDescription={
@@ -43,7 +48,7 @@ const StartJourney = ({navigation}: any) => {
         style={styles.button}
         onPress={() => {
           navigation.navigate('LanguageSelectionScreen', [
-            renterText,
+            renterText.headerText,
             'renter',
           ]);
         }}
@@ -55,7 +60,7 @@ const StartJourney = ({navigation}: any) => {
         style={styles.button}
         onPress={() => {
           navigation.navigate('LanguageSelectionScreen', [
-            lessorText,
+            lessorText.headerText,
             'lessor',
           ]);
         }}
@@ -67,26 +72,26 @@ const StartJourney = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: size(12),
+    borderWidth: size(2),
     borderColor: Color.Black[100],
-    marginBottom: 16,
+    marginBottom: size(16),
     flexDirection: 'row',
     alignItems: 'center',
   },
   buttonActive: {
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: size(12),
+    borderWidth: size(2),
     borderColor: Color.Lavendar[100],
-    marginBottom: 16,
+    marginBottom: size(16),
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Color.Lavendar[10],
   },
   icon: {
-    width: 40,
-    height: 40,
-    marginRight: 8,
+    width: size(40),
+    height: size(40),
+    marginRight: size(8),
   },
 });
 
