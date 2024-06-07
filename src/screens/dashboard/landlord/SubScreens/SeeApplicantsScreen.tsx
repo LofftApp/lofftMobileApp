@@ -97,8 +97,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
               maxSelect={maxSelect}
               selectProfile={selectProfile}
               currentSelectedNums={finalRound.length}
-              name={el.email}
-              id={el.id}
+              applicant={el}
             />
           ))}
         </ScrollView>

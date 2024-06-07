@@ -1,5 +1,6 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
+import type {AdvertApplicantWithSelected} from 'screens/dashboard/landlord/SubScreens/types';
 
 type ListFlatApplicationCardProps = {
   advert: Advert;
@@ -18,8 +19,16 @@ type onViewableItemsChangedParams = {
   changed?: Array<ViewToken>;
 };
 
+type ApplicantCardProps = {
+  currentSelectedNums: number;
+  maxSelect: number;
+  selectProfile: (id: number | null) => void;
+  applicant: AdvertApplicantWithSelected;
+};
+
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
   onViewableItemsChangedParams,
+  ApplicantCardProps,
 };

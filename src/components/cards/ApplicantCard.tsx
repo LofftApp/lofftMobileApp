@@ -15,14 +15,17 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 
+// Types
+import type {ApplicantCardProps} from './types';
+
 const ApplicantCard = ({
-  finalRound,
-  id,
   currentSelectedNums,
   maxSelect,
-  name,
   selectProfile,
-}) => {
+  applicant,
+}: ApplicantCardProps) => {
+  const {id, email: name} = applicant;
+
   const [activateBox, setActiveBox] = useState(false);
   const [accordion, setAccordion] = useState(false);
 
@@ -49,8 +52,8 @@ const ApplicantCard = ({
       <View style={[styles.innerContainer]}>
         <CheckBox value={activateBox} onPress={() => checkClick()} />
         <View style={styles.details}>
-          <Text style={[fontStyles.bodyMedium, {marginRight: 20}]}>
-            {name.split('')[0].toUpperCase()}.
+          <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
+            {name?.split('')[0].toUpperCase()}.
           </Text>
           <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
             (96 % Match)
@@ -93,7 +96,9 @@ const ApplicantCard = ({
             features={true}
           />
 
-          <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>Other</Text>
+          <Text style={[fontStyles.headerSmall, styles.otherMargin]}>
+            Other
+          </Text>
           <Chips
             tags={[
               {
@@ -143,6 +148,15 @@ const styles = StyleSheet.create({
     color: Color.Mint[100],
   },
   accordionExpand: {
+    marginTop: 20,
+  },
+  iconContainer: {
+    padding: 10,
+  },
+  nameMargin: {
+    marginRight: 20,
+  },
+  otherMargin: {
     marginTop: 20,
   },
 });
