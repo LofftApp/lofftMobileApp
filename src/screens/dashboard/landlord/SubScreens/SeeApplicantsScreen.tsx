@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,47 +9,54 @@ import {
   Modal,
   Alert,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
+// Redux
 import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {useNavigation} from '@react-navigation/native';
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
 
+// Components
 import ApplicantCard from 'components/cards/ApplicantCard';
 import BackButton from 'components/buttons/BackButton';
 import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const SeeApplicantsScreen = ({route}: any) => {
+// Types
+import type {
+  AdvertApplicantWithSelected,
+  SeeApplicantsScreenProp,
+} from './types';
+import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+
+const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advert} = route.params;
-  const [applicants, setApplicants] = useState(advert.applicants);
-  const navigation = useNavigation();
+
+  const applicantsWithSelected = advert.applicants?.map(applicant => {
+    return {...applicant, selected: false};
+  });
+
+  const [applicants, setApplicants] = useState<
+    AdvertApplicantWithSelected[] | undefined
+  >(applicantsWithSelected);
+
   const [maxSelect, setMaxSelected] = useState(5);
-  const [finalRound, setFinalRound] = useState([]);
+  const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
+    [],
+  );
   const [modalVisible, setModalVisible] = useState(false);
+
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const dispatch = useAppDispatch();
 
-  const generealState = useAppSelector(state => state);
-
-  const mutateApplicants = () => {
-    setApplicants(
-      applicants.map((applicant: any) => {
-        return {...applicant, selected: false};
-      }),
-    );
-  };
-
-  useEffect(() => {
-    mutateApplicants();
-  }, []);
-
-  const selectProfile = id => {
+  const selectProfile = (id: number) => {
     // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
-    const updatedProfiles = applicants.map(el => {
+    const updatedProfiles = applicants?.map(el => {
       if (el.id === id) {
         return {
           ...el,
@@ -62,9 +69,8 @@ const SeeApplicantsScreen = ({route}: any) => {
 
     setApplicants(updatedProfiles);
 
-    const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
-
-    setFinalRound(selectedProfilesOnly);
+    const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
+    setFinalRound(selectedProfilesOnly ?? []);
   };
 
   return (
@@ -72,7 +78,10 @@ const SeeApplicantsScreen = ({route}: any) => {
       <View style={styles.header}>
         <Pressable
           style={styles.iconContainer}
-          onPress={() => navigation.goBack()}>
+          onPress={() => {
+            console.log('go back');
+            navigation.goBack();
+          }}>
           <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
         </Pressable>
         <View style={styles.headerText}>
@@ -82,7 +91,7 @@ const SeeApplicantsScreen = ({route}: any) => {
 
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {applicants.map((el, index) => (
+          {applicants?.map((el, index) => (
             <ApplicantCard
               key={index + 1}
               maxSelect={maxSelect}
@@ -97,7 +106,7 @@ const SeeApplicantsScreen = ({route}: any) => {
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
         value={`Selected ${finalRound.length}/${maxSelect}`}
-        style={{width: '90%', position: 'absolute', bottom: 10}}
+        style={styles.coreButton}
         onPress={() => {
           setModalVisible(!modalVisible);
         }}
@@ -113,7 +122,7 @@ const SeeApplicantsScreen = ({route}: any) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={[fontStyles.bodyMedium, {textAlign: 'center'}]}>
+            <Text style={[fontStyles.bodyMedium, styles.textAlign]}>
               🖐 {'\n'}
               Are you sure about your selection? There is no way back later on!!
             </Text>
@@ -125,9 +134,9 @@ const SeeApplicantsScreen = ({route}: any) => {
               </Pressable>
 
               <Pressable
-                style={[styles.button, styles.buttonClose, {marginLeft: 30}]}
+                style={[styles.button, styles.buttonClose, styles.marginButton]}
                 onPress={() => {
-                  dispatch(changeAdvertStatus(advert.id));
+                  dispatch(changeAdvertStatus(advert.id ?? 1));
                   setModalVisible(!modalVisible);
                   navigation.navigate('shortlist', {
                     secondRoundApplicants: finalRound,
@@ -183,6 +192,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Black[10],
     opacity: 0.8,
   },
+  coreButton: {width: '90%', position: 'absolute', bottom: 10},
   modalView: {
     margin: 20,
     backgroundColor: 'white',
@@ -219,9 +229,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  iconContainer: {
+    paddingLeft: 28,
+    zIndex: 100,
+  },
+  textAlign: {
+    textAlign: 'center',
+  },
+  marginButton: {
+    marginLeft: 20,
   },
 });
 

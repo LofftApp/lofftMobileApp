@@ -79,7 +79,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
-            {key.subText}
+            {/* {key.subText} */}
           </Text>
 
           {currentApplicationStatus === index && (
