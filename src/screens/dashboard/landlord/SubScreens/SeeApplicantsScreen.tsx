@@ -129,7 +129,7 @@ const SeeApplicantsScreen = ({route}: any) => {
                 onPress={() => {
                   dispatch(changeAdvertStatus(advert.id));
                   setModalVisible(!modalVisible);
-                  navigation.navigate('Seeprofiles', {
+                  navigation.navigate('shortlist', {
                     secondRoundApplicants: finalRound,
                     currentAdvert: advert,
                   });

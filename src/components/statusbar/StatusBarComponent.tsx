@@ -24,13 +24,14 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 
 // Types
 import type {Advert} from 'reduxFeatures/adverts/types';
+import {StatusBarNavigationProp} from './types';
 
 const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const {status} = advert;
 
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<StatusBarNavigationProp>();
 
   const currentApplicationStatus = advertStatusIndex(status ?? '');
 
@@ -85,6 +86,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
             <View style={[styles.landlordActionButton, styles.button]}>
               <Pressable
                 onPress={() =>
+                  // This typescript error will be fixed when key.route in statusBarText.json matches the names in LessorNavigator.tsx and FlatSearchNavigator.tsx
                   navigation.navigate(key.route, {
                     advert,
                   })

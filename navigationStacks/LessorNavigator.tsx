@@ -9,8 +9,9 @@ import SeeApplicantsScreen from 'screens/dashboard/landlord/SubScreens/SeeApplic
 import ShortListApplicantsScreen from 'screens/dashboard/landlord/ShortListApplicantsScreen';
 import SeeProfilesScreen from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
+import {LessorStackParamsList} from './types';
 
-const Lessor = createNativeStackNavigator();
+const Lessor = createNativeStackNavigator<LessorStackParamsList>();
 const LessorNavigator = () => {
   return (
     <Lessor.Navigator screenOptions={{headerShown: false}}>
