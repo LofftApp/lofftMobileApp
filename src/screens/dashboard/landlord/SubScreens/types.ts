@@ -4,8 +4,17 @@ interface AdvertApplicantWithSelected extends AdvertApplicant {
   selected: boolean;
 }
 
+interface SecondRoundApplicantsWithSelected
+  extends AdvertApplicantWithSelected {
+  secondRoundSelected: boolean;
+}
+
 type SeeApplicantsScreenProp = {
   route: {params: {advert: Advert}};
 };
 
-export type {AdvertApplicantWithSelected, SeeApplicantsScreenProp};
+export type {
+  AdvertApplicantWithSelected,
+  SeeApplicantsScreenProp,
+  SecondRoundApplicantsWithSelected,
+};

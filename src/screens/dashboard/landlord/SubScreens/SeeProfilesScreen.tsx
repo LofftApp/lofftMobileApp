@@ -10,36 +10,38 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import UserBlobCard from 'components/cards/UserBlobCard';
 
 import {useNavigation} from '@react-navigation/native';
+import {SecondRoundApplicantsWithSelected} from './types';
 
 const SeeProfilesScreen = ({route}: any) => {
+  console.log('route.params', route.params);
+  const secondRoundApplicantsWithSelected =
+    route.params.secondRoundApplicants.map(
+      (applicant: SecondRoundApplicantsWithSelected) => {
+        return {...applicant, secondRoundSelected: false};
+      },
+    );
+  console.log(
+    'secondRoundApplicantsWithSelected',
+    secondRoundApplicantsWithSelected,
+  );
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [maxSelect, setMaxSelect] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
-  const [secondRoundProfiles, setSecondRoundProfiles] = useState([]);
+  const [secondRoundProfiles, setSecondRoundProfiles] = useState<
+    SecondRoundApplicantsWithSelected[]
+  >(secondRoundApplicantsWithSelected);
   const navigation = useNavigation();
 
-  const {currentAdvert, selectedProfile} = route.params || null;
+  const {currentAdvert, selectedProfile} = route.params;
+  console.log('selectedProfile', secondRoundApplicantsWithSelected);
 
-  const mutateApplicants = () => {
-    setSecondRoundProfiles(
-      route.params.secondRoundApplicants.map(applicant => {
-        return {...applicant, secondRoundselected: false};
-      }),
-    );
-  };
-
-  useEffect(() => {
-    mutateApplicants();
-    setUserSelectedByProfile(selectedProfile);
-  }, []);
-
-  const selectProfiles = id => {
+  const selectProfiles = (id: number) => {
     const updatedProfiles = secondRoundProfiles.map(el => {
       if (el.id === id) {
         return {
           ...el,
-          secondRoundselected: !el.secondRoundselected,
+          secondRoundSelected: !el.secondRoundSelected,
         };
       } else {
         return el;
@@ -49,11 +51,12 @@ const SeeProfilesScreen = ({route}: any) => {
     setSecondRoundProfiles(updatedProfiles);
 
     const selectedProfilesOnly = updatedProfiles.filter(
-      el => el.secondRoundselected,
+      el => el.secondRoundSelected,
     );
 
     setFinalRound(selectedProfilesOnly);
   };
+  console.log("secondRoundProfiles", secondRoundProfiles)
 
   return (
     <View style={styles.pageWrapper}>
@@ -62,15 +65,13 @@ const SeeProfilesScreen = ({route}: any) => {
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
           {secondRoundProfiles.map((el, index) => (
             <UserBlobCard
-              id={el.id}
-              name={el.email}
-              secondRoundselected={el.secondRoundselected}
+              secondRoundProfile={el}
               key={index + 1}
               selectProfiles={selectProfiles}
               navigation={navigation}
               currentAdvert={currentAdvert}
               characteristics={currentAdvert.flat.characteristics}
-              sayHi={sayHi}
+              sayHi={'sayHi'}
             />
           ))}
         </ScrollView>
@@ -112,6 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+  },
+  safeareaview: {
+    marginTop: 0,
   },
 });
 

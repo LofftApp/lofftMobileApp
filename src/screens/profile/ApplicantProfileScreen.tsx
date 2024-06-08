@@ -29,7 +29,7 @@ const ApplicantProfileScreen = ({route}: any) => {
     currentAdvert,
     selectProfilesFunc,
   } = route.params;
-
+  console.log('selectedProfile.selected', selectedProfile);
   const [profileDetails, setProfileDetails] = useState({});
   const [profileChars, setProfileCharts] = useState([]);
   const [clicked, setClicked] = useState(selectedProfile.selected);

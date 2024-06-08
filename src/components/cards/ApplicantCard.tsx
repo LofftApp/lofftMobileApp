@@ -24,9 +24,9 @@ const ApplicantCard = ({
   selectProfile,
   applicant,
 }: ApplicantCardProps) => {
-  const {id, email: name} = applicant;
+  const {id, email: name, selected} = applicant;
 
-  const [activateBox, setActiveBox] = useState(false);
+  const [activateBox, setActiveBox] = useState(selected);
   const [accordion, setAccordion] = useState(false);
 
   const checkClick = () => {
@@ -70,7 +70,7 @@ const ApplicantCard = ({
         </Pressable>
       </View>
 
-      {accordion ? (
+      {accordion && (
         <View style={styles.accordionExpand}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
           <Chips
@@ -122,7 +122,7 @@ const ApplicantCard = ({
             features={true}
           />
         </View>
-      ) : null}
+      )}
     </View>
   );
 };

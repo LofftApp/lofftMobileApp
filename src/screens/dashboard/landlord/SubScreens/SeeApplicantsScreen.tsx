@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -44,6 +44,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const [applicants, setApplicants] = useState<
     AdvertApplicantWithSelected[] | undefined
   >(applicantsWithSelected);
+  console.log('applicantsWithSelected', applicantsWithSelected);
 
   const [maxSelect, setMaxSelected] = useState(5);
   const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
@@ -54,7 +55,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const dispatch = useAppDispatch();
 
-  const selectProfile = (id: number) => {
+  const selectProfile = (id: number | null) => {
     // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
     const updatedProfiles = applicants?.map(el => {
       if (el.id === id) {
@@ -70,9 +71,11 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     setApplicants(updatedProfiles);
 
     const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
+    console.log('selectedProfilesOnly', selectedProfilesOnly);
     setFinalRound(selectedProfilesOnly ?? []);
   };
-
+  console.log('finalRound', finalRound);
+  console.log('applicant', applicants);
   return (
     <View style={styles.pageWrapper}>
       <View style={styles.header}>

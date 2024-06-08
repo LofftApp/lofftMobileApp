@@ -13,15 +13,16 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const UserBlobCard = ({
-  id,
+  secondRoundProfile,
   selectProfiles,
-  name,
-  secondRoundselected,
   navigation,
   characteristics,
   currentAdvert,
 }: any) => {
-  const [activateBox, setActivateBox] = useState(secondRoundselected);
+  const {id, email: name, secondRoundSelected} = secondRoundProfile;
+  const [activateBox, setActivateBox] = useState(secondRoundSelected);
+  console.log('secondRoundProfile', secondRoundProfile);
+  console.log('secondRoundSelected', secondRoundSelected);
 
   const clickBox = () => {
     setActivateBox(!activateBox);
@@ -36,7 +37,7 @@ const UserBlobCard = ({
     <View style={styles.blobContainer}>
       <CheckBox
         style={{marginLeft: 10}}
-        value={secondRoundselected}
+        value={activateBox}
         onPress={() => clickBox()}
       />
       <Image
@@ -63,7 +64,7 @@ const UserBlobCard = ({
             characteristics: characteristics,
             selectedProfile: {
               userId: id,
-              selected: secondRoundselected,
+              selected: secondRoundSelected,
             },
             currentAdvert: currentAdvert,
             selectProfilesFunc: selectProfiles,
