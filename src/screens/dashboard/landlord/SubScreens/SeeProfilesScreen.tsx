@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -9,11 +10,15 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import UserBlobCard from 'components/cards/UserBlobCard';
 
-import {useNavigation} from '@react-navigation/native';
-import {SecondRoundApplicantsWithSelected} from './types';
+// Types
+import type {
+  SecondRoundApplicantsWithSelected,
+  SeeProfilesScreenProp,
+} from './types';
 
-const SeeProfilesScreen = ({route}: any) => {
+const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   console.log('route.params', route.params);
+
   const secondRoundApplicantsWithSelected =
     route.params.secondRoundApplicants.map(
       (applicant: SecondRoundApplicantsWithSelected) => {
@@ -24,19 +29,18 @@ const SeeProfilesScreen = ({route}: any) => {
     'secondRoundApplicantsWithSelected',
     secondRoundApplicantsWithSelected,
   );
+  const {currentAdvert} = route.params;
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [maxSelect, setMaxSelect] = useState(5);
-  const [finalRound, setFinalRound] = useState([]);
+  const [finalRound, setFinalRound] = useState<
+    SecondRoundApplicantsWithSelected[]
+  >([]);
   const [secondRoundProfiles, setSecondRoundProfiles] = useState<
     SecondRoundApplicantsWithSelected[]
   >(secondRoundApplicantsWithSelected);
-  const navigation = useNavigation();
 
-  const {currentAdvert, selectedProfile} = route.params;
-  console.log('selectedProfile', secondRoundApplicantsWithSelected);
-
-  const selectProfiles = (id: number) => {
+  const selectProfiles = (id: number | null) => {
     const updatedProfiles = secondRoundProfiles.map(el => {
       if (el.id === id) {
         return {
@@ -56,22 +60,20 @@ const SeeProfilesScreen = ({route}: any) => {
 
     setFinalRound(selectedProfilesOnly);
   };
-  console.log("secondRoundProfiles", secondRoundProfiles)
+  console.log('secondRoundProfiles', secondRoundProfiles);
 
   return (
     <View style={styles.pageWrapper}>
       <Text style={[styles.header, fontStyles.headerSmall]}>Applicants</Text>
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {secondRoundProfiles.map((el, index) => (
+          {secondRoundProfiles.map(el => (
             <UserBlobCard
+              key={el.id}
               secondRoundProfile={el}
-              key={index + 1}
               selectProfiles={selectProfiles}
-              navigation={navigation}
               currentAdvert={currentAdvert}
-              characteristics={currentAdvert.flat.characteristics}
-              sayHi={'sayHi'}
+              // sayHi={'sayHi'}
             />
           ))}
         </ScrollView>
@@ -80,7 +82,7 @@ const SeeProfilesScreen = ({route}: any) => {
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
         value={`Selected ${finalRound.length}/${maxSelect}`}
-        style={{width: '90%', position: 'absolute', bottom: 10}}
+        style={styles.selectedButton}
         onPress={() => {
           setModalVisible(!modalVisible);
         }}
@@ -117,6 +119,7 @@ const styles = StyleSheet.create({
   safeareaview: {
     marginTop: 0,
   },
+  selectedButton: {width: '90%', position: 'absolute', bottom: 10},
 });
 
 export default SeeProfilesScreen;

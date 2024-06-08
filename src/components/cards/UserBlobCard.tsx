@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import {View, Text, StyleSheet, Image} from 'react-native';
 
@@ -11,18 +12,21 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import type {UserBlobCardProps} from './types';
 
 const UserBlobCard = ({
   secondRoundProfile,
-  selectProfiles,
-  navigation,
-  characteristics,
   currentAdvert,
-}: any) => {
+  selectProfiles,
+}: UserBlobCardProps) => {
   const {id, email: name, secondRoundSelected} = secondRoundProfile;
+  const {characteristics} = currentAdvert.flat;
   const [activateBox, setActivateBox] = useState(secondRoundSelected);
   console.log('secondRoundProfile', secondRoundProfile);
   console.log('secondRoundSelected', secondRoundSelected);
+  console.log('currentAdvert', characteristics);
+  console.log('selectProfiles', selectProfiles);
+  const navigation = useNavigation();
 
   const clickBox = () => {
     setActivateBox(!activateBox);
