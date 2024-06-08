@@ -6,6 +6,7 @@ import type {
   AdvertApplicant,
   AdvertUser,
 } from 'reduxFeatures/adverts/types';
+import {SecondRoundApplicantsWithSelected} from 'screens/dashboard/landlord/SubScreens/types';
 
 // Renter Navigator Stack
 
@@ -54,7 +55,10 @@ type LessorNavigatorStackParamsList = {
   LessorAction: undefined;
   applicationshow: {advert: Advert};
   allApplicants: {advert: Advert};
-  shortlist: {secondRoundApplicants: AdvertUser[]; currentAdvert: Advert};
+  shortlist: {
+    secondRoundApplicants: SecondRoundApplicantsWithSelected[];
+    currentAdvert: Advert;
+  };
   ApplicantProfile: {
     applicant: AdvertApplicant;
     selectedProfile: {
