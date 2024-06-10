@@ -15,7 +15,7 @@ import type {
   SecondRoundApplicantsWithSelected,
   SeeProfilesScreenProp,
 } from './types';
-import { MAX_SELECTED } from './SeeApplicantsScreen';
+import {MAX_SELECT} from './SeeApplicantsScreen';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   console.log('route.params', route.params);

@@ -33,7 +33,10 @@ const UserBlobCard = ({
     selectProfiles(id);
   };
 
-  const capitalize = (word: any) => {
+  const capitalize = (word: string | null) => {
+    if (!word) {
+      return '';
+    }
     return word.charAt(0).toUpperCase() + word.substring(1);
   };
 
@@ -52,7 +55,7 @@ const UserBlobCard = ({
       />
       <View>
         <Text style={fontStyles.headerMedium}>
-          {capitalize(name.split('@')[0])}
+          {name ? capitalize(name.split('@')[0]) : 'No name'}
         </Text>
         <Text style={fontStyles.bodyMedium}>🌟 98% Match</Text>
       </View>
