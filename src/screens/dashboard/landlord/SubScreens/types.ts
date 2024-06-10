@@ -15,7 +15,9 @@ type SeeApplicantsScreenProp = {
 type SeeProfilesScreenProp = {
   route: {
     params: {
-      secondRoundApplicants: SecondRoundApplicantWithSelected[];
+      secondRoundApplicants:
+        | AdvertApplicantWithSelected[]
+        | SecondRoundApplicantWithSelected[];
       currentAdvert: Advert;
     };
   };

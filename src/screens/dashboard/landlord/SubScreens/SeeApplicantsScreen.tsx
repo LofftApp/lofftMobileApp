@@ -32,7 +32,7 @@ import type {
   AdvertApplicantWithSelected,
   SeeApplicantsScreenProp,
 } from './types';
-import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 
 export const MAX_SELECT = 5;
 

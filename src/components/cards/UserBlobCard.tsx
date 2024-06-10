@@ -12,8 +12,13 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+
+// Helpers
+import {capitalize} from 'helpers/capitalize';
+
+// Types
 import type {UserBlobCardProps} from './types';
-import {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
+import type {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
 
 const UserBlobCard = ({
   secondRoundProfile,
@@ -27,13 +32,6 @@ const UserBlobCard = ({
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
   const applicantName = email?.split('@')[0];
-
-  const capitalize = (word: string | undefined) => {
-    if (!word) {
-      return '';
-    }
-    return word.charAt(0).toUpperCase() + word.substring(1);
-  };
 
   const handleClickCheckbox = () => {
     setClickCheckbox(!clickCheckbox);

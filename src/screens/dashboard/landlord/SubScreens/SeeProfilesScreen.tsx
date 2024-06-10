@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -10,29 +9,28 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import UserBlobCard from 'components/cards/UserBlobCard';
 
-// Types
-import type {
-  SecondRoundApplicantsWithSelected,
-  SeeProfilesScreenProp,
-} from './types';
+// Constants
 import {MAX_SELECT} from './SeeApplicantsScreen';
 
-const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
+// Types
+import type {
+  SecondRoundApplicantWithSelected,
+  SeeProfilesScreenProp,
+} from './types';
 
+const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const secondRoundApplicantsWithSelected =
-    route.params.secondRoundApplicants.map(
-      (applicant: SecondRoundApplicantsWithSelected) => {
-        return {...applicant, secondRoundSelected: false};
-      },
-    );
+    route.params.secondRoundApplicants.map(applicant => {
+      return {...applicant, secondRoundSelected: false};
+    });
   const {currentAdvert} = route.params;
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [finalRound, setFinalRound] = useState<
-    SecondRoundApplicantsWithSelected[]
+    SecondRoundApplicantWithSelected[]
   >([]);
   const [secondRoundProfiles, setSecondRoundProfiles] = useState<
-    SecondRoundApplicantsWithSelected[]
+    SecondRoundApplicantWithSelected[]
   >(secondRoundApplicantsWithSelected);
 
   const selectProfiles = (id: number | null) => {

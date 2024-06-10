@@ -1,7 +1,6 @@
 /* React Stuff */
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 /* Redux Api Calls etc */
 import {getSpecificUserProfile} from 'reduxFeatures/user/usersMiddleware';
@@ -15,13 +14,23 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 /* Helpers */
 import {matchMaker} from 'helpers/matchMaker';
+import {capitalize} from 'helpers/capitalize';
 
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const ApplicantProfileScreen = ({route}: any) => {
-  const navigation = useNavigation();
+// Types
+import type {ApplicantProfileScreenProps} from './types';
+
+const images = [
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
+];
+
+const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {
     applicantName,
     handleClickCheckbox,
@@ -31,32 +40,23 @@ const ApplicantProfileScreen = ({route}: any) => {
 
   const {characteristics: flatChars} = currentAdvert.flat;
   const {secondRoundSelected, id: applicantId} = secondRoundProfile;
-  const [profileDetails, setProfileDetails] = useState({});
-  const [profileChars, setProfileCharts] = useState([]);
-  const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
 
-  const images = [
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
-  ];
+  const [profileDetails, setProfileDetails] = useState({});
+  const [profileChars, setProfileChars] = useState([]);
+  const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
 
   const matches = matchMaker(flatChars, profileChars)[0];
   const noMatches = matchMaker(flatChars, profileChars)[1];
 
+  // Not working 👇
   useEffect(() => {
-    const apiCallToRetriveUser = getSpecificUserProfile(applicantId);
+    const apiCallToRetriveUser = getSpecificUserProfile(applicantId ?? 1);
 
     apiCallToRetriveUser.then((result: any) => {
       setProfileDetails(result.data.profile_details);
-      setProfileCharts(result.data.profile_characteristics);
+      setProfileChars(result.data.profile_characteristics);
     });
-  }, []);
-
-  const capitalize = word => {
-    return word.charAt(0).toUpperCase() + word.substring(1);
-  };
+  }, [applicantId]);
 
   const handleButtonClicked = () => {
     setButtonClicked(!buttonClicked);
@@ -67,59 +67,44 @@ const ApplicantProfileScreen = ({route}: any) => {
     <View style={styles.container}>
       <View>
         <LofftHeaderPhoto images={images} imageContainerHeight={400} />
-        <HighlightButtons navigation={navigation} heartPresent={false} />
+        <HighlightButtons heartPresent={false} />
       </View>
       <ScrollView>
         <View style={styles.contentContainer}>
           <View style={styles.infoA}>
             <Text style={fontStyles.headerMedium}>
-              {capitalize(applicantName.split('@')[0])}
+              {capitalize(applicantName)}
             </Text>
             <Text style={{color: Color.Black[80]}}>28 years old</Text>
           </View>
 
           <View style={styles.infoB}>
             <LofftIcon name="calendar" size={25} color={Color.Black[30]} />
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {color: Color.Black[100], paddingLeft: 10},
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.calendarText]}>
               From: 25/12/22 - unlimited
             </Text>
           </View>
 
           <View style={styles.infoC}>
             <LofftIcon name="translate" size={25} color={Color.Black[30]} />
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {color: Color.Black[100], paddingLeft: 10},
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.translateText]}>
               English, German, Arabic
             </Text>
           </View>
 
           <View>
             <Text style={[fontStyles.bodySmall, {color: Color.Black[80]}]}>
-              {profileDetails.description}
+              {/* will display when apiCallToRetriveUser is fixed  */}
+              {/* {profileDetails.description} */}
             </Text>
           </View>
 
-          <Text
-            style={[
-              fontStyles.headerMedium,
-              {color: Color.Black[100], paddingTop: 20},
-            ]}>
+          <Text style={[fontStyles.headerMedium, styles.matchText]}>
             Match with you
           </Text>
           <Chips tags={matches} features={true} emoji />
 
-          <Text
-            style={[
-              fontStyles.headerMedium,
-              {color: Color.Black[100], paddingTop: 10},
-            ]}>
+          <Text style={[fontStyles.headerMedium, styles.differencesText]}>
             Differences
           </Text>
           <Chips tags={noMatches} features={true} emoji />
@@ -182,6 +167,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Mint[100],
     borderColor: Color.Mint[100],
   },
+  calendarText: {color: Color.Black[100], paddingLeft: 10},
+  translateText: {color: Color.Black[100], paddingLeft: 10},
+  matchText: {color: Color.Black[100], paddingTop: 20},
+  differencesText: {color: Color.Black[100], paddingTop: 10},
 });
 
 export default ApplicantProfileScreen;
