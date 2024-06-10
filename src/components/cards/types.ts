@@ -17,7 +17,7 @@ type LofftHeaderPhotoProps = {
   activeBlur?: boolean;
 };
 
-type onViewableItemsChangedParams = {
+type OnViewableItemsChangedParams = {
   viewableItems: Array<ViewToken>;
   changed?: Array<ViewToken>;
 };
@@ -37,7 +37,7 @@ type UserBlobCardProps = {
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
-  onViewableItemsChangedParams,
+  OnViewableItemsChangedParams,
   ApplicantCardProps,
   UserBlobCardProps,
 };
