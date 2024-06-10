@@ -4,8 +4,7 @@ interface AdvertApplicantWithSelected extends AdvertApplicant {
   selected: boolean;
 }
 
-interface SecondRoundApplicantsWithSelected
-  extends AdvertApplicantWithSelected {
+interface SecondRoundApplicantWithSelected extends AdvertApplicantWithSelected {
   secondRoundSelected: boolean;
 }
 
@@ -16,7 +15,7 @@ type SeeApplicantsScreenProp = {
 type SeeProfilesScreenProp = {
   route: {
     params: {
-      secondRoundApplicants: SecondRoundApplicantsWithSelected[];
+      secondRoundApplicants: SecondRoundApplicantWithSelected[];
       currentAdvert: Advert;
     };
   };
@@ -25,6 +24,6 @@ type SeeProfilesScreenProp = {
 export type {
   AdvertApplicantWithSelected,
   SeeApplicantsScreenProp,
-  SecondRoundApplicantsWithSelected,
+  SecondRoundApplicantWithSelected,
   SeeProfilesScreenProp,
 };

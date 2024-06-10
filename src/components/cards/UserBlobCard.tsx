@@ -13,25 +13,20 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import type {UserBlobCardProps} from './types';
+import {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
 
 const UserBlobCard = ({
   secondRoundProfile,
   currentAdvert,
   selectProfiles,
 }: UserBlobCardProps) => {
-  const {id, email, secondRoundSelected} = secondRoundProfile;
-  const {characteristics} = currentAdvert.flat;
+  const {id, email} = secondRoundProfile;
+
   const [clickCheckbox, setClickCheckbox] = useState(false);
 
-  console.log('secondRoundSelecteduserblob:', secondRoundSelected);
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
-  const navigation = useNavigation();
-
-  const handleClickCheckbox = () => {
-    console.log('handleClickCheckbox');
-    setClickCheckbox(!clickCheckbox);
-    selectProfiles(id);
-  };
+  const applicantName = email?.split('@')[0];
 
   const capitalize = (word: string | undefined) => {
     if (!word) {
@@ -40,12 +35,15 @@ const UserBlobCard = ({
     return word.charAt(0).toUpperCase() + word.substring(1);
   };
 
-  const applicantName = email?.split('@')[0];
+  const handleClickCheckbox = () => {
+    setClickCheckbox(!clickCheckbox);
+    selectProfiles(id);
+  };
 
   return (
     <View style={styles.blobContainer}>
       <CheckBox
-        style={{marginLeft: 10}}
+        style={styles.checkbox}
         value={clickCheckbox}
         onPress={() => handleClickCheckbox()}
       />
@@ -65,15 +63,12 @@ const UserBlobCard = ({
         name="chevron-right"
         size={35}
         color={Color.Blue[80]}
-        title="Profile page"
         onPress={() =>
           navigation.navigate('ApplicantProfile', {
-            secondRoundProfile: secondRoundProfile,
             applicantName: applicantName,
-            clickCheckbox: clickCheckbox,
             handleClickCheckbox: handleClickCheckbox,
+            secondRoundProfile: secondRoundProfile,
             currentAdvert: currentAdvert,
-            selectProfilesFunc: selectProfiles,
           })
         }
       />
@@ -98,6 +93,7 @@ const styles = StyleSheet.create({
     height: '80%',
     borderRadius: 8,
   },
+  checkbox: {marginLeft: 10},
 });
 
 export default UserBlobCard;

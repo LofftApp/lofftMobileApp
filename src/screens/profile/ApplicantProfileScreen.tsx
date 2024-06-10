@@ -19,17 +19,14 @@ import {matchMaker} from 'helpers/matchMaker';
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 const ApplicantProfileScreen = ({route}: any) => {
   const navigation = useNavigation();
   const {
     applicantName,
-    activateBox,
     handleClickCheckbox,
     secondRoundProfile,
     currentAdvert,
-    selectProfilesFunc,
   } = route.params;
 
   const {characteristics: flatChars} = currentAdvert.flat;

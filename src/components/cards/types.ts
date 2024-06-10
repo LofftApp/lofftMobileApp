@@ -2,7 +2,7 @@ import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import type {
   AdvertApplicantWithSelected,
-  SecondRoundApplicantsWithSelected,
+  SecondRoundApplicantWithSelected,
 } from 'screens/dashboard/landlord/SubScreens/types';
 
 type ListFlatApplicationCardProps = {
@@ -29,7 +29,7 @@ type ApplicantCardProps = {
 };
 
 type UserBlobCardProps = {
-  secondRoundProfile: SecondRoundApplicantsWithSelected;
+  secondRoundProfile: SecondRoundApplicantWithSelected;
   currentAdvert: Advert;
   selectProfiles: (id: number | null) => void;
 };
