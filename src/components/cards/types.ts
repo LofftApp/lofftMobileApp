@@ -24,7 +24,6 @@ type onViewableItemsChangedParams = {
 
 type ApplicantCardProps = {
   currentSelectedNums: number;
-  maxSelect: number;
   selectProfile: (id: number | null) => void;
   applicant: AdvertApplicantWithSelected;
 };

@@ -34,6 +34,8 @@ import type {
 } from './types';
 import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 
+export const MAX_SELECTED = 5;
+
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advert} = route.params;
 
@@ -46,7 +48,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   >(applicantsWithSelected);
   console.log('applicantsWithSelected', applicantsWithSelected);
 
-  const [maxSelect, setMaxSelected] = useState(5);
   const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
     [],
   );
@@ -97,7 +98,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           {applicants?.map((el, index) => (
             <ApplicantCard
               key={index + 1}
-              maxSelect={maxSelect}
               selectProfile={selectProfile}
               currentSelectedNums={finalRound.length}
               applicant={el}
@@ -107,7 +107,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       </SafeAreaView>
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${maxSelect}`}
+        value={`Selected ${finalRound.length}/${MAX_SELECTED}`}
         style={styles.coreButton}
         onPress={() => {
           setModalVisible(!modalVisible);

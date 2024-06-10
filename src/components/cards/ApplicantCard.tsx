@@ -17,10 +17,10 @@ import Chips from 'components/buttons/Chips';
 
 // Types
 import type {ApplicantCardProps} from './types';
+import {MAX_SELECTED} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
 
 const ApplicantCard = ({
   currentSelectedNums,
-  maxSelect,
   selectProfile,
   applicant,
 }: ApplicantCardProps) => {
@@ -30,7 +30,7 @@ const ApplicantCard = ({
   const [accordion, setAccordion] = useState(false);
 
   const checkClick = () => {
-    if (currentSelectedNums >= maxSelect) {
+    if (currentSelectedNums >= MAX_SELECTED) {
       if (activateBox) {
         setActiveBox(false);
         selectProfile(id);
