@@ -34,7 +34,7 @@ import type {
 } from './types';
 import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 
-export const MAX_SELECTED = 5;
+export const MAX_SELECT = 5;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advert} = route.params;
@@ -107,7 +107,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       </SafeAreaView>
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${MAX_SELECTED}`}
+        value={`Selected ${finalRound.length}/${MAX_SELECT}`}
         style={styles.coreButton}
         onPress={() => {
           setModalVisible(!modalVisible);

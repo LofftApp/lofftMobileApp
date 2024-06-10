@@ -15,6 +15,7 @@ import type {
   SecondRoundApplicantsWithSelected,
   SeeProfilesScreenProp,
 } from './types';
+import { MAX_SELECTED } from './SeeApplicantsScreen';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   console.log('route.params', route.params);
@@ -32,7 +33,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const {currentAdvert} = route.params;
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [maxSelect, setMaxSelect] = useState(5);
   const [finalRound, setFinalRound] = useState<
     SecondRoundApplicantsWithSelected[]
   >([]);
@@ -81,7 +81,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${maxSelect}`}
+        value={`Selected ${finalRound.length}/${MAX_SELECT}`}
         style={styles.selectedButton}
         onPress={() => {
           setModalVisible(!modalVisible);
