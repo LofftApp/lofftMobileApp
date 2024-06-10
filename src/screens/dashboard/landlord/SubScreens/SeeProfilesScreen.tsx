@@ -18,7 +18,6 @@ import type {
 import {MAX_SELECT} from './SeeApplicantsScreen';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
-  console.log('route.params', route.params);
 
   const secondRoundApplicantsWithSelected =
     route.params.secondRoundApplicants.map(
@@ -26,10 +25,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
         return {...applicant, secondRoundSelected: false};
       },
     );
-  console.log(
-    'secondRoundApplicantsWithSelected',
-    secondRoundApplicantsWithSelected,
-  );
   const {currentAdvert} = route.params;
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -60,7 +55,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
     setFinalRound(selectedProfilesOnly);
   };
-  console.log('secondRoundProfiles', secondRoundProfiles);
 
   return (
     <View style={styles.pageWrapper}>

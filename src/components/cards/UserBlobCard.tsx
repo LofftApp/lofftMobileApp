@@ -19,33 +19,35 @@ const UserBlobCard = ({
   currentAdvert,
   selectProfiles,
 }: UserBlobCardProps) => {
-  const {id, email: name, secondRoundSelected} = secondRoundProfile;
+  const {id, email, secondRoundSelected} = secondRoundProfile;
   const {characteristics} = currentAdvert.flat;
-  const [activateBox, setActivateBox] = useState(secondRoundSelected);
-  console.log('secondRoundProfile', secondRoundProfile);
-  console.log('secondRoundSelected', secondRoundSelected);
-  console.log('currentAdvert', characteristics);
-  console.log('selectProfiles', selectProfiles);
+  const [clickCheckbox, setClickCheckbox] = useState(false);
+
+  console.log('secondRoundSelecteduserblob:', secondRoundSelected);
+
   const navigation = useNavigation();
 
-  const clickBox = () => {
-    setActivateBox(!activateBox);
+  const handleClickCheckbox = () => {
+    console.log('handleClickCheckbox');
+    setClickCheckbox(!clickCheckbox);
     selectProfiles(id);
   };
 
-  const capitalize = (word: string | null) => {
+  const capitalize = (word: string | undefined) => {
     if (!word) {
       return '';
     }
     return word.charAt(0).toUpperCase() + word.substring(1);
   };
 
+  const applicantName = email?.split('@')[0];
+
   return (
     <View style={styles.blobContainer}>
       <CheckBox
         style={{marginLeft: 10}}
-        value={activateBox}
-        onPress={() => clickBox()}
+        value={clickCheckbox}
+        onPress={() => handleClickCheckbox()}
       />
       <Image
         style={styles.profilePic}
@@ -55,7 +57,7 @@ const UserBlobCard = ({
       />
       <View>
         <Text style={fontStyles.headerMedium}>
-          {name ? capitalize(name.split('@')[0]) : 'No name'}
+          {applicantName ? capitalize(applicantName) : 'No name'}
         </Text>
         <Text style={fontStyles.bodyMedium}>🌟 98% Match</Text>
       </View>
@@ -66,13 +68,10 @@ const UserBlobCard = ({
         title="Profile page"
         onPress={() =>
           navigation.navigate('ApplicantProfile', {
-            userId: id,
-            firstName: name,
-            characteristics: characteristics,
-            selectedProfile: {
-              userId: id,
-              selected: secondRoundSelected,
-            },
+            secondRoundProfile: secondRoundProfile,
+            applicantName: applicantName,
+            clickCheckbox: clickCheckbox,
+            handleClickCheckbox: handleClickCheckbox,
             currentAdvert: currentAdvert,
             selectProfilesFunc: selectProfiles,
           })

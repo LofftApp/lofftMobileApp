@@ -19,20 +19,24 @@ import {matchMaker} from 'helpers/matchMaker';
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 const ApplicantProfileScreen = ({route}: any) => {
   const navigation = useNavigation();
   const {
-    firstName,
-    characteristics,
-    selectedProfile,
+    applicantName,
+    activateBox,
+    handleClickCheckbox,
+    secondRoundProfile,
     currentAdvert,
     selectProfilesFunc,
   } = route.params;
-  console.log('selectedProfile.selected', selectedProfile);
+
+  const {characteristics: flatChars} = currentAdvert.flat;
+  const {secondRoundSelected, id: applicantId} = secondRoundProfile;
   const [profileDetails, setProfileDetails] = useState({});
   const [profileChars, setProfileCharts] = useState([]);
-  const [clicked, setClicked] = useState(selectedProfile.selected);
+  const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
 
   const images = [
     'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -41,12 +45,11 @@ const ApplicantProfileScreen = ({route}: any) => {
     'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
   ];
 
-  const landlordChars = characteristics;
-  const matches = matchMaker(landlordChars, profileChars)[0];
-  const noMatches = matchMaker(landlordChars, profileChars)[1];
+  const matches = matchMaker(flatChars, profileChars)[0];
+  const noMatches = matchMaker(flatChars, profileChars)[1];
 
   useEffect(() => {
-    const apiCallToRetriveUser = getSpecificUserProfile(selectedProfile.userId);
+    const apiCallToRetriveUser = getSpecificUserProfile(applicantId);
 
     apiCallToRetriveUser.then((result: any) => {
       setProfileDetails(result.data.profile_details);
@@ -58,9 +61,9 @@ const ApplicantProfileScreen = ({route}: any) => {
     return word.charAt(0).toUpperCase() + word.substring(1);
   };
 
-  const selectUser = id => {
-    setClicked(!clicked);
-    selectProfilesFunc(id);
+  const handleButtonClicked = () => {
+    setButtonClicked(!buttonClicked);
+    handleClickCheckbox();
   };
 
   return (
@@ -73,7 +76,7 @@ const ApplicantProfileScreen = ({route}: any) => {
         <View style={styles.contentContainer}>
           <View style={styles.infoA}>
             <Text style={fontStyles.headerMedium}>
-              {capitalize(firstName.split('@')[0])}
+              {capitalize(applicantName.split('@')[0])}
             </Text>
             <Text style={{color: Color.Black[80]}}>28 years old</Text>
           </View>
@@ -129,14 +132,12 @@ const ApplicantProfileScreen = ({route}: any) => {
       </ScrollView>
       <View style={styles.centerButtonContainer}>
         <CoreButton
-          value={clicked ? 'Selected !' : '+ Add to selection'}
+          value={buttonClicked ? 'Selected !' : '+ Add to selection'}
           style={[
             styles.customCoreButtonStyle,
-            clicked ? styles.selected : null,
+            buttonClicked ? styles.selected : null,
           ]}
-          onPress={() => {
-            selectUser(selectedProfile.userId);
-          }}
+          onPress={() => handleButtonClicked()}
         />
       </View>
     </View>
