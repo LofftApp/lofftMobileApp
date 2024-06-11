@@ -13,8 +13,10 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import languagesData from 'Assets/coreText/languagesText.json';
 import LanguagesCard from 'components/cards/LanguagesCard';
 
+import {StackNavigation} from '../../../../navigationStacks/types';
+
 const LanguageSelectionScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigation>();
 
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
@@ -45,7 +47,7 @@ const LanguageSelectionScreen = () => {
       x: 0,
       y: 0,
       animated: true,
-      duration: 4000,
+      // duration: 4000,
     });
   };
 

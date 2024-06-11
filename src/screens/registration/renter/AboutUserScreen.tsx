@@ -22,8 +22,7 @@ import {navigationHelper} from 'helpers/navigationHelper';
 const AboutYouFlatHuntScreen = ({navigation}: any) => {
   const preferences = userPreferences;
 
-  const [intitalpreferencesArray, seIintitalPreferencesArray] =
-    useState(preferences);
+  const [intitalpreferencesArray, seIintitalPreferencesArray] = useState(preferences);
   const [screen] = useState(0);
   const [selectedTracks, setselectedTracks] = useState([]);
   const [alertTriger, setAlertTriger] = useState(false);
