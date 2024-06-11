@@ -105,7 +105,8 @@ const LanguageSelectionScreen = () => {
                 key={language}
                 language={language}
                 selected={selectedLanguages.includes(language)}
-                handleSelectedLanguages={handleSelectedLanguages}            />
+                handleSelectedLanguages={handleSelectedLanguages}
+              />
             ))}
           </View>
         </View>
