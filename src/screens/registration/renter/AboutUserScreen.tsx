@@ -1,4 +1,4 @@
-import React, {useState, FC} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
@@ -18,25 +18,33 @@ import userPreferences from 'components/componentData/userPreferences.json';
 
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {size} from 'react-native-responsive-sizes';
+
+interface SelectedTracks {
+  id: number;
+  value: string;
+  emoji: string;
+  toggle: boolean;
+}
+
+interface EmojiItem {
+  id: number;
+  emojiIcon: string;
+  value: string;
+  toggle: boolean;
+}
 
 const AboutYouFlatHuntScreen = ({navigation}: any) => {
   const preferences = userPreferences;
 
-  const [intitalpreferencesArray, seIintitalPreferencesArray] = useState(preferences);
+  const [intitalpreferencesArray, seIintitalPreferencesArray] =
+    useState(preferences);
   const [screen] = useState(0);
-  const [selectedTracks, setselectedTracks] = useState([]);
+  const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
   const [alertTriger, setAlertTriger] = useState(false);
 
-  const selectedEmojis = (id: any) => {
+  const selectedEmojis = (id: number) => {
     const targets = [];
-
-    interface EmojiItem {
-      id: number;
-      emojiIcon: string;
-      value: string;
-      toggle: boolean;
-    }
-
     const preSeleted = intitalpreferencesArray.map(element => {
       if (element.id === id) {
         targets.push(element);
@@ -49,7 +57,7 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
       }
     });
 
-    const wash: any = preSeleted.filter(el => el.toggle);
+    const wash = preSeleted.filter(el => el.toggle);
 
     setselectedTracks(wash);
     seIintitalPreferencesArray(preSeleted);
@@ -64,7 +72,7 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
   };
 
   const emojiElements = intitalpreferencesArray.map(
-    (emojiElement: any, index: number) => {
+    (emojiElement, index: number) => {
       return (
         <EmojiIcon
           key={index + 1}
@@ -95,7 +103,7 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
       </ScrollView>
       <View style={styles.footerContainer}>
         <UserJourneyPaginationBar />
-        <View style={{marginVertical: 13}}>
+        <View style={styles.tagInfoContainer}>
           <Text
             style={
               alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
@@ -107,7 +115,7 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
           value="Continue"
           disabled={selectedTracks.length < 3}
           details={{flatMate: selectedTracks}}
-          onPress={(targetScreen: any) =>
+          onPress={(targetScreen: number) =>
             navigationHelper(navigation, targetScreen)
           }
         />
@@ -120,11 +128,14 @@ const styles = StyleSheet.create({
   emojiContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 150,
+    marginBottom: size(150),
+  },
+  tagInfoContainer: {
+    marginVertical: size(13),
   },
   footerContainer: {
-    paddingTop: 35,
-    paddingBottom: 28,
+    paddingTop: size(35),
+    paddingBottom: size(28),
   },
 });
 

@@ -20,8 +20,6 @@ type newUserNavigationParmsList = {
   LanguageSelectionScreen: undefined;
 };
 
-
-
 type FavoriteStackParamsList = {
   favorite: undefined;
   applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
