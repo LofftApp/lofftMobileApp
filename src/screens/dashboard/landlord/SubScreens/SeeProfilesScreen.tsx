@@ -68,7 +68,9 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
               secondRoundProfile={el}
               selectProfiles={selectProfiles}
               currentAdvert={currentAdvert}
+
               // sayHi={'sayHi'}
+
             />
           ))}
         </ScrollView>

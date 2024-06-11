@@ -17,6 +17,10 @@ type RootTabParamsList = {
   admin: undefined;
 };
 
+type newUserNavigatorParamsList = {
+  LanguageSelectionScreen: [string, string];
+};
+
 type FavoriteStackParamsList = {
   favorite: undefined;
   applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
@@ -39,6 +43,7 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<RootTabParamsList, 'search'>,
   StackNavigationProp<SearchStackParamsList>
 >;
+
 
 // Lessor Navigator Stack
 
@@ -69,6 +74,11 @@ type LessorNavigatorStackParamsList = {
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<LessorTabParamsList, 'lessorIndex'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
+
+type NewUserNavigatorProp = StackNavigationProp<
+  newUserNavigatorParamsList,
+  'LanguageSelectionScreen'
+
 >;
 
 export type {
@@ -80,4 +90,6 @@ export type {
   LessorTabParamsList,
   LessorNavigatorStackParamsList,
   LessorNavigatorScreenNavigationProp,
+  NewUserNavigatorProp,
+
 };

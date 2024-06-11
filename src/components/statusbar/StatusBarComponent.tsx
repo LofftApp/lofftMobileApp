@@ -34,10 +34,10 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
-  const currentApplicationStatus = advertStatusIndex(status ?? '');
+  // const currentApplicationStatus = advertStatusIndex(status ?? '');
 
   // Lower code needed to test access to different routes
-  // const currentApplicationStatus = 0;
+   const currentApplicationStatus = 0;
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
