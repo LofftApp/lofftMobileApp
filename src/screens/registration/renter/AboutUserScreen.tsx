@@ -37,7 +37,7 @@ interface EmojiItem {
 const AboutYouFlatHuntScreen = ({navigation}: any) => {
   const preferences = userPreferences;
 
-  const [intitalpreferencesArray, seIintitalPreferencesArray] =
+  const [intitalpreferencesArray, setintitalPreferencesArray] =
     useState(preferences);
   const [screen] = useState(0);
   const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
@@ -60,7 +60,7 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
     const wash = preSeleted.filter(el => el.toggle);
 
     setselectedTracks(wash);
-    seIintitalPreferencesArray(preSeleted);
+    setintitalPreferencesArray(preSeleted);
   };
 
   const checkChoices = () => {
