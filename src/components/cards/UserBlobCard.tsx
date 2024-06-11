@@ -15,6 +15,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Helpers
 import {capitalize} from 'helpers/capitalize';
+import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {UserBlobCardProps} from './types';
@@ -77,8 +78,8 @@ const UserBlobCard = ({
 const styles = StyleSheet.create({
   blobContainer: {
     width: '95%',
-    height: 120,
-    padding: 7,
+    height: size(120),
+    padding: size(7),
     backgroundColor: Color.Lavendar[10],
     borderRadius: 12,
     marginBottom: 20,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   profilePic: {
-    width: 80,
+    width: size(80),
     height: '80%',
     borderRadius: 8,
   },

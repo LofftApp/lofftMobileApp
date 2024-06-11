@@ -9,6 +9,9 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import UserBlobCard from 'components/cards/UserBlobCard';
 
+// Helpers
+import {size} from 'react-native-responsive-sizes';
+
 // Constants
 import {MAX_SELECT} from './SeeApplicantsScreen';
 
@@ -95,10 +98,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    marginTop: 70,
+    marginTop: size(70),
     width: '100%',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: size(20),
   },
   headerText: {
     position: 'absolute',

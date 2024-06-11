@@ -21,6 +21,7 @@ import statusBarText from 'Assets/coreText/statusBarText.json';
 
 // Helpers
 import {advertStatusIndex} from 'helpers/advertStatusIndex';
+import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {Advert} from 'reduxFeatures/adverts/types';
@@ -79,6 +80,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
+            {/* Text Overlaying */}
             {/* {key.subText} */}
           </Text>
 
@@ -168,13 +170,13 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    marginHorizontal: 16,
+    marginHorizontal: size(16),
     borderWidth: 1,
     borderColor: Color.Black[10],
-    paddingTop: 15,
+    paddingTop: size(15),
   },
   infoBlockHeader: {
-    marginTop: 15,
+    marginTop: size(15),
   },
   infoBlock: {
     color: Color.Black[50],
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
   },
   progressTextContainer: {
     width: '85%',
-    marginLeft: 15,
+    marginLeft: size(15),
     justifyContent: 'space-around',
   },
   landlordActionButton: {

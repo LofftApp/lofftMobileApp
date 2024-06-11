@@ -15,9 +15,14 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 
+// Helpers
+import {size} from 'react-native-responsive-sizes';
+
+// Constants
+import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+
 // Types
 import type {ApplicantCardProps} from './types';
-import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
 
 const ApplicantCard = ({
   currentSelectedNums,
@@ -131,8 +136,8 @@ const styles = StyleSheet.create({
   outterContainer: {
     backgroundColor: Color.Lavendar[10],
     borderRadius: 10,
-    marginBottom: 20,
-    padding: 15,
+    marginBottom: size(20),
+    padding: size(15),
   },
   innerContainer: {
     justifyContent: 'space-between',
@@ -148,16 +153,16 @@ const styles = StyleSheet.create({
     color: Color.Mint[100],
   },
   accordionExpand: {
-    marginTop: 20,
+    marginTop: size(20),
   },
   iconContainer: {
-    padding: 10,
+    padding: size(10),
   },
   nameMargin: {
-    marginRight: 20,
+    marginRight: size(20),
   },
   otherMargin: {
-    marginTop: 20,
+    marginTop: size(20),
   },
 });
 

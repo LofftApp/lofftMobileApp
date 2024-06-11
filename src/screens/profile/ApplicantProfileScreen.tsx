@@ -22,6 +22,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
+import {size} from 'react-native-responsive-sizes';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -133,10 +134,10 @@ const styles = StyleSheet.create({
   },
   userImage: {
     width: '100%',
-    height: 400,
+    height: size(400),
   },
   contentContainer: {
-    padding: 12,
+    padding: size(12),
   },
   infoA: {
     flexDirection: 'row',
@@ -146,11 +147,11 @@ const styles = StyleSheet.create({
   infoB: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: size(10),
+    paddingTop: size(10),
   },
   infoC: {
-    paddingBottom: 20,
+    paddingBottom: size(20),
     flexDirection: 'row',
   },
   centerButtonContainer: {
@@ -167,10 +168,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Mint[100],
     borderColor: Color.Mint[100],
   },
-  calendarText: {color: Color.Black[100], paddingLeft: 10},
-  translateText: {color: Color.Black[100], paddingLeft: 10},
-  matchText: {color: Color.Black[100], paddingTop: 20},
-  differencesText: {color: Color.Black[100], paddingTop: 10},
+  calendarText: {color: Color.Black[100], paddingLeft: size(10)},
+  translateText: {color: Color.Black[100], paddingLeft: size(10)},
+  matchText: {color: Color.Black[100], paddingTop: size(20)},
+  differencesText: {color: Color.Black[100], paddingTop: size(10)},
 });
 
 export default ApplicantProfileScreen;

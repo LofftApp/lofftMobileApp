@@ -27,6 +27,9 @@ import BackButton from 'components/buttons/BackButton';
 import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 import {CoreButton} from 'components/buttons/CoreButton';
 
+// Helpers
+import {size} from 'react-native-responsive-sizes';
+
 // Types
 import type {
   AdvertApplicantWithSelected,
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    marginTop: 60,
+    marginTop: size(60),
     width: '100%',
   },
   headerText: {
@@ -179,13 +182,13 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   scrollView: {
-    paddingBottom: 130,
-    marginTop: 20,
+    paddingBottom: size(130),
+    marginTop: size(20),
   },
 
   choicesContainer: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: size(30),
   },
   centeredView: {
     flex: 1,
@@ -194,12 +197,12 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Black[10],
     opacity: 0.8,
   },
-  coreButton: {width: '90%', position: 'absolute', bottom: 10},
+  coreButton: {width: '90%', position: 'absolute', bottom: size(10)},
   modalView: {
-    margin: 20,
+    margin: size(20),
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: size(35),
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -212,7 +215,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 8,
-    padding: 10,
+    padding: size(10),
     elevation: 2,
   },
 
@@ -233,18 +236,18 @@ const styles = StyleSheet.create({
   },
 
   modalText: {
-    marginBottom: 15,
+    marginBottom: size(15),
     textAlign: 'center',
   },
   iconContainer: {
-    paddingLeft: 28,
+    paddingLeft: size(28),
     zIndex: 100,
   },
   textAlign: {
     textAlign: 'center',
   },
   marginButton: {
-    marginLeft: 20,
+    marginLeft: size(20),
   },
 });
 
