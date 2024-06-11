@@ -10,7 +10,18 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
-const LanguagesCard = ({language, selected, handleSelectedLanguages}: any) => {
+// Types
+import {LanguagesCardProps} from './types';
+
+// Helpers 🥷🏻
+
+import { size } from 'react-native-responsive-sizes';
+
+const LanguagesCard = ({
+  language,
+  selected,
+  handleSelectedLanguages,
+}: LanguagesCardProps) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
@@ -20,15 +31,15 @@ const LanguagesCard = ({language, selected, handleSelectedLanguages}: any) => {
           setIsSelected(!isSelected);
           handleSelectedLanguages(language);
         }}>
-        <View style={selected ? styles.Selected : null}>
-          {selected ? (
+        <View style={selected && styles.Selected}>
+          {selected && (
             <LofftIcon
               name="check-verified-02"
               size={25}
               color={Color.Tomato[100]}
               style={styles.iconContainer}
             />
-          ) : null}
+          )}
 
           <Text
             style={[
@@ -45,22 +56,22 @@ const LanguagesCard = ({language, selected, handleSelectedLanguages}: any) => {
 
 const styles = StyleSheet.create({
   textContainer: {
-    paddingVertical: 16,
-    paddingLeft: 76,
+    paddingVertical: size(16),
+    paddingLeft: size(76),
   },
   Selected: {
     backgroundColor: '#F1EDFF',
-    borderRadius: 8,
+    borderRadius: size(8),
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 8,
-    paddingVertical: 4,
+    marginVertical: size(8),
+    paddingVertical: size(4),
   },
   text: {
-    paddingLeft: 20,
+    paddingLeft: size(20),
   },
   iconContainer: {
-    paddingLeft: 28,
+    paddingLeft: size(28),
   },
 });
 
