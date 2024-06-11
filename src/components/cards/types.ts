@@ -21,6 +21,7 @@ type onViewableItemsChangedParams = {
 type LanguagesCardProps = {
   language: string;
   selected: boolean;
+  isSelected?: boolean;
   handleSelectedLanguages: (chosenLangugage: string) => void;
 };
 

@@ -14,7 +14,7 @@ import languagesData from 'Assets/coreText/languagesText.json';
 import LanguagesCard from 'components/cards/LanguagesCard';
 
 // Helpers 🥷🏻
-import { size } from 'react-native-responsive-sizes';
+import {size} from 'react-native-responsive-sizes';
 
 const LanguageSelectionScreen = () => {
   const navigation = useNavigation();
@@ -104,9 +104,8 @@ const LanguageSelectionScreen = () => {
               <LanguagesCard
                 key={language}
                 language={language}
-                isSelected={selectedLanguages.includes(language)}
-                handleSelectedLanguages={handleSelectedLanguages}
-              />
+                selected={selectedLanguages.includes(language)}
+                handleSelectedLanguages={handleSelectedLanguages}            />
             ))}
           </View>
         </View>

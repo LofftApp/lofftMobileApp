@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Icon} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -14,8 +14,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {LanguagesCardProps} from './types';
 
 // Helpers 🥷🏻
-
-import { size } from 'react-native-responsive-sizes';
+import {size} from 'react-native-responsive-sizes';
 
 const LanguagesCard = ({
   language,
