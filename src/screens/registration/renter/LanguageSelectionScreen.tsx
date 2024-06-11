@@ -112,7 +112,9 @@ const LanguageSelectionScreen = () => {
       <View style={styles.continueButtonView}>
         <CoreButton
           value="Continue"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('AboutYouFlatHuntScreen');
+          }}
           style={styles.button}
           disabled={selectedLanguages.length === 0}
         />

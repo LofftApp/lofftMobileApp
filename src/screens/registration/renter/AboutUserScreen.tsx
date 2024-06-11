@@ -19,9 +19,7 @@ import userPreferences from 'components/componentData/userPreferences.json';
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
 
-const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
-  const headerText = route.params.headerText;
-  const subHeaderText = route.params.subText;
+const AboutYouFlatHuntScreen = ({navigation}: any) => {
   const preferences = userPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
@@ -88,8 +86,10 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
-        headlineText={headerText}
-        subDescription={subHeaderText}
+        headlineText={'Tell us a bit about yourself'}
+        subDescription={
+          "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
+        }
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.emojiContainer}>{emojiElements}</View>
