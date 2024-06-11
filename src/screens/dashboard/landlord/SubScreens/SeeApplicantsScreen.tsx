@@ -49,7 +49,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const [applicants, setApplicants] = useState<
     AdvertApplicantWithSelected[] | undefined
   >(applicantsWithSelected);
-  console.log('applicantsWithSelected', applicantsWithSelected);
 
   const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
     [],
@@ -75,18 +74,15 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     setApplicants(updatedProfiles);
 
     const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
-    console.log('selectedProfilesOnly', selectedProfilesOnly);
     setFinalRound(selectedProfilesOnly ?? []);
   };
-  console.log('finalRound', finalRound);
-  console.log('applicant', applicants);
+
   return (
     <View style={styles.pageWrapper}>
       <View style={styles.header}>
         <Pressable
           style={styles.iconContainer}
           onPress={() => {
-            console.log('go back');
             navigation.goBack();
           }}>
           <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
