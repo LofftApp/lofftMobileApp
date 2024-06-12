@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 
     marginRight: size(8),
     marginBottom: size(16),
-    borderRadius: 16,
+    borderRadius: size(16),
     borderWidth: size(2),
   },
   disabled: {

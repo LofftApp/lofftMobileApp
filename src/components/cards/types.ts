@@ -18,8 +18,16 @@ type onViewableItemsChangedParams = {
   changed?: Array<ViewToken>;
 };
 
+type LanguagesCardProps = {
+  language: string;
+  selected: boolean;
+  isSelected?: boolean;
+  handleSelectedLanguages: (chosenLangugage: string) => void;
+};
+
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
   onViewableItemsChangedParams,
+  LanguagesCardProps,
 };

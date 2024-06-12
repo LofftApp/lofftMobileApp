@@ -15,6 +15,9 @@ import LanguagesCard from 'components/cards/LanguagesCard';
 
 import {StackNavigation} from '../../../../navigationStacks/types';
 
+// Helpers 🥷🏻
+import {size} from 'react-native-responsive-sizes';
+
 const LanguageSelectionScreen = () => {
   const navigation = useNavigation<StackNavigation>();
 
@@ -93,8 +96,7 @@ const LanguageSelectionScreen = () => {
               </View>
             </View>
           )}
-          <View
-            style={selectedLanguages.length > 0 ? styles.notSelected : null}>
+          <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
               <Text style={[fontStyles.headerSmall, {paddingTop: 16}]}>
                 Not what you're looking for?
@@ -104,7 +106,7 @@ const LanguageSelectionScreen = () => {
               <LanguagesCard
                 key={language}
                 language={language}
-                isSelected={selectedLanguages.includes(language)}
+                selected={selectedLanguages.includes(language)}
                 handleSelectedLanguages={handleSelectedLanguages}
               />
             ))}
@@ -127,40 +129,40 @@ const LanguageSelectionScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingTop: 66,
-    paddingHorizontal: 16,
+    paddingTop: size(66),
+    paddingHorizontal: size(16),
     flex: 1,
     backgroundColor: 'white',
   },
   scrollViewContainer: {
-    marginBottom: 153,
+    marginBottom: size(153),
   },
   textHeader: {
-    paddingTop: 50,
+    paddingTop: size(20),
   },
   searchBar: {
-    paddingTop: 16,
+    paddingTop: size(16),
   },
   currentSelection: {
-    paddingTop: 16,
-    marginBottom: 8,
+    paddingTop: size(16),
+    marginBottom: size(8),
   },
   notSelected: {
-    marginTop: 16,
+    marginTop: size(16),
   },
   continueButtonView: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    paddingTop: 40,
-    paddingHorizontal: 16,
+    paddingTop: size(40),
+    paddingHorizontal: size(16),
     backgroundColor: 'white',
     borderTopWidth: 1,
     borderColor: 'black',
   },
   button: {
-    marginBottom: 50,
+    marginBottom: size(50),
   },
 });
 
