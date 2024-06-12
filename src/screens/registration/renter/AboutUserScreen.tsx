@@ -19,6 +19,8 @@ import userPreferences from 'components/componentData/userPreferences.json';
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
+import {useNavigation} from '@react-navigation/native';
+
 
 interface SelectedTracks {
   id: number;
@@ -34,7 +36,8 @@ interface EmojiItem {
   toggle: boolean;
 }
 
-const AboutYouFlatHuntScreen = ({navigation}: any) => {
+const AboutYouFlatHuntScreen = () => {
+  const navigation = useNavigation;
   const preferences = userPreferences;
 
   const [intitalpreferencesArray, setintitalPreferencesArray] =
@@ -73,13 +76,14 @@ const AboutYouFlatHuntScreen = ({navigation}: any) => {
 
   const emojiElements = intitalpreferencesArray.map(
     (emojiElement, index: number) => {
+      const {value, emoji, id, toggle} = emojiElement;
       return (
         <EmojiIcon
           key={index + 1}
-          id={emojiElement.id}
-          emojiIcon={emojiElement.emoji}
-          value={emojiElement.value}
-          toggle={emojiElement.toggle}
+          id={id}
+          emojiIcon={emoji}
+          value={value}
+          toggle={toggle}
           selectedEmojis={selectedEmojis}
           disabled={
             selectedTracks.length === 10 &&
