@@ -21,16 +21,18 @@ import statusBarText from 'Assets/coreText/statusBarText.json';
 
 // Helpers
 import {advertStatusIndex} from 'helpers/advertStatusIndex';
+import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {Advert} from 'reduxFeatures/adverts/types';
+import {StatusBarNavigationProp} from './types';
 
 const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const {status} = advert;
 
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<StatusBarNavigationProp>();
 
   // const currentApplicationStatus = advertStatusIndex(status ?? '');
 
@@ -78,13 +80,15 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
-            {key.subText}
+            {/* Text Overlaying */}
+            {/* {key.subText} */}
           </Text>
 
           {currentApplicationStatus === index && (
             <View style={[styles.landlordActionButton, styles.button]}>
               <Pressable
                 onPress={() =>
+                  // This typescript error will be fixed when key.route in statusBarText.json matches the names in LessorNavigator.tsx and FlatSearchNavigator.tsx
                   navigation.navigate(key.route, {
                     advert,
                   })
@@ -166,13 +170,13 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    marginHorizontal: 16,
+    marginHorizontal: size(16),
     borderWidth: 1,
     borderColor: Color.Black[10],
-    paddingTop: 15,
+    paddingTop: size(15),
   },
   infoBlockHeader: {
-    marginTop: 15,
+    marginTop: size(15),
   },
   infoBlock: {
     color: Color.Black[50],
@@ -205,7 +209,7 @@ const styles = StyleSheet.create({
   },
   progressTextContainer: {
     width: '85%',
-    marginLeft: 15,
+    marginLeft: size(15),
     justifyContent: 'space-around',
   },
   landlordActionButton: {

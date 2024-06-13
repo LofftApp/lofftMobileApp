@@ -16,7 +16,7 @@ const UserScreen = () => {
       <Text>Hi from User Scren 👋</Text>
       <CoreButton
         value="Sign Out"
-        style={{width: '40%', marginTop: 20}}
+        style={styles.coreButtonStyle}
         onPress={() => {
           dispatch(signOut());
           dispatch(clearProfile());
@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  coreButtonStyle: {
+    width: '40%',
+    marginTop: 20,
   },
 });
 

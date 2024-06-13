@@ -2,6 +2,12 @@ import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 import type {Advert} from 'reduxFeatures/adverts/types';
+import {
+  AdvertApplicantWithSelected,
+  SecondRoundApplicantWithSelected,
+} from 'screens/dashboard/landlord/SubScreens/types';
+
+// Renter Navigator Stack
 
 type RootTabParamsList = {
   search: undefined;
@@ -38,9 +44,41 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<SearchStackParamsList>
 >;
 
+
+// Lessor Navigator Stack
+
+type LessorTabParamsList = {
+  lessorIndex: undefined;
+  lessorAction: undefined;
+  user: undefined;
+  admin: undefined;
+};
+
+type LessorNavigatorStackParamsList = {
+  LessorIndex: undefined;
+  LessorAction: undefined;
+  applicationshow: {advert: Advert};
+  allApplicants: {advert: Advert};
+  shortlist: {
+    secondRoundApplicants: AdvertApplicantWithSelected[];
+    currentAdvert: Advert;
+  };
+  ApplicantProfile: {
+    applicantName: string | undefined;
+    handleClickCheckbox: () => void;
+    secondRoundProfile: SecondRoundApplicantWithSelected;
+    currentAdvert: Advert;
+  };
+};
+
+type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<LessorTabParamsList, 'lessorIndex'>,
+  StackNavigationProp<LessorNavigatorStackParamsList>
+
 type NewUserNavigatorProp = StackNavigationProp<
   newUserNavigatorParamsList,
   'LanguageSelectionScreen'
+
 >;
 
 export type {
@@ -49,5 +87,9 @@ export type {
   SearchStackParamsList,
   FavoriteScreenNavigationProp,
   SearchScreenNavigationProp,
+  LessorTabParamsList,
+  LessorNavigatorStackParamsList,
+  LessorNavigatorScreenNavigationProp,
   NewUserNavigatorProp,
+
 };

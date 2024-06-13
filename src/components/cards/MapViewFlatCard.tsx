@@ -74,7 +74,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
           />
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
-              <MatchingScoreButton size="Small" score={matchScore ?? 0} />
+              <MatchingScoreButton size="Small" score={matchScore ?? 5} />
               <Pressable
                 onPress={() => {
                   dispatch(toggleFavorite(id ?? 0));

@@ -22,6 +22,7 @@ import type {ApplicationShowScreenProp} from './types';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {advert} = route.params;
+
   const [hasCollapsed, setHasCollapsed] = useState(true);
 
   return (
