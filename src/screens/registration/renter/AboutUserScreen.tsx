@@ -21,7 +21,6 @@ import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 
-
 interface SelectedTracks {
   id: number;
   value: string;
@@ -29,22 +28,14 @@ interface SelectedTracks {
   toggle: boolean;
 }
 
-interface EmojiItem {
-  id: number;
-  emojiIcon: string;
-  value: string;
-  toggle: boolean;
-}
-
 const AboutYouFlatHuntScreen = () => {
-  const navigation = useNavigation;
+  const navigation = useNavigation();
   const preferences = userPreferences;
 
   const [intitalpreferencesArray, setintitalPreferencesArray] =
     useState(preferences);
-  const [screen] = useState(0);
   const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
-  const [alertTriger, setAlertTriger] = useState(false);
+  const [alertTriger] = useState(false);
 
   const selectedEmojis = (id: number) => {
     const targets = [];
@@ -64,14 +55,6 @@ const AboutYouFlatHuntScreen = () => {
 
     setselectedTracks(wash);
     setintitalPreferencesArray(preSeleted);
-  };
-
-  const checkChoices = () => {
-    setAlertTriger(true);
-
-    setTimeout(() => {
-      setAlertTriger(false);
-    }, 800);
   };
 
   const emojiElements = intitalpreferencesArray.map(
