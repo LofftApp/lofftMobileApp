@@ -23,7 +23,7 @@ type newUserNavigatorParamsList = {
 
 type FavoriteStackParamsList = {
   favorite: undefined;
-  applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
+  applicationshow: {advertId: number | null};
 };
 
 type SearchStackParamsList = {
@@ -44,7 +44,6 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<SearchStackParamsList>
 >;
 
-
 // Lessor Navigator Stack
 
 type LessorTabParamsList = {
@@ -57,7 +56,7 @@ type LessorTabParamsList = {
 type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
-  applicationshow: {advert: Advert};
+  applicationshow: {advertId: number | null; active?: boolean};
   allApplicants: {advert: Advert};
   shortlist: {
     secondRoundApplicants: AdvertApplicantWithSelected[];
@@ -74,11 +73,11 @@ type LessorNavigatorStackParamsList = {
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<LessorTabParamsList, 'lessorIndex'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
+>;
 
 type NewUserNavigatorProp = StackNavigationProp<
   newUserNavigatorParamsList,
   'LanguageSelectionScreen'
-
 >;
 
 export type {
@@ -91,5 +90,4 @@ export type {
   LessorNavigatorStackParamsList,
   LessorNavigatorScreenNavigationProp,
   NewUserNavigatorProp,
-
 };

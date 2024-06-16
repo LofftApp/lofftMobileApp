@@ -23,7 +23,13 @@ import {size} from 'react-native-responsive-sizes';
 import type {ListFlatApplicationCardProps} from './types';
 
 // Types
-import {FavoriteScreenNavigationProp} from '../../../navigationStacks/types';
+import {
+  FavoriteScreenNavigationProp,
+  LessorNavigatorScreenNavigationProp,
+} from '../../../navigationStacks/types';
+
+type ListFlatApplicationCardNavigation = FavoriteScreenNavigationProp &
+  LessorNavigatorScreenNavigationProp;
 
 const ListFlatApplicationCard = ({
   advert,
@@ -50,7 +56,7 @@ const ListFlatApplicationCard = ({
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
-  const navigation = useNavigation<FavoriteScreenNavigationProp>();
+  const navigation = useNavigation<ListFlatApplicationCardNavigation>();
 
   let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
