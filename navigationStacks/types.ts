@@ -86,7 +86,7 @@ type NewUserNavigatorProp = StackNavigationProp<
 
 >;
 
-type StackNavigation = StackNavigationProp<newUserNavigationParamsList>;
+type NewUserJourneyStackNavigation = StackNavigationProp<newUserNavigationParamsList>;
 
 export type {
   RootTabParamsList,
@@ -98,5 +98,5 @@ export type {
   LessorNavigatorStackParamsList,
   LessorNavigatorScreenNavigationProp,
   NewUserNavigatorProp,
-  StackNavigation,
+  NewUserJourneyStackNavigation,
 };
