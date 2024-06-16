@@ -54,13 +54,19 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
 
-  const {advert} = route.params;
-  const {flat} = advert;
+  const {advertId} = route.params;
+
+  const advert = useAppSelector(state =>
+    state.adverts.adverts.find(item => item.id === advertId),
+  );
+  console.log('ADVERTID', advertId);
+  console.log('ADVERT', advert);
+  const {flat} = advert || {};
   const {
     characteristics: flatCharacteristics,
     features: flatFeatures,
     photos,
-  } = flat;
+  } = flat || {};
 
   const user = useAppSelector((state: {user: UserState}) => state.user.user);
   const {profile, filter: userFilter} = user;
@@ -89,8 +95,8 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
         <View>
           {!blurActivated && (
             <HighlightedButtons
-              favorite={advert.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert.id ?? 0))}
+              favorite={advert?.favorite}
+              onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
             />
           )}
           <LofftHeaderPhoto
@@ -102,7 +108,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
         <SafeAreaView
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
-            <FlatInfoContainer advert={advert} button={true} />
+            {advert && <FlatInfoContainer advert={advert} button={true} />}
             {/* <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton

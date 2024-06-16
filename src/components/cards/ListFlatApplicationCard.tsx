@@ -36,6 +36,7 @@ const ListFlatApplicationCard = ({
   isLessor = false,
 }: ListFlatApplicationCardProps) => {
   const {flat, status, price, id, favorite} = advert;
+
   const {photos, city, district} = flat;
 
   const [active] = useState(!['offered', 'closed'].includes(status ?? ''));
@@ -93,7 +94,7 @@ const ListFlatApplicationCard = ({
       <Pressable
         onPress={() =>
           navigation.navigate('applicationshow', {
-            advert,
+            advertId: id,
           })
         }>
         <View>
@@ -198,7 +199,7 @@ const ListFlatApplicationCard = ({
             style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
-                advertId: advert.id,
+                advertId: id,
                 active: active,
               })
             }

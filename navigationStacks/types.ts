@@ -29,7 +29,7 @@ type FavoriteStackParamsList = {
 type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
-  flatShow: {advert: Advert};
+  flatShow: {advertId: number | null};
   applyforflat: {advert: Advert};
   applicationshow: {advert: Advert};
 };

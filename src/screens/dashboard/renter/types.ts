@@ -12,7 +12,7 @@ type FlatFindScreenProp = {
 
 type FlatShowScreenProp = {
   navigation: SearchScreenNavigationProp;
-  route: RouteProp<SearchStackParamsList, 'flatShow'>;
+  route: {params: {advertId: number | null}}
 };
 
 type ApplicationIndexScreenProp = {
