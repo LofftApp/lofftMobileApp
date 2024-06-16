@@ -80,10 +80,8 @@ const AboutYouFlatHuntScreen = () => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
-        headlineText={'Tell us a bit about yourself'}
-        subDescription={
-          "Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
-        }
+        headlineText="Tell us a bit about yourself"
+        subDescription="Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.emojiContainer}>{emojiElements}</View>
