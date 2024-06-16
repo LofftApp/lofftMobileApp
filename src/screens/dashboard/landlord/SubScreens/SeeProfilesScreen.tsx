@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 
 // Styles
@@ -9,37 +9,39 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import UserBlobCard from 'components/cards/UserBlobCard';
 
-import {useNavigation} from '@react-navigation/native';
+// Helpers
+import {size} from 'react-native-responsive-sizes';
 
-const SeeProfilesScreen = ({route}: any) => {
+// Constants
+import {MAX_SELECT} from './SeeApplicantsScreen';
+
+// Types
+import type {
+  SecondRoundApplicantWithSelected,
+  SeeProfilesScreenProp,
+} from './types';
+
+const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
+  const secondRoundApplicantsWithSelected =
+    route.params.secondRoundApplicants.map(applicant => {
+      return {...applicant, secondRoundSelected: false};
+    });
+  const {currentAdvert} = route.params;
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [maxSelect, setMaxSelect] = useState(5);
-  const [finalRound, setFinalRound] = useState([]);
-  const [secondRoundProfiles, setSecondRoundProfiles] = useState([]);
-  const navigation = useNavigation();
+  const [finalRound, setFinalRound] = useState<
+    SecondRoundApplicantWithSelected[]
+  >([]);
+  const [secondRoundProfiles, setSecondRoundProfiles] = useState<
+    SecondRoundApplicantWithSelected[]
+  >(secondRoundApplicantsWithSelected);
 
-  const {currentAdvert, selectedProfile} = route.params || null;
-
-  const mutateApplicants = () => {
-    setSecondRoundProfiles(
-      route.params.secondRoundApplicants.map(applicant => {
-        return {...applicant, secondRoundselected: false};
-      }),
-    );
-  };
-
-  useEffect(() => {
-    mutateApplicants();
-    setUserSelectedByProfile(selectedProfile);
-  }, []);
-
-  const selectProfiles = id => {
+  const selectProfiles = (id: number | null) => {
     const updatedProfiles = secondRoundProfiles.map(el => {
       if (el.id === id) {
         return {
           ...el,
-          secondRoundselected: !el.secondRoundselected,
+          secondRoundSelected: !el.secondRoundSelected,
         };
       } else {
         return el;
@@ -49,7 +51,7 @@ const SeeProfilesScreen = ({route}: any) => {
     setSecondRoundProfiles(updatedProfiles);
 
     const selectedProfilesOnly = updatedProfiles.filter(
-      el => el.secondRoundselected,
+      el => el.secondRoundSelected,
     );
 
     setFinalRound(selectedProfilesOnly);
@@ -60,17 +62,15 @@ const SeeProfilesScreen = ({route}: any) => {
       <Text style={[styles.header, fontStyles.headerSmall]}>Applicants</Text>
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {secondRoundProfiles.map((el, index) => (
+          {secondRoundProfiles.map(el => (
             <UserBlobCard
-              id={el.id}
-              name={el.email}
-              secondRoundselected={el.secondRoundselected}
-              key={index + 1}
+              key={el.id}
+              secondRoundProfile={el}
               selectProfiles={selectProfiles}
-              navigation={navigation}
               currentAdvert={currentAdvert}
-              characteristics={currentAdvert.flat.characteristics}
-              // sayHi={sayHi}
+
+              // sayHi={'sayHi'}
+
             />
           ))}
         </ScrollView>
@@ -78,8 +78,8 @@ const SeeProfilesScreen = ({route}: any) => {
 
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${maxSelect}`}
-        style={{width: '90%', position: 'absolute', bottom: 10}}
+        value={`Selected ${finalRound.length}/${MAX_SELECT}`}
+        style={styles.selectedButton}
         onPress={() => {
           setModalVisible(!modalVisible);
         }}
@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    marginTop: 70,
+    marginTop: size(70),
     width: '100%',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: size(20),
   },
   headerText: {
     position: 'absolute',
@@ -113,6 +113,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  safeareaview: {
+    marginTop: 0,
+  },
+  selectedButton: {width: '90%', position: 'absolute', bottom: 10},
 });
 
 export default SeeProfilesScreen;

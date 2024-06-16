@@ -8,6 +8,8 @@ interface AdvertUser {
   user_type: string | null;
 }
 
+interface AdvertApplicant extends AdvertUser {}
+
 interface AdvertCharacteristics {
   emoji: string | null;
   name: string | null;
@@ -42,7 +44,7 @@ interface Advert {
   fromDate: number | null;
   toDate: number | null;
   created_at: string | null;
-  applicants: any[] | null;
+  applicants: AdvertApplicant[] | null;
   user: AdvertUser | null;
   lessor: boolean;
   flat: AdvertFlat;
@@ -60,4 +62,5 @@ export type {
   AdvertFeatures,
   AdvertFlat,
   AdvertUser,
+  AdvertApplicant,
 };

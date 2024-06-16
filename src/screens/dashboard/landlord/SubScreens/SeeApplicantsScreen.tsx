@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,47 +9,58 @@ import {
   Modal,
   Alert,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
+// Redux
 import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {useNavigation} from '@react-navigation/native';
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
 
+// Components
 import ApplicantCard from 'components/cards/ApplicantCard';
 import BackButton from 'components/buttons/BackButton';
 import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const SeeApplicantsScreen = ({route}: any) => {
+// Helpers
+import {size} from 'react-native-responsive-sizes';
+
+// Types
+import type {
+  AdvertApplicantWithSelected,
+  SeeApplicantsScreenProp,
+} from './types';
+import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+
+export const MAX_SELECT = 5;
+
+const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advert} = route.params;
-  const [applicants, setApplicants] = useState(advert.applicants);
-  const navigation = useNavigation();
-  const [maxSelect, setMaxSelected] = useState(5);
-  const [finalRound, setFinalRound] = useState([]);
+
+  const applicantsWithSelected = advert.applicants?.map(applicant => {
+    return {...applicant, selected: false};
+  });
+
+  const [applicants, setApplicants] = useState<
+    AdvertApplicantWithSelected[] | undefined
+  >(applicantsWithSelected);
+
+  const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
+    [],
+  );
   const [modalVisible, setModalVisible] = useState(false);
+
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const dispatch = useAppDispatch();
 
-  const generealState = useAppSelector(state => state);
-
-  const mutateApplicants = () => {
-    setApplicants(
-      applicants.map((applicant: any) => {
-        return {...applicant, selected: false};
-      }),
-    );
-  };
-
-  useEffect(() => {
-    mutateApplicants();
-  }, []);
-
-  const selectProfile = id => {
+  const selectProfile = (id: number | null) => {
     // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
-    const updatedProfiles = applicants.map(el => {
+    const updatedProfiles = applicants?.map(el => {
       if (el.id === id) {
         return {
           ...el,
@@ -62,9 +73,8 @@ const SeeApplicantsScreen = ({route}: any) => {
 
     setApplicants(updatedProfiles);
 
-    const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
-
-    setFinalRound(selectedProfilesOnly);
+    const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
+    setFinalRound(selectedProfilesOnly ?? []);
   };
 
   return (
@@ -72,7 +82,9 @@ const SeeApplicantsScreen = ({route}: any) => {
       <View style={styles.header}>
         <Pressable
           style={styles.iconContainer}
-          onPress={() => navigation.goBack()}>
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
         </Pressable>
         <View style={styles.headerText}>
@@ -82,22 +94,20 @@ const SeeApplicantsScreen = ({route}: any) => {
 
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {applicants.map((el, index) => (
+          {applicants?.map((el, index) => (
             <ApplicantCard
               key={index + 1}
-              maxSelect={maxSelect}
               selectProfile={selectProfile}
               currentSelectedNums={finalRound.length}
-              name={el.email}
-              id={el.id}
+              applicant={el}
             />
           ))}
         </ScrollView>
       </SafeAreaView>
       <CoreButton
         disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${maxSelect}`}
-        style={{width: '90%', position: 'absolute', bottom: 10}}
+        value={`Selected ${finalRound.length}/${MAX_SELECT}`}
+        style={styles.coreButton}
         onPress={() => {
           setModalVisible(!modalVisible);
         }}
@@ -113,7 +123,7 @@ const SeeApplicantsScreen = ({route}: any) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={[fontStyles.bodyMedium, {textAlign: 'center'}]}>
+            <Text style={[fontStyles.bodyMedium, styles.textAlign]}>
               🖐 {'\n'}
               Are you sure about your selection? There is no way back later on!!
             </Text>
@@ -125,9 +135,9 @@ const SeeApplicantsScreen = ({route}: any) => {
               </Pressable>
 
               <Pressable
-                style={[styles.button, styles.buttonClose, {marginLeft: 30}]}
+                style={[styles.button, styles.buttonClose, styles.marginButton]}
                 onPress={() => {
-                  dispatch(changeAdvertStatus(advert.id));
+                  dispatch(changeAdvertStatus(advert.id ?? 1));
                   setModalVisible(!modalVisible);
                   navigation.navigate('shortlist', {
                     secondRoundApplicants: finalRound,
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    marginTop: 60,
+    marginTop: size(60),
     width: '100%',
   },
   headerText: {
@@ -168,13 +178,13 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   scrollView: {
-    paddingBottom: 130,
-    marginTop: 20,
+    paddingBottom: size(130),
+    marginTop: size(20),
   },
 
   choicesContainer: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: size(30),
   },
   centeredView: {
     flex: 1,
@@ -183,11 +193,12 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Black[10],
     opacity: 0.8,
   },
+  coreButton: {width: '90%', position: 'absolute', bottom: size(10)},
   modalView: {
-    margin: 20,
+    margin: size(20),
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: size(35),
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -200,7 +211,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 8,
-    padding: 10,
+    padding: size(10),
     elevation: 2,
   },
 
@@ -219,9 +230,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+
   modalText: {
-    marginBottom: 15,
+    marginBottom: size(15),
     textAlign: 'center',
+  },
+  iconContainer: {
+    paddingLeft: size(28),
+    zIndex: 100,
+  },
+  textAlign: {
+    textAlign: 'center',
+  },
+  marginButton: {
+    marginLeft: size(20),
   },
 });
 

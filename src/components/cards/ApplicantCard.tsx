@@ -15,19 +15,27 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 
+// Helpers
+import {size} from 'react-native-responsive-sizes';
+
+// Constants
+import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+
+// Types
+import type {ApplicantCardProps} from './types';
+
 const ApplicantCard = ({
-  finalRound,
-  id,
   currentSelectedNums,
-  maxSelect,
-  name,
   selectProfile,
-}) => {
-  const [activateBox, setActiveBox] = useState(false);
+  applicant,
+}: ApplicantCardProps) => {
+  const {id, email: name, selected} = applicant;
+
+  const [activateBox, setActiveBox] = useState(selected);
   const [accordion, setAccordion] = useState(false);
 
   const checkClick = () => {
-    if (currentSelectedNums >= maxSelect) {
+    if (currentSelectedNums >= MAX_SELECT) {
       if (activateBox) {
         setActiveBox(false);
         selectProfile(id);
@@ -49,8 +57,8 @@ const ApplicantCard = ({
       <View style={[styles.innerContainer]}>
         <CheckBox value={activateBox} onPress={() => checkClick()} />
         <View style={styles.details}>
-          <Text style={[fontStyles.bodyMedium, {marginRight: 20}]}>
-            {name.split('')[0].toUpperCase()}.
+          <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
+            {name?.split('')[0].toUpperCase()}.
           </Text>
           <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
             (96 % Match)
@@ -67,7 +75,7 @@ const ApplicantCard = ({
         </Pressable>
       </View>
 
-      {accordion ? (
+      {accordion && (
         <View style={styles.accordionExpand}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
           <Chips
@@ -93,7 +101,9 @@ const ApplicantCard = ({
             features={true}
           />
 
-          <Text style={[fontStyles.headerSmall, {marginTop: 20}]}>Other</Text>
+          <Text style={[fontStyles.headerSmall, styles.otherMargin]}>
+            Other
+          </Text>
           <Chips
             tags={[
               {
@@ -117,7 +127,7 @@ const ApplicantCard = ({
             features={true}
           />
         </View>
-      ) : null}
+      )}
     </View>
   );
 };
@@ -126,8 +136,8 @@ const styles = StyleSheet.create({
   outterContainer: {
     backgroundColor: Color.Lavendar[10],
     borderRadius: 10,
-    marginBottom: 20,
-    padding: 15,
+    marginBottom: size(20),
+    padding: size(15),
   },
   innerContainer: {
     justifyContent: 'space-between',
@@ -143,7 +153,16 @@ const styles = StyleSheet.create({
     color: Color.Mint[100],
   },
   accordionExpand: {
-    marginTop: 20,
+    marginTop: size(20),
+  },
+  iconContainer: {
+    padding: size(10),
+  },
+  nameMargin: {
+    marginRight: size(20),
+  },
+  otherMargin: {
+    marginTop: size(20),
   },
 });
 

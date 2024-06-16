@@ -1,5 +1,9 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
+import type {
+  AdvertApplicantWithSelected,
+  SecondRoundApplicantWithSelected,
+} from 'screens/dashboard/landlord/SubScreens/types';
 
 type ListFlatApplicationCardProps = {
   advert: Advert;
@@ -13,21 +17,37 @@ type LofftHeaderPhotoProps = {
   activeBlur?: boolean;
 };
 
-type onViewableItemsChangedParams = {
+type OnViewableItemsChangedParams = {
   viewableItems: Array<ViewToken>;
   changed?: Array<ViewToken>;
 };
+
+
+type ApplicantCardProps = {
+  currentSelectedNums: number;
+  selectProfile: (id: number | null) => void;
+  applicant: AdvertApplicantWithSelected;
+};
+
+type UserBlobCardProps = {
+  secondRoundProfile: SecondRoundApplicantWithSelected;
+  currentAdvert: Advert;
+  selectProfiles: (id: number | null) => void;
 
 type LanguagesCardProps = {
   language: string;
   selected: boolean;
   isSelected?: boolean;
   handleSelectedLanguages: (chosenLangugage: string) => void;
+
 };
 
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
-  onViewableItemsChangedParams,
+  OnViewableItemsChangedParams,
+  ApplicantCardProps,
+  UserBlobCardProps,
   LanguagesCardProps,
+
 };

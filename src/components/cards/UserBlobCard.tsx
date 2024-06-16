@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import {View, Text, StyleSheet, Image} from 'react-native';
 
@@ -12,32 +13,38 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
+// Helpers
+import {capitalize} from 'helpers/capitalize';
+import {size} from 'react-native-responsive-sizes';
+
+// Types
+import type {UserBlobCardProps} from './types';
+import type {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
+
 const UserBlobCard = ({
-  id,
-  selectProfiles,
-  name,
-  secondRoundselected,
-  navigation,
-  characteristics,
+  secondRoundProfile,
   currentAdvert,
-}: any) => {
-  const [activateBox, setActivateBox] = useState(secondRoundselected);
+  selectProfiles,
+}: UserBlobCardProps) => {
+  const {id, email} = secondRoundProfile;
 
-  const clickBox = () => {
-    setActivateBox(!activateBox);
+  const [clickCheckbox, setClickCheckbox] = useState(false);
+
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
+
+  const applicantName = email?.split('@')[0];
+
+  const handleClickCheckbox = () => {
+    setClickCheckbox(!clickCheckbox);
     selectProfiles(id);
-  };
-
-  const capitalize = (word: any) => {
-    return word.charAt(0).toUpperCase() + word.substring(1);
   };
 
   return (
     <View style={styles.blobContainer}>
       <CheckBox
-        style={{marginLeft: 10}}
-        value={secondRoundselected}
-        onPress={() => clickBox()}
+        style={styles.checkbox}
+        value={clickCheckbox}
+        onPress={() => handleClickCheckbox()}
       />
       <Image
         style={styles.profilePic}
@@ -47,7 +54,7 @@ const UserBlobCard = ({
       />
       <View>
         <Text style={fontStyles.headerMedium}>
-          {capitalize(name.split('@')[0])}
+          {applicantName ? capitalize(applicantName) : 'No name'}
         </Text>
         <Text style={fontStyles.bodyMedium}>🌟 98% Match</Text>
       </View>
@@ -55,18 +62,12 @@ const UserBlobCard = ({
         name="chevron-right"
         size={35}
         color={Color.Blue[80]}
-        title="Profile page"
         onPress={() =>
           navigation.navigate('ApplicantProfile', {
-            userId: id,
-            firstName: name,
-            characteristics: characteristics,
-            selectedProfile: {
-              userId: id,
-              selected: secondRoundselected,
-            },
+            applicantName: applicantName,
+            handleClickCheckbox: handleClickCheckbox,
+            secondRoundProfile: secondRoundProfile,
             currentAdvert: currentAdvert,
-            selectProfilesFunc: selectProfiles,
           })
         }
       />
@@ -77,8 +78,8 @@ const UserBlobCard = ({
 const styles = StyleSheet.create({
   blobContainer: {
     width: '95%',
-    height: 120,
-    padding: 7,
+    height: size(120),
+    padding: size(7),
     backgroundColor: Color.Lavendar[10],
     borderRadius: 12,
     marginBottom: 20,
@@ -87,10 +88,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   profilePic: {
-    width: 80,
+    width: size(80),
     height: '80%',
     borderRadius: 8,
   },
+  checkbox: {marginLeft: 10},
 });
 
 export default UserBlobCard;
