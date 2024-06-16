@@ -21,7 +21,7 @@ type newUserNavigatorParamsList = {
   LanguageSelectionScreen: [string, string];
 };
 
-type newUserNavigationParmsList = {
+type newUserNavigationParamsList = {
   AboutYouFlatHuntScreen: undefined;
   LanguageSelectionScreen: undefined;
 };
