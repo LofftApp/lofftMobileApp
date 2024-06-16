@@ -21,7 +21,7 @@ type ApplicationIndexScreenProp = {
 
 type ApplicationShowScreenProp = {
   navigation: FavoriteScreenNavigationProp;
-  route: {params: {advert: Advert}};
+  route: {params: {advertId: number}};
 };
 
 type ApplyForFlatScreenProp = {

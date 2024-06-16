@@ -192,7 +192,7 @@ const ListFlatApplicationCard = ({
             style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
-                advert: advert,
+                advertId: advert.id,
                 active: active,
               })
             }

@@ -19,27 +19,32 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
+import {useAppSelector} from 'reduxCore/hooks';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
-  const {advert} = route.params;
+  const {advertId} = route.params;
+
+  const advert = useAppSelector(state =>
+    state.adverts.adverts.find(item => item.id === advertId),
+  );
 
   const [hasCollapsed, setHasCollapsed] = useState(true);
 
   return (
     <View style={styles.pageWrapper}>
       <HighlightButtons
-        heartPresent={!advert.lessor}
-        color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
+        heartPresent={!advert?.lessor}
+        color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
       <LofftHeaderPhoto
         imageContainerHeight={300}
-        images={advert.flat.photos ?? []}
+        images={advert?.flat?.photos ?? []}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar advert={advert} />
+          {advert && <StatusBar advert={advert} />}
           <Text
             onPress={() => setHasCollapsed(!hasCollapsed)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
@@ -47,7 +52,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
           </Text>
 
           <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoContainer advert={advert} button={false} />
+            {advert && <FlatInfoContainer advert={advert} button={false} />}
           </Collapsible>
         </View>
       </ScrollView>
