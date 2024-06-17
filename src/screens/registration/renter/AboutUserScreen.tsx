@@ -1,4 +1,4 @@
-import React, {useState, FC} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 // Screens 📺
@@ -18,28 +18,27 @@ import userPreferences from 'components/componentData/userPreferences.json';
 
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {size} from 'react-native-responsive-sizes';
+import {useNavigation} from '@react-navigation/native';
 
-const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
-  const headerText = route.params.headerText;
-  const subHeaderText = route.params.subText;
+interface SelectedTracks {
+  id: number;
+  value: string;
+  emoji: string;
+  toggle: boolean;
+}
+
+const AboutYouFlatHuntScreen = () => {
+  const navigation = useNavigation();
   const preferences = userPreferences;
 
-  const [intitalpreferencesArray, seIintitalPreferencesArray] =
+  const [intitalpreferencesArray, setintitalPreferencesArray] =
     useState(preferences);
-  const [screen] = useState(0);
-  const [selectedTracks, setselectedTracks] = useState([]);
-  const [alertTriger, setAlertTriger] = useState(false);
+  const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
+  const [alertTriger] = useState(false);
 
-  const selectedEmojis = (id: any) => {
+  const selectedEmojis = (id: number) => {
     const targets = [];
-
-    interface EmojiItem {
-      id: number;
-      emojiIcon: string;
-      value: string;
-      toggle: boolean;
-    }
-
     const preSeleted = intitalpreferencesArray.map(element => {
       if (element.id === id) {
         targets.push(element);
@@ -52,29 +51,22 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
       }
     });
 
-    const wash: any = preSeleted.filter(el => el.toggle);
+    const wash = preSeleted.filter(el => el.toggle);
 
     setselectedTracks(wash);
-    seIintitalPreferencesArray(preSeleted);
-  };
-
-  const checkChoices = () => {
-    setAlertTriger(true);
-
-    setTimeout(() => {
-      setAlertTriger(false);
-    }, 800);
+    setintitalPreferencesArray(preSeleted);
   };
 
   const emojiElements = intitalpreferencesArray.map(
-    (emojiElement: any, index: number) => {
+    (emojiElement, index: number) => {
+      const {value, emoji, id, toggle} = emojiElement;
       return (
         <EmojiIcon
           key={index + 1}
-          id={emojiElement.id}
-          emojiIcon={emojiElement.emoji}
-          value={emojiElement.value}
-          toggle={emojiElement.toggle}
+          id={id}
+          emojiIcon={emoji}
+          value={value}
+          toggle={toggle}
           selectedEmojis={selectedEmojis}
           disabled={
             selectedTracks.length === 10 &&
@@ -88,15 +80,15 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
-        headlineText={headerText}
-        subDescription={subHeaderText}
+        headlineText="Tell us a bit about yourself"
+        subDescription="Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.emojiContainer}>{emojiElements}</View>
       </ScrollView>
       <View style={styles.footerContainer}>
         <UserJourneyPaginationBar />
-        <View style={{marginVertical: 13}}>
+        <View style={styles.tagInfoContainer}>
           <Text
             style={
               alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
@@ -108,7 +100,7 @@ const AboutYouFlatHuntScreen = ({navigation, route}: any) => {
           value="Continue"
           disabled={selectedTracks.length < 3}
           details={{flatMate: selectedTracks}}
-          onPress={(targetScreen: any) =>
+          onPress={(targetScreen: number) =>
             navigationHelper(navigation, targetScreen)
           }
         />
@@ -121,11 +113,14 @@ const styles = StyleSheet.create({
   emojiContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 150,
+    marginBottom: size(150),
+  },
+  tagInfoContainer: {
+    marginVertical: size(13),
   },
   footerContainer: {
-    paddingTop: 35,
-    paddingBottom: 28,
+    paddingTop: size(35),
+    paddingBottom: size(28),
   },
 });
 

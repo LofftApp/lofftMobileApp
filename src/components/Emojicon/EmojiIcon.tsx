@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -13,7 +13,14 @@ const EmojiIcon = ({
   toggle,
   selectedEmojis,
   disabled = false,
-}: any) => {
+}: {
+  id: number;
+  emojiIcon: string;
+  value: string;
+  toggle: boolean;
+  selectedEmojis: (id: number) => void;
+  disabled: boolean;
+}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -36,7 +43,7 @@ const EmojiIcon = ({
         style={[
           styles.buttonStyle,
           toggle ? styles.selectedEmojiIcon : styles.emojiIcon,
-          disabled ? styles.disabled : null,
+          disabled && styles.disabled,
         ]}
         disabled={disabled}>
         <Text
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
 
     marginRight: size(8),
     marginBottom: size(16),
-    borderRadius: 16,
+    borderRadius: size(16),
     borderWidth: size(2),
   },
   disabled: {

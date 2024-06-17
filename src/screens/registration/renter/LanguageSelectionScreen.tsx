@@ -13,11 +13,13 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import languagesData from 'Assets/coreText/languagesText.json';
 import LanguagesCard from 'components/cards/LanguagesCard';
 
+import {StackNavigation} from '../../../../navigationStacks/types';
+
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
 const LanguageSelectionScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigation>();
 
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
@@ -48,7 +50,7 @@ const LanguageSelectionScreen = () => {
       x: 0,
       y: 0,
       animated: true,
-      duration: 4000,
+      // duration: 4000,
     });
   };
 
@@ -114,7 +116,9 @@ const LanguageSelectionScreen = () => {
       <View style={styles.continueButtonView}>
         <CoreButton
           value="Continue"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('AboutYouFlatHuntScreen');
+          }}
           style={styles.button}
           disabled={selectedLanguages.length === 0}
         />

@@ -21,6 +21,11 @@ type newUserNavigatorParamsList = {
   LanguageSelectionScreen: [string, string];
 };
 
+type newUserNavigationParamsList = {
+  AboutYouFlatHuntScreen: undefined;
+  LanguageSelectionScreen: undefined;
+};
+
 type FavoriteStackParamsList = {
   favorite: undefined;
   applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
@@ -81,6 +86,8 @@ type NewUserNavigatorProp = StackNavigationProp<
 
 >;
 
+type NewUserJourneyStackNavigation = StackNavigationProp<newUserNavigationParamsList>;
+
 export type {
   RootTabParamsList,
   FavoriteStackParamsList,
@@ -91,5 +98,5 @@ export type {
   LessorNavigatorStackParamsList,
   LessorNavigatorScreenNavigationProp,
   NewUserNavigatorProp,
-
+  NewUserJourneyStackNavigation,
 };
