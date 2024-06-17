@@ -1,12 +1,6 @@
 // Needs refactoring to work with TypeScript
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Animated,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -27,15 +21,18 @@ import CityDistricts from 'components/componentData/cityDistricts.json';
 
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {size} from 'react-native-responsive-sizes';
+import {useNavigation} from '@react-navigation/native';
 
-const SelectCityScreen = ({navigation, route}: any) => {
+// Types
+import { District, City, Data } from './types';
+
+const SelectCityScreen = () => {
+  const navigation = useNavigation();
   const [city, setCity] = useState('');
-  const [districtTags, setDistrictTags] = useState([]);
-  const [focusedCity, setFocusCity] = useState(false);
   const [elementArray, setElementArray]: Array<any> = useState([]);
   const [districts, setDistricts]: Array<any> = useState([]);
-  const [cityPicked, setCityPicked] = useState(false);
-  const [screen, setScreen] = useState(2);
+  const [, setCityPicked] = useState(false);
   const [allDistricts, setAllDistricts] = useState(false);
   const [washedDistricts, setWashedDistricts] = useState([]);
   const [query, setQuery] = useState(false);
@@ -85,7 +82,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
       if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
         const inputObject = {city: '', flag: ''};
         inputObject.city = key;
-        inputObject.flag = value['flag'];
+        inputObject.flag = value.flag;
         creationArray.push(inputObject);
         setElementArray(creationArray);
       }
@@ -105,9 +102,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
     }, 0);
   };
 
-  const handleCityFocus = () => setFocusCity(true);
-
-  const selectedEmojis = (id: any) => {
+  const selectedEmojis = (id: number) => {
     const targets = [];
 
     const preSeleted: any[] = districts.map((element: any) => {
@@ -118,10 +113,6 @@ const SelectCityScreen = ({navigation, route}: any) => {
           toggle: !element.toggle,
         };
       } else {
-        // const targetIndex = targets.map(e => e.hello).indexOf(id);
-        // if (targetIndex > -1) {
-        //   targets.splice(targetIndex,1);
-        // }
         return element;
       }
     });
@@ -141,7 +132,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
         emojiIcon={emojiElement.emoji}
         toggle={emojiElement.toggle}
         selectedEmojis={selectedEmojis}
-      />
+        disabled={false}      />
     );
   });
 
@@ -200,7 +191,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
           />
         </View>
 
-        {districts.length >= 1 ? (
+        {districts.length >= 1 && (
           <View style={{marginTop: 15}}>
             <Animated.View // Special animatable View
               style={{
@@ -226,7 +217,7 @@ const SelectCityScreen = ({navigation, route}: any) => {
             </Animated.View>
             <View style={styles.emojiContainer}>{emojiElements}</View>
           </View>
-        ) : null}
+        )}
       </ScrollView>
 
       <FooterNavBarWithPagination
@@ -242,39 +233,39 @@ const SelectCityScreen = ({navigation, route}: any) => {
 
 const styles = StyleSheet.create({
   questionInputStyle: {
-    padding: 15,
+    padding: size(15),
     color: Color.Black[80],
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderWidth: 2,
+    borderTopLeftRadius: size(12),
+    borderTopRightRadius: size(12),
+    borderWidth: size(2),
   },
 
   cityTag: {
-    padding: 15,
+    padding: size(15),
     borderColor: Color.Lavendar[100],
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
+    borderRightWidth: size(2),
+    borderLeftWidth: size(2),
     borderBottomWidth: 0,
   },
   lastCityTag: {
     borderColor: Color.Lavendar[100],
-    borderBottomWidth: 2,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
-    padding: 15,
+    borderBottomWidth: size(2),
+    borderBottomLeftRadius: size(12),
+    borderBottomRightRadius: size(12),
+    borderRightWidth: size(2),
+    borderLeftWidth: size(2),
+    padding: size(15),
   },
   emojiContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 150,
+    marginBottom: size(150),
   },
   options: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: size(15),
   },
   switchContainer: {
     flexDirection: 'row',

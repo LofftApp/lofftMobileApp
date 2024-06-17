@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
 import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
+import {size} from 'react-native-responsive-sizes';
 
 const FooterNavBarWithPagination = ({
   onPress,
@@ -29,16 +30,16 @@ const FooterNavBarWithPagination = ({
 
 const styles = StyleSheet.create({
   paginationContainer: {
-    marginBottom: 57,
+    marginBottom: size(27),
   },
   footerContainer: {
     flex: 1,
     justifyContent: 'flex-end',
     bottom: 0,
-    paddingTop: 35,
-    paddingBottom: 28,
-    minHeight: 150,
-    marginTop: 25,
+    paddingTop: size(35),
+    paddingBottom: size(28),
+    minHeight: size(110),
+    marginTop: size(20),
   },
 });
 
