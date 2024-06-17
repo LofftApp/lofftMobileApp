@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useRef, useEffect} from 'react';
 
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 
@@ -6,7 +6,20 @@ import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const SelectButton = ({value, id, toggle, selectGender}: any) => {
+// Helper 🥷🏻
+import {size} from 'react-native-responsive-sizes';
+
+const SelectButton = ({
+  value,
+  id,
+  toggle,
+  selectGender,
+}: {
+  value: string;
+  id: number;
+  toggle: boolean;
+  selectGender: (id: number) => void;
+}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -36,24 +49,24 @@ const SelectButton = ({value, id, toggle, selectGender}: any) => {
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderWidth: 2,
-    borderRadius: 12,
+    paddingVertical: size(12),
+    paddingHorizontal: size(16),
+    borderWidth: size(2),
+    borderRadius: size(12),
     borderColor: Color.Black[100],
-    flexDirction: 'row',
-    marginRight: 8,
-    marginBottom: 16,
+    flexDirection: 'row',
+    marginRight: size(8),
+    marginBottom: size(16),
   },
   buttonActive: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderWidth: 2,
-    borderRadius: 12,
+    paddingVertical: size(12),
+    paddingHorizontal: size(16),
+    borderWidth: size(2),
+    borderRadius: size(12),
     borderColor: Color.Lavendar[100],
-    flexDirction: 'row',
-    marginRight: 8,
-    marginBottom: 16,
+    flexDirection: 'row',
+    marginRight: size(8),
+    marginBottom: size(16),
     backgroundColor: Color.Lavendar[10],
   },
 });

@@ -1,22 +1,26 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
 import SelectButton from 'components/buttons/SelectButton';
-import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
-
-// Styles 🖼️
 
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import {useNavigation} from '@react-navigation/native';
 
-const GenderIdentityScreen = ({navigation, route}: any) => {
+interface SelectButton {
+  id: number;
+  value: string;
+  toggle: boolean;
+}
+
+const GenderIdentityScreen = () => {
+  const navigation = useNavigation();
+
   const genders = [
     {value: 'Male', id: 1, toggle: false},
     {value: 'Female', id: 2, toggle: false},
@@ -25,12 +29,10 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
     {value: 'Prefer not to say', id: 5, toggle: false},
   ];
 
-  const selectedTagsFromScreenOne = route.params.selectedTagsFromScreenOne;
-  const [screen, setScreen] = useState(1);
   const [intitalGenders, setIntitalGenders] = useState(genders);
-  const [cleanGenders, setCleanGenders] = useState<any[]>([]);
+  const [cleanGenders, setCleanGenders] = useState<SelectButton[]>([]);
 
-  const selectGender = (id: any) => {
+  const selectGender = (id: number) => {
     const genderTicked = intitalGenders.map(el => {
       if (el.id === id) {
         return {
@@ -45,7 +47,7 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
       }
     });
 
-    const wash: any = genderTicked.filter(el => el.toggle);
+    const wash = genderTicked.filter(el => el.toggle);
     setCleanGenders(wash);
     setIntitalGenders(genderTicked);
   };
@@ -76,11 +78,5 @@ const GenderIdentityScreen = ({navigation, route}: any) => {
     </ScreenBackButton>
   );
 };
-
-const styles = StyleSheet.create({
-  selectd: {
-    color: 'blue',
-  },
-});
 
 export default GenderIdentityScreen;
