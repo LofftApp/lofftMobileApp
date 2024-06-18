@@ -248,11 +248,11 @@ const styles = StyleSheet.create({
     marginTop: size(10),
   },
   districtText: {
-    marginTop: 15,
-    marginBottom: 20,
+    marginTop: size(15),
+    marginBottom: size(20),
   },
   selectAllText: {
-    marginLeft: 20,
+    marginLeft: size(20),
   },
   lastCityTag: {
     borderColor: Color.Lavendar[100],
