@@ -25,7 +25,7 @@ import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 
 // Types
-import {District, City, Data} from './types';
+import {City, Data} from './types';
 
 const SelectCityScreen = () => {
   const navigation = useNavigation();
@@ -71,6 +71,7 @@ const SelectCityScreen = () => {
 
   // Functions
   const cityTrack = (userInput: any) => {
+    // eslint-disable-next-line eqeqeq
     if (userInput === '' || city != '') {
       setElementArray([]);
       setDistricts([]);
@@ -79,6 +80,7 @@ const SelectCityScreen = () => {
     const creationArray = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
+      // eslint-disable-next-line eqeqeq
       if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
         const inputObject = {city: '', flag: ''};
         inputObject.city = key;
@@ -199,11 +201,7 @@ const SelectCityScreen = () => {
                 opacity: fadeAnim, // Bind opacity to animated value
               }}>
               <View style={styles.options}>
-                <Text
-                  style={[
-                    fontStyles.headerMedium,
-                    {marginTop: 15, marginBottom: 20},
-                  ]}>
+                <Text style={[fontStyles.headerMedium, styles.districtText]}>
                   Districts
                 </Text>
                 <View style={styles.switchContainer}>
@@ -212,7 +210,7 @@ const SelectCityScreen = () => {
                     // onValueChange={() => trigerAllFlats(allDistricts)}
                     onValueChange={() => trigerAllFlats()}
                   />
-                  <Text style={{marginLeft: 20}}>Select All</Text>
+                  <Text style={styles.selectAllText}>Select All</Text>
                 </View>
               </View>
             </Animated.View>
@@ -240,7 +238,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: size(12),
     borderWidth: size(2),
   },
-
   cityTag: {
     padding: size(15),
     borderColor: Color.Lavendar[100],
@@ -250,6 +247,13 @@ const styles = StyleSheet.create({
   },
   resultWrapper: {
     marginTop: size(10),
+  },
+  districtText: {
+    marginTop: 15,
+    marginBottom: 20,
+  },
+  selectAllText: {
+    marginLeft: 20,
   },
   lastCityTag: {
     borderColor: Color.Lavendar[100],
