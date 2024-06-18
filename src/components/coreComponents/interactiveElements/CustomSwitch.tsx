@@ -2,7 +2,13 @@ import React from 'react';
 import {Switch} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const CustomSwitch = ({value, onValueChange}: any) => {
+const CustomSwitch = ({
+  value,
+  onValueChange,
+}: {
+  value: boolean;
+  onValueChange: () => void;
+}) => {
   return (
     <Switch
       value={value}
