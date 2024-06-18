@@ -207,7 +207,6 @@ const SelectCityScreen = () => {
                 <View style={styles.switchContainer}>
                   <CustomSwitch
                     value={allDistricts}
-                    // onValueChange={() => trigerAllFlats(allDistricts)}
                     onValueChange={() => trigerAllFlats()}
                   />
                   <Text style={styles.selectAllText}>Select All</Text>
