@@ -25,19 +25,19 @@ import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 
 // Types
-import {City, Data} from './types';
+import {SingleCity, District, Cities} from './types';
 
 const SelectCityScreen = () => {
   const navigation = useNavigation();
   const [city, setCity] = useState('');
-  const [elementArray, setElementArray]: Array<any> = useState([]);
-  const [districts, setDistricts]: Array<any> = useState([]);
+  const [elementArray, setElementArray] = useState<SingleCity[]>([]);
+  const [districts, setDistricts] = useState<District[]>([]);
   const [, setCityPicked] = useState(false);
   const [allDistricts, setAllDistricts] = useState(false);
-  const [washedDistricts, setWashedDistricts] = useState([]);
+  const [washedDistricts, setWashedDistricts] = useState<District[]>([]);
   const [query, setQuery] = useState(false);
 
-  const cities: any = CityDistricts; // intital empty hence undefined
+  const cities: Cities = CityDistricts; // intital empty hence undefined
 
   const trigerAllFlats = () => {
     selectAllDistrictsTags(allDistricts);
@@ -45,15 +45,15 @@ const SelectCityScreen = () => {
   };
 
   const selectAllDistrictsTags = (state: boolean) => {
-    const allDistrictTags: object[] = districts.map((el: City) => {
+    const allDistrictTags = districts.map(el => {
       if (!state) {
         return {
-          ...(el as Object),
+          ...el,
           toggle: true,
         };
       } else {
         return {
-          ...(el as Object),
+          ...el,
           toggle: false,
         };
       }
@@ -62,15 +62,15 @@ const SelectCityScreen = () => {
     setDistricts(allDistrictTags);
   };
 
-  const orderedCities: Data = Object.keys(cities)
+  const orderedCities = Object.keys(cities)
     .sort()
-    .reduce((obj: any, key: string) => {
+    .reduce((obj: Cities, key: string) => {
       obj[key] = cities[key];
       return obj;
     }, {});
 
   // Functions
-  const cityTrack = (userInput: any) => {
+  const cityTrack = (userInput: string) => {
     // eslint-disable-next-line eqeqeq
     if (userInput === '' || city != '') {
       setElementArray([]);
@@ -107,11 +107,11 @@ const SelectCityScreen = () => {
   const selectedEmojis = (id: number) => {
     const targets = [];
 
-    const preSeleted: any[] = districts.map((element: any) => {
+    const preSeleted = districts.map(element => {
       if (element.id === id) {
         targets.push(element);
         return {
-          ...(element as object),
+          ...element,
           toggle: !element.toggle,
         };
       } else {
@@ -119,7 +119,7 @@ const SelectCityScreen = () => {
       }
     });
 
-    const wash: any = preSeleted.filter(el => el.toggle);
+    const wash = preSeleted.filter(el => el.toggle);
 
     setDistricts(preSeleted);
     setWashedDistricts(wash);

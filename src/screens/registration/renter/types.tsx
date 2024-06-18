@@ -5,17 +5,16 @@ export type District = {
   emoji?: string; // optional, since not all districts have emojis
 };
 
+export type SingleCity = {
+  city: string;
+  flag: string;
+};
+
 export type City = {
   districts: District[];
   flag: string;
 };
 
-export type Data = {
-  berlin: City;
-  paris: City;
-  budapest: City;
-  brussels: City;
-  brisbane: City;
-  wroclaw: City;
-  warszawa: City;
+export type Cities = {
+  [key: string]: City;
 };
