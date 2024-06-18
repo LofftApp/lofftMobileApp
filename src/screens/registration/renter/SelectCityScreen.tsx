@@ -25,7 +25,7 @@ import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 
 // Types
-import { District, City, Data } from './types';
+import {District, City, Data} from './types';
 
 const SelectCityScreen = () => {
   const navigation = useNavigation();
@@ -37,15 +37,15 @@ const SelectCityScreen = () => {
   const [washedDistricts, setWashedDistricts] = useState([]);
   const [query, setQuery] = useState(false);
 
-  const cities: any = CityDistricts;
+  const cities: Data = CityDistricts;
 
   const trigerAllFlats = () => {
     selectAllDistrictsTags(allDistricts);
     setAllDistricts(!allDistricts);
   };
 
-  const selectAllDistrictsTags = (state: any) => {
-    const allDistrictTags: object[] = districts.map((el: any) => {
+  const selectAllDistrictsTags = (state: boolean) => {
+    const allDistrictTags: object[] = districts.map((el: City) => {
       if (!state) {
         return {
           ...(el as Object),
@@ -68,6 +68,8 @@ const SelectCityScreen = () => {
       obj[key] = cities[key];
       return obj;
     }, {});
+
+console.log(Object.keys(cities))
 
   // Functions
   const cityTrack = (userInput: any) => {
@@ -132,7 +134,8 @@ const SelectCityScreen = () => {
         emojiIcon={emojiElement.emoji}
         toggle={emojiElement.toggle}
         selectedEmojis={selectedEmojis}
-        disabled={false}      />
+        disabled={false}
+      />
     );
   });
 
