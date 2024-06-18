@@ -32,7 +32,7 @@ export const signUp = createAsyncThunk(
       });
       await EncryptedStorage.setItem('token', response.headers.authorization);
       return;
-    } catch (error) {
+    } catch (error: any) {
       console.log('signUp error:', error.code);
     }
   },

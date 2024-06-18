@@ -37,7 +37,7 @@ const SelectCityScreen = () => {
   const [washedDistricts, setWashedDistricts] = useState([]);
   const [query, setQuery] = useState(false);
 
-  const cities: Data = CityDistricts;
+  const cities: any = CityDistricts; // intital empty hence undefined
 
   const trigerAllFlats = () => {
     selectAllDistrictsTags(allDistricts);
@@ -62,14 +62,12 @@ const SelectCityScreen = () => {
     setDistricts(allDistrictTags);
   };
 
-  const orderedCities = Object.keys(cities)
+  const orderedCities: Data = Object.keys(cities)
     .sort()
     .reduce((obj: any, key: string) => {
       obj[key] = cities[key];
       return obj;
     }, {});
-
-console.log(Object.keys(cities))
 
   // Functions
   const cityTrack = (userInput: any) => {
@@ -94,9 +92,9 @@ console.log(Object.keys(cities))
     setCity(userInput);
   };
 
-  const activateDistrictDisplay = (city: any) => {
+  const activateDistrictDisplay = (cityInput: string) => {
     setCityPicked(true);
-    setDistricts(cities[city.split(' ')[1].toLowerCase()].districts);
+    setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
     setCity(city);
     setTimeout(() => {
       setElementArray([]);
@@ -140,7 +138,7 @@ console.log(Object.keys(cities))
   });
 
   const cityUsableData = (data: any) => {
-    return data.map((cityData: object) => {
+    return data.map((cityData: {city: string; flag: string}) => {
       return `${cityData.flag} ${cityData.city
         .charAt(0)
         .toUpperCase()}${cityData.city.slice(1)}`;
@@ -195,7 +193,7 @@ console.log(Object.keys(cities))
         </View>
 
         {districts.length >= 1 && (
-          <View style={{marginTop: 15}}>
+          <View style={styles.resultWrapper}>
             <Animated.View // Special animatable View
               style={{
                 opacity: fadeAnim, // Bind opacity to animated value
@@ -249,6 +247,9 @@ const styles = StyleSheet.create({
     borderRightWidth: size(2),
     borderLeftWidth: size(2),
     borderBottomWidth: 0,
+  },
+  resultWrapper: {
+    marginTop: size(10),
   },
   lastCityTag: {
     borderColor: Color.Lavendar[100],

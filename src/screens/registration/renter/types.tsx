@@ -1,16 +1,16 @@
-export interface District {
+export type District = {
   id: number;
   name: string;
   toggle: boolean;
-  emoji?: string;  // optional, since not all districts have emojis
-}
+  emoji?: string; // optional, since not all districts have emojis
+};
 
-export interface City {
+export type City = {
   districts: District[];
   flag: string;
-}
+};
 
-export interface Data {
+export type Data = {
   berlin: City;
   paris: City;
   budapest: City;
@@ -18,4 +18,4 @@ export interface Data {
   brisbane: City;
   wroclaw: City;
   warszawa: City;
-}
+};
