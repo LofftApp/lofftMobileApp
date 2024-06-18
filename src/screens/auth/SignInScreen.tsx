@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
@@ -12,7 +13,12 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
 
-const SignInScreen = ({navigation}: any) => {
+// Helpers 🥷🏻
+import {size, height} from 'react-native-responsive-sizes';
+
+const SignInScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
@@ -42,12 +48,12 @@ const SignInScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.Lavendar['5'],
+    backgroundColor: Color.Lavendar[5],
   },
   image: {
-    height: '70%',
+    height: height(90),
     overflow: 'visible',
-    marginTop: 50,
+    marginTop: size(50),
   },
   imageWrap: {
     zIndex: 3,
@@ -56,15 +62,15 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'absolute',
-    top: -10,
+    top: size(-10),
     zIndex: 1,
   },
   formWrap: {
     zIndex: 2,
     flex: 3,
-    paddingHorizontal: 10,
+    paddingHorizontal: size(10),
     backgroundColor: Color.White['100'],
-    borderRadius: 30,
+    borderRadius: size(30),
   },
   signInForm: {
     flex: 2,
@@ -74,8 +80,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    paddingBottom: 40,
-    fontSize: 16,
+    paddingBottom: size(40),
+    fontSize: size(16),
     fontWeight: '500',
   },
   link: {

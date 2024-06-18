@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signIn} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Components 🪢
@@ -12,11 +12,14 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
+// Helpers 🥷🏻
+import {size} from 'react-native-responsive-sizes';
+
 const SignInForm = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState({target: '', message: ''});
+  const [message] = useState({target: '', message: ''});
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello again!</Text>
@@ -52,24 +55,24 @@ const SignInForm = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: size(50),
     alignItems: 'center',
     flex: 1,
   },
   title: {
-    fontSize: 22,
+    fontSize: size(22),
     fontWeight: '600',
-    lineHeight: 28,
-    paddingBottom: 20,
+    lineHeight: size(28),
+    paddingVertical: size(30),
   },
   textInputWrap: {
     width: '100%',
     borderColor: 'black',
   },
   text: {
-    fontSize: 16,
-    paddingTop: 15,
-    paddingHorizontal: 10,
+    fontSize: size(16),
+    paddingTop: size(15),
+    paddingHorizontal: size(10),
     fontWeight: '500',
     alignSelf: 'flex-end',
     color: Color.Blue['100'],

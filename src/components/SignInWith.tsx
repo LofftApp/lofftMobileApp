@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // API 🧠
 
@@ -17,16 +17,6 @@ const SignInWith = ({navigation}: any) => {
         ────────{'    '}Or sign in with {'    '}────────
       </Text>
       <View style={styles.buttonWrap}>
-        {/* <TouchableOpacity
-          onPress={() => onAppleButtonPress()}
-          style={styles.logInWithButton}>
-          <AppleIcon />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => onGoogleButtonPress()}
-          style={styles.logInWithButton}>
-          <GoogleIcon />
-        </TouchableOpacity> */}
       </View>
     </View>
   );
