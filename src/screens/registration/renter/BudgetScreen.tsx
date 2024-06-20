@@ -16,8 +16,12 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {useNavigation} from '@react-navigation/native';
 
-const BudgetScreen = ({navigation}: any) => {
+
+const BudgetScreen = () => {
+  const navigation = useNavigation();
+
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
   const [, setMinFocus] = useState(false);
