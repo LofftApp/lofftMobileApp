@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
 // Screens 📺
@@ -17,7 +17,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
-
+import {size} from 'react-native-responsive-sizes';
 
 const BudgetScreen = () => {
   const navigation = useNavigation();
@@ -29,12 +29,12 @@ const BudgetScreen = () => {
   const [warmRent, setWarmRent] = useState(false);
 
   const handleMin = (num: any) => {
-    setMinPrice(num.toString());
+    setMinPrice(num);
     handleMinFocus();
   };
 
   const handleMax = (num: any) => {
-    setMaxPrice(num.toString());
+    setMaxPrice(num);
     handleMaxFocus();
   };
 
@@ -66,7 +66,7 @@ const BudgetScreen = () => {
         subDescription={'Define the range for your monthly rental budget'}
       />
 
-      <View style={{flex: 1}}>
+      <View style={styles.wrapper}>
         <View style={styles.inputContainer}>
           <View style={styles.formContainer}>
             <Text>Min. price</Text>
@@ -118,7 +118,7 @@ const BudgetScreen = () => {
           </View>
         </View>
         <View style={styles.switchContainer}>
-          <Text style={{marginRight: 12}}>Warm Rent</Text>
+          <Text style={styles.buttonWarmText}>Warm Rent</Text>
           <CustomSwitch
             value={warmRent}
             onValueChange={() => setWarmRent(!warmRent)}
@@ -141,12 +141,18 @@ const BudgetScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
   inputForm: {
-    borderWidth: 2,
-    padding: 15,
+    borderWidth: size(2),
+    padding: size(15),
     borderColor: Color.Black[100],
-    borderRadius: 12,
-    marginTop: 10,
+    borderRadius: size(12),
+    marginTop: size(10),
+  },
+  buttonWarmText: {
+    marginRight: 12,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -161,16 +167,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sliderContainer: {
-    marginTop: 40,
+    marginTop: size(40),
   },
   pagingationBarContainer: {
-    marginVertical: 45,
+    marginVertical: size(45),
   },
   buttonContainer: {
-    marginBottom: 55,
+    marginBottom: size(55),
   },
   switchContainer: {
-    marginTop: 15,
+    marginTop: size(15),
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
