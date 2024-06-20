@@ -92,13 +92,13 @@ const BudgetScreen = () => {
             />
           </View>
         </View>
-        {Number(minPrice) > Number(maxPrice) ? (
+        {Number(minPrice) > Number(maxPrice) && (
           <View style={styles.errorContainer}>
             <Text style={styles.errorMessage}>
               The min value must not be more than the max value!
             </Text>
           </View>
-        ) : null}
+        )}
         <View style={styles.sliderContainer}>
           <Slider
             thumbTintColor={Color.Lavendar[100]}
