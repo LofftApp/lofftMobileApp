@@ -91,6 +91,7 @@ const AboutYouFlatHuntScreen = () => {
         <View style={styles.tagInfoContainer}>
           <Text
             style={
+              // eslint-disable-next-line react-native/no-inline-styles
               alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
             }>
             * Select at least 3 tags

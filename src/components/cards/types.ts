@@ -22,7 +22,6 @@ type OnViewableItemsChangedParams = {
   changed?: Array<ViewToken>;
 };
 
-
 type ApplicantCardProps = {
   currentSelectedNums: number;
   selectProfile: (id: number | null) => void;
@@ -33,13 +32,13 @@ type UserBlobCardProps = {
   secondRoundProfile: SecondRoundApplicantWithSelected;
   currentAdvert: Advert;
   selectProfiles: (id: number | null) => void;
+};
 
 type LanguagesCardProps = {
   language: string;
   selected: boolean;
   isSelected?: boolean;
   handleSelectedLanguages: (chosenLangugage: string) => void;
-
 };
 
 export type {
@@ -49,5 +48,4 @@ export type {
   ApplicantCardProps,
   UserBlobCardProps,
   LanguagesCardProps,
-
 };
