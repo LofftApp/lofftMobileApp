@@ -125,7 +125,7 @@ const SelectCityScreen = () => {
     setWashedDistricts(wash);
   };
 
-  const emojiElements = districts.map((emojiElement: any, index: number) => {
+  const emojiElements = districts.map((emojiElement, index: number) => {
     return (
       <EmojiIcon
         key={index + 1}
@@ -139,7 +139,7 @@ const SelectCityScreen = () => {
     );
   });
 
-  const cityUsableData = (data: any) => {
+  const cityUsableData = (data: SingleCity[]) => {
     return data.map((cityData: {city: string; flag: string}) => {
       return `${cityData.flag} ${cityData.city
         .charAt(0)

@@ -15,7 +15,7 @@ const EmojiIcon = ({
   disabled = false,
 }: {
   id: number;
-  emojiIcon: string;
+  emojiIcon?: string;
   value: string;
   toggle: boolean;
   selectedEmojis: (id: number) => void;

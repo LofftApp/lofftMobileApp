@@ -2,7 +2,8 @@ export type District = {
   id: number;
   name: string;
   toggle: boolean;
-  emoji?: string; // optional, since not all districts have emojis
+  emoji?: string;
+  disabled?: boolean; // optional, since not all districts have emojis
 };
 
 export type SingleCity = {
