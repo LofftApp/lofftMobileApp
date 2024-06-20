@@ -20,8 +20,8 @@ import {navigationHelper} from 'helpers/navigationHelper';
 const BudgetScreen = ({navigation}: any) => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
-  const [minFocus, setMinFocus] = useState(false);
-  const [maxFocus, setMaxFocus] = useState(false);
+  const [, setMinFocus] = useState(false);
+  const [, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
 
   const handleMin = (num: any) => {
