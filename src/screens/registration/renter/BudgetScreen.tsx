@@ -54,7 +54,7 @@ const BudgetScreen = () => {
     }
   };
 
-  const taco = (array: any) => {
+  const taco = (array: number[]) => {
     handleMin(array[0]);
     handleMax(array[1]);
   };
