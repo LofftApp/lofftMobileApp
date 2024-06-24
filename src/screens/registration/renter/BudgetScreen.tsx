@@ -22,24 +22,24 @@ import {size} from 'react-native-responsive-sizes';
 const BudgetScreen = () => {
   const navigation = useNavigation();
 
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(5000);
+  const [minPrice, setMinPrice] = useState<number | string>(0);
+  const [maxPrice, setMaxPrice] = useState<number | string>(5000);
   const [, setMinFocus] = useState(false);
   const [, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
 
-  const handleMin = (num: any) => {
+  const handleMin = (num: string | number) => {
     setMinPrice(num);
     handleMinFocus();
   };
 
-  const handleMax = (num: any) => {
+  const handleMax = (num: string | number) => {
     setMaxPrice(num);
     handleMaxFocus();
   };
 
   const handleMinFocus = () => {
-    if (minPrice > 0) {
+    if (+minPrice > 0) {
       setMinFocus(true);
     } else {
       setMinFocus(false);
@@ -47,7 +47,7 @@ const BudgetScreen = () => {
   };
 
   const handleMaxFocus = () => {
-    if (minPrice > 0) {
+    if (+minPrice > 0) {
       setMaxFocus(true);
     } else {
       setMaxFocus(false);
@@ -75,7 +75,7 @@ const BudgetScreen = () => {
               // String is passed as value into text form.
               value={String(minPrice)}
               type="currency"
-              onChangeText={(num: string) => {
+              onChangeText={num => {
                 handleMin(num);
               }}
             />
@@ -88,7 +88,7 @@ const BudgetScreen = () => {
               // String is passed as value into text form.
               value={String(maxPrice)}
               type="currency"
-              onChangeText={(num: string) => handleMax(num)}
+              onChangeText={num => handleMax(num)}
             />
           </View>
         </View>
@@ -103,7 +103,7 @@ const BudgetScreen = () => {
           <Slider
             thumbTintColor={Color.Lavendar[100]}
             minimumTrackTintColor={Color.Lavendar[80]}
-            value={[minPrice, maxPrice]}
+            value={[+minPrice, +maxPrice]}
             animateTransitions={true}
             minimumValue={100}
             maximumValue={5000}
@@ -134,7 +134,7 @@ const BudgetScreen = () => {
           maxRent: maxPrice.toString(),
           warmRent,
         }}
-        disabled={Number(minPrice) > Number(maxPrice)}
+        disabled={+minPrice > +maxPrice}
       />
     </ScreenBackButton>
   );
