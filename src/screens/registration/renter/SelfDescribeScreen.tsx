@@ -9,19 +9,16 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {useNavigation} from '@react-navigation/native';
 
-const SelfDescribeScreen = ({navigation, route}: any) => {
+const SelfDescribeScreen = () => {
+  const navigation = useNavigation();
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
-
-  const handleTextFocus = () => {
-    setTextFocus(true);
-  };
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>

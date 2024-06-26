@@ -168,7 +168,7 @@ const SelectCityScreen = () => {
           <InputFieldText
             type="search"
             placeholder="Berlin for instance?"
-            onChangeText={(t: string) => {
+            onChangeText={t => {
               cityTrack(t);
               setQuery(true);
             }}
