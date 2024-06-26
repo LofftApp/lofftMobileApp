@@ -15,18 +15,22 @@ import flatPreferences from 'components/componentData/flatPreferences.json';
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
+import {size} from 'react-native-responsive-sizes';
+
+// Types 🧩
+import {FlatFeature} from './types';
 
 const FlatFeaturesScreen = ({route}: any) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const headerText = route.params.headerText;
   const subHeaderText = route.params.subText;
   const preferences = flatPreferences;
 
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState(preferences);
-  const [selectedTrack, setselectedTrack] = useState([]);
+  const [selectedTrack, setselectedTrack] = useState<FlatFeature[]>([]);
 
-  const selectedEmojis = (id: any) => {
+  const selectedEmojis = (id: number) => {
     const targets = [];
 
     const preSeleted = intitalpreferencesArray.map(element => {
@@ -41,7 +45,7 @@ const FlatFeaturesScreen = ({route}: any) => {
       }
     });
 
-    const wash: any = preSeleted.filter(el => el.toggle);
+    const wash = preSeleted.filter(el => el.toggle);
 
     setselectedTrack(wash);
     seIintitalPreferencesArray(preSeleted);
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
   emojiContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 150,
+    marginBottom: size(150),
   },
 });
 

@@ -19,3 +19,12 @@ export type City = {
 export type Cities = {
   [key: string]: City;
 };
+
+// Flat Feature Screen
+
+export type FlatFeature = {
+  id: number;
+  value: string;
+  toggle: boolean;
+  emoji?: string;
+};
