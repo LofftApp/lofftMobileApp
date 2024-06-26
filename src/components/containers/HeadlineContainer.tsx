@@ -5,6 +5,7 @@ import {Text, View, StyleSheet} from 'react-native';
 // Styles
 import {fontStyles} from '../../styles/fontStyles';
 import color from '../../styles/lofftColorPallet.json';
+import {size} from 'react-native-responsive-sizes';
 
 const HeadlineContainer = ({headlineText, subDescription}: any) => {
   return (
@@ -18,11 +19,11 @@ const HeadlineContainer = ({headlineText, subDescription}: any) => {
 const styles = StyleSheet.create({
   container: {
     // marginTop: 25,
-    marginBottom: 24,
+    marginBottom: size(5),
   },
   subHeaderText: {
     color: color.Black[80],
-    marginTop: 16,
+    marginTop: size(10),
   },
 });
 

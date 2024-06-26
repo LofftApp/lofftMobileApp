@@ -1,15 +1,6 @@
 // Needs refactoring to work with TypeScript
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  TextInput,
-  Animated,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -17,8 +8,6 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import EmojiIcon from 'components/Emojicon/EmojiIcon';
-import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
-import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
@@ -32,36 +21,39 @@ import CityDistricts from 'components/componentData/cityDistricts.json';
 
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {size} from 'react-native-responsive-sizes';
+import {useNavigation} from '@react-navigation/native';
 
-const SelectCityScreen = ({navigation, route}: any) => {
+// Types
+import {SingleCity, District, Cities} from './types';
+
+const SelectCityScreen = () => {
+  const navigation = useNavigation();
   const [city, setCity] = useState('');
-  const [districtTags, setDistrictTags] = useState([]);
-  const [focusedCity, setFocusCity] = useState(false);
-  const [elementArray, setElementArray]: Array<any> = useState([]);
-  const [districts, setDistricts]: Array<any> = useState([]);
-  const [cityPicked, setCityPicked] = useState(false);
-  const [screen, setScreen] = useState(2);
+  const [elementArray, setElementArray] = useState<SingleCity[]>([]);
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [, setCityPicked] = useState(false);
   const [allDistricts, setAllDistricts] = useState(false);
-  const [washedDistricts, setWashedDistricts] = useState([]);
+  const [washedDistricts, setWashedDistricts] = useState<District[]>([]);
   const [query, setQuery] = useState(false);
 
-  const cities: any = CityDistricts;
+  const cities: Cities = CityDistricts; // intital empty hence undefined
 
   const trigerAllFlats = () => {
     selectAllDistrictsTags(allDistricts);
     setAllDistricts(!allDistricts);
   };
 
-  const selectAllDistrictsTags = (state: any) => {
-    const allDistrictTags: object[] = districts.map((el: any) => {
+  const selectAllDistrictsTags = (state: boolean) => {
+    const allDistrictTags = districts.map(el => {
       if (!state) {
         return {
-          ...(el as Object),
+          ...el,
           toggle: true,
         };
       } else {
         return {
-          ...(el as Object),
+          ...el,
           toggle: false,
         };
       }
@@ -72,13 +64,14 @@ const SelectCityScreen = ({navigation, route}: any) => {
 
   const orderedCities = Object.keys(cities)
     .sort()
-    .reduce((obj: any, key: string) => {
+    .reduce((obj: Cities, key: string) => {
       obj[key] = cities[key];
       return obj;
     }, {});
 
   // Functions
-  const cityTrack = (userInput: any) => {
+  const cityTrack = (userInput: string) => {
+    // eslint-disable-next-line eqeqeq
     if (userInput === '' || city != '') {
       setElementArray([]);
       setDistricts([]);
@@ -87,10 +80,11 @@ const SelectCityScreen = ({navigation, route}: any) => {
     const creationArray = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
+      // eslint-disable-next-line eqeqeq
       if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
         const inputObject = {city: '', flag: ''};
         inputObject.city = key;
-        inputObject.flag = value['flag'];
+        inputObject.flag = value.flag;
         creationArray.push(inputObject);
         setElementArray(creationArray);
       }
@@ -100,9 +94,9 @@ const SelectCityScreen = ({navigation, route}: any) => {
     setCity(userInput);
   };
 
-  const activateDistrictDisplay = (city: any) => {
+  const activateDistrictDisplay = (cityInput: string) => {
     setCityPicked(true);
-    setDistricts(cities[city.split(' ')[1].toLowerCase()].districts);
+    setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
     setCity(city);
     setTimeout(() => {
       setElementArray([]);
@@ -110,34 +104,28 @@ const SelectCityScreen = ({navigation, route}: any) => {
     }, 0);
   };
 
-  const handleCityFocus = () => setFocusCity(true);
-
-  const selectedEmojis = (id: any) => {
+  const selectedEmojis = (id: number) => {
     const targets = [];
 
-    const preSeleted: any[] = districts.map((element: any) => {
+    const preSeleted = districts.map(element => {
       if (element.id === id) {
         targets.push(element);
         return {
-          ...(element as object),
+          ...element,
           toggle: !element.toggle,
         };
       } else {
-        // const targetIndex = targets.map(e => e.hello).indexOf(id);
-        // if (targetIndex > -1) {
-        //   targets.splice(targetIndex,1);
-        // }
         return element;
       }
     });
 
-    const wash: any = preSeleted.filter(el => el.toggle);
+    const wash = preSeleted.filter(el => el.toggle);
 
     setDistricts(preSeleted);
     setWashedDistricts(wash);
   };
 
-  const emojiElements = districts.map((emojiElement: any, index: number) => {
+  const emojiElements = districts.map((emojiElement, index: number) => {
     return (
       <EmojiIcon
         key={index + 1}
@@ -146,12 +134,13 @@ const SelectCityScreen = ({navigation, route}: any) => {
         emojiIcon={emojiElement.emoji}
         toggle={emojiElement.toggle}
         selectedEmojis={selectedEmojis}
+        disabled={false}
       />
     );
   });
 
-  const cityUsableData = (data: any) => {
-    return data.map((cityData: object) => {
+  const cityUsableData = (data: SingleCity[]) => {
+    return data.map((cityData: {city: string; flag: string}) => {
       return `${cityData.flag} ${cityData.city
         .charAt(0)
         .toUpperCase()}${cityData.city.slice(1)}`;
@@ -205,33 +194,28 @@ const SelectCityScreen = ({navigation, route}: any) => {
           />
         </View>
 
-        {districts.length >= 1 ? (
-          <View style={{marginTop: 15}}>
+        {districts.length >= 1 && (
+          <View style={styles.resultWrapper}>
             <Animated.View // Special animatable View
               style={{
                 opacity: fadeAnim, // Bind opacity to animated value
               }}>
               <View style={styles.options}>
-                <Text
-                  style={[
-                    fontStyles.headerMedium,
-                    {marginTop: 15, marginBottom: 20},
-                  ]}>
+                <Text style={[fontStyles.headerMedium, styles.districtText]}>
                   Districts
                 </Text>
                 <View style={styles.switchContainer}>
                   <CustomSwitch
                     value={allDistricts}
-                    // onValueChange={() => trigerAllFlats(allDistricts)}
                     onValueChange={() => trigerAllFlats()}
                   />
-                  <Text style={{marginLeft: 20}}>Select All</Text>
+                  <Text style={styles.selectAllText}>Select All</Text>
                 </View>
               </View>
             </Animated.View>
             <View style={styles.emojiContainer}>{emojiElements}</View>
           </View>
-        ) : null}
+        )}
       </ScrollView>
 
       <FooterNavBarWithPagination
@@ -247,39 +231,48 @@ const SelectCityScreen = ({navigation, route}: any) => {
 
 const styles = StyleSheet.create({
   questionInputStyle: {
-    padding: 15,
+    padding: size(15),
     color: Color.Black[80],
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderWidth: 2,
+    borderTopLeftRadius: size(12),
+    borderTopRightRadius: size(12),
+    borderWidth: size(2),
   },
-
   cityTag: {
-    padding: 15,
+    padding: size(15),
     borderColor: Color.Lavendar[100],
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
+    borderRightWidth: size(2),
+    borderLeftWidth: size(2),
     borderBottomWidth: 0,
+  },
+  resultWrapper: {
+    marginTop: size(10),
+  },
+  districtText: {
+    marginTop: size(15),
+    marginBottom: size(20),
+  },
+  selectAllText: {
+    marginLeft: size(20),
   },
   lastCityTag: {
     borderColor: Color.Lavendar[100],
-    borderBottomWidth: 2,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
-    padding: 15,
+    borderBottomWidth: size(2),
+    borderBottomLeftRadius: size(12),
+    borderBottomRightRadius: size(12),
+    borderRightWidth: size(2),
+    borderLeftWidth: size(2),
+    padding: size(15),
   },
   emojiContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 150,
+    marginBottom: size(150),
   },
   options: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: size(15),
   },
   switchContainer: {
     flexDirection: 'row',
