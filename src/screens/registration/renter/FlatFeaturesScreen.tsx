@@ -14,8 +14,10 @@ import flatPreferences from 'components/componentData/flatPreferences.json';
 
 // Helper 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {useNavigation} from '@react-navigation/native';
 
-const FlatFeaturesScreen = ({navigation, route}: any) => {
+const FlatFeaturesScreen = ({route}: any) => {
+  const navigation = useNavigation()
   const headerText = route.params.headerText;
   const subHeaderText = route.params.subText;
   const preferences = flatPreferences;
