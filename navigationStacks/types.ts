@@ -24,6 +24,7 @@ type newUserNavigatorParamsList = {
 type newUserNavigationParamsList = {
   AboutYouFlatHuntScreen: undefined;
   LanguageSelectionScreen: undefined;
+  dashboard: undefined;
 };
 
 type FavoriteStackParamsList = {
@@ -48,7 +49,6 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<RootTabParamsList, 'search'>,
   StackNavigationProp<SearchStackParamsList>
 >;
-
 
 // Lessor Navigator Stack
 
@@ -79,14 +79,15 @@ type LessorNavigatorStackParamsList = {
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<LessorTabParamsList, 'lessorIndex'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
+>;
 
 type NewUserNavigatorProp = StackNavigationProp<
   newUserNavigatorParamsList,
   'LanguageSelectionScreen'
-
 >;
 
-type NewUserJourneyStackNavigation = StackNavigationProp<newUserNavigationParamsList>;
+type NewUserJourneyStackNavigation =
+  StackNavigationProp<newUserNavigationParamsList>;
 
 export type {
   RootTabParamsList,

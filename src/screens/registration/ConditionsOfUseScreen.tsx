@@ -4,6 +4,8 @@ import {View, Text, StyleSheet} from 'react-native';
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
 import {saveUserDetails} from 'reduxFeatures/registration/userJourneySlice';
+import {useNavigation} from '@react-navigation/native';
+import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -17,8 +19,15 @@ import UserJourneySaveButton from 'reduxFeatures/registration/UserJourneySaveBut
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const ConditionsOfUseScreen = ({navigation, route}: any) => {
+// Helpers 🥷🏻
+import {size} from 'react-native-responsive-sizes';
+
+// Types
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+
+const ConditionsOfUseScreen = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
@@ -26,11 +35,7 @@ const ConditionsOfUseScreen = ({navigation, route}: any) => {
         subDescription={''}
       />
       <View style={{flex: 1}}>
-        <Text
-          style={[
-            fontStyles.bodyLarge,
-            {color: Color.Black[50], marginBottom: 40},
-          ]}>
+        <Text style={[fontStyles.bodyLarge, styles.descriptionText]}>
           Lofft is an inclusive place for everyone to be. We exist to include
           and not divide.
         </Text>
@@ -57,10 +62,10 @@ const ConditionsOfUseScreen = ({navigation, route}: any) => {
 
         <CoreButton
           value="Decline"
-          style={{backgroundColor: 'white', borderWidth: 2, marginTop: 10}}
+          style={styles.buttonStyle}
           textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
           disabled={false}
-          onPress={() => auth().signOut()}
+          onPress={() => dispatch(signOut())}
         />
       </View>
     </ScreenBackButton>
@@ -68,8 +73,17 @@ const ConditionsOfUseScreen = ({navigation, route}: any) => {
 };
 
 const styles = StyleSheet.create({
+  descriptionText: {
+    color: Color.Black[50],
+    marginBottom: size(40),
+  },
+  buttonStyle: {
+    backgroundColor: 'white',
+    borderWidth: size(2),
+    marginTop: size(10),
+  },
   options: {
-    marginBottom: 55,
+    marginBottom: size(55),
   },
 });
 
