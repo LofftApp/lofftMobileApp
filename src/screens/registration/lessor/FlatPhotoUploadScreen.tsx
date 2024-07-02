@@ -6,7 +6,6 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {CoreButton} from 'components/buttons/CoreButton';
 import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
@@ -14,13 +13,15 @@ import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
 import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {useNavigation} from '@react-navigation/native';
 
-const FlatPhotoUploadScreen = ({navigation}: any) => {
+
+const FlatPhotoUploadScreen = () => {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
