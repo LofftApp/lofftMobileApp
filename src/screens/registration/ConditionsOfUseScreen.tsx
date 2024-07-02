@@ -34,7 +34,7 @@ const ConditionsOfUseScreen = () => {
         headlineText={`Lofft is an ${'\n'}inclusive space`}
         subDescription={''}
       />
-      <View style={{flex: 1}}>
+      <View style={styles.flexWrapper}>
         <Text style={[fontStyles.bodyLarge, styles.descriptionText]}>
           Lofft is an inclusive place for everyone to be. We exist to include
           and not divide.
@@ -73,6 +73,9 @@ const ConditionsOfUseScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  flexWrapper: {
+    flex: 1,
+  },
   descriptionText: {
     color: Color.Black[50],
     marginBottom: size(40),
