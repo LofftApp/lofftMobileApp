@@ -18,6 +18,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
+import {size} from 'react-native-responsive-sizes';
 
 
 const FlatPhotoUploadScreen = () => {
