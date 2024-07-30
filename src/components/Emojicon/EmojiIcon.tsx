@@ -19,7 +19,7 @@ const EmojiIcon = ({
   value: string;
   toggle: boolean;
   selectedEmojis: (id: number) => void;
-  disabled: boolean;
+  disabled?: boolean;
 }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
