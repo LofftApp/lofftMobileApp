@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Pressable, TextInput} from 'react-native';
+import {View, StyleSheet, TextInput} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -9,19 +9,17 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {useNavigation} from '@react-navigation/native';
+import {size} from 'react-native-responsive-sizes';
 
-const SelfDescribeScreen = ({navigation, route}: any) => {
+const SelfDescribeScreen = () => {
+  const navigation = useNavigation();
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
-
-  const handleTextFocus = () => {
-    setTextFocus(true);
-  };
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -32,7 +30,7 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
         }
       />
 
-      <View style={{flex: 1}}>
+      <View style={styles.textContainer}>
         <TextInput
           keyboardType="default"
           placeholder="Who are you? What do you like?"
@@ -41,7 +39,7 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
             styles.inputText,
             {borderColor: textFocus ? Color.Lavendar[100] : Color.Black[100]},
           ]}
-          onChangeText={text => setText(text)}
+          onChangeText={input => setText(input)}
           onFocus={() => setTextFocus(true)}
           onBlur={() => setTextFocus(false)}
           multiline={true}
@@ -59,16 +57,19 @@ const SelfDescribeScreen = ({navigation, route}: any) => {
 };
 
 const styles = StyleSheet.create({
+  textContainer: {
+    flex: 1,
+  },
   inputForm: {
     height: '65%',
-    borderWidth: 2,
-    borderRadius: 16,
+    borderWidth: size(2),
+    borderRadius: size(16),
   },
   inputText: {
-    borderWidth: 2,
-    paddingHorizontal: 10,
+    borderWidth: size(2),
+    paddingHorizontal: size(10),
     flex: 1,
-    borderRadius: 16,
+    borderRadius: size(16),
   },
 });
 
