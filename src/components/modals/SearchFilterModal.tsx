@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {height, size} from 'react-native-responsive-sizes';
-
+import {applyFilters, activateFilter} from 'reduxFeatures/adverts/advertSlice';
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
@@ -20,6 +20,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {SearchFilterModalProps} from './types';
+import {useAppDispatch} from 'reduxCore/hooks';
 
 const SearchFilterModal = ({
   openModal,
@@ -36,7 +37,7 @@ const SearchFilterModal = ({
     [],
   );
 
-
+  const dispatch = useAppDispatch();
 
   const handleMin = (num: string | number) => {
     setMinPrice(num.toString());
@@ -193,7 +194,19 @@ const SearchFilterModal = ({
             style={styles.clearAllButton}
             onPress={clearAll}
           />
-          <CoreButton value="See Results" style={styles.seeResultButton} />
+          <CoreButton
+            value="See Results"
+            style={styles.seeResultButton}
+            onPress={() =>
+              dispatch(
+                applyFilters({
+                  minPrice: minPrice,
+                  maxPrice: maxPrice,
+                  advertChars: [selectedTrack],
+                }),
+              )
+            }
+          />
         </View>
       </View>
     </Modal>

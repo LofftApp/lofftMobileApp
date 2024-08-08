@@ -4,7 +4,7 @@ import {View, StyleSheet} from 'react-native';
 // Redux 🏪
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
-import { activateFilter } from 'reduxFeatures/adverts/advertSlice.ts';
+import {activateFilter} from 'reduxFeatures/adverts/advertSlice.ts';
 
 // Helper 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -21,8 +21,6 @@ import SearchFilterModal from 'components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-
-
 
 const FlatFindScreen = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -41,25 +39,23 @@ const FlatFindScreen = () => {
     setScreen(activeScreen);
   };
 
-  const activateSearchModal = () => {
-    setOpenModal(true)
-    dispatch(activateFilter())
-  }
 
+
+  // useAppSelector(state => console.log(state.adverts))
 
   return (
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
-          onChangeText={(t: string) => setSearch(t)}
+          onChangeText={(t: any) => setSearch(t)}
           value={search}
           placeholder="City, Neighbourhood..."
           onClear={() => setSearch('')}
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={() => activateSearchModal()} />
+        <FilterButton onPress={() => setOpenModal(true)} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}

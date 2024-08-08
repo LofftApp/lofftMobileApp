@@ -6,6 +6,7 @@ import {
 } from './advertMiddleware';
 
 import type {AdvertState} from './types';
+import {number} from 'prop-types';
 
 const initialState: AdvertState = {
   loading: false,
@@ -49,9 +50,19 @@ export const advertSlice = createSlice({
     activateFilter: state => {
       state.filterActivated = !state.filterActivated;
     },
-    applyFilters: (state,action) => {
-      console.log(action)
-    }
+    applyFilters: (state, action) => {
+      const advertChars = action.payload.advertChars[0];
+      const advertCharsParams = advertChars.map((el: any) => el.value);
+      state.filterActivated = true;
+      const filteredAdvertsByChars = state.adverts.filter(advert =>
+        advert.flat.features?.some(feature =>
+          advertCharsParams.includes(feature.name),
+        ),
+      );
+      if (filteredAdvertsByChars.length >= 1) {
+        state.adverts = filteredAdvertsByChars;
+      }
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchAdverts.pending, state => {
@@ -123,5 +134,5 @@ export const advertSlice = createSlice({
   },
 });
 
-export const {activateFilter} = advertSlice.actions;
+export const {activateFilter, applyFilters} = advertSlice.actions;
 export default advertSlice.reducer;
