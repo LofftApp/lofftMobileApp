@@ -4,7 +4,6 @@ import {View, StyleSheet} from 'react-native';
 // Redux 🏪
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
-import {activateFilter} from 'reduxFeatures/adverts/advertSlice.ts';
 
 // Helper 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -39,9 +38,7 @@ const FlatFindScreen = () => {
     setScreen(activeScreen);
   };
 
-
-
-  // useAppSelector(state => console.log(state.adverts))
+  const filters = useAppSelector(state => state.adverts.filterParams);
 
   return (
     <View style={styles.pageContainer}>
@@ -65,7 +62,11 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen /> : <AdvertMap />}
+        {screen === 'list' ? (
+          <FlatListSubScreen filters={filters} />
+        ) : (
+          <AdvertMap filters={filters} />
+        )}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </View>

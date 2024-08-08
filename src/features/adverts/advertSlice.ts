@@ -6,12 +6,11 @@ import {
 } from './advertMiddleware';
 
 import type {AdvertState} from './types';
-import {number} from 'prop-types';
 
 const initialState: AdvertState = {
   loading: false,
   filterActivated: false,
-  filterParams: [],
+  filterParams: null,
   adverts: [
     {
       id: null,
@@ -51,17 +50,22 @@ export const advertSlice = createSlice({
       state.filterActivated = !state.filterActivated;
     },
     applyFilters: (state, action) => {
-      const advertChars = action.payload.advertChars[0];
-      const advertCharsParams = advertChars.map((el: any) => el.value);
+      // const advertChars = action.payload.advertChars[0];
+      // const advertCharsParams = advertChars.map((el: any) => el.value);
+      // const filteredAdvertsByChars = state.adverts.filter(advert =>
+      //   advert.flat.features?.some(feature =>
+      //     advertCharsParams.includes(feature.name),
+      //   ),
+      // );
+      // if (filteredAdvertsByChars.length >= 1) {
+      //   state.filterActivated = true;
+      //   state.adverts = filteredAdvertsByChars;
+      // } else {
+      //   state.adverts = state.adverts
+      // }
+
       state.filterActivated = true;
-      const filteredAdvertsByChars = state.adverts.filter(advert =>
-        advert.flat.features?.some(feature =>
-          advertCharsParams.includes(feature.name),
-        ),
-      );
-      if (filteredAdvertsByChars.length >= 1) {
-        state.adverts = filteredAdvertsByChars;
-      }
+      state.filterParams = action.payload;
     },
   },
   extraReducers: builder => {
