@@ -9,6 +9,7 @@ import type {AdvertState} from './types';
 
 const initialState: AdvertState = {
   loading: false,
+  filterActivated: false,
   adverts: [
     {
       id: null,
@@ -43,7 +44,11 @@ const initialState: AdvertState = {
 export const advertSlice = createSlice({
   name: 'advert',
   initialState,
-  reducers: {},
+  reducers: {
+    activateFilter: state => {
+      state.filterActivated = !state.filterActivated;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchAdverts.pending, state => {
       state.loading = true;
@@ -114,5 +119,5 @@ export const advertSlice = createSlice({
   },
 });
 
-export const {} = advertSlice.actions;
+export const {activateFilter} = advertSlice.actions;
 export default advertSlice.reducer;
