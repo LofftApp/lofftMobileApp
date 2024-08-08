@@ -11,6 +11,7 @@ import SelectButton from 'components/buttons/SelectButton';
 import {navigationHelper} from 'helpers/navigationHelper';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {useNavigation} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 interface SelectButton {
   id: number;
@@ -51,6 +52,9 @@ const GenderIdentityScreen = () => {
     setCleanGenders(wash);
     setIntitalGenders(genderTicked);
   };
+
+  const totalState = useSelector(state => console.log(state.userDetails))
+
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>

@@ -50,6 +50,7 @@ const SelfDescribeScreen = () => {
         onPress={(targetScreen: any) =>
           navigationHelper(navigation, targetScreen)
         }
+        disabled={text.length > 60 ? false : true}
         details={{textAboutUser: text}}
       />
     </ScreenBackButton>

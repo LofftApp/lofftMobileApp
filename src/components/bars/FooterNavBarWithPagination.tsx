@@ -10,6 +10,8 @@ const FooterNavBarWithPagination = ({
   details,
   buttonValue = 'Continue',
 }: any) => {
+
+  console.log("Hi from details", details)
   return (
     <View style={styles.footerContainer}>
       <View style={styles.paginationContainer}>
