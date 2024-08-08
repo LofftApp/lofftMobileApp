@@ -53,6 +53,7 @@ interface Advert {
 interface AdvertState {
   loading: boolean;
   filterActivated: boolean;
+  filterParams: [];
   adverts: Advert[];
 }
 
