@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
+import {ScrollView, StyleSheet, View, SafeAreaView, Text} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
@@ -13,6 +13,10 @@ import {AdvertFlatListSubSceenProps} from './types';
 
 // Helpers 🥷🏻
 import {filterAdverts} from 'helpers/filterAdverts';
+
+// FontStyles
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 const FlatListSubScreen = ({
   filters,
@@ -37,9 +41,18 @@ const FlatListSubScreen = ({
         showsVerticalScrollIndicator={false}
         style={styles.flatCardContainer}>
         <View>
-          {filteredFlats.map(advert => {
-            return <ListViewFlatCard key={advert.id} advert={advert} />;
-          })}
+          {filteredFlats.length > 0 ? (
+            filteredFlats.map(advert => {
+              return <ListViewFlatCard key={advert.id} advert={advert} />;
+            })
+          ) : (
+            <View>
+              <Text style={[fontStyles.headerLarge, {color: Color.Mint[80]}]}>
+                Sorry, but we dont have anything at the moment that fits your
+                critera😭
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
