@@ -36,5 +36,8 @@ export const filterAdverts = (
     return filteredFlats;
   }
 
-  return stateAdverts;
+  const filteredFlats = stateAdverts.filter(advert =>
+    advert.flat.district?.includes(textInputParams),
+  );
+  return filteredFlats;
 };
