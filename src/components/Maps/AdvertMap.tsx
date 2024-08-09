@@ -14,8 +14,16 @@ import MapMarker from 'components/Maps/MapMarker';
 // Types 🏷️
 import {Advert, AdvertState} from 'reduxFeatures/adverts/types';
 import {AdvertWithCoordinates} from './types';
+import {AdvertFlatListSubSceenProps} from 'screens/dashboard/renter/SubScreens/types';
 
-const AdvertMap = () => {
+// Helpers 🥷🏻
+import {filterAdverts} from 'helpers/filterAdverts';
+
+const AdvertMap = ({
+  filters,
+  search,
+  filterActivated,
+}: AdvertFlatListSubSceenProps) => {
   const adverts = useAppSelector(
     // States
     (state: {adverts: AdvertState}) => state.adverts.adverts,
@@ -23,6 +31,14 @@ const AdvertMap = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [mapboxAdverts, setMapboxAdverts] = useState<AdvertWithCoordinates[]>(
     [],
+  );
+
+  // Helper Function that handles filtering
+  const filteredFlats = filterAdverts(
+    adverts,
+    filters,
+    search,
+    filterActivated,
   );
 
   // API
@@ -89,7 +105,7 @@ const AdvertMap = () => {
         <View style={styles.scrollContainer}>
           {mapboxAdverts && (
             <FlatList
-              data={adverts}
+              data={filteredFlats}
               disableIntervalMomentum={true}
               horizontal
               pagingEnabled
