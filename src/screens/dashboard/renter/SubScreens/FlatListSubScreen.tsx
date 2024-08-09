@@ -49,7 +49,7 @@ const FlatListSubScreen = ({
             <View>
               <Text style={[fontStyles.headerLarge, {color: Color.Mint[80]}]}>
                 Sorry, but we dont have anything at the moment that fits your
-                critera😭
+                criter😭
               </Text>
             </View>
           )}
