@@ -72,10 +72,11 @@ const FlatFindScreen = () => {
             filterActivated={filterActivated}
           />
         ) : (
-            <AdvertMap
+          <AdvertMap
             filters={filters}
             search={search}
-            filterActivated={filterActivated} />
+            filterActivated={filterActivated}
+          />
         )}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
