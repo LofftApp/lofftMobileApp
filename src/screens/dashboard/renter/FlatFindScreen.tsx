@@ -63,7 +63,7 @@ const FlatFindScreen = () => {
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
-          <FlatListSubScreen filters={filters} />
+          <FlatListSubScreen filters={filters} search={search} />
         ) : (
           <AdvertMap filters={filters} />
         )}

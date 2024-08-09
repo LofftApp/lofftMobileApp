@@ -50,6 +50,18 @@ interface Advert {
   flat: AdvertFlat;
 }
 
+interface AdvertFeaturesParams {
+  emoji: string | null;
+  value: string | null;
+}
+
+interface FilterParms {
+  advertChars: AdvertFeaturesParams[][]; // or adjust the type inside the inner array as needed
+  maxPrice: number;
+  minPrice: number;
+}
+
+
 interface AdvertState {
   loading: boolean;
   filterActivated: boolean;
@@ -61,6 +73,7 @@ export type {
   Advert,
   AdvertState,
   AdvertCharacteristics,
+  FilterParms,
   AdvertFeatures,
   AdvertFlat,
   AdvertUser,
