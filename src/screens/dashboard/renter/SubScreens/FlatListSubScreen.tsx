@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 // Redux 🏗️
@@ -9,11 +9,12 @@ import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // Types 🏷️
 import type {AdvertState} from 'reduxFeatures/adverts/types';
+import {AdvertFlatListSubSceenProps} from './types';
 
 // Helpers 🥷🏻
 import {filterAdverts} from 'helpers/filterAdverts';
 
-const FlatListSubScreen = ({filters, search}) => {
+const FlatListSubScreen = ({filters, search}: AdvertFlatListSubSceenProps) => {
   const adverts = useAppSelector(
     (state: {adverts: AdvertState}) => state.adverts.adverts,
   );

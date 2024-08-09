@@ -55,7 +55,7 @@ interface AdvertFeaturesParams {
   value: string | null;
 }
 
-interface FilterParms {
+interface FilterParams {
   advertChars: AdvertFeaturesParams[][]; // or adjust the type inside the inner array as needed
   maxPrice: number;
   minPrice: number;
@@ -73,7 +73,7 @@ export type {
   Advert,
   AdvertState,
   AdvertCharacteristics,
-  FilterParms,
+  FilterParams,
   AdvertFeatures,
   AdvertFlat,
   AdvertUser,
