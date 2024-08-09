@@ -53,6 +53,7 @@ interface Advert {
 interface AdvertFeaturesParams {
   emoji: string | null;
   value: string | null;
+  id: number | null;
 }
 
 interface FilterParams {
@@ -60,7 +61,6 @@ interface FilterParams {
   maxPrice: number;
   minPrice: number;
 }
-
 
 interface AdvertState {
   loading: boolean;
@@ -78,4 +78,5 @@ export type {
   AdvertFlat,
   AdvertUser,
   AdvertApplicant,
+  AdvertFeaturesParams,
 };

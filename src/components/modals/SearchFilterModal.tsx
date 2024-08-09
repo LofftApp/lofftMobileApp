@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {height, size} from 'react-native-responsive-sizes';
-import {applyFilters, activateFilter} from 'reduxFeatures/adverts/advertSlice';
+import {applyFilters, clearFilters} from 'reduxFeatures/adverts/advertSlice';
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
@@ -111,6 +111,7 @@ const SearchFilterModal = ({
     }));
     seIintitalPreferencesArray(clearedPreferences);
     setSelectedTrack([]);
+    dispatch(clearFilters());
   };
 
   return (

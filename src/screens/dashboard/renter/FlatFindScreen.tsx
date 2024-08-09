@@ -39,6 +39,9 @@ const FlatFindScreen = () => {
   };
 
   const filters = useAppSelector(state => state.adverts.filterParams);
+  const filterActivated = useAppSelector(
+    state => state.adverts.filterActivated,
+  );
 
   return (
     <View style={styles.pageContainer}>
@@ -63,7 +66,11 @@ const FlatFindScreen = () => {
       />
       <View style={styles.viewContainer}>
         {screen === 'list' ? (
-          <FlatListSubScreen filters={filters} search={search} />
+          <FlatListSubScreen
+            filters={filters}
+            search={search}
+            filterActivated={filterActivated}
+          />
         ) : (
           <AdvertMap filters={filters} />
         )}

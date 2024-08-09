@@ -14,13 +14,22 @@ import {AdvertFlatListSubSceenProps} from './types';
 // Helpers 🥷🏻
 import {filterAdverts} from 'helpers/filterAdverts';
 
-const FlatListSubScreen = ({filters, search}: AdvertFlatListSubSceenProps) => {
+const FlatListSubScreen = ({
+  filters,
+  search,
+  filterActivated,
+}: AdvertFlatListSubSceenProps) => {
   const adverts = useAppSelector(
     (state: {adverts: AdvertState}) => state.adverts.adverts,
   );
 
   // Helper Function that handles filtering
-  const filteredFlats = filterAdverts(adverts, filters, search);
+  const filteredFlats = filterAdverts(
+    adverts,
+    filters,
+    search,
+    filterActivated,
+  );
 
   return (
     <SafeAreaView>

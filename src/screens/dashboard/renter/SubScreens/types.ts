@@ -9,6 +9,7 @@ type FlatListComponentProps = {
 interface AdvertFlatListSubSceenProps {
   filters: FilterParams;
   search: string;
+  filterActivated: boolean;
 }
 
 type FlatListSubScreenProps = {

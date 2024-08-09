@@ -46,26 +46,12 @@ export const advertSlice = createSlice({
   name: 'advert',
   initialState,
   reducers: {
-    activateFilter: state => {
-      state.filterActivated = !state.filterActivated;
-    },
     applyFilters: (state, action) => {
-      // const advertChars = action.payload.advertChars[0];
-      // const advertCharsParams = advertChars.map((el: any) => el.value);
-      // const filteredAdvertsByChars = state.adverts.filter(advert =>
-      //   advert.flat.features?.some(feature =>
-      //     advertCharsParams.includes(feature.name),
-      //   ),
-      // );
-      // if (filteredAdvertsByChars.length >= 1) {
-      //   state.filterActivated = true;
-      //   state.adverts = filteredAdvertsByChars;
-      // } else {
-      //   state.adverts = state.adverts
-      // }
-
       state.filterActivated = true;
       state.filterParams = action.payload;
+    },
+    clearFilters: state => {
+      state.filterActivated = false;
     },
   },
   extraReducers: builder => {
@@ -138,5 +124,5 @@ export const advertSlice = createSlice({
   },
 });
 
-export const {activateFilter, applyFilters} = advertSlice.actions;
+export const {applyFilters, clearFilters} = advertSlice.actions;
 export default advertSlice.reducer;
