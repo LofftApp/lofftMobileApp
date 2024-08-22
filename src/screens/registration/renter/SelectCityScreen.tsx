@@ -71,8 +71,7 @@ const SelectCityScreen = () => {
 
   // Functions
   const cityTrack = (userInput: string) => {
-    // eslint-disable-next-line eqeqeq
-    if (userInput === '' || city != '') {
+    if (userInput === '' && city !== '') {
       setElementArray([]);
       setDistricts([]);
     }
@@ -92,12 +91,13 @@ const SelectCityScreen = () => {
 
     // setDistrictTags(tagsArray);
     setCity(userInput);
+    setQuery(true);
   };
 
   const activateDistrictDisplay = (cityInput: string) => {
     setCityPicked(true);
     setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
-    setCity(city);
+    setCity(cityInput);
     setTimeout(() => {
       setElementArray([]);
       setCityPicked(false);
@@ -120,7 +120,6 @@ const SelectCityScreen = () => {
     });
 
     const wash = preSeleted.filter(el => el.toggle);
-
     setDistricts(preSeleted);
     setWashedDistricts(wash);
   };
@@ -168,9 +167,8 @@ const SelectCityScreen = () => {
           <InputFieldText
             type="search"
             placeholder="Berlin for instance?"
-            onChangeText={t => {
-              cityTrack(t);
-              setQuery(true);
+            onChangeText={text => {
+              cityTrack(text);
             }}
             onClear={() => {
               setCity('');
@@ -262,6 +260,14 @@ const styles = StyleSheet.create({
     borderRightWidth: size(2),
     borderLeftWidth: size(2),
     padding: size(15),
+  },
+  inputFieldStyle: {
+    marginBottom: size(8),
+    borderWidth: size(2),
+    borderRadius: size(12),
+    backgroundColor: 'blue',
+
+    justifyContent: 'center',
   },
   emojiContainer: {
     flexDirection: 'row',
