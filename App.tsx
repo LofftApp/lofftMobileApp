@@ -24,13 +24,13 @@ import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
 import NewUserNavigator from './navigationStacks/NewUserNavigator';
 import DashboardNavigator from './navigationStacks/DashboardNavigator';
-import LessorNavigator from './navigationStacks/LessorNavigator';
+// import LessorNavigator from './navigationStacks/LessorNavigator';
 import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
 import {createSelector} from '@reduxjs/toolkit';
-import { logWithLocation } from 'helpers/logWithLocation';
+import {logWithLocation} from 'helpers/logWithLocation';
 
 const RootStack = createNativeStackNavigator();
 
@@ -40,7 +40,6 @@ const App = () => {
   const getAuthenticated = (state: any) => state.authentication.authenticated;
   const getUserType = (state: any) => state.user.user.userType;
   const getAdmin = (state: any) => state.user.user.admin;
-
 
   // Create memoized selectors
   const selectAuthenticated = createSelector(
