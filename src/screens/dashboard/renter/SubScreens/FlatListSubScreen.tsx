@@ -1,30 +1,27 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
-const FlatListSubScreen = ({navigation}: any) => {
-  const adverts = useAppSelector((state: any) => state?.adverts?.adverts);
+// Types 🏷️
+import type {AdvertState} from 'reduxFeatures/adverts/types';
+
+const FlatListSubScreen = () => {
+  const adverts = useAppSelector(
+    (state: {adverts: AdvertState}) => state.adverts.adverts,
+  );
   return (
     <SafeAreaView>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.flatCardContainer}>
         <View>
-          {adverts.map((advert: any, index: number) => {
-            return (
-              <ListViewFlatCard
-                navigation={navigation}
-                key={index + 1}
-                i={index}
-                advert={advert}
-                id={advert.id}
-              />
-            );
+          {adverts.map(advert => {
+            return <ListViewFlatCard key={advert.id} advert={advert} />;
           })}
         </View>
       </ScrollView>
@@ -37,5 +34,7 @@ const styles = StyleSheet.create({
     marginHorizontal: size(16),
   },
 });
+
+
 
 export default FlatListSubScreen;

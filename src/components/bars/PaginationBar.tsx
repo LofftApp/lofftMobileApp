@@ -4,7 +4,10 @@ import {View, StyleSheet} from 'react-native';
 // Assets 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const buildNumberArray = (length: any) => {
+// Types 🏷
+import type {PaginationBarProps} from './types';
+
+const buildNumberArray = (length: number) => {
   let i = 1;
   const response: Number[] = [];
   while (i < length + 1) {
@@ -19,22 +22,24 @@ const PaginationBar = ({
   totalScreens,
   onTop = false,
   marginVertical,
-}: any) => {
+}: PaginationBarProps) => {
   const blobs = buildNumberArray(totalScreens);
   return (
     <View
       style={[
         styles.pagination,
+        // eslint-disable-next-line react-native/no-inline-styles
         {
           position: onTop ? 'absolute' : 'relative',
           marginVertical: marginVertical,
         },
       ]}>
       {blobs.map((i, index) => {
-        const active =
-          index === screen
-            ? {width: 18, backgroundColor: Color.Lavendar[50]}
-            : null;
+        const active = index === screen && {
+          width: 18,
+          backgroundColor: Color.Lavendar[50],
+        };
+
         return <View style={[styles.paginationBlob, active]} key={index} />;
       })}
     </View>

@@ -1,19 +1,23 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import {StyleSheet, FlatList, Image, Dimensions, View} from 'react-native';
 
-// Components
+// Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
+
+// Types 🏷
+import type {LofftHeaderPhotoProps} from './types';
+import type {OnViewableItemsChangedParams} from './types';
 
 const LofftHeaderPhoto = ({
   imageContainerHeight,
   images,
   activeBlur = false,
-}: any) => {
+}: LofftHeaderPhotoProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   const onViewableItemsChanged = useCallback(
-    ({viewableItems, changed}: any) => {
-      const index = viewableItems[0].index;
+    ({viewableItems}: OnViewableItemsChangedParams) => {
+      const index = viewableItems[0].index ?? 0;
       setCurrentCardIndex(index);
     },
     [],
@@ -25,7 +29,7 @@ const LofftHeaderPhoto = ({
         data={images}
         horizontal
         snapToInterval={Dimensions.get('window').width}
-        decelerationRate={'fast'}
+        decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         renderItem={({item, index}) => {
@@ -41,14 +45,14 @@ const LofftHeaderPhoto = ({
         disableIntervalMomentum
         pagingEnabled
       />
-      {!activeBlur ? (
+      {!activeBlur && (
         <PaginationBar
           screen={currentCardIndex}
           totalScreens={images?.length}
           marginVertical={imageContainerHeight - 20}
-          onTop={true}
+          onTop
         />
-      ) : null}
+      )}
     </View>
   );
 };

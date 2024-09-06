@@ -1,51 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchAdverts, toggleFavorite, changeAdvertStatus} from './advertMiddleware';
+import {
+  fetchAdverts,
+  toggleFavorite,
+  changeAdvertStatus,
+} from './advertMiddleware';
 
-interface AdvertState {
-  loading: boolean;
-  adverts: [
-    {
-      id: number | null;
-      status: string | null;
-      currency: string | null;
-      matchScore: number | null;
-      price: number | null;
-      favorite: boolean;
-      applied: boolean;
-      fromDate: number | null;
-      toDate: number | null;
-      created_at: string | null;
-      applicants: any[] | null;
-      user: boolean | null;
-      lessor: boolean;
-      flat: {
-        id: number | null;
-        address: string | null;
-        description: string | null;
-        tagLine: string | null;
-        district: string | null;
-        city: string | null;
-        photos: string[] | null;
-        charachteristics:
-          | [
-              {
-                emoji: string | null;
-                name: string | null;
-              },
-            ]
-          | null;
-        features:
-          | [
-              {
-                emoji: string | null;
-                name: string | null;
-              },
-            ]
-          | null;
-      };
-    },
-  ];
-}
+import type {AdvertState} from './types';
 
 const initialState: AdvertState = {
   loading: false,
@@ -67,12 +27,13 @@ const initialState: AdvertState = {
       flat: {
         id: null,
         address: null,
+        price: null,
         description: null,
-        tagLine: null,
+        tagline: null,
         district: null,
         city: null,
         photos: null,
-        charachteristics: null,
+        characteristics: null,
         features: null,
       },
     },
@@ -137,19 +98,19 @@ export const advertSlice = createSlice({
         }
       },
     );
-    builder.addCase(changeAdvertStatus.fulfilled, (state,action) => {
+    builder.addCase(changeAdvertStatus.fulfilled, (state, action) => {
       const advertId = action.payload.id;
-      state.adverts.map((el) => {
+      state.adverts.map(el => {
         if (el.id === advertId) {
           return {
             ...el,
-            status: action.payload.status
-          }
+            status: action.payload.status,
+          };
         } else {
-          return el
+          return el;
         }
-      })
-    })
+      });
+    });
   },
 });
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 
 // Screens 📺
@@ -16,26 +16,30 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
+import {useNavigation} from '@react-navigation/native';
+import {size} from 'react-native-responsive-sizes';
 
-const BudgetScreen = ({navigation}: any) => {
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(5000);
-  const [minFocus, setMinFocus] = useState(false);
-  const [maxFocus, setMaxFocus] = useState(false);
+const BudgetScreen = () => {
+  const navigation = useNavigation();
+
+  const [minPrice, setMinPrice] = useState<number | string>(0);
+  const [maxPrice, setMaxPrice] = useState<number | string>(5000);
+  const [, setMinFocus] = useState(false);
+  const [, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
 
-  const handleMin = (num: any) => {
-    setMinPrice(num.toString());
+  const handleMin = (num: string | number) => {
+    setMinPrice(num);
     handleMinFocus();
   };
 
-  const handleMax = (num: any) => {
-    setMaxPrice(num.toString());
+  const handleMax = (num: string | number) => {
+    setMaxPrice(num);
     handleMaxFocus();
   };
 
   const handleMinFocus = () => {
-    if (minPrice > 0) {
+    if (+minPrice > 0) {
       setMinFocus(true);
     } else {
       setMinFocus(false);
@@ -43,14 +47,14 @@ const BudgetScreen = ({navigation}: any) => {
   };
 
   const handleMaxFocus = () => {
-    if (minPrice > 0) {
+    if (+minPrice > 0) {
       setMaxFocus(true);
     } else {
       setMaxFocus(false);
     }
   };
 
-  const taco = (array: any) => {
+  const taco = (array: number[]) => {
     handleMin(array[0]);
     handleMax(array[1]);
   };
@@ -62,7 +66,7 @@ const BudgetScreen = ({navigation}: any) => {
         subDescription={'Define the range for your monthly rental budget'}
       />
 
-      <View style={{flex: 1}}>
+      <View style={styles.wrapper}>
         <View style={styles.inputContainer}>
           <View style={styles.formContainer}>
             <Text>Min. price</Text>
@@ -71,7 +75,7 @@ const BudgetScreen = ({navigation}: any) => {
               // String is passed as value into text form.
               value={String(minPrice)}
               type="currency"
-              onChangeText={(num: string) => {
+              onChangeText={num => {
                 handleMin(num);
               }}
             />
@@ -84,22 +88,22 @@ const BudgetScreen = ({navigation}: any) => {
               // String is passed as value into text form.
               value={String(maxPrice)}
               type="currency"
-              onChangeText={(num: string) => handleMax(num)}
+              onChangeText={num => handleMax(num)}
             />
           </View>
         </View>
-        {Number(minPrice) > Number(maxPrice) ? (
+        {Number(minPrice) > Number(maxPrice) && (
           <View style={styles.errorContainer}>
             <Text style={styles.errorMessage}>
               The min value must not be more than the max value!
             </Text>
           </View>
-        ) : null}
+        )}
         <View style={styles.sliderContainer}>
           <Slider
             thumbTintColor={Color.Lavendar[100]}
             minimumTrackTintColor={Color.Lavendar[80]}
-            value={[minPrice, maxPrice]}
+            value={[+minPrice, +maxPrice]}
             animateTransitions={true}
             minimumValue={100}
             maximumValue={5000}
@@ -114,7 +118,7 @@ const BudgetScreen = ({navigation}: any) => {
           </View>
         </View>
         <View style={styles.switchContainer}>
-          <Text style={{marginRight: 12}}>Warm Rent</Text>
+          <Text style={styles.buttonWarmText}>Warm Rent</Text>
           <CustomSwitch
             value={warmRent}
             onValueChange={() => setWarmRent(!warmRent)}
@@ -130,19 +134,25 @@ const BudgetScreen = ({navigation}: any) => {
           maxRent: maxPrice.toString(),
           warmRent,
         }}
-        disabled={Number(minPrice) > Number(maxPrice)}
+        disabled={+minPrice > +maxPrice}
       />
     </ScreenBackButton>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
   inputForm: {
-    borderWidth: 2,
-    padding: 15,
+    borderWidth: size(2),
+    padding: size(15),
     borderColor: Color.Black[100],
-    borderRadius: 12,
-    marginTop: 10,
+    borderRadius: size(12),
+    marginTop: size(10),
+  },
+  buttonWarmText: {
+    marginRight: 12,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -157,16 +167,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sliderContainer: {
-    marginTop: 40,
+    marginTop: size(40),
   },
   pagingationBarContainer: {
-    marginVertical: 45,
+    marginVertical: size(45),
   },
   buttonContainer: {
-    marginBottom: 55,
+    marginBottom: size(55),
   },
   switchContainer: {
-    marginTop: 15,
+    marginTop: size(15),
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',

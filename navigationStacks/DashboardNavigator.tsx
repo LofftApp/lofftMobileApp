@@ -21,6 +21,7 @@ import AdminScreen from 'screens/admin/adminScreen';
 import TempScreen from 'screens/dashboard/renter/TempScreen';
 
 const Tab = createBottomTabNavigator();
+
 const DashboardNavigator = () => {
   const admin = useAppSelector(state => state.user.admin);
   return (

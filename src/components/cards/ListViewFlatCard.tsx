@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {size} from 'react-native-responsive-sizes';
+import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 
@@ -15,36 +16,52 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from 'Assets/images/no-flat-image.png';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+// Types 🏷️
+import type {UserState} from 'reduxFeatures/user/types';
+import type {Advert} from 'reduxFeatures/adverts/types';
+import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
-const ListViewFlatCard = ({navigation, advert, id}: any) => {
-  const userProfile = useAppSelector((state: any) => state.user.user);
+const ListViewFlatCard = ({advert}: {advert: Advert}) => {
+  const navigation = useNavigation<SearchScreenNavigationProp>();
+
+  const user = useAppSelector((state: {user: UserState}) => state.user.user);
+
+  const {profile, filter: userFilter} = user;
+  const {characteristics: userCharacteristics} = profile;
+
+  const {flat, matchScore, id, favorite, price} = advert;
+  const {
+    features: flatFeatures,
+    characteristics: flatCharacteristics,
+    photos,
+    district,
+    city,
+  } = flat;
 
   const characteristicsTags = tagSorter(
-    userProfile.profile.characteristics,
-    advert.flat.characteristics,
+    userCharacteristics ?? [],
+    flatCharacteristics ?? [],
   );
-
-  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
+  const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
 
   const dispatch = useAppDispatch();
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          {advert.matchScore ? (
+          {matchScore && (
             <View>
               <Pressable
                 // style={styles.flatCardSaveButton}
                 onPress={() => {
-                  dispatch(toggleFavorite(advert.id));
+                  dispatch(toggleFavorite(id ?? 0));
                 }}>
-                {advert.favorite ? (
+                {favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={25}
@@ -55,30 +72,30 @@ const ListViewFlatCard = ({navigation, advert, id}: any) => {
                 )}
               </Pressable>
             </View>
-          ) : null}
+          )}
           {/* <HighlightedButtons navigation={navigation} id={flatId} goBack={false}  />  For refactoring above 👆*/}
         </View>
       </View>
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert.flat.photos}
+          images={photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
             {/* Size of WG is not in DB - 26 m2 */}
-            <Text style={[fontStyles.headerSmall]}>{advert.price} €</Text>
+            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
 
-            <MatchingScoreButton size="Big" score={advert.matchScore} />
+            <MatchingScoreButton size="Big" score={matchScore ?? 0} />
           </View>
-          {advert.flat.district ? (
+          {district && (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {advert.flat.district}, {advert.flat.city}
+              {district}, {city}
             </Text>
-          ) : null}
+          )}
         </View>
         <View>
           <Chips tags={featuresTags.positiveTags} features={true} />

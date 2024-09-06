@@ -2,18 +2,24 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, Modal, Pressable} from 'react-native';
 
 // Redux 🏗️
-import {useSelector} from 'react-redux';
+// import {useSelector} from 'react-redux';
 
 // Components
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {CrossIcon} from '../../assets';
 
+// Helpers 🥷🏻
+import {size} from 'react-native-responsive-sizes';
+
+// Types 🏷️
+import type {CompleteProfilePopUpModalProps} from './types';
+
 const CompleteProfilePopUpModal = ({
   openModal,
-  pullData,
+  setModalState,
   profileNotDoneObject,
-}: any) => {
+}: CompleteProfilePopUpModalProps) => {
   return (
     <Modal visible={openModal} animationType="fade" transparent={true}>
       <View style={styles.modalContainer}>
@@ -25,7 +31,7 @@ const CompleteProfilePopUpModal = ({
             <Pressable
               style={styles.pressableStyle}
               onPress={() => {
-                pullData(false);
+                setModalState(false);
               }}>
               <CrossIcon />
             </Pressable>
@@ -49,7 +55,7 @@ const CompleteProfilePopUpModal = ({
             disabled={false}
             invert={true}
             onPress={() => {
-              pullData(false);
+              setModalState(false);
             }}
           />
         </View>
@@ -60,7 +66,7 @@ const CompleteProfilePopUpModal = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: '64%',
+    height: '74%',
     marginTop: 'auto',
     backgroundColor: 'white',
     borderRadius: 10,
@@ -69,8 +75,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 80,
+    paddingHorizontal: size(16),
+    paddingBottom: size(80),
   },
   headerContainer: {
     flexDirection: 'row',
@@ -79,13 +85,13 @@ const styles = StyleSheet.create({
   },
   coreButtonStyle: {
     borderWidth: 2,
-    marginTop: 5,
-    height: 45,
+    marginTop: size(5),
+    height: size(45),
     width: '100%',
   },
   pressableStyle: {
-    marginTop: 16,
-    marginRight: 14,
+    marginTop: size(16),
+    marginRight: size(14),
   },
 });
 

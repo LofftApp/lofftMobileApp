@@ -7,9 +7,12 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // StyleSheet 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import {AdvertWithCoordinates} from './types';
 
-const MapMarker = ({data}: any) => {
-  const [color] = useState(data?.matchP > 85 ? 'lavendar' : 'mint');
+const MapMarker = ({data}: {data: AdvertWithCoordinates}) => {
+  const {matchScore} = data;
+
+  const [color] = useState((matchScore ?? 0) > 85 ? 'lavendar' : 'mint');
   return (
     <View>
       <LofftIcon
@@ -26,7 +29,7 @@ const MapMarker = ({data}: any) => {
                 color === 'lavendar' ? Colors.Lavendar[100] : Colors.Mint[100],
             },
           ]}>
-          {data?.matchP}
+          {matchScore}
         </Text>
       </View>
     </View>

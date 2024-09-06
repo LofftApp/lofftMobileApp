@@ -1,7 +1,6 @@
 /* React Stuff */
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 /* Redux Api Calls etc */
 import {getSpecificUserProfile} from 'reduxFeatures/user/usersMiddleware';
@@ -15,111 +14,98 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 /* Helpers */
 import {matchMaker} from 'helpers/matchMaker';
+import {capitalize} from 'helpers/capitalize';
 
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const ApplicantProfileScreen = ({route}: any) => {
-  const navigation = useNavigation();
+// Types
+import type {ApplicantProfileScreenProps} from './types';
+import {size} from 'react-native-responsive-sizes';
+
+const images = [
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
+];
+
+const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {
-    firstName,
-    characteristics,
-    selectedProfile,
+    applicantName,
+    handleClickCheckbox,
+    secondRoundProfile,
     currentAdvert,
-    selectProfilesFunc,
   } = route.params;
 
+  const {characteristics: flatChars} = currentAdvert.flat;
+  const {secondRoundSelected, id: applicantId} = secondRoundProfile;
+
   const [profileDetails, setProfileDetails] = useState({});
-  const [profileChars, setProfileCharts] = useState([]);
-  const [clicked, setClicked] = useState(selectedProfile.selected);
+  const [profileChars, setProfileChars] = useState([]);
+  const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
 
-  const images = [
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
-    'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
-  ];
+  const matches = matchMaker(flatChars, profileChars)[0];
+  const noMatches = matchMaker(flatChars, profileChars)[1];
 
-  const landlordChars = characteristics;
-  const matches = matchMaker(landlordChars, profileChars)[0];
-  const noMatches = matchMaker(landlordChars, profileChars)[1];
-
+  // Not working 👇
   useEffect(() => {
-    const apiCallToRetriveUser = getSpecificUserProfile(selectedProfile.userId);
+    const apiCallToRetriveUser = getSpecificUserProfile(applicantId ?? 1);
 
     apiCallToRetriveUser.then((result: any) => {
       setProfileDetails(result.data.profile_details);
-      setProfileCharts(result.data.profile_characteristics);
+      setProfileChars(result.data.profile_characteristics);
     });
-  }, []);
+  }, [applicantId]);
 
-  const capitalize = word => {
-    return word.charAt(0).toUpperCase() + word.substring(1);
-  };
-
-  const selectUser = id => {
-    setClicked(!clicked);
-    selectProfilesFunc(id);
+  const handleButtonClicked = () => {
+    setButtonClicked(!buttonClicked);
+    handleClickCheckbox();
   };
 
   return (
     <View style={styles.container}>
       <View>
         <LofftHeaderPhoto images={images} imageContainerHeight={400} />
-        <HighlightButtons navigation={navigation} heartPresent={false} />
+        <HighlightButtons heartPresent={false} />
       </View>
       <ScrollView>
         <View style={styles.contentContainer}>
           <View style={styles.infoA}>
             <Text style={fontStyles.headerMedium}>
-              {capitalize(firstName.split('@')[0])}
+              {capitalize(applicantName)}
             </Text>
             <Text style={{color: Color.Black[80]}}>28 years old</Text>
           </View>
 
           <View style={styles.infoB}>
             <LofftIcon name="calendar" size={25} color={Color.Black[30]} />
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {color: Color.Black[100], paddingLeft: 10},
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.calendarText]}>
               From: 25/12/22 - unlimited
             </Text>
           </View>
 
           <View style={styles.infoC}>
             <LofftIcon name="translate" size={25} color={Color.Black[30]} />
-            <Text
-              style={[
-                fontStyles.headerSmall,
-                {color: Color.Black[100], paddingLeft: 10},
-              ]}>
+            <Text style={[fontStyles.headerSmall, styles.translateText]}>
               English, German, Arabic
             </Text>
           </View>
 
           <View>
             <Text style={[fontStyles.bodySmall, {color: Color.Black[80]}]}>
-              {profileDetails.description}
+              {/* will display when apiCallToRetriveUser is fixed  */}
+              {/* {profileDetails.description} */}
             </Text>
           </View>
 
-          <Text
-            style={[
-              fontStyles.headerMedium,
-              {color: Color.Black[100], paddingTop: 20},
-            ]}>
+          <Text style={[fontStyles.headerMedium, styles.matchText]}>
             Match with you
           </Text>
           <Chips tags={matches} features={true} emoji />
 
-          <Text
-            style={[
-              fontStyles.headerMedium,
-              {color: Color.Black[100], paddingTop: 10},
-            ]}>
+          <Text style={[fontStyles.headerMedium, styles.differencesText]}>
             Differences
           </Text>
           <Chips tags={noMatches} features={true} emoji />
@@ -129,14 +115,12 @@ const ApplicantProfileScreen = ({route}: any) => {
       </ScrollView>
       <View style={styles.centerButtonContainer}>
         <CoreButton
-          value={clicked ? 'Selected !' : '+ Add to selection'}
+          value={buttonClicked ? 'Selected !' : '+ Add to selection'}
           style={[
             styles.customCoreButtonStyle,
-            clicked ? styles.selected : null,
+            buttonClicked ? styles.selected : null,
           ]}
-          onPress={() => {
-            selectUser(selectedProfile.userId);
-          }}
+          onPress={() => handleButtonClicked()}
         />
       </View>
     </View>
@@ -150,10 +134,10 @@ const styles = StyleSheet.create({
   },
   userImage: {
     width: '100%',
-    height: 400,
+    height: size(400),
   },
   contentContainer: {
-    padding: 12,
+    padding: size(12),
   },
   infoA: {
     flexDirection: 'row',
@@ -163,11 +147,11 @@ const styles = StyleSheet.create({
   infoB: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: size(10),
+    paddingTop: size(10),
   },
   infoC: {
-    paddingBottom: 20,
+    paddingBottom: size(20),
     flexDirection: 'row',
   },
   centerButtonContainer: {
@@ -184,6 +168,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Mint[100],
     borderColor: Color.Mint[100],
   },
+  calendarText: {color: Color.Black[100], paddingLeft: size(10)},
+  translateText: {color: Color.Black[100], paddingLeft: size(10)},
+  matchText: {color: Color.Black[100], paddingTop: size(20)},
+  differencesText: {color: Color.Black[100], paddingTop: size(10)},
 });
 
 export default ApplicantProfileScreen;

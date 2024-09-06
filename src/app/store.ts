@@ -25,7 +25,7 @@ const persistConfig = {
   version: 1,
 };
 
-const reducers: any = combineReducers({
+const reducers = combineReducers({
   authentication: authenticationReducer,
   userDetails: userJourneyReducer,
   imageUpload: imageUploadReducer,

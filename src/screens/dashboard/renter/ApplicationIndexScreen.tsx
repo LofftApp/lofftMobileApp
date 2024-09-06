@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
 import {createSelector} from '@reduxjs/toolkit';
+
 // Screens 📺
 import FlatListComponent from 'screens/dashboard/renter/SubScreens/FlatListComponent';
 
@@ -13,20 +14,28 @@ import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch'
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+
 // helpers 🧰
 import {advertPartition} from 'helpers/advertPartition';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {size} from 'react-native-responsive-sizes';
 
-const ApplicationIndexScreen = ({navigation}: any) => {
-  const getUserType = (state: any) => state.user.user.userType;
-  const getAdverts = (state: any) => state.adverts.adverts;
+// Types 🏷
+import type {ApplicationIndexScreenProp} from './types';
+import type {UserState} from 'reduxFeatures/user/types';
+import type {AdvertState, Advert} from 'reduxFeatures/adverts/types';
+
+const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
+  const getUserType = (state: {user: UserState}) => state.user.user.userType;
+
+  const getAdverts = (state: {adverts: AdvertState}) => state.adverts.adverts;
 
   const selectUserTypeAndAdverts = createSelector(
     [getUserType, getAdverts],
-    (userType, adverts) => {
+    (userType, adverts): [string | null, Advert[]] => {
       let userAdverts = adverts;
       if (userType === 'tenant') {
-        userAdverts = userAdverts.filter((advert: any) => advert.applied);
+        userAdverts = userAdverts.filter(advert => advert.applied);
       }
       return [userType, userAdverts];
     },
@@ -38,8 +47,8 @@ const ApplicationIndexScreen = ({navigation}: any) => {
 
   const [screen, setScreen] = useState('thumbs-up');
 
-  const setActiveScreen = (screen: string) => {
-    setScreen(screen);
+  const setActiveScreen = (activeScreen: string) => {
+    setScreen(activeScreen);
   };
 
   return (
@@ -49,7 +58,7 @@ const ApplicationIndexScreen = ({navigation}: any) => {
           <>
             <Text style={fontStyles.headerLarge}>My Listings</Text>
             <View style={styles.actionContainer}>
-              <Pressable style={[styles.addButton, {marginRight: 15}]}>
+              <Pressable style={[styles.addButton, styles.marginRight]}>
                 <LofftIcon
                   name="message-circle"
                   size={33}
@@ -67,13 +76,13 @@ const ApplicationIndexScreen = ({navigation}: any) => {
           </>
         )}
       </View>
-      {userType === 'lessor' ? null : (
+      {userType !== 'lessor' && (
         <HeaderPageContentSwitch
           toggleNames={['Active', 'Inactive']}
           toggleIcons={['thumbs-up', 'thumbs-down']}
           markers={['thumbs-up', 'thumbs-down']}
           activeScreen={screen}
-          setActiveScreen={(screen: string) => setActiveScreen(screen)}
+          setActiveScreen={setActiveScreen}
         />
       )}
       <View style={styles.viewContainer}>
@@ -83,10 +92,9 @@ const ApplicationIndexScreen = ({navigation}: any) => {
             userType === 'lessor'
               ? adverts
               : screen === 'thumbs-down'
-                ? inactiveAdverts
-                : activeAdverts
+              ? inactiveAdverts
+              : activeAdverts
           }
-          navigation={navigation}
           isLessor={userType === 'lessor'}
         />
       </View>
@@ -100,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewContainer: {
-    marginVertical: 15,
+    marginVertical: size(15),
     position: 'relative',
   },
 
@@ -108,24 +116,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: size(16),
     flexDirection: 'row',
-    marginTop: 68, // Needs to be added to core view file, though not working when built
+    marginTop: size(68), // Needs to be added to core view file, though not working when built
   },
   headerText: {
-    marginTop: 70,
-    marginHorizontal: 16,
+    marginTop: size(70),
+    marginHorizontal: size(16),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   addButton: {
-    paddingVertical: 7,
-    paddingHorizontal: 12,
+    paddingVertical: size(7),
+    paddingHorizontal: size(12),
     borderRadius: 12,
   },
   actionContainer: {
     flexDirection: 'row',
+  },
+  marginRight: {
+    marginRight: size(20),
   },
 });
 

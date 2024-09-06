@@ -1,13 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  Dimensions,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -17,44 +9,45 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
-import HighlightedButtons from 'components/containers/HighlightButtons';
+import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
-import {CoreButton} from 'components/buttons/CoreButton';
 import StatusBar from 'components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 
-// Assets 🪴
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+// Helpers
+import {size} from 'react-native-responsive-sizes';
 
-const ApplicationShowScreen = ({navigation, route}: any) => {
+// Types
+import type {ApplicationShowScreenProp} from './types';
+
+const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {advert} = route.params;
-  const [hascollaped, setHasCollapsed] = useState(true);
+
+  const [hasCollapsed, setHasCollapsed] = useState(true);
 
   return (
     <View style={styles.pageWrapper}>
-      <HighlightedButtons
-        navigation={navigation}
-        id={advert.flat.id}
+      <HighlightButtons
         heartPresent={!advert.lessor}
         color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
       <LofftHeaderPhoto
         imageContainerHeight={300}
-        images={advert.flat.photos}
+        images={advert.flat.photos ?? []}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar advert={advert} currentApplicationStatus={advert.status} />
+          <StatusBar advert={advert} />
           <Text
-            onPress={() => setHasCollapsed(!hascollaped)}
+            onPress={() => setHasCollapsed(!hasCollapsed)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
-            {hascollaped ? 'see more' : 'see less'}
+            {hasCollapsed ? 'see more' : 'see less'}
           </Text>
 
-          <Collapsible collapsed={hascollaped} duration={300}>
-            <FlatInfoContainer advert={advert} button={false} navigation />
+          <Collapsible collapsed={hasCollapsed} duration={300}>
+            <FlatInfoContainer advert={advert} button={false} />
           </Collapsible>
         </View>
       </ScrollView>
@@ -78,8 +71,8 @@ const styles = StyleSheet.create({
   seeMoreLessButton: {
     color: Color.Blue[100],
     alignSelf: 'flex-end',
-    marginRight: 10,
-    marginBottom: 10,
+    marginRight: size(10),
+    marginBottom: size(10),
   },
 });
 

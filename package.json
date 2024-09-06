@@ -28,7 +28,7 @@
     "@rnmapbox/maps": "^10.1.24",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.5.0",
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-native": "^0.74.1",
@@ -85,6 +85,10 @@
     "node": ">=18"
   },
   "solution": {
+    "got": "^11.8.5"
+  },
+  "resolutions": {
+    "ws": "^7.5.10",
     "got": "^11.8.5"
   },
   "packageManager": "yarn@4.2.2"

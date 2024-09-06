@@ -4,8 +4,9 @@ import FlatListScreen from 'screens/dashboard/renter/FlatFindScreen';
 import FlatShowScreen from 'screens/dashboard/renter/FlatShowScreen';
 import ApplyForFlatScreen from 'screens/dashboard/renter/ApplyForFlatScreen';
 import ApplicationShowScreen from 'screens/dashboard/renter/ApplicationShowScreen';
+import {SearchStackParamsList} from './types';
 
-const FlatFind = createNativeStackNavigator();
+const FlatFind = createNativeStackNavigator<SearchStackParamsList>();
 const FlatSearchNavigator = () => {
   return (
     <FlatFind.Navigator screenOptions={{headerShown: false}}>

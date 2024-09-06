@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Pressable} from 'react-native';
+import {Text, View, StyleSheet, Pressable, DimensionValue} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -14,12 +15,24 @@ import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
+// helpers 🧰
+import {advertStatusIndex} from 'helpers/advertStatusIndex';
+import {size} from 'react-native-responsive-sizes';
+
+// Types 🏷
+import type {ListFlatApplicationCardProps} from './types';
+
+// Types
+import {FavoriteScreenNavigationProp} from '../../../navigationStacks/types';
+
 const ListFlatApplicationCard = ({
-  navigation,
   advert,
   isLessor = false,
-}: any) => {
-  const [active] = useState(!['offered', 'closed'].includes(advert.status));
+}: ListFlatApplicationCardProps) => {
+  const {flat, status, price, id, favorite} = advert;
+  const {photos, city, district} = flat;
+
+  const [active] = useState(!['offered', 'closed'].includes(status ?? ''));
   const [renterActiveStatus] = useState([
     'Applied',
     'In review',
@@ -34,41 +47,41 @@ const ListFlatApplicationCard = ({
     'Offer',
   ]);
 
-  let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
-
-  const [currentStatusBar, setStatusBar] = useState('');
+  const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
-  const calculateStatusBar = (currentStatusIndex: number) => {
-    let status: string | null;
-    let activeStage: number = 0;
+  const navigation = useNavigation<FavoriteScreenNavigationProp>();
 
+  let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
+
+  const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
-        status = '40';
-        activeStage = 1;
+        setCurrentStatusBar('40');
+        setActiveStage(1);
         break;
       case 2:
-        status = '80';
-        activeStage = 2;
+        setCurrentStatusBar('80');
+        setActiveStage(2);
         break;
       case 3:
-        status = '100';
-        activeStage = 3;
+        setCurrentStatusBar('100');
+        setActiveStage(3);
         break;
       default:
-        status = '20';
-        activeStage = 0;
+        setCurrentStatusBar('20');
+        setActiveStage(0);
         break;
     }
-    setStatusBar(status);
-    setActiveStage(activeStage);
   };
 
   useEffect(() => {
-    calculateStatusBar(advert.status);
-  });
+    const index = advertStatusIndex(status ?? '');
+    calculateStatusBar(index);
+  }, [status]);
+
   const dispatch = useAppDispatch();
+
   return (
     <View style={styles.advertCardContainer}>
       <Pressable
@@ -80,20 +93,21 @@ const ListFlatApplicationCard = ({
         <View>
           <View style={styles.advertCardImage}>
             <LofftHeaderPhoto
-              imageContainerHeight={300}
-              images={advert.flat.photos}
+              imageContainerHeight={size(300)}
+              images={photos ?? []}
             />
           </View>
           <View style={styles.advertCardButtonsOverlay}>
             <View style={styles.advertCardbuttonsWrap}>
-              {!isLessor ? (
+              {!isLessor && (
                 <View>
                   <Pressable
                     style={styles.advertCardSaveButton}
                     onPress={() => {
-                      dispatch(toggleFavorite(advert.id));
+                      // toggleFavorite error status 401 👇
+                      dispatch(toggleFavorite(id ?? 0));
                     }}>
-                    {advert.favorite ? (
+                    {favorite ? (
                       <LofftIcon
                         name="heart-filled"
                         size={25}
@@ -108,7 +122,7 @@ const ListFlatApplicationCard = ({
                     )}
                   </Pressable>
                 </View>
-              ) : null}
+              )}
             </View>
           </View>
         </View>
@@ -116,11 +130,10 @@ const ListFlatApplicationCard = ({
       <View style={styles.metaDataContainer}>
         <View>
           <Text style={fontStyles.headerSmall}>
-            {advert.price}€ {''} {''} {advert.flat.size}
-            {advert.flat.measurementUnit}
+            {price}€ {''} {''}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {advert.flat.district}, {advert.flat.city}
+            {district}, {city}
           </Text>
         </View>
         <View>
@@ -133,14 +146,14 @@ const ListFlatApplicationCard = ({
           </Text>
         </View>
       </View>
-      {isLessor ? (
+      {isLessor && (
         <View style={styles.timeWrapper}>
-          <LofftIcon size={20} name={'alarm-clock'} color={Color.Tomato[100]} />
-          <Text style={{color: Color.Tomato[100], marginTop: 2, marginLeft: 7}}>
+          <LofftIcon size={20} name="alarm-clock" color={Color.Tomato[100]} />
+          <Text style={styles.timeWrapperText}>
             3h left to make the decision for this round!
           </Text>
         </View>
-      ) : null}
+      )}
       <View>
         <View
           style={[
@@ -151,7 +164,7 @@ const ListFlatApplicationCard = ({
             style={[
               styles.actualProgress,
               {
-                width: `${currentStatusBar}%`,
+                width: `${currentStatusBar}%` as DimensionValue,
                 backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
               },
             ]}
@@ -171,13 +184,9 @@ const ListFlatApplicationCard = ({
           ))}
         </View>
       </View>
-      {isLessor ? (
+      {isLessor && (
         <View style={styles.buttonContainer}>
-          <CoreButton
-            value="Edit listing"
-            invert={true}
-            style={styles.button}
-          />
+          <CoreButton value="Edit listing" invert style={styles.button} />
           <CoreButton
             value="See applicants"
             style={styles.button}
@@ -189,7 +198,7 @@ const ListFlatApplicationCard = ({
             }
           />
         </View>
-      ) : null}
+      )}
     </View>
   );
 };
@@ -197,8 +206,8 @@ const ListFlatApplicationCard = ({
 const styles = StyleSheet.create({
   advertCardContainer: {
     flex: 1,
-    paddingBottom: 8,
-    marginBottom: 16,
+    paddingBottom: size(8),
+    marginBottom: size(16),
   },
   advertCardImage: {
     width: '100%',
@@ -214,29 +223,29 @@ const styles = StyleSheet.create({
   advertCardbuttonsWrap: {
     flex: 1,
     alignItems: 'flex-end',
-    padding: 15,
+    padding: size(15),
   },
   advertCardSaveButton: {
-    padding: 10,
+    padding: size(10),
     position: 'absolute',
     right: 0,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 16,
-    marginTop: 10,
+    gap: size(16),
+    marginTop: size(10),
   },
   button: {
     flex: 1,
-    maxWidth: 183,
-    height: 48,
+    maxWidth: size(183),
+    height: size(48),
   },
   metaDataContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8,
+    paddingVertical: size(8),
   },
   flatLocation: {
     color: Color.Black['50'],
@@ -244,13 +253,13 @@ const styles = StyleSheet.create({
   },
   progressBarOutline: {
     flex: 1,
-    padding: 6,
+    padding: size(6),
     borderRadius: 8,
   },
   statusContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 10,
+    marginVertical: size(10),
   },
   active: {
     fontWeight: 'bold',
@@ -260,14 +269,19 @@ const styles = StyleSheet.create({
     color: Color.Black[50],
   },
   actualProgress: {
-    padding: 8,
+    padding: size(8),
     borderRadius: 8,
   },
   timeWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
-    marginTop: 7,
+    marginBottom: size(15),
+    marginTop: size(7),
+  },
+  timeWrapperText: {
+    color: Color.Tomato[100],
+    marginTop: size(2),
+    marginLeft: size(7),
   },
 });
 

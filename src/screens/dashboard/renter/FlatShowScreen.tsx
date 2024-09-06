@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -21,28 +21,28 @@ import CompleteProfileImage from 'Assets/images/Illustration.png';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
 
-// Helpers
+// Helpers 🥷🏻
 import {tagSorter} from 'helpers/tagSorter';
+import {height, size} from 'react-native-responsive-sizes';
 
-const FlatShowScreen = ({route, navigation}: any) => {
-  const [advert] = useState(route.params.advert);
-  const userProfile = useAppSelector((state: any) => state.user.user);
+// Types 🏷️
+import type {FlatShowScreenProp} from './types';
+import type {UserState} from 'reduxFeatures/user/types';
 
-  const characteristicsTags = tagSorter(
-    userProfile.profile.characteristics,
-    advert.flat.characteristics,
-  );
+const profileNotDoneObject = {
+  header: "Your application profile isn't complete",
+  description:
+    'To apply for this flat, please go to the profile section and complete your application. This takes only 5 minutes!',
+  icon: CompleteProfileImage,
+};
+const outOfTokensObject = {
+  header: 'Why are tokens limited?',
+  description:
+    "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
+  icon: CompleteProfileImage,
+};
 
-  const featuresTags = tagSorter(userProfile.filter, advert.flat.features);
-
-  const dispatch = useAppDispatch();
-
-  // if (userType === 'renter') {
-  //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
-  // }
-
-  /* Params are being passed classicly via the route helper instead of  */
-
+const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   //This is a placeholder for the CompleteProfileStep
   const [completeProfile, setCompleteProfile] = useState(false);
 
@@ -51,27 +51,35 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
   //Modal
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
+  const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
-  const expander = () => {
-    setDescriptionExpansion(!descriptionExpanded);
-  };
 
-  const profileNotDoneObject = {
-    header: "Your application profile isn't complete",
-    description:
-      'To apply for this flat, please go to the profile section and complete your application. This takes only 5 minutes!',
-    icon: CompleteProfileImage,
-  };
-  const outOfTokensObject = {
-    header: 'Why are tokens limited?',
-    description:
-      "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
-    icon: CompleteProfileImage,
-  };
+  const {advert} = route.params;
+  const {flat} = advert;
+  const {
+    characteristics: flatCharacteristics,
+    features: flatFeatures,
+    photos,
+  } = flat;
 
-  const pullData = (data: any) => {
-    setBlurActivated(data);
-  };
+  const user = useAppSelector((state: {user: UserState}) => state.user.user);
+  const {profile, filter: userFilter} = user;
+  const {characteristics: userCharacteristics} = profile;
+
+  const dispatch = useAppDispatch();
+
+  // const characteristicsTags = tagSorter(
+  //   userCharacteristics ?? [],
+  //   flatCharacteristics ?? [],
+  // );
+
+  // const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+
+  // if (userType === 'renter') {
+  //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
+  // }
+
+  /* Params are being passed classicly via the route helper instead of  */
 
   return (
     <View style={styles.pageContainer}>
@@ -79,29 +87,22 @@ const FlatShowScreen = ({route, navigation}: any) => {
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
         <View>
-          {!blurActivated ? (
+          {!blurActivated && (
             <HighlightedButtons
-              navigation={navigation}
               favorite={advert.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert.id))}
+              onPressHeart={() => dispatch(toggleFavorite(advert.id ?? 0))}
             />
-          ) : null}
+          )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
-            images={advert.flat.photos}
+            images={photos ?? []}
             activeBlur={blurActivated}
           />
         </View>
         <SafeAreaView
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
-            <FlatInfoContainer
-              advert={advert}
-              navigation={navigation}
-              button={true}
-              characteristicsTags={characteristicsTags}
-              featuresTags={featuresTags}
-            />
+            <FlatInfoContainer advert={advert} button={true} />
             {/* <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
@@ -115,13 +116,13 @@ const FlatShowScreen = ({route, navigation}: any) => {
                     value="Apply"
                     style={styles.applyCoreButton}
                     disabled={false}
-                    onPress={() => pullData(true)}
+                    onPress={() => setModalState(true)}
                   />
                 )}
               </View> */}
             <CompleteProfilePopUpModal
-              openModal={blurActivated}
-              pullData={pullData}
+              openModal={modalState}
+              setModalState={setModalState}
               profileNotDoneObject={
                 completeProfile && outOfTokens
                   ? outOfTokensObject
@@ -138,20 +139,20 @@ const FlatShowScreen = ({route, navigation}: any) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    paddingBottom: 10,
+    paddingBottom: size(10),
     width: '100%',
   },
   flatCardView: {
-    width: '90%',
+    width: '100%',
     alignContent: 'center',
-    marginHorizontal: 16,
+    marginHorizontal: size(16),
   },
   pageContainer: {
     flex: 1,
     backgroundColor: Color.White[100],
   },
   imageContainer: {
-    height: 300,
+    height: height(300),
     width: Dimensions.get('window').width,
     resizeMode: 'cover',
     justifyContent: 'flex-end',
@@ -163,31 +164,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   matchContainer: {
-    width: '90%',
+    width: '100%',
     backgroundColor: Color.Mint[10],
-    marginVertical: 10,
+    marginVertical: size(10),
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: size(20),
     alignItems: 'center',
   },
   infoContainer: {
     width: '90%',
-    marginTop: 15,
+    marginTop: size(15),
   },
   LegendContainer: {
     width: '90%',
-    marginTop: 10,
+    marginTop: size(10),
   },
   firstRowLegendContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: size(10),
   },
   secondRowLegendContainer: {
     flexDirection: 'row',
   },
-
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
@@ -196,14 +196,14 @@ const styles = StyleSheet.create({
     height: '64%',
     marginTop: 'auto',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: size(10),
   },
   completeProfileContainer: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 80,
+    paddingHorizontal: size(16),
+    paddingBottom: size(80),
   },
   headerContainer: {
     flexDirection: 'row',
@@ -211,10 +211,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   applyCoreButton: {
-    borderWidth: 2,
-    marginTop: 14,
-    height: 45,
-    marginBottom: 30,
+    borderWidth: size(2),
+    marginTop: size(14),
+    height: height(45),
+    marginBottom: size(100),
   },
 });
 

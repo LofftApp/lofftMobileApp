@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, Pressable} from 'react-native';
 
+// Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+
+// Helpers
+import {size} from 'react-native-responsive-sizes';
+
+// Types
+import type {HighlightButtonsProps} from './types';
+import {useNavigation} from '@react-navigation/native';
 
 // Important Notice !!
 /*
@@ -17,22 +19,21 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 const HighlightButtons = ({
   goBack = true,
-  navigation,
-  id,
   heartPresent = true,
-  color = null,
+  color = 'null',
   favorite,
   onPressHeart,
-}: any) => {
-  const [saved, setSaved] = useState(false);
-
+}: HighlightButtonsProps) => {
+  const navigation = useNavigation();
   return (
     <View
       style={[
         styles.actionContainer,
-        {justifyContent: goBack ? 'space-between' : 'flex-end'},
+        goBack
+          ? styles.justifyContentSpaceBetween
+          : styles.justifyContentFlexEnd,
       ]}>
-      {goBack ? (
+      {goBack && (
         <Pressable
           style={styles.iconContainer}
           onPress={() => navigation.goBack()}>
@@ -42,9 +43,9 @@ const HighlightButtons = ({
             color={color ? color : Color.Lavendar[80]}
           />
         </Pressable>
-      ) : null}
+      )}
 
-      {heartPresent ? (
+      {heartPresent && (
         <Pressable style={styles.iconContainer} onPress={onPressHeart}>
           {favorite ? (
             <LofftIcon
@@ -56,28 +57,34 @@ const HighlightButtons = ({
             <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
           )}
         </Pressable>
-      ) : null}
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   actionContainer: {
-    marginVertical: 50, // Might
+    marginVertical: size(50), // Might
     position: 'absolute',
     zIndex: 100,
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: size(20),
   },
   iconContainer: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 7,
-    paddingBottom: 7,
+    paddingLeft: size(10),
+    paddingRight: size(10),
+    paddingTop: size(7),
+    paddingBottom: size(7),
     borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+  justifyContentSpaceBetween: {
+    justifyContent: 'space-between',
+  },
+  justifyContentFlexEnd: {
+    justifyContent: 'flex-end',
   },
 });
 

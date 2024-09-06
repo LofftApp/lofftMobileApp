@@ -1,19 +1,21 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
-import {ApplyForFlatScreenBackground} from 'Assets/background/apply-for-flat-screen.svg';
-import {HiFive} from 'Assets/illustrations/Hi-five.svg';
+// import {ApplyForFlatScreenBackground} from 'Assets/background/apply-for-flat-screen.svg';
+// import {HiFive} from 'Assets/illustrations/Hi-five.svg';
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const ApplyForFlatScreen = ({navigation}: any) => {
+// Types 🏷️
+import {ApplyForFlatScreenProp} from './types';
+
+const ApplyForFlatScreen = ({navigation}: ApplyForFlatScreenProp) => {
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
-      <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+      {/* <ApplyForFlatScreenBackground style={styles.backgroundImage} /> */}
       <View style={styles.itemsWrap}>
-        <HiFive />
+        {/* <HiFive /> */}
         <Text style={[fontStyles.headerSmall, styles.hack]}>
           You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
           to get back to you!
@@ -25,6 +27,7 @@ const ApplyForFlatScreen = ({navigation}: any) => {
           <CoreButton
             style={styles.buttonStyle}
             value={'See all applications'}
+            // "navigation 'alerts' has no payload"
             onPress={() => navigation.navigate('alerts')}
           />
           <CoreButton
