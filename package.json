@@ -85,7 +85,8 @@
     "got": "^11.8.5"
   },
   "resolutions": {
-    "ws": "^7.5.10"
+    "ws": "^7.5.10",
+    "got": "^11.8.5"
   },
   "packageManager": "yarn@4.2.2"
 }
