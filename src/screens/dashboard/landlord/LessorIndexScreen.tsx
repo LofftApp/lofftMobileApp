@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Screens 📺
@@ -30,14 +30,19 @@ const LessorIndexScreen = ({navigation}: any) => {
   // const oneFlat = sortedadverts.slice(0, 1);
   */
   const dispatch = useAppDispatch();
-
+  // Select the adverts from the Redux store
+  const adverts = useAppSelector(
+    (state: { adverts: AdvertState }) => state.adverts.adverts
+  );
+  // Memoize the advert statuses
+  const advertStatuses = useMemo(
+    () => adverts.map((advert) => advert.status),
+    [adverts]
+  );
+  // Fetch adverts whenever any of the advert statuses change
   useEffect(() => {
     dispatch(fetchAdverts());
-  }, [dispatch]);
-
-  const adverts = useAppSelector(
-    (state: {adverts: AdvertState}) => state.adverts.adverts,
-  );
+  }, [advertStatuses]); // Use advertStatuses as the dependency
 
   /*
   // useEffect(() => {
