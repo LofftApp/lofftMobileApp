@@ -37,7 +37,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   // const currentApplicationStatus = advertStatusIndex(status ?? '');
 
   // Lower code needed to test access to different routes
-   const currentApplicationStatus = 0;
+  const currentApplicationStatus = status;
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
