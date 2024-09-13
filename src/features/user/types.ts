@@ -4,7 +4,7 @@ interface UserCharacteristics {
 }
 interface UserProfile {
   genderIdentity: string | null;
-  tokens: number | null;
+  credits: number | null;
   description: string | null;
   characteristics: UserCharacteristics[] | null;
 }

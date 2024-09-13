@@ -3,41 +3,17 @@ import {
   fetchAdverts,
   toggleFavorite,
   changeAdvertStatus,
+  applyForAdvert,
+  fetchAdvertById,
 } from './advertMiddleware';
 
 import type {AdvertState} from './types';
 
 const initialState: AdvertState = {
   loading: false,
-  adverts: [
-    {
-      id: null,
-      status: null,
-      currency: null,
-      price: null,
-      favorite: false,
-      applied: false,
-      fromDate: null,
-      toDate: null,
-      matchScore: null,
-      created_at: null,
-      applicants: null,
-      user: null,
-      lessor: false,
-      flat: {
-        id: null,
-        address: null,
-        price: null,
-        description: null,
-        tagline: null,
-        district: null,
-        city: null,
-        photos: null,
-        characteristics: null,
-        features: null,
-      },
-    },
-  ],
+  adverts: [],
+  advert: null,
+  error: null,
 };
 
 export const advertSlice = createSlice({
@@ -53,7 +29,7 @@ export const advertSlice = createSlice({
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
-        console.log('fetchAdverts fullfilled ')
+        console.log('fetchAdverts fullfilled ');
         const values = action.payload.adverts.map((advert: any) => {
           return {
             id: advert.id,
@@ -112,7 +88,27 @@ export const advertSlice = createSlice({
         }
       });
     });
+    builder.addCase(fetchAdvertById.pending, state => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(
+      fetchAdvertById.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.error = null;
+        state.loading = false;
+        state.advert = action.payload;
+      },
+    );
+    builder.addCase(
+      fetchAdvertById.rejected,
+      (state, action: PayloadAction<any>) => {
+        state.error = action.payload.error;
+        state.loading = true;
+      },
+    );
   },
+
 });
 
 export const {} = advertSlice.actions;

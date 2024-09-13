@@ -35,6 +35,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const {characteristics: userCharacteristics} = profile;
 
   const {flat, matchScore, id, favorite, price} = advert;
+
   const {
     features: flatFeatures,
     characteristics: flatCharacteristics,
@@ -51,62 +52,67 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 
   const dispatch = useAppDispatch();
   return (
-    <View style={styles.flatCardContainer}>
-      <View style={styles.flatCardButtonsOverlay}>
-        <View style={styles.flatCardbuttonsWrap}>
-          {matchScore && (
-            <View>
-              <Pressable
-                // style={styles.flatCardSaveButton}
-                onPress={() => {
-                  dispatch(toggleFavorite(id ?? 0));
-                }}>
-                {favorite ? (
-                  <LofftIcon
-                    name="heart-filled"
-                    size={25}
-                    color={Color.Tomato[100]}
-                  />
-                ) : (
-                  <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
-                )}
-              </Pressable>
-            </View>
-          )}
-          {/* <HighlightedButtons navigation={navigation} id={flatId} goBack={false}  />  For refactoring above 👆*/}
-        </View>
-      </View>
-      <View style={styles.flatCardImage}>
-        <LofftHeaderPhoto
-          imageContainerHeight={size(300)}
-          images={photos ?? []}
-        />
-      </View>
-      <View style={styles.flatCardInfoWrap}>
-        <View style={styles.flatCardMetadataWrap}>
-          <View style={styles.apartmentLocationInfo}>
-            {/* Size of WG is not in DB - 26 m2 */}
-            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
-
-            <MatchingScoreButton size="Big" score={matchScore ?? 0} />
-          </View>
-          {district && (
-            <Text
-              style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {district}, {city}
-            </Text>
-          )}
-        </View>
+   <View style={styles.flatCardContainer}>
+  <View style={styles.flatCardButtonsOverlay}>
+    <View style={styles.flatCardbuttonsWrap}>
+      {matchScore !== undefined && (
         <View>
-          <Chips tags={featuresTags.positiveTags} features={true} />
-          <Chips tags={characteristicsTags.positiveTags} features={false} />
+          <Pressable
+            onPress={() => {
+              dispatch(toggleFavorite(id ?? 0));
+            }}>
+            {favorite ? (
+              <LofftIcon
+                name="heart-filled"
+                size={25}
+                color={Color.Tomato[100]}
+              />
+            ) : (
+              <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
+            )}
+          </Pressable>
         </View>
-      </View>
-      <CoreButton
-        value="View flat"
-        onPress={() => navigation.navigate('flatShow', {advert: advert})}
-      />
+      )}
+      {/* <HighlightedButtons navigation={navigation} id={flatId} goBack={false} /> */}
     </View>
+  </View>
+
+  <View style={styles.flatCardImage}>
+    <LofftHeaderPhoto
+      imageContainerHeight={size(300)}
+      images={photos ?? []}
+    />
+  </View>
+
+  <View style={styles.flatCardInfoWrap}>
+    <View style={styles.flatCardMetadataWrap}>
+      <View style={styles.apartmentLocationInfo}>
+        <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+
+        {/* Ensure that matchScore is passed correctly to MatchingScoreButton */}
+        {typeof matchScore === 'number' && (
+          <MatchingScoreButton size="Big" score={matchScore ?? 0} />
+        )}
+      </View>
+      {district && (
+        <Text style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+          {district}, {city}
+        </Text>
+      )}
+    </View>
+
+    <View>
+      <Chips tags={featuresTags.positiveTags} features={true} />
+      <Chips tags={characteristicsTags.positiveTags} features={false} />
+    </View>
+  </View>
+
+  <CoreButton
+    value="View flat"
+    onPress={() => navigation.navigate('flatShow', {advert: advert})}
+  />
+</View>
+
   );
 };
 
