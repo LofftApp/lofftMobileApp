@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,6 +13,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
+import {fetchAdvertById} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
@@ -54,7 +55,19 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
 
-  const {advert} = route.params;
+  const dispatch = useAppDispatch();
+
+  const {id} = route.params;
+
+  useEffect(() => {
+    dispatch(fetchAdvertById(id));
+  }, [dispatch]);
+
+
+  const advert = useAppSelector(state => console.log(state))
+
+
+
   const {flat} = advert;
   const {
     characteristics: flatCharacteristics,
@@ -65,8 +78,6 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const user = useAppSelector((state: {user: UserState}) => state.user.user);
   const {profile, filter: userFilter} = user;
   const {characteristics: userCharacteristics} = profile;
-
-  const dispatch = useAppDispatch();
 
   // const characteristicsTags = tagSorter(
   //   userCharacteristics ?? [],

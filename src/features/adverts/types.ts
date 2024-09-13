@@ -53,6 +53,8 @@ interface Advert {
 interface AdvertState {
   loading: boolean;
   adverts: Advert[];
+  error: string | null;
+  advert: Advert | null;
 }
 
 export type {

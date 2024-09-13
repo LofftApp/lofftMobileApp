@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -136,7 +136,9 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
               disabled={advert.applied}
               onPress={() => {
                 dispatch(applyForAdvert(advert.id ?? 1));
-                navigation.navigate('applyforflat', {advert});
+                navigation.navigate('applyforflat', {
+                  id: advert.id,
+                });
               }}
             />
           </View>
