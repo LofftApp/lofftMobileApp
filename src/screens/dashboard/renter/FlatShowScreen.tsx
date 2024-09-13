@@ -80,6 +80,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           <Text>Loading...</Text>
         </SafeAreaView>
       </View>
+      
     );
   }
 
