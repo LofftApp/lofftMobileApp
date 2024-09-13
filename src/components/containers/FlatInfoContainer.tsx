@@ -22,12 +22,12 @@ import {size} from 'react-native-responsive-sizes';
 import type {FlatInfoContainerProps} from './types';
 import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
-const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
-  console.log('USERTYPE', advert.match_score);
+const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
+  console.log('USERTYPE', advert.fromDate);
 
-  const [descriptionExpanded, setDescriptionExpansion] = useState(false);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const expander = () => {
-    setDescriptionExpansion(!descriptionExpanded);
+    setDescriptionExpanded(prev => !prev);
   };
   const navigation = useNavigation<SearchScreenNavigationProp>();
   const dispatch = useAppDispatch();
@@ -53,31 +53,30 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
 
       <View style={styles.infoContainer}>
         <Text style={fontStyles.bodySmall}>{advert.flat.address}</Text>
-        <Text style={[fontStyles.headerSmall]}>{advert.flat.tagline}</Text>
+        <Text style={[fontStyles.headerSmall]}>{advert.flat.tagLine}</Text>
         <View style={styles.LegendContainer}>
           <View style={styles.firstRowLegendContainer}>
             <View style={styles.iconContainer}>
               <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-                {advert.price}€
+                {advert.monthlyRent}€
               </Text>
             </View>
             <View style={styles.iconContainer}>
               <LofftIcon name="ruler" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-                26m2
+                {advert.flat.size}
+                {advert.flat.measurementUnit}
               </Text>
             </View>
           </View>
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
             <Text style={[fontStyles.bodyMedium, styles.dateText]}>
-              From:{' '}
-              {dateFormatConverter({date: {seconds: advert.fromDate ?? 0}})}{' '}
-              {advert.toDate &&
-                `- ${dateFormatConverter({
-                  date: {seconds: advert.toDate},
-                })}`}
+              From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
+              {`- ${dateFormatConverter({
+                date: {seconds: advert.toDate || 1715990400},
+              })}`}
             </Text>
           </View>
         </View>
@@ -86,29 +85,28 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
             {advert.flat.description?.substring(
               0,
               Number(
-                `${descriptionExpanded ? advert.flat.description.length : 200}`,
+                `${descriptionExpanded ? advert.flat.description.length : 100}`,
               ),
             )}
+            {!descriptionExpanded && '...'}
           </Text>
 
-          {advert.flat.description && advert.flat.description.length > 200 && (
-            <CoreButton
-              value={descriptionExpanded ? 'Read Less' : 'Read More'}
-              style={styles.coreButtonStyle}
-              textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
-              disabled={false}
-              onPress={() => expander()}
-            />
+          {advert.flat.description && advert.flat.description.length > 100 && (
+            <Text
+              style={[fontStyles.bodySmall, styles.seeReadMore]}
+              onPress={() => expander()}>
+              {descriptionExpanded ? 'Read Less' : 'Read More'}
+            </Text>
           )}
         </View>
 
-        {advert.user?.user_type === 'lessor' ? (
+        {advert.user?.userType === 'lessor' ? (
           <>
             <Text style={[fontStyles.headerSmall, styles.flatCharText]}>
               Flat Characteristics
             </Text>
             <View style={styles.chipsContainer}>
-              <Chips tags={flatCharacteristics ?? []} features={true} emoji />
+              <Chips tags={flatCharacteristics} features={true} emoji />
             </View>
           </>
         ) : (
@@ -117,7 +115,7 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
               Match with you
             </Text>
             <View style={styles.matchWithYouContainer}>
-              <Chips tags={flatCharacteristics ?? []} features={true} emoji />
+              <Chips tags={flatCharacteristics} features={true} emoji />
             </View>
 
             <Text style={[fontStyles.headerSmall, styles.otherText]}>
@@ -232,6 +230,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: size(14),
     height: size(40),
+  },
+  seeReadMore: {
+    color: Color.Blue[100],
+    alignSelf: 'flex-end',
+    marginRight: size(10),
+    marginBottom: size(10),
   },
   marginFlatCharacteristics: {marginTop: size(23), marginBottom: size(5)},
   marginChipsCharacteristics: {marginTop: size(10), marginBottom: size(20)},

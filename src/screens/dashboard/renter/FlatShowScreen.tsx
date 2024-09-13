@@ -59,10 +59,10 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
   const advert = useAppSelector(state => state.adverts.advert);
 
-  const [completeProfile, setCompleteProfile] = useState(false);
+  const [completeProfile, setCompleteProfile] = useState(true);
 
   // //Placeholder for if Out of Tokens
-  const [outOfTokens, setOutOfTokens] = useState(true);
+  const [hasTokens, setHasTokens] = useState(true);
 
   // //Modal
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
@@ -80,7 +80,6 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           <Text>Loading...</Text>
         </SafeAreaView>
       </View>
-      
     );
   }
 
@@ -119,7 +118,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           {!blurActivated && (
             <HighlightedButtons
               favorite={advert?.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
+              onPressHeart={() => dispatch(toggleFavorite(advert?.id))}
             />
           )}
           <LofftHeaderPhoto
@@ -134,46 +133,41 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
             {advert && <FlatInfoContainer advert={advert} button={true} />}
 
             <View>
-              {completeProfile && !outOfTokens ? (
-                <CoreButton
-                  value="Apply"
-                  style={styles.applyCoreButton}
-                  disabled={false}
-                  onPress={() => navigation.navigate('applyforflat')}
-                />
-              ) : (
-                <CoreButton
-                  value="Apply"
-                  style={styles.applyCoreButton}
-                  disabled={false}
-                  onPress={() => setModalState(true)}
-                />
-              )}
-            </View>
-
-            <View>
               <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
                 Application closing in 1d 8h
               </Text>
 
-              <CoreButton
-                value={advert.applied ? 'Applied' : 'Apply'}
-                style={styles.coreButtonCustom}
-                disabled={advert.applied}
-                onPress={() => {
-                  dispatch(applyForAdvert(advert.id ?? 1));
-                  navigation.navigate('applyforflat', {
-                    id: advert.id,
-                  });
-                }}
-              />
+              <View>
+                {completeProfile && hasTokens ? (
+                  <CoreButton
+                    value={advert.applied ? 'Applied' : 'Apply'}
+                    style={styles.coreButtonCustom}
+                    disabled={advert.applied}
+                    onPress={() => {
+                      dispatch(applyForAdvert(advert.id));
+                      navigation.navigate('applyforflat', {
+                        id: advert.id,
+                      });
+                    }}
+                  />
+                ) : (
+                  <CoreButton
+                    value="Applyuuuu"
+                    style={styles.coreButtonCustom}
+                    disabled={false}
+                    onPress={() => setModalState(true)}
+                  />
+                )}
+              </View>
             </View>
 
             <CompleteProfilePopUpModal
               openModal={modalState}
               setModalState={setModalState}
               profileNotDoneObject={
-                completeProfile && outOfTokens
+                !completeProfile
+                  ? profileNotDoneObject
+                  : !hasTokens
                   ? outOfTokensObject
                   : profileNotDoneObject
               }

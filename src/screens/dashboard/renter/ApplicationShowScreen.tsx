@@ -47,7 +47,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
           </Text>
 
           <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoContainer advert={advert} button={false} />
+            <FlatInfoContainer advert={advert} />
           </Collapsible>
         </View>
       </ScrollView>

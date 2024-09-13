@@ -2,7 +2,6 @@ import {Advert} from 'reduxFeatures/adverts/types';
 
 type FlatInfoContainerProps = {
   advert: Advert;
-  button: boolean;
 };
 
 type HighlightButtonsProps = {
