@@ -37,7 +37,7 @@ export const fetchAdvertById = createAsyncThunk(
         },
       });
       console.log('🚀 🚀 🚀', response.data);
-      return response.data.advert;
+      return response.data;
     } catch (error) {
       console.log('fetchAdverts error:', error);
     }

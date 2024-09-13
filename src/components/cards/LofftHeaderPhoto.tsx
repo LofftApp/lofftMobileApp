@@ -14,7 +14,6 @@ const LofftHeaderPhoto = ({
   activeBlur = false,
 }: LofftHeaderPhotoProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-
   const onViewableItemsChanged = useCallback(
     ({viewableItems}: OnViewableItemsChangedParams) => {
       const index = viewableItems[0].index ?? 0;

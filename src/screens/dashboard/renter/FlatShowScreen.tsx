@@ -21,6 +21,7 @@ import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import CompleteProfileImage from 'Assets/images/Illustration.png';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
+import { CoreButton } from 'components/buttons/CoreButton';
 
 // Helpers 🥷🏻
 import {tagSorter} from 'helpers/tagSorter';
@@ -44,7 +45,15 @@ const outOfTokensObject = {
 };
 
 const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
-  //This is a placeholder for the CompleteProfileStep
+  const dispatch = useAppDispatch();
+  const {id} = route.params;
+
+  useEffect(() => {
+    dispatch(fetchAdvertById(id));
+  }, [dispatch, id]);
+
+  const advert = useAppSelector(state => state.adverts.advert);
+
   const [completeProfile, setCompleteProfile] = useState(false);
 
   //Placeholder for if Out of Tokens
@@ -55,25 +64,14 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
 
-  const dispatch = useAppDispatch();
-
-  const {id} = route.params;
-
-  useEffect(() => {
-    dispatch(fetchAdvertById(id));
-  }, [dispatch]);
-
-
-  const advert = useAppSelector(state => console.log(state))
-
-
-
   const {flat} = advert;
-  const {
-    characteristics: flatCharacteristics,
+
+   const {characteristics: flatCharacteristics,
     features: flatFeatures,
     photos,
   } = flat;
+
+  const serialized_photos = photos.map(photo => photo.url)
 
   const user = useAppSelector((state: {user: UserState}) => state.user.user);
   const {profile, filter: userFilter} = user;
@@ -98,23 +96,25 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
         <View>
-          {!blurActivated && (
+           {!blurActivated && (
             <HighlightedButtons
-              favorite={advert.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert.id ?? 0))}
+              favorite={advert?.favorite}
+              onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
             />
           )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
-            images={photos ?? []}
+            images={serialized_photos ?? []}
             activeBlur={blurActivated}
           />
         </View>
         <SafeAreaView
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
-            <FlatInfoContainer advert={advert} button={true} />
-            {/* <View>
+           {advert && <FlatInfoContainer advert={advert} button={true} />}
+
+
+            <View>
                 {completeProfile && !outOfTokens ? (
                   <CoreButton
                     value="Apply"
@@ -130,7 +130,27 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
                     onPress={() => setModalState(true)}
                   />
                 )}
-              </View> */}
+              </View>
+
+              {button && (
+          <View>
+            <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
+              Application closing in 1d 8h
+            </Text>
+
+            <CoreButton
+              value={advert.applied ? 'Applied' : 'Apply'}
+              style={styles.coreButtonCustom}
+              disabled={advert.applied}
+              onPress={() => {
+                dispatch(applyForAdvert(advert.id ?? 1));
+                navigation.navigate('applyforflat', {
+                  id: advert.id,
+                });
+              }}
+            />
+          </View>
+        )}
             <CompleteProfilePopUpModal
               openModal={modalState}
               setModalState={setModalState}
@@ -143,7 +163,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
             {/* Continue coding from here !!!! */}
           </View>
         </SafeAreaView>
-      </ScrollView>
+       </ScrollView>
     </View>
   );
 };
