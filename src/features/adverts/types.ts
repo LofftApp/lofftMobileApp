@@ -35,10 +35,10 @@ interface AdvertFlat {
 
 interface Advert {
   id: number | null;
+  monthlyRent: number; 
   status: string | null;
   currency: string | null;
   matchScore: number | null;
-  price: number | null;
   favorite: boolean;
   applied: boolean;
   fromDate: number | null;

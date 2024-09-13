@@ -97,7 +97,23 @@ export const advertSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         state.error = null;
         state.loading = false;
-        state.advert = action.payload;
+        const formattedAdvert = {
+          ...action.payload,
+          monthlyRent: action.payload.monthly_rent,
+          fromDate: action.payload.from_date,
+          toDate: action.payload.to_date,
+          matchScore: action.payload.match_score,
+          createdAt: action.payload.created_at,
+          flat: {
+            ...action.payload.flat,
+            tagLine: action.payload.flat.tag_line,
+            measurementUnit: action.payload.flat.measurement_unit,
+            photos: action.payload.flat.photos.map(
+              (photo: {url: string}) => photo.url,
+            ),
+          },
+        };
+        state.advert = formattedAdvert;
       },
     );
     builder.addCase(

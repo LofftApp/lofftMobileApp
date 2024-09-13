@@ -23,6 +23,8 @@ import type {FlatInfoContainerProps} from './types';
 import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
+  console.log('USERTYPE', advert.match_score);
+
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
   const expander = () => {
     setDescriptionExpansion(!descriptionExpanded);
@@ -122,26 +124,6 @@ const FlatInfoContainer = ({advert, button}: FlatInfoContainerProps) => {
               Other
             </Text>
           </>
-        )}
-
-        {button && (
-          <View>
-            <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
-              Application closing in 1d 8h
-            </Text>
-
-            <CoreButton
-              value={advert.applied ? 'Applied' : 'Apply'}
-              style={styles.coreButtonCustom}
-              disabled={advert.applied}
-              onPress={() => {
-                dispatch(applyForAdvert(advert.id ?? 1));
-                navigation.navigate('applyforflat', {
-                  id: advert.id,
-                });
-              }}
-            />
-          </View>
         )}
 
         {/* Continue codeing from here !!!! */}

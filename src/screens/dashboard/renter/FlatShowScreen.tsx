@@ -6,13 +6,17 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
+  Text,
 } from 'react-native';
 
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Redux 🏗️
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
+import {
+  applyForAdvert,
+  toggleFavorite,
+} from 'reduxFeatures/adverts/advertMiddleware';
 import {fetchAdvertById} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Components
@@ -21,7 +25,7 @@ import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import CompleteProfileImage from 'Assets/images/Illustration.png';
 import FlatInfoContainer from 'components/containers/FlatInfoContainer';
 import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
-import { CoreButton } from 'components/buttons/CoreButton';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Helpers 🥷🏻
 import {tagSorter} from 'helpers/tagSorter';
@@ -30,6 +34,7 @@ import {height, size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import type {UserState} from 'reduxFeatures/user/types';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const profileNotDoneObject = {
   header: "Your application profile isn't complete",
@@ -56,33 +61,35 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
   const [completeProfile, setCompleteProfile] = useState(false);
 
-  //Placeholder for if Out of Tokens
+  // //Placeholder for if Out of Tokens
   const [outOfTokens, setOutOfTokens] = useState(true);
 
-  //Modal
+  // //Modal
   const [descriptionExpanded, setDescriptionExpansion] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
 
   const {flat} = advert;
+  console.log('adevert ✈️✈️✈️', advert);
 
-   const {characteristics: flatCharacteristics,
+  const {
+    characteristics: flatCharacteristics,
     features: flatFeatures,
     photos,
   } = flat;
 
-  const serialized_photos = photos.map(photo => photo.url)
+  const serialized_photos = photos.map(photo => photo.url);
 
   const user = useAppSelector((state: {user: UserState}) => state.user.user);
   const {profile, filter: userFilter} = user;
   const {characteristics: userCharacteristics} = profile;
 
-  // const characteristicsTags = tagSorter(
-  //   userCharacteristics ?? [],
-  //   flatCharacteristics ?? [],
-  // );
+  const characteristicsTags = tagSorter(
+    userCharacteristics ?? [],
+    flatCharacteristics ?? [],
+  );
 
-  // const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+  const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
 
   // if (userType === 'renter') {
   //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
@@ -96,7 +103,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
         <View>
-           {!blurActivated && (
+          {!blurActivated && (
             <HighlightedButtons
               favorite={advert?.favorite}
               onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
@@ -111,46 +118,44 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
         <SafeAreaView
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
-           {advert && <FlatInfoContainer advert={advert} button={true} />}
-
+            {advert && <FlatInfoContainer advert={advert} button={true} />}
 
             <View>
-                {completeProfile && !outOfTokens ? (
-                  <CoreButton
-                    value="Apply"
-                    style={styles.applyCoreButton}
-                    disabled={false}
-                    onPress={() => navigation.navigate('applyforflat')}
-                  />
-                ) : (
-                  <CoreButton
-                    value="Apply"
-                    style={styles.applyCoreButton}
-                    disabled={false}
-                    onPress={() => setModalState(true)}
-                  />
-                )}
-              </View>
+              {completeProfile && !outOfTokens ? (
+                <CoreButton
+                  value="Apply"
+                  style={styles.applyCoreButton}
+                  disabled={false}
+                  onPress={() => navigation.navigate('applyforflat')}
+                />
+              ) : (
+                <CoreButton
+                  value="Apply"
+                  style={styles.applyCoreButton}
+                  disabled={false}
+                  onPress={() => setModalState(true)}
+                />
+              )}
+            </View>
 
-              {button && (
-          <View>
-            <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
-              Application closing in 1d 8h
-            </Text>
+            <View>
+              <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
+                Application closing in 1d 8h
+              </Text>
 
-            <CoreButton
-              value={advert.applied ? 'Applied' : 'Apply'}
-              style={styles.coreButtonCustom}
-              disabled={advert.applied}
-              onPress={() => {
-                dispatch(applyForAdvert(advert.id ?? 1));
-                navigation.navigate('applyforflat', {
-                  id: advert.id,
-                });
-              }}
-            />
-          </View>
-        )}
+              <CoreButton
+                value={advert.applied ? 'Applied' : 'Apply'}
+                style={styles.coreButtonCustom}
+                disabled={advert.applied}
+                onPress={() => {
+                  dispatch(applyForAdvert(advert.id ?? 1));
+                  navigation.navigate('applyforflat', {
+                    id: advert.id,
+                  });
+                }}
+              />
+            </View>
+
             <CompleteProfilePopUpModal
               openModal={modalState}
               setModalState={setModalState}
@@ -163,7 +168,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
             {/* Continue coding from here !!!! */}
           </View>
         </SafeAreaView>
-       </ScrollView>
+      </ScrollView>
     </View>
   );
 };
@@ -246,6 +251,14 @@ const styles = StyleSheet.create({
     marginTop: size(14),
     height: height(45),
     marginBottom: size(100),
+  },
+  countDownTimer: {
+    textAlign: 'center',
+    color: Color.Mint[100],
+    marginTop: size(20),
+  },
+  coreButtonCustom: {
+    marginTop: size(14),
   },
 });
 
