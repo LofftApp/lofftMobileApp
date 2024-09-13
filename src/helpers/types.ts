@@ -10,5 +10,6 @@ type DateFormatConverterArgs = {
 };
 
 type Tag = AdvertCharacteristics | AdvertFeatures | UserCharacteristics | null;
+type SortedTag = {negativeTags: Tag[]; positiveTags: Tag[]};
 
-export type {DateFormatConverterArgs, Tag};
+export type {DateFormatConverterArgs, Tag, SortedTag};

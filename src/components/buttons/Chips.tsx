@@ -11,16 +11,21 @@ const Chips = ({
   emoji = false,
   positive = true,
   features,
+  sortedTags,
 }: ChipsProps) => {
   const [expand, setExpand] = React.useState(false);
 
   const toggleExpand = () => {
     setExpand(prev => !prev);
   };
+
+  const positiveTags = sortedTags?.positiveTags;
+  const negativeTags = sortedTags?.negativeTags;
+
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
-        {tags?.slice(0, 2).map((tag, index: number) => {
+        {(tags || positiveTags)?.slice(0, 2).map((tag, index: number) => {
           return (
             <View
               style={[
@@ -41,24 +46,49 @@ const Chips = ({
             </View>
           );
         })}
-        {tags && tags.length > 2 && !expand && (
-          <View
-            style={[
-              styles.chip,
-              features ? styles.featureTag : styles.characteristicTag,
-            ]}>
-            <Text
-              onPress={() => setExpand(prev => !prev)}
+        {((tags && tags.length > 2) ||
+          (positiveTags && positiveTags.length > 2)) &&
+          !expand && (
+            <View
               style={[
-                fontStyles.bodySmall,
-                features ? styles.featureTagFont : styles.characteristicTagFont,
+                styles.chip,
+                features ? styles.featureTag : styles.characteristicTag,
               ]}>
-              +{tags.slice(1, -1).length}
-            </Text>
-          </View>
-        )}
+              <Text
+                onPress={() => setExpand(prev => !prev)}
+                style={[
+                  fontStyles.bodySmall,
+                  features
+                    ? styles.featureTagFont
+                    : styles.characteristicTagFont,
+                ]}>
+                +{(tags || positiveTags).slice(1, -1).length}
+              </Text>
+            </View>
+          )}
+        {negativeTags?.map((tag, index: number) => {
+          return (
+            <View
+              style={[
+                styles.chip,
+                features ? styles.featureTag : styles.characteristicTag,
+              ]}
+              key={index}>
+              {emoji && <Text>{tag?.emoji}</Text>}
+              <Text
+                style={[
+                  fontStyles.bodySmall,
+                  features
+                    ? styles.featureTagFont
+                    : styles.characteristicTagFont,
+                ]}>
+                {tag?.name}
+              </Text>
+            </View>
+          );
+        })}
         {expand &&
-          tags?.slice(2).map((tag, index: number) => {
+          (tags || positiveTags)?.slice(2).map((tag, index: number) => {
             return (
               <View
                 style={[
@@ -79,7 +109,6 @@ const Chips = ({
               </View>
             );
           })}
-        {/* See less button aligned properly */}
         {expand && (
           <Text
             style={[fontStyles.bodySmall, styles.seeReadLess]}

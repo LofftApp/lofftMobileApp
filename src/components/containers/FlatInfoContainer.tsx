@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
-import {useAppDispatch} from 'reduxCore/hooks';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheet 🖼️
@@ -21,19 +21,36 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
 import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {UserState} from 'reduxFeatures/user/types';
+import {tagSorter} from 'helpers/tagSorter';
 
 const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
-  console.log('USERTYPE', advert.fromDate);
+  console.log('USERTYPE', advert.user);
+  const user = useAppSelector((state: {user: UserState}) => state.user.user);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const expander = () => {
     setDescriptionExpanded(prev => !prev);
   };
-  const navigation = useNavigation<SearchScreenNavigationProp>();
-  const dispatch = useAppDispatch();
 
   const {flat} = advert;
-  const {characteristics: flatCharacteristics} = flat;
+  const {
+    characteristics: flatCharacteristics,
+    features: flatFeatures,
+    photos,
+  } = flat;
+  const {profile, filter: userFilter} = user;
+
+  const {characteristics: userCharacteristics} = profile;
+
+  const characteristicsTags = tagSorter(
+    userCharacteristics,
+    flatCharacteristics,
+  );
+  console.log('characteristicsTags', characteristicsTags);
+
+  const featuresTags = tagSorter(userFilter, flatFeatures);
+  console.log('featuresTags', featuresTags);
 
   return (
     <View style={styles.centralizerContainer}>
@@ -106,7 +123,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
               Flat Characteristics
             </Text>
             <View style={styles.chipsContainer}>
-              <Chips tags={flatCharacteristics} features={true} emoji />
+              <Chips sortedTags={characteristicsTags} features={true} emoji />
             </View>
           </>
         ) : (

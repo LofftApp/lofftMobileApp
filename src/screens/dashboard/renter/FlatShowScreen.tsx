@@ -58,14 +58,13 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   }, [dispatch, id]);
 
   const advert = useAppSelector(state => state.adverts.advert);
+  const user = useAppSelector((state: {user: UserState}) => state.user.user);
 
-  const [completeProfile, setCompleteProfile] = useState(true);
-
-  // //Placeholder for if Out of Tokens
-  const [hasTokens, setHasTokens] = useState(true);
+  // //Placeholder for complete profile and has tokens
+  const completeProfile = true;
+  const hasTokens = true;
 
   // //Modal
-  const [descriptionExpanded, setDescriptionExpansion] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
 
@@ -84,7 +83,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   }
 
   const {flat} = advert;
-  console.log('adevert ✈️✈️✈️', advert);
+  console.log('adevert ✈️✈️✈️', advert.id);
 
   const {
     characteristics: flatCharacteristics,
@@ -92,16 +91,18 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
     photos,
   } = flat;
 
-  // const user = useAppSelector((state: {user: UserState}) => state.user.user);
-  // const {profile, filter: userFilter} = user;
-  // const {characteristics: userCharacteristics} = profile;
+  const {profile, filter: userFilter} = user;
+  const {characteristics: userCharacteristics} = profile;
 
-  // const characteristicsTags = tagSorter(
-  //   userCharacteristics ?? [],
-  //   flatCharacteristics ?? [],
-  // );
+  const characteristicsTags = tagSorter(
+    userCharacteristics,
+    flatCharacteristics,
+  );
+  console.log('characteristicsTags', characteristicsTags);
+  console.log('flatCharacteristics', flatCharacteristics);
 
-  // const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+  const featuresTags = tagSorter(userFilter, flatFeatures);
+  console.log('featuresTags', featuresTags);
 
   // if (userType === 'renter') {
   //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
@@ -130,7 +131,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
         <SafeAreaView
           style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
           <View style={styles.flatCardView}>
-            {advert && <FlatInfoContainer advert={advert} button={true} />}
+            {advert && <FlatInfoContainer advert={advert} />}
 
             <View>
               <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
@@ -152,9 +153,9 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
                   />
                 ) : (
                   <CoreButton
-                    value="Applyuuuu"
+                    value={advert.applied ? 'Applied' : 'Apply'}
                     style={styles.coreButtonCustom}
-                    disabled={false}
+                    disabled={advert.applied}
                     onPress={() => setModalState(true)}
                   />
                 )}
@@ -262,7 +263,6 @@ const styles = StyleSheet.create({
   countDownTimer: {
     textAlign: 'center',
     color: Color.Mint[100],
-    marginTop: size(20),
   },
   coreButtonCustom: {
     marginTop: size(14),
