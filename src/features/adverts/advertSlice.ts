@@ -3,11 +3,10 @@ import {
   fetchAdverts,
   toggleFavorite,
   changeAdvertStatus,
-  applyForAdvert,
   fetchAdvertById,
 } from './advertMiddleware';
 
-import type {AdvertState} from './types';
+import type {AdvertState, IncomingAdvert} from './types';
 
 const initialState: AdvertState = {
   loading: false,
@@ -94,12 +93,13 @@ export const advertSlice = createSlice({
     });
     builder.addCase(
       fetchAdvertById.fulfilled,
-      (state, action: PayloadAction<any>) => {
+      (state, action: PayloadAction<IncomingAdvert>) => {
         state.error = null;
         state.loading = false;
         const formattedAdvert = {
           ...action.payload,
           monthlyRent: action.payload.monthly_rent,
+          warmRent: action.payload.warm_rent,
           fromDate: action.payload.from_date,
           toDate: action.payload.to_date,
           matchScore: action.payload.match_score,
@@ -112,6 +112,20 @@ export const advertSlice = createSlice({
               (photo: {url: string}) => photo.url,
             ),
           },
+          user: {
+            ...action.payload.user,
+            createdAt: action.payload.user.created_at,
+            updatedAt: action.payload.user.updated_at,
+            termsAccepted: action.payload.user.terms_accepted,
+            userType: action.payload.user.user_type,
+          },
+          applicants: action.payload.applicants.map(applicant => ({
+            ...applicant,
+            createdAt: applicant.created_at,
+            updatedAt: applicant.updated_at,
+            termsAccepted: applicant.terms_accepted,
+            userType: applicant.user_type,
+          })),
         };
         state.advert = formattedAdvert;
       },
