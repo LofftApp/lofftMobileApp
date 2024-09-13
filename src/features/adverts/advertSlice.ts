@@ -6,7 +6,7 @@ import {
   fetchAdvertById,
 } from './advertMiddleware';
 
-import type {AdvertState, IncomingAdvert} from './types';
+import type {AdvertState, IncomingAdvert, IncomingAdverts} from './types';
 
 const initialState: AdvertState = {
   loading: false,
@@ -26,38 +26,56 @@ export const advertSlice = createSlice({
     });
     builder.addCase(
       fetchAdverts.fulfilled,
-      (state, action: PayloadAction<any>) => {
+      (state, action: PayloadAction<IncomingAdverts>) => {
         state.loading = false;
         console.log('fetchAdverts fullfilled ');
-        const values = action.payload.adverts.map((advert: any) => {
+        const formattedAdverts = action.payload.adverts.map((advert: any) => {
           return {
             id: advert.id,
-            status: advert.status,
+            monthlyRent: advert.monthly_rent,
             currency: advert.currency,
-            matchScore: advert.match_score,
-            price: advert.monthly_rent,
-            favorite: advert.favorite,
-            applied: advert.applied,
+            warmRent: advert.warm_rent,
             fromDate: advert.from_date,
             toDate: advert.to_date,
-            created_at: advert.created_at,
-            applicants: advert.applicants,
-            user: advert.user,
+            createdAt: advert.created_at,
+            status: advert.status,
+            matchScore: advert.match_score,
+            favorite: advert.favorite,
+            applied: advert.applied,
             lessor: advert.lessor,
             flat: {
-              id: advert.flat.id,
               address: advert.flat.address,
+              tagLine: advert.flat.tag_line,
               description: advert.flat.description,
-              tagline: advert.flat.tag_line,
+              size: advert.flat.size,
+              measurementUnit: advert.flat.measurement_unit,
               district: advert.flat.district,
-              city: advert.flat.city,
               characteristics: advert.flat.characteristics,
               features: advert.flat.features,
-              photos: advert.flat.photos.map((photo: any) => photo.url),
+              city: advert.flat.city,
+              photos: advert.flat.photos.map(
+                (photo: {url: string}) => photo.url,
+              ),
             },
+            user: {
+              id: advert.user.id,
+              email: advert.user.email,
+              createdAt: advert.user.created_at,
+              updatedAt: advert.user.updated_at,
+              termsAccepted: advert.user.terms_accepted,
+              userType: advert.user.user_type,
+              admin: advert.user.admin,
+            },
+            applicants: advert.applicants?.map(applicant => ({
+              ...applicant,
+              createdAt: applicant.created_at,
+              updatedAt: applicant.updated_at,
+              termsAccepted: applicant.terms_accepted,
+              userType: applicant.user_type,
+            })),
           };
         });
-        state.adverts = values;
+        state.adverts = formattedAdverts;
       },
     );
     builder.addCase(fetchAdverts.rejected, state => {
@@ -68,7 +86,7 @@ export const advertSlice = createSlice({
       toggleFavorite.fulfilled,
       (state, action: PayloadAction<any>) => {
         const advertId = action.payload.id;
-        const advert = state.adverts.find(advert => advert.id === advertId);
+        const advert = state.adverts.find(adv => adv.id === advertId);
         if (advert) {
           advert.favorite = !advert.favorite;
         }
@@ -94,32 +112,46 @@ export const advertSlice = createSlice({
     builder.addCase(
       fetchAdvertById.fulfilled,
       (state, action: PayloadAction<IncomingAdvert>) => {
+        console.log('fetchAdvertById.fulfilled');
         state.error = null;
         state.loading = false;
         const formattedAdvert = {
-          ...action.payload,
+          id: action.payload.id,
           monthlyRent: action.payload.monthly_rent,
+          currency: action.payload.currency,
           warmRent: action.payload.warm_rent,
           fromDate: action.payload.from_date,
           toDate: action.payload.to_date,
-          matchScore: action.payload.match_score,
           createdAt: action.payload.created_at,
+          status: action.payload.status,
+          matchScore: action.payload.match_score,
+          favorite: action.payload.favorite,
+          applied: action.payload.applied,
+          lessor: action.payload.lessor,
           flat: {
-            ...action.payload.flat,
+            address: action.payload.flat.address,
             tagLine: action.payload.flat.tag_line,
+            description: action.payload.flat.description,
+            size: action.payload.flat.size,
             measurementUnit: action.payload.flat.measurement_unit,
+            district: action.payload.flat.district,
+            characteristics: action.payload.flat.characteristics,
+            features: action.payload.flat.features,
+            city: action.payload.flat.city,
             photos: action.payload.flat.photos.map(
               (photo: {url: string}) => photo.url,
             ),
           },
           user: {
-            ...action.payload.user,
+            id: action.payload.user.id,
+            email: action.payload.user.email,
             createdAt: action.payload.user.created_at,
             updatedAt: action.payload.user.updated_at,
             termsAccepted: action.payload.user.terms_accepted,
             userType: action.payload.user.user_type,
+            admin: action.payload.user.admin,
           },
-          applicants: action.payload.applicants.map(applicant => ({
+          applicants: action.payload.applicants?.map(applicant => ({
             ...applicant,
             createdAt: applicant.created_at,
             updatedAt: applicant.updated_at,

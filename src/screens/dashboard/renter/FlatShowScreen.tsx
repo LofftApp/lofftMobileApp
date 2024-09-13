@@ -69,6 +69,20 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const [modalState, setModalState] = useState(false);
   const [blurActivated, setBlurActivated] = useState(false);
 
+  if (!advert) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={{
+            backgroundColor: Color.White[100],
+            alignItems: 'center',
+          }}>
+          <Text>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
   const {flat} = advert;
   console.log('adevert ✈️✈️✈️', advert);
 
@@ -78,18 +92,16 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
     photos,
   } = flat;
 
-  const serialized_photos = photos.map(photo => photo.url);
+  // const user = useAppSelector((state: {user: UserState}) => state.user.user);
+  // const {profile, filter: userFilter} = user;
+  // const {characteristics: userCharacteristics} = profile;
 
-  const user = useAppSelector((state: {user: UserState}) => state.user.user);
-  const {profile, filter: userFilter} = user;
-  const {characteristics: userCharacteristics} = profile;
+  // const characteristicsTags = tagSorter(
+  //   userCharacteristics ?? [],
+  //   flatCharacteristics ?? [],
+  // );
 
-  const characteristicsTags = tagSorter(
-    userCharacteristics ?? [],
-    flatCharacteristics ?? [],
-  );
-
-  const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+  // const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
 
   // if (userType === 'renter') {
   //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
@@ -111,7 +123,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
-            images={serialized_photos ?? []}
+            images={photos ?? []}
             activeBlur={blurActivated}
           />
         </View>

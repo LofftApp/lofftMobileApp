@@ -1,8 +1,8 @@
 interface AdvertUser {
+  id: number | null;
   email: string | null;
   createdAt: string | null;
   updatedAt: string | null;
-  id: number | null;
   termsAccepted: boolean | null;
   userType: string | null;
   admin: boolean;
@@ -35,7 +35,6 @@ interface AdvertFeatures {
 interface AdvertFlat {
   address: string;
   tagLine: string;
-  price: number;
   description: string;
   size: number;
   measurementUnit: string;
@@ -96,6 +95,10 @@ interface IncomingAdvert {
   applicants: IncomingAdvertApplicant[];
 }
 
+interface IncomingAdverts {
+  adverts: IncomingAdvert[];
+}
+
 interface AdvertState {
   loading: boolean;
   adverts: Advert[];
@@ -111,9 +114,9 @@ export type {
   AdvertFlat,
   AdvertUser,
   AdvertApplicant,
+  IncomingAdverts,
   IncomingAdvert,
   IncomingAdvertFlat,
   IncomingAdvertUser,
   IncomingAdvertApplicant,
-  
 };
