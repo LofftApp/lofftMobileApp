@@ -7,7 +7,7 @@ type SearchFilterModalProps = {
 
 type CompleteProfilePopUpModalProps = {
   openModal: boolean;
-  setModalState: (state: boolean) => void;
+  setIsModalOpen: (state: boolean) => void;
   profileNotDoneObject: {
     header: string;
     description: string;
