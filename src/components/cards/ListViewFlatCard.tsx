@@ -88,7 +88,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
             {/* Size of WG is not in DB - 26 m2 */}
-            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+            <Text style={[fontStyles.headerSmall]}>{advert.monthlyRent} €</Text>
 
             <MatchingScoreButton size="Big" score={matchScore ?? 0} />
           </View>

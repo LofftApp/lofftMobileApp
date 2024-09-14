@@ -212,7 +212,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             </View>
             <View style={styles.matchWithYouContainer}>
               <Chips
-                tags={advert.flat.features}
+                tags={positiveFeaturesTags}
                 features={true}
                 emoji
                 expand={matchExpand}
@@ -220,7 +220,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             </View>
             <View style={styles.matchWithYouContainer}>
               <Chips
-                tags={advert.flat.characteristics}
+                tags={positiveCharTags}
                 features={false}
                 emoji
                 expand={matchExpand}
@@ -258,7 +258,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
 
             <View style={styles.matchWithYouContainer}>
               <Chips
-                negativeTags={negativeFeaturesTags}
+                tags={negativeFeaturesTags}
                 features={true}
                 emoji
                 expand={otherExpand}
@@ -266,7 +266,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             </View>
             <View style={styles.matchWithYouContainer}>
               <Chips
-                negativeTags={negativeCharTags}
+                tags={negativeCharTags}
                 features={false}
                 emoji
                 expand={otherExpand}

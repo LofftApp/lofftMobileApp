@@ -24,9 +24,7 @@ type CoreButtonProps = {
 };
 
 type ChipsProps = {
-  tags?: Tag[];
-  positiveTags?: Tag[];
-  negativeTags?: Tag[];
+  tags: Tag[];
   emoji?: boolean;
   features?: boolean;
   expand?: boolean;

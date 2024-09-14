@@ -27,8 +27,10 @@ export const advertSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchAdverts.pending, state => {
       state.loading = true;
+      state.error = null;
       console.log('fetchAdverts pending');
     });
+
     builder.addCase(
       fetchAdverts.fulfilled,
       (state, action: PayloadAction<IncomingAdverts>) => {
@@ -86,10 +88,16 @@ export const advertSlice = createSlice({
         state.adverts = formattedAdverts;
       },
     );
-    builder.addCase(fetchAdverts.rejected, state => {
-      state.loading = false;
-      console.log('fetchAdverts rejected');
-    });
+
+    builder.addCase(
+      fetchAdverts.rejected,
+      (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload.error;
+        console.log('fetchAdverts rejected');
+      },
+    );
+
     builder.addCase(
       toggleFavorite.fulfilled,
       (state, action: PayloadAction<any>) => {
@@ -100,6 +108,7 @@ export const advertSlice = createSlice({
         }
       },
     );
+
     builder.addCase(changeAdvertStatus.fulfilled, (state, action) => {
       const advertId = action.payload.id;
       state.adverts.map(el => {
@@ -113,6 +122,7 @@ export const advertSlice = createSlice({
         }
       });
     });
+
     builder.addCase(fetchAdvertById.pending, state => {
       state.error = null;
       state.loading = true;
@@ -177,7 +187,7 @@ export const advertSlice = createSlice({
       fetchAdvertById.rejected,
       (state, action: PayloadAction<any>) => {
         state.error = action.payload.error;
-        state.loading = true;
+        state.loading = false;
       },
     );
   },
