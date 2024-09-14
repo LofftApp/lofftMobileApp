@@ -104,10 +104,6 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const featuresTags = tagSorter(userFilter, flatFeatures);
   console.log('featuresTags', featuresTags);
 
-  // if (userType === 'renter') {
-  //   save = useAppSelector(state => state.user.savedFlats.includes(flat.flatId));
-  // }
-
   /* Params are being passed classicly via the route helper instead of  */
 
   return (

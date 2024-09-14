@@ -23,13 +23,15 @@ import type {FlatInfoContainerProps} from './types';
 import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 import {UserState} from 'reduxFeatures/user/types';
 import {tagSorter} from 'helpers/tagSorter';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
   console.log('USERTYPE', advert.user);
   const user = useAppSelector((state: {user: UserState}) => state.user.user);
+  console.log('USER', user);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const expander = () => {
+  const toggleExpand = () => {
     setDescriptionExpanded(prev => !prev);
   };
 
@@ -51,6 +53,11 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
 
   const featuresTags = tagSorter(userFilter, flatFeatures);
   console.log('featuresTags', featuresTags);
+
+  const maxDescriptionLength = 100;
+  const displayDescription = descriptionExpanded
+    ? advert.flat.description
+    : truncateTextAtWord(advert.flat.description, maxDescriptionLength);
 
   return (
     <View style={styles.centralizerContainer}>
@@ -99,22 +106,25 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
         </View>
         <View style={styles.descriptionMargin}>
           <Text style={{color: Color.Black[80]}}>
-            {advert.flat.description?.substring(
-              0,
-              Number(
-                `${descriptionExpanded ? advert.flat.description.length : 100}`,
-              ),
-            )}
-            {!descriptionExpanded && '...'}
+            {displayDescription}
+            {!descriptionExpanded &&
+              advert.flat.description.length > maxDescriptionLength &&
+              '...'}
           </Text>
 
-          {advert.flat.description && advert.flat.description.length > 100 && (
-            <Text
-              style={[fontStyles.bodySmall, styles.seeReadMore]}
-              onPress={() => expander()}>
-              {descriptionExpanded ? 'Read Less' : 'Read More'}
-            </Text>
-          )}
+          {advert.flat.description &&
+            advert.flat.description.length > maxDescriptionLength && (
+              <CoreButton
+                value={descriptionExpanded ? 'Read Less' : 'Read More'}
+                style={styles.coreButtonStyle}
+                textStyle={[
+                  fontStyles.headerSmall,
+                  {color: Color.Lavendar[100]},
+                ]}
+                disabled={false}
+                onPress={toggleExpand}
+              />
+            )}
         </View>
 
         {advert.user?.userType === 'lessor' ? (
@@ -230,6 +240,7 @@ const styles = StyleSheet.create({
   coreButtonStyle: {
     backgroundColor: 'white',
     borderWidth: size(2),
+    marginTop: size(14),
   },
   iconContainer: {
     flexDirection: 'row',
