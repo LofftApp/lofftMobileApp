@@ -1,10 +1,10 @@
 interface AdvertUser {
-  id: number | null;
-  email: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  termsAccepted: boolean | null;
-  userType: string | null;
+  id: number;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  termsAccepted: boolean;
+  userType: string;
   admin: boolean;
 }
 
@@ -71,7 +71,7 @@ interface Advert {
   matchScore: number;
   favorite: boolean;
   applied: boolean;
-  user: AdvertUser | null;
+  user: AdvertUser;
   lessor: boolean;
   flat: AdvertFlat;
   applicants: AdvertApplicant[];
@@ -89,7 +89,7 @@ interface IncomingAdvert {
   match_score: number;
   favorite: boolean;
   applied: boolean;
-  user: IncomingAdvertUser | null;
+  user: IncomingAdvertUser;
   lessor: boolean;
   flat: IncomingAdvertFlat;
   applicants: IncomingAdvertApplicant[];

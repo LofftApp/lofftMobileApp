@@ -6,7 +6,12 @@ import {
   fetchAdvertById,
 } from './advertMiddleware';
 
-import type {AdvertState, IncomingAdvert, IncomingAdverts} from './types';
+import type {
+  Advert,
+  AdvertState,
+  IncomingAdvert,
+  IncomingAdverts,
+} from './types';
 
 const initialState: AdvertState = {
   loading: false,
@@ -29,7 +34,7 @@ export const advertSlice = createSlice({
       (state, action: PayloadAction<IncomingAdverts>) => {
         state.loading = false;
         console.log('fetchAdverts fullfilled ');
-        const formattedAdverts = action.payload.adverts.map((advert: any) => {
+        const formattedAdverts = action.payload.adverts.map(advert => {
           return {
             id: advert.id,
             monthlyRent: advert.monthly_rent,
@@ -115,7 +120,7 @@ export const advertSlice = createSlice({
         console.log('fetchAdvertById.fulfilled');
         state.error = null;
         state.loading = false;
-        const formattedAdvert = {
+        const formattedAdvert: Advert = {
           id: action.payload.id,
           monthlyRent: action.payload.monthly_rent,
           currency: action.payload.currency,
@@ -143,20 +148,22 @@ export const advertSlice = createSlice({
             ),
           },
           user: {
-            id: action.payload.user.id,
-            email: action.payload.user.email,
-            createdAt: action.payload.user.created_at,
-            updatedAt: action.payload.user.updated_at,
-            termsAccepted: action.payload.user.terms_accepted,
-            userType: action.payload.user.user_type,
-            admin: action.payload.user.admin,
+            id: action.payload.user?.id,
+            email: action.payload.user?.email,
+            createdAt: action.payload.user?.created_at,
+            updatedAt: action.payload.user?.updated_at,
+            termsAccepted: action.payload.user?.terms_accepted,
+            userType: action.payload.user?.user_type,
+            admin: action.payload.user?.admin,
           },
           applicants: action.payload.applicants?.map(applicant => ({
-            ...applicant,
+            id: applicant.id,
+            email: applicant.email,
             createdAt: applicant.created_at,
             updatedAt: applicant.updated_at,
             termsAccepted: applicant.terms_accepted,
             userType: applicant.user_type,
+            admin: applicant.admin,
           })),
         };
         state.advert = formattedAdvert;

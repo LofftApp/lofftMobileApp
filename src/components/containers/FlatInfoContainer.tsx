@@ -27,8 +27,8 @@ import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
   console.log('USERTYPE', advert.user);
-  const user = useAppSelector((state: {user: UserState}) => state.user.user);
-  console.log('USER', user);
+  const currentUser = useAppSelector((state: {user: UserState}) => state.user.user);
+  console.log('USER', currentUser);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const toggleExpand = () => {
@@ -41,7 +41,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
     features: flatFeatures,
     photos,
   } = flat;
-  const {profile, filter: userFilter} = user;
+  const {profile, filter: userFilter} = currentUser;
 
   const {characteristics: userCharacteristics} = profile;
 
@@ -127,7 +127,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             )}
         </View>
 
-        {advert.user?.userType === 'lessor' ? (
+        {advert.user?.userType === 'lessor' && (
           <>
             <Text style={[fontStyles.headerSmall, styles.flatCharText]}>
               Flat Characteristics
@@ -136,7 +136,9 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
               <Chips sortedTags={characteristicsTags} features={true} emoji />
             </View>
           </>
-        ) : (
+        )}
+
+        {currentUser.userType === 'renter' && (
           <>
             <Text style={[fontStyles.headerSmall, styles.matchText]}>
               Match with you
