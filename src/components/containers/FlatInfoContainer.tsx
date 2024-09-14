@@ -26,32 +26,39 @@ import {tagSorter} from 'helpers/tagSorter';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
-  console.log('USERTYPE', advert.user);
-  const currentUser = useAppSelector((state: {user: UserState}) => state.user.user);
+  const currentUser = useAppSelector(
+    (state: {user: UserState}) => state.user.user,
+  );
   console.log('USER', currentUser);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+
+  const [chipsExpand, setChipsExpand] = useState(false);
   const toggleExpand = () => {
     setDescriptionExpanded(prev => !prev);
   };
 
-  const {flat} = advert;
-  const {
-    characteristics: flatCharacteristics,
-    features: flatFeatures,
-    photos,
-  } = flat;
-  const {profile, filter: userFilter} = currentUser;
-
-  const {characteristics: userCharacteristics} = profile;
+  const userFilterArray = currentUser.filter?.map(f => {
+    return {
+      emoji: f.emoji,
+      name: f.name,
+    };
+  });
 
   const characteristicsTags = tagSorter(
-    userCharacteristics,
-    flatCharacteristics,
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics,
   );
+  console.log('FLATCHARACTERISTICS', advert.flat.characteristics);
+  console.log('USERCHARACTERISTICS', currentUser.profile.characteristics);
   console.log('characteristicsTags', characteristicsTags);
 
-  const featuresTags = tagSorter(userFilter, flatFeatures);
+  const featuresTags = tagSorter(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  );
+  console.log('FILTER', currentUser.filter);
+  console.log('userFilterArrayYYYYYYYYYYYYY', userFilterArray);
   console.log('featuresTags', featuresTags);
 
   const maxDescriptionLength = 100;
@@ -127,29 +134,98 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             )}
         </View>
 
-        {advert.user?.userType === 'lessor' && (
+        {currentUser.userType === 'lessor' && (
           <>
+            {/* Features */}
             <Text style={[fontStyles.headerSmall, styles.flatCharText]}>
               Flat Characteristics
             </Text>
-            <View style={styles.chipsContainer}>
-              <Chips sortedTags={characteristicsTags} features={true} emoji />
-            </View>
+            <Chips sortedTags={characteristicsTags} features={true} emoji />
           </>
         )}
 
-        {currentUser.userType === 'renter' && (
+        {currentUser.userType === 'tenant' && (
           <>
-            <Text style={[fontStyles.headerSmall, styles.matchText]}>
-              Match with you
-            </Text>
+            {/* Match with you */}
+            <View style={styles.chipsContainer}>
+              <Text style={fontStyles.headerSmall}>Match with you</Text>
+              <View style={styles.seeMoreContainer}>
+                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
+                  {chipsExpand ? 'See less' : 'See more'}
+                </Text>
+                {chipsExpand ? (
+                  <>
+                    <LofftIcon
+                      name="chevron-up"
+                      size={25}
+                      color={Color.Blue[100]}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <LofftIcon
+                      name="chevron-down"
+                      size={25}
+                      color={Color.Blue[100]}
+                    />
+                  </>
+                )}
+              </View>
+            </View>
             <View style={styles.matchWithYouContainer}>
-              <Chips tags={flatCharacteristics} features={true} emoji />
+              <Chips tags={advert.flat.features} features={true} emoji />
+            </View>
+            <View style={styles.matchWithYouContainer}>
+              <Chips
+                tags={advert.flat.characteristics}
+                features={false}
+                emoji
+              />
             </View>
 
-            <Text style={[fontStyles.headerSmall, styles.otherText]}>
-              Other
-            </Text>
+            {/* Other */}
+            <View style={styles.chipsContainer}>
+              <Text style={fontStyles.headerSmall}>Other</Text>
+              <View style={styles.seeMoreContainer}>
+                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
+                  {chipsExpand ? 'See less' : 'See more'}
+                </Text>
+                {chipsExpand ? (
+                  <>
+                    <LofftIcon
+                      name="chevron-up"
+                      size={25}
+                      color={Color.Blue[100]}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <LofftIcon
+                      name="chevron-down"
+                      size={25}
+                      color={Color.Blue[100]}
+                    />
+                  </>
+                )}
+              </View>
+            </View>
+            <View style={styles.matchWithYouContainer}>
+              <Chips tags={advert.flat.features} features={true} emoji />
+            </View>
+            <View style={styles.matchWithYouContainer}>
+              <Chips
+                tags={advert.flat.characteristics}
+                features={false}
+                emoji
+              />
+            </View>
+
+            <View style={styles.matchWithYouContainer}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
+            <View style={styles.matchWithYouContainer}>
+              <Chips tags={advert.flat.characteristics} features={true} emoji />
+            </View>
           </>
         )}
 
@@ -213,13 +289,13 @@ const styles = StyleSheet.create({
     marginBottom: size(5),
   },
   chipsContainer: {
-    marginTop: size(10),
-    marginBottom: size(20),
-  },
-  matchText: {
     marginTop: size(23),
     marginBottom: size(5),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'baseline',
   },
+
   matchWithYouContainer: {
     marginTop: size(10),
   },
@@ -261,7 +337,12 @@ const styles = StyleSheet.create({
     marginTop: size(14),
     height: size(40),
   },
-  seeReadMore: {
+
+  seeMoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  seeMore: {
     color: Color.Blue[100],
     alignSelf: 'flex-end',
     marginRight: size(10),

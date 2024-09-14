@@ -12,15 +12,13 @@ const Chips = ({
   positive = true,
   features,
   sortedTags,
+  positiveTags,
+  negativeTags,
+  expand,
+  toggleExpand,
 }: ChipsProps) => {
-  const [expand, setExpand] = React.useState(false);
-
-  const toggleExpand = () => {
-    setExpand(prev => !prev);
-  };
-
-  const positiveTags = sortedTags?.positiveTags;
-  const negativeTags = sortedTags?.negativeTags;
+  // const positiveTags = sortedTags?.positiveTags;
+  // const negativeTags = sortedTags?.negativeTags;
 
   return (
     <View style={styles.chipContainer}>
@@ -62,7 +60,7 @@ const Chips = ({
                     ? styles.featureTagFont
                     : styles.characteristicTagFont,
                 ]}>
-                +{(tags || positiveTags).slice(1, -1).length}
+                +{(tags || positiveTags)?.slice(1, -1).length}
               </Text>
             </View>
           )}
@@ -87,6 +85,7 @@ const Chips = ({
             </View>
           );
         })}
+
         {expand &&
           (tags || positiveTags)?.slice(2).map((tag, index: number) => {
             return (

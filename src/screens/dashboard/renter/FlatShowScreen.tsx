@@ -129,33 +129,31 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           <View style={styles.flatCardView}>
             {advert && <FlatInfoContainer advert={advert} />}
 
-            <View>
+            <View style={styles.buttonContainer}>
               <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
                 Application closing in 1d 8h
               </Text>
 
-              <View>
-                {completeProfile && hasTokens ? (
-                  <CoreButton
-                    value={advert.applied ? 'Applied' : 'Apply'}
-                    style={styles.coreButtonCustom}
-                    disabled={advert.applied}
-                    onPress={() => {
-                      dispatch(applyForAdvert(advert.id));
-                      navigation.navigate('applyforflat', {
-                        id: advert.id,
-                      });
-                    }}
-                  />
-                ) : (
-                  <CoreButton
-                    value={advert.applied ? 'Applied' : 'Apply'}
-                    style={styles.coreButtonCustom}
-                    disabled={advert.applied}
-                    onPress={() => setModalState(true)}
-                  />
-                )}
-              </View>
+              {completeProfile && hasTokens ? (
+                <CoreButton
+                  value={advert.applied ? 'Applied' : 'Apply'}
+                  style={styles.coreButtonCustom}
+                  disabled={advert.applied}
+                  onPress={() => {
+                    dispatch(applyForAdvert(advert.id));
+                    navigation.navigate('applyforflat', {
+                      id: advert.id,
+                    });
+                  }}
+                />
+              ) : (
+                <CoreButton
+                  value={advert.applied ? 'Applied' : 'Apply'}
+                  style={styles.coreButtonCustom}
+                  disabled={advert.applied}
+                  onPress={() => setModalState(true)}
+                />
+              )}
             </View>
 
             <CompleteProfilePopUpModal
@@ -179,7 +177,6 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    paddingBottom: size(10),
     width: '100%',
   },
   flatCardView: {
@@ -249,6 +246,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
+  },
+  buttonContainer: {
+    paddingHorizontal: size(20),
+    width: '100%',
+    marginTop: size(10),
+    marginBottom: size(10),
   },
   applyCoreButton: {
     borderWidth: size(2),

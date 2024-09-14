@@ -33,6 +33,7 @@ interface AdvertFeatures {
 }
 
 interface AdvertFlat {
+  id: number;
   address: string;
   tagLine: string;
   description: string;
@@ -46,6 +47,7 @@ interface AdvertFlat {
 }
 
 interface IncomingAdvertFlat {
+  id: number;
   address: string;
   tag_line: string;
   price: number;

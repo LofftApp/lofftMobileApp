@@ -49,6 +49,7 @@ export const advertSlice = createSlice({
             applied: advert.applied,
             lessor: advert.lessor,
             flat: {
+              id: advert.flat.id,
               address: advert.flat.address,
               tagLine: advert.flat.tag_line,
               description: advert.flat.description,
@@ -72,11 +73,13 @@ export const advertSlice = createSlice({
               admin: advert.user.admin,
             },
             applicants: advert.applicants?.map(applicant => ({
-              ...applicant,
+              id: applicant.id,
+              email: applicant.email,
               createdAt: applicant.created_at,
               updatedAt: applicant.updated_at,
               termsAccepted: applicant.terms_accepted,
               userType: applicant.user_type,
+              admin: applicant.admin,
             })),
           };
         });
@@ -134,6 +137,7 @@ export const advertSlice = createSlice({
           applied: action.payload.applied,
           lessor: action.payload.lessor,
           flat: {
+            id: action.payload.flat.id,
             address: action.payload.flat.address,
             tagLine: action.payload.flat.tag_line,
             description: action.payload.flat.description,
