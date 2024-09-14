@@ -1,10 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -20,7 +18,6 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {FlatInfoContainerProps} from './types';
-import type {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 import {UserState} from 'reduxFeatures/user/types';
 import {tagSorter} from 'helpers/tagSorter';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
@@ -29,37 +26,41 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
   const currentUser = useAppSelector(
     (state: {user: UserState}) => state.user.user,
   );
-  console.log('USER', currentUser);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
 
-  const [chipsExpand, setChipsExpand] = useState(false);
-  const toggleExpand = () => {
+  const [flatCharExpand, setFlatCharExpand] = useState(false);
+  const [matchExpand, setMatchExpand] = useState(false);
+  const [otherExpand, setOtherExpand] = useState(false);
+
+  const toggleDescriptionExpand = () => {
     setDescriptionExpanded(prev => !prev);
   };
+  const toggleFlatCharExpand = () => {
+    setFlatCharExpand(prev => !prev);
+  };
+  const toggleMatchExpand = () => {
+    setMatchExpand(prev => !prev);
+  };
+  const toggleOtherExpand = () => {
+    setOtherExpand(prev => !prev);
+  };
 
-  const userFilterArray = currentUser.filter?.map(f => {
-    return {
-      emoji: f.emoji,
-      name: f.name,
-    };
-  });
-
-  const characteristicsTags = tagSorter(
+  const charTags = tagSorter(
     currentUser.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
-  console.log('FLATCHARACTERISTICS', advert.flat.characteristics);
-  console.log('USERCHARACTERISTICS', currentUser.profile.characteristics);
-  console.log('characteristicsTags', characteristicsTags);
+
+  const positiveCharTags = charTags.positiveTags;
+  const negativeCharTags = charTags.negativeTags;
 
   const featuresTags = tagSorter(
     currentUser.filter ?? [],
     advert.flat.features,
   );
-  console.log('FILTER', currentUser.filter);
-  console.log('userFilterArrayYYYYYYYYYYYYY', userFilterArray);
-  console.log('featuresTags', featuresTags);
+
+  const positiveFeaturesTags = featuresTags.positiveTags;
+  const negativeFeaturesTags = featuresTags.negativeTags;
 
   const maxDescriptionLength = 100;
   const displayDescription = descriptionExpanded
@@ -129,7 +130,7 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
                   {color: Color.Lavendar[100]},
                 ]}
                 disabled={false}
-                onPress={toggleExpand}
+                onPress={toggleDescriptionExpand}
               />
             )}
         </View>
@@ -137,10 +138,45 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
         {currentUser.userType === 'lessor' && (
           <>
             {/* Features */}
-            <Text style={[fontStyles.headerSmall, styles.flatCharText]}>
-              Flat Characteristics
-            </Text>
-            <Chips sortedTags={characteristicsTags} features={true} emoji />
+            <View style={styles.chipsContainer}>
+              <Text style={fontStyles.headerSmall}>Flat Characteristics</Text>
+              <View style={styles.seeMoreContainer}>
+                <Text
+                  style={[fontStyles.bodySmall, styles.seeMore]}
+                  onPress={toggleFlatCharExpand}>
+                  {flatCharExpand ? 'See less' : 'See more'}
+                </Text>
+                {flatCharExpand ? (
+                  <>
+                    <LofftIcon
+                      name="chevron-up"
+                      size={25}
+                      color={Color.Blue[100]}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <LofftIcon
+                      name="chevron-down"
+                      size={25}
+                      color={Color.Blue[100]}
+                    />
+                  </>
+                )}
+              </View>
+            </View>
+            <Chips
+              positiveTags={positiveFeaturesTags}
+              features={true}
+              emoji
+              expand={flatCharExpand}
+            />
+            <Chips
+              positiveTags={positiveCharTags}
+              features={false}
+              emoji
+              expand={flatCharExpand}
+            />
           </>
         )}
 
@@ -150,10 +186,12 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Match with you</Text>
               <View style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {chipsExpand ? 'See less' : 'See more'}
+                <Text
+                  style={[fontStyles.bodySmall, styles.seeMore]}
+                  onPress={toggleMatchExpand}>
+                  {matchExpand ? 'See less' : 'See more'}
                 </Text>
-                {chipsExpand ? (
+                {matchExpand ? (
                   <>
                     <LofftIcon
                       name="chevron-up"
@@ -173,13 +211,19 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
               </View>
             </View>
             <View style={styles.matchWithYouContainer}>
-              <Chips tags={advert.flat.features} features={true} emoji />
+              <Chips
+                tags={advert.flat.features}
+                features={true}
+                emoji
+                expand={matchExpand}
+              />
             </View>
             <View style={styles.matchWithYouContainer}>
               <Chips
                 tags={advert.flat.characteristics}
                 features={false}
                 emoji
+                expand={matchExpand}
               />
             </View>
 
@@ -187,10 +231,12 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Other</Text>
               <View style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {chipsExpand ? 'See less' : 'See more'}
+                <Text
+                  onPress={toggleOtherExpand}
+                  style={[fontStyles.bodySmall, styles.seeMore]}>
+                  {otherExpand ? 'See less' : 'See more'}
                 </Text>
-                {chipsExpand ? (
+                {otherExpand ? (
                   <>
                     <LofftIcon
                       name="chevron-up"
@@ -209,27 +255,25 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
                 )}
               </View>
             </View>
+
             <View style={styles.matchWithYouContainer}>
-              <Chips tags={advert.flat.features} features={true} emoji />
+              <Chips
+                negativeTags={negativeFeaturesTags}
+                features={true}
+                emoji
+                expand={otherExpand}
+              />
             </View>
             <View style={styles.matchWithYouContainer}>
               <Chips
-                tags={advert.flat.characteristics}
+                negativeTags={negativeCharTags}
                 features={false}
                 emoji
+                expand={otherExpand}
               />
-            </View>
-
-            <View style={styles.matchWithYouContainer}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
-            </View>
-            <View style={styles.matchWithYouContainer}>
-              <Chips tags={advert.flat.characteristics} features={true} emoji />
             </View>
           </>
         )}
-
-        {/* Continue codeing from here !!!! */}
       </View>
     </View>
   );

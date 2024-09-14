@@ -1,4 +1,4 @@
-import {SortedTag, Tag} from 'helpers/types';
+import {Tag} from 'helpers/types';
 import {
   GestureResponderEvent,
   StyleProp,
@@ -25,10 +25,11 @@ type CoreButtonProps = {
 
 type ChipsProps = {
   tags?: Tag[];
-  sortedTags?: SortedTag;
+  positiveTags?: Tag[];
+  negativeTags?: Tag[];
   emoji?: boolean;
-  positive?: boolean;
   features?: boolean;
+  expand?: boolean;
 };
 
 type FilterButtonProps = {
