@@ -10,7 +10,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
 import HighlightButtons from 'components/containers/HighlightButtons';
-import FlatInfoContainer from 'components/containers/FlatInfoContainer';
+import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import StatusBar from 'components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 
@@ -47,7 +47,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
           </Text>
 
           <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoContainer advert={advert} />
+            <FlatInfoSubScreen advert={advert} />
           </Collapsible>
         </View>
       </ScrollView>

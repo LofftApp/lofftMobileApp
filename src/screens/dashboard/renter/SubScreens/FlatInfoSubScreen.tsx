@@ -17,12 +17,12 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
-import type {FlatInfoContainerProps} from './types';
 import {UserState} from 'reduxFeatures/user/types';
 import {tagSorter} from 'helpers/tagSorter';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
+import {Advert} from 'reduxFeatures/adverts/types';
 
-const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
+const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
     (state: {user: UserState}) => state.user.user,
   );
@@ -166,13 +166,13 @@ const FlatInfoContainer = ({advert}: FlatInfoContainerProps) => {
               </View>
             </View>
             <Chips
-              positiveTags={positiveFeaturesTags}
+              tags={positiveFeaturesTags}
               features={true}
               emoji
               expand={flatCharExpand}
             />
             <Chips
-              positiveTags={positiveCharTags}
+              tags={positiveCharTags}
               features={false}
               emoji
               expand={flatCharExpand}
@@ -397,4 +397,4 @@ const styles = StyleSheet.create({
   marginChipsOther: {marginTop: size(10)},
 });
 
-export default FlatInfoContainer;
+export default FlatInfoSubScreen;

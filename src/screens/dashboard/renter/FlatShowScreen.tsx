@@ -21,7 +21,7 @@ import {fetchAdvertById} from 'reduxFeatures/adverts/advertMiddleware';
 import HighlightedButtons from 'components/containers/HighlightButtons';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import CompleteProfileImage from 'Assets/images/Illustration.png';
-import FlatInfoContainer from 'components/containers/FlatInfoContainer';
+import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -100,7 +100,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           {isModalOpen && <View style={styles.blurOverlay} />}
 
           <View style={styles.flatCardView}>
-            {advert && <FlatInfoContainer advert={advert} />}
+            {advert && <FlatInfoSubScreen advert={advert} />}
 
             <View style={styles.buttonContainer}>
               <Text style={[fontStyles.bodySmall, styles.countDownTimer]}>
