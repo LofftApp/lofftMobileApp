@@ -43,8 +43,6 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
     city,
   } = flat;
 
-  console.log("flat ID>>>>>>>>>>>>>>>>>>", advert.flat.id)
-
   const characteristicsTags = tagSorter(
     userCharacteristics ?? [],
     flatCharacteristics ?? [],
