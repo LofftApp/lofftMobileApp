@@ -30,15 +30,6 @@ const FlatFindScreen = () => {
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
-  // const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchAdverts());
-  // }, [dispatch]);
-
-  const {data, error, isLoading} = useGetAdvertsQuery();
-  console.log('data>>>>>>>>>>>>>>>', data);
-
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };

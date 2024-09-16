@@ -27,6 +27,7 @@ import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
+  console.log('advert 🎸🎸🎸🎸🎸', advert);
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
   const currentUser = useAppSelector(

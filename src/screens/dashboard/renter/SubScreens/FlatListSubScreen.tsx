@@ -1,30 +1,30 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
+import {ScrollView, StyleSheet, View, SafeAreaView, Text} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Components 🪢
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // Types 🏷️
-import type {AdvertState} from 'reduxFeatures/adverts/types';
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import type {Advert} from 'reduxFeatures/adverts/types';
 
 const FlatListSubScreen = () => {
-  const adverts = useAppSelector(
-    (state: {adverts: AdvertState}) => state.adverts.adverts,
-  );
-  // const {data: advertsData, error, isLoading} = useGetAdvertsQuery();
-  // console.log('dataxxxxxxxxx', advertsData?.adverts);
-  // const adverts = advertsData?.adverts;
+  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
+  console.log('dataxxxxxxxxx>>>>>>', adverts);
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <SafeAreaView>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.flatCardContainer}>
         <View>
-          {adverts.map(advert => {
+          {adverts?.map((advert: Advert) => {
             return <ListViewFlatCard key={advert.id} advert={advert} />;
           })}
         </View>
