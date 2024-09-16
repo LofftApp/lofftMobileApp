@@ -1593,7 +1593,7 @@ PODS:
     - Yoga
   - RNSVG (13.14.1):
     - React-Core
-  - RNVectorIcons (10.1.0):
+  - RNVectorIcons (10.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1929,7 +1929,7 @@ SPEC CHECKSUMS:
   rnmapbox-maps: 86b215fe77632a897b34a2dbf0c3ad4e9e8c3570
   RNScreens: 19719a9c326e925498ac3b2d35c4e50fe87afc06
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
-  RNVectorIcons: ef957b2a1cd5efb71e53397257ec4ccffa34d0c4
+  RNVectorIcons: 6382277afab3c54658e9d555ee0faa7a37827136
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
   Yoga: 06fc4b2c3664ae0e278964b8fbcb0ee9d21f0a5a
