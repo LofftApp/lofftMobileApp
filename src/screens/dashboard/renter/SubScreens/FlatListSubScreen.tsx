@@ -9,11 +9,15 @@ import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // Types 🏷️
 import type {AdvertState} from 'reduxFeatures/adverts/types';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 const FlatListSubScreen = () => {
   const adverts = useAppSelector(
     (state: {adverts: AdvertState}) => state.adverts.adverts,
   );
+  // const {data: advertsData, error, isLoading} = useGetAdvertsQuery();
+  // console.log('dataxxxxxxxxx', advertsData?.adverts);
+  // const adverts = advertsData?.adverts;
   return (
     <SafeAreaView>
       <ScrollView

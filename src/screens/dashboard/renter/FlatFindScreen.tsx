@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
 // Redux 🏪
-import {useAppDispatch} from 'reduxCore/hooks';
-import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
+import {useGetAdvertsQuery} from 'features/adverts/advertApi';
 
 // Helper 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -24,17 +23,21 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Types 🏷️
 
 const FlatFindScreen = () => {
+  console.log('FlatFindScreen RENDERED 🚆');
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAdverts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAdverts());
+  // }, [dispatch]);
+
+  const {data, error, isLoading} = useGetAdvertsQuery();
+  console.log('data>>>>>>>>>>>>>>>', data);
 
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
