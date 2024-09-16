@@ -23,6 +23,26 @@ export const fetchAdverts = createAsyncThunk(
   },
 );
 
+export const fetchAdvertById = createAsyncThunk(
+  'advert/fetchAdvertById',
+  async (id: number | null) => {
+    // development url
+    const url = `http://localhost:3000/api/adverts/${id}`;
+    try {
+      const token = await EncryptedStorage.getItem('token');
+      const response = await axios.get(url, {
+        headers: {
+          ContentType: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log('fetchAdverts error:', error);
+    }
+  },
+);
+
 export const toggleFavorite = createAsyncThunk(
   'advert/toggleFavorite',
   async (id: number) => {
@@ -49,10 +69,16 @@ export const toggleFavorite = createAsyncThunk(
 export const applyForAdvert = createAsyncThunk(
   'advert/applyForAdvert',
   async (id: number) => {
-    const url = `http://localhost:3000/adverts/${id}/apply`;
+    const url = `http://localhost:3000/api/adverts/${id}/apply`;
     try {
       const token = await EncryptedStorage.getItem('token');
-      axios.post(url, {}, {headers: {Authorization: `Bearer ${token}`}});
+      const response = await axios.post(
+        url,
+        {},
+        {headers: {Authorization: `Bearer ${token}`}},
+      );
+      console.log({data: response.data.status});
+      return {data: response.data.status};
     } catch (error) {
       console.log('applyForAdvert error:', error);
     }

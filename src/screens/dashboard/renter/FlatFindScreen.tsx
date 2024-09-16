@@ -27,7 +27,7 @@ const FlatFindScreen = () => {
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
   const dispatch = useAppDispatch();
@@ -45,7 +45,7 @@ const FlatFindScreen = () => {
       <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
-          onChangeText={(t: string) => setSearch(t)}
+          onChangeText={t => setSearch(t)}
           value={search}
           placeholder="City, Neighbourhood..."
           onClear={() => setSearch('')}
