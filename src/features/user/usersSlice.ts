@@ -64,8 +64,11 @@ const userSlice = createSlice({
       },
     );
     builder.addCase(applyForAdvert.fulfilled, (state, action) => {
-      state.user.credits = action.payload
-    })
+      state.user.credits = action.payload;
+    });
+    builder.addCase(applyForAdvert.rejected, (state, action) => {
+      console.log("hehehe", action.payload)
+    });
   },
 });
 
