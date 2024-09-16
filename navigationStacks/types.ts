@@ -35,8 +35,8 @@ type FavoriteStackParamsList = {
 type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
-  flatShow: {id: number | null};
-  applyforflat: {id: number | null};
+  flatShow: {id: number};
+  applyforflat: {id: number};
   applicationshow: {advert: Advert};
 };
 

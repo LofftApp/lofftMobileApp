@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,12 +10,12 @@ import {
 } from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {
   applyForAdvert,
   toggleFavorite,
 } from 'reduxFeatures/adverts/advertMiddleware';
-import {fetchAdvertById} from 'reduxFeatures/adverts/advertMiddleware';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
@@ -50,11 +50,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const dispatch = useAppDispatch();
   const {id} = route.params;
 
-  useEffect(() => {
-    dispatch(fetchAdvertById(id));
-  }, [dispatch, id]);
-
-  const advert = useAppSelector(state => state.adverts.advert);
+  const {data: advert, error, isError, isLoading} = useGetAdvertByIdQuery(id);
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
@@ -63,7 +59,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (!advert) {
+  if (isLoading) {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView
@@ -72,6 +68,21 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
             alignItems: 'center',
           }}>
           <Text>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
+  if (isError) {
+    console.error('Error:', error);
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={{
+            backgroundColor: Color.White[100],
+            alignItems: 'center',
+          }}>
+          <Text>{'Error: There was an error getting advert'}</Text>
         </SafeAreaView>
       </View>
     );
@@ -86,12 +97,12 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           {!isModalOpen && (
             <HighlightedButtons
               favorite={advert?.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert?.id))}
+              onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
             />
           )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
-            images={advert.flat.photos ?? []}
+            images={advert?.flat.photos ?? []}
             activeBlur={isModalOpen}
           />
         </View>
@@ -109,21 +120,21 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
               {completeProfile && hasTokens ? (
                 <CoreButton
-                  value={advert.applied ? 'Applied' : 'Apply'}
+                  value={advert?.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
-                  disabled={advert.applied}
+                  disabled={advert?.applied}
                   onPress={() => {
-                    dispatch(applyForAdvert(advert.id));
+                    dispatch(applyForAdvert(advert?.id ?? 0));
                     navigation.navigate('applyforflat', {
-                      id: advert.id,
+                      id: advert?.id ?? 0,
                     });
                   }}
                 />
               ) : (
                 <CoreButton
-                  value={advert.applied ? 'Applied' : 'Apply'}
+                  value={advert?.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
-                  disabled={advert.applied}
+                  disabled={advert?.applied}
                   onPress={() => setIsModalOpen(true)}
                 />
               )}

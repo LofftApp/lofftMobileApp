@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
 
 // Redux 🏪
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
@@ -23,9 +23,8 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Types 🏷️
 
 const FlatFindScreen = () => {
-  console.log('FlatFindScreen RENDERED 🚆');
   const {data: adverts, error, isError, isLoading} = useGetAdvertsQuery();
-  console.log('dataxxxxxxxxx>>>>>>', adverts);
+
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
@@ -37,12 +36,24 @@ const FlatFindScreen = () => {
   };
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView style={styles.loadingErrorContainer}>
+          <Text>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
   }
 
   if (isError) {
     console.error('Error:', error);
-    return <Text>{'Error: There was an error getting adverts'}</Text>;
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView style={styles.loadingErrorContainer}>
+          <Text>{'Error: There was an error getting advert'}</Text>
+        </SafeAreaView>
+      </View>
+    );
   }
 
   return (
@@ -93,6 +104,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(16),
     flexDirection: 'row',
     marginTop: size(68), // Needs to be added to core view file, though not working when built
+  },
+  loadingErrorContainer: {
+    backgroundColor: Color.White[100],
+    alignItems: 'center',
   },
 });
 
