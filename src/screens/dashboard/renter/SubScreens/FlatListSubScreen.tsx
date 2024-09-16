@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View, SafeAreaView, Text} from 'react-native';
+import {ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
 // Components 🪢

@@ -67,7 +67,11 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen adverts={adverts} /> : <AdvertMap adverts={adverts} />}
+        {screen === 'list' ? (
+          <FlatListSubScreen adverts={adverts ?? []} />
+        ) : (
+          <AdvertMap adverts={adverts ?? []} />
+        )}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </View>
