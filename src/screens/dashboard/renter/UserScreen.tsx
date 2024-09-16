@@ -7,13 +7,12 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 import {clearProfile} from 'reduxFeatures/user/usersSlice';
-import { fontStyles } from 'styleSheets/fontStyles';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const UserScreen = () => {
   const dispatch = useAppDispatch();
 
-  const userCredits = useAppSelector(state => state.user.user.profile.credits);
-
+  const userCredits = useAppSelector(state => state.user.user.credits);
 
   return (
     <View style={styles.userScreenContainer}>

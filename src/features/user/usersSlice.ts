@@ -13,10 +13,10 @@ const initialState: UserState = {
     admin: null,
     termsAccepted: null,
     userType: null,
+    credits: null,
     profile: {
       description: null,
       genderIdentity: null,
-      credits: null,
       characteristics: null,
     },
     filter: null,
@@ -56,7 +56,6 @@ const userSlice = createSlice({
         state.user.userType = action.payload.user.user_type;
         state.user.profile.genderIdentity =
           action.payload.user.profile.gender_identity;
-        state.user.profile.credits = action.payload.user.profile.credits;
         state.user.profile.description =
           action.payload.user.profile.description;
         state.user.profile.characteristics =
@@ -65,8 +64,7 @@ const userSlice = createSlice({
       },
     );
     builder.addCase(applyForAdvert.fulfilled, (state, action) => {
-      console.log("hello from payload", action.payload)
-      state.user.profile.credits = action.payload
+      state.user.credits = action.payload
     })
   },
 });

@@ -9,8 +9,11 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 // Types 🏷️
 import {ApplyForFlatScreenProp} from './types';
+import {useAppSelector} from 'reduxCore/hooks';
 
 const ApplyForFlatScreen = ({navigation}: ApplyForFlatScreenProp) => {
+  const credits = useAppSelector(state => state.user.user.credits)
+
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       {/* <ApplyForFlatScreenBackground style={styles.backgroundImage} /> */}
@@ -21,7 +24,7 @@ const ApplyForFlatScreen = ({navigation}: ApplyForFlatScreenProp) => {
           to get back to you!
         </Text>
         <Text style={[fontStyles.bodyMedium, styles.hack]}>
-          ⚡️ Remaining tokens : 5
+          ⚡️ Remaining tokens : {credits}
         </Text>
         <View style={styles.buttonsWrap}>
           <CoreButton

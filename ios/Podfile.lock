@@ -1260,7 +1260,7 @@ PODS:
     - Yoga
   - RNSVG (13.14.1):
     - React-Core
-  - RNVectorIcons (10.1.0):
+  - RNVectorIcons (10.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1501,7 +1501,7 @@ SPEC CHECKSUMS:
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: ac12dc084d1c8ec4cc4d7b3cf1b0ebda6dab85af
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
-  glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
+  glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 8c1577f3fdb849cbe7729c2e7b5abc4b845e88f8
   MapboxCommon: 0ff437e44988da6856e280d00ffb266564ed0487
   MapboxCoreMaps: f1bd9405f5b9d3e343f2fe4138775299699a22fb
@@ -1564,7 +1564,7 @@ SPEC CHECKSUMS:
   rnmapbox-maps: 86b215fe77632a897b34a2dbf0c3ad4e9e8c3570
   RNScreens: aa943ad421c3ced3ef5a47ede02b0cbfc43a012e
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
-  RNVectorIcons: 2a2f79274248390b80684ea3c4400bd374a15c90
+  RNVectorIcons: 845eda5c7819bd29699cafd0fc98c9d4afe28c96
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
   Yoga: 950bbfd7e6f04790fdb51149ed51df41f329fcc8

@@ -4,7 +4,6 @@ interface UserCharacteristics {
 }
 interface UserProfile {
   genderIdentity: string | null;
-  credits: number | null;
   description: string | null;
   characteristics: UserCharacteristics[] | null;
 }
@@ -24,6 +23,7 @@ interface UserState {
     userType: string | null;
     profile: UserProfile;
     filter: UserFilter[] | null;
+    credits: number | null;
   };
 }
 
