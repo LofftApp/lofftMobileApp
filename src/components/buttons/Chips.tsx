@@ -6,7 +6,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import type {ChipsProps} from './types';
 import {size} from 'react-native-responsive-sizes';
 
-const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
+const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
@@ -21,7 +21,7 @@ const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
               {emoji && <Text>{tag?.emoji}</Text>}
               <Text
                 style={[
-                  fontStyles.bodySmall,
+                  xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
                   features
                     ? styles.featureTagFont
                     : styles.characteristicTagFont,
@@ -39,7 +39,7 @@ const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
             ]}>
             <Text
               style={[
-                fontStyles.bodySmall,
+                xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
                 features ? styles.featureTagFont : styles.characteristicTagFont,
               ]}>
               +{tags?.slice(1, -1).length}

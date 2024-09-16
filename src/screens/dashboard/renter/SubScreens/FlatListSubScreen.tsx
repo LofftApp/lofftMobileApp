@@ -1,8 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View, SafeAreaView, Text} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-// Redux 🏗️
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Components 🪢
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
@@ -10,14 +8,7 @@ import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
 
-const FlatListSubScreen = () => {
-  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
-  console.log('dataxxxxxxxxx>>>>>>', adverts);
-
-  if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
-
+const FlatListSubScreen = ({adverts}: {adverts: Advert[]}) => {
   return (
     <SafeAreaView>
       <ScrollView

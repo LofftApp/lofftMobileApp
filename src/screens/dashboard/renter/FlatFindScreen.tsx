@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🏪
-import {useGetAdvertsQuery} from 'features/adverts/advertApi';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Helper 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -24,6 +24,8 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 const FlatFindScreen = () => {
   console.log('FlatFindScreen RENDERED 🚆');
+  const {data: adverts, error, isError, isLoading} = useGetAdvertsQuery();
+  console.log('dataxxxxxxxxx>>>>>>', adverts);
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
@@ -33,6 +35,15 @@ const FlatFindScreen = () => {
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (isError) {
+    console.error('Error:', error);
+    return <Text>{'Error: There was an error getting adverts'}</Text>;
+  }
 
   return (
     <View style={styles.pageContainer}>
@@ -56,7 +67,7 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen /> : <AdvertMap />}
+        {screen === 'list' ? <FlatListSubScreen adverts={adverts} /> : <AdvertMap adverts={adverts} />}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </View>
