@@ -107,7 +107,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
                 Application closing in 1d 8h
               </Text>
 
-              {!completeProfile && !hasTokens ? (
+              {completeProfile && hasTokens ? (
                 <CoreButton
                   value={advert.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
@@ -121,7 +121,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
                 />
               ) : (
                 <CoreButton
-                  value={advert.applied ? 'Applied' : 'Applyuu'}
+                  value={advert.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
                   disabled={advert.applied}
                   onPress={() => setIsModalOpen(true)}
