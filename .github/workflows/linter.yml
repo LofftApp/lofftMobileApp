@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Dependencies
         id: install
-        run: npm ci
+        run: npm install
 
       # Run super-linter for linting TypeScript files
       - name: Lint Codebase
