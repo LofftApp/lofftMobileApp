@@ -24,7 +24,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 // Types 🏷️
 
 const FlatFindScreen = () => {
-  const {data: adverts, error, isError, isLoading} = useGetAdvertsQuery();
+  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
 
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,8 +45,7 @@ const FlatFindScreen = () => {
     );
   }
 
-  if (isError) {
-    console.error('Error:', error);
+  if (error) {
     return (
       <SafeAreaView
         style={[styles.pageContainer, styles.loadingErrorContainer]}>

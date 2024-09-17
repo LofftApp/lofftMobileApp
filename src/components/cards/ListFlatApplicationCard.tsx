@@ -87,48 +87,41 @@ const ListFlatApplicationCard = ({
 
   return (
     <View style={styles.advertCardContainer}>
-      <Pressable
-        onPress={() =>
-          navigation.navigate('applicationshow', {
-            advert,
-          })
-        }>
-        <View>
-          <View style={styles.advertCardImage}>
-            <LofftHeaderPhoto
-              imageContainerHeight={size(300)}
-              images={advert.flat.photos}
-            />
-          </View>
-          <View style={styles.advertCardButtonsOverlay}>
-            <View style={styles.advertCardbuttonsWrap}>
-              {!isLessor && (
-                <View>
-                  <Pressable
-                    style={styles.advertCardSaveButton}
-                    onPress={() => {
-                      dispatch(toggleFavorite(advert.id));
-                    }}>
-                    {advert.favorite ? (
-                      <LofftIcon
-                        name="heart-filled"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    ) : (
-                      <LofftIcon
-                        name="heart"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    )}
-                  </Pressable>
-                </View>
-              )}
-            </View>
+      <View>
+        <View style={styles.advertCardImage}>
+          <LofftHeaderPhoto
+            imageContainerHeight={size(300)}
+            images={advert.flat.photos}
+          />
+        </View>
+        <View style={styles.advertCardButtonsOverlay}>
+          <View style={styles.advertCardbuttonsWrap}>
+            {!isLessor && (
+              <View>
+                <Pressable
+                  style={styles.advertCardSaveButton}
+                  onPress={() => {
+                    dispatch(toggleFavorite(advert.id));
+                  }}>
+                  {advert.favorite ? (
+                    <LofftIcon
+                      name="heart-filled"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  ) : (
+                    <LofftIcon
+                      name="heart"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            )}
           </View>
         </View>
-      </Pressable>
+      </View>
 
       <View style={styles.metaDataContainer}>
         <Text style={[fontStyles.headerSmall]}>{advert.monthlyRent} €</Text>
@@ -197,7 +190,7 @@ const ListFlatApplicationCard = ({
         </View>
       </View>
 
-      {isLessor && (
+      {isLessor ? (
         <View style={styles.buttonContainer}>
           <CoreButton value="Edit listing" invert style={styles.button} />
           <CoreButton
@@ -205,9 +198,18 @@ const ListFlatApplicationCard = ({
             style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
-                advert: advert,
-                active: active,
+                id: application.id,
               })
+            }
+          />
+        </View>
+      ) : (
+        <View>
+          <CoreButton
+            invert
+            value="View Application"
+            onPress={() =>
+              navigation.navigate('applicationshow', {id: application.id})
             }
           />
         </View>

@@ -29,7 +29,7 @@ type newUserNavigationParamsList = {
 
 type FavoriteStackParamsList = {
   favorite: undefined;
-  applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
+  applicationshow: {id: number};
 };
 
 type SearchStackParamsList = {
@@ -37,7 +37,7 @@ type SearchStackParamsList = {
   flatOverview: undefined;
   flatShow: {id: number};
   applyforflat: {id: number};
-  applicationshow: {advert: Advert};
+  applicationshow: {id: number};
 };
 
 type FavoriteScreenNavigationProp = CompositeNavigationProp<

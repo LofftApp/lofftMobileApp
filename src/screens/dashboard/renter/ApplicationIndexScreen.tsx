@@ -40,7 +40,7 @@ const ApplicationIndexScreen = () => {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text>Loading...</Text>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
         </SafeAreaView>
       </View>
     );
@@ -50,7 +50,9 @@ const ApplicationIndexScreen = () => {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text>{'Error: There was an error getting your applications'}</Text>
+          <Text style={fontStyles.headerSmall}>
+            There was an error getting your applications
+          </Text>
         </SafeAreaView>
       </View>
     );
@@ -137,8 +139,9 @@ const styles = StyleSheet.create({
     marginRight: size(20),
   },
   loadingErrorContainer: {
-    backgroundColor: Color.White[100],
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

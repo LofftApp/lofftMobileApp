@@ -1,6 +1,4 @@
-import type {Advert} from 'reduxFeatures/adverts/types';
 import type {
-  FavoriteScreenNavigationProp,
   SearchScreenNavigationProp,
   SearchStackParamsList,
 } from '../../../../navigationStacks/types';
@@ -16,8 +14,7 @@ type FlatShowScreenProp = {
 };
 
 type ApplicationShowScreenProp = {
-  navigation: FavoriteScreenNavigationProp;
-  route: {params: {advert: Advert}};
+  route: {params: {id: number}};
 };
 
 type ApplyForFlatScreenProp = {

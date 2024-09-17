@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -19,35 +19,62 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
+import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
-  const {advert} = route.params;
+  const {id} = route.params;
+
+  const {data: application, isLoading, error} = useGetApplicationByIdQuery(id);
+  console.log(application);
+  const advert = application?.advert;
 
   const [hasCollapsed, setHasCollapsed] = useState(true);
+  if (isLoading) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
+  if (error) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>
+            There was an error getting this application
+          </Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
   return (
-    <View style={styles.pageWrapper}>
+    <View style={styles.pageContainer}>
       <HighlightButtons
-        heartPresent={!advert.lessor}
-        color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
+        heartPresent={!advert?.lessor}
+        color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
       <LofftHeaderPhoto
         imageContainerHeight={300}
-        images={advert.flat.photos ?? []}
+        images={advert?.flat.photos ?? []}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={[styles.maincontainer]}>
-          <StatusBar advert={advert} />
+          {advert && <StatusBar advert={advert} />}
           <Text
             onPress={() => setHasCollapsed(!hasCollapsed)}
             style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
-            {hasCollapsed ? 'see more' : 'see less'}
+            {hasCollapsed ? 'See more' : 'See less'}
           </Text>
 
           <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoSubScreen advert={advert} />
+            {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
         </View>
       </ScrollView>
@@ -56,7 +83,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
 };
 
 const styles = StyleSheet.create({
-  pageWrapper: {
+  pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
   },
@@ -73,6 +100,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: size(10),
     marginBottom: size(10),
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
