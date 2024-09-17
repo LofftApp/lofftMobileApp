@@ -37,8 +37,6 @@ jobs:
           FILTER_REGEX_EXCLUDE: dist/**/*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: true
-          VALIDATE_JAVASCRIPT_STANDARD: false
-          VALIDATE_JSCPD: false
           VALIDATE_TYPESCRIPT_STANDARD: true # Enable TypeScript linting
 
       # Optionally, if you have ESLint configured for your project:
