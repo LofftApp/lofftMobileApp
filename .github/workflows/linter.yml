@@ -41,6 +41,3 @@ jobs:
           VALIDATE_TYPESCRIPT_ES: true
           VALIDATE_TSX: true
           VALIDATE_JSX: true
-
-      - name: Run ESLint with specific config
-        run: npx eslint . --config .eslintrc.js
