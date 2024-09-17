@@ -9,8 +9,7 @@ import SignInWith from 'components/SignInWith';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Assets 🛠️
-import {SignInBackground} from '../../assets';
-import {HiFive} from '../../assets';
+import {SignInBackground, HiFive} from '../../assets';
 
 const SignInScreen = ({navigation}: any) => {
   return (
@@ -21,7 +20,7 @@ const SignInScreen = ({navigation}: any) => {
       <SignInBackground style={styles.backgroundImage} />
       <View style={styles.formWrap}>
         <View style={styles.signInForm}>
-          <SignInForm />
+          <SignInForm testID="sign-in-form" />
         </View>
         <View style={styles.signInWith}>
           <SignInWith navigation={navigation} />

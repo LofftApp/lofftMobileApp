@@ -12,13 +12,13 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const SignInForm = () => {
+const SignInForm = (testID: string = '') => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState({target: '', message: ''});
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <Text style={styles.title}>Hello again!</Text>
       <View style={styles.textInputWrap}>
         <InputFieldText
