@@ -58,6 +58,7 @@
     "@react-native/metro-config": "0.75.3",
     "@react-native/typescript-config": "0.75.3",
     "@tsconfig/react-native": "^3.0.0",
+    "@types/jest": "^29.5.13",
     "@types/node": "^20.8.8",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.0.9",
@@ -87,9 +88,6 @@
   "resolutions": {
     "ws": "^7.5.10",
     "got": "^11.8.5"
-  },
-  "jest": {
-    "preset": "react-native"
   },
   "packageManager": "yarn@4.2.2"
 }
