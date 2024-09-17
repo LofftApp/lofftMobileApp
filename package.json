@@ -88,5 +88,8 @@
     "ws": "^7.5.10",
     "got": "^11.8.5"
   },
+  "jest": {
+    "preset": "react-native"
+  },
   "packageManager": "yarn@4.2.2"
 }
