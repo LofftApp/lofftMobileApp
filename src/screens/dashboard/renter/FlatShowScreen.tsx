@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   View,
@@ -50,7 +49,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const dispatch = useAppDispatch();
   const {id} = route.params;
 
-  const {data: advert, error, isError, isLoading} = useGetAdvertByIdQuery(id);
+  const {data: advert, error, isLoading} = useGetAdvertByIdQuery(id);
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
@@ -63,26 +62,21 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView
-          style={{
-            backgroundColor: Color.White[100],
-            alignItems: 'center',
-          }}>
-          <Text>Loading...</Text>
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
         </SafeAreaView>
       </View>
     );
   }
 
-  if (isError) {
-    console.error('Error:', error);
+  if (error) {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView
-          style={{
-            backgroundColor: Color.White[100],
-            alignItems: 'center',
-          }}>
-          <Text>{'Error: There was an error getting advert'}</Text>
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>
+            There was an error getting advert
+          </Text>
         </SafeAreaView>
       </View>
     );
@@ -106,8 +100,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
             activeBlur={isModalOpen}
           />
         </View>
-        <SafeAreaView
-          style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
+        <SafeAreaView style={styles.safeAreaContainer}>
           {isModalOpen && <View style={styles.blurOverlay} />}
 
           <View style={styles.flatCardView}>
@@ -171,6 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.White[100],
   },
+  safeAreaContainer: {backgroundColor: Color.White[100], alignItems: 'center'},
   imageContainer: {
     height: height(300),
     width: Dimensions.get('window').width,
@@ -257,6 +251,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: 1,
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

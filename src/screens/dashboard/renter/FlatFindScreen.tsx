@@ -19,6 +19,7 @@ import SearchFilterModal from 'components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🏷️
 
@@ -37,22 +38,22 @@ const FlatFindScreen = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text>Loading...</Text>
-        </SafeAreaView>
-      </View>
+      <SafeAreaView
+        style={[styles.pageContainer, styles.loadingErrorContainer]}>
+        <Text style={fontStyles.headerSmall}>Loading...</Text>
+      </SafeAreaView>
     );
   }
 
   if (isError) {
     console.error('Error:', error);
     return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text>{'Error: There was an error getting advert'}</Text>
-        </SafeAreaView>
-      </View>
+      <SafeAreaView
+        style={[styles.pageContainer, styles.loadingErrorContainer]}>
+        <Text style={fontStyles.headerSmall}>
+          {'There was an error getting advert'}
+        </Text>
+      </SafeAreaView>
     );
   }
 
@@ -105,7 +106,8 @@ const styles = StyleSheet.create({
     marginHorizontal: size(20),
   },
   loadingErrorContainer: {
-    backgroundColor: Color.White[100],
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });

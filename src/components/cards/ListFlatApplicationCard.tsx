@@ -30,7 +30,6 @@ const ListFlatApplicationCard = ({
   isLessor,
 }: ListFlatApplicationCardProps) => {
   const {advert} = application;
-  const {id, favorite} = advert;
 
   const dispatch = useAppDispatch();
 
@@ -108,9 +107,9 @@ const ListFlatApplicationCard = ({
                   <Pressable
                     style={styles.advertCardSaveButton}
                     onPress={() => {
-                      dispatch(toggleFavorite(id ?? 0));
+                      dispatch(toggleFavorite(advert.id));
                     }}>
-                    {favorite ? (
+                    {advert.favorite ? (
                       <LofftIcon
                         name="heart-filled"
                         size={25}
