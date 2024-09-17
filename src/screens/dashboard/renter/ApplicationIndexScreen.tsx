@@ -58,7 +58,7 @@ const ApplicationIndexScreen = () => {
 
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.headerText}>
+      <SafeAreaView style={styles.headerText}>
         {userType === 'lessor' ? (
           <>
             <Text style={fontStyles.headerLarge}>My Listings</Text>
@@ -80,7 +80,7 @@ const ApplicationIndexScreen = () => {
             <Text style={fontStyles.headerLarge}>My Applications</Text>
           </>
         )}
-      </View>
+      </SafeAreaView>
       {userType !== 'lessor' && (
         <HeaderPageContentSwitch
           toggleNames={['Active', 'Inactive']}
@@ -113,23 +113,17 @@ const styles = StyleSheet.create({
   },
   viewContainer: {
     flex: 1,
-    marginTop: size(16),
   },
 
   inputField: {
     flex: 1,
   },
-  searchContainer: {
-    paddingHorizontal: size(16),
-    flexDirection: 'row',
-    marginTop: size(68), // Needs to be added to core view file, though not working when built
-  },
   headerText: {
-    marginTop: size(70),
-    marginHorizontal: size(16),
+    marginHorizontal: size(20),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: size(10),
   },
   addButton: {
     paddingVertical: size(7),

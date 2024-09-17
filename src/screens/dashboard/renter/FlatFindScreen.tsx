@@ -58,7 +58,7 @@ const FlatFindScreen = () => {
 
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.searchContainer}>
+      <SafeAreaView style={styles.searchContainer}>
         <InputFieldText
           type="search"
           onChangeText={t => setSearch(t)}
@@ -69,7 +69,7 @@ const FlatFindScreen = () => {
           style={styles.inputField}
         />
         <FilterButton onPress={() => setOpenModal(true)} />
-      </View>
+      </SafeAreaView>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
         toggleIcons={['list', 'map']}
@@ -101,9 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: size(16),
     flexDirection: 'row',
-    marginTop: size(68), // Needs to be added to core view file, though not working when built
+    marginHorizontal: size(20),
   },
   loadingErrorContainer: {
     backgroundColor: Color.White[100],
