@@ -7,7 +7,7 @@ import React from 'react';
 import App from '../App';
 
 // Note: import explicitly to use the types shipped with jest.
-import {it} from '@jest/globals';
+// import {it} from '@jest/globals'; // Commented out as currently not used
 
 // Note: test renderer must be required after react-native.
 import {createMockStore, defaultMockState} from '../__mocks__/reduxMock';
