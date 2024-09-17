@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
-import {createSelector} from '@reduxjs/toolkit';
+import {useGetApplicationsQuery} from 'reduxFeatures/applications/applicationApi';
 
 // Screens 📺
-import FlatListComponent from 'screens/dashboard/renter/SubScreens/FlatListComponent';
+import ListFlatApplicationComponent from './SubScreens/ListFlatApplicationComponent';
 
 // Components 🪢
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
@@ -16,40 +16,45 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // helpers 🧰
-import {advertPartition} from 'helpers/advertPartition';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {applicationPartition} from 'helpers/applicationsPartition';
 import {size} from 'react-native-responsive-sizes';
 
-// Types 🏷
-import type {ApplicationIndexScreenProp} from './types';
-import type {UserState} from 'reduxFeatures/user/types';
-import type {AdvertState, Advert} from 'reduxFeatures/adverts/types';
+const ApplicationIndexScreen = () => {
+  const currentUser = useAppSelector(state => state.user.user);
+  const userType = currentUser.userType;
 
-const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
-  const getUserType = (state: {user: UserState}) => state.user.user.userType;
-
-  const getAdverts = (state: {adverts: AdvertState}) => state.adverts.adverts;
-
-  const selectUserTypeAndAdverts = createSelector(
-    [getUserType, getAdverts],
-    (userType, adverts): [string | null, Advert[]] => {
-      let userAdverts = adverts;
-      if (userType === 'tenant') {
-        userAdverts = userAdverts.filter(advert => advert.applied);
-      }
-      return [userType, userAdverts];
-    },
-  );
-
-  const [userType, adverts] = useAppSelector(selectUserTypeAndAdverts);
-
-  const [activeAdverts, inactiveAdverts] = advertPartition(adverts);
+  const {data: applications, error, isLoading} = useGetApplicationsQuery();
 
   const [screen, setScreen] = useState('thumbs-up');
 
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
+
+  const [activeApplications, inactiveApplications] = useMemo(() => {
+    return applicationPartition(applications ?? []);
+  }, [applications]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView style={styles.loadingErrorContainer}>
+          <Text>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView style={styles.loadingErrorContainer}>
+          <Text>{'Error: There was an error getting your applications'}</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageContainer}>
@@ -86,14 +91,13 @@ const ApplicationIndexScreen = ({navigation}: ApplicationIndexScreenProp) => {
         />
       )}
       <View style={styles.viewContainer}>
-        <FlatListComponent
-          // ! Thumbs down is ambiguous, please rename
-          adverts={
+        <ListFlatApplicationComponent
+          applications={
             userType === 'lessor'
-              ? adverts
+              ? applications ?? []
               : screen === 'thumbs-down'
-              ? inactiveAdverts
-              : activeAdverts
+              ? inactiveApplications
+              : activeApplications
           }
           isLessor={userType === 'lessor'}
         />
@@ -108,8 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewContainer: {
-    marginVertical: size(15),
-    position: 'relative',
+    flex: 1,
+    marginTop: size(16),
   },
 
   inputField: {
@@ -137,6 +141,10 @@ const styles = StyleSheet.create({
   },
   marginRight: {
     marginRight: size(20),
+  },
+  loadingErrorContainer: {
+    backgroundColor: Color.White[100],
+    alignItems: 'center',
   },
 });
 

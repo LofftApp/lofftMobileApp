@@ -76,7 +76,7 @@ interface Advert {
   user: AdvertUser;
   lessor: boolean;
   flat: AdvertFlat;
-  applicants: AdvertApplicant[];
+
 }
 
 interface IncomingAdvert {
@@ -94,7 +94,6 @@ interface IncomingAdvert {
   user: IncomingAdvertUser;
   lessor: boolean;
   flat: IncomingAdvertFlat;
-  applicants: IncomingAdvertApplicant[];
 }
 
 interface IncomingAdverts {

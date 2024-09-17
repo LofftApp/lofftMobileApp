@@ -42,15 +42,6 @@ export const advertApi = lofftApi.injectEndpoints({
               userType: advert.user.user_type,
               admin: advert.user.admin,
             },
-            applicants: advert.applicants?.map(applicant => ({
-              id: applicant.id,
-              email: applicant.email,
-              createdAt: applicant.created_at,
-              updatedAt: applicant.updated_at,
-              termsAccepted: applicant.terms_accepted,
-              userType: applicant.user_type,
-              admin: applicant.admin,
-            })),
           };
         }),
     }),
@@ -93,15 +84,6 @@ export const advertApi = lofftApi.injectEndpoints({
             userType: advert.user.user_type,
             admin: advert.user.admin,
           },
-          applicants: advert.applicants?.map(applicant => ({
-            id: applicant.id,
-            email: applicant.email,
-            createdAt: applicant.created_at,
-            updatedAt: applicant.updated_at,
-            termsAccepted: applicant.terms_accepted,
-            userType: applicant.user_type,
-            admin: applicant.admin,
-          })),
         };
       },
     }),

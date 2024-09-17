@@ -8,22 +8,23 @@ import ListFlatApplicationCard from 'components/cards/ListFlatApplicationCard';
 import {size} from 'react-native-responsive-sizes';
 
 // Types  🏷
-import type {FlatListComponentProps} from './types';
+import type {ListFlatApplicationComponentProps} from './types';
 
-const FlatListComponent = ({adverts, isLessor}: FlatListComponentProps) => {
+const ListFlatApplicationComponent = ({
+  applications,
+  isLessor,
+}: ListFlatApplicationComponentProps) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={styles.flatCardContainer}>
       <SafeAreaView>
-        {adverts.map((advert, index: number) => {
+        {applications.map(application => {
           return (
             <ListFlatApplicationCard
-              key={index + 1}
-              advert={advert}
-              /*  active is just for demo 👇*/
-              posted
-              isLessor={advert.lessor}
+              key={application.id}
+              application={application}
+              isLessor={isLessor}
             />
           );
         })}
@@ -38,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatListComponent;
+export default ListFlatApplicationComponent;

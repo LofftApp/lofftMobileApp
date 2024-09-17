@@ -1,13 +1,13 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
+import {Application} from 'reduxFeatures/applications/types';
 import type {
   AdvertApplicantWithSelected,
   SecondRoundApplicantWithSelected,
 } from 'screens/dashboard/landlord/SubScreens/types';
 
 type ListFlatApplicationCardProps = {
-  advert: Advert;
-  posted?: boolean;
+  application: Application;
   isLessor: boolean;
 };
 

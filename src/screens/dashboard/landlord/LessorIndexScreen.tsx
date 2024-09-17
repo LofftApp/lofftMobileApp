@@ -2,7 +2,7 @@ import React, {useEffect, useMemo} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Screens 📺
-import FlatListComponent from '../renter/SubScreens/FlatListComponent';
+import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent';
 
 // Components 🪢
 //import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
