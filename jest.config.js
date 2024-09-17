@@ -10,6 +10,7 @@ module.exports = {
       '<rootDir>/__mocks__/@AsyncStorage/async-storage.ts',
     '^@react-navigation/native-stack$':
       '<rootDir>/__mocks__/@react-navigation/native-stack.ts',
+    '^react-navigation/bottom-tabs$': '<rootDir>/__mocks__/react-navigation.ts',
     '^react-native-splash-screen$':
       '<rootDir>/__mocks__/react-native-splash-screen.ts',
     '^react-native-responsive-sizes$':
