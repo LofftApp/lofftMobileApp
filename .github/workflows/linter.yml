@@ -1,7 +1,5 @@
 name: Lint Codebase
-
 on: push
-
 permissions:
   contents: read
   packages: read
@@ -15,13 +13,13 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
         id: setup-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: npm
