@@ -16,6 +16,8 @@ const MapboxGL = {
   Images: jest.fn().mockImplementation(() => null),
   Light: jest.fn().mockImplementation(() => null),
   Terrain: jest.fn().mockImplementation(() => null),
+  setWellKnownTileServer: jest.fn(),
+  setTelemetryEnabled: jest.fn(),
   Logger: {
     logLevel: jest.fn(),
   },
