@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import color from './lofftColorPallet.json';
-import { width, height, size, fontSize } from "react-native-responsive-sizes";
+import {fontSize} from 'react-native-responsive-sizes';
 
 const InterBlack = 'Inter-Black';
 const InterBold = 'Inter-Bold';

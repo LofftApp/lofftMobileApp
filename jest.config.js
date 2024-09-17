@@ -12,5 +12,7 @@ module.exports = {
       '<rootDir>/__mocks__/@react-navigation/native-stack.ts',
     '^react-native-splash-screen$':
       '<rootDir>/__mocks__/react-native-splash-screen.ts',
+    '^react-native-responsive-sizes$':
+      '<rootDir>/__mocks__/react-native-responsive-sizes.ts',
   },
 };
