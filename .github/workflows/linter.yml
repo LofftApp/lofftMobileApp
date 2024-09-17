@@ -1,12 +1,6 @@
 name: Lint Codebase
 
-on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+on: [push, pull_request]
 
 permissions:
   contents: read
@@ -36,6 +30,7 @@ jobs:
         id: install
         run: npm ci
 
+      # Run super-linter for linting TypeScript files
       - name: Lint Codebase
         id: super-linter
         uses: super-linter/super-linter/slim@v7
@@ -46,4 +41,8 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSCPD: false
-          VALIDATE_TYPESCRIPT_STANDARD: false
+          VALIDATE_TYPESCRIPT_STANDARD: true # Enable TypeScript linting
+
+      # Optionally, if you have ESLint configured for your project:
+      - name: Run ESLint
+        run: npm run lint # Assumes you have a lint script in your package.json
