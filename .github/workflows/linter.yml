@@ -42,6 +42,5 @@ jobs:
           VALIDATE_TSX: true
           VALIDATE_JSX: true
 
-      # Optionally, if you have ESLint configured for your project:
-      - name: Run ESLint
-        run: npm run lint # Assumes you have a lint script in your package.json
+      - name: Run ESLint with specific config
+        run: npx eslint . --config .eslintrc.js
