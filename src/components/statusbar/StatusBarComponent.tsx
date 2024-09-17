@@ -6,6 +6,7 @@ import {
   Dimensions,
   Pressable,
   DimensionValue,
+  ScrollView,
 } from 'react-native';
 
 // Styles
@@ -26,20 +27,19 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {StatusBarNavigationProp} from './types';
+import {Application} from 'reduxFeatures/applications/types';
 
-const StatusBarComponent = ({advert}: {advert: Advert}) => {
-  const {status} = advert;
-
-
+const StatusBarComponent = ({application}: {application: Application}) => {
+  const {advert} = application;
+  console.log('advert>>>>>>>', advert.lessor);
 
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
- const currentApplicationStatus = advertStatusIndex(status ?? '');
+  // const currentApplicationStatus = advertStatusIndex(status ?? '');
 
-  // Lower code needed to test access to different routes
-  //  const currentApplicationStatus = status;
+  const currentApplicationStatus = 1
 
   const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
@@ -61,7 +61,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
 
   const statusText = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
-      console.log("index  🚀 🚀", index)
+      console.log('index  🚀 🚀', index);
       return (
         <View key={index + 1}>
           <Text
@@ -77,29 +77,28 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
           </Text>
           <Text
             style={[
-              fontStyles.bodySmall,
+              fontStyles.bodyExtraSmall,
               currentApplicationStatus === index ||
               currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
-            {/* Text Overlaying */}
-            {/* {key.subText} */}
+            {key.subText}
           </Text>
 
           {currentApplicationStatus === index && (
             <View style={[styles.landlordActionButton, styles.button]}>
-              <Pressable
-                onPress={() =>
-                  // This typescript error will be fixed when key.route in statusBarText.json matches the names in LessorNavigator.tsx and FlatSearchNavigator.tsx
-                  navigation.navigate(key.route, {
-                    advert,
-                  })
-                }>
-                <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                  {key.buttonText}
-                </Text>
-              </Pressable>
+              {currentApplicationStatus === 2 && (
+                <Pressable
+                  onPress={() =>
+                    // This typescript error will be fixed when key.route in statusBarText.json matches the names in LessorNavigator.tsx and FlatSearchNavigator.tsx
+                    navigation.navigate('chat')
+                  }>
+                  <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                    {key.buttonText}
+                  </Text>
+                </Pressable>
+              )}
             </View>
           )}
         </View>
@@ -110,10 +109,10 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
-        setStatusBar('50');
+        setStatusBar('40');
         break;
       case 2:
-        setStatusBar('75');
+        setStatusBar('60');
         break;
       case 3:
         setStatusBar('100');
@@ -131,49 +130,51 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   }, [currentApplicationStatus]);
 
   return (
-    <View style={[styles.maincontainer]}>
-      <View
-        style={[
-          styles.progressContainer,
-          {maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2},
-        ]}>
+    <>
+      <View style={styles.maincontainer}>
         <View
           style={[
-            styles.progressBarOutline,
-            {
-              backgroundColor: advert.lessor
-                ? Color.Lavendar[10]
-                : Color.Mint[10],
-            },
+            styles.progressContainer,
+            {maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2},
           ]}>
-          <View style={styles.iconsPosition}>{iconsCreated}</View>
           <View
             style={[
-              styles.progressBar,
+              styles.progressBarOutline,
               {
-                height: `${statusBar}%` as DimensionValue,
                 backgroundColor: advert.lessor
-                  ? Color.Lavendar[100]
-                  : Color.Mint[100],
+                  ? Color.Lavendar[10]
+                  : Color.Mint[10],
               },
-            ]}
-          />
-        </View>
-        <View
-          style={[
-            styles.progressTextContainer,
-            advert.lessor ? styles.height95 : styles.height98,
-          ]}>
-          {statusText}
+            ]}>
+            <View style={styles.iconsPosition}>{iconsCreated}</View>
+            <View
+              style={[
+                styles.progressBar,
+                {
+                  height: `${statusBar}%` as DimensionValue,
+                  backgroundColor: advert.lessor
+                    ? Color.Lavendar[100]
+                    : Color.Mint[100],
+                },
+              ]}
+            />
+          </View>
+          <View
+            style={[
+              styles.progressTextContainer,
+              advert.lessor ? styles.height95 : styles.height98,
+            ]}>
+            {statusText}
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   maincontainer: {
-    marginHorizontal: size(16),
+    paddingHorizontal: size(16),
     borderWidth: 1,
     borderColor: Color.Black[10],
     paddingTop: size(15),

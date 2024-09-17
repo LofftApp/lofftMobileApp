@@ -22,7 +22,7 @@ import {size} from 'react-native-responsive-sizes';
 import type {ListFlatApplicationCardProps} from './types';
 
 // Types
-import {FavoriteScreenNavigationProp} from '../../../navigationStacks/types';
+import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 const ListFlatApplicationCard = ({
@@ -33,7 +33,7 @@ const ListFlatApplicationCard = ({
 
   const dispatch = useAppDispatch();
 
-  const navigation = useNavigation<FavoriteScreenNavigationProp>();
+  const navigation = useNavigation<SearchScreenNavigationProp>();
 
   const [active] = useState(
     !['offered', 'closed'].includes(application.status),

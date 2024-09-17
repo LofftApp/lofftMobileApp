@@ -3,8 +3,7 @@ import {
   SearchScreenNavigationProp,
 } from '../../../navigationStacks/types';
 
-type StatusBarNavigationProp =
-  | LessorNavigatorScreenNavigationProp
-  | SearchScreenNavigationProp;
+type StatusBarNavigationProp = LessorNavigatorScreenNavigationProp &
+  SearchScreenNavigationProp;
 
 export type {StatusBarNavigationProp};

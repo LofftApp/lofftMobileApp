@@ -15,7 +15,7 @@ const ListFlatApplicationComponent = ({
   applications,
   isLessor,
 }: ListFlatApplicationComponentProps) => {
-  if (applications.length === 0 || !applications) {
+  if (applications?.length === 0 || !applications) {
     return (
       <SafeAreaView style={styles.notFoundContainer}>
         <Text style={fontStyles.headerSmall}>{'No applications found'}</Text>

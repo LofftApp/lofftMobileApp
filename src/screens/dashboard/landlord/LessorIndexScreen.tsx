@@ -42,7 +42,7 @@ const LessorIndexScreen = ({navigation}: any) => {
   // Fetch adverts whenever any of the advert statuses change
   useEffect(() => {
     dispatch(fetchAdverts());
-  }, [advertStatuses]); // Use advertStatuses as the dependency
+  }, []); // Use advertStatuses as the dependency
 
   /*
   // useEffect(() => {

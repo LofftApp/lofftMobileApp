@@ -30,6 +30,7 @@ type newUserNavigationParamsList = {
 type FavoriteStackParamsList = {
   favorite: undefined;
   applicationshow: {id: number};
+  chat: undefined;
 };
 
 type SearchStackParamsList = {
@@ -38,6 +39,8 @@ type SearchStackParamsList = {
   flatShow: {id: number};
   applyforflat: {id: number};
   applicationshow: {id: number};
+  chat: undefined;
+
 };
 
 type FavoriteScreenNavigationProp = CompositeNavigationProp<
@@ -74,6 +77,7 @@ type LessorNavigatorStackParamsList = {
     secondRoundProfile: SecondRoundApplicantWithSelected;
     currentAdvert: Advert;
   };
+  chat: undefined;
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
