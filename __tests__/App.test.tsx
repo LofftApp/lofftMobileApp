@@ -10,10 +10,9 @@ import App from '../App';
 import {it} from '@jest/globals';
 
 // Note: test renderer must be required after react-native.
+import {createMockStore, defaultMockState} from '../__mocks__/reduxMock';
 import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 // Mock the async thunk
 jest.mock('../src/features/authentication/authenticationSlice', () => ({
@@ -25,10 +24,7 @@ jest.mock('../src/features/authentication/authenticationSlice', () => ({
 }));
 
 // Create mock store
-const mockStore = configureStore([thunk]);
-const store = mockStore({
-  authentication: {loading: false},
-});
+const store = createMockStore(defaultMockState);
 
 test('renders correctly', () => {
   const {toJSON} = render(
