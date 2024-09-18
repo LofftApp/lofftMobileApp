@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   flatCardMatchingScoreButtonSmall: {
     backgroundColor: Color.Mint[10],
     height: sizeResponsive(27),
-    width: sizeResponsive(63),
+    width: sizeResponsive(80),
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
