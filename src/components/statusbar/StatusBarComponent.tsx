@@ -21,6 +21,7 @@ import statusBarText from 'Assets/coreText/statusBarText.json';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
+import { applicationStatusIndex } from 'helpers/applicationStatusIndex';
 
 // Types
 import {StatusBarNavigationProp} from './types';
@@ -33,9 +34,7 @@ const StatusBarComponent = ({application}: {application: Application}) => {
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
-  const applicationStatusIndex = (stat: string) => {
-    return ['active', 'closed', 'offered', 'deleted'].indexOf(stat);
-  };
+
   const currentApplicationStatus = applicationStatusIndex(application.status);
   //hardcoded to test status bar
   // const currentApplicationStatus = 1;

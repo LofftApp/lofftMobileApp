@@ -24,6 +24,7 @@ import type {ListFlatApplicationCardProps} from './types';
 // Types
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
 const ListFlatApplicationCard = ({
   application,
@@ -72,10 +73,6 @@ const ListFlatApplicationCard = ({
         setActiveStage(0);
         break;
     }
-  };
-
-  const applicationStatusIndex = (stat: string) => {
-    return ['active', 'closed', 'offered', 'deleted'].indexOf(stat);
   };
 
   useEffect(() => {
