@@ -9,20 +9,19 @@ import Collapsible from 'react-native-collapsible';
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Components
 import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
-import StatusBar from 'components/statusbar/StatusBarComponent';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
+import StatusBarComponent from 'components/statusbar/StatusBarComponent';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-import StatusBarComponent from 'components/statusbar/StatusBarComponent';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;

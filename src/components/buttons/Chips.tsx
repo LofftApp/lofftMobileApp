@@ -5,6 +5,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 import type {ChipsProps} from './types';
 import {size} from 'react-native-responsive-sizes';
+import Collapsible from 'react-native-collapsible';
 
 const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
   return (
@@ -47,9 +48,9 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
           </View>
         )}
 
-        {expand &&
-          tags?.slice(2).map((tag, index: number) => {
-            return (
+        {tags?.slice(2).map((tag, index: number) => {
+          return (
+            <Collapsible collapsed={!expand} duration={300}>
               <View
                 style={[
                   styles.chip,
@@ -67,8 +68,9 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
                   {tag?.name}
                 </Text>
               </View>
-            );
-          })}
+            </Collapsible>
+          );
+        })}
       </View>
     </View>
   );
