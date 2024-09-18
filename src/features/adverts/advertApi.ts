@@ -1,91 +1,18 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {Advert, IncomingAdvert, IncomingAdverts} from './types';
+import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
     getAdverts: builder.query<Advert[], void>({
       query: () => '/api/adverts',
       transformResponse: (response: IncomingAdverts) =>
-        response.adverts.map(advert => {
-          return {
-            id: advert.id,
-            monthlyRent: advert.monthly_rent,
-            currency: advert.currency,
-            warmRent: advert.warm_rent,
-            fromDate: advert.from_date,
-            toDate: advert.to_date,
-            createdAt: advert.created_at,
-            status: advert.status,
-            matchScore: advert.match_score,
-            favorite: advert.favorite,
-            applied: advert.applied,
-            lessor: advert.lessor,
-            flat: {
-              id: advert.flat.id,
-              address: advert.flat.address,
-              tagLine: advert.flat.tag_line,
-              description: advert.flat.description,
-              size: advert.flat.size,
-              measurementUnit: advert.flat.measurement_unit,
-              district: advert.flat.district,
-              characteristics: advert.flat.characteristics,
-              features: advert.flat.features,
-              city: advert.flat.city,
-              photos: advert.flat.photos.map(photo => photo.url),
-            },
-            user: {
-              id: advert.user.id,
-              email: advert.user.email,
-              createdAt: advert.user.created_at,
-              updatedAt: advert.user.updated_at,
-              termsAccepted: advert.user.terms_accepted,
-              userType: advert.user.user_type,
-              admin: advert.user.admin,
-            },
-          };
-        }),
+        toCamelCaseKeys(response.adverts as unknown as Advert[]),
     }),
     getAdvertById: builder.query<Advert, number>({
       query: id => `/api/adverts/${id}`,
-      transformResponse: (response: IncomingAdvert) => {
-        const advert = response;
-        return {
-          id: advert.id,
-          monthlyRent: advert.monthly_rent,
-          currency: advert.currency,
-          warmRent: advert.warm_rent,
-          fromDate: advert.from_date,
-          toDate: advert.to_date,
-          createdAt: advert.created_at,
-          status: advert.status,
-          matchScore: advert.match_score,
-          favorite: advert.favorite,
-          applied: advert.applied,
-          lessor: advert.lessor,
-          flat: {
-            id: advert.flat.id,
-            address: advert.flat.address,
-            tagLine: advert.flat.tag_line,
-            description: advert.flat.description,
-            size: advert.flat.size,
-            measurementUnit: advert.flat.measurement_unit,
-            district: advert.flat.district,
-            characteristics: advert.flat.characteristics,
-            features: advert.flat.features,
-            city: advert.flat.city,
-            photos: advert.flat.photos.map(photo => photo.url),
-          },
-          user: {
-            id: advert.user.id,
-            email: advert.user.email,
-            createdAt: advert.user.created_at,
-            updatedAt: advert.user.updated_at,
-            termsAccepted: advert.user.terms_accepted,
-            userType: advert.user.user_type,
-            admin: advert.user.admin,
-          },
-        };
-      },
+      transformResponse: (response: IncomingAdvert) =>
+        toCamelCaseKeys(response as unknown as Advert),
     }),
   }),
   overrideExisting: false,
