@@ -50,13 +50,15 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
 
         {tags.slice(2).map((tag, index) => {
           return (
-            <Collapsible collapsed={!expand} duration={300}>
+            <Collapsible
+              key={tag?.emoji + index.toString()}
+              collapsed={!expand}
+              duration={300}>
               <View
                 style={[
                   styles.chip,
                   features ? styles.featureTag : styles.characteristicTag,
-                ]}
-                key={tag?.emoji + index.toString()}>
+                ]}>
                 {emoji && <Text>{tag?.emoji}</Text>}
                 <Text
                   style={[

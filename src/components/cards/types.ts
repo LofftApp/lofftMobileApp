@@ -7,7 +7,8 @@ import type {
 } from 'screens/dashboard/landlord/SubScreens/types';
 
 type ListFlatApplicationCardProps = {
-  application: Application;
+  _advert?: Advert;
+  application?: Application;
   isLessor: boolean;
 };
 

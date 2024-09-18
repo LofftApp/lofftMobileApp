@@ -1,8 +1,10 @@
+import {Advert} from 'reduxFeatures/adverts/types';
 import type {SearchScreenNavigationProp} from '../../../../../navigationStacks/types';
 import {Application} from 'reduxFeatures/applications/types';
 
 type ListFlatApplicationComponentProps = {
-  applications: Application[];
+  applications?: Application[];
+  adverts?: Advert[];
   isLessor: boolean;
 };
 

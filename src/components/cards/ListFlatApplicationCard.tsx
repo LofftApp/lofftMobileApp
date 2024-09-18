@@ -26,18 +26,23 @@ import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
+//if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
   application,
+  _advert,
   isLessor,
 }: ListFlatApplicationCardProps) => {
-  const {advert} = application;
+  const advert = isLessor ? _advert : application?.advert;
+  console.log('advertXXXXXXXXXXXXXX', application?.advert);
+  console.log('_advert', _advert);
+  console.log('isLessor', isLessor);
 
   const dispatch = useAppDispatch();
 
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
   const [active] = useState(
-    !['offered', 'closed'].includes(application.status),
+    !['offered', 'closed'].includes(application?.status ?? ''),
   );
   const [renterActiveStatus] = useState([
     'Applied',
@@ -76,9 +81,9 @@ const ListFlatApplicationCard = ({
   };
 
   useEffect(() => {
-    const index = applicationStatusIndex(application.status);
+    const index = applicationStatusIndex(application?.status ?? '');
     calculateStatusBar(index);
-  }, [application.status]);
+  }, [application?.status]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
@@ -88,7 +93,7 @@ const ListFlatApplicationCard = ({
         <View style={styles.advertCardImage}>
           <LofftHeaderPhoto
             imageContainerHeight={size(300)}
-            images={advert.flat.photos}
+            images={advert?.flat.photos ?? []}
           />
         </View>
         <View style={styles.advertCardButtonsOverlay}>
@@ -98,9 +103,9 @@ const ListFlatApplicationCard = ({
                 <Pressable
                   style={styles.advertCardSaveButton}
                   onPress={() => {
-                    dispatch(toggleFavorite(advert.id));
+                    dispatch(toggleFavorite(advert?.id ?? 0));
                   }}>
-                  {advert.favorite ? (
+                  {advert?.favorite ? (
                     <LofftIcon
                       name="heart-filled"
                       size={25}
@@ -121,9 +126,9 @@ const ListFlatApplicationCard = ({
       </View>
 
       <View style={styles.metaDataContainer}>
-        <Text style={[fontStyles.headerSmall]}>{advert.monthlyRent} €</Text>
+        <Text style={[fontStyles.headerSmall]}>{advert?.monthlyRent} €</Text>
         <Text style={[fontStyles.headerSmall]}>
-          {advert.flat.size} {advert.flat.measurementUnit}
+          {advert?.flat.size} {advert?.flat.measurementUnit}
         </Text>
         <Text
           style={[
@@ -131,17 +136,19 @@ const ListFlatApplicationCard = ({
             {color: isLessor ? Color.Black[50] : Color.Mint[100]},
           ]}>
           {isLessor
-            ? `Posted on ${dateFormatConverter({date: advert.createdAt})}`
+            ? `Posted on ${dateFormatConverter({
+                date: advert?.createdAt ?? '',
+              })}`
             : `Applied on ${dateFormatConverter({
-                date: application.createdAt,
+                date: application?.createdAt ?? '',
               })}`}
         </Text>
       </View>
 
       <View style={styles.locationContainer}>
-        {advert.flat.district && (
+        {advert?.flat.district && (
           <Text style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-            {advert.flat.district}, {advert.flat.city}
+            {advert?.flat.district}, {advert?.flat.city}
           </Text>
         )}
       </View>
@@ -195,7 +202,7 @@ const ListFlatApplicationCard = ({
             style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
-                id: application.id,
+                id: application?.id ?? 0,
               })
             }
           />
@@ -206,7 +213,7 @@ const ListFlatApplicationCard = ({
             invert
             value="View Application"
             onPress={() =>
-              navigation.navigate('applicationshow', {id: application.id})
+              navigation.navigate('applicationshow', {id: application?.id ?? 0})
             }
           />
         </View>
