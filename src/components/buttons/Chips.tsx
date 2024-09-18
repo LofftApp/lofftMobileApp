@@ -11,14 +11,14 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
-        {tags?.slice(0, 2).map((tag, index: number) => {
+        {tags.slice(0, 2).map(tag => {
           return (
             <View
               style={[
                 styles.chip,
                 features ? styles.featureTag : styles.characteristicTag,
               ]}
-              key={index}>
+              key={tag?.name}>
               {emoji && <Text>{tag?.emoji}</Text>}
               <Text
                 style={[
@@ -48,7 +48,7 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
           </View>
         )}
 
-        {tags?.slice(2).map((tag, index: number) => {
+        {tags.slice(2).map(tag => {
           return (
             <Collapsible collapsed={!expand} duration={300}>
               <View
@@ -56,7 +56,7 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
                   styles.chip,
                   features ? styles.featureTag : styles.characteristicTag,
                 ]}
-                key={index}>
+                key={tag?.name}>
                 {emoji && <Text>{tag?.emoji}</Text>}
                 <Text
                   style={[
