@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+//Redux
+import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -19,7 +21,8 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
-import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import StatusBarComponent from 'components/statusbar/StatusBarComponent';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
@@ -28,7 +31,10 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   console.log(application);
   const advert = application?.advert;
 
-  const [hasCollapsed, setHasCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+  const toggleExpand = () => {
+    setCollapsed(prev => !prev);
+  };
   if (isLoading) {
     return (
       <View style={styles.pageContainer}>
@@ -65,15 +71,35 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
-        <View style={[styles.maincontainer]}>
-          {advert && <StatusBar application={application} />}
-          <Text
-            onPress={() => setHasCollapsed(!hasCollapsed)}
-            style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
-            {hasCollapsed ? 'See more' : 'See less'}
-          </Text>
+        <View style={styles.maincontainer}>
+          {application && <StatusBarComponent application={application} />}
 
-          <Collapsible collapsed={hasCollapsed} duration={300}>
+          <View style={styles.seeMoreContainer}>
+            <Text
+              onPress={toggleExpand}
+              style={[fontStyles.bodySmall, styles.seeMore]}>
+              {collapsed ? 'See less' : 'See more'}
+            </Text>
+            {collapsed ? (
+              <>
+                <LofftIcon
+                  name="chevron-up"
+                  size={25}
+                  color={Color.Blue[100]}
+                />
+              </>
+            ) : (
+              <>
+                <LofftIcon
+                  name="chevron-down"
+                  size={25}
+                  color={Color.Blue[100]}
+                />
+              </>
+            )}
+          </View>
+
+          <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
         </View>
@@ -94,17 +120,25 @@ const styles = StyleSheet.create({
   },
   maincontainer: {
     width: '100%',
+    alignContent: 'center',
   },
-  seeMoreLessButton: {
+  seeMore: {
     color: Color.Blue[100],
     alignSelf: 'flex-end',
-    marginRight: size(10),
-    marginBottom: size(10),
+    marginHorizontal: size(10),
+    marginBottom: size(2),
   },
   loadingErrorContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  seeMoreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: size(10),
+    paddingBottom: size(10),
   },
 });
 

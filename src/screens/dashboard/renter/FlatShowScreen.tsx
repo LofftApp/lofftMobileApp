@@ -50,6 +50,8 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const {id} = route.params;
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(id);
+  console.log('advert>>>>>>>', advert?.applied);
+
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
