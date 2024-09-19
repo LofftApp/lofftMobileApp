@@ -2,6 +2,7 @@ import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {
   Advert,
   AdvertWithApplications,
+  ApplicantWithSelected,
   IncomingAdvert,
   IncomingAdverts,
   IncomingAdvertWithApplications,
@@ -22,8 +23,28 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
-      transformResponse: (response: IncomingAdvertWithApplications) =>
-        toCamelCaseKeys(response as unknown as AdvertWithApplications),
+      transformResponse: (response: IncomingAdvertWithApplications) => {
+        // Convert keys to camelCase and assign the transformed result
+        const transformedResponse = toCamelCaseKeys(
+          response as unknown as AdvertWithApplications,
+        );
+
+        // Add the `selected` property to each applicant with a default value of false
+        const applicantsWithSelected =
+          transformedResponse?.advert?.applicants?.map(applicant => ({
+            ...applicant,
+            selected: false, // Add the selected field
+          }));
+
+        // Return the modified advert with the updated applicants
+        return {
+          ...transformedResponse,
+          advert: {
+            ...transformedResponse.advert,
+            applicants: applicantsWithSelected, // Include applicants with selected property
+          },
+        };
+      },
     }),
   }),
   overrideExisting: false,
