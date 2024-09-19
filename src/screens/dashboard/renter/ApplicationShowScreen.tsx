@@ -22,19 +22,36 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
+import {useAppSelector} from 'reduxCore/hooks';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
+  const currentUser = useAppSelector(state => state.user.user);
+  const isLessor = currentUser.userType === 'lessor';
+  console.log('isLessor>>>>>>>>>>>>>>>', currentUser.userType, isLessor);
 
-  const {data: application, isLoading, error} = useGetApplicationByIdQuery(id);
-  console.log(application);
-  const advert = application?.advert;
+  const {
+    data: application,
+    isLoading: applicationIsLoading,
+    error: applicationError,
+  } = useGetApplicationByIdQuery(id, {skip: isLessor});
+
+  const {
+    data: _advert,
+    error: advertError,
+    isLoading: advertIsLoading,
+  } = useGetAdvertByIdQuery(id, {skip: !isLessor});
+
+  console.log('application in show ', application);
+  console.log('advert in show ', _advert);
+  const advert = isLessor ? _advert : application?.advert;
 
   const [collapsed, setCollapsed] = useState(false);
   const toggleExpand = () => {
     setCollapsed(prev => !prev);
   };
-  if (isLoading) {
+  if (applicationIsLoading || advertIsLoading) {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView
@@ -45,7 +62,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     );
   }
 
-  if (error) {
+  if (applicationError || advertError) {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView
@@ -71,7 +88,11 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <View style={styles.maincontainer}>
-          {application && <StatusBarComponent application={application} />}
+          <StatusBarComponent
+            application={application}
+            _advert={advert}
+            isLessor={isLessor}
+          />
 
           <View style={styles.seeMoreContainer}>
             <Text
