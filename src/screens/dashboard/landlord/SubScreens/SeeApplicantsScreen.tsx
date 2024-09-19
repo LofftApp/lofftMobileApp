@@ -36,19 +36,25 @@ import type {
   SeeApplicantsScreenProp,
 } from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 export const MAX_SELECT = 5;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
-  const {advert} = route.params;
+  const {id} = route.params;
 
-  const applicantsWithSelected = advert.applicants?.map(applicant => {
-    return {...applicant, selected: false};
-  });
+  const {data, error, isLoading} = useSeeApplicationsByAdvertIdQuery(id);
+  console.log('SEE APPLICSANTS BY ADVERT ID +++++++++', data);
+
+  const advert = data?.advert;
+
+  // const applicantsWithSelected = advert.applicants?.map(applicant => {
+  //   return {...applicant, selected: false};
+  // });
 
   const [applicants, setApplicants] = useState<
     AdvertApplicantWithSelected[] | undefined
-  >(applicantsWithSelected);
+  >([]);
 
   const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
     [],
@@ -76,6 +82,16 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
     setFinalRound(selectedProfilesOnly ?? []);
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.pageWrapper}>
+        <SafeAreaView>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageWrapper}>

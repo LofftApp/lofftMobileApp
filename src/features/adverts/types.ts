@@ -1,3 +1,4 @@
+import {Application, IncomingApplication} from '../applications/types';
 interface AdvertUser {
   id: number;
   email: string;
@@ -7,18 +8,6 @@ interface AdvertUser {
   userType: string;
   admin: boolean;
 }
-
-interface IncomingAdvertUser {
-  id: number;
-  email: string;
-  created_at: string;
-  updated_at: string;
-  terms_accepted: boolean;
-  user_type: string;
-  admin: boolean;
-}
-
-interface IncomingAdvertApplicant extends IncomingAdvertUser {}
 
 interface AdvertApplicant extends AdvertUser {}
 
@@ -46,21 +35,6 @@ interface AdvertFlat {
   photos: string[];
 }
 
-interface IncomingAdvertFlat {
-  id: number;
-  address: string;
-  tag_line: string;
-  price: number;
-  description: string;
-  size: number;
-  measurement_unit: string;
-  district: string;
-  characteristics: AdvertCharacteristics[];
-  features: AdvertFeatures[];
-  city: string;
-  photos: {url: string}[];
-}
-
 interface Advert {
   id: number;
   monthlyRent: number;
@@ -76,7 +50,40 @@ interface Advert {
   user: AdvertUser;
   lessor: boolean;
   flat: AdvertFlat;
+  applicants?: AdvertApplicant[];
+}
 
+interface AdvertState {
+  loading: boolean;
+  adverts: Advert[];
+  error: string | null;
+  advert: Advert | null;
+}
+interface IncomingAdvertUser {
+  id: number;
+  email: string;
+  created_at: string;
+  updated_at: string;
+  terms_accepted: boolean;
+  user_type: string;
+  admin: boolean;
+}
+
+interface IncomingAdvertApplicant extends IncomingAdvertUser {}
+
+interface IncomingAdvertFlat {
+  id: number;
+  address: string;
+  tag_line: string;
+  price: number;
+  description: string;
+  size: number;
+  measurement_unit: string;
+  district: string;
+  characteristics: AdvertCharacteristics[];
+  features: AdvertFeatures[];
+  city: string;
+  photos: {url: string}[];
 }
 
 interface IncomingAdvert {
@@ -94,17 +101,21 @@ interface IncomingAdvert {
   user: IncomingAdvertUser;
   lessor: boolean;
   flat: IncomingAdvertFlat;
+  applicants?: IncomingAdvertApplicant[];
+}
+
+interface IncomingAdvertWithApplications {
+  advert: IncomingAdvert;
+  applications: IncomingApplication[];
 }
 
 interface IncomingAdverts {
   adverts: IncomingAdvert[];
 }
 
-interface AdvertState {
-  loading: boolean;
-  adverts: Advert[];
-  error: string | null;
-  advert: Advert | null;
+interface AdvertWithApplications {
+  advert: Advert;
+  applications: Application[];
 }
 
 export type {
@@ -115,9 +126,11 @@ export type {
   AdvertFlat,
   AdvertUser,
   AdvertApplicant,
+  AdvertWithApplications,
   IncomingAdverts,
   IncomingAdvert,
   IncomingAdvertFlat,
   IncomingAdvertUser,
   IncomingAdvertApplicant,
+  IncomingAdvertWithApplications,
 };
