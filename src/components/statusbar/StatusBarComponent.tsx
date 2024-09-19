@@ -36,11 +36,11 @@ const StatusBarComponent = ({
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
-  const currentApplicationStatus = applicationStatusIndex(
-    application?.status || advert?.status,
-  );
+  // const currentApplicationStatus = applicationStatusIndex(
+  //   application?.status || advert?.status,
+  // );
   // hardcoded to test status bar
-  // const currentApplicationStatus = 3;
+  const currentApplicationStatus = 0;
 
   const screenheight = Dimensions.get('window').height;
 
@@ -52,7 +52,7 @@ const StatusBarComponent = ({
           name={key.icon}
           size={28}
           color={
-            (currentApplicationStatus === 1 && index <= 2) ||
+            (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
             (currentApplicationStatus === 2 && index <= 3) ||
             (currentApplicationStatus === 3 && index <= 4) ||
             currentApplicationStatus === index ||
@@ -73,7 +73,7 @@ const StatusBarComponent = ({
             style={[
               fontStyles.headerSmall,
               styles.infoBlockHeader,
-              (currentApplicationStatus === 1 && index <= 2) ||
+              (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
               (currentApplicationStatus === 2 && index <= 3) ||
               (currentApplicationStatus === 3 && index <= 4) ||
               currentApplicationStatus === index ||
@@ -86,7 +86,7 @@ const StatusBarComponent = ({
           <Text
             style={[
               fontStyles.bodySmall,
-              (currentApplicationStatus === 1 && index <= 2) ||
+              (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
               (currentApplicationStatus === 2 && index <= 3) ||
               (currentApplicationStatus === 3 && index <= 4) ||
               currentApplicationStatus === index ||
@@ -97,7 +97,46 @@ const StatusBarComponent = ({
             {key.subText}
           </Text>
 
-          {currentApplicationStatus === 2 &&
+          {isLessor ? (
+            <>
+              {currentApplicationStatus === 0 &&
+                currentApplicationStatus === index && (
+                  <View style={[styles.landlordActionButton, styles.button]}>
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate('allApplicants', {
+                          id: advert?.id ?? 0,
+                        })
+                      }>
+                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                        See Applicants
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+              {currentApplicationStatus === 1 &&
+                currentApplicationStatus === index && (
+                  <View style={[styles.landlordActionButton, styles.button]}>
+                    <Pressable onPress={() => navigation.navigate('chat')}>
+                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                        See Profiles
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+              {currentApplicationStatus === 3 &&
+                currentApplicationStatus === index && (
+                  <View style={[styles.landlordActionButton, styles.button]}>
+                    <Pressable onPress={() => navigation.navigate('chat')}>
+                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                        Chat with tenant
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+            </>
+          ) : (
+            currentApplicationStatus === 2 &&
             currentApplicationStatus === index && (
               <View style={[styles.landlordActionButton, styles.button]}>
                 <Pressable onPress={() => navigation.navigate('chat')}>
@@ -106,7 +145,8 @@ const StatusBarComponent = ({
                   </Text>
                 </Pressable>
               </View>
-            )}
+            )
+          )}
         </View>
       );
     },
@@ -115,10 +155,10 @@ const StatusBarComponent = ({
   const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
-        setStatusBar('60');
+        setStatusBar(isLessor ? '50' : '60');
         break;
       case 2:
-        setStatusBar('80');
+        setStatusBar(isLessor ? '75' : '80');
         break;
       case 3:
         setStatusBar('100');

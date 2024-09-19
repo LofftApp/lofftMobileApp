@@ -25,7 +25,7 @@ const ListFlatApplicationComponent = ({
   ) {
     return (
       <SafeAreaView style={styles.notFoundContainer}>
-        <Text style={fontStyles.headerSmall}>{'No applications found'}</Text>
+        <Text style={fontStyles.headerSmall}>No applications found</Text>
       </SafeAreaView>
     );
   }

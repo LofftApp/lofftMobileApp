@@ -40,7 +40,6 @@ type SearchStackParamsList = {
   applyforflat: {id: number};
   applicationshow: {id: number};
   chat: undefined;
-
 };
 
 type FavoriteScreenNavigationProp = CompositeNavigationProp<
@@ -65,8 +64,8 @@ type LessorTabParamsList = {
 type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
-  applicationshow: {advert: Advert};
-  allApplicants: {advert: Advert};
+  applicationshow: {id: number};
+  allApplicants: {id: number};
   shortlist: {
     secondRoundApplicants: AdvertApplicantWithSelected[];
     currentAdvert: Advert;
