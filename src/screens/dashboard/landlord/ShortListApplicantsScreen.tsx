@@ -21,39 +21,34 @@ import FilterButton from 'components/buttons/FilterButton';
 import BackButton from 'components/buttons/BackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const ShortListApplicantsScreen = ({navigation}) => {
-  const [userProfilesJson, setUserProfilesJson] = useState(userProfiles.users);
+const ShortListApplicantsScreen = ({navigation}: any) => {
+  const [userProfilesJson, setUserProfilesJson] = useState();
+  // userProfiles.users.users,
   const [maxSelect, setMaxSelected] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
   const windowHeight = Dimensions.get('window').height;
   // const [buttonFeed, setButtonFeed] = useState({width: '90%', position: 'absolute', bottom: 10});
   // const [initalButtonStyle, setintialButtonStyle] = useState({ width: '90%', position: 'absolute', bottom: 10 })
 
-  const selectProfile = id => {
+  const selectProfile = (id: number) => {
     // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
-
-    const updatedProfiles = userProfilesJson.map(el => {
-      if (el.id === id) {
-        return {
-          ...el,
-          selected: !el.selected,
-        };
-      } else {
-        return el;
-      }
-    });
-
-    setUserProfilesJson(updatedProfiles);
-
-    const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
-
-    setFinalRound(selectedProfilesOnly);
+    // const updatedProfiles = userProfilesJson.map(el => {
+    //   if (el.id === id) {
+    //     return {
+    //       ...el,
+    //       selected: !el.selected,
+    //     };
+    //   } else {
+    //     return el;
+    //   }
+    // });
+    // setUserProfilesJson(updatedProfiles);
+    // const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
+    // setFinalRound(selectedProfilesOnly);
     // setButtonFeed(style);
-
     // setTimeout(() => {
     //   setButtonFeed({ width: '90%', position: 'absolute', bottom: 10, })
     // }, 200);
-
     // Animated.timing(height, {
     //   toValue: 1,
     //   duration: 500,
@@ -76,7 +71,8 @@ const ShortListApplicantsScreen = ({navigation}) => {
         title="Applicants"
         onPress={() => navigation.goBack()}
       />
-      <View style={styles.container}>
+      <Text>This is WIP</Text>
+      {/* <View style={styles.container}>
         <SafeAreaView style={styles.safeareaview}>
           <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
             {userProfilesJson.map((el, index) => (
@@ -100,7 +96,7 @@ const ShortListApplicantsScreen = ({navigation}) => {
           value={`Selected ${finalRound.length}/${maxSelect}`}
           style={{width: '90%', position: 'absolute', bottom: 10}}
         />
-      </View>
+      </View> */}
     </View>
   );
 };

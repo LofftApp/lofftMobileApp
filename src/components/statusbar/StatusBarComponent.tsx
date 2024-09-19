@@ -30,13 +30,13 @@ import {StatusBarNavigationProp} from './types';
 const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const {status} = advert;
 
-  console.log("status 🚀 🚀 🚀", status )
+  console.log('status 🚀 🚀 🚀', status);
 
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
- const currentApplicationStatus = advertStatusIndex(status ?? '');
+  const currentApplicationStatus = advertStatusIndex(status ?? '');
 
   // Lower code needed to test access to different routes
   //  const currentApplicationStatus = status;
@@ -61,7 +61,7 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
 
   const statusText = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
-      console.log("index  🚀 🚀", index)
+      console.log('index  🚀 🚀', index);
       return (
         <View key={index + 1}>
           <Text

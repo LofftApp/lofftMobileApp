@@ -45,9 +45,12 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const [profileDetails, setProfileDetails] = useState({});
   const [profileChars, setProfileChars] = useState([]);
   const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
+  // This has been updated to fix issue with TS, and should now be reviewed
 
-  const matches = matchMaker(flatChars, profileChars)[0];
-  const noMatches = matchMaker(flatChars, profileChars)[1];
+  const matches =
+    flatChars && profileChars ? matchMaker(flatChars, profileChars)[0] : [];
+  const noMatches =
+    flatChars && profileChars ? matchMaker(flatChars, profileChars)[1] : [];
 
   // Not working 👇
   useEffect(() => {

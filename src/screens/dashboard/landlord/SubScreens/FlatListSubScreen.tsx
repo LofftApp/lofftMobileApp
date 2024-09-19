@@ -18,19 +18,8 @@ const FlatListSubScreen = ({navigation}: any) => {
       style={styles.flatCardContainer}>
       <View>
         {flats.map((el: any, index: number) => {
-          return (
-            <ListViewFlatCard
-              navigation={navigation}
-              key={index + 1}
-              match={el?.matchP}
-              flatId={el.flatId}
-              district={el.district}
-              price={el.price}
-              images={el.images}
-              likedUsers={el.likedUsers}
-              i={index}
-            />
-          );
+          //TODO This has been updated to remove TS error, it will need to be refactored
+          return <ListViewFlatCard key={index} advert={el} />;
         })}
       </View>
     </ScrollView>

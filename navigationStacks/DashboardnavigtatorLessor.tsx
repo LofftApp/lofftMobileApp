@@ -23,7 +23,7 @@ import LessorNavigator from './LessorNavigator';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigatorLessor = () => {
-  const admin = useAppSelector(state => state.user.admin);
+  const admin = useAppSelector(state => state.user.user.admin);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

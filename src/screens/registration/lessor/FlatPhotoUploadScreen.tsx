@@ -57,7 +57,8 @@ const FlatPhotoUploadScreen = () => {
               // ! Disabled to be removed before production in new repo.
               disabled={true}
             />
-            <ImageUploadButton onPress={() => setModalVisible(false)} />
+            {/* This image upload has been disabled and needs refactoring */}
+            {/* <ImageUploadButton onPress={() => setModalVisible(false)} /> */}
             <CoreButton
               value="Cancel"
               onPress={() => setModalVisible(false)}

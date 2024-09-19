@@ -12,24 +12,8 @@ const FlatListComponent = ({active, flats, navigation}: any) => {
       <SafeAreaView>
         {flats.map((el: any, index: number) => {
           return (
-            <ListFlatApplicationCard
-              navigation={navigation}
-              key={index + 1}
-              match={el?.matchP}
-              flatId={el.flatId}
-              district={el.district}
-              price={el.price}
-              images={el.images}
-              likedUsers={el.likedUsers}
-              address={el.address}
-              description={el.description}
-              fromDate={el.fromDate}
-              untilDate={el.untilDate}
-              /*  active is just for demo 👇*/
-              active={active}
-              posted={true}
-              isLessor={true}
-            />
+            //TODO This has been updated to remove TS error, it will need to be refactored
+            <ListFlatApplicationCard key={index} advert={el} isLessor={true} />
           );
         })}
       </SafeAreaView>

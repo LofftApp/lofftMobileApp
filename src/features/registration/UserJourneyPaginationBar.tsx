@@ -13,6 +13,7 @@ const UserJourneyPaginationBar = () => {
     <PaginationBar
       screen={activeScreen}
       totalScreens={Object.keys(userJourney).length}
+      marginVertical={10} // Added marginVertical prop, as it was missing
     />
   );
 };

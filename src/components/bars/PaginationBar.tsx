@@ -28,7 +28,6 @@ const PaginationBar = ({
     <View
       style={[
         styles.pagination,
-        // eslint-disable-next-line react-native/no-inline-styles
         {
           position: onTop ? 'absolute' : 'relative',
           marginVertical: marginVertical,

@@ -15,6 +15,7 @@ type RootTabParamsList = {
   alerts: undefined;
   user: undefined;
   admin: undefined;
+  language: undefined;
 };
 
 type newUserNavigatorParamsList = {
@@ -30,6 +31,10 @@ type newUserNavigationParamsList = {
 type FavoriteStackParamsList = {
   favorite: undefined;
   applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
+};
+
+type LanguageStackParamsList = {
+  indexSigniture: undefined;
 };
 
 type SearchStackParamsList = {
@@ -50,6 +55,10 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<SearchStackParamsList>
 >;
 
+type LanguageScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamsList, 'language'>,
+  StackNavigationProp<LanguageStackParamsList>
+>;
 // Lessor Navigator Stack
 
 type LessorTabParamsList = {
@@ -94,6 +103,7 @@ export type {
   FavoriteStackParamsList,
   SearchStackParamsList,
   FavoriteScreenNavigationProp,
+  LanguageScreenNavigationProp,
   SearchScreenNavigationProp,
   LessorTabParamsList,
   LessorNavigatorStackParamsList,

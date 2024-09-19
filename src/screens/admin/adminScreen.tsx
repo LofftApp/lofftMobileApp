@@ -13,17 +13,19 @@ import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 const AdminScreen = () => {
+  // TODO: This is legacy, and needs updating and changing
   const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const assignUsers = async () => {
-      const users: any = await getUsersFromNotion();
-      setUsers(users);
-    };
-    assignUsers();
-  }, []);
+  // useEffect(() => {
+  //   const assignUsers = async () => {
+  //     const users: any = await getUsersFromNotion();
+  //     setUsers(users);
+  //   };
+  //   assignUsers();
+  // }, []);
   return (
     <ScreenBackButton nav={() => {}} title={'Admin Screen'}>
-      <Text style={fontStyles.bodySmall}>
+      <Text>This is placeholder</Text>
+      {/* <Text style={fontStyles.bodySmall}>
         This is the admin screen, use this to seed and update details in the
         applicaiton.
       </Text>
@@ -41,7 +43,7 @@ const AdminScreen = () => {
             </View>
           </View>
         ))}
-      </View>
+      </View> */}
     </ScreenBackButton>
   );
 };

@@ -32,12 +32,12 @@ const LessorIndexScreen = ({navigation}: any) => {
   const dispatch = useAppDispatch();
   // Select the adverts from the Redux store
   const adverts = useAppSelector(
-    (state: { adverts: AdvertState }) => state.adverts.adverts
+    (state: {adverts: AdvertState}) => state.adverts.adverts,
   );
   // Memoize the advert statuses
   const advertStatuses = useMemo(
-    () => adverts.map((advert) => advert.status),
-    [adverts]
+    () => adverts.map(advert => advert.status),
+    [adverts],
   );
   // Fetch adverts whenever any of the advert statuses change
   useEffect(() => {
@@ -88,7 +88,8 @@ const LessorIndexScreen = ({navigation}: any) => {
       <View style={styles.viewContainer}>
         <FlatListComponent
           adverts={adverts}
-          navigation={navigation}
+          // Component doesn't receive a navigation prop
+          // navigation={navigation}
           isLessor={true}
         />
       </View>
