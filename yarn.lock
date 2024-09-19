@@ -1704,10 +1704,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.57.0":
-  version: 8.57.0
-  resolution: "@eslint/js@npm:8.57.0"
-  checksum: 10c0/9a518bb8625ba3350613903a6d8c622352ab0c6557a59fe6ff6178bf882bf57123f9d92aa826ee8ac3ee74b9c6203fe630e9ee00efb03d753962dcf65ee4bd94
+"@eslint/js@npm:8.57.1":
+  version: 8.57.1
+  resolution: "@eslint/js@npm:8.57.1"
+  checksum: 10c0/b489c474a3b5b54381c62e82b3f7f65f4b8a5eaaed126546520bf2fede5532a8ed53212919fed1e9048dcf7f37167c8561d58d0ba4492a4244004e7793805223
   languageName: node
   linkType: hard
 
@@ -1727,14 +1727,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/config-array@npm:^0.11.14":
-  version: 0.11.14
-  resolution: "@humanwhocodes/config-array@npm:0.11.14"
+"@humanwhocodes/config-array@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@humanwhocodes/config-array@npm:0.13.0"
   dependencies:
-    "@humanwhocodes/object-schema": "npm:^2.0.2"
+    "@humanwhocodes/object-schema": "npm:^2.0.3"
     debug: "npm:^4.3.1"
     minimatch: "npm:^3.0.5"
-  checksum: 10c0/66f725b4ee5fdd8322c737cb5013e19fac72d4d69c8bf4b7feb192fcb83442b035b92186f8e9497c220e58b2d51a080f28a73f7899bc1ab288c3be172c467541
+  checksum: 10c0/205c99e756b759f92e1f44a3dc6292b37db199beacba8f26c2165d4051fe73a4ae52fdcfd08ffa93e7e5cb63da7c88648f0e84e197d154bbbbe137b2e0dd332e
   languageName: node
   linkType: hard
 
@@ -1745,7 +1745,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/object-schema@npm:^2.0.2":
+"@humanwhocodes/object-schema@npm:^2.0.3":
   version: 2.0.3
   resolution: "@humanwhocodes/object-schema@npm:2.0.3"
   checksum: 10c0/80520eabbfc2d32fe195a93557cef50dfe8c8905de447f022675aaf66abc33ae54098f5ea78548d925aa671cd4ab7c7daa5ad704fe42358c9b5e7db60f80696c
@@ -3294,6 +3294,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/react-native@npm:^12.7.2":
+  version: 12.7.2
+  resolution: "@testing-library/react-native@npm:12.7.2"
+  dependencies:
+    jest-matcher-utils: "npm:^29.7.0"
+    pretty-format: "npm:^29.7.0"
+    redent: "npm:^3.0.0"
+  peerDependencies:
+    jest: ">=28.0.0"
+    react: ">=16.8.0"
+    react-native: ">=0.59"
+    react-test-renderer: ">=16.8.0"
+  peerDependenciesMeta:
+    jest:
+      optional: true
+  checksum: 10c0/0e4e26bd211056646f8b5c80e9177efc90affe0ddc7e1a2c22742a4e6da7129ec1f9125c7d233adddeb27f429fb3eb91e3f3bfa9e77e176f042475574546b001
+  languageName: node
+  linkType: hard
+
 "@trysound/sax@npm:0.2.0":
   version: 0.2.0
   resolution: "@trysound/sax@npm:0.2.0"
@@ -3583,6 +3602,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jest@npm:^29.5.13":
+  version: 29.5.13
+  resolution: "@types/jest@npm:29.5.13"
+  dependencies:
+    expect: "npm:^29.0.0"
+    pretty-format: "npm:^29.0.0"
+  checksum: 10c0/9c31af0b155387b9860908830de63c6b79011d7c87c8b61b39da124e26e55423dd51b006749aafe4f0ef3a065016619a1f93ef4b055157d43727f448e67824b7
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.9":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -3634,9 +3663,9 @@ __metadata:
   linkType: hard
 
 "@types/prop-types@npm:*":
-  version: 15.7.12
-  resolution: "@types/prop-types@npm:15.7.12"
-  checksum: 10c0/1babcc7db6a1177779f8fde0ccc78d64d459906e6ef69a4ed4dd6339c920c2e05b074ee5a92120fe4e9d9f1a01c952f843ebd550bee2332fc2ef81d1706878f8
+  version: 15.7.13
+  resolution: "@types/prop-types@npm:15.7.13"
+  checksum: 10c0/1b20fc67281902c6743379960247bc161f3f0406ffc0df8e7058745a85ea1538612109db0406290512947f9632fe9e10e7337bf0ce6338a91d6c948df16a7c61
   languageName: node
   linkType: hard
 
@@ -3721,6 +3750,15 @@ __metadata:
   dependencies:
     redux: "npm:^5.0.0"
   checksum: 10c0/dcbddf89dbdf9ab3be1d49e987beb912f500a19f842b29b868a622a9fafbab7aa65ba75f5a8a3cecab1d9809fea8d761d0d81f9ee30b5ef8dac8d64ccf82efb4
+  languageName: node
+  linkType: hard
+
+"@types/redux-mock-store@npm:^1":
+  version: 1.0.6
+  resolution: "@types/redux-mock-store@npm:1.0.6"
+  dependencies:
+    redux: "npm:^4.0.5"
+  checksum: 10c0/26f3b5091f131e0bcd150e3a621f21dc1ba059352729ee4d5154812042ea0cf8d1ae2880263367e55222130db14ec912bfda0b7ca184413f4989959fd5a2a70b
   languageName: node
   linkType: hard
 
@@ -5610,9 +5648,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.4":
-  version: 1.5.23
-  resolution: "electron-to-chromium@npm:1.5.23"
-  checksum: 10c0/a2f76d3ffae24635ff13597a7e4ddd73bd7ee2124e021d34a60faafc5a1afda567e6d26c0c84abc5c2d7622d9daf9bb25ed7dd2970019dcf4b9a28c02c13cab4
+  version: 1.5.24
+  resolution: "electron-to-chromium@npm:1.5.24"
+  checksum: 10c0/c20a6fc69145c0b470778ee0a952226d3480d611949bea00c9f8ed3bac0a205e5cd8ba76cfa99034d9ee717482741cf1c7e41eb151ccffc933e1eefe501d3bc7
   languageName: node
   linkType: hard
 
@@ -6058,14 +6096,14 @@ __metadata:
   linkType: hard
 
 "eslint@npm:^8.19.0":
-  version: 8.57.0
-  resolution: "eslint@npm:8.57.0"
+  version: 8.57.1
+  resolution: "eslint@npm:8.57.1"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@eslint-community/regexpp": "npm:^4.6.1"
     "@eslint/eslintrc": "npm:^2.1.4"
-    "@eslint/js": "npm:8.57.0"
-    "@humanwhocodes/config-array": "npm:^0.11.14"
+    "@eslint/js": "npm:8.57.1"
+    "@humanwhocodes/config-array": "npm:^0.13.0"
     "@humanwhocodes/module-importer": "npm:^1.0.1"
     "@nodelib/fs.walk": "npm:^1.2.8"
     "@ungap/structured-clone": "npm:^1.2.0"
@@ -6101,7 +6139,7 @@ __metadata:
     text-table: "npm:^0.2.0"
   bin:
     eslint: bin/eslint.js
-  checksum: 10c0/00bb96fd2471039a312435a6776fe1fd557c056755eaa2b96093ef3a8508c92c8775d5f754768be6b1dddd09fdd3379ddb231eeb9b6c579ee17ea7d68000a529
+  checksum: 10c0/1fd31533086c1b72f86770a4d9d7058ee8b4643fd1cfd10c7aac1ecb8725698e88352a87805cf4b2ce890aa35947df4b4da9655fb7fdfa60dbb448a43f6ebcf1
   languageName: node
   linkType: hard
 
@@ -6218,7 +6256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect@npm:^29.7.0":
+"expect@npm:^29.0.0, expect@npm:^29.7.0":
   version: 29.7.0
   resolution: "expect@npm:29.7.0"
   dependencies:
@@ -8414,6 +8452,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isplainobject@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "lodash.isplainobject@npm:4.0.6"
+  checksum: 10c0/afd70b5c450d1e09f32a737bed06ff85b873ecd3d3d3400458725283e3f2e0bb6bf48e67dbe7a309eb371a822b16a26cca4a63c8c52db3fc7dc9d5f9dd324cbb
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -8454,7 +8499,9 @@ __metadata:
     "@react-navigation/stack": "npm:^6.3.16"
     "@reduxjs/toolkit": "npm:^1.9.3"
     "@rnmapbox/maps": "npm:^10.0.15"
+    "@testing-library/react-native": "npm:^12.7.2"
     "@tsconfig/react-native": "npm:^3.0.0"
+    "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^20.8.8"
     "@types/react": "npm:^18.2.6"
     "@types/react-dom": "npm:^18.0.9"
@@ -8464,6 +8511,7 @@ __metadata:
     "@types/react-redux": "npm:^7.1.24"
     "@types/react-test-renderer": "npm:^18.0.0"
     "@types/redux-logger": "npm:^3.0.9"
+    "@types/redux-mock-store": "npm:^1"
     axios: "npm:^1.7.4"
     babel-jest: "npm:^29.6.3"
     babel-plugin-module-resolver: "npm:^5.0.2"
@@ -8492,6 +8540,7 @@ __metadata:
     react-test-renderer: "npm:18.3.1"
     redux: "npm:^4.2.1"
     redux-logger: "npm:^3.0.6"
+    redux-mock-store: "npm:^1.5.4"
     redux-persist: "npm:^6.0.0"
     redux-thunk: "npm:^2.4.2"
     typescript: "npm:^5.0.4"
@@ -9049,6 +9098,13 @@ __metadata:
   version: 3.1.0
   resolution: "mimic-response@npm:3.1.0"
   checksum: 10c0/0d6f07ce6e03e9e4445bee655202153bdb8a98d67ee8dc965ac140900d7a2688343e6b4c9a72cfc9ef2f7944dfd76eef4ab2482eb7b293a68b84916bac735362
+  languageName: node
+  linkType: hard
+
+"min-indent@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "min-indent@npm:1.0.1"
+  checksum: 10c0/7e207bd5c20401b292de291f02913230cb1163abca162044f7db1d951fa245b174dc00869d40dd9a9f32a885ad6a5f3e767ee104cf278f399cb4e92d3f582d5c
   languageName: node
   linkType: hard
 
@@ -9873,7 +9929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^29.7.0":
+"pretty-format@npm:^29.0.0, pretty-format@npm:^29.7.0":
   version: 29.7.0
   resolution: "pretty-format@npm:29.7.0"
   dependencies:
@@ -10501,12 +10557,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redent@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redent@npm:3.0.0"
+  dependencies:
+    indent-string: "npm:^4.0.0"
+    strip-indent: "npm:^3.0.0"
+  checksum: 10c0/d64a6b5c0b50eb3ddce3ab770f866658a2b9998c678f797919ceb1b586bab9259b311407280bd80b804e2a7c7539b19238ae6a2a20c843f1a7fcff21d48c2eae
+  languageName: node
+  linkType: hard
+
 "redux-logger@npm:^3.0.6":
   version: 3.0.6
   resolution: "redux-logger@npm:3.0.6"
   dependencies:
     deep-diff: "npm:^0.3.5"
   checksum: 10c0/65eb71a1c72d9636368672a684bde62c746e64c19c8b92e3f00bdf5cf240ea1695eccb95a0fa3d5044f6a86cbf11fd35dc5150fd3351fa53c72721c336e9098f
+  languageName: node
+  linkType: hard
+
+"redux-mock-store@npm:^1.5.4":
+  version: 1.5.4
+  resolution: "redux-mock-store@npm:1.5.4"
+  dependencies:
+    lodash.isplainobject: "npm:^4.0.6"
+  checksum: 10c0/674fc7a68ffdb9a9ad50c9f987a2711387b1fc348a8ed3d07b7abd4d2560762347a9565cf9080e786d9f66012ff47f90bef244623c62136511d9b4f2411fb658
   languageName: node
   linkType: hard
 
@@ -10528,7 +10603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.0.0, redux@npm:^4.2.1":
+"redux@npm:^4.0.0, redux@npm:^4.0.5, redux@npm:^4.2.1":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -11508,6 +11583,15 @@ __metadata:
   version: 2.0.0
   resolution: "strip-final-newline@npm:2.0.0"
   checksum: 10c0/bddf8ccd47acd85c0e09ad7375409d81653f645fda13227a9d459642277c253d877b68f2e5e4d819fe75733b0e626bac7e954c04f3236f6d196f79c94fa4a96f
+  languageName: node
+  linkType: hard
+
+"strip-indent@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "strip-indent@npm:3.0.0"
+  dependencies:
+    min-indent: "npm:^1.0.0"
+  checksum: 10c0/ae0deaf41c8d1001c5d4fbe16cb553865c1863da4fae036683b474fa926af9fc121e155cb3fc57a68262b2ae7d5b8420aa752c97a6428c315d00efe2a3875679
   languageName: node
   linkType: hard
 

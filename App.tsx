@@ -34,6 +34,9 @@ import {logWithLocation} from 'helpers/logWithLocation';
 
 const RootStack = createNativeStackNavigator();
 
+// Remove ErrorBoundary in production
+import ErrorBoundary from './src/ErrorBoundary';
+
 const App = () => {
   logWithLocation('App Rendered');
   // Define selectors
@@ -120,7 +123,9 @@ export default () => {
     <NavigationContainer
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </NavigationContainer>
   );
 };
