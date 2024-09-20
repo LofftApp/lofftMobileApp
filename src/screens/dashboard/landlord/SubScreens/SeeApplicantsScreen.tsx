@@ -38,49 +38,6 @@ import {ApplicantWithSelected} from 'reduxFeatures/adverts/types';
 
 export const MAX_SELECT = 5;
 
-const testApplicants = [
-  {
-    id: 1,
-    name: 'John Doe',
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-  },
-  {
-    id: 3,
-    name: 'John Doe',
-  },
-  {
-    id: 4,
-    name: 'Jane Doe',
-  },
-  {
-    id: 5,
-    name: 'John Doe',
-  },
-  {
-    id: 6,
-    name: 'Jane Doe',
-  },
-  {
-    id: 7,
-    name: 'John Doe',
-  },
-  {
-    id: 8,
-    name: 'Jane Doe',
-  },
-  {
-    id: 9,
-    name: 'John Doe',
-  },
-  {
-    id: 10,
-    name: 'Jane Doe',
-  },
-];
-
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {id} = route.params;
   console.log('RRRRROOOOOOUUUUUUTTTTTTTEEEEE', route);
