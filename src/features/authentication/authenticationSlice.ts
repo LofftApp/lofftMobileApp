@@ -27,6 +27,7 @@ export const authenticationSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.authenticated = action.payload;
+        console.log('checkToken successfull');
       },
     );
     builder.addCase(signUp.pending, state => {
@@ -49,6 +50,7 @@ export const authenticationSlice = createSlice({
     builder.addCase(signIn.fulfilled, (state, action: PayloadAction<any>) => {
       state.loading = false;
       state.authenticated = true;
+      console.log('signIn successfull');
     });
     builder.addCase(signIn.rejected, state => {
       state.loading = false;
@@ -61,6 +63,7 @@ export const authenticationSlice = createSlice({
     builder.addCase(signOut.fulfilled, state => {
       state.loading = false;
       state.authenticated = false;
+      console.log('signOut successfull');
     });
     builder.addCase(signOut.rejected, state => {
       state.loading = false;

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+//Redux
+import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -7,47 +9,118 @@ import Collapsible from 'react-native-collapsible';
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Components
 import HighlightButtons from 'components/containers/HighlightButtons';
-import FlatInfoContainer from 'components/containers/FlatInfoContainer';
-import StatusBar from 'components/statusbar/StatusBarComponent';
+import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
+import StatusBarComponent from 'components/statusbar/StatusBarComponent';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
+import {useAppSelector} from 'reduxCore/hooks';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
-  const {advert} = route.params;
+  const {id} = route.params;
+  const currentUser = useAppSelector(state => state.user.user);
+  const isLessor = currentUser.userType === 'lessor';
+  console.log('isLessor>>>>>>>>>>>>>>>', currentUser.userType, isLessor);
 
-  const [hasCollapsed, setHasCollapsed] = useState(true);
+  const {
+    data: application,
+    isLoading: applicationIsLoading,
+    error: applicationError,
+  } = useGetApplicationByIdQuery(id, {skip: isLessor});
 
+  const {
+    data: _advert,
+    error: advertError,
+    isLoading: advertIsLoading,
+  } = useGetAdvertByIdQuery(id, {skip: !isLessor});
+
+  console.log('application in show ', application);
+  console.log('advert in show ', _advert);
+  const advert = isLessor ? _advert : application?.advert;
+
+  const [collapsed, setCollapsed] = useState(false);
+  const toggleExpand = () => {
+    setCollapsed(prev => !prev);
+  };
+  if (applicationIsLoading || advertIsLoading) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
+  if (applicationError || advertError) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>
+            There was an error getting this application
+          </Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
   return (
-    <View style={styles.pageWrapper}>
+    <View style={styles.pageContainer}>
       <HighlightButtons
-        heartPresent={!advert.lessor}
-        color={advert.lessor ? Color.Lavendar[100] : Color.Mint[100]}
+        heartPresent={!advert?.lessor}
+        color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
       />
       <LofftHeaderPhoto
         imageContainerHeight={300}
-        images={advert.flat.photos ?? []}
+        images={advert?.flat.photos ?? []}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
-        <View style={[styles.maincontainer]}>
-          <StatusBar advert={advert} />
-          <Text
-            onPress={() => setHasCollapsed(!hasCollapsed)}
-            style={[fontStyles.bodyMedium, styles.seeMoreLessButton]}>
-            {hasCollapsed ? 'see more' : 'see less'}
-          </Text>
+        <View style={styles.maincontainer}>
+          <StatusBarComponent
+            application={application}
+            _advert={advert}
+            isLessor={isLessor}
+          />
 
-          <Collapsible collapsed={hasCollapsed} duration={300}>
-            <FlatInfoContainer advert={advert} button={false} />
+          <View style={styles.seeMoreContainer}>
+            <Text
+              onPress={toggleExpand}
+              style={[fontStyles.bodySmall, styles.seeMore]}>
+              {collapsed ? 'See less' : 'See more'}
+            </Text>
+            {collapsed ? (
+              <>
+                <LofftIcon
+                  name="chevron-up"
+                  size={25}
+                  color={Color.Blue[100]}
+                />
+              </>
+            ) : (
+              <>
+                <LofftIcon
+                  name="chevron-down"
+                  size={25}
+                  color={Color.Blue[100]}
+                />
+              </>
+            )}
+          </View>
+
+          <Collapsible collapsed={!collapsed} duration={300}>
+            {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
         </View>
       </ScrollView>
@@ -56,7 +129,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
 };
 
 const styles = StyleSheet.create({
-  pageWrapper: {
+  pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
   },
@@ -67,12 +140,25 @@ const styles = StyleSheet.create({
   },
   maincontainer: {
     width: '100%',
+    alignContent: 'center',
   },
-  seeMoreLessButton: {
+  seeMore: {
     color: Color.Blue[100],
     alignSelf: 'flex-end',
+    marginHorizontal: size(10),
+    marginBottom: size(2),
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  seeMoreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     marginRight: size(10),
-    marginBottom: size(10),
+    paddingBottom: size(10),
   },
 });
 

@@ -24,7 +24,8 @@
       "persistance/*": ["./persistance/*"],
       // Core Redux files
       "reduxCore/*": ["./app/*"]
-    }
+    },
+    "types": ["jest", "node"]
   },
   "typeRoots": ["./types"]
 }
