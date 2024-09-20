@@ -5,6 +5,7 @@ import FlatShowScreen from 'screens/dashboard/renter/FlatShowScreen';
 import ApplyForFlatScreen from 'screens/dashboard/renter/ApplyForFlatScreen';
 import ApplicationShowScreen from 'screens/dashboard/renter/ApplicationShowScreen';
 import {SearchStackParamsList} from './types';
+import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
 
 const FlatFind = createNativeStackNavigator<SearchStackParamsList>();
 const FlatSearchNavigator = () => {
@@ -17,6 +18,7 @@ const FlatSearchNavigator = () => {
         name="applicationshow"
         component={ApplicationShowScreen}
       />
+      <FlatFind.Screen name="chat" component={LessorChatScreen} />
     </FlatFind.Navigator>
   );
 };

@@ -17,7 +17,7 @@ import type {CompleteProfilePopUpModalProps} from './types';
 
 const CompleteProfilePopUpModal = ({
   openModal,
-  setModalState,
+  setIsModalOpen,
   profileNotDoneObject,
 }: CompleteProfilePopUpModalProps) => {
   return (
@@ -31,7 +31,7 @@ const CompleteProfilePopUpModal = ({
             <Pressable
               style={styles.pressableStyle}
               onPress={() => {
-                setModalState(false);
+                setIsModalOpen(false);
               }}>
               <CrossIcon />
             </Pressable>
@@ -55,7 +55,7 @@ const CompleteProfilePopUpModal = ({
             disabled={false}
             invert={true}
             onPress={() => {
-              setModalState(false);
+              setIsModalOpen(false);
             }}
           />
         </View>

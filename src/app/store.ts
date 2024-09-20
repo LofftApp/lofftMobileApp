@@ -1,7 +1,6 @@
 import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import {
   persistReducer,
-  persistStore,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -18,11 +17,13 @@ import imageUploadReducer from 'reduxFeatures/imageHandling/userImageUploadSlice
 import userReducer from 'reduxFeatures/user/usersSlice';
 import flatsReducer from 'reduxFeatures/flat/flatsSlice';
 import advertReducer from 'reduxFeatures/adverts/advertSlice';
+import {lofftApi} from 'reduxFeatures/api/lofftApi';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   version: 1,
+  blacklist: [lofftApi.reducerPath, advertReducer.name],
 };
 
 const reducers = combineReducers({
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   user: userReducer,
   flats: flatsReducer,
   adverts: advertReducer,
+  [lofftApi.reducerPath]: lofftApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -43,7 +45,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    });
+    }).concat(lofftApi.middleware);
   },
 });
 
