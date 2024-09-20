@@ -30,8 +30,6 @@ import {StatusBarNavigationProp} from './types';
 const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const {status} = advert;
 
-  console.log('status 🚀 🚀 🚀', status);
-
   const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();

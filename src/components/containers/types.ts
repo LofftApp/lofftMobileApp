@@ -1,10 +1,3 @@
-import {Advert} from 'reduxFeatures/adverts/types';
-
-type FlatInfoContainerProps = {
-  advert: Advert;
-  button: boolean;
-};
-
 type HighlightButtonsProps = {
   goBack?: boolean;
   heartPresent?: boolean;
@@ -13,4 +6,4 @@ type HighlightButtonsProps = {
   onPressHeart?: () => void;
 };
 
-export type {FlatInfoContainerProps, HighlightButtonsProps};
+export type {HighlightButtonsProps};

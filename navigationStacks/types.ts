@@ -40,8 +40,8 @@ type LanguageStackParamsList = {
 type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
-  flatShow: {advert: Advert};
-  applyforflat: {advert: Advert};
+  flatShow: {id: number | null};
+  applyforflat: {id: number | null};
   applicationshow: {advert: Advert};
 };
 

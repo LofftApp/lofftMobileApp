@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -9,8 +9,18 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 // Types 🏷️
 import {ApplyForFlatScreenProp} from './types';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
-const ApplyForFlatScreen = ({navigation}: ApplyForFlatScreenProp) => {
+
+const ApplyForFlatScreen = ({navigation, route}: ApplyForFlatScreenProp) => {
+  const {id} = route.params;
+
+
+
+  const adverts = useAppSelector(state => state.adverts.adverts);
+
+  const advert = adverts.find(el => el.id === id);
+
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       {/* <ApplyForFlatScreenBackground style={styles.backgroundImage} /> */}
@@ -28,7 +38,7 @@ const ApplyForFlatScreen = ({navigation}: ApplyForFlatScreenProp) => {
             style={styles.buttonStyle}
             value={'See all applications'}
             // "navigation 'alerts' has no payload"
-            onPress={() => navigation.navigate('alerts')}
+            onPress={() => navigation.navigate('favorite')}
           />
           <CoreButton
             style={styles.buttonStyle}

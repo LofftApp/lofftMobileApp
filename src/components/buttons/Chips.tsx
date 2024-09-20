@@ -4,13 +4,9 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 import type {ChipsProps} from './types';
+import {size} from 'react-native-responsive-sizes';
 
-const Chips = ({
-  tags,
-  emoji = false,
-  positive = true,
-  features,
-}: ChipsProps) => {
+const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
@@ -35,7 +31,7 @@ const Chips = ({
             </View>
           );
         })}
-        {tags && tags.length > 2 && (
+        {tags && tags.length > 2 && !expand && (
           <View
             style={[
               styles.chip,
@@ -46,10 +42,33 @@ const Chips = ({
                 fontStyles.bodySmall,
                 features ? styles.featureTagFont : styles.characteristicTagFont,
               ]}>
-              +{tags.slice(1, -1).length}
+              +{tags?.slice(1, -1).length}
             </Text>
           </View>
         )}
+
+        {expand &&
+          tags?.slice(2).map((tag, index: number) => {
+            return (
+              <View
+                style={[
+                  styles.chip,
+                  features ? styles.featureTag : styles.characteristicTag,
+                ]}
+                key={index}>
+                {emoji && <Text>{tag?.emoji}</Text>}
+                <Text
+                  style={[
+                    fontStyles.bodySmall,
+                    features
+                      ? styles.featureTagFont
+                      : styles.characteristicTagFont,
+                  ]}>
+                  {tag?.name}
+                </Text>
+              </View>
+            );
+          })}
       </View>
     </View>
   );
@@ -61,17 +80,18 @@ const styles = StyleSheet.create({
   },
   chipsWrap: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     paddingVertical: 4,
+    alignItems: 'center',
   },
   chip: {
     flexDirection: 'row',
-    height: 'auto',
-    width: 'auto',
     paddingHorizontal: 8,
     paddingVertical: 4,
     alignSelf: 'flex-start',
     borderRadius: 8,
-    marginRight: 4,
+    marginRight: size(8),
+    marginBottom: size(8),
   },
   featureTag: {
     backgroundColor: Color.Blue[10],
@@ -84,6 +104,11 @@ const styles = StyleSheet.create({
   },
   characteristicTagFont: {
     color: Color.Lavendar[100],
+  },
+  seeReadLess: {
+    color: Color.Blue[100],
+    marginLeft: 'auto',
+    marginRight: size(10),
   },
 });
 
