@@ -29,19 +29,19 @@ const ApplicantCard = ({
   selectProfile,
   applicant,
 }: ApplicantCardProps) => {
-  const {id, email: name, selected} = applicant;
+  const {id, email: name} = applicant.applicant;
+  const selected = applicant.selected;
+  console.log('applicat 🚨', applicant.selected);
+  console.log('CurrentSelectedNUMS 🚖', currentSelectedNums);
 
-  const [activateBox, setActiveBox] = useState(selected);
   const [accordion, setAccordion] = useState(false);
 
-  const checkClick = () => {
+  const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT) {
-      if (activateBox) {
-        setActiveBox(false);
+      if (selected) {
         selectProfile(id);
       }
     } else {
-      setActiveBox(!activateBox);
       selectProfile(id);
     }
   };
@@ -55,7 +55,11 @@ const ApplicantCard = ({
   return (
     <View style={[styles.outterContainer, {width: width - 20}]}>
       <View style={[styles.innerContainer]}>
-        <CheckBox value={activateBox} onPress={() => checkClick()} />
+        <CheckBox
+          value={selected}
+          disabled={!selected && currentSelectedNums >= MAX_SELECT}
+          onPress={() => toggleCheckbox()}
+        />
         <View style={styles.details}>
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
             {name?.split('')[0].toUpperCase()}.

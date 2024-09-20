@@ -4,22 +4,15 @@ import {View, StyleSheet, FlatList, StatusBar, ViewToken} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
-// Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
-
 // Components 🪢
 import MapViewFlatCard from 'components/cards/MapViewFlatCard';
 import MapMarker from 'components/Maps/MapMarker';
 
 // Types 🏷️
-import {Advert, AdvertState} from 'reduxFeatures/adverts/types';
+import {Advert} from 'reduxFeatures/adverts/types';
 import {AdvertWithCoordinates} from './types';
 
-const AdvertMap = () => {
-  const adverts = useAppSelector(
-    // States
-    (state: {adverts: AdvertState}) => state.adverts.adverts,
-  );
+const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [mapboxAdverts, setMapboxAdverts] = useState<AdvertWithCoordinates[]>(
     [],
@@ -76,7 +69,7 @@ const AdvertMap = () => {
             centerCoordinate={coordinateViewConverter(
               mapboxAdverts[selectedIndex]?.coordinates,
             )}
-            animationMode="flyTo"
+            // animationMode="flyTo"
           />
           {mapboxAdverts.map((el: AdvertWithCoordinates, index: number) => (
             <MapboxGL.MarkerView
@@ -95,8 +88,8 @@ const AdvertMap = () => {
               pagingEnabled
               showsHorizontalScrollIndicator={false}
               onViewableItemsChanged={onViewRef.current}
-              renderItem={({item, index}) => (
-                <MapViewFlatCard advert={item} key={index} />
+              renderItem={({item}) => (
+                <MapViewFlatCard advert={item} key={item.id} />
               )}
             />
           )}

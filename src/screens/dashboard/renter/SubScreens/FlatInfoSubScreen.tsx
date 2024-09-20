@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
@@ -21,6 +21,7 @@ import {UserState} from 'reduxFeatures/user/types';
 import {tagSorter} from 'helpers/tagSorter';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {Advert} from 'reduxFeatures/adverts/types';
+import Collapsible from 'react-native-collapsible';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
@@ -63,9 +64,15 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const negativeFeaturesTags = featuresTags.negativeTags;
 
   const maxDescriptionLength = 100;
-  const displayDescription = descriptionExpanded
-    ? advert.flat.description
-    : truncateTextAtWord(advert.flat.description, maxDescriptionLength);
+  const truncatedDescription = truncateTextAtWord(
+    advert.flat.description,
+    maxDescriptionLength,
+  );
+  const hiddenDescription = advert.flat.description.slice(
+    truncatedDescription.length,
+  );
+  const isTruncated =
+    advert.flat.description.length > truncatedDescription.length;
 
   return (
     <View style={styles.centralizerContainer}>
@@ -114,11 +121,15 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
         </View>
         <View style={styles.descriptionMargin}>
           <Text style={{color: Color.Black[80]}}>
-            {displayDescription}
-            {!descriptionExpanded &&
-              advert.flat.description.length > maxDescriptionLength &&
-              '...'}
+            {truncatedDescription}
+            {!descriptionExpanded && isTruncated && '...'}
           </Text>
+
+          {isTruncated && (
+            <Collapsible collapsed={!descriptionExpanded} duration={300}>
+              <Text style={{color: Color.Black[80]}}>{hiddenDescription}</Text>
+            </Collapsible>
+          )}
 
           {advert.flat.description &&
             advert.flat.description.length > maxDescriptionLength && (
@@ -140,10 +151,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Features */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Flat Characteristics</Text>
-              <View style={styles.seeMoreContainer}>
-                <Text
-                  style={[fontStyles.bodySmall, styles.seeMore]}
-                  onPress={toggleFlatCharExpand}>
+              <Pressable
+                onPress={toggleFlatCharExpand}
+                style={styles.seeMoreContainer}>
+                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
                   {flatCharExpand ? 'See less' : 'See more'}
                 </Text>
                 {flatCharExpand ? (
@@ -163,7 +174,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
                     />
                   </>
                 )}
-              </View>
+              </Pressable>
             </View>
             <Chips
               tags={positiveFeaturesTags}
@@ -185,10 +196,11 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Match with you */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Match with you</Text>
-              <View style={styles.seeMoreContainer}>
-                <Text
-                  style={[fontStyles.bodySmall, styles.seeMore]}
-                  onPress={toggleMatchExpand}>
+
+              <Pressable
+                onPress={toggleMatchExpand}
+                style={styles.seeMoreContainer}>
+                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
                   {matchExpand ? 'See less' : 'See more'}
                 </Text>
                 {matchExpand ? (
@@ -208,8 +220,9 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
                     />
                   </>
                 )}
-              </View>
+              </Pressable>
             </View>
+
             <View style={styles.matchWithYouContainer}>
               <Chips
                 tags={positiveFeaturesTags}
@@ -230,10 +243,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Other */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Other</Text>
-              <View style={styles.seeMoreContainer}>
-                <Text
-                  onPress={toggleOtherExpand}
-                  style={[fontStyles.bodySmall, styles.seeMore]}>
+              <Pressable
+                onPress={toggleOtherExpand}
+                style={styles.seeMoreContainer}>
+                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
                   {otherExpand ? 'See less' : 'See more'}
                 </Text>
                 {otherExpand ? (
@@ -253,7 +266,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
                     />
                   </>
                 )}
-              </View>
+              </Pressable>
             </View>
 
             <View style={styles.matchWithYouContainer}>

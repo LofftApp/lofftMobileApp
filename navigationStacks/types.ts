@@ -29,15 +29,17 @@ type newUserNavigationParamsList = {
 
 type FavoriteStackParamsList = {
   favorite: undefined;
-  applicationshow: {advert: Advert; active?: boolean} | {advert: Advert};
+  applicationshow: {id: number};
+  chat: undefined;
 };
 
 type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
-  flatShow: {id: number | null};
-  applyforflat: {id: number | null};
-  applicationshow: {advert: Advert};
+  flatShow: {id: number};
+  applyforflat: {id: number};
+  applicationshow: {id: number};
+  chat: undefined;
 };
 
 type FavoriteScreenNavigationProp = CompositeNavigationProp<
@@ -62,8 +64,8 @@ type LessorTabParamsList = {
 type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
-  applicationshow: {advert: Advert};
-  allApplicants: {advert: Advert};
+  applicationshow: {id: number};
+  allApplicants: {id: number};
   shortlist: {
     secondRoundApplicants: AdvertApplicantWithSelected[];
     currentAdvert: Advert;
@@ -74,6 +76,7 @@ type LessorNavigatorStackParamsList = {
     secondRoundProfile: SecondRoundApplicantWithSelected;
     currentAdvert: Advert;
   };
+  chat: undefined;
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<

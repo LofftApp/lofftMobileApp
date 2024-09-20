@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
 
 // Redux 🏪
-import {useAppDispatch} from 'reduxCore/hooks';
-import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Helper 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -20,29 +19,46 @@ import SearchFilterModal from 'components/modals/SearchFilterModal';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🏷️
 
 const FlatFindScreen = () => {
+  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
+
   const [openModal, setOpenModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortedFlats, setSortedFlats] = useState([]);
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAdverts());
-  }, [dispatch]);
-
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
 
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={[styles.pageContainer, styles.loadingErrorContainer]}>
+        <Text style={fontStyles.headerSmall}>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView
+        style={[styles.pageContainer, styles.loadingErrorContainer]}>
+        <Text style={fontStyles.headerSmall}>
+          {'There was an error getting advert'}
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.searchContainer}>
+      <SafeAreaView style={styles.searchContainer}>
         <InputFieldText
           type="search"
           onChangeText={t => setSearch(t)}
@@ -53,7 +69,7 @@ const FlatFindScreen = () => {
           style={styles.inputField}
         />
         <FilterButton onPress={() => setOpenModal(true)} />
-      </View>
+      </SafeAreaView>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
         toggleIcons={['list', 'map']}
@@ -62,7 +78,11 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       <View style={styles.viewContainer}>
-        {screen === 'list' ? <FlatListSubScreen /> : <AdvertMap />}
+        {screen === 'list' ? (
+          <FlatListSubScreen adverts={adverts ?? []} />
+        ) : (
+          <AdvertMap adverts={adverts ?? []} />
+        )}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </View>
@@ -81,9 +101,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    paddingHorizontal: size(16),
     flexDirection: 'row',
-    marginTop: size(68), // Needs to be added to core view file, though not working when built
+    marginHorizontal: size(20),
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

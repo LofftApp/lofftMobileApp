@@ -16,43 +16,48 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // helpers 🧰
-import {advertStatusIndex} from 'helpers/advertStatusIndex';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
 import type {ListFlatApplicationCardProps} from './types';
 
 // Types
-import {FavoriteScreenNavigationProp} from '../../../navigationStacks/types';
+import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
+//if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
-  advert,
-  isLessor = false,
+  application,
+  _advert,
+  isLessor,
 }: ListFlatApplicationCardProps) => {
-  const {flat, status, price, id, favorite} = advert;
-  const {photos, city, district} = flat;
+  const advert = isLessor ? _advert : application?.advert;
+  console.log('advertXXXXXXXXXXXXXX', application?.advert);
+  console.log('_advert', _advert);
+  console.log('isLessor', isLessor);
 
-  const [active] = useState(!['offered', 'closed'].includes(status ?? ''));
+  const dispatch = useAppDispatch();
+
+  const navigation = useNavigation<SearchScreenNavigationProp>();
+
+  const [active] = useState(
+    !['offered', 'closed'].includes(application?.status ?? ''),
+  );
   const [renterActiveStatus] = useState([
     'Applied',
     'In review',
     'Viewing',
     'Offer',
   ]);
-
   const [lessorActiveStatus] = useState([
     'Received',
     'Review',
     'Viewing',
     'Offer',
   ]);
-
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
-
-  const navigation = useNavigation<FavoriteScreenNavigationProp>();
-
-  let textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
   const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
@@ -76,76 +81,78 @@ const ListFlatApplicationCard = ({
   };
 
   useEffect(() => {
-    const index = advertStatusIndex(status ?? '');
+    const index = applicationStatusIndex(application?.status ?? '');
     calculateStatusBar(index);
-  }, [status]);
+  }, [application?.status]);
 
-  const dispatch = useAppDispatch();
+  const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
   return (
     <View style={styles.advertCardContainer}>
-      <Pressable
-        onPress={() =>
-          navigation.navigate('applicationshow', {
-            advert,
-          })
-        }>
-        <View>
-          <View style={styles.advertCardImage}>
-            <LofftHeaderPhoto
-              imageContainerHeight={size(300)}
-              images={photos ?? []}
-            />
-          </View>
-          <View style={styles.advertCardButtonsOverlay}>
-            <View style={styles.advertCardbuttonsWrap}>
-              {!isLessor && (
-                <View>
-                  <Pressable
-                    style={styles.advertCardSaveButton}
-                    onPress={() => {
-                      // toggleFavorite error status 401 👇
-                      dispatch(toggleFavorite(id ?? 0));
-                    }}>
-                    {favorite ? (
-                      <LofftIcon
-                        name="heart-filled"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    ) : (
-                      <LofftIcon
-                        name="heart"
-                        size={25}
-                        color={Color.Tomato[100]}
-                      />
-                    )}
-                  </Pressable>
-                </View>
-              )}
-            </View>
-          </View>
+      <View>
+        <View style={styles.advertCardImage}>
+          <LofftHeaderPhoto
+            imageContainerHeight={size(300)}
+            images={advert?.flat.photos ?? []}
+          />
         </View>
-      </Pressable>
-      <View style={styles.metaDataContainer}>
-        <View>
-          <Text style={fontStyles.headerSmall}>
-            {price}€ {''} {''}
-          </Text>
-          <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {district}, {city}
-          </Text>
-        </View>
-        <View>
-          <Text
-            style={[
-              fontStyles.bodySmall,
-              {color: isLessor ? Color.Black[50] : Color.Mint[100]},
-            ]}>
-            {isLessor ? 'Posted on 12.03.23' : 'Applied on 14.04.23'}
-          </Text>
+        <View style={styles.advertCardButtonsOverlay}>
+          <View style={styles.advertCardbuttonsWrap}>
+            {!isLessor && (
+              <View>
+                <Pressable
+                  style={styles.advertCardSaveButton}
+                  onPress={() => {
+                    dispatch(toggleFavorite(advert?.id ?? 0));
+                  }}>
+                  {advert?.favorite ? (
+                    <LofftIcon
+                      name="heart-filled"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  ) : (
+                    <LofftIcon
+                      name="heart"
+                      size={25}
+                      color={Color.Tomato[100]}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            )}
+          </View>
         </View>
       </View>
+
+      <View style={styles.metaDataContainer}>
+        <Text style={[fontStyles.headerSmall]}>{advert?.monthlyRent} €</Text>
+        <Text style={[fontStyles.headerSmall]}>
+          {advert?.flat.size} {advert?.flat.measurementUnit}
+        </Text>
+        <Text
+          style={[
+            fontStyles.bodySmall,
+            {color: isLessor ? Color.Black[50] : Color.Mint[100]},
+          ]}>
+          {isLessor
+            ? `Posted on ${dateFormatConverter({
+                date: advert?.createdAt ?? '',
+              })}`
+            : `Applied on ${dateFormatConverter({
+                date: application?.createdAt ?? '',
+              })}`}
+        </Text>
+      </View>
+
+      <View style={styles.locationContainer}>
+        {advert?.flat.district && (
+          <Text style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+            {advert?.flat.district}, {advert?.flat.city}
+          </Text>
+        )}
+      </View>
+
       {isLessor && (
         <View style={styles.timeWrapper}>
           <LofftIcon size={20} name="alarm-clock" color={Color.Tomato[100]} />
@@ -154,6 +161,7 @@ const ListFlatApplicationCard = ({
           </Text>
         </View>
       )}
+
       <View>
         <View
           style={[
@@ -170,21 +178,23 @@ const ListFlatApplicationCard = ({
             ]}
           />
         </View>
+
         <View style={styles.statusContainer}>
-          {textForStatusBar.map((el, index) => (
+          {textForStatusBar.map(el => (
             <Text
               style={
                 el === textForStatusBar[activeStage]
                   ? styles.active
                   : styles.inactive
               }
-              key={index + 1}>
+              key={el}>
               {el}
             </Text>
           ))}
         </View>
       </View>
-      {isLessor && (
+
+      {isLessor ? (
         <View style={styles.buttonContainer}>
           <CoreButton value="Edit listing" invert style={styles.button} />
           <CoreButton
@@ -192,9 +202,18 @@ const ListFlatApplicationCard = ({
             style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
-                advert: advert,
-                active: active,
+                id: advert?.id ?? 0,
               })
+            }
+          />
+        </View>
+      ) : (
+        <View>
+          <CoreButton
+            invert
+            value="View Application"
+            onPress={() =>
+              navigation.navigate('applicationshow', {id: application?.id ?? 0})
             }
           />
         </View>
@@ -206,8 +225,7 @@ const ListFlatApplicationCard = ({
 const styles = StyleSheet.create({
   advertCardContainer: {
     flex: 1,
-    paddingBottom: size(8),
-    marginBottom: size(16),
+    marginBottom: size(18),
   },
   advertCardImage: {
     width: '100%',
@@ -245,7 +263,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: size(8),
+    alignItems: 'center',
+    marginTop: size(10),
   },
   flatLocation: {
     color: Color.Black['50'],
@@ -283,121 +302,13 @@ const styles = StyleSheet.create({
     marginTop: size(2),
     marginLeft: size(7),
   },
+  flatCardMetadataLocation: {
+    color: Color.Black[50],
+  },
+  locationContainer: {
+    marginTop: size(5),
+    marginBottom: size(10),
+  },
 });
 
 export default ListFlatApplicationCard;
-
-// import React, {useState, useCallback} from 'react';
-// import {View, Text, StyleSheet, Pressable} from 'react-native';
-
-// // Redux 🏗️
-// import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-
-// // Components 🪢
-// import {CoreButton} from 'components/buttons/CoreButton';
-// import Chips from 'components/buttons/Chips';
-
-// // StyleSheet 🖼️
-// import Color from 'styleSheets/lofftColorPallet.json';
-// import {fontStyles} from 'styleSheets/fontStyles';
-// import Collapsible from 'react-native-collapsible';
-// import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
-
-// // Assets 🪴
-// import LofftIcon from 'components/lofftIcons/LofftIcon';
-
-// const ApplicantsCard = ({}: any) => {
-//   const [activateBox, setActiveBox] = useState(false);
-//   const [hasCollapsed, setHasCollapsed] = useState(true);
-
-//   return (
-//     <View style={styles.mainContainer}>
-//       <View style={styles.insideContainer}>
-//         <CheckBox
-//           value={activateBox}
-//           onPress={() => {
-//             setActiveBox(!activateBox);
-//           }}
-//         />
-//         <Pressable
-//           onPress={() => setHasCollapsed(!hasCollapsed)}
-//           style={styles.iconCollapser}>
-//           <View style={styles.closedCardWrapper}>
-//             <View style={styles.textContainer}>
-//               <Text style={fontStyles.headerMedium}>J.</Text>
-//               <Text style={[fontStyles.bodyMedium, styles.matchText]}>
-//                 (96%match)
-//               </Text>
-//             </View>
-//             {hasCollapsed ? (
-//               <LofftIcon
-//                 name="chevron-down"
-//                 size={24}
-//                 style={styles.iconColor}
-//               />
-//             ) : (
-//               <LofftIcon name="chevron-up" size={24} style={styles.iconColor} />
-//             )}
-//           </View>
-//         </Pressable>
-//       </View>
-//       <Collapsible collapsed={hasCollapsed}>
-//         <View style={styles.collapisbleContainer}>
-//           <Text style={fontStyles.headerSmall}>Match with you</Text>
-//           {/* <Chips /> */}
-//           <Text>Hello</Text>
-//           <Text style={[fontStyles.headerSmall, styles.otherText]}>Other</Text>
-//           {/* <Chips /> */}
-//         </View>
-//       </Collapsible>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   mainContainer: {
-//     marginVertical: 8,
-//     backgroundColor: Color.Lavendar[5],
-//     flex: 1,
-//     width: '100%',
-//     paddingHorizontal: 16,
-//     borderRadius: 8,
-//   },
-//   insideContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     width: '100%',
-//     justifyContent: 'space-between',
-//   },
-//   collapisbleContainer: {
-//     backgroundColor: Color.Lavendar[5],
-//     paddingBottom: 12,
-//   },
-//   closedCardWrapper: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     paddingVertical: 16,
-//     alignItems: 'center',
-//     paddingHorizontal: 16,
-//     width: '87%',
-//   },
-//   textContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//   },
-//   matchText: {
-//     color: Color.Mint[100],
-//     paddingHorizontal: 8,
-//   },
-//   otherText: {
-//     paddingTop: 10,
-//   },
-//   iconCollapser: {
-//     paddingHorizontal: 16,
-//   },
-//   iconColor: {
-//     color: Color.Blue[100],
-//   },
-// });
-
-// export default ApplicantsCard;

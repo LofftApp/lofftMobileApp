@@ -28,6 +28,7 @@ type ChipsProps = {
   emoji?: boolean;
   features?: boolean;
   expand?: boolean;
+  xs?: boolean;
 };
 
 type FilterButtonProps = {

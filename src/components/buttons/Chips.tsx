@@ -5,23 +5,24 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 import type {ChipsProps} from './types';
 import {size} from 'react-native-responsive-sizes';
+import Collapsible from 'react-native-collapsible';
 
-const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
+const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
-        {tags?.slice(0, 2).map((tag, index: number) => {
+        {tags.slice(0, 2).map((tag, index) => {
           return (
             <View
               style={[
                 styles.chip,
                 features ? styles.featureTag : styles.characteristicTag,
               ]}
-              key={index}>
+              key={tag?.emoji + index.toString()}>
               {emoji && <Text>{tag?.emoji}</Text>}
               <Text
                 style={[
-                  fontStyles.bodySmall,
+                  xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
                   features
                     ? styles.featureTagFont
                     : styles.characteristicTagFont,
@@ -39,7 +40,7 @@ const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
             ]}>
             <Text
               style={[
-                fontStyles.bodySmall,
+                xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
                 features ? styles.featureTagFont : styles.characteristicTagFont,
               ]}>
               +{tags?.slice(1, -1).length}
@@ -47,15 +48,17 @@ const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
           </View>
         )}
 
-        {expand &&
-          tags?.slice(2).map((tag, index: number) => {
-            return (
+        {tags.slice(2).map((tag, index) => {
+          return (
+            <Collapsible
+              key={tag?.emoji + index.toString()}
+              collapsed={!expand}
+              duration={300}>
               <View
                 style={[
                   styles.chip,
                   features ? styles.featureTag : styles.characteristicTag,
-                ]}
-                key={index}>
+                ]}>
                 {emoji && <Text>{tag?.emoji}</Text>}
                 <Text
                   style={[
@@ -67,8 +70,9 @@ const Chips = ({tags, emoji = false, features, expand}: ChipsProps) => {
                   {tag?.name}
                 </Text>
               </View>
-            );
-          })}
+            </Collapsible>
+          );
+        })}
       </View>
     </View>
   );

@@ -50,4 +50,9 @@ export const fontStyles = StyleSheet.create({
     color: color.Black[100],
     fontSize: fontSize(14),
   },
+  bodyExtraSmall: {
+    fontFamily: InterRegular,
+    color: color.Black[100],
+    fontSize: fontSize(12),
+  },
 });

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   Text,
@@ -31,51 +31,70 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import {size} from 'react-native-responsive-sizes';
 
 // Types
-import type {
-  AdvertApplicantWithSelected,
-  SeeApplicantsScreenProp,
-} from './types';
+import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {ApplicantWithSelected} from 'reduxFeatures/adverts/types';
 
 export const MAX_SELECT = 5;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
-  const {advert} = route.params;
+  const {id} = route.params;
+  console.log('RRRRROOOOOOUUUUUUTTTTTTTEEEEE', route);
 
-  const applicantsWithSelected = advert.applicants?.map(applicant => {
-    return {...applicant, selected: false};
-  });
+  const {data, error, isLoading} = useSeeApplicationsByAdvertIdQuery(id);
+  console.log('SEE APPLICSANTS BY ADVERT ID +++++++++', data);
+  const advert = data?.advert;
 
   const [applicants, setApplicants] = useState<
-    AdvertApplicantWithSelected[] | undefined
-  >(applicantsWithSelected);
+    ApplicantWithSelected[] | undefined
+  >([]);
 
-  const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
-    [],
-  );
+  console.log('applicants state🛞🚲 ', applicants);
+
+  useEffect(() => {
+    if (data) {
+      console.log('useEffect data runnnnnnn');
+      setApplicants(advert?.applicants);
+    }
+  }, [advert?.applicants, data]);
+
+  const [finalRound, setFinalRound] = useState<ApplicantWithSelected[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const dispatch = useAppDispatch();
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
   const selectProfile = (id: number | null) => {
-    // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
-    const updatedProfiles = applicants?.map(el => {
-      if (el.id === id) {
+    const updatedProfiles = applicants?.map(applicant => {
+      if (applicant.applicant.id === id) {
         return {
-          ...el,
-          selected: !el.selected,
+          ...applicant,
+          selected: !applicant.selected,
         };
       } else {
-        return el;
+        return applicant;
       }
     });
 
     setApplicants(updatedProfiles);
 
     const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
+
     setFinalRound(selectedProfilesOnly ?? []);
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.pageWrapper}>
+        <SafeAreaView>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageWrapper}>
@@ -94,14 +113,17 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {applicants?.map((el, index) => (
-            <ApplicantCard
-              key={index + 1}
-              selectProfile={selectProfile}
-              currentSelectedNums={finalRound.length}
-              applicant={el}
-            />
-          ))}
+          {applicants?.map(applicant => {
+            console.log('applicant🚨((((((🚨🚨', applicant.selected);
+            return (
+              <ApplicantCard
+                key={applicant.applicant.id}
+                selectProfile={selectProfile}
+                currentSelectedNums={finalRound.length}
+                applicant={applicant}
+              />
+            );
+          })}
         </ScrollView>
       </SafeAreaView>
       <CoreButton
