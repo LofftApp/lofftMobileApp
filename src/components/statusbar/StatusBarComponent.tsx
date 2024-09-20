@@ -20,28 +20,31 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import statusBarText from 'Assets/coreText/statusBarText.json';
 
 // Helpers
-import {advertStatusIndex} from 'helpers/advertStatusIndex';
 import {size} from 'react-native-responsive-sizes';
+import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
 // Types
-import type {Advert} from 'reduxFeatures/adverts/types';
-import {StatusBarNavigationProp} from './types';
+import {StatusBarNavigationProp, StatusBarProps} from './types';
 
-const StatusBarComponent = ({advert}: {advert: Advert}) => {
-  const {status} = advert;
+const StatusBarComponent = ({
+  application,
+  _advert,
+  isLessor,
+}: StatusBarProps) => {
+  const advert = isLessor ? _advert : application?.advert;
 
-  console.log("status 🚀 🚀 🚀", status )
-
-  const screenheight = Dimensions.get('window').height;
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
- const currentApplicationStatus = advertStatusIndex(status ?? '');
+  // const currentApplicationStatus = applicationStatusIndex(
+  //   application?.status || advert?.status,
+  // );
+  // hardcoded to test status bar
+  const currentApplicationStatus = 0;
 
-  // Lower code needed to test access to different routes
-  //  const currentApplicationStatus = status;
+  const screenheight = Dimensions.get('window').height;
 
-  const iconsCreated = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
+  const iconsCreated = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
       return (
         <LofftIcon
@@ -49,6 +52,9 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
           name={key.icon}
           size={28}
           color={
+            (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
+            (currentApplicationStatus === 2 && index <= 3) ||
+            (currentApplicationStatus === 3 && index <= 4) ||
             currentApplicationStatus === index ||
             currentApplicationStatus > index
               ? Color.White[100]
@@ -59,15 +65,17 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
     },
   );
 
-  const statusText = statusBarText[advert.lessor ? 'lessor' : 'renter'].map(
+  const statusText = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
-      console.log("index  🚀 🚀", index)
       return (
-        <View key={index + 1}>
+        <View key={key.icon}>
           <Text
             style={[
               fontStyles.headerSmall,
               styles.infoBlockHeader,
+              (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
+              (currentApplicationStatus === 2 && index <= 3) ||
+              (currentApplicationStatus === 3 && index <= 4) ||
               currentApplicationStatus === index ||
               currentApplicationStatus > index
                 ? styles.infoBlockActive
@@ -78,29 +86,66 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
           <Text
             style={[
               fontStyles.bodySmall,
+              (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
+              (currentApplicationStatus === 2 && index <= 3) ||
+              (currentApplicationStatus === 3 && index <= 4) ||
               currentApplicationStatus === index ||
               currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
-            {/* Text Overlaying */}
-            {/* {key.subText} */}
+            {key.subText}
           </Text>
 
-          {currentApplicationStatus === index && (
-            <View style={[styles.landlordActionButton, styles.button]}>
-              <Pressable
-                onPress={() =>
-                  // This typescript error will be fixed when key.route in statusBarText.json matches the names in LessorNavigator.tsx and FlatSearchNavigator.tsx
-                  navigation.navigate(key.route, {
-                    advert,
-                  })
-                }>
-                <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                  {key.buttonText}
-                </Text>
-              </Pressable>
-            </View>
+          {isLessor ? (
+            <>
+              {currentApplicationStatus === 0 &&
+                currentApplicationStatus === index && (
+                  <View style={[styles.landlordActionButton, styles.button]}>
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate('allApplicants', {
+                          id: advert?.id ?? 0,
+                        })
+                      }>
+                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                        See Applicants
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+              {currentApplicationStatus === 1 &&
+                currentApplicationStatus === index && (
+                  <View style={[styles.landlordActionButton, styles.button]}>
+                    <Pressable onPress={() => navigation.navigate('chat')}>
+                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                        See Profiles
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+              {currentApplicationStatus === 3 &&
+                currentApplicationStatus === index && (
+                  <View style={[styles.landlordActionButton, styles.button]}>
+                    <Pressable onPress={() => navigation.navigate('chat')}>
+                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                        Chat with tenant
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+            </>
+          ) : (
+            currentApplicationStatus === 2 &&
+            currentApplicationStatus === index && (
+              <View style={[styles.landlordActionButton, styles.button]}>
+                <Pressable onPress={() => navigation.navigate('chat')}>
+                  <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                    Chat with landlord
+                  </Text>
+                </Pressable>
+              </View>
+            )
           )}
         </View>
       );
@@ -110,16 +155,16 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   const calculateStatusBar = (currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
-        setStatusBar('50');
+        setStatusBar(isLessor ? '50' : '60');
         break;
       case 2:
-        setStatusBar('75');
+        setStatusBar(isLessor ? '75' : '80');
         break;
       case 3:
         setStatusBar('100');
         break;
       default:
-        setStatusBar('25');
+        setStatusBar('20');
         break;
     }
   };
@@ -131,52 +176,55 @@ const StatusBarComponent = ({advert}: {advert: Advert}) => {
   }, [currentApplicationStatus]);
 
   return (
-    <View style={[styles.maincontainer]}>
-      <View
-        style={[
-          styles.progressContainer,
-          {maxHeight: advert.lessor ? screenheight / 1.7 : screenheight / 2},
-        ]}>
+    <>
+      <View style={styles.maincontainer}>
         <View
           style={[
-            styles.progressBarOutline,
-            {
-              backgroundColor: advert.lessor
-                ? Color.Lavendar[10]
-                : Color.Mint[10],
-            },
+            styles.progressContainer,
+            {maxHeight: advert?.lessor ? screenheight / 1.7 : screenheight / 2},
           ]}>
-          <View style={styles.iconsPosition}>{iconsCreated}</View>
           <View
             style={[
-              styles.progressBar,
+              styles.progressBarOutline,
               {
-                height: `${statusBar}%` as DimensionValue,
-                backgroundColor: advert.lessor
-                  ? Color.Lavendar[100]
-                  : Color.Mint[100],
+                backgroundColor: advert?.lessor
+                  ? Color.Lavendar[10]
+                  : Color.Mint[10],
               },
-            ]}
-          />
-        </View>
-        <View
-          style={[
-            styles.progressTextContainer,
-            advert.lessor ? styles.height95 : styles.height98,
-          ]}>
-          {statusText}
+            ]}>
+            <View style={styles.iconsPosition}>{iconsCreated}</View>
+            <View
+              style={[
+                styles.progressBar,
+                {
+                  height: `${statusBar}%` as DimensionValue,
+                  backgroundColor: advert?.lessor
+                    ? Color.Lavendar[100]
+                    : Color.Mint[100],
+                },
+              ]}
+            />
+          </View>
+          <View
+            style={[
+              styles.progressTextContainer,
+              advert?.lessor ? styles.height95 : styles.height98,
+            ]}>
+            {statusText}
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   maincontainer: {
-    marginHorizontal: size(16),
-    borderWidth: 1,
-    borderColor: Color.Black[10],
-    paddingTop: size(15),
+    paddingHorizontal: size(20),
+    width: '100%',
+    alignItems: 'center',
+    paddingVertical: size(20),
+    marginBottom: size(80),
   },
   infoBlockHeader: {
     marginTop: size(15),
@@ -190,11 +238,9 @@ const styles = StyleSheet.create({
   progressContainer: {
     flexDirection: 'row',
     maxHeight: '50%',
-    /* 🤖 This one effects the layout of the progress bar look and text */
-    justifyContent: 'space-between',
   },
   progressBarOutline: {
-    height: '100%',
+    height: '120%',
     width: '15%',
     borderRadius: 28,
     alignItems: 'center',
@@ -218,15 +264,13 @@ const styles = StyleSheet.create({
   landlordActionButton: {
     backgroundColor: Color.Lavendar[100],
   },
-  // rentorActionButton: {
-  //   backgroundColor: Color.Mint[100],
-  // },
+
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    marginTop: 10,
+    paddingVertical: size(8),
+    paddingHorizontal: size(16),
+    marginTop: size(10),
     borderRadius: 12,
     alignSelf: 'flex-start',
   },

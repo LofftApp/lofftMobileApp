@@ -1,58 +1,144 @@
+import {Application, IncomingApplication} from '../applications/types';
 interface AdvertUser {
-  admin: boolean | null;
-  created_at: string | null;
-  email: string | null;
-  id: number | null;
-  terms_accepted: boolean | null;
-  updated_at: string | null;
-  user_type: string | null;
+  id: number;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  termsAccepted: boolean;
+  userType: string;
+  admin: boolean;
 }
 
 interface AdvertApplicant extends AdvertUser {}
 
+interface AdvertApplicantWithSelected {
+  applicant: AdvertApplicant;
+  selected: boolean;
+}
+
 interface AdvertCharacteristics {
-  emoji: string | null;
-  name: string | null;
+  emoji: string;
+  name: string;
 }
 
 interface AdvertFeatures {
-  emoji: string | null;
-  name: string | null;
+  emoji: string;
+  name: string;
 }
 
 interface AdvertFlat {
-  id: number | null;
-  address: string | null;
-  price: number | null;
-  description: string | null;
-  tagline: string | null;
-  district: string | null;
-  city: string | null;
-  photos: string[] | null;
-  characteristics: AdvertCharacteristics[] | null;
-  features: AdvertFeatures[] | null;
+  id: number;
+  address: string;
+  tagLine: string;
+  description: string;
+  size: number;
+  measurementUnit: string;
+  district: string;
+  characteristics: AdvertCharacteristics[];
+  features: AdvertFeatures[];
+  city: string;
+  photos: string[];
 }
 
 interface Advert {
-  id: number | null;
-  status: string | null;
-  currency: string | null;
-  matchScore: number | null;
-  price: number | null;
+  id: number;
+  monthlyRent: number;
+  currency: string;
+  warmRent: boolean;
+  fromDate: number;
+  toDate: number;
+  createdAt: string;
+  status: string;
+  matchScore: number;
   favorite: boolean;
   applied: boolean;
-  fromDate: number | null;
-  toDate: number | null;
-  created_at: string | null;
-  applicants: AdvertApplicant[] | null;
-  user: AdvertUser | null;
+  user: AdvertUser;
   lessor: boolean;
   flat: AdvertFlat;
+  applicants?: AdvertApplicant[];
 }
 
 interface AdvertState {
   loading: boolean;
   adverts: Advert[];
+  error: string | null;
+  advert: Advert | null;
+}
+interface IncomingAdvertUser {
+  id: number;
+  email: string;
+  created_at: string;
+  updated_at: string;
+  terms_accepted: boolean;
+  user_type: string;
+  admin: boolean;
+}
+
+interface IncomingAdvertApplicant extends IncomingAdvertUser {}
+
+interface IncomingAdvertFlat {
+  id: number;
+  address: string;
+  tag_line: string;
+  price: number;
+  description: string;
+  size: number;
+  measurement_unit: string;
+  district: string;
+  characteristics: AdvertCharacteristics[];
+  features: AdvertFeatures[];
+  city: string;
+  photos: {url: string}[];
+}
+
+interface IncomingAdvert {
+  id: number;
+  monthly_rent: number;
+  currency: string;
+  warm_rent: boolean;
+  from_date: number;
+  to_date: number;
+  created_at: string;
+  status: string;
+  match_score: number;
+  favorite: boolean;
+  applied: boolean;
+  user: IncomingAdvertUser;
+  lessor: boolean;
+  flat: IncomingAdvertFlat;
+  applicants?: IncomingAdvertApplicant[];
+}
+
+interface IncomingAdvertWithApplications {
+  advert: IncomingAdvert & {
+    applicants: IncomingAdvertApplicant[];
+    applications: IncomingApplication[];
+  };
+}
+
+interface IncomingAdverts {
+  adverts: IncomingAdvert[];
+}
+
+interface AdvertWithApplications {
+  advert: Advert & {
+    applicants: ApplicantWithSelected[];
+    applications: Application[];
+  };
+}
+
+interface AdvertWithApplicationsAndSelected {
+  advert: Advert & {
+    applicants: {
+      applicant: AdvertApplicant;
+      selected: boolean;
+    }[];
+  };
+}
+
+interface ApplicantWithSelected {
+  applicant: AdvertApplicant;
+  selected: boolean;
 }
 
 export type {
@@ -63,4 +149,14 @@ export type {
   AdvertFlat,
   AdvertUser,
   AdvertApplicant,
+  AdvertWithApplications,
+  IncomingAdverts,
+  IncomingAdvert,
+  IncomingAdvertFlat,
+  IncomingAdvertUser,
+  IncomingAdvertApplicant,
+  IncomingAdvertWithApplications,
+  AdvertApplicantWithSelected,
+  AdvertWithApplicationsAndSelected,
+  ApplicantWithSelected,
 };

@@ -34,12 +34,15 @@ import {logWithLocation} from 'helpers/logWithLocation';
 
 const RootStack = createNativeStackNavigator();
 
+// Remove ErrorBoundary in production
+import ErrorBoundary from './src/ErrorBoundary';
+
 const App = () => {
   logWithLocation('App Rendered');
   // Define selectors
-  const getAuthenticated = (state: any) => state.authentication.authenticated;
-  const getUserType = (state: any) => state.user.user.userType;
-  const getAdmin = (state: any) => state.user.user.admin;
+  const getAuthenticated = (state: any) => state.authentication?.authenticated;
+  const getUserType = (state: any) => state.user?.user?.userType;
+  const getAdmin = (state: any) => state.user?.user?.admin;
 
   // Create memoized selectors
   const selectAuthenticated = createSelector(
@@ -51,6 +54,7 @@ const App = () => {
     (userType, admin) => [userType, admin],
   );
   const authenticated = useAppSelector(selectAuthenticated);
+  console.log('authenticated', authenticated);
   const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
 
   const dispatch = useAppDispatch();
@@ -120,7 +124,9 @@ export default () => {
     <NavigationContainer
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </NavigationContainer>
   );
 };

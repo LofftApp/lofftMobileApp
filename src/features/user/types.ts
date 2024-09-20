@@ -20,7 +20,7 @@ interface UserState {
     email: string | null;
     admin: boolean | null;
     termsAccepted: boolean | null;
-    userType: string | null;
+    userType: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
     profile: UserProfile;
     filter: UserFilter[] | null;
     credits: number | null;
