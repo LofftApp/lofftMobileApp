@@ -83,6 +83,7 @@ const testApplicants = [
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {id} = route.params;
+  console.log('RRRRROOOOOOUUUUUUTTTTTTTEEEEE', route);
 
   const {data, error, isLoading} = useSeeApplicationsByAdvertIdQuery(id);
   console.log('SEE APPLICSANTS BY ADVERT ID +++++++++', data);
