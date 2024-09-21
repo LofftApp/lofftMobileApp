@@ -22,33 +22,36 @@ import TempScreen from 'screens/dashboard/renter/TempScreen';
 
 const Tab = createBottomTabNavigator();
 
+const tabIcons = (route: string, color: string) => {
+  let iconName = 'settings';
+  switch (route) {
+    case 'search':
+      iconName = 'search-sm';
+      break;
+    case 'favorite':
+      iconName = 'list';
+      break;
+    case 'alerts':
+      iconName = 'heart';
+      break;
+    case 'user':
+      iconName = 'user';
+      break;
+    case 'admin':
+      iconName = 'gaming-pad';
+      break;
+  }
+  return <LofftIcon name={iconName} size={25} color={color} />;
+};
+
 const DashboardNavigator = () => {
   // TODO: This has two levels of  user.user. It should be refactored to user
   const admin = useAppSelector(state => state.user.user.admin);
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
-          let iconName = 'settings';
-          switch (route.name) {
-            case 'search':
-              iconName = 'search-sm';
-              break;
-            case 'favorite':
-              iconName = 'list';
-              break;
-            case 'alerts':
-              iconName = 'heart';
-              break;
-            case 'user':
-              iconName = 'user';
-              break;
-            case 'admin':
-              iconName = 'gaming-pad';
-              break;
-          }
-          return <LofftIcon name={iconName} size={25} color={color} />;
-        },
+        tabBarIcon: ({color}) => tabIcons(route.name, color),
         tabBarActiveTintColor: Color.Lavendar[100],
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,

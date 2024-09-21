@@ -16,7 +16,7 @@ const SearchInputField = ({
   const [focus, setFocus] = useState(false);
   return (
     <View style={[styles.inputFieldStyle, focus ? styles.focus : null]}>
-      <SearchIcon></SearchIcon>
+      <SearchIcon />
       <TextInput
         value={value}
         onChangeText={onChangeText}

@@ -61,12 +61,16 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkToken());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (initializing) setInitializing(false);
-    if (authenticated && !userType) dispatch(getProfile());
-  }, [authenticated]);
+    if (initializing) {
+      setInitializing(false);
+    }
+    if (authenticated && !userType) {
+      dispatch(getProfile());
+    }
+  }, [authenticated, dispatch, initializing, userType]);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(

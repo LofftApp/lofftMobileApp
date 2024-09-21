@@ -8,10 +8,10 @@ const Input = ({props}) => {
       <TextInput
         style={styles.textInput}
         placeholderTextColor={Color.Black['50']}
-        placeholder={props}></TextInput>
+        placeholder={props} />
       <Image
         style={styles.icon}
-        source={require('../assets/icons/Visible-icon.png')}></Image>
+        source={require('../assets/icons/Visible-icon.png')} />
     </View>
   );
 };
