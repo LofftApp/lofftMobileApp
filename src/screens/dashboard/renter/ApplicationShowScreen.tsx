@@ -29,7 +29,6 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
   const currentUser = useAppSelector(state => state.user.user);
   const isLessor = currentUser.userType === 'lessor';
-  console.log('isLessor>>>>>>>>>>>>>>>', currentUser.userType, isLessor);
 
   const {
     data: application,

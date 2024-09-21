@@ -36,11 +36,6 @@ const ApplicantCard = ({
     return null;
   }
   const {email: name} = applicant;
-  console.log(
-    'application>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-    application.round1,
-  );
-  console.log('applicant 🚨', applicant);
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT) {

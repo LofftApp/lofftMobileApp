@@ -18,7 +18,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
-import { useAppDispatch } from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
@@ -34,7 +34,6 @@ import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigatio
 import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {Application} from 'reduxFeatures/applications/types';
 
-
 export const MAX_SELECT = 5;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
@@ -45,7 +44,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     error,
     isLoading,
   } = useSeeApplicationsByAdvertIdQuery(advertId);
-  console.log('SEE APPLICSANTS BY ADVERT ID +++++++++', advert);
   const applications = advert?.applications;
 
   logWithLocation('applicantions>>>>>>>', applications);
@@ -56,11 +54,8 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     Application[]
   >([]);
 
-  console.log('Selected Applications LL:::""""🛞🚲 ', selectedApplications);
-
   useEffect(() => {
     if (advert) {
-      console.log('useEffect data runnnnnnn');
       setApplicationsState(applications ?? []);
     }
   }, [advert, applications]);
@@ -114,7 +109,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
           {applicationsState?.map(application => {
-            console.log('applicant🚨((((((🚨🚨', application);
             return (
               <ApplicantCard
                 key={application.id}

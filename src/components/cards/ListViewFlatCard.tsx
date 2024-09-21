@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -17,10 +18,11 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
 import LofftHeaderPhoto from './LofftHeaderPhoto';
-import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+import {logWithLocation} from 'helpers/logWithLocation';
+
 // Types 🏷️
 import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
@@ -34,6 +36,10 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
     (state: {user: UserState}) => state.user.user,
   );
 
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'favorite',
+  });
+
   const characteristicsTags = tagSorter(
     currentUser.profile.characteristics ?? [],
     advert.flat.characteristics ?? [],
@@ -43,17 +49,17 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
     advert.flat.features,
   );
 
-  const dispatch = useAppDispatch();
+  const handleFavorite = () => {
+    toggleFavorite(advert.id ?? 0);
+  };
+
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
           {advert.matchScore && (
             <View>
-              <Pressable
-                onPress={() => {
-                  dispatch(toggleFavorite(advert.id ?? 0));
-                }}>
+              <Pressable onPress={handleFavorite}>
                 {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
@@ -91,7 +97,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
           {advert.flat.district && (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {advert.flat.district}, {advert.flat.city}
+              {advert.flat.district}, {advert.flat.city} mano
             </Text>
           )}
         </View>

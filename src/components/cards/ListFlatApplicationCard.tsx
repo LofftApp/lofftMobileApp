@@ -8,9 +8,7 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux 🐙
-import {useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
-
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -37,7 +35,9 @@ const ListFlatApplicationCard = ({
   console.log('_advert', _advert);
   console.log('isLessor', isLessor);
 
-  const dispatch = useAppDispatch();
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'favorite',
+  });
 
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
@@ -87,6 +87,10 @@ const ListFlatApplicationCard = ({
 
   const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
+  const handleFavorite = () => {
+    toggleFavorite(advert?.id ?? 0);
+  };
+
   return (
     <View style={styles.advertCardContainer}>
       <View>
@@ -102,9 +106,7 @@ const ListFlatApplicationCard = ({
               <View>
                 <Pressable
                   style={styles.advertCardSaveButton}
-                  onPress={() => {
-                    dispatch(toggleFavorite(advert?.id ?? 0));
-                  }}>
+                  onPress={handleFavorite}>
                   {advert?.favorite ? (
                     <LofftIcon
                       name="heart-filled"

@@ -21,7 +21,6 @@ import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 const LessorIndexScreen = () => {
   const {data: adverts, error, isLoading} = useGetAdvertsQuery();
-  console.log('adverts', adverts?.at(1));
 
   if (isLoading) {
     return (
