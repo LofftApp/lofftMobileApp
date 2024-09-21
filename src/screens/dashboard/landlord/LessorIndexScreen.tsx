@@ -1,18 +1,13 @@
-import React, {useEffect, useMemo} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 
 // Screens 📺
-import FlatListComponent from '../renter/SubScreens/FlatListComponent';
-
-// Components 🪢
-//import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
+import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent';
 
 // Helpers 🧰
 import {size} from 'react-native-responsive-sizes';
 
 // Redux
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {fetchAdverts} from 'reduxFeatures/adverts/advertMiddleware';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -22,50 +17,33 @@ import * as Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Types
-import type {AdvertState} from 'reduxFeatures/adverts/types';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
-const LessorIndexScreen = ({navigation}: any) => {
-  /* To be reviwed
-  // const [sortedadverts, setSortedadverts] = useState([]);
-  // const oneFlat = sortedadverts.slice(0, 1);
-  */
-  const dispatch = useAppDispatch();
-  // Select the adverts from the Redux store
-  const adverts = useAppSelector(
-    (state: {adverts: AdvertState}) => state.adverts.adverts,
-  );
-  // Memoize the advert statuses
-  const advertStatuses = useMemo(
-    () => adverts.map(advert => advert.status),
-    [adverts],
-  );
-  // Fetch adverts whenever any of the advert statuses change
-  useEffect(() => {
-    dispatch(fetchAdverts());
-  }, [advertStatuses]); // Use advertStatuses as the dependency
+const LessorIndexScreen = () => {
+  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
+  console.log('adverts', adverts?.at(1));
 
-  /*
-  // useEffect(() => {
-  //   const getadverts = async () => {
-  //     const adverts: any = [];
-  //     if (adverts) {
-  //       if (adverts[0]?.matchP) {
-  //         const reOrder = adverts.sort((a: any, b: any) => b.matchP - a.matchP);
-  //         setSortedadverts(reOrder);
-  //       } else {
-  //         setSortedadverts(adverts);
-  //       }
-  //     }
-  //   };
-  //   getadverts();
-  // }, []);
+  if (isLoading) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView style={styles.loadingErrorContainer}>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
-  const [screen, setScreen] = useState('thumbs-up');
-
-  const setActiveScreen = (screen: string) => {
-    setScreen(screen);
-  };
-  */
+  if (error) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView style={styles.loadingErrorContainer}>
+          <Text style={fontStyles.headerSmall}>
+            There was an error getting your adverts
+          </Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageContainer}>
@@ -86,12 +64,7 @@ const LessorIndexScreen = ({navigation}: any) => {
       </View>
 
       <View style={styles.viewContainer}>
-        <FlatListComponent
-          adverts={adverts}
-          // Component doesn't receive a navigation prop
-          // navigation={navigation}
-          isLessor={true}
-        />
+        <FlatListComponent adverts={adverts} isLessor={true} />
       </View>
     </View>
   );
@@ -110,11 +83,7 @@ const styles = StyleSheet.create({
   inputField: {
     flex: 1,
   },
-  searchContainer: {
-    paddingHorizontal: size(16),
-    flexDirection: 'row',
-    marginTop: size(68), // Needs to be added to core view file, though not working when built
-  },
+
   headerText: {
     marginTop: size(70),
     marginHorizontal: size(16),
@@ -129,6 +98,11 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     flexDirection: 'row',
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

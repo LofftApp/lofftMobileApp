@@ -70,6 +70,7 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/redux-logger": "^3.0.9",
     "@types/redux-mock-store": "^1",
+    "@typescript-eslint/typescript-estree": "^8.6.0",
     "babel-jest": "^29.6.3",
     "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^8.19.0",
@@ -92,5 +93,5 @@
     "ws": "^7.5.10",
     "got": "^11.8.5"
   },
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.5.0"
 }

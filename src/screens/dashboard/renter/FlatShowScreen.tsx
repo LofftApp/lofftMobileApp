@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,12 +9,12 @@ import {
 } from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {
   applyForAdvert,
   toggleFavorite,
 } from 'reduxFeatures/adverts/advertMiddleware';
-import {fetchAdvertById} from 'reduxFeatures/adverts/advertMiddleware';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
@@ -50,11 +49,9 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const dispatch = useAppDispatch();
   const {id} = route.params;
 
-  useEffect(() => {
-    dispatch(fetchAdvertById(id));
-  }, [dispatch, id]);
+  const {data: advert, error, isLoading} = useGetAdvertByIdQuery(id);
+  console.log('advert>>>>>>>', advert?.applied);
 
-  const advert = useAppSelector(state => state.adverts.advert);
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
@@ -63,15 +60,25 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (!advert) {
+  if (isLoading) {
     return (
       <View style={styles.pageContainer}>
         <SafeAreaView
-          style={{
-            backgroundColor: Color.White[100],
-            alignItems: 'center',
-          }}>
-          <Text>Loading...</Text>
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.pageContainer}>
+        <SafeAreaView
+          style={[styles.pageContainer, styles.loadingErrorContainer]}>
+          <Text style={fontStyles.headerSmall}>
+            There was an error getting advert
+          </Text>
         </SafeAreaView>
       </View>
     );
@@ -86,17 +93,16 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           {!isModalOpen && (
             <HighlightedButtons
               favorite={advert?.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert?.id))}
+              onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
             />
           )}
           <LofftHeaderPhoto
             imageContainerHeight={300}
-            images={advert.flat.photos ?? []}
+            images={advert?.flat.photos ?? []}
             activeBlur={isModalOpen}
           />
         </View>
-        <SafeAreaView
-          style={{backgroundColor: Color.White[100], alignItems: 'center'}}>
+        <SafeAreaView style={styles.safeAreaContainer}>
           {isModalOpen && <View style={styles.blurOverlay} />}
 
           <View style={styles.flatCardView}>
@@ -109,21 +115,21 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
               {completeProfile && hasTokens ? (
                 <CoreButton
-                  value={advert.applied ? 'Applied' : 'Apply'}
+                  value={advert?.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
-                  disabled={advert.applied}
+                  disabled={advert?.applied}
                   onPress={() => {
-                    dispatch(applyForAdvert(advert.id));
+                    dispatch(applyForAdvert(advert?.id ?? 0));
                     navigation.navigate('applyforflat', {
-                      id: advert.id,
+                      id: advert?.id ?? 0,
                     });
                   }}
                 />
               ) : (
                 <CoreButton
-                  value={advert.applied ? 'Applied' : 'Apply'}
+                  value={advert?.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
-                  disabled={advert.applied}
+                  disabled={advert?.applied}
                   onPress={() => setIsModalOpen(true)}
                 />
               )}
@@ -160,6 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.White[100],
   },
+  safeAreaContainer: {backgroundColor: Color.White[100], alignItems: 'center'},
   imageContainer: {
     height: height(300),
     width: Dimensions.get('window').width,
@@ -246,6 +253,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: 1,
+  },
+  loadingErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
