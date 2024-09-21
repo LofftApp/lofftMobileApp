@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,26 +17,23 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
-import {getProfile} from 'reduxFeatures/user/usersMiddleware';
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
+import { useAppDispatch } from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
-import BackButton from 'components/buttons/BackButton';
-import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
+import {logWithLocation} from 'helpers/logWithLocation';
 
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
-
-import {logWithLocation} from 'helpers/logWithLocation';
 import {Application} from 'reduxFeatures/applications/types';
+
 
 export const MAX_SELECT = 5;
 

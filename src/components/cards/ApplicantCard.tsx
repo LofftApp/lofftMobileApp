@@ -29,10 +29,6 @@ const ApplicantCard = ({
   selectApplication,
   application,
 }: ApplicantCardProps) => {
-  // const {id, email: name} = applicant;
-  // const selected = applicant.selected;
-  // console.log('applicat 🚨', applicant.selected);
-  // console.log('CurrentSelectedNUMS 🚖', currentSelectedNums);
   const [accordion, setAccordion] = useState(false);
   const {height, width} = useWindowDimensions();
   const applicant = application.applicant;
@@ -40,7 +36,10 @@ const ApplicantCard = ({
     return null;
   }
   const {email: name} = applicant;
-  console.log('application>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', application.round1);
+  console.log(
+    'application>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+    application.round1,
+  );
   console.log('applicant 🚨', applicant);
 
   const toggleCheckbox = () => {

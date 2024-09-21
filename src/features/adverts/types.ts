@@ -11,11 +11,6 @@ interface AdvertUser {
 
 interface AdvertApplicant extends AdvertUser {}
 
-interface AdvertApplicantWithSelected {
-  applicant: AdvertApplicant;
-  selected: boolean;
-}
-
 interface AdvertCharacteristics {
   emoji: string;
   name: string;
@@ -56,6 +51,10 @@ interface Advert {
   lessor: boolean;
   flat: AdvertFlat;
   applicants?: AdvertApplicant[];
+}
+
+interface AdvertWithApplications extends Advert {
+  applications: Application[];
 }
 
 interface AdvertState {
@@ -118,25 +117,6 @@ interface IncomingAdverts {
   adverts: IncomingAdvert[];
 }
 
-interface AdvertWithApplications extends Advert {
- applications: Application[] 
-
-}
-
-interface AdvertWithApplicationsAndSelected {
-  advert: Advert & {
-    applicants: {
-      applicant: AdvertApplicant;
-      selected: boolean;
-    }[];
-  };
-}
-
-interface ApplicantWithSelected {
-  applicant: AdvertApplicant;
-  selected: boolean;
-}
-
 export type {
   Advert,
   AdvertState,
@@ -152,7 +132,4 @@ export type {
   IncomingAdvertUser,
   IncomingAdvertApplicant,
   IncomingAdvertWithApplications,
-  AdvertApplicantWithSelected,
-  AdvertWithApplicationsAndSelected,
-  ApplicantWithSelected,
 };

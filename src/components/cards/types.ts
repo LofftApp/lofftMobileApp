@@ -1,9 +1,5 @@
 import type {ViewToken} from 'react-native';
-import type {
-  Advert,
-  AdvertApplicant,
-  ApplicantWithSelected,
-} from 'reduxFeatures/adverts/types';
+import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 import type {SecondRoundApplicantWithSelected} from 'screens/dashboard/landlord/SubScreens/types';
 
