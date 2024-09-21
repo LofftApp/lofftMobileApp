@@ -109,22 +109,18 @@ interface IncomingAdvert {
   applicants?: IncomingAdvertApplicant[];
 }
 
-interface IncomingAdvertWithApplications {
-  advert: IncomingAdvert & {
-    applicants: IncomingAdvertApplicant[];
-    applications: IncomingApplication[];
-  };
+interface IncomingAdvertWithApplications extends IncomingAdvert {
+  applications: IncomingApplication[];
+  applicants: IncomingAdvertApplicant[];
 }
 
 interface IncomingAdverts {
   adverts: IncomingAdvert[];
 }
 
-interface AdvertWithApplications {
-  advert: Advert & {
-    applicants: ApplicantWithSelected[];
-    applications: Application[];
-  };
+interface AdvertWithApplications extends Advert {
+ applications: Application[] 
+
 }
 
 interface AdvertWithApplicationsAndSelected {

@@ -1,5 +1,10 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {Application, IncomingApplication, IncomingApplications} from './types';
+import {
+  AdvertWithApplications,
+  Application,
+  IncomingAdvertWithApplications,
+  IncomingApplications,
+} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 
 export const applicationApi = lofftApi.injectEndpoints({
@@ -9,10 +14,10 @@ export const applicationApi = lofftApi.injectEndpoints({
       transformResponse: (response: IncomingApplications) =>
         toCamelCaseKeys(response.applications as unknown as Application[]),
     }),
-    getApplicationById: builder.query<Application, number>({
+    getApplicationById: builder.query<AdvertWithApplications, number>({
       query: id => `/api/advert_applications/${id}`,
-      transformResponse: (response: IncomingApplication) =>
-        toCamelCaseKeys(response as unknown as Application),
+      transformResponse: (response: IncomingAdvertWithApplications) =>
+        toCamelCaseKeys(response as unknown as AdvertWithApplications),
     }),
   }),
   overrideExisting: false,

@@ -29,20 +29,7 @@ export const advertApi = lofftApi.injectEndpoints({
           response as unknown as AdvertWithApplications,
         );
 
-        // Add the `selected` property to each applicant with a default value of false
-        const applicantsWithSelected =
-          transformedResponse?.advert?.applicants?.map(applicant => ({
-            ...applicant,
-            selected: false,
-          }));
-
-        return {
-          ...transformedResponse,
-          advert: {
-            ...transformedResponse.advert,
-            applicants: applicantsWithSelected,
-          },
-        };
+        return transformedResponse;
       },
     }),
   }),

@@ -28,6 +28,7 @@ import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
+  console.log('advert in ListViewCARD', advert);
 
   const currentUser = useAppSelector(
     (state: {user: UserState}) => state.user.user,
