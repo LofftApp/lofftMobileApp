@@ -28,16 +28,17 @@ jobs:
         id: install
         run: npm install
 
-      # Run super-linter for linting TypeScript files
-      - name: Lint Codebase
-        id: super-linter
-        uses: super-linter/super-linter/slim@v7
-        env:
-          DEFAULT_BRANCH: main
-          FILTER_REGEX_EXCLUDE: dist/**/*
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_ESLINT: true
-          VALIDATE_TYPESCRIPT_ES: true
-          VALIDATE_TSX: true
-          VALIDATE_JSX: true
+    # Run eslint for linting TypeScript files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci # or yarn install
+      - uses: sibiraj-s/action-eslint@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # optional
+          eslint-args: '--ignore-path=.gitignore --quiet'
+          extensions: 'js,jsx,ts,tsx'
+          annotations: true
