@@ -10,11 +10,12 @@ import {
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
+import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
+
 import {
-  applyForAdvert,
-  toggleFavorite,
-} from 'reduxFeatures/adverts/advertMiddleware';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+  useGetAdvertByIdQuery,
+  useToggleFavoriteMutation,
+} from 'reduxFeatures/adverts/advertApi';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
@@ -46,12 +47,15 @@ const outOfTokensObject = {
 };
 
 const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
+  const {id: advertId} = route.params;
+
   const dispatch = useAppDispatch();
-  const {id} = route.params;
+  const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'favorite',
+  });
 
-  const {data: advert, error, isLoading} = useGetAdvertByIdQuery(id);
   console.log('advert>>>>>>>', advert?.applied);
-
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
@@ -59,6 +63,10 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleFavorite = () => {
+    toggleFavorite(advert?.id ?? 0);
+  };
 
   if (isLoading) {
     return (
@@ -93,7 +101,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
           {!isModalOpen && (
             <HighlightedButtons
               favorite={advert?.favorite}
-              onPressHeart={() => dispatch(toggleFavorite(advert?.id ?? 0))}
+              onPressHeart={handleFavorite}
             />
           )}
           <LofftHeaderPhoto
