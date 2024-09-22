@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -21,28 +21,6 @@ import AdminScreen from 'screens/admin/adminScreen';
 import TempScreen from 'screens/dashboard/renter/TempScreen';
 
 const Tab = createBottomTabNavigator();
-
-const tabIcons = (route: string, color: string) => {
-  let iconName = 'settings';
-  switch (route) {
-    case 'search':
-      iconName = 'search-sm';
-      break;
-    case 'favorite':
-      iconName = 'list';
-      break;
-    case 'alerts':
-      iconName = 'heart';
-      break;
-    case 'user':
-      iconName = 'user';
-      break;
-    case 'admin':
-      iconName = 'gaming-pad';
-      break;
-  }
-  return <LofftIcon name={iconName} size={25} color={color} />;
-};
 
 const DashboardNavigator = () => {
   // TODO: This has two levels of  user.user. It should be refactored to user

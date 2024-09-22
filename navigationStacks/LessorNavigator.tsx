@@ -1,13 +1,11 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ApplicantsIndexScreen from 'screens/dashboard/landlord/ApplicantsIndexScreen';
 import ApplicationShowScreen from 'screens/dashboard/renter/ApplicationShowScreen';
 import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
 
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
 import SeeApplicantsScreen from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
-import ShortListApplicantsScreen from 'screens/dashboard/landlord/ShortListApplicantsScreen';
 import SeeProfilesScreen from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 import type {LessorNavigatorStackParamsList} from './types';

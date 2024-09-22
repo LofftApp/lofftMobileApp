@@ -5,19 +5,19 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
-import FlatSearchNavigator from './FlatSearchNavigator';
+// import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
 
 import UserScreen from 'screens/dashboard/renter/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
-import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
+// import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
 import LessorNavigator from './LessorNavigator';
 
@@ -27,24 +27,7 @@ const DashboardNavigatorLessor = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
-          let iconName = 'settings';
-          switch (route.name) {
-            case 'lessorIndex':
-              iconName = 'list';
-              break;
-            case 'lessorAction':
-              iconName = 'bell';
-              break;
-            case 'user':
-              iconName = 'user';
-              break;
-            case 'admin':
-              iconName = 'gaming-pad';
-              break;
-          }
-          return <LofftIcon name={iconName} size={25} color={color} />;
-        },
+        tabBarIcon: ({color}) => tabIcons(route.name, color),
         tabBarActiveTintColor: Color.Lavendar[100],
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,
