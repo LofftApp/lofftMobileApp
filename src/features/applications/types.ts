@@ -23,11 +23,6 @@ interface IncomingApplications {
   applications: IncomingApplication[];
 }
 
-interface IncomingAdvertWithApplications {
-  advert: IncomingAdvert & {
-    applications: IncomingApplication[];
-  };
-}
 interface Applications {
   applications: Application[];
 }
@@ -46,12 +41,6 @@ interface Application {
   applicant?: AdvertApplicant;
 }
 
-interface AdvertWithApplications {
-  advert: Advert & {
-    applications: Application[];
-  };
-}
-
 interface ApplicationState {
   loading: boolean;
   applications: Application[];
@@ -63,6 +52,4 @@ export type {
   IncomingApplication,
   IncomingApplications,
   Applications,
-  IncomingAdvertWithApplications,
-  AdvertWithApplications,
 };

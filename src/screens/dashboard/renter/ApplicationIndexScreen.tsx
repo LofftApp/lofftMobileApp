@@ -19,7 +19,6 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {applicationPartition} from 'helpers/applicationsPartition';
 import {size} from 'react-native-responsive-sizes';
-import { logWithLocation } from 'helpers/logWithLocation';
 
 const ApplicationIndexScreen = () => {
   const currentUser = useAppSelector(state => state.user.user);

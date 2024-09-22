@@ -3,17 +3,14 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../../navigationStacks/types';
-import {
-  AdvertWithApplications,
-  Application,
-} from 'reduxFeatures/applications/types';
+import {Application} from 'reduxFeatures/applications/types';
 
 type StatusBarNavigationProp = LessorNavigatorScreenNavigationProp &
   SearchScreenNavigationProp;
 
 type StatusBarProps = {
   _advert?: Advert;
-  application?: AdvertWithApplications;
+  application?: Application;
   isLessor: boolean;
 };
 export type {StatusBarNavigationProp, StatusBarProps};

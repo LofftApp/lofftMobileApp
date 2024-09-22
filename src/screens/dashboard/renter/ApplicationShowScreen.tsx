@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 //Redux
-import {useAppSelector} from 'reduxCore/hooks';
-import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {
+  applicationApi,
+  useGetApplicationByIdQuery,
+} from 'reduxFeatures/applications/applicationApi';
 import {
   useGetAdvertByIdQuery,
   useToggleFavoriteMutation,
 } from 'reduxFeatures/adverts/advertApi';
+
 // External
 import Collapsible from 'react-native-collapsible';
 
@@ -50,6 +54,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   } = useGetAdvertByIdQuery(id, {skip: !isLessor});
 
   const [toggleFavorite] = useToggleFavoriteMutation();
+  const dispatch = useAppDispatch();
 
   const advert = isLessor ? _advert : application?.advert;
   console.log('_advert', _advert);
@@ -61,11 +66,16 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   };
   console.log('advertId', advert?.id);
   console.log('applicationId', application?.id);
+  console.log('applicationId advert', application?.advert?.id);
+
   const handleFavorite = async () => {
     try {
-      await toggleFavorite((advert?.id || application?.advert.id) ?? 0); // Use the correct ID based on the user type
+      await toggleFavorite(advert?.id ?? 0);
+      dispatch(
+        applicationApi.util.invalidateTags([{type: 'Applications', id}]),
+      );
     } catch (error) {
-      console.error('Failed to toggle favorite:', error);
+      console.error('Error toggling favorite:', error);
     }
   };
 
@@ -98,8 +108,8 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
         <HighlightButtons
+          favorite={advert?.favorite}
           heartPresent={!advert?.lessor}
-          // color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
           onPressHeart={handleFavorite}
         />
         <View>
