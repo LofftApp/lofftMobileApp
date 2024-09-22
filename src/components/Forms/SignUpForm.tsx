@@ -2,14 +2,13 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signUp} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Components 🪢
 import SignUpButton from 'components/buttons/SignUpButton';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
-import {CoreButton} from 'components/buttons/CoreButton';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -20,46 +19,46 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [message, setMessage] = useState({target: null, message: null});
+  const [message] = useState({target: null, message: null});
 
-  const pageValidation = (
-    checkbox: boolean,
-    password: string,
-    repeatPassword: string,
-  ) => {
-    if (checkbox === false) {
-      return {
-        error: true,
-        target: 'checkBox',
-        message: 'Please agree to our terms & conditions and privacy policy',
-      };
-    } else if (password === '') {
-      return {
-        error: true,
-        target: 'password',
-        message: 'Please enter a valid password',
-      };
-    } else if (password !== repeatPassword) {
-      return {
-        error: true,
-        target: 'password',
-        message: 'Your passwords do not match!',
-      };
-    }
-    return {error: false};
-  };
+  // const pageValidation = (
+  //   checkbox: boolean,
+  //   password: string,
+  //   repeatPassword: string,
+  // ) => {
+  //   if (checkbox === false) {
+  //     return {
+  //       error: true,
+  //       target: 'checkBox',
+  //       message: 'Please agree to our terms & conditions and privacy policy',
+  //     };
+  //   } else if (password === '') {
+  //     return {
+  //       error: true,
+  //       target: 'password',
+  //       message: 'Please enter a valid password',
+  //     };
+  //   } else if (password !== repeatPassword) {
+  //     return {
+  //       error: true,
+  //       target: 'password',
+  //       message: 'Your passwords do not match!',
+  //     };
+  //   }
+  //   return {error: false};
+  // };
 
-  const submitValidation = async ({email, password}: any) => {
-    let validation: any = null;
-    validation = pageValidation(checkbox, password, repeatPassword);
-    setMessage(validation);
-    if (!validation.error) {
-      // validation = await handleSignUp({email, password});
-      if (validation?.error) {
-        setMessage(validation);
-      }
-    }
-  };
+  // const submitValidation = async ({email, password}: any) => {
+  //   let validation: any = null;
+  //   validation = pageValidation(checkbox, password, repeatPassword);
+  //   setMessage(validation);
+  //   if (!validation.error) {
+  //     // validation = await handleSignUp({email, password});
+  //     if (validation?.error) {
+  //       setMessage(validation);
+  //     }
+  //   }
+  // };
 
   return (
     <View style={styles.container}>

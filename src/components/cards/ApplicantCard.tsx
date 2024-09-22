@@ -50,7 +50,8 @@ const ApplicantCard = ({
     setAccordion(!accordion);
   };
 
-  const {height, width} = useWindowDimensions();
+  // Height was removed as not being used.
+  const {width} = useWindowDimensions();
 
   return (
     <View style={[styles.outterContainer, {width: width - 20}]}>

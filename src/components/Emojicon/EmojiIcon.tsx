@@ -47,7 +47,10 @@ const EmojiIcon = ({
         ]}
         disabled={disabled}>
         <Text
-          style={[fontStyles.bodyMedium, {color: toggle ? 'white' : 'black'}]}>
+          style={[
+            fontStyles.bodyMedium,
+            toggle ? styles.colorWhite : styles.colorBlack,
+          ]}>
           {emojiIcon} {value}
         </Text>
       </Pressable>
@@ -75,6 +78,12 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: Color.Black[5],
     borderColor: Color.Black[10],
+  },
+  colorWhite: {
+    color: Color.White[100],
+  },
+  colorBlack: {
+    color: Color.Black[100],
   },
 });
 
