@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 //Redux
+import {useAppSelector} from 'reduxCore/hooks';
 import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
-
+import {
+  useGetAdvertByIdQuery,
+  useToggleFavoriteMutation,
+} from 'reduxFeatures/adverts/advertApi';
 // External
 import Collapsible from 'react-native-collapsible';
 
@@ -22,34 +26,49 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
-import {useAppSelector} from 'reduxCore/hooks';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
   const currentUser = useAppSelector(state => state.user.user);
   const isLessor = currentUser.userType === 'lessor';
+  console.log('isLessor', isLessor);
+  console.log('id', id);
+
+  useEffect(() => {
+    console.log('this component rendered ');
+  }, []);
 
   const {
     data: application,
     isLoading: applicationIsLoading,
     error: applicationError,
   } = useGetApplicationByIdQuery(id, {skip: isLessor});
-
   const {
     data: _advert,
     error: advertError,
     isLoading: advertIsLoading,
   } = useGetAdvertByIdQuery(id, {skip: !isLessor});
 
-  console.log('application in show ', application);
-  console.log('advert in show ', _advert);
+  const [toggleFavorite] = useToggleFavoriteMutation();
+
   const advert = isLessor ? _advert : application?.advert;
+  console.log('_advert', _advert);
+  console.log('application', application);
 
   const [collapsed, setCollapsed] = useState(false);
   const toggleExpand = () => {
     setCollapsed(prev => !prev);
   };
+  console.log('advertId', advert?.id);
+  console.log('applicationId', application?.id);
+  const handleFavorite = async () => {
+    try {
+      await toggleFavorite((advert?.id || application?.advert.id) ?? 0); // Use the correct ID based on the user type
+    } catch (error) {
+      console.error('Failed to toggle favorite:', error);
+    }
+  };
+
   if (applicationIsLoading || advertIsLoading) {
     return (
       <View style={styles.pageContainer}>
@@ -75,24 +94,28 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   }
   return (
     <View style={styles.pageContainer}>
-      <HighlightButtons
-        heartPresent={!advert?.lessor}
-        color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
-      />
-      <LofftHeaderPhoto
-        imageContainerHeight={300}
-        images={advert?.flat.photos ?? []}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
-        <View style={styles.maincontainer}>
-          <StatusBarComponent
-            application={application}
-            _advert={advert}
-            isLessor={isLessor}
+        <HighlightButtons
+          heartPresent={!advert?.lessor}
+          // color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
+          onPressHeart={handleFavorite}
+        />
+        <View>
+          <LofftHeaderPhoto
+            imageContainerHeight={300}
+            images={advert?.flat.photos ?? []}
           />
-
+          <View style={styles.maincontainer}>
+            <StatusBarComponent
+              application={application}
+              _advert={advert}
+              isLessor={isLessor}
+            />
+          </View>
+        </View>
+        <SafeAreaView>
           <View style={styles.seeMoreContainer}>
             <Text
               onPress={toggleExpand}
@@ -121,7 +144,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
-        </View>
+        </SafeAreaView>
       </ScrollView>
     </View>
   );
@@ -132,11 +155,12 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
   },
+
   scrollView: {
     backgroundColor: Color.White[100],
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
   },
+
   maincontainer: {
     width: '100%',
     alignContent: 'center',

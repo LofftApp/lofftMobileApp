@@ -31,9 +31,6 @@ const ListFlatApplicationCard = ({
   isLessor,
 }: ListFlatApplicationCardProps) => {
   const advert = isLessor ? _advert : application?.advert;
-  console.log('advertXXXXXXXXXXXXXX', application?.advert);
-  console.log('_advert', _advert);
-  console.log('isLessor', isLessor);
 
   const [toggleFavorite] = useToggleFavoriteMutation({
     fixedCacheKey: 'favorite',

@@ -29,8 +29,7 @@ const ListFlatApplicationComponent = ({
       </SafeAreaView>
     );
   }
-  console.log('applications IN LIST', applications);
-  console.log('adverts IN LIST', adverts);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

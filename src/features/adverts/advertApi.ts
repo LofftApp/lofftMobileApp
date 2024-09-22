@@ -12,8 +12,10 @@ export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
     getAdverts: builder.query<Advert[], void>({
       query: () => '/api/adverts',
-      transformResponse: (response: IncomingAdverts) =>
-        toCamelCaseKeys(response.adverts as unknown as Advert[]),
+      transformResponse: (response: IncomingAdverts) => {
+        console.log('getAdverts called 🚨');
+        return toCamelCaseKeys(response.adverts as unknown as Advert[]);
+      },
       providesTags: result =>
         result
           ? [
@@ -25,8 +27,10 @@ export const advertApi = lofftApi.injectEndpoints({
     getAdvertById: builder.query<Advert, number>({
       query: id => `/api/adverts/${id}`,
       providesTags: (result, error, id) => [{type: 'Adverts', id}],
-      transformResponse: (response: IncomingAdvert) =>
-        toCamelCaseKeys(response as unknown as Advert),
+      transformResponse: (response: IncomingAdvert) => {
+        console.log('getAdvertById called 🌈');
+        return toCamelCaseKeys(response as unknown as Advert);
+      },
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,

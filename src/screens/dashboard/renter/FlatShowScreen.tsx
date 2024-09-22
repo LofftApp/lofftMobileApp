@@ -48,14 +48,13 @@ const outOfTokensObject = {
 
 const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const {id: advertId} = route.params;
+  console.log('advertId in FlatShow', advertId);
 
   const dispatch = useAppDispatch();
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation({
     fixedCacheKey: 'favorite',
   });
-
-  console.log('advert>>>>>>>', advert?.applied);
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
