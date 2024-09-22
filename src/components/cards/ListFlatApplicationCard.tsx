@@ -32,9 +32,7 @@ const ListFlatApplicationCard = ({
 }: ListFlatApplicationCardProps) => {
   const advert = isLessor ? _advert : application?.advert;
 
-  const [toggleFavorite] = useToggleFavoriteMutation({
-    fixedCacheKey: 'favorite',
-  });
+  const [toggleFavorite] = useToggleFavoriteMutation();
 
   const navigation = useNavigation<SearchScreenNavigationProp>();
 

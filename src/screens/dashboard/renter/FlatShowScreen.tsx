@@ -52,9 +52,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
   const dispatch = useAppDispatch();
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
-  const [toggleFavorite] = useToggleFavoriteMutation({
-    fixedCacheKey: 'favorite',
-  });
+  const [toggleFavorite] = useToggleFavoriteMutation();
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
