@@ -34,9 +34,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
     (state: {user: UserState}) => state.user.user,
   );
 
-  const [toggleFavorite] = useToggleFavoriteMutation({
-    fixedCacheKey: 'favorite',
-  });
+  const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
     currentUser.profile.characteristics ?? [],
@@ -95,7 +93,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
           {advert.flat.district && (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {advert.flat.district}, {advert.flat.city} mano
+              {advert.flat.district}, {advert.flat.city}
             </Text>
           )}
         </View>
