@@ -48,7 +48,6 @@ const outOfTokensObject = {
 
 const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const {id: advertId} = route.params;
-  console.log('advertId in FlatShow', advertId);
 
   const dispatch = useAppDispatch();
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);

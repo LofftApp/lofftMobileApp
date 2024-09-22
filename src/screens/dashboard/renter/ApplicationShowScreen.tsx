@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 //Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
@@ -35,18 +35,15 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
   const currentUser = useAppSelector(state => state.user.user);
   const isLessor = currentUser.userType === 'lessor';
-  console.log('isLessor', isLessor);
-  console.log('id', id);
 
-  useEffect(() => {
-    console.log('this component rendered ');
-  }, []);
-
+  //Renter Journey
   const {
     data: application,
     isLoading: applicationIsLoading,
     error: applicationError,
   } = useGetApplicationByIdQuery(id, {skip: isLessor});
+
+  //Lessor Journey
   const {
     data: _advert,
     error: advertError,
@@ -57,16 +54,11 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const dispatch = useAppDispatch();
 
   const advert = isLessor ? _advert : application?.advert;
-  console.log('_advert', _advert);
-  console.log('application', application);
 
   const [collapsed, setCollapsed] = useState(false);
   const toggleExpand = () => {
     setCollapsed(prev => !prev);
   };
-  console.log('advertId', advert?.id);
-  console.log('applicationId', application?.id);
-  console.log('applicationId advert', application?.advert?.id);
 
   const handleFavorite = async () => {
     try {
