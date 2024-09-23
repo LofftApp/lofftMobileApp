@@ -10,9 +10,9 @@ import {
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
-import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
 
 import {
+  useApplyForFlatMutation,
   useGetAdvertByIdQuery,
   useToggleFavoriteMutation,
 } from 'reduxFeatures/adverts/advertApi';
@@ -49,9 +49,9 @@ const outOfTokensObject = {
 const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
   const {id: advertId} = route.params;
 
-  const dispatch = useAppDispatch();
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
+  const [applyForFlat] = useApplyForFlatMutation();
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
@@ -62,6 +62,13 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
+  };
+
+  const handleApplyForFlat = () => {
+    applyForFlat(advert?.id ?? 0);
+    navigation.navigate('applyforflat', {
+      id: advert?.id ?? 0,
+    });
   };
 
   if (isLoading) {
@@ -122,12 +129,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
                   value={advert?.applied ? 'Applied' : 'Apply'}
                   style={styles.coreButtonCustom}
                   disabled={advert?.applied}
-                  onPress={() => {
-                    dispatch(applyForAdvert(advert?.id ?? 0));
-                    navigation.navigate('applyforflat', {
-                      id: advert?.id ?? 0,
-                    });
-                  }}
+                  onPress={handleApplyForFlat}
                 />
               ) : (
                 <CoreButton

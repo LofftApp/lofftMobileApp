@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -11,15 +11,14 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import {ApplyForFlatScreenProp} from './types';
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
-
 const ApplyForFlatScreen = ({navigation, route}: ApplyForFlatScreenProp) => {
   const {id} = route.params;
-
-
 
   const adverts = useAppSelector(state => state.adverts.adverts);
 
   const advert = adverts.find(el => el.id === id);
+
+  const credits = useAppSelector(state => state.user.user.credits);
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>

@@ -61,6 +61,16 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
+    applyForFlat: builder.mutation<Advert, number>({
+      query: id => ({
+        url: `/api/adverts/${id}/apply`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, id) => [
+        {type: 'Adverts', id},
+        {type: 'Applications', id: 'LIST'},
+      ],
+    }),
   }),
   overrideExisting: false,
 });
@@ -70,4 +80,5 @@ export const {
   useGetAdvertByIdQuery,
   useSeeApplicationsByAdvertIdQuery,
   useToggleFavoriteMutation,
+  useApplyForFlatMutation,
 } = advertApi;
