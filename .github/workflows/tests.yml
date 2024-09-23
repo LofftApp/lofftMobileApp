@@ -1,4 +1,4 @@
-name: Jest
+name: Jest and Lint tests
 on: push
 jobs:
   test:
@@ -29,3 +29,5 @@ jobs:
       # Finally, run our tests
       - name: Run the tests
         run: npm test
+      - name: Run linting
+        run: npm run lint
