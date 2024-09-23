@@ -72,13 +72,10 @@ export const applyForAdvert = createAsyncThunk(
     const url = `http://localhost:3000/api/adverts/${id}/apply`;
     try {
       const token = await EncryptedStorage.getItem('token');
-      const response = await axios.post(
-        url,
-        {},
-        {headers: {Authorization: `Bearer ${token}`}},
-      );
-      console.log({data: response.data.status});
-      return {data: response.data.status};
+      const post = axios.post(url, {}, {headers: {Authorization: `Bearer ${token}`}});
+      const response = await post;
+
+      return response.data.credits;
     } catch (error) {
       console.log('applyForAdvert error:', error);
     }
