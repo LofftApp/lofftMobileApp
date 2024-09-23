@@ -26,23 +26,24 @@ import type {ApplicantCardProps} from './types';
 
 const ApplicantCard = ({
   currentSelectedNums,
-  selectProfile,
-  applicant,
+  selectApplication,
+  application,
 }: ApplicantCardProps) => {
-  const {id, email: name} = applicant.applicant;
-  const selected = applicant.selected;
-  console.log('applicat 🚨', applicant.selected);
-  console.log('CurrentSelectedNUMS 🚖', currentSelectedNums);
-
   const [accordion, setAccordion] = useState(false);
+  const {height, width} = useWindowDimensions();
+  const applicant = application.applicant;
+  if (!applicant) {
+    return null;
+  }
+  const {email: name} = applicant;
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT) {
-      if (selected) {
-        selectProfile(id);
+      if (application.round1) {
+        selectApplication(application.id);
       }
     } else {
-      selectProfile(id);
+      selectApplication(application.id);
     }
   };
 
@@ -50,15 +51,12 @@ const ApplicantCard = ({
     setAccordion(!accordion);
   };
 
-  // Height was removed as not being used.
-  const {width} = useWindowDimensions();
-
   return (
     <View style={[styles.outterContainer, {width: width - 20}]}>
       <View style={[styles.innerContainer]}>
         <CheckBox
-          value={selected}
-          disabled={!selected && currentSelectedNums >= MAX_SELECT}
+          value={application.round1}
+          disabled={!application.round1 && currentSelectedNums >= MAX_SELECT}
           onPress={() => toggleCheckbox()}
         />
         <View style={styles.details}>

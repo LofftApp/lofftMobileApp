@@ -69,7 +69,7 @@ const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
             centerCoordinate={coordinateViewConverter(
               mapboxAdverts[selectedIndex]?.coordinates,
             )}
-            // animationMode="flyTo"
+            animationMode={'easeTo'}
           />
           {mapboxAdverts.map((el: AdvertWithCoordinates, index: number) => (
             <MapboxGL.MarkerView

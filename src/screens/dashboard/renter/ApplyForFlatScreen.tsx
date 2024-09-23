@@ -31,7 +31,7 @@ const ApplyForFlatScreen = ({navigation, route}: ApplyForFlatScreenProp) => {
           to get back to you!
         </Text>
         <Text style={[fontStyles.bodyMedium, styles.hack]}>
-          ⚡️ Remaining tokens : 5
+          ⚡️ Remaining tokens : {credits}
         </Text>
         <View style={styles.buttonsWrap}>
           <CoreButton

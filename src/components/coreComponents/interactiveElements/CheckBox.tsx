@@ -1,14 +1,21 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
 import colors from '../../../styles/lofftColorPallet.json';
 import {CrossIcon} from '../../../assets';
+
+type CheckboxProps = {
+  disabled?: boolean;
+  value?: boolean;
+  style?: ViewStyle | null;
+  onPress: () => void;
+};
 
 const CheckBox = ({
   disabled = false,
   value = true,
   style = null,
   onPress,
-}: any) => {
+}: CheckboxProps) => {
   return (
     <View
       style={[styles.CBContainer, style, disabled ? styles.disabled : null]}>

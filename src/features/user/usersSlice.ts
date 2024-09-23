@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {getProfile} from './usersMiddleware';
+import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Types
 import type {UserState} from './types';
@@ -12,10 +13,10 @@ const initialState: UserState = {
     admin: null,
     termsAccepted: null,
     userType: null,
+    credits: null,
     profile: {
       description: null,
       genderIdentity: null,
-      tokens: null,
       characteristics: null,
     },
     filter: null,
@@ -32,7 +33,7 @@ const userSlice = createSlice({
       state.user.id = null;
       state.user.userType = null;
       state.user.profile.genderIdentity = null;
-      state.user.profile.tokens = null;
+      state.user.profile.credits = null;
       state.user.admin = false;
       state.user.termsAccepted = false;
       state.user.profile.description = null;
@@ -55,7 +56,6 @@ const userSlice = createSlice({
         state.user.userType = action.payload.user.user_type;
         state.user.profile.genderIdentity =
           action.payload.user.profile.gender_identity;
-        state.user.profile.tokens = action.payload.user.profile.tokens;
         state.user.profile.description =
           action.payload.user.profile.description;
         state.user.profile.characteristics =
@@ -63,6 +63,12 @@ const userSlice = createSlice({
         state.user.filter = action.payload.user.filter;
       },
     );
+    builder.addCase(applyForAdvert.fulfilled, (state, action) => {
+      state.user.credits = action.payload;
+    });
+    builder.addCase(applyForAdvert.rejected, (state, action) => {
+      console.log("hehehe", action.payload)
+    });
   },
 });
 
