@@ -25,6 +25,8 @@ import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpMod
 import {CoreButton} from 'components/buttons/CoreButton';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 
 // Helpers 🥷🏻
 import {height, size} from 'react-native-responsive-sizes';
@@ -71,27 +73,11 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   };
 
   if (isLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView
-          style={[styles.pageContainer, styles.loadingErrorContainer]}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView
-          style={[styles.pageContainer, styles.loadingErrorContainer]}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting advert
-          </Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <ErrorComponent message="There was an error getting this flat" />;
   }
 
   return (
@@ -258,11 +244,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: 1,
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

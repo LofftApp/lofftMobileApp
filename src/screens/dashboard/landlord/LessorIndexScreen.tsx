@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Screens 📺
 import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent';
@@ -8,40 +8,30 @@ import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent
 import {size} from 'react-native-responsive-sizes';
 
 // Redux
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import * as Color from 'styleSheets/lofftColorPallet.json';
 
+//Components
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Types
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 const LessorIndexScreen = () => {
   const {data: adverts, error, isLoading} = useGetAdvertsQuery();
 
   if (isLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting your adverts
-          </Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <ErrorComponent message="There was an error getting your adverts" />;
   }
 
   return (

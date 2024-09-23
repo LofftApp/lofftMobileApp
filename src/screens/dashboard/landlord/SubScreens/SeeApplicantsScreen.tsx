@@ -18,11 +18,14 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {useAppDispatch} from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -31,7 +34,6 @@ import {logWithLocation} from 'helpers/logWithLocation';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {Application} from 'reduxFeatures/applications/types';
 
 export const MAX_SELECT = 5;
@@ -82,12 +84,12 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   };
 
   if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
     return (
-      <View style={styles.pageWrapper}>
-        <SafeAreaView>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
+      <ErrorComponent message="There was an error getting the applicants" />
     );
   }
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   Text,
   View,
@@ -152,28 +152,31 @@ const StatusBarComponent = ({
     },
   );
 
-  const calculateStatusBar = (currentStatusIndex: number) => {
-    switch (currentStatusIndex) {
-      case 1:
-        setStatusBar(isLessor ? '50' : '60');
-        break;
-      case 2:
-        setStatusBar(isLessor ? '75' : '80');
-        break;
-      case 3:
-        setStatusBar('100');
-        break;
-      default:
-        setStatusBar('20');
-        break;
-    }
-  };
+  const calculateStatusBar = useCallback(
+    (currentStatusIndex: number) => {
+      switch (currentStatusIndex) {
+        case 1:
+          setStatusBar(isLessor ? '50' : '60');
+          break;
+        case 2:
+          setStatusBar(isLessor ? '75' : '80');
+          break;
+        case 3:
+          setStatusBar('100');
+          break;
+        default:
+          setStatusBar('20');
+          break;
+      }
+    },
+    [isLessor],
+  );
 
   // The background color height of the statusbar is set here 👨🏻‍🍳
   // The Index needs to be stored in state or in the advert.status enum for the color to change
   useEffect(() => {
     calculateStatusBar(currentApplicationStatus);
-  }, [currentApplicationStatus]);
+  }, [currentApplicationStatus, calculateStatusBar]);
 
   return (
     <>

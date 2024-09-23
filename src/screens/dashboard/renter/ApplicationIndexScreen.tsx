@@ -10,6 +10,8 @@ import ListFlatApplicationComponent from './SubScreens/ListFlatApplicationCompon
 
 // Components 🪢
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -37,24 +39,12 @@ const ApplicationIndexScreen = () => {
   }, [applications]);
 
   if (isLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
     return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting your applications
-          </Text>
-        </SafeAreaView>
-      </View>
+      <ErrorComponent message="There was an error getting your applications" />
     );
   }
 
@@ -137,11 +127,6 @@ const styles = StyleSheet.create({
   },
   marginRight: {
     marginRight: size(20),
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

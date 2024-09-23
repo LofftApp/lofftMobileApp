@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 
 // Redux 🏪
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
@@ -16,10 +16,11 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🏷️
 
@@ -37,23 +38,11 @@ const FlatFindScreen = () => {
   };
 
   if (isLoading) {
-    return (
-      <SafeAreaView
-        style={[styles.pageContainer, styles.loadingErrorContainer]}>
-        <Text style={fontStyles.headerSmall}>Loading...</Text>
-      </SafeAreaView>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <SafeAreaView
-        style={[styles.pageContainer, styles.loadingErrorContainer]}>
-        <Text style={fontStyles.headerSmall}>
-          {'There was an error getting advert'}
-        </Text>
-      </SafeAreaView>
-    );
+    return <ErrorComponent message="There was an error getting flats" />;
   }
 
   return (
@@ -103,11 +92,6 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     marginHorizontal: size(20),
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

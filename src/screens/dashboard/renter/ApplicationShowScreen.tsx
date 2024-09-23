@@ -24,6 +24,8 @@ import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import StatusBarComponent from 'components/statusbar/StatusBarComponent';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -72,26 +74,12 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   };
 
   if (applicationIsLoading || advertIsLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView
-          style={[styles.pageContainer, styles.loadingErrorContainer]}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (applicationError || advertError) {
     return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView
-          style={[styles.pageContainer, styles.loadingErrorContainer]}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting this application
-          </Text>
-        </SafeAreaView>
-      </View>
+      <ErrorComponent message="There was an error getting the application" />
     );
   }
   return (
@@ -172,11 +160,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginHorizontal: size(10),
     marginBottom: size(2),
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   seeMoreContainer: {
     flexDirection: 'row',
