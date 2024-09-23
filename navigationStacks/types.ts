@@ -37,7 +37,7 @@ type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
   flatShow: {id: number};
-  applyforflat: {id: number};
+  applyforflat: undefined;
   applicationshow: {id: number};
   chat: undefined;
 };

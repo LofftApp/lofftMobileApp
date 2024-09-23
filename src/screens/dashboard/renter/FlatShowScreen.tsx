@@ -7,10 +7,9 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
-import {useAppDispatch} from 'reduxCore/hooks';
-
 import {
   useApplyForFlatMutation,
   useGetAdvertByIdQuery,
@@ -32,6 +31,7 @@ import {height, size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
+import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
 
 const profileNotDoneObject = {
   header: "Your application profile isn't complete",
@@ -46,8 +46,9 @@ const outOfTokensObject = {
   icon: CompleteProfileImage,
 };
 
-const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
+const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {id: advertId} = route.params;
+  const navigation = useNavigation<SearchScreenNavigationProp>();
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -66,9 +67,7 @@ const FlatShowScreen = ({route, navigation}: FlatShowScreenProp) => {
 
   const handleApplyForFlat = () => {
     applyForFlat(advert?.id ?? 0);
-    navigation.navigate('applyforflat', {
-      id: advert?.id ?? 0,
-    });
+    navigation.navigate('applyforflat');
   };
 
   if (isLoading) {

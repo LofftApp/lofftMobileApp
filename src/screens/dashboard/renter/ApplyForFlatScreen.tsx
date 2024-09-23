@@ -1,30 +1,28 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
+// Styles
 import {fontStyles} from 'styleSheets/fontStyles';
+
+//Components
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
-// import {ApplyForFlatScreenBackground} from 'Assets/background/apply-for-flat-screen.svg';
-// import {HiFive} from 'Assets/illustrations/Hi-five.svg';
 import {CoreButton} from 'components/buttons/CoreButton';
+import {ApplyForFlatScreenBackground, HiFive} from 'assets';
 
 // Types 🏷️
-import {ApplyForFlatScreenProp} from './types';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
+import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
 
-const ApplyForFlatScreen = ({navigation, route}: ApplyForFlatScreenProp) => {
-  const {id} = route.params;
-
-  const adverts = useAppSelector(state => state.adverts.adverts);
-
-  const advert = adverts.find(el => el.id === id);
-
+const ApplyForFlatScreen = () => {
+  const navigation = useNavigation<SearchScreenNavigationProp>();
   const credits = useAppSelector(state => state.user.user.credits);
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
-      {/* <ApplyForFlatScreenBackground style={styles.backgroundImage} /> */}
+      <ApplyForFlatScreenBackground style={styles.backgroundImage} />
       <View style={styles.itemsWrap}>
-        {/* <HiFive /> */}
+        <HiFive />
         <Text style={[fontStyles.headerSmall, styles.hack]}>
           You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
           to get back to you!
@@ -36,7 +34,6 @@ const ApplyForFlatScreen = ({navigation, route}: ApplyForFlatScreenProp) => {
           <CoreButton
             style={styles.buttonStyle}
             value={'See all applications'}
-            // "navigation 'alerts' has no payload"
             onPress={() => navigation.navigate('favorite')}
           />
           <CoreButton

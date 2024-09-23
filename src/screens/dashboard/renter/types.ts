@@ -17,14 +17,4 @@ type ApplicationShowScreenProp = {
   route: {params: {id: number}};
 };
 
-type ApplyForFlatScreenProp = {
-  navigation: SearchScreenNavigationProp;
-  route: {params: {id: number | null}};
-};
-
-export type {
-  ApplicationShowScreenProp,
-  FlatFindScreenProp,
-  FlatShowScreenProp,
-  ApplyForFlatScreenProp,
-};
+export type {ApplicationShowScreenProp, FlatFindScreenProp, FlatShowScreenProp};
