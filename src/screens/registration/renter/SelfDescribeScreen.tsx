@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput} from 'react-native';
+import {View, StyleSheet, TextInput, Text} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -46,10 +46,18 @@ const SelfDescribeScreen = () => {
         />
       </View>
 
+      {text.length < 20 && (
+        <Text style={styles.min}>
+          *Share you story in {20 - text.length} word
+          {text.length === 19 ? '' : 's'} or more
+        </Text>
+      )}
+
       <FooterNavBarWithPagination
         onPress={(targetScreen: any) =>
           navigationHelper(navigation, targetScreen)
         }
+        disabled={text.length >= 20 ? false : true}
         details={{textAboutUser: text}}
       />
     </ScreenBackButton>
@@ -59,6 +67,10 @@ const SelfDescribeScreen = () => {
 const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
+  },
+  min: {
+    paddingVertical: size(10),
+    color: Color.Black[80],
   },
   inputForm: {
     height: '65%',
