@@ -8,7 +8,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {CoreButton} from 'components/buttons/CoreButton';
-import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
+// import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
 import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
 import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
 

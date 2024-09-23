@@ -1,71 +1,62 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {
-  Text,
-  View,
-  StyleSheet,
-  Animated,
-  Easing,
-  ScrollView,
-  SafeAreaView,
-  Dimensions,
-} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 
 // import userProfiles from 'Assets/mockTempData/userProfiles.json';
-import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
+// import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
 
 // Components 🪢
-import FilterButton from 'components/buttons/FilterButton';
+// import FilterButton from 'components/buttons/FilterButton';
 import BackButton from 'components/buttons/BackButton';
-import {CoreButton} from 'components/buttons/CoreButton';
+// import {CoreButton} from 'components/buttons/CoreButton';
 
 const ShortListApplicantsScreen = ({navigation}: any) => {
-  const [userProfilesJson, setUserProfilesJson] = useState();
+  // const [userProfilesJson, setUserProfilesJson] = useState();
   // userProfiles.users.users,
-  const [maxSelect, setMaxSelected] = useState(5);
-  const [finalRound, setFinalRound] = useState([]);
-  const windowHeight = Dimensions.get('window').height;
+  // const [maxSelect, setMaxSelected] = useState(5);
+  // const [finalRound, setFinalRound] = useState([]);
+  // const windowHeight = Dimensions.get('window').height;
   // const [buttonFeed, setButtonFeed] = useState({width: '90%', position: 'absolute', bottom: 10});
   // const [initalButtonStyle, setintialButtonStyle] = useState({ width: '90%', position: 'absolute', bottom: 10 })
 
-  const selectProfile = (id: number) => {
-    // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
-    // const updatedProfiles = userProfilesJson.map(el => {
-    //   if (el.id === id) {
-    //     return {
-    //       ...el,
-    //       selected: !el.selected,
-    //     };
-    //   } else {
-    //     return el;
-    //   }
-    // });
-    // setUserProfilesJson(updatedProfiles);
-    // const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
-    // setFinalRound(selectedProfilesOnly);
-    // setButtonFeed(style);
-    // setTimeout(() => {
-    //   setButtonFeed({ width: '90%', position: 'absolute', bottom: 10, })
-    // }, 200);
-    // Animated.timing(height, {
-    //   toValue: 1,
-    //   duration: 500,
-    //   easing: Easing.linear,
-    //   useNativeDriver: false  // <-- neccessary
-    // }).start(() => {
-    //   Animated.timing(opacity, {
-    //     toValue: 1,
-    //     duration: 500,
-    //     easing: Easing.linear,
-    //     useNativeDriver: false  // <-- neccessary
-    //   }).start();
-    // });
-  };
+  // const selectProfile = (id: number) => {
+  // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
+  // const updatedProfiles = userProfilesJson.map(el => {
+  //   if (el.id === id) {
+  //     return {
+  //       ...el,
+  //       selected: !el.selected,
+  //     };
+  //   } else {
+  //     return el;
+  //   }
+  // });
+  // setUserProfilesJson(updatedProfiles);
+  // const selectedProfilesOnly = updatedProfiles.filter(el => el.selected);
+  // setFinalRound(selectedProfilesOnly);
+  // setButtonFeed(style);
+  // setTimeout(() => {
+  //   setButtonFeed({ width: '90%', position: 'absolute', bottom: 10, })
+  // }, 200);
+  // Animated.timing(height, {
+  //   toValue: 1,
+  //   duration: 500,
+  //   easing: Easing.linear,
+  //   useNativeDriver: false  // <-- neccessary
+  // }).start(() => {
+  //   Animated.timing(opacity, {
+  //     toValue: 1,
+  //     duration: 500,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false  // <-- neccessary
+  //   }).start();
+  // });
+  // };
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View>
       <BackButton
         style={styles.backButtonOptions}
         title="Applicants"
@@ -94,7 +85,6 @@ const ShortListApplicantsScreen = ({navigation}: any) => {
         </SafeAreaView>
         <CoreButton
           value={`Selected ${finalRound.length}/${maxSelect}`}
-          style={{width: '90%', position: 'absolute', bottom: 10}}
         />
       </View> */}
     </View>

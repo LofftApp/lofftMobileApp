@@ -9,7 +9,7 @@ import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 
 // ! This is  a duplicat page, for landord and renter, refactor this to be one page
 
-const FlatListSubScreen = ({navigation}: any) => {
+const FlatListSubScreen = () => {
   const flats = useAppSelector((state: any) => state.flats.allFlats);
 
   return (

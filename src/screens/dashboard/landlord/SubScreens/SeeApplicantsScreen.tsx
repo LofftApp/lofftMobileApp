@@ -39,11 +39,7 @@ export const MAX_SELECT = 5;
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {id: advertId} = route.params;
 
-  const {
-    data: advert,
-    error,
-    isLoading,
-  } = useSeeApplicationsByAdvertIdQuery(advertId);
+  const {data: advert, isLoading} = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
 
   logWithLocation('applicantions>>>>>>>', applications);

@@ -33,6 +33,8 @@ const userSlice = createSlice({
       state.user.id = null;
       state.user.userType = null;
       state.user.profile.genderIdentity = null;
+      // TODO @jrcopeti && @AdamTomczyk to check this
+      // state.user.profile.credits = null;
       state.user.admin = false;
       state.user.termsAccepted = false;
       state.user.profile.description = null;

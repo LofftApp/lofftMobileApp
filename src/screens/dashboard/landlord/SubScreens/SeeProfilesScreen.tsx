@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 
 // Styles
-import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Components
@@ -27,7 +26,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       return {...applicant, secondRoundSelected: false};
     });
   const {currentAdvert} = route.params;
-  const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [finalRound, setFinalRound] = useState<
     SecondRoundApplicantWithSelected[]
@@ -37,7 +35,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   >(secondRoundApplicantsWithSelected);
 
   const selectProfiles = (id: number | null) => {
-    const updatedProfiles = secondRoundProfiles.map(el => {
+    const updatedProfiles = secondRoundProfiles.map((el: any) => {
       if (el.id === id) {
         return {
           ...el,
@@ -62,7 +60,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       <Text style={[styles.header, fontStyles.headerSmall]}>Applicants</Text>
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {secondRoundProfiles.map(el => (
+          {secondRoundProfiles.map((el: any) => (
             <UserBlobCard
               key={el.id}
               secondRoundProfile={el}
@@ -70,7 +68,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
               currentAdvert={currentAdvert}
 
               // sayHi={'sayHi'}
-
             />
           ))}
         </ScrollView>

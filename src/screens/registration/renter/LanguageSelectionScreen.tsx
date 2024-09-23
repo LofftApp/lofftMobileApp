@@ -98,7 +98,7 @@ const LanguageSelectionScreen = () => {
           )}
           <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
-              <Text style={[fontStyles.headerSmall, {paddingTop: 16}]}>
+              <Text style={[fontStyles.headerSmall, styles.paddingTop16]}>
                 Not what you're looking for?
               </Text>
             )}
@@ -164,6 +164,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: size(50),
+  },
+  paddingTop16: {
+    paddingTop: size(16),
   },
 });
 

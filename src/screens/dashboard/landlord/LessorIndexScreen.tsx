@@ -49,7 +49,7 @@ const LessorIndexScreen = () => {
       <View style={styles.headerText}>
         <Text style={fontStyles.headerLarge}>My Listings</Text>
         <View style={styles.actionContainer}>
-          <Pressable style={[styles.addButton, {marginRight: 15}]}>
+          <Pressable style={[styles.addButton, styles.marginRight15]}>
             <LofftIcon
               name={'annotation-heart'}
               size={33}
@@ -102,6 +102,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  marginRight15: {
+    marginRight: size(15),
   },
 });
 
