@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 
 // Redux 🏪
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';
@@ -32,12 +31,13 @@ import {width, height, size} from 'react-native-responsive-sizes';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import type {UserState} from 'reduxFeatures/user/types';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
     (state: {user: UserState}) => state.user.user,
   );
-  const dispatch = useAppDispatch();
+  const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
     currentUser.profile.characteristics ?? [],
@@ -48,6 +48,10 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     advert.flat.features,
   );
   const maxTaglineLength = 35;
+
+  const handleFavorite = () => {
+    toggleFavorite(advert.id);
+  };
 
   return (
     <View style={styles.boundryContainer}>
@@ -71,11 +75,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
                 size="Small"
                 score={advert.matchScore ?? 5}
               />
-              <Pressable
-                onPress={() => {
-                  dispatch(toggleFavorite(advert.id));
-                }}>
-                {/* ! This need to be updated with validation */}
+              <Pressable onPress={handleFavorite}>
                 {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"

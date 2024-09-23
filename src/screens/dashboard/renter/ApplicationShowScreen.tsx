@@ -1,7 +1,15 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 //Redux
-import {useGetApplicationByIdQuery} from 'reduxFeatures/applications/applicationApi';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {
+  applicationApi,
+  useGetApplicationByIdQuery,
+} from 'reduxFeatures/applications/applicationApi';
+import {
+  useGetAdvertByIdQuery,
+  useToggleFavoriteMutation,
+} from 'reduxFeatures/adverts/advertApi';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -22,35 +30,47 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
-import {useAppSelector} from 'reduxCore/hooks';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
   const currentUser = useAppSelector(state => state.user.user);
   const isLessor = currentUser.userType === 'lessor';
-  console.log('isLessor>>>>>>>>>>>>>>>', currentUser.userType, isLessor);
 
+  //Renter Journey
   const {
     data: application,
     isLoading: applicationIsLoading,
     error: applicationError,
   } = useGetApplicationByIdQuery(id, {skip: isLessor});
 
+  //Lessor Journey
   const {
     data: _advert,
     error: advertError,
     isLoading: advertIsLoading,
   } = useGetAdvertByIdQuery(id, {skip: !isLessor});
 
-  console.log('application in show ', application);
-  console.log('advert in show ', _advert);
+  const [toggleFavorite] = useToggleFavoriteMutation();
+  const dispatch = useAppDispatch();
+
   const advert = isLessor ? _advert : application?.advert;
 
   const [collapsed, setCollapsed] = useState(false);
   const toggleExpand = () => {
     setCollapsed(prev => !prev);
   };
+
+  const handleFavorite = async () => {
+    try {
+      await toggleFavorite(advert?.id ?? 0);
+      dispatch(
+        applicationApi.util.invalidateTags([{type: 'Applications', id}]),
+      );
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  };
+
   if (applicationIsLoading || advertIsLoading) {
     return (
       <View style={styles.pageContainer}>
@@ -76,24 +96,28 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   }
   return (
     <View style={styles.pageContainer}>
-      <HighlightButtons
-        heartPresent={!advert?.lessor}
-        color={advert?.lessor ? Color.Lavendar[100] : Color.Mint[100]}
-      />
-      <LofftHeaderPhoto
-        imageContainerHeight={300}
-        images={advert?.flat.photos ?? []}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}>
-        <View style={styles.maincontainer}>
-          <StatusBarComponent
-            application={application}
-            _advert={advert}
-            isLessor={isLessor}
+        <HighlightButtons
+          favorite={advert?.favorite}
+          heartPresent={!advert?.lessor}
+          onPressHeart={handleFavorite}
+        />
+        <View>
+          <LofftHeaderPhoto
+            imageContainerHeight={300}
+            images={advert?.flat.photos ?? []}
           />
-
+          <View style={styles.maincontainer}>
+            <StatusBarComponent
+              application={application}
+              _advert={advert}
+              isLessor={isLessor}
+            />
+          </View>
+        </View>
+        <SafeAreaView>
           <View style={styles.seeMoreContainer}>
             <Text
               onPress={toggleExpand}
@@ -122,7 +146,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
-        </View>
+        </SafeAreaView>
       </ScrollView>
     </View>
   );
@@ -133,11 +157,12 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
   },
+
   scrollView: {
     backgroundColor: Color.White[100],
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
   },
+
   maincontainer: {
     width: '100%',
     alignContent: 'center',

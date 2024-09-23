@@ -1,5 +1,7 @@
 const toCamelCase = (str: string): string => {
-  return str.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+  return str.replace(/_([a-zA-Z0-9])/g, (match, letter) =>
+    letter.toUpperCase(),
+  );
 };
 
 const isObject = (obj: unknown): obj is Record<string, unknown> =>
