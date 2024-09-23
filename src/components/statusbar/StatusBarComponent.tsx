@@ -22,6 +22,7 @@ import statusBarText from 'Assets/coreText/statusBarText.json';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
+import {advertStatusIndex} from 'helpers/advertStatusIndex';
 
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
@@ -36,13 +37,21 @@ const StatusBarComponent = ({
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
-  // const currentApplicationStatus = applicationStatusIndex(
-  //   application?.status || advert?.status,
-  // );
+  // const currentApplicationStatus = applicationStatusIndex(application?.status);
+  // const currentAdvertStatus = advertStatusIndex(advert?.status ?? '');
+  // const round1 = application?.round1;
+  // const round2 = application?.round2;
+  // const round3 = application?.round3;
+
   // hardcoded to test status bar
   const currentApplicationStatus = 0;
+  const currentAdvertStatus = 2;
+  const round1 = true;
+  const round2 = true;
+  const round3 = true;
 
   const screenheight = Dimensions.get('window').height;
+  const marginBottom = {marginBottom: size(isLessor ? 110 : 80)};
 
   const iconsCreated = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
@@ -52,11 +61,28 @@ const StatusBarComponent = ({
           name={key.icon}
           size={28}
           color={
-            (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
-            (currentApplicationStatus === 2 && index <= 3) ||
-            (currentApplicationStatus === 3 && index <= 4) ||
-            currentApplicationStatus === index ||
-            currentApplicationStatus > index
+            isLessor
+              ? (currentAdvertStatus === 0 && index <= 0) ||
+                (currentAdvertStatus === 1 && index <= 1) ||
+                (currentAdvertStatus === 2 && index <= 2) ||
+                currentAdvertStatus === index ||
+                currentAdvertStatus > index
+                ? Color.White[100]
+                : Color.Lavendar[50]
+              : (currentApplicationStatus === 0 &&
+                  currentAdvertStatus === 1 &&
+                  round1 &&
+                  index <= 2) ||
+                (currentApplicationStatus === 0 &&
+                  currentAdvertStatus === 2 &&
+                  round2 &&
+                  index <= 3) ||
+                (currentApplicationStatus === 0 &&
+                  currentAdvertStatus === 3 &&
+                  round3 &&
+                  index <= 4) ||
+                currentApplicationStatus === index ||
+                currentApplicationStatus > index
               ? Color.White[100]
               : Color.Lavendar[50]
           }
@@ -73,11 +99,28 @@ const StatusBarComponent = ({
             style={[
               fontStyles.headerSmall,
               styles.infoBlockHeader,
-              (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
-              (currentApplicationStatus === 2 && index <= 3) ||
-              (currentApplicationStatus === 3 && index <= 4) ||
-              currentApplicationStatus === index ||
-              currentApplicationStatus > index
+              isLessor
+                ? (currentAdvertStatus === 0 && index <= 0) ||
+                  (currentAdvertStatus === 1 && index <= 1) ||
+                  (currentAdvertStatus === 2 && index <= 2) ||
+                  currentAdvertStatus === index ||
+                  currentAdvertStatus > index
+                  ? styles.infoBlockActive
+                  : styles.infoBlock
+                : (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 1 &&
+                    round1 &&
+                    index <= 2) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 2 &&
+                    round2 &&
+                    index <= 3) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 3 &&
+                    round3 &&
+                    index <= 4) ||
+                  currentApplicationStatus === index ||
+                  currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
@@ -86,11 +129,28 @@ const StatusBarComponent = ({
           <Text
             style={[
               fontStyles.bodySmall,
-              (currentApplicationStatus === 1 && index <= 2 && !isLessor) ||
-              (currentApplicationStatus === 2 && index <= 3) ||
-              (currentApplicationStatus === 3 && index <= 4) ||
-              currentApplicationStatus === index ||
-              currentApplicationStatus > index
+              isLessor
+                ? (currentAdvertStatus === 0 && index <= 0) ||
+                  (currentAdvertStatus === 1 && index <= 1) ||
+                  (currentAdvertStatus === 2 && index <= 2) ||
+                  currentAdvertStatus === index ||
+                  currentAdvertStatus > index
+                  ? styles.infoBlockActive
+                  : styles.infoBlock
+                : (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 1 &&
+                    round1 &&
+                    index <= 2) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 2 &&
+                    round2 &&
+                    index <= 3) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 3 &&
+                    round3 &&
+                    index <= 4) ||
+                  currentApplicationStatus === index ||
+                  currentApplicationStatus > index
                 ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
@@ -99,45 +159,44 @@ const StatusBarComponent = ({
 
           {isLessor ? (
             <>
-              {currentApplicationStatus === 0 &&
-                currentApplicationStatus === index && (
-                  <View style={[styles.landlordActionButton, styles.button]}>
-                    <Pressable
-                      onPress={() =>
-                        navigation.navigate('allApplicants', {
-                          id: advert?.id ?? 0,
-                        })
-                      }>
-                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                        See Applicants
-                      </Text>
-                    </Pressable>
-                  </View>
-                )}
-              {currentApplicationStatus === 1 &&
-                currentApplicationStatus === index && (
-                  <View style={[styles.landlordActionButton, styles.button]}>
-                    <Pressable onPress={() => navigation.navigate('chat')}>
-                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                        See Profiles
-                      </Text>
-                    </Pressable>
-                  </View>
-                )}
-              {currentApplicationStatus === 3 &&
-                currentApplicationStatus === index && (
-                  <View style={[styles.landlordActionButton, styles.button]}>
-                    <Pressable onPress={() => navigation.navigate('chat')}>
-                      <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                        Chat with tenant
-                      </Text>
-                    </Pressable>
-                  </View>
-                )}
+              {currentAdvertStatus === 0 && currentAdvertStatus === index && (
+                <View style={[styles.landlordActionButton, styles.button]}>
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate('allApplicants', {
+                        id: advert?.id ?? 0,
+                      })
+                    }>
+                    <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                      See Applicants
+                    </Text>
+                  </Pressable>
+                </View>
+              )}
+              {currentAdvertStatus === 1 && currentAdvertStatus === index && (
+                <View style={[styles.landlordActionButton, styles.button]}>
+                  <Pressable onPress={() => navigation.navigate('chat')}>
+                    <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                      See Profiles
+                    </Text>
+                  </Pressable>
+                </View>
+              )}
+              {currentAdvertStatus === 2 && currentAdvertStatus === index && (
+                <View style={[styles.landlordActionButton, styles.button]}>
+                  <Pressable onPress={() => navigation.navigate('chat')}>
+                    <Text style={[fontStyles.headerSmall, styles.buttonText]}>
+                      Chat with tenant
+                    </Text>
+                  </Pressable>
+                </View>
+              )}
             </>
           ) : (
-            currentApplicationStatus === 2 &&
-            currentApplicationStatus === index && (
+            currentAdvertStatus === 2 &&
+            currentApplicationStatus === 0 &&
+            round2 &&
+            index === 2 && (
               <View style={[styles.landlordActionButton, styles.button]}>
                 <Pressable onPress={() => navigation.navigate('chat')}>
                   <Text style={[fontStyles.headerSmall, styles.buttonText]}>
@@ -146,6 +205,7 @@ const StatusBarComponent = ({
                 </Pressable>
               </View>
             )
+
           )}
         </View>
       );
@@ -175,12 +235,12 @@ const StatusBarComponent = ({
   // The background color height of the statusbar is set here 👨🏻‍🍳
   // The Index needs to be stored in state or in the advert.status enum for the color to change
   useEffect(() => {
-    calculateStatusBar(currentApplicationStatus);
-  }, [currentApplicationStatus, calculateStatusBar]);
+    calculateStatusBar(currentAdvertStatus);
+  }, [currentAdvertStatus, calculateStatusBar]);
 
   return (
     <>
-      <View style={styles.maincontainer}>
+      <View style={[styles.maincontainer, marginBottom]}>
         <View
           style={[
             styles.progressContainer,
@@ -227,7 +287,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     paddingVertical: size(20),
-    marginBottom: size(80),
+    justifyContent: 'space-between',
   },
   infoBlockHeader: {
     marginTop: size(15),
@@ -260,7 +320,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   progressTextContainer: {
-    width: '85%',
+    width: '80%',
     marginLeft: size(15),
     justifyContent: 'space-around',
   },
