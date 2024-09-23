@@ -34,7 +34,10 @@ const InputFieldText = ({
       <View
         style={[
           styles.inputFieldStyle,
-          dropdown && value.length > 0 && styles.inputDropDown,
+          dropdown &&
+            value.length > 0 &&
+            dropDownContent.length > 0 &&
+            styles.inputDropDown,
           focus && styles.focus,
           !!errorMessage && styles.errorActive,
           style,
@@ -85,7 +88,7 @@ const InputFieldText = ({
         )}
       </View>
       {dropdown && value.length > 0 && (
-        <View style={styles.dropDown}>
+        <View style={dropDownContent.length > 0 ? styles.dropDown : null}>
           {dropDownContent.map((val, i) => {
             return (
               <Pressable onPress={() => dropDownPressAction(val)} key={i}>
@@ -102,7 +105,7 @@ const InputFieldText = ({
           })}
         </View>
       )}
-      {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
+      {/* {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>} */}
     </>
   );
 };
@@ -142,9 +145,8 @@ const styles = StyleSheet.create({
     padding: size(3),
     borderBottomColor: Color.Black[100],
   },
-  oddPlaceList: {
-    backgroundColor: Color.Lavendar[10],
-  },
+  // oddPlaceList: {
+  // },
   errorMessage: {
     margin: size(5),
     color: Color.Tomato[100],
