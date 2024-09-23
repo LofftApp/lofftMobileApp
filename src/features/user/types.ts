@@ -4,7 +4,6 @@ interface UserCharacteristics {
 }
 interface UserProfile {
   genderIdentity: string | null;
-  tokens: number | null;
   description: string | null;
   characteristics: UserCharacteristics[] | null;
 }
@@ -21,9 +20,10 @@ interface UserState {
     email: string | null;
     admin: boolean | null;
     termsAccepted: boolean | null;
-    userType: string | null;
+    userType: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
     profile: UserProfile;
     filter: UserFilter[] | null;
+    credits: number | null;
   };
 }
 

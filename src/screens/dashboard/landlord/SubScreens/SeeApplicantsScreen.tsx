@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,65 +17,79 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
-import {getProfile} from 'reduxFeatures/user/usersMiddleware';
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
+import {useAppDispatch} from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
-import BackButton from 'components/buttons/BackButton';
-import ApplicantsCardAdvanced from 'components/cards/ApplicantCardAdvanced';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
+import {logWithLocation} from 'helpers/logWithLocation';
 
 // Types
-import type {
-  AdvertApplicantWithSelected,
-  SeeApplicantsScreenProp,
-} from './types';
+import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {Application} from 'reduxFeatures/applications/types';
 
 export const MAX_SELECT = 5;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
-  const {advert} = route.params;
+  const {id: advertId} = route.params;
 
-  const applicantsWithSelected = advert.applicants?.map(applicant => {
-    return {...applicant, selected: false};
-  });
+  const {
+    data: advert,
+    error,
+    isLoading,
+  } = useSeeApplicationsByAdvertIdQuery(advertId);
+  const applications = advert?.applications;
 
-  const [applicants, setApplicants] = useState<
-    AdvertApplicantWithSelected[] | undefined
-  >(applicantsWithSelected);
+  logWithLocation('applicantions>>>>>>>', applications);
 
-  const [finalRound, setFinalRound] = useState<AdvertApplicantWithSelected[]>(
-    [],
-  );
+  const [applicationsState, setApplicationsState] = useState<Application[]>([]);
+
+  const [selectedApplications, setSelectedApplications] = useState<
+    Application[]
+  >([]);
+
+  useEffect(() => {
+    if (advert) {
+      setApplicationsState(applications ?? []);
+    }
+  }, [advert, applications]);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const dispatch = useAppDispatch();
 
-  const selectProfile = (id: number | null) => {
-    // const feedingStyle = { width: '92%', position: 'absolute', bottom: 10, height: '8%' };
-    const updatedProfiles = applicants?.map(el => {
-      if (el.id === id) {
+  const selectApplication = (id: number) => {
+    const updatedApplications = applicationsState.map(application => {
+      if (application.id === id) {
         return {
-          ...el,
-          selected: !el.selected,
+          ...application,
+          round1: !application.round1,
         };
-      } else {
-        return el;
       }
+      return application;
     });
 
-    setApplicants(updatedProfiles);
-
-    const selectedProfilesOnly = updatedProfiles?.filter(el => el.selected);
-    setFinalRound(selectedProfilesOnly ?? []);
+    setApplicationsState(updatedApplications);
+    const applicationsSelected = updatedApplications.filter(app => app.round1);
+    setSelectedApplications(applicationsSelected);
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.pageWrapper}>
+        <SafeAreaView>
+          <Text style={fontStyles.headerSmall}>Loading...</Text>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageWrapper}>
@@ -94,19 +108,21 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {applicants?.map((el, index) => (
-            <ApplicantCard
-              key={index + 1}
-              selectProfile={selectProfile}
-              currentSelectedNums={finalRound.length}
-              applicant={el}
-            />
-          ))}
+          {applicationsState?.map(application => {
+            return (
+              <ApplicantCard
+                key={application.id}
+                selectApplication={selectApplication}
+                currentSelectedNums={selectedApplications.length}
+                application={application}
+              />
+            );
+          })}
         </ScrollView>
       </SafeAreaView>
       <CoreButton
-        disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${MAX_SELECT}`}
+        disabled={selectedApplications.length >= 1 ? false : true}
+        value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
         style={styles.coreButton}
         onPress={() => {
           setModalVisible(!modalVisible);
@@ -140,7 +156,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
                   dispatch(changeAdvertStatus(advert.id ?? 1));
                   setModalVisible(!modalVisible);
                   navigation.navigate('shortlist', {
-                    secondRoundApplicants: finalRound,
+                    secondRoundApplicants: selectedApplications,
                     currentAdvert: advert,
                   });
                 }}>

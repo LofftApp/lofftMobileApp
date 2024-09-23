@@ -26,23 +26,24 @@ import type {ApplicantCardProps} from './types';
 
 const ApplicantCard = ({
   currentSelectedNums,
-  selectProfile,
-  applicant,
+  selectApplication,
+  application,
 }: ApplicantCardProps) => {
-  const {id, email: name, selected} = applicant;
-
-  const [activateBox, setActiveBox] = useState(selected);
   const [accordion, setAccordion] = useState(false);
+  const {height, width} = useWindowDimensions();
+  const applicant = application.applicant;
+  if (!applicant) {
+    return null;
+  }
+  const {email: name} = applicant;
 
-  const checkClick = () => {
+  const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT) {
-      if (activateBox) {
-        setActiveBox(false);
-        selectProfile(id);
+      if (application.round1) {
+        selectApplication(application.id);
       }
     } else {
-      setActiveBox(!activateBox);
-      selectProfile(id);
+      selectApplication(application.id);
     }
   };
 
@@ -50,12 +51,14 @@ const ApplicantCard = ({
     setAccordion(!accordion);
   };
 
-  const {height, width} = useWindowDimensions();
-
   return (
     <View style={[styles.outterContainer, {width: width - 20}]}>
       <View style={[styles.innerContainer]}>
-        <CheckBox value={activateBox} onPress={() => checkClick()} />
+        <CheckBox
+          value={application.round1}
+          disabled={!application.round1 && currentSelectedNums >= MAX_SELECT}
+          onPress={() => toggleCheckbox()}
+        />
         <View style={styles.details}>
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
             {name?.split('')[0].toUpperCase()}.

@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -17,10 +18,10 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
 import LofftHeaderPhoto from './LofftHeaderPhoto';
-import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+
 // Types 🏷️
 import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
@@ -29,39 +30,33 @@ import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
-  const user = useAppSelector((state: {user: UserState}) => state.user.user);
+  const currentUser = useAppSelector(
+    (state: {user: UserState}) => state.user.user,
+  );
 
-  const {profile, filter: userFilter} = user;
-  const {characteristics: userCharacteristics} = profile;
-
-  const {flat, matchScore, id, favorite, price} = advert;
-  const {
-    features: flatFeatures,
-    characteristics: flatCharacteristics,
-    photos,
-    district,
-    city,
-  } = flat;
+  const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    userCharacteristics ?? [],
-    flatCharacteristics ?? [],
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics ?? [],
   );
-  const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+  const featuresTags = tagSorter(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  );
 
-  const dispatch = useAppDispatch();
+  const handleFavorite = () => {
+    toggleFavorite(advert.id ?? 0);
+  };
+
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          {matchScore && (
+          {advert.matchScore && (
             <View>
-              <Pressable
-                // style={styles.flatCardSaveButton}
-                onPress={() => {
-                  dispatch(toggleFavorite(id ?? 0));
-                }}>
-                {favorite ? (
+              <Pressable onPress={handleFavorite}>
+                {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={25}
@@ -73,38 +68,43 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
               </Pressable>
             </View>
           )}
-          {/* <HighlightedButtons navigation={navigation} id={flatId} goBack={false}  />  For refactoring above 👆*/}
         </View>
       </View>
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={photos ?? []}
+          images={advert.flat.photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoWrap}>
         <View style={styles.flatCardMetadataWrap}>
           <View style={styles.apartmentLocationInfo}>
-            {/* Size of WG is not in DB - 26 m2 */}
-            <Text style={[fontStyles.headerSmall]}>{price} €</Text>
+            <View style={styles.apartmentMonthlyRentSize}>
+              <Text style={[fontStyles.headerSmall]}>
+                {advert.monthlyRent} €
+              </Text>
+              <Text style={[fontStyles.headerSmall]}>
+                {advert.flat.size} {advert.flat.measurementUnit}
+              </Text>
+            </View>
 
-            <MatchingScoreButton size="Big" score={matchScore ?? 0} />
+            <MatchingScoreButton size="Big" score={advert.matchScore ?? 5} />
           </View>
-          {district && (
+          {advert.flat.district && (
             <Text
               style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {district}, {city}
+              {advert.flat.district}, {advert.flat.city}
             </Text>
           )}
         </View>
-        <View>
+        <View style={styles.chipContainer}>
           <Chips tags={featuresTags.positiveTags} features={true} />
           <Chips tags={characteristicsTags.positiveTags} features={false} />
         </View>
       </View>
       <CoreButton
         value="View flat"
-        onPress={() => navigation.navigate('flatShow', {advert: advert})}
+        onPress={() => navigation.navigate('flatShow', {id: advert.id})}
       />
     </View>
   );
@@ -142,8 +142,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  apartmentMonthlyRentSize: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(20),
+  },
   flatCardMetadataLocation: {
     color: Color.Black[50],
+  },
+  chipContainer: {
+    marginTop: size(10),
   },
 });
 

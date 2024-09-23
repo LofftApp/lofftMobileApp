@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 
 // Redux 🏪
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {toggleFavorite} from 'reduxFeatures/adverts/advertMiddleware';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';
@@ -31,30 +30,28 @@ import {width, height, size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
 import type {UserState} from 'reduxFeatures/user/types';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
-  const user = useAppSelector((state: {user: UserState}) => state.user.user);
-
-  const {profile, filter: userFilter} = user;
-  const {characteristics: userCharacteristics} = profile;
-
-  const {flat, matchScore, id, favorite, price} = advert;
-  const {
-    tagline,
-    district,
-    city,
-    characteristics: flatCharacteristics,
-    features: flatFeatures,
-    photos,
-  } = flat;
+  const currentUser = useAppSelector(
+    (state: {user: UserState}) => state.user.user,
+  );
+  const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    userCharacteristics ?? [],
-    flatCharacteristics ?? [],
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics,
   );
-  const featuresTags = tagSorter(userFilter ?? [], flatFeatures ?? []);
+  const featuresTags = tagSorter(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  );
+  const maxTaglineLength = 35;
 
-  const dispatch = useAppDispatch();
+  const handleFavorite = () => {
+    toggleFavorite(advert.id);
+  };
 
   return (
     <View style={styles.boundryContainer}>
@@ -62,9 +59,9 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
         <View style={styles.imageDetailsBlock}>
           <Image
             source={
-              photos
+              advert.flat.photos
                 ? {
-                    uri: photos[0],
+                    uri: advert.flat.photos[0],
                     width: width(200),
                     height: height(300),
                   }
@@ -74,13 +71,12 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
           />
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
-              <MatchingScoreButton size="Small" score={matchScore ?? 5} />
-              <Pressable
-                onPress={() => {
-                  dispatch(toggleFavorite(id ?? 0));
-                }}>
-                {/* ! This need to be updated with validation */}
-                {favorite ? (
+              <MatchingScoreButton
+                size="Small"
+                score={advert.matchScore ?? 5}
+              />
+              <Pressable onPress={handleFavorite}>
+                {advert.favorite ? (
                   <LofftIcon
                     name="heart-filled"
                     size={26}
@@ -91,20 +87,39 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
                 )}
               </Pressable>
             </View>
+
             <View style={styles.flatCardMetadataWrap}>
               <View style={styles.coreDetails}>
-                <Text style={fontStyles.headerSmall}>{price}€ 26 m2</Text>
-                <Text style={fontStyles.bodyMedium}>{tagline}</Text>
+                <Text style={fontStyles.headerSmall}>
+                  {advert.monthlyRent}€
+                  <Text style={fontStyles.headerSmall}>
+                    {' '}
+                    {advert.flat.size}
+                    {advert.flat.measurementUnit}
+                  </Text>
+                </Text>
               </View>
-              <Text
-                style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-                {district}, {city}
-              </Text>
+
+              <View style={styles.taglineContainer}>
+                <Text style={fontStyles.bodySmall}>
+                  {truncateTextAtWord(advert.flat.tagLine, maxTaglineLength)}
+                  {advert.flat.tagLine.length > maxTaglineLength && '...'}
+                </Text>
+                <Text
+                  style={[
+                    fontStyles.bodySmall,
+                    styles.flatCardMetadataLocation,
+                  ]}>
+                  {advert.flat.district}, {advert.flat.city}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-        <Chips tags={featuresTags.positiveTags} features={true} />
-        <Chips tags={characteristicsTags.positiveTags} features={false} />
+        <View style={styles.chipsContainer}>
+          <Chips tags={featuresTags.positiveTags} features={true} xs />
+          <Chips tags={characteristicsTags.positiveTags} features={false} xs />
+        </View>
       </View>
     </View>
   );
@@ -113,14 +128,13 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
 const styles = StyleSheet.create({
   boundryContainer: {
     flex: 1,
-    paddingLeft: size(16),
+    paddingHorizontal: size(8),
     width: Dimensions.get('screen').width,
   },
   flatCardContainer: {
-    height: size(260),
-    width: width(90),
+    height: size(280),
+    width: width(95),
     padding: size(8),
-    justifyContent: 'space-between',
     borderRadius: 12,
     backgroundColor: Color.White[100],
   },
@@ -131,11 +145,18 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
-    justifyContent: 'space-between',
     marginHorizontal: size(4),
+    justifyContent: 'space-between',
   },
   coreDetails: {
-    marginTop: size(15),
+    marginTop: size(10),
+  },
+  taglineContainer: {
+    marginBottom: size(10),
+    marginTop: size(10),
+    flex: 1,
+    gap: size(8),
+    justifyContent: 'space-between',
   },
   flatCardImage: {
     width: size(168),
@@ -169,6 +190,10 @@ const styles = StyleSheet.create({
   },
   flatCardMetadataLocation: {
     color: Color.Black[50],
+  },
+  chipsContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });
 
