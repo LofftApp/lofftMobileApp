@@ -2,6 +2,9 @@ module.exports = {
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  transformIgnorePatterns: [
+    'node_modules/(?!react-native|react-native-collapsible|@react-native|@react-navigation)',
+  ],
   moduleNameMapper: {
     '^@rnmapbox/maps$': '<rootDir>/__mocks__/@rnmapbox/maps.ts',
     '^react-native-encrypted-storage$':

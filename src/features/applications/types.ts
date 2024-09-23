@@ -1,4 +1,9 @@
-import {Advert, IncomingAdvert} from 'reduxFeatures/adverts/types';
+import {
+  Advert,
+  AdvertApplicant,
+  IncomingAdvert,
+  IncomingAdvertApplicant,
+} from 'reduxFeatures/adverts/types';
 
 interface IncomingApplication {
   id: number;
@@ -7,12 +12,17 @@ interface IncomingApplication {
   status: 'active' | 'closed' | 'offered' | 'deleted';
   created_at: string;
   updated_at: string;
-  advert: IncomingAdvert;
+  round_1: boolean;
+  round_2: boolean;
+  round_3: boolean;
+  advert?: IncomingAdvert;
+  applicant?: IncomingAdvertApplicant;
 }
 
 interface IncomingApplications {
   applications: IncomingApplication[];
 }
+
 interface Applications {
   applications: Application[];
 }
@@ -24,7 +34,11 @@ interface Application {
   status: 'active' | 'closed' | 'offered' | 'deleted';
   createdAt: string;
   updatedAt: string;
-  advert: Advert;
+  round1: boolean;
+  round2: boolean;
+  round3: boolean;
+  advert?: Advert;
+  applicant?: AdvertApplicant;
 }
 
 interface ApplicationState {
