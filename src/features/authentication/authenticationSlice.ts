@@ -34,7 +34,8 @@ export const authenticationSlice = createSlice({
       state.loading = true;
       console.log('signUp pending');
     });
-    builder.addCase(signUp.fulfilled, (state, action: PayloadAction<any>) => {
+    // , action: PayloadAction<any> removed from the below line
+    builder.addCase(signUp.fulfilled, state => {
       state.loading = false;
       state.authenticated = true;
       console.log('signUp successfull');
@@ -47,7 +48,8 @@ export const authenticationSlice = createSlice({
       state.loading = true;
       console.log('signIn pending');
     });
-    builder.addCase(signIn.fulfilled, (state, action: PayloadAction<any>) => {
+    // , action: PayloadAction<any> removed from the below line
+    builder.addCase(signIn.fulfilled, state => {
       state.loading = false;
       state.authenticated = true;
       console.log('signIn successfull');

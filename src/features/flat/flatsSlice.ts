@@ -1,26 +1,26 @@
-import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
-import type {RootState} from 'reduxCore/store';
+// TODO: Review this file and it's need in the application
+// import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-interface CounterState {
-  allFlats: any[];
-}
+// interface CounterState {
+//   allFlats: any[];
+// }
 
-const initialState: CounterState = {
-  allFlats: [],
-};
+// const initialState: CounterState = {
+//   allFlats: [],
+// };
 
-// Middlewares
+// // Middlewares
 
-const flatsSlice = createSlice({
-  name: 'flats',
-  initialState,
-  reducers: {
-    setAllFlats: (state, action: PayloadAction<any[]>) => {
-      state.allFlats = action.payload;
-    },
-  },
-  extraReducers: builder => {},
-});
+// const flatsSlice = createSlice({
+//   name: 'flats',
+//   initialState,
+//   reducers: {
+//     setAllFlats: (state, action: PayloadAction<any[]>) => {
+//       state.allFlats = action.payload;
+//     },
+//   },
+//   extraReducers: builder => {},
+// });
 
-export const {setAllFlats} = flatsSlice.actions;
-export default flatsSlice.reducer;
+// export const {setAllFlats} = flatsSlice.actions;
+// export default flatsSlice.reducer;

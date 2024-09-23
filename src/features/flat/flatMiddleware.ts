@@ -1,5 +1,5 @@
+// TODO: Review this file and it's need in the application
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import axios from 'axios';
 
 export const fetchFlats = createAsyncThunk('flats/fetchFlats', async () => {
   // development url

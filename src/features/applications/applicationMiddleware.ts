@@ -1,10 +1,10 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage/lib/typescript/EncryptedStorage';
 import axios from 'axios';
 
-const applyForAdvert = createAsyncThunk(
-    ''
-);
+// const applyForAdvert = createAsyncThunk(
+//     ''
+// );
 
 export const changeAdvertStatus = createAsyncThunk(
   'advert/changeAdvertStatus',

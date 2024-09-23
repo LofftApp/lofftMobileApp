@@ -33,7 +33,6 @@ const userSlice = createSlice({
       state.user.id = null;
       state.user.userType = null;
       state.user.profile.genderIdentity = null;
-      state.user.profile.credits = null;
       state.user.admin = false;
       state.user.termsAccepted = false;
       state.user.profile.description = null;
@@ -67,7 +66,7 @@ const userSlice = createSlice({
       state.user.credits = action.payload;
     });
     builder.addCase(applyForAdvert.rejected, (state, action) => {
-      console.log("hehehe", action.payload)
+      console.log('hehehe', action.payload);
     });
   },
 });

@@ -1,4 +1,4 @@
-import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 const renterJourney = () => {
   return {
@@ -150,7 +150,7 @@ export const userJourneySlice = createSlice({
     },
 
     saveUserDetails: (state: any) => {
-      const userDetails = state.userDetails;
+      // const userDetails = state.userDetails;
       if (state.userType === 'renter') {
         // TODO: Create user profile
         // createUserProfile({

@@ -1,13 +1,14 @@
-import React from 'react';
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-// API 🧠
-import {setImageToUpload} from './userImageUploadSlice';
-import {setDetails} from 'reduxFeatures/registration/userJourneySlice';
+// TODO: Review this file and it's need in the application
+// import React from 'react';
+// import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+// // API 🧠
+// import {setImageToUpload} from './userImageUploadSlice';
+// import {setDetails} from 'reduxFeatures/registration/userJourneySlice';
 
-// Componetne 🪢
-import {CoreButton} from 'components/buttons/CoreButton';
+// // Componetne 🪢
+// import {CoreButton} from 'components/buttons/CoreButton';
 
-const ImageUploadButton = ({onPress = () => {}}) => {
+const ImageUploadButton = () => {
   // This needs to be refactored
   // TODO: Refactor this
   // const dispatch = useAppDispatch();

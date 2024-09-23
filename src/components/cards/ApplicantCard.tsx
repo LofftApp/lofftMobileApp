@@ -30,7 +30,7 @@ const ApplicantCard = ({
   application,
 }: ApplicantCardProps) => {
   const [accordion, setAccordion] = useState(false);
-  const {height, width} = useWindowDimensions();
+  const {width} = useWindowDimensions();
   const applicant = application.applicant;
   if (!applicant) {
     return null;

@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {lofftRequest} from 'api/apiRequest';
+// import {lofftRequest} from 'api/apiRequest';
 import axios from 'axios';
 
 export const fetchAdverts = createAsyncThunk(
@@ -72,7 +72,11 @@ export const applyForAdvert = createAsyncThunk(
     const url = `http://localhost:3000/api/adverts/${id}/apply`;
     try {
       const token = await EncryptedStorage.getItem('token');
-      const post = axios.post(url, {}, {headers: {Authorization: `Bearer ${token}`}});
+      const post = axios.post(
+        url,
+        {},
+        {headers: {Authorization: `Bearer ${token}`}},
+      );
       const response = await post;
 
       return response.data.credits;
