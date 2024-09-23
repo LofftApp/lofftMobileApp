@@ -1,3 +1,4 @@
+//TODO: This file needs refactoring
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
@@ -29,7 +30,6 @@ const SearchFilterModal = ({
   const [maxPrice, setMaxPrice] = useState<string | number>(5000);
   const [minFocus, setMinFocus] = useState(false);
   const [maxFocus, setMaxFocus] = useState(false);
-  const [warmRent, setWarmRent] = useState(false);
   const [intitalpreferencesArray, seIintitalPreferencesArray] =
     useState<typeof flatPreferences>(flatPreferences);
   const [selectedTrack, setSelectedTrack] = useState<typeof flatPreferences>(
@@ -289,7 +289,3 @@ const styles = StyleSheet.create({
 });
 
 export default SearchFilterModal;
-
-/* borderStyle: "solid",
-borderColor: "red",
-borderWidth: 2,*/

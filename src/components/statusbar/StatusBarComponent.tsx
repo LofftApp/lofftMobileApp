@@ -21,7 +21,7 @@ import statusBarText from 'Assets/coreText/statusBarText.json';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
-import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
+// import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
@@ -176,45 +176,43 @@ const StatusBarComponent = ({
   }, [currentApplicationStatus]);
 
   return (
-    <>
-      <View style={styles.maincontainer}>
+    <View style={styles.maincontainer}>
+      <View
+        style={[
+          styles.progressContainer,
+          {maxHeight: advert?.lessor ? screenheight / 1.7 : screenheight / 2},
+        ]}>
         <View
           style={[
-            styles.progressContainer,
-            {maxHeight: advert?.lessor ? screenheight / 1.7 : screenheight / 2},
+            styles.progressBarOutline,
+            {
+              backgroundColor: advert?.lessor
+                ? Color.Lavendar[10]
+                : Color.Mint[10],
+            },
           ]}>
+          <View style={styles.iconsPosition}>{iconsCreated}</View>
           <View
             style={[
-              styles.progressBarOutline,
+              styles.progressBar,
               {
+                height: `${statusBar}%` as DimensionValue,
                 backgroundColor: advert?.lessor
-                  ? Color.Lavendar[10]
-                  : Color.Mint[10],
+                  ? Color.Lavendar[100]
+                  : Color.Mint[100],
               },
-            ]}>
-            <View style={styles.iconsPosition}>{iconsCreated}</View>
-            <View
-              style={[
-                styles.progressBar,
-                {
-                  height: `${statusBar}%` as DimensionValue,
-                  backgroundColor: advert?.lessor
-                    ? Color.Lavendar[100]
-                    : Color.Mint[100],
-                },
-              ]}
-            />
-          </View>
-          <View
-            style={[
-              styles.progressTextContainer,
-              advert?.lessor ? styles.height95 : styles.height98,
-            ]}>
-            {statusText}
-          </View>
+            ]}
+          />
+        </View>
+        <View
+          style={[
+            styles.progressTextContainer,
+            advert?.lessor ? styles.height95 : styles.height98,
+          ]}>
+          {statusText}
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
