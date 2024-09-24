@@ -23,7 +23,6 @@ import TempScreen from 'screens/dashboard/renter/TempScreen';
 const Tab = createBottomTabNavigator();
 
 const DashboardNavigator = () => {
-  // TODO: This has two levels of  user.user. It should be refactored to user
   const admin = useAppSelector(state => state.user.user.admin);
 
   return (

@@ -79,8 +79,6 @@ const App = () => {
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
 
-  // TODO: This will need to be placed in another useEffect with new DB path.
-
   // Use Effect for dev environment
   useEffect(() => {
     if (__DEV__) {
