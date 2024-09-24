@@ -19,7 +19,7 @@ const HeadlineContainer = ({headlineText, subDescription}: any) => {
 const styles = StyleSheet.create({
   container: {
     // marginTop: 25,
-    marginBottom: size(5),
+    marginBottom: size(20),
   },
   subHeaderText: {
     color: color.Black[80],
