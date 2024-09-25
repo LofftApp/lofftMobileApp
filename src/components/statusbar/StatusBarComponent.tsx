@@ -205,7 +205,6 @@ const StatusBarComponent = ({
                 </Pressable>
               </View>
             )
-
           )}
         </View>
       );
@@ -283,7 +282,6 @@ const StatusBarComponent = ({
 
 const styles = StyleSheet.create({
   maincontainer: {
-    paddingHorizontal: size(20),
     width: '100%',
     alignItems: 'center',
     paddingVertical: size(20),
@@ -320,7 +318,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   progressTextContainer: {
-    width: '80%',
+    width: '84%',
     marginLeft: size(15),
     justifyContent: 'space-around',
   },

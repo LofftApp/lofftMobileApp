@@ -32,6 +32,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
@@ -83,10 +84,8 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     );
   }
   return (
-    <View style={styles.pageContainer}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollView}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View>
         <HighlightButtons
           favorite={advert?.favorite}
           heartPresent={!advert?.lessor}
@@ -97,15 +96,16 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
             imageContainerHeight={300}
             images={advert?.flat.photos ?? []}
           />
-          <View style={styles.maincontainer}>
-            <StatusBarComponent
-              application={application}
-              _advert={advert}
-              isLessor={isLessor}
-            />
-          </View>
         </View>
-        <SafeAreaView>
+      </View>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <View style={styles.mainContainer}>
+          <StatusBarComponent
+            application={application}
+            _advert={advert}
+            isLessor={isLessor}
+          />
+
           <View style={styles.seeMoreContainer}>
             <Text
               onPress={toggleExpand}
@@ -134,37 +134,27 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
-        </SafeAreaView>
-      </ScrollView>
-    </View>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-
-  scrollView: {
-    backgroundColor: Color.White[100],
+  mainContainer: {
     width: '100%',
-  },
-
-  maincontainer: {
-    width: '100%',
-    alignContent: 'center',
+    paddingHorizontal: size(16),
+    alignItems: 'center',
   },
   seeMore: {
     color: Color.Blue[100],
-    alignSelf: 'flex-end',
+
     marginHorizontal: size(10),
     marginBottom: size(2),
   },
   seeMoreContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignSelf: 'flex-end',
     marginRight: size(10),
     paddingBottom: size(10),
   },

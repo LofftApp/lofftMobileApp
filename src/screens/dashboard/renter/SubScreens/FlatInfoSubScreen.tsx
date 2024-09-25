@@ -180,13 +180,13 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
               </Pressable>
             </View>
             <Chips
-              tags={positiveFeaturesTags}
+              tags={advert.flat.features}
               features={true}
               emoji
               expand={flatCharExpand}
             />
             <Chips
-              tags={positiveCharTags}
+              tags={advert.flat.characteristics}
               features={false}
               emoji
               expand={flatCharExpand}
@@ -372,7 +372,6 @@ const styles = StyleSheet.create({
     marginRight: size(10),
     marginBottom: size(10),
   },
-
 });
 
 export default FlatInfoSubScreen;
