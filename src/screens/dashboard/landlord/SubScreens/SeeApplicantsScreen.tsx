@@ -18,7 +18,10 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
-import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {
+  useConfirmApplicationsMutation,
+  useSeeApplicationsByAdvertIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
 import {useAppDispatch} from 'reduxCore/hooks';
 
 // Components
@@ -48,12 +51,24 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   } = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
 
-  logWithLocation('applicantions>>>>>>>', applications);
+  const [
+    confirmApplications,
+    {data, isLoading: isConfirming, error: errorConfirming},
+  ] = useConfirmApplicationsMutation();
+
+  logWithLocation(
+    'data>>>>>>>',
+    data,
+    'isConfirming>>>>>>',
+    isConfirming,
+    'errorConfirming>>>>>>',
+    errorConfirming,
+  );
 
   const [applicationsState, setApplicationsState] = useState<Application[]>([]);
 
   const [selectedApplications, setSelectedApplications] = useState<
-    Application[]
+    Partial<Application>[]
   >([]);
 
   useEffect(() => {
@@ -79,8 +94,25 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     });
 
     setApplicationsState(updatedApplications);
-    const applicationsSelected = updatedApplications.filter(app => app.round1);
+    const applicationsSelected = updatedApplications
+      .filter(app => app.round1)
+      .map(app => {
+        return {
+          id: app.id,
+          round1: app.round1,
+          round2: app.round2,
+          round3: app.round3,
+        };
+      });
     setSelectedApplications(applicationsSelected);
+  };
+
+  const handleConfirmApplications = () => {
+    confirmApplications({
+      id: advertId,
+      applicationType: 'Round-1',
+      applications: selectedApplications,
+    });
   };
 
   if (isLoading) {
@@ -154,14 +186,15 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
               <Pressable
                 style={[styles.button, styles.buttonClose, styles.marginButton]}
-                onPress={() => {
-                  dispatch(changeAdvertStatus(advert.id ?? 1));
-                  setModalVisible(!modalVisible);
-                  navigation.navigate('shortlist', {
-                    secondRoundApplicants: selectedApplications,
-                    currentAdvert: advert,
-                  });
-                }}>
+                // onPress={() => {
+                //   dispatch(changeAdvertStatus(advert.id ?? 1));
+                //   setModalVisible(!modalVisible);
+                //   navigation.navigate('shortlist', {
+                //     secondRoundApplicants: selectedApplications,
+                //     currentAdvert: advert,
+                //   });
+                // }}>
+                onPress={handleConfirmApplications}>
                 <Text style={styles.textStyle}>Yes</Text>
               </Pressable>
             </View>

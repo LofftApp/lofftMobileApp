@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -49,19 +49,29 @@ const outOfTokensObject = {
 };
 
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
-  const {id: advertId} = route.params;
+  const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
-  const [applyForFlat] = useApplyForFlatMutation();
+  const [
+    applyForFlat,
+    {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
+  ] = useApplyForFlatMutation();
 
   // //Placeholder for complete profile and has tokens
-  const completeProfile = true;
+  const completeProfile = false;
   const hasTokens = true;
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  //navigate to the next screen if applyForFlat is successful
+  useEffect(() => {
+    if (applyIsSuccess) {
+      navigation.navigate('applyforflat');
+    }
+  }, [applyIsSuccess, navigation]);
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
@@ -69,7 +79,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   const handleApplyForFlat = () => {
     applyForFlat(advert?.id ?? 0);
-    navigation.navigate('applyforflat');
   };
 
   if (isLoading) {
@@ -111,14 +120,22 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
               {completeProfile && hasTokens ? (
                 <CoreButton
-                  value={advert?.applied ? 'Applied' : 'Apply'}
+                  value={
+                    advert?.applied
+                      ? 'Applied'
+                      : applyIsLoading
+                      ? 'Applying'
+                      : applyError
+                      ? 'Error. Try Again'
+                      : 'Apply'
+                  }
                   style={styles.coreButtonCustom}
-                  disabled={advert?.applied}
+                  disabled={advert?.applied || applyIsLoading || applyIsSuccess}
                   onPress={handleApplyForFlat}
                 />
               ) : (
                 <CoreButton
-                  value={advert?.applied ? 'Applied' : 'Apply'}
+                  value={advert?.applied ? 'Applied' : 'Applyuuuu'}
                   style={styles.coreButtonCustom}
                   disabled={advert?.applied}
                   onPress={() => setIsModalOpen(true)}

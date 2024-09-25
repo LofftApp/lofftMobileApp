@@ -7,6 +7,7 @@ import {
   IncomingAdvertWithApplications,
 } from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
+import {Application} from 'reduxFeatures/applications/types';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -71,6 +72,27 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
+    confirmApplications: builder.mutation<
+      void,
+      {
+        id: number;
+        applicationType: string;
+        applications: Partial<Application>[];
+      }
+    >({
+      query: ({id, applicationType, applications}) => ({
+        url: `/api/adverts/${id}/confirm_applicants`,
+        method: 'POST',
+        headers: {
+          'Application-Type': applicationType,
+        },
+        body: applications,
+      }),
+      invalidatesTags: (result, error, {id}) => [
+        {type: 'Adverts', id},
+        {type: 'Applications', id: 'LIST'},
+      ],
+    }),
   }),
   overrideExisting: false,
 });
@@ -81,4 +103,5 @@ export const {
   useSeeApplicationsByAdvertIdQuery,
   useToggleFavoriteMutation,
   useApplyForFlatMutation,
+  useConfirmApplicationsMutation,
 } = advertApi;

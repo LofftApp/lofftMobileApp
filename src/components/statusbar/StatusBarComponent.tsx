@@ -45,7 +45,7 @@ const StatusBarComponent = ({
 
   // hardcoded to test status bar
   const currentApplicationStatus = 0;
-  const currentAdvertStatus = 2;
+  const currentAdvertStatus = 0;
   const round1 = true;
   const round2 = true;
   const round3 = true;
