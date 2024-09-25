@@ -14,6 +14,7 @@ export const CoreButton = ({
   invert = false,
   style = null,
   textStyle = null,
+  textSize = fontStyles.headerSmall,
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
@@ -29,7 +30,7 @@ export const CoreButton = ({
       onPress={onPress}>
       <Text
         style={[
-          fontStyles.headerSmall,
+          textSize,
           styles.buttonTextStyle,
           invert ? styles.textInvertButton : null,
           disabled ? styles.textDisabled : null,

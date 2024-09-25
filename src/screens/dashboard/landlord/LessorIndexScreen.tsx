@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 
 // Screens 📺
 import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent';
@@ -20,6 +20,7 @@ import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
 
@@ -35,11 +36,11 @@ const LessorIndexScreen = () => {
   }
 
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.headerText}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+      <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>My Listings</Text>
         <View style={styles.actionContainer}>
-          <Pressable style={[styles.addButton, {marginRight: 15}]}>
+          <Pressable style={styles.addButton}>
             <LofftIcon
               name={'annotation-heart'}
               size={33}
@@ -52,46 +53,20 @@ const LessorIndexScreen = () => {
         </View>
       </View>
 
-      <View style={styles.viewContainer}>
+      <View style={CoreStyleSheet.screenContainer}>
         <FlatListComponent adverts={adverts} isLessor={true} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-  viewContainer: {
-    flex: 1,
-    marginVertical: size(15),
-    position: 'relative',
-  },
-  inputField: {
-    flex: 1,
-  },
-
-  headerText: {
-    marginTop: size(70),
-    marginHorizontal: size(16),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   addButton: {
-    paddingVertical: size(7),
     paddingHorizontal: size(12),
-    borderRadius: size(12),
+    borderRadius: 12,
   },
   actionContainer: {
     flexDirection: 'row',
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

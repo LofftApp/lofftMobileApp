@@ -35,6 +35,12 @@ export const fontStyles = StyleSheet.create({
     fontSize: fontSize(18),
     // lineHeight: 22,
   },
+  headerExtraSmall: {
+    fontFamily: InterSemiBold,
+    color: color.Black[100],
+    fontSize: fontSize(16),
+    // lineHeight: 20,
+  },
   bodyLarge: {
     fontFamily: InterMedium,
     color: color.Black[100],

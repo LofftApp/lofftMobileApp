@@ -51,7 +51,7 @@ const ApplicationIndexScreen = () => {
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
-      <View style={styles.headerContainer}>
+      <View style={CoreStyleSheet.headerContainer}>
         {userType === 'lessor' ? (
           <>
             <Text style={fontStyles.headerLarge}>My Listings</Text>
@@ -103,13 +103,6 @@ const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
-  },
-  headerContainer: {
-    paddingHorizontal: size(20),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: size(10),
   },
   actionContainer: {
     flexDirection: 'row',

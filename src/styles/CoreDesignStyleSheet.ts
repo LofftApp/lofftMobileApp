@@ -29,10 +29,16 @@ export const CoreStyleSheet = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-
   screenContainer: {
     width: '100%',
     flex: 1,
     paddingHorizontal: size(16),
+  },
+  headerContainer: {
+    paddingHorizontal: size(20),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: size(10),
   },
 });

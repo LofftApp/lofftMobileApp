@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
@@ -50,7 +50,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   };
 
   return (
-    <SafeAreaView style={styles.flatCardContainer}>
+    <View style={styles.flatCardContainer}>
       {/* favorite button /> */}
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
@@ -100,7 +100,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
         value="View flat"
         onPress={() => navigation.navigate('flatShow', {advertId: advert.id})}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   flatCardInfoContainer: {
-    padding: size(8),
+    paddingVertical: size(8),
   },
 
   flatDetailsContainer: {

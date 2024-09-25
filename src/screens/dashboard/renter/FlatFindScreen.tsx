@@ -67,7 +67,7 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       {screen === 'list' ? (
-        <View style={styles.flatListContainer}>
+        <View style={CoreStyleSheet.screenContainer}>
           <FlatListSubScreen adverts={adverts ?? []} />
         </View>
       ) : (
