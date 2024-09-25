@@ -14,11 +14,6 @@ const FlatSearchNavigator = () => {
       <FlatFind.Screen name="flatOverview" component={FlatListScreen} />
       <FlatFind.Screen name="flatShow" component={FlatShowScreen} />
       <FlatFind.Screen name="applyforflat" component={ApplyForFlatScreen} />
-      <FlatFind.Screen
-        name="applicationshow"
-        component={ApplicationShowScreen}
-      />
-      <FlatFind.Screen name="chat" component={LessorChatScreen} />
     </FlatFind.Navigator>
   );
 };
