@@ -26,6 +26,7 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const StatusBarComponent = ({
   application,
@@ -45,13 +46,12 @@ const StatusBarComponent = ({
 
   // hardcoded to test status bar
   const currentApplicationStatus = 0;
-  const currentAdvertStatus = 0;
+  const currentAdvertStatus = 2;
   const round1 = true;
   const round2 = true;
   const round3 = true;
 
   const screenheight = Dimensions.get('window').height;
-  const marginBottom = {marginBottom: size(isLessor ? 110 : 80)};
 
   const iconsCreated = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
     (key, index: number) => {
@@ -160,50 +160,47 @@ const StatusBarComponent = ({
           {isLessor ? (
             <>
               {currentAdvertStatus === 0 && currentAdvertStatus === index && (
-                <View style={[styles.landlordActionButton, styles.button]}>
-                  <Pressable
-                    onPress={() =>
-                      navigation.navigate('allApplicants', {
-                        id: advert?.id ?? 0,
-                      })
-                    }>
-                    <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                      See Applicants
-                    </Text>
-                  </Pressable>
-                </View>
+                <CoreButton
+                  value="See Applicants"
+                  style={styles.button}
+                  onPress={() =>
+                    navigation.navigate('allApplicants', {id: advert?.id ?? 0})
+                  }
+                />
               )}
               {currentAdvertStatus === 1 && currentAdvertStatus === index && (
-                <View style={[styles.landlordActionButton, styles.button]}>
-                  <Pressable onPress={() => navigation.navigate('chat')}>
-                    <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                      See Profiles
-                    </Text>
-                  </Pressable>
-                </View>
+                <CoreButton
+                  value="See Profiles"
+                  style={styles.button}
+                  onPress={() =>
+                    navigation.navigate('allApplicants', {id: advert?.id ?? 0})
+                  }
+                />
               )}
               {currentAdvertStatus === 2 && currentAdvertStatus === index && (
-                <View style={[styles.landlordActionButton, styles.button]}>
-                  <Pressable onPress={() => navigation.navigate('chat')}>
-                    <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                      Chat with tenant
-                    </Text>
-                  </Pressable>
-                </View>
+                <CoreButton
+                  value="Go to chat"
+                  style={styles.button}
+                  onPress={() => navigation.navigate('chat')}
+                  icon={
+                    <LofftIcon name="send" size={20} color={Color.White[100]} />
+                  }
+                />
               )}
             </>
           ) : (
             currentAdvertStatus === 2 &&
+            currentAdvertStatus === index &&
             currentApplicationStatus === 0 &&
-            round2 &&
-            index === 2 && (
-              <View style={[styles.landlordActionButton, styles.button]}>
-                <Pressable onPress={() => navigation.navigate('chat')}>
-                  <Text style={[fontStyles.headerSmall, styles.buttonText]}>
-                    Chat with landlord
-                  </Text>
-                </Pressable>
-              </View>
+            round2 && (
+              <CoreButton
+                value="Go to chat"
+                style={[styles.button, styles.greenButton]}
+                onPress={() => navigation.navigate('chat')}
+                icon={
+                  <LofftIcon name="send" size={20} color={Color.White[100]} />
+                }
+              />
             )
           )}
         </View>
@@ -224,7 +221,7 @@ const StatusBarComponent = ({
           setStatusBar('100');
           break;
         default:
-          setStatusBar('20');
+          setStatusBar(isLessor ? '15' : '20');
           break;
       }
     },
@@ -239,11 +236,15 @@ const StatusBarComponent = ({
 
   return (
     <>
-      <View style={[styles.maincontainer, marginBottom]}>
+      <View style={styles.maincontainer}>
         <View
           style={[
             styles.progressContainer,
-            {maxHeight: advert?.lessor ? screenheight / 1.7 : screenheight / 2},
+            {
+              maxHeight: advert?.lessor
+                ? screenheight / 1.2
+                : screenheight / 1.6,
+            },
           ]}>
           <View
             style={[
@@ -301,7 +302,7 @@ const styles = StyleSheet.create({
     maxHeight: '50%',
   },
   progressBarOutline: {
-    height: '120%',
+    height: '100%',
     width: '15%',
     borderRadius: 28,
     alignItems: 'center',
@@ -310,20 +311,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 400,
     height: '100%',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    paddingVertical: size(20),
   },
   progressBar: {
     width: '100%',
-    backgroundColor: Color.Mint[100],
     borderRadius: 30,
   },
   progressTextContainer: {
     width: '84%',
     marginLeft: size(15),
     justifyContent: 'space-around',
-  },
-  landlordActionButton: {
-    backgroundColor: Color.Lavendar[100],
   },
 
   button: {
@@ -335,6 +333,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignSelf: 'flex-start',
   },
+  greenButton: {
+    backgroundColor: Color.Mint[100],
+    borderColor: Color.Mint[100],
+  },
+
   buttonText: {
     color: Color.White[100],
   },
