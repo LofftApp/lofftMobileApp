@@ -25,5 +25,6 @@ export const CoreStyleSheet = StyleSheet.create({
   },
   screenContainer: {
     paddingHorizontal: size(16),
+    paddingBottom: size(110),
   },
 });
