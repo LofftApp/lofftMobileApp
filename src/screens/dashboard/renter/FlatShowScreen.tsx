@@ -56,7 +56,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   ] = useApplyForFlatMutation();
 
   // //Placeholder for complete profile and has tokens
-  const completeProfile = false;
+  const completeProfile = true;
   const hasTokens = true;
 
   // //Modal
