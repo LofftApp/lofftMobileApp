@@ -23,4 +23,7 @@ export const CoreStyleSheet = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
   },
+  screenContainer: {
+    paddingHorizontal: size(16),
+  },
 });

@@ -20,6 +20,7 @@ import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
+import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
@@ -28,6 +29,8 @@ const FlatFindScreen = () => {
   const {data: adverts, error, isLoading} = useGetAdvertsQuery();
 
   const [openModal, setOpenModal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [sortedFlats, setSortedFlats] = useState([]);
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
@@ -64,25 +67,34 @@ const FlatFindScreen = () => {
         activeScreen={screen}
         setActiveScreen={setActiveScreen}
       />
-      <View>
-        {screen === 'list' ? (
+      {screen === 'list' ? (
+        <View style={CoreStyleSheet.screenContainer}>
           <FlatListSubScreen adverts={adverts ?? []} />
-        ) : (
+        </View>
+      ) : (
+        <View style={styles.mapContainer}>
           <AdvertMap adverts={adverts ?? []} />
-        )}
-      </View>
+        </View>
+      )}
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    backgroundColor: Color.White[100],
+    flex: 1,
+  },
+  mapContainer: {
+    flex: 1,
+  },
   inputField: {
     flex: 1,
   },
   searchContainer: {
     flexDirection: 'row',
-    paddingHorizontal: size(20),
+    marginHorizontal: size(20),
   },
 });
 
