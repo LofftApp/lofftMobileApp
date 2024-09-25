@@ -11,7 +11,7 @@ import {
 
 type RootTabParamsList = {
   search: undefined;
-  favorite: undefined;
+  application: undefined;
   alerts: undefined;
   user: undefined;
   admin: undefined;
@@ -28,6 +28,7 @@ type newUserNavigationParamsList = {
 };
 
 type ApplicationStackParamsList = {
+  application: undefined;
   applicationsList: undefined;
   applicationshow: {id: number};
   chat: undefined;
@@ -41,7 +42,7 @@ type SearchStackParamsList = {
 };
 
 type ApplicationScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<RootTabParamsList, 'favorite'>,
+  BottomTabNavigationProp<RootTabParamsList, 'application'>,
   StackNavigationProp<ApplicationStackParamsList>
 >;
 

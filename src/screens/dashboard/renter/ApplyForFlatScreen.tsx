@@ -18,10 +18,15 @@ import BackButton from 'components/buttons/BackButton';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
+import {
+  ApplicationScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from '../../../../navigationStacks/types';
 
 const ApplyForFlatScreen = () => {
-  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const navigation = useNavigation<
+    ApplicationScreenNavigationProp & SearchScreenNavigationProp
+  >();
   const credits = useAppSelector(state => state.user.user.credits);
 
   return (
@@ -40,7 +45,7 @@ const ApplyForFlatScreen = () => {
         <View style={styles.buttonsWrap}>
           <CoreButton
             value={'See all applications'}
-            onPress={() => navigation.navigate('favorite')}
+            onPress={() => navigation.navigate('applicationsList')}
           />
           <CoreButton
             invert={true}
