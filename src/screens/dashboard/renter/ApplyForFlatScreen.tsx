@@ -1,17 +1,23 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+
+// Redux 🏗️
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Components
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {ApplyForFlatScreenBackground, HiFive} from 'assets';
+import BackButton from 'components/buttons/BackButton';
+
+//Helpers
+import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-import {useAppSelector} from 'reduxCore/hooks';
 import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
 
 const ApplyForFlatScreen = () => {
@@ -19,41 +25,37 @@ const ApplyForFlatScreen = () => {
   const credits = useAppSelector(state => state.user.user.credits);
 
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <BackButton onPress={() => navigation.goBack} style={styles.backButton} />
       <ApplyForFlatScreenBackground style={styles.backgroundImage} />
-      <View style={styles.itemsWrap}>
-        <HiFive />
-        <Text style={[fontStyles.headerSmall, styles.hack]}>
+      <HiFive />
+      <View style={CoreStyleSheet.screenContainer}>
+        <Text style={[fontStyles.headerSmall, styles.textContainer]}>
           You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
           to get back to you!
         </Text>
-        <Text style={[fontStyles.bodyMedium, styles.hack]}>
+        <Text style={[fontStyles.bodyMedium, styles.textContainer]}>
           ⚡️ Remaining tokens : {credits}
         </Text>
         <View style={styles.buttonsWrap}>
           <CoreButton
-            style={styles.buttonStyle}
             value={'See all applications'}
             onPress={() => navigation.navigate('favorite')}
           />
           <CoreButton
-            style={styles.buttonStyle}
             invert={true}
             value={'Back to search'}
             onPress={() => navigation.navigate('flatOverview')}
           />
         </View>
       </View>
-    </ScreenBackButton>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  itemsWrap: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  backButton: {
+    marginLeft: 10,
   },
   backgroundImage: {
     position: 'absolute',
@@ -61,17 +63,14 @@ const styles = StyleSheet.create({
     zIndex: -1,
     left: -20,
   },
-  hack: {
+  textContainer: {
     textAlign: 'center',
-    marginTop: 24,
+    marginTop: size(24),
   },
   buttonsWrap: {
-    marginTop: 48,
     width: '100%',
-  },
-  buttonStyle: {
-    width: '100%',
-    marginBottom: 10,
+    gap: size(10),
+    marginTop: size(24),
   },
 });
 

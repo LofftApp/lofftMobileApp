@@ -3,9 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import FlatListScreen from 'screens/dashboard/renter/FlatFindScreen';
 import FlatShowScreen from 'screens/dashboard/renter/FlatShowScreen';
 import ApplyForFlatScreen from 'screens/dashboard/renter/ApplyForFlatScreen';
-import ApplicationShowScreen from 'screens/dashboard/renter/ApplicationShowScreen';
 import {SearchStackParamsList} from './types';
-import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
 
 const FlatFind = createNativeStackNavigator<SearchStackParamsList>();
 const FlatSearchNavigator = () => {

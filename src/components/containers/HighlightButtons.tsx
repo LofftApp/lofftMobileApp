@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -10,17 +11,11 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {HighlightButtonsProps} from './types';
-import {useNavigation} from '@react-navigation/native';
-
-// Important Notice !!
-/*
-  The navigation prop has to be passed on from the corresponding parent component
-*/
 
 const HighlightButtons = ({
   goBack = true,
   heartPresent = true,
-  color = 'null',
+  color = Color.Lavendar[80],
   favorite,
   onPressHeart,
 }: HighlightButtonsProps) => {
@@ -37,11 +32,7 @@ const HighlightButtons = ({
         <Pressable
           style={styles.iconContainer}
           onPress={() => navigation.goBack()}>
-          <LofftIcon
-            name="chevron-left"
-            size={35}
-            color={color ? color : Color.Lavendar[80]}
-          />
+          <LofftIcon name="chevron-left" size={35} color={color} />
         </Pressable>
       )}
 
@@ -64,7 +55,7 @@ const HighlightButtons = ({
 
 const styles = StyleSheet.create({
   actionContainer: {
-    marginVertical: size(50), // Might
+    top: size(50),
     position: 'absolute',
     zIndex: 100,
     flexDirection: 'row',
