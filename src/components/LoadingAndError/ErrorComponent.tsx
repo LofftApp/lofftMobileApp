@@ -1,21 +1,19 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 function ErrorComponent({message}: {message: string}) {
   return (
-    <View style={styles.pageContainer}>
-      <SafeAreaView style={[styles.pageContainer, styles.ErrorContainer]}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <View style={styles.ErrorContainer}>
         <Text style={fontStyles.headerSmall}>{message}</Text>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-  },
   ErrorContainer: {
     flex: 1,
     justifyContent: 'center',

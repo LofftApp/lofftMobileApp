@@ -13,6 +13,7 @@ export const CoreStyleSheet = StyleSheet.create({
   viewContainerIOSStyle: {
     paddingTop: 35,
   },
+
   modalContainer: {
     height: '70%',
     marginTop: 'auto',
@@ -31,7 +32,7 @@ export const CoreStyleSheet = StyleSheet.create({
 
   screenContainer: {
     width: '100%',
+    flex: 1,
     paddingHorizontal: size(16),
-    paddingBottom: size(110),
   },
 });

@@ -16,6 +16,7 @@ import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // helpers 🧰
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -49,8 +50,8 @@ const ApplicationIndexScreen = () => {
   }
 
   return (
-    <View style={styles.pageContainer}>
-      <SafeAreaView style={styles.headerText}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+      <View style={styles.headerContainer}>
         {userType === 'lessor' ? (
           <>
             <Text style={fontStyles.headerLarge}>My Listings</Text>
@@ -72,7 +73,7 @@ const ApplicationIndexScreen = () => {
             <Text style={fontStyles.headerLarge}>My Applications</Text>
           </>
         )}
-      </SafeAreaView>
+      </View>
       {userType !== 'lessor' && (
         <HeaderPageContentSwitch
           toggleNames={['Active', 'Inactive']}
@@ -82,7 +83,7 @@ const ApplicationIndexScreen = () => {
           setActiveScreen={setActiveScreen}
         />
       )}
-      <View style={styles.viewContainer}>
+      <View style={CoreStyleSheet.screenContainer}>
         <ListFlatApplicationComponent
           applications={
             userType === 'lessor'
@@ -94,7 +95,7 @@ const ApplicationIndexScreen = () => {
           isLessor={userType === 'lessor'}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -103,28 +104,27 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
   },
-  viewContainer: {
-    flex: 1,
-  },
-
-  inputField: {
-    flex: 1,
-  },
-  headerText: {
-    marginHorizontal: size(20),
+  headerContainer: {
+    paddingHorizontal: size(20),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: size(10),
   },
+  actionContainer: {
+    flexDirection: 'row',
+  },
+
+  inputField: {
+    flex: 1,
+  },
+
   addButton: {
     paddingVertical: size(7),
     paddingHorizontal: size(12),
     borderRadius: 12,
   },
-  actionContainer: {
-    flexDirection: 'row',
-  },
+
   marginRight: {
     marginRight: size(20),
   },

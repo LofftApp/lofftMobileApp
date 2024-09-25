@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     width: '100%',
+    flex: 1,
     paddingHorizontal: size(16),
-    paddingBottom: size(110),
   },
   mapContainer: {
     flex: 1,

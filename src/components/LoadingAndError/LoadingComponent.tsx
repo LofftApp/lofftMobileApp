@@ -1,22 +1,20 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 function LoadingComponent() {
   return (
-    <View style={styles.pageContainer}>
-      <SafeAreaView style={[styles.pageContainer, styles.loadingContainer]}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <View style={styles.loadingContainer}>
         <Text style={fontStyles.headerSmall}>Loading...</Text>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
