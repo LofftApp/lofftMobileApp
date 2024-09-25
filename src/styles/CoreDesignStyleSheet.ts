@@ -19,4 +19,8 @@ export const CoreStyleSheet = StyleSheet.create({
     backgroundColor: Color.White[100],
     borderRadius: 10,
   },
+  SafeViewContainer: {
+    backgroundColor: Color.White[100],
+    flex: 1,
+  },
 });

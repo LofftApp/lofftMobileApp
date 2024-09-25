@@ -20,7 +20,7 @@ import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
 
@@ -28,8 +28,6 @@ const FlatFindScreen = () => {
   const {data: adverts, error, isLoading} = useGetAdvertsQuery();
 
   const [openModal, setOpenModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [sortedFlats, setSortedFlats] = useState([]);
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
@@ -46,8 +44,8 @@ const FlatFindScreen = () => {
   }
 
   return (
-    <View style={styles.pageContainer}>
-      <SafeAreaView style={styles.searchContainer}>
+    <SafeAreaView style={CoreStyleSheet.SafeViewContainer}>
+      <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
           onChangeText={t => setSearch(t)}
@@ -58,7 +56,7 @@ const FlatFindScreen = () => {
           style={styles.inputField}
         />
         <FilterButton onPress={() => setOpenModal(true)} />
-      </SafeAreaView>
+      </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
         toggleIcons={['list', 'map']}
@@ -66,7 +64,7 @@ const FlatFindScreen = () => {
         activeScreen={screen}
         setActiveScreen={setActiveScreen}
       />
-      <View style={styles.viewContainer}>
+      <View>
         {screen === 'list' ? (
           <FlatListSubScreen adverts={adverts ?? []} />
         ) : (
@@ -74,24 +72,17 @@ const FlatFindScreen = () => {
         )}
       </View>
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-  viewContainer: {
-    flex: 1,
-  },
   inputField: {
     flex: 1,
   },
   searchContainer: {
     flexDirection: 'row',
-    marginHorizontal: size(20),
+    paddingHorizontal: size(20),
   },
 });
 
