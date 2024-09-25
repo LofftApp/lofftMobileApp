@@ -19,11 +19,18 @@ export const CoreStyleSheet = StyleSheet.create({
     backgroundColor: Color.White[100],
     borderRadius: 10,
   },
-  SafeViewContainer: {
+  safeAreaViewListContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
   },
+  safeAreaViewShowContainer: {
+    backgroundColor: Color.White[100],
+    flex: 1,
+    alignItems: 'center',
+  },
+
   screenContainer: {
+    width: '100%',
     paddingHorizontal: size(16),
     paddingBottom: size(110),
   },

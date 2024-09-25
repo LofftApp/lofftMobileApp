@@ -75,7 +75,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
     advert.flat.description.length > truncatedDescription.length;
 
   return (
-    <View style={styles.centralizerContainer}>
+    <>
       {!advert.lessor && (
         <View style={styles.matchContainer}>
           <View>
@@ -93,12 +93,13 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
       <View style={styles.infoContainer}>
         <Text style={fontStyles.bodySmall}>{advert.flat.address}</Text>
         <Text style={[fontStyles.headerSmall]}>{advert.flat.tagLine}</Text>
+
         <View style={styles.LegendContainer}>
           <View style={styles.firstRowLegendContainer}>
             <View style={styles.iconContainer}>
               <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-                {advert.monthlyRent}€
+                {advert.monthlyRent} {advert.currency}
               </Text>
             </View>
             <View style={styles.iconContainer}>
@@ -111,7 +112,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
           </View>
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
-            <Text style={[fontStyles.bodyMedium, styles.dateText]}>
+            <Text style={fontStyles.bodyMedium}>
               From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
               {`- ${dateFormatConverter({
                 date: {seconds: advert.toDate || 1715990400},
@@ -119,6 +120,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             </Text>
           </View>
         </View>
+
         <View style={styles.descriptionMargin}>
           <Text style={{color: Color.Black[80]}}>
             {truncatedDescription}
@@ -140,6 +142,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
                   fontStyles.headerSmall,
                   {color: Color.Lavendar[100]},
                 ]}
+                invert
                 disabled={false}
                 onPress={toggleDescriptionExpand}
               />
@@ -288,25 +291,16 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
           </>
         )}
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-  },
-  centralizerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: size(20),
-  },
   matchContainer: {
     width: '100%',
     backgroundColor: Color.Mint[10],
     marginVertical: size(20),
-    borderRadius: size(8),
+    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: size(20),
@@ -314,37 +308,35 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     width: '100%',
-    marginTop: size(15),
+    marginTop: size(10),
   },
   LegendContainer: {
-    width: '90%',
+    width: '100%',
     marginTop: size(20),
   },
   firstRowLegendContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: size(20),
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
+  },
+  iconMargin: {
+    marginRight: size(70),
   },
   secondRowLegendContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: size(10),
   },
-  pricePlacementContainer: {
-    marginLeft: size(10),
-    marginRight: size(100),
-  },
-  sizePlacementContainer: {
-    marginLeft: size(10),
-  },
-  dateText: {
-    marginLeft: size(10),
-  },
+
   descriptionContainer: {
     marginTop: size(10),
   },
-  flatCharText: {
-    marginTop: size(23),
-    marginBottom: size(5),
-  },
+
   chipsContainer: {
     marginTop: size(23),
     marginBottom: size(5),
@@ -356,43 +348,18 @@ const styles = StyleSheet.create({
   matchWithYouContainer: {
     marginTop: size(10),
   },
-  otherText: {
-    marginTop: size(23),
-    marginBottom: size(5),
-  },
+
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
   },
-  countDownTimer: {
-    textAlign: 'center',
-    color: Color.Mint[100],
+
+  coreButtonStyle: {
     marginTop: size(20),
   },
-  coreButtonCustom: {
-    marginTop: size(14),
-  },
-  coreButtonStyle: {
-    backgroundColor: 'white',
-    borderWidth: size(2),
-    marginTop: size(14),
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconMargin: {
-    marginLeft: size(10),
-    marginRight: size(100),
-  },
+
   descriptionMargin: {
     marginTop: size(20),
-  },
-  readMoreButton: {
-    backgroundColor: 'white',
-    borderWidth: 2,
-    marginTop: size(14),
-    height: size(40),
   },
 
   seeMoreContainer: {
@@ -405,9 +372,7 @@ const styles = StyleSheet.create({
     marginRight: size(10),
     marginBottom: size(10),
   },
-  marginFlatCharacteristics: {marginTop: size(23), marginBottom: size(5)},
-  marginChipsCharacteristics: {marginTop: size(10), marginBottom: size(20)},
-  marginChipsOther: {marginTop: size(10)},
+
 });
 
 export default FlatInfoSubScreen;

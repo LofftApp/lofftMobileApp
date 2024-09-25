@@ -20,7 +20,6 @@ import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
@@ -47,7 +46,7 @@ const FlatFindScreen = () => {
   }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.SafeViewContainer}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
@@ -68,7 +67,7 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       {screen === 'list' ? (
-        <View style={CoreStyleSheet.screenContainer}>
+        <View style={styles.flatListContainer}>
           <FlatListSubScreen adverts={adverts ?? []} />
         </View>
       ) : (
@@ -82,19 +81,20 @@ const FlatFindScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-  mapContainer: {
-    flex: 1,
-  },
   inputField: {
     flex: 1,
   },
   searchContainer: {
     flexDirection: 'row',
     marginHorizontal: size(20),
+  },
+  flatListContainer: {
+    width: '100%',
+    paddingHorizontal: size(16),
+    paddingBottom: size(110),
+  },
+  mapContainer: {
+    flex: 1,
   },
 });
 
