@@ -11,7 +11,7 @@ import {
 
 type RootTabParamsList = {
   search: undefined;
-  favorite: undefined;
+  application: undefined;
   alerts: undefined;
   user: undefined;
   admin: undefined;
@@ -27,8 +27,9 @@ type newUserNavigationParamsList = {
   dashboard: undefined;
 };
 
-type FavoriteStackParamsList = {
-  favorite: undefined;
+type ApplicationStackParamsList = {
+  application: undefined;
+  applicationsList: undefined;
   applicationshow: {id: number};
   chat: undefined;
 };
@@ -36,15 +37,13 @@ type FavoriteStackParamsList = {
 type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
-  flatShow: {id: number};
-  applyforflat: {id: number};
-  applicationshow: {id: number};
-  chat: undefined;
+  flatShow: {advertId: number};
+  applyforflat: undefined;
 };
 
-type FavoriteScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<RootTabParamsList, 'favorite'>,
-  StackNavigationProp<FavoriteStackParamsList>
+type ApplicationScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamsList, 'application'>,
+  StackNavigationProp<ApplicationStackParamsList>
 >;
 
 type SearchScreenNavigationProp = CompositeNavigationProp<
@@ -94,9 +93,9 @@ type NewUserJourneyStackNavigation =
 
 export type {
   RootTabParamsList,
-  FavoriteStackParamsList,
+  ApplicationStackParamsList,
   SearchStackParamsList,
-  FavoriteScreenNavigationProp,
+  ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
   LessorTabParamsList,
   LessorNavigatorStackParamsList,

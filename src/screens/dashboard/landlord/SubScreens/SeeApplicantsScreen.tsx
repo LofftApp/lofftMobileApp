@@ -18,11 +18,17 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
 import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
+import {
+  useConfirmApplicationsMutation,
+  useSeeApplicationsByAdvertIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
 import {useAppDispatch} from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -31,7 +37,6 @@ import {logWithLocation} from 'helpers/logWithLocation';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {Application} from 'reduxFeatures/applications/types';
 
 export const MAX_SELECT = 5;
@@ -46,12 +51,24 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   } = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
 
-  logWithLocation('applicantions>>>>>>>', applications);
+  const [
+    confirmApplications,
+    {data, isLoading: isConfirming, error: errorConfirming},
+  ] = useConfirmApplicationsMutation();
+
+  logWithLocation(
+    'data>>>>>>>',
+    data,
+    'isConfirming>>>>>>',
+    isConfirming,
+    'errorConfirming>>>>>>',
+    errorConfirming,
+  );
 
   const [applicationsState, setApplicationsState] = useState<Application[]>([]);
 
   const [selectedApplications, setSelectedApplications] = useState<
-    Application[]
+    Partial<Application>[]
   >([]);
 
   useEffect(() => {
@@ -63,7 +80,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
-  const dispatch = useAppDispatch();
 
   const selectApplication = (id: number) => {
     const updatedApplications = applicationsState.map(application => {
@@ -77,17 +93,34 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     });
 
     setApplicationsState(updatedApplications);
-    const applicationsSelected = updatedApplications.filter(app => app.round1);
+    const applicationsSelected = updatedApplications
+      .filter(app => app.round1)
+      .map(app => {
+        return {
+          id: app.id,
+          round1: app.round1,
+          round2: app.round2,
+          round3: app.round3,
+        };
+      });
     setSelectedApplications(applicationsSelected);
   };
 
+  const handleConfirmApplications = () => {
+    confirmApplications({
+      id: advertId,
+      applicationType: 'Round-1',
+      applications: selectedApplications,
+    });
+  };
+
   if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
     return (
-      <View style={styles.pageWrapper}>
-        <SafeAreaView>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
+      <ErrorComponent message="There was an error getting the applicants" />
     );
   }
 
@@ -152,14 +185,15 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
               <Pressable
                 style={[styles.button, styles.buttonClose, styles.marginButton]}
-                onPress={() => {
-                  dispatch(changeAdvertStatus(advert.id ?? 1));
-                  setModalVisible(!modalVisible);
-                  navigation.navigate('shortlist', {
-                    secondRoundApplicants: selectedApplications,
-                    currentAdvert: advert,
-                  });
-                }}>
+                // onPress={() => {
+                //   dispatch(changeAdvertStatus(advert.id ?? 1));
+                //   setModalVisible(!modalVisible);
+                //   navigation.navigate('shortlist', {
+                //     secondRoundApplicants: selectedApplications,
+                //     currentAdvert: advert,
+                //   });
+                // }}>
+                onPress={handleConfirmApplications}>
                 <Text style={styles.textStyle}>Yes</Text>
               </Pressable>
             </View>

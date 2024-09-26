@@ -8,48 +8,39 @@ import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent
 import {size} from 'react-native-responsive-sizes';
 
 // Redux
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import * as Color from 'styleSheets/lofftColorPallet.json';
 
+//Components
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 const LessorIndexScreen = () => {
   const {data: adverts, error, isLoading} = useGetAdvertsQuery();
 
   if (isLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting your adverts
-          </Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <ErrorComponent message="There was an error getting your adverts" />;
   }
 
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.headerText}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+      <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>My Listings</Text>
         <View style={styles.actionContainer}>
-          <Pressable style={[styles.addButton, {marginRight: 15}]}>
+          <Pressable style={styles.addButton}>
             <LofftIcon
               name={'annotation-heart'}
               size={33}
@@ -62,46 +53,20 @@ const LessorIndexScreen = () => {
         </View>
       </View>
 
-      <View style={styles.viewContainer}>
+      <View style={CoreStyleSheet.screenContainer}>
         <FlatListComponent adverts={adverts} isLessor={true} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-  viewContainer: {
-    flex: 1,
-    marginVertical: size(15),
-    position: 'relative',
-  },
-  inputField: {
-    flex: 1,
-  },
-
-  headerText: {
-    marginTop: size(70),
-    marginHorizontal: size(16),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   addButton: {
-    paddingVertical: size(7),
     paddingHorizontal: size(12),
-    borderRadius: size(12),
+    borderRadius: 12,
   },
   actionContainer: {
     flexDirection: 'row',
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

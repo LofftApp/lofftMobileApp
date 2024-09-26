@@ -14,16 +14,16 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import ApplicationIndexScreen from 'screens/dashboard/renter/ApplicationIndexScreen';
 import UserScreen from 'screens/dashboard/renter/UserScreen';
 // import SavedListingsScreen from 'screens/dashboard/renter/SavedScreens/SavedListingsScreen'; Commented out because it is not used
 import AdminScreen from 'screens/admin/adminScreen';
 import TempScreen from 'screens/dashboard/renter/TempScreen';
+import ApplicationNavigator from './ApplicationNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const DashboardNavigator = () => {
-  const admin = useAppSelector(state => state.user.admin);
+  const admin = useAppSelector(state => state.user.user.admin);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -33,7 +33,7 @@ const DashboardNavigator = () => {
             case 'search':
               iconName = 'search-sm';
               break;
-            case 'favorite':
+            case 'application':
               iconName = 'list';
               break;
             case 'alerts':
@@ -58,8 +58,8 @@ const DashboardNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="favorite"
-        component={ApplicationIndexScreen}
+        name="application"
+        component={ApplicationNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen

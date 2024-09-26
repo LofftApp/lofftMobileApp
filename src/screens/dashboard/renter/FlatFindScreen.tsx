@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 
 // Redux 🏪
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
@@ -16,10 +16,11 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
 
@@ -37,28 +38,16 @@ const FlatFindScreen = () => {
   };
 
   if (isLoading) {
-    return (
-      <SafeAreaView
-        style={[styles.pageContainer, styles.loadingErrorContainer]}>
-        <Text style={fontStyles.headerSmall}>Loading...</Text>
-      </SafeAreaView>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <SafeAreaView
-        style={[styles.pageContainer, styles.loadingErrorContainer]}>
-        <Text style={fontStyles.headerSmall}>
-          {'There was an error getting advert'}
-        </Text>
-      </SafeAreaView>
-    );
+    return <ErrorComponent message="There was an error getting flats" />;
   }
 
   return (
-    <View style={styles.pageContainer}>
-      <SafeAreaView style={styles.searchContainer}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+      <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
           onChangeText={t => setSearch(t)}
@@ -69,7 +58,7 @@ const FlatFindScreen = () => {
           style={styles.inputField}
         />
         <FilterButton onPress={() => setOpenModal(true)} />
-      </SafeAreaView>
+      </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
         toggleIcons={['list', 'map']}
@@ -77,26 +66,21 @@ const FlatFindScreen = () => {
         activeScreen={screen}
         setActiveScreen={setActiveScreen}
       />
-      <View style={styles.viewContainer}>
-        {screen === 'list' ? (
+      {screen === 'list' ? (
+        <View style={CoreStyleSheet.screenContainer}>
           <FlatListSubScreen adverts={adverts ?? []} />
-        ) : (
+        </View>
+      ) : (
+        <View style={styles.mapContainer}>
           <AdvertMap adverts={adverts ?? []} />
-        )}
-      </View>
+        </View>
+      )}
       <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-  viewContainer: {
-    flex: 1,
-  },
   inputField: {
     flex: 1,
   },
@@ -104,10 +88,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: size(20),
   },
-  loadingErrorContainer: {
+  flatListContainer: {
+    width: '100%',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: size(16),
+  },
+  mapContainer: {
+    flex: 1,
   },
 });
 

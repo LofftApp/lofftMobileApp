@@ -1,7 +1,7 @@
 type HighlightButtonsProps = {
   goBack?: boolean;
   heartPresent?: boolean;
-  color?: string | null;
+  color?: string;
   favorite?: boolean;
   onPressHeart?: () => void;
 };

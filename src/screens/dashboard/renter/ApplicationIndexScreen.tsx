@@ -10,10 +10,13 @@ import ListFlatApplicationComponent from './SubScreens/ListFlatApplicationCompon
 
 // Components 🪢
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // helpers 🧰
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -37,30 +40,18 @@ const ApplicationIndexScreen = () => {
   }, [applications]);
 
   if (isLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
     return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView style={styles.loadingErrorContainer}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting your applications
-          </Text>
-        </SafeAreaView>
-      </View>
+      <ErrorComponent message="There was an error getting your applications" />
     );
   }
 
   return (
-    <View style={styles.pageContainer}>
-      <SafeAreaView style={styles.headerText}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+      <View style={CoreStyleSheet.headerContainer}>
         {userType === 'lessor' ? (
           <>
             <Text style={fontStyles.headerLarge}>My Listings</Text>
@@ -82,7 +73,7 @@ const ApplicationIndexScreen = () => {
             <Text style={fontStyles.headerLarge}>My Applications</Text>
           </>
         )}
-      </SafeAreaView>
+      </View>
       {userType !== 'lessor' && (
         <HeaderPageContentSwitch
           toggleNames={['Active', 'Inactive']}
@@ -92,7 +83,7 @@ const ApplicationIndexScreen = () => {
           setActiveScreen={setActiveScreen}
         />
       )}
-      <View style={styles.viewContainer}>
+      <View style={CoreStyleSheet.screenContainer}>
         <ListFlatApplicationComponent
           applications={
             userType === 'lessor'
@@ -104,7 +95,7 @@ const ApplicationIndexScreen = () => {
           isLessor={userType === 'lessor'}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -113,35 +104,22 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
   },
-  viewContainer: {
-    flex: 1,
+  actionContainer: {
+    flexDirection: 'row',
   },
 
   inputField: {
     flex: 1,
   },
-  headerText: {
-    marginHorizontal: size(20),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: size(10),
-  },
+
   addButton: {
     paddingVertical: size(7),
     paddingHorizontal: size(12),
     borderRadius: 12,
   },
-  actionContainer: {
-    flexDirection: 'row',
-  },
+
   marginRight: {
     marginRight: size(20),
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

@@ -11,12 +11,15 @@ import type {CoreButtonProps} from './types';
 
 export const CoreButton = ({
   value,
+  icon,
   invert = false,
   style = null,
   textStyle = null,
+  textSize = fontStyles.headerSmall,
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
+  console.log('icon', icon);
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -27,9 +30,10 @@ export const CoreButton = ({
         style,
       ]}
       onPress={onPress}>
+      {icon}
       <Text
         style={[
-          fontStyles.headerSmall,
+          textSize,
           styles.buttonTextStyle,
           invert ? styles.textInvertButton : null,
           disabled ? styles.textDisabled : null,
@@ -50,6 +54,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: size(7),
     borderWidth: size(2),
+    flexDirection: 'row',
+    gap: size(7),
   },
   buttonTextStyle: {
     color: Color.White[100],

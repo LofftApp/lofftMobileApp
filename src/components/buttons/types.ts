@@ -17,6 +17,8 @@ type HeaderPageContentSwitchProps = {
 type CoreButtonProps = {
   value: string;
   invert?: boolean;
+  icon?: JSX.Element;
+  textSize?: TextStyle;
   style?: StyleProp<ViewStyle>;
   textStyle?: TextStyle | TextStyle[] | null;
   onPress?: (event: GestureResponderEvent) => void;

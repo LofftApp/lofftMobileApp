@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Modal, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Modal,
+  Pressable,
+  SafeAreaView,
+} from 'react-native';
 
 // Redux 🏗️
 // import {useSelector} from 'react-redux';
@@ -14,6 +22,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
 import type {CompleteProfilePopUpModalProps} from './types';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const CompleteProfilePopUpModal = ({
   openModal,
@@ -22,7 +31,7 @@ const CompleteProfilePopUpModal = ({
 }: CompleteProfilePopUpModalProps) => {
   return (
     <Modal visible={openModal} animationType="fade" transparent={true}>
-      <View style={styles.modalContainer}>
+      <SafeAreaView style={CoreStyleSheet.modalContainer}>
         <View style={styles.completeProfileContainer}>
           <View style={styles.headerContainer}>
             <Text style={fontStyles.headerMedium}>
@@ -44,53 +53,52 @@ const CompleteProfilePopUpModal = ({
               {profileNotDoneObject.description}
             </Text>
           </View>
-          <CoreButton
-            value="Complete my profile now"
-            style={styles.coreButtonStyle}
-            disabled={false}
-          />
-          <CoreButton
-            value="Do it later"
-            style={styles.coreButtonStyle}
-            disabled={false}
-            invert={true}
-            onPress={() => {
-              setIsModalOpen(false);
-            }}
-          />
+          <View style={styles.buttonContainer}>
+            <CoreButton
+              value="Complete my profile now"
+              style={styles.coreButtonStyle}
+              disabled={false}
+            />
+            <CoreButton
+              value="Do it later"
+              style={styles.coreButtonStyle}
+              disabled={false}
+              invert={true}
+              onPress={() => {
+                setIsModalOpen(false);
+              }}
+            />
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    height: '74%',
-    marginTop: 'auto',
-    backgroundColor: 'white',
-    borderRadius: 10,
-  },
   completeProfileContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
     alignItems: 'center',
     paddingHorizontal: size(16),
-    paddingBottom: size(80),
+    paddingVertical: size(8),
   },
   headerContainer: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  buttonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    gap: size(8),
   },
   coreButtonStyle: {
-    borderWidth: 2,
-    marginTop: size(5),
-    height: size(45),
     width: '100%',
   },
   pressableStyle: {
-    marginTop: size(16),
+    marginTop: size(12),
     marginRight: size(14),
   },
 });
