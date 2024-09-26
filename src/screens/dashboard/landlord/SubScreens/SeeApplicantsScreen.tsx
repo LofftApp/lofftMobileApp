@@ -50,7 +50,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     isLoading,
   } = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
-  console.log('advert>>>>>>', advert);
 
   const [
     confirmApplications,

@@ -11,7 +11,6 @@ export const getProfile = createAsyncThunk('users/profile', async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('current user response:', response.data);
     return response.data;
   } catch (error) {
     console.log('current user error', error);
