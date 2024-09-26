@@ -50,6 +50,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     isLoading,
   } = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
+  console.log('advert>>>>>>', advert);
 
   const [
     confirmApplications,
@@ -80,7 +81,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
-  const dispatch = useAppDispatch();
 
   const selectApplication = (id: number) => {
     const updatedApplications = applicationsState.map(application => {
