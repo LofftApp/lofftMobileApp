@@ -56,14 +56,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     {data, isLoading: isConfirming, error: errorConfirming},
   ] = useConfirmApplicationsMutation();
 
-  logWithLocation(
-    'data>>>>>>>',
-    data,
-    'isConfirming>>>>>>',
-    isConfirming,
-    'errorConfirming>>>>>>',
-    errorConfirming,
-  );
 
   const [applicationsState, setApplicationsState] = useState<Application[]>([]);
 
@@ -96,11 +88,12 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     const applicationsSelected = updatedApplications
       .filter(app => app.round1)
       .map(app => {
+        console.log('application selected🌎 ', app);
         return {
           id: app.id,
-          round1: app.round1,
-          round2: app.round2,
-          round3: app.round3,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
         };
       });
     setSelectedApplications(applicationsSelected);
