@@ -37,6 +37,8 @@ import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 import {Application} from 'reduxFeatures/applications/types';
 import ConfirmModal from 'components/modals/ConfirmModal';
+import BackButton from 'components/buttons/BackButton';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 export const MAX_SELECT = 5;
 
@@ -139,22 +141,14 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   }
 
   return (
-    <View style={styles.pageWrapper}>
-      <View style={styles.header}>
-        <Pressable
-          style={styles.iconContainer}
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
-        </Pressable>
-        <View style={styles.headerText}>
-          <Text style={fontStyles.headerSmall}>Applicants</Text>
-        </View>
+    <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
+      <BackButton onPress={() => navigation.goBack} style={styles.backButton} />
+      <View style={styles.headerContainer}>
+        <Text style={fontStyles.headerSmall}>Applicants</Text>
       </View>
 
-      <SafeAreaView style={styles.safeareaview}>
-        <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
+      <View style={CoreStyleSheet.screenContainer}>
+        <ScrollView bounces={true}>
           {applicationsState?.map(application => {
             return (
               <ApplicantCard
@@ -166,15 +160,16 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
             );
           })}
         </ScrollView>
-      </SafeAreaView>
-      <CoreButton
-        disabled={selectedApplications.length >= 1 ? false : true}
-        value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
-        style={styles.coreButton}
-        onPress={() => {
-          setModalVisible(!modalVisible);
-        }}
-      />
+
+        <CoreButton
+          disabled={selectedApplications.length >= 1 ? false : true}
+          value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
+          style={styles.coreButton}
+          onPress={() => {
+            setModalVisible(prev => !prev);
+          }}
+        />
+      </View>
 
       <ConfirmModal
         openModal={modalVisible}
@@ -184,100 +179,28 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         onPressFirstButton={handleConfirmApplications}
         fullScreen
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageWrapper: {
-    flex: 1,
-    backgroundColor: 'white',
-    position: 'relative',
-    alignItems: 'center',
-    width: '100%',
-  },
-  header: {
-    marginTop: size(60),
-    width: '100%',
-  },
-  headerText: {
+
+
+  backButton: {
     position: 'absolute',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  },
-  safeareaview: {
-    position: 'relative',
-  },
-  scrollView: {
-    paddingBottom: size(130),
-    marginTop: size(20),
+    left: size(10),
+    top: size(55),
   },
 
-  choicesContainer: {
-    flexDirection: 'row',
-    marginTop: size(30),
+  headerContainer: {
+    marginBottom: size(20),
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.Black[10],
-    opacity: 0.8,
-  },
-  coreButton: {width: '90%', position: 'absolute', bottom: size(10)},
-  modalView: {
-    margin: size(20),
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: size(35),
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 8,
-    padding: size(10),
-    elevation: 2,
-  },
+  headerText: {},
 
-  buttonNo: {
-    backgroundColor: Color.Tomato[100],
-  },
+  coreButton: {width: '100%', bottom: size(10)},
 
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: Color.Mint[100],
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-
-  modalText: {
-    marginBottom: size(15),
-    textAlign: 'center',
-  },
   iconContainer: {
-    paddingLeft: size(28),
     zIndex: 100,
-  },
-  textAlign: {
-    textAlign: 'center',
-  },
-  marginButton: {
-    marginLeft: size(20),
   },
 });
 

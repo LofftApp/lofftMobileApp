@@ -52,7 +52,7 @@ const ApplicantCard = ({
   };
 
   return (
-    <View style={[styles.outterContainer, {width: width - 20}]}>
+    <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
         <CheckBox
           value={application.round1}
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: size(20),
     padding: size(15),
+
   },
   innerContainer: {
     justifyContent: 'space-between',

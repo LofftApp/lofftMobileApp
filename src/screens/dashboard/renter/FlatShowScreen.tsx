@@ -63,7 +63,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
-  const hasTokens = false;
+  const hasTokens = true;
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
