@@ -5,14 +5,19 @@ type SearchFilterModalProps = {
   setOpenModal: (arg: boolean) => void;
 };
 
-type CompleteProfilePopUpModalProps = {
+type ConfirmModalProps = {
   openModal: boolean;
   setIsModalOpen: (state: boolean) => void;
-  profileNotDoneObject: {
+  modalAsset: {
     header: string;
     description: string;
     icon: ImageSourcePropType;
+    buttonText: {
+      first: string;
+      second: string;
+    };
   };
+  onPressFirstButton: () => void;
 };
 
-export type {SearchFilterModalProps, CompleteProfilePopUpModalProps};
+export type {SearchFilterModalProps, ConfirmModalProps};

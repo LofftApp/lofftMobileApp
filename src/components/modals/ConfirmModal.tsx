@@ -21,22 +21,21 @@ import {CrossIcon} from '../../assets';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-import type {CompleteProfilePopUpModalProps} from './types';
+import type {ConfirmModalProps} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
-const CompleteProfilePopUpModal = ({
+const ConfirmModal = ({
   openModal,
   setIsModalOpen,
-  profileNotDoneObject,
-}: CompleteProfilePopUpModalProps) => {
+  modalAsset,
+  onPressFirstButton,
+}: ConfirmModalProps) => {
   return (
-    <Modal visible={openModal} animationType="fade" transparent={true}>
+    <Modal visible={openModal} animationType="slide" transparent={true}>
       <SafeAreaView style={CoreStyleSheet.modalContainer}>
         <View style={styles.completeProfileContainer}>
           <View style={styles.headerContainer}>
-            <Text style={fontStyles.headerMedium}>
-              {profileNotDoneObject.header}
-            </Text>
+            <Text style={fontStyles.headerMedium}>{modalAsset.header}</Text>
             <Pressable
               style={styles.pressableStyle}
               onPress={() => {
@@ -46,23 +45,20 @@ const CompleteProfilePopUpModal = ({
             </Pressable>
           </View>
           <View>
-            <Image source={profileNotDoneObject.icon} />
+            <Image source={modalAsset.icon} />
           </View>
           <View>
-            <Text style={fontStyles.bodyMedium}>
-              {profileNotDoneObject.description}
-            </Text>
+            <Text style={fontStyles.bodySmall}>{modalAsset.description}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <CoreButton
-              value="Complete my profile now"
+              value={modalAsset.buttonText.first}
               style={styles.coreButtonStyle}
-              disabled={false}
+              onPress={onPressFirstButton}
             />
             <CoreButton
-              value="Do it later"
+              value={modalAsset.buttonText.second}
               style={styles.coreButtonStyle}
-              disabled={false}
               invert={true}
               onPress={() => {
                 setIsModalOpen(false);
@@ -81,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingHorizontal: size(16),
-    paddingVertical: size(8),
+    paddingVertical: size(16),
   },
   headerContainer: {
     flexDirection: 'row',
@@ -103,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CompleteProfilePopUpModal;
+export default ConfirmModal;

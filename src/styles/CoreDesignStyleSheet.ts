@@ -15,7 +15,7 @@ export const CoreStyleSheet = StyleSheet.create({
   },
 
   modalContainer: {
-    height: '70%',
+    height: '75%',
     marginTop: 'auto',
     backgroundColor: Color.White[100],
     borderRadius: 10,
