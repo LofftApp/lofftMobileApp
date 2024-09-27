@@ -19,7 +19,6 @@ export const CoreButton = ({
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
-  console.log('icon', icon);
   return (
     <TouchableOpacity
       disabled={disabled}
