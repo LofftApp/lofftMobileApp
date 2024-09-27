@@ -6,8 +6,6 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
-  Modal,
-  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -17,12 +15,10 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
-import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
 import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {useAppDispatch} from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
@@ -109,11 +105,11 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       applications: selectedApplications,
     });
   };
-  const totalApplicants = applicationsState.length;
-  const selectedCount = selectedApplications.length;
-  const remainingSelectable = Math.min(
-    MAX_SELECT - selectedCount,
-    totalApplicants - selectedCount,
+  const totalApplications = applicationsState.length;
+  const totalSelected = selectedApplications.length;
+  const totalRemaining = Math.min(
+    MAX_SELECT - totalSelected,
+    totalApplications - totalSelected,
   );
 
   const confirmApplicationsModalAsset = {
@@ -121,13 +117,13 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     description:
       'Once confirmed, you cannot select any more applicants or change the decision. In the next step, you will be able to see more details about the selected applicants.',
     middleText:
-      remainingSelectable > 0
-        ? `You can still select ${remainingSelectable} more applicant${
-            remainingSelectable > 1 ? 's' : ''
+      totalRemaining > 0
+        ? `⚡️ You can still select ${totalRemaining} more applicant${
+            totalRemaining > 1 ? 's' : ''
           }`
         : '',
     buttonText: {
-      first: 'Confirm selection',
+      first: `Confirm selection (${totalSelected})`,
       second: 'Back to applicants list',
     },
   };
@@ -180,44 +176,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         }}
       />
 
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={[fontStyles.bodyMedium, styles.textAlign]}>
-              🖐 {'\n'}
-              Are you sure about your selection? There is no way back later on!!
-            </Text>
-            <View style={styles.choicesContainer}>
-              <Pressable
-                style={[styles.button, styles.buttonNo]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>No</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.button, styles.buttonClose, styles.marginButton]}
-                // onPress={() => {
-                //   dispatch(changeAdvertStatus(advert.id ?? 1));
-                //   setModalVisible(!modalVisible);
-                //   navigation.navigate('shortlist', {
-                //     secondRoundApplicants: selectedApplications,
-                //     currentAdvert: advert,
-                //   });
-                // }}>
-                onPress={handleConfirmApplications}>
-                <Text style={styles.textStyle}>Yes</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal> */}
       <ConfirmModal
         openModal={modalVisible}
         setIsModalOpen={setModalVisible}

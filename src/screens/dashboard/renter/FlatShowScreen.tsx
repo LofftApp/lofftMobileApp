@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
@@ -60,7 +53,6 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
-  const {height} = useWindowDimensions();
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -71,7 +63,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
-  const hasTokens = true;
+  const hasTokens = false;
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);

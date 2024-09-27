@@ -9,6 +9,7 @@ type ConfirmModalProps = {
   modalAsset: {
     header: string;
     description: string;
+    middleText?: string;
     buttonText: {
       first: string;
       second: string;

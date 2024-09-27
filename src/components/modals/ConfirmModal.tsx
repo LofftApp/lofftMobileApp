@@ -23,6 +23,7 @@ const ConfirmModal = ({
   onPressFirstButton,
   fullScreen = false,
 }: ConfirmModalProps) => {
+  const marginTop = fullScreen ? size(24) : size(10);
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
       <SafeAreaView
@@ -39,23 +40,25 @@ const ConfirmModal = ({
         <ApplyForFlatScreenBackground style={styles.backgroundImage} />
         {fullScreen ? (
           <>
-            {image}
-            <View style={CoreStyleSheet.screenContainer}>
+            <View style={styles.fullScreenModalContainer}>
+              <View style={styles.image}>{image}</View>
               <Text style={[fontStyles.headerSmall, styles.textContainer]}>
                 {modalAsset.header}
               </Text>
               <Text style={[fontStyles.bodyMedium, styles.textContainer]}>
                 {modalAsset.description}
               </Text>
-              <Text
-                style={[
-                  fontStyles.bodyMedium,
-                  styles.textContainer,
-                  styles.textRed,
-                ]}>
-                {modalAsset.middleText}
-              </Text>
-              <View style={styles.buttonsWrap}>
+              {modalAsset.middleText && (
+                <Text
+                  style={[
+                    fontStyles.bodySmall,
+                    styles.textContainer,
+                    styles.textRed,
+                  ]}>
+                  {modalAsset.middleText}
+                </Text>
+              )}
+              <View style={[styles.buttonsWrap, {marginTop: marginTop}]}>
                 <CoreButton
                   value={modalAsset.buttonText.first}
                   onPress={onPressFirstButton}
@@ -70,7 +73,7 @@ const ConfirmModal = ({
           </>
         ) : (
           <>
-            <View style={styles.completeProfileContainer}>
+            <View style={styles.modalContainer}>
               <Text style={fontStyles.headerMedium}>{modalAsset.header}</Text>
 
               <View style={styles.image}>{image}</View>
@@ -79,7 +82,7 @@ const ConfirmModal = ({
                   {modalAsset.description}
                 </Text>
               </View>
-              <View style={styles.buttonsWrap}>
+              <View style={[styles.buttonsWrap, {marginTop: marginTop}]}>
                 <CoreButton
                   value={modalAsset.buttonText.first}
                   style={styles.coreButtonStyle}
@@ -103,11 +106,19 @@ const ConfirmModal = ({
 };
 
 const styles = StyleSheet.create({
-  completeProfileContainer: {
+  modalContainer: {
     width: '100%',
     flex: 1,
     paddingHorizontal: size(16),
     alignItems: 'center',
+  },
+  fullScreenModalContainer: {
+    width: '100%',
+    flex: 1,
+    paddingHorizontal: size(16),
+    alignItems: 'center',
+    paddingVertical: size(16),
+    justifyContent: 'space-around',
   },
   headerContainer: {
     position: 'relative',
