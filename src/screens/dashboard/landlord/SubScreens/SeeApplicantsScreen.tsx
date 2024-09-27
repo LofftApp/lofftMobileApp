@@ -29,6 +29,8 @@ import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+// import SearchImage from 'Assets/images/Illustration.png';
+import {Search} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -38,6 +40,7 @@ import {logWithLocation} from 'helpers/logWithLocation';
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 import {Application} from 'reduxFeatures/applications/types';
+import ConfirmModal from 'components/modals/ConfirmModal';
 
 export const MAX_SELECT = 5;
 
@@ -106,6 +109,28 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       applications: selectedApplications,
     });
   };
+  const totalApplicants = applicationsState.length;
+  const selectedCount = selectedApplications.length;
+  const remainingSelectable = Math.min(
+    MAX_SELECT - selectedCount,
+    totalApplicants - selectedCount,
+  );
+
+  const confirmApplicationsModalAsset = {
+    header: 'Are you sure you want to confirm these applicants?',
+    description:
+      'Once confirmed, you cannot select any more applicants or change the decision. In the next step, you will be able to see more details about the selected applicants.',
+    middleText:
+      remainingSelectable > 0
+        ? `You can still select ${remainingSelectable} more applicant${
+            remainingSelectable > 1 ? 's' : ''
+          }`
+        : '',
+    buttonText: {
+      first: 'Confirm selection',
+      second: 'Back to applicants list',
+    },
+  };
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -155,7 +180,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         }}
       />
 
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -192,7 +217,15 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
             </View>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
+      <ConfirmModal
+        openModal={modalVisible}
+        setIsModalOpen={setModalVisible}
+        modalAsset={confirmApplicationsModalAsset}
+        image={<Search />}
+        onPressFirstButton={handleConfirmApplications}
+        fullScreen
+      />
     </View>
   );
 };

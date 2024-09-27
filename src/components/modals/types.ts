@@ -1,5 +1,3 @@
-import {ImageSourcePropType} from 'react-native';
-
 type SearchFilterModalProps = {
   openModal: boolean;
   setOpenModal: (arg: boolean) => void;
@@ -11,13 +9,14 @@ type ConfirmModalProps = {
   modalAsset: {
     header: string;
     description: string;
-    icon: ImageSourcePropType;
     buttonText: {
       first: string;
       second: string;
     };
   };
+  image: JSX.Element;
   onPressFirstButton: () => void;
+  fullScreen?: boolean;
 };
 
 export type {SearchFilterModalProps, ConfirmModalProps};

@@ -1,21 +1,11 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Modal,
-  Pressable,
-  SafeAreaView,
-} from 'react-native';
-
-// Redux 🏗️
-// import {useSelector} from 'react-redux';
+import {View, Text, StyleSheet, Modal, SafeAreaView} from 'react-native';
 
 // Components
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
-import {CrossIcon} from '../../assets';
+import {ApplyForFlatScreenBackground} from 'assets';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -23,49 +13,90 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {ConfirmModalProps} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import BackButton from 'components/buttons/BackButton';
 
 const ConfirmModal = ({
   openModal,
   setIsModalOpen,
   modalAsset,
+  image,
   onPressFirstButton,
+  fullScreen = false,
 }: ConfirmModalProps) => {
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
-      <SafeAreaView style={CoreStyleSheet.modalContainer}>
-        <View style={styles.completeProfileContainer}>
-          <View style={styles.headerContainer}>
-            <Text style={fontStyles.headerMedium}>{modalAsset.header}</Text>
-            <Pressable
-              style={styles.pressableStyle}
-              onPress={() => {
-                setIsModalOpen(false);
-              }}>
-              <CrossIcon />
-            </Pressable>
-          </View>
-          <View>
-            <Image source={modalAsset.icon} />
-          </View>
-          <View>
-            <Text style={fontStyles.bodySmall}>{modalAsset.description}</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <CoreButton
-              value={modalAsset.buttonText.first}
-              style={styles.coreButtonStyle}
-              onPress={onPressFirstButton}
-            />
-            <CoreButton
-              value={modalAsset.buttonText.second}
-              style={styles.coreButtonStyle}
-              invert={true}
-              onPress={() => {
-                setIsModalOpen(false);
-              }}
-            />
-          </View>
-        </View>
+      <SafeAreaView
+        style={
+          fullScreen
+            ? CoreStyleSheet.fullScreenModalContainer
+            : CoreStyleSheet.modalContainer
+        }>
+        <BackButton
+          onPress={() => setIsModalOpen(false)}
+          style={styles.backButton}
+          close
+        />
+        <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+        {fullScreen ? (
+          <>
+            {image}
+            <View style={CoreStyleSheet.screenContainer}>
+              <Text style={[fontStyles.headerSmall, styles.textContainer]}>
+                {modalAsset.header}
+              </Text>
+              <Text style={[fontStyles.bodyMedium, styles.textContainer]}>
+                {modalAsset.description}
+              </Text>
+              <Text
+                style={[
+                  fontStyles.bodyMedium,
+                  styles.textContainer,
+                  styles.textRed,
+                ]}>
+                {modalAsset.middleText}
+              </Text>
+              <View style={styles.buttonsWrap}>
+                <CoreButton
+                  value={modalAsset.buttonText.first}
+                  onPress={onPressFirstButton}
+                />
+                <CoreButton
+                  invert={true}
+                  value={modalAsset.buttonText.second}
+                  onPress={() => setIsModalOpen(false)}
+                />
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={styles.completeProfileContainer}>
+              <Text style={fontStyles.headerMedium}>{modalAsset.header}</Text>
+
+              <View style={styles.image}>{image}</View>
+              <View style={styles.descriptionContainer}>
+                <Text style={fontStyles.bodySmall}>
+                  {modalAsset.description}
+                </Text>
+              </View>
+              <View style={styles.buttonsWrap}>
+                <CoreButton
+                  value={modalAsset.buttonText.first}
+                  style={styles.coreButtonStyle}
+                  onPress={onPressFirstButton}
+                />
+                <CoreButton
+                  value={modalAsset.buttonText.second}
+                  style={styles.coreButtonStyle}
+                  invert={true}
+                  onPress={() => {
+                    setIsModalOpen(false);
+                  }}
+                />
+              </View>
+            </View>
+          </>
+        )}
       </SafeAreaView>
     </Modal>
   );
@@ -73,29 +104,51 @@ const ConfirmModal = ({
 
 const styles = StyleSheet.create({
   completeProfileContainer: {
+    width: '100%',
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
     paddingHorizontal: size(16),
-    paddingVertical: size(16),
+    alignItems: 'center',
   },
   headerContainer: {
+    position: 'relative',
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    gap: size(8),
+
+  descriptionContainer: {
+    marginBottom: size(10),
   },
+
+  image: {
+    marginTop: size(-50),
+  },
+
   coreButtonStyle: {
     width: '100%',
   },
-  pressableStyle: {
-    marginTop: size(12),
-    marginRight: size(14),
+  backButton: {
+    marginRight: size(16),
+    marginTop: size(10),
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 50,
+    zIndex: -1,
+    left: -20,
+  },
+  textContainer: {
+    textAlign: 'center',
+    marginTop: size(24),
+  },
+  buttonsWrap: {
+    width: '100%',
+    gap: size(10),
+    marginTop: size(24),
+  },
+  textRed: {
+    color: Color.Tomato[100],
   },
 });
 

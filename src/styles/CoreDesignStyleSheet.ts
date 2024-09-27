@@ -19,7 +19,15 @@ export const CoreStyleSheet = StyleSheet.create({
     marginTop: 'auto',
     backgroundColor: Color.White[100],
     borderRadius: 10,
+    alignItems: 'center',
   },
+  fullScreenModalContainer: {
+    height: '100%',
+    backgroundColor: Color.White[100],
+    flex: 1,
+    alignItems: 'center',
+  },
+
   safeAreaViewListContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
