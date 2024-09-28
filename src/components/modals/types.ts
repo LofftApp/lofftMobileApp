@@ -1,3 +1,5 @@
+import {Dispatch, SetStateAction} from 'react';
+
 type SearchFilterModalProps = {
   openModal: boolean;
   setOpenModal: (arg: boolean) => void;
@@ -5,7 +7,7 @@ type SearchFilterModalProps = {
 
 type ConfirmModalProps = {
   openModal: boolean;
-  setIsModalOpen: (state: boolean) => void;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   modalAsset: {
     header: string;
     description: string;
@@ -18,6 +20,7 @@ type ConfirmModalProps = {
   image: JSX.Element;
   onPressFirstButton: () => void;
   fullScreen?: boolean;
+  disabled?: boolean;
 };
 
 export type {SearchFilterModalProps, ConfirmModalProps};

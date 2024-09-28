@@ -30,7 +30,6 @@ import {Search} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
-import {logWithLocation} from 'helpers/logWithLocation';
 
 // Types
 import type {SeeApplicantsScreenProp} from './types';
@@ -106,6 +105,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       applicationType: 'Round-1',
       applications: selectedApplications,
     });
+    navigation.navigate('seeProfiles', {advertId: advertId});
   };
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
@@ -125,7 +125,11 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           }`
         : '',
     buttonText: {
-      first: `Confirm selection (${totalSelected})`,
+      first: isConfirming
+        ? 'Confirming'
+        : errorConfirming
+        ? 'There was an error. Try Again'
+        : `Confirm selection (${totalSelected})`,
       second: 'Back to applicants list',
     },
   };
@@ -140,15 +144,19 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     );
   }
 
+  if (applicationsState.length === 0) {
+    return <ErrorComponent message="No one has applied yet" />;
+  }
+
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton onPress={() => navigation.goBack} style={styles.backButton} />
-      <View style={styles.headerContainer}>
+      <BackButton onPress={navigation.goBack} />
+      <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerSmall}>Applicants</Text>
       </View>
 
-      <View style={CoreStyleSheet.screenContainer}>
-        <ScrollView bounces={true}>
+      <View style={styles.screenContainer}>
+        <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
             return (
               <ApplicantCard
@@ -178,26 +186,19 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         image={<Search />}
         onPressFirstButton={handleConfirmApplications}
         fullScreen
+        disabled={isConfirming}
       />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  screenContainer: StyleSheet.flatten([
+    CoreStyleSheet.screenContainer,
+    {paddingVertical: 8},
+  ]),
 
-
-  backButton: {
-    position: 'absolute',
-    left: size(10),
-    top: size(55),
-  },
-
-  headerContainer: {
-    marginBottom: size(20),
-  },
-  headerText: {},
-
-  coreButton: {width: '100%', bottom: size(10)},
+  coreButton: {width: '100%', marginTop: size(24), marginBottom: size(10)},
 
   iconContainer: {
     zIndex: 100,

@@ -21,12 +21,22 @@ import type {
   SeeProfilesScreenProp,
 } from './types';
 
+const secondRoundApplicants = [
+  {
+    id: 1,
+    name: 'John Doe',
+    secondRoundSelected: false,
+    email: 'john@doe@control.com',
+  },
+];
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
-  const secondRoundApplicantsWithSelected =
-    route.params.secondRoundApplicants.map(applicant => {
+  const secondRoundApplicantsWithSelected = secondRoundApplicants.map(
+    applicant => {
       return {...applicant, secondRoundSelected: false};
-    });
-  const {currentAdvert} = route.params;
+    },
+  );
+  // const {currentAdvert} = route.params;
+  const currentAdvert = 2;
   const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [finalRound, setFinalRound] = useState<
@@ -70,7 +80,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
               currentAdvert={currentAdvert}
 
               // sayHi={'sayHi'}
-
             />
           ))}
         </ScrollView>

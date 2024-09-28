@@ -36,10 +36,11 @@ export const CoreStyleSheet = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
     alignItems: 'center',
+    height: '100%',
   },
   screenContainer: {
-    width: '100%',
     flex: 1,
+    width: '100%',
     paddingHorizontal: size(16),
     alignItems: 'center',
   },
@@ -48,6 +49,7 @@ export const CoreStyleSheet = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: size(10),
     marginBottom: size(10),
   },
 });

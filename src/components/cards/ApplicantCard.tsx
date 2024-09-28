@@ -23,6 +23,7 @@ import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScr
 
 // Types
 import type {ApplicantCardProps} from './types';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 const ApplicantCard = ({
   currentSelectedNums,
@@ -32,8 +33,9 @@ const ApplicantCard = ({
   const [accordion, setAccordion] = useState(false);
   const {height, width} = useWindowDimensions();
   const applicant = application.applicant;
+  console.log('applicant', applicant);
   if (!applicant) {
-    return null;
+    return <ErrorComponent message="No one has applied yet" />;
   }
   const {email: name} = applicant;
 
@@ -48,7 +50,7 @@ const ApplicantCard = ({
   };
 
   const activateAccordion = () => {
-    setAccordion(!accordion);
+    setAccordion(prev => !prev);
   };
 
   return (
@@ -141,7 +143,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: size(20),
     padding: size(15),
-
   },
   innerContainer: {
     justifyContent: 'space-between',

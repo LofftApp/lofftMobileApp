@@ -64,10 +64,11 @@ type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
   applicationshow: {id: number};
-  allApplicants: {id: number};
-  shortlist: {
-    secondRoundApplicants: AdvertApplicantWithSelected[];
-    currentAdvert: Advert;
+  seeApplicants: {id: number};
+  seeProfiles: {
+    // secondRoundApplicants: AdvertApplicantWithSelected[];
+    // currentAdvert: Advert;
+    advertId: number;
   };
   ApplicantProfile: {
     applicantName: string | undefined;

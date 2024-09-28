@@ -7,7 +7,7 @@ import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
 
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
 import SeeApplicantsScreen from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
-import ShortListApplicantsScreen from 'screens/dashboard/landlord/ShortListApplicantsScreen';
+import seeProfilesApplicantsScreen from 'screens/dashboard/landlord/seeProfilesApplicantsScreen';
 import SeeProfilesScreen from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 import type {LessorNavigatorStackParamsList} from './types';
@@ -24,8 +24,8 @@ const LessorNavigator = () => {
       <Lessor.Screen name="LessorAction" component={LessorActionScreen} />
       <Lessor.Screen name="applicationshow" component={ApplicationShowScreen} />
       {/* {Dynamic Status Bar Screen for Landlord Applicaiton Selection Process} */}
-      <Lessor.Screen name="allApplicants" component={SeeApplicantsScreen} />
-      <Lessor.Screen name="shortlist" component={SeeProfilesScreen} />
+      <Lessor.Screen name="seeApplicants" component={SeeApplicantsScreen} />
+      <Lessor.Screen name="seeProfiles" component={SeeProfilesScreen} />
       <Lessor.Screen name="chat" component={LessorChatScreen} />
 
       {/* Chat etc need to be added */}

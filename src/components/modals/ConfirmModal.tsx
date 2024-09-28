@@ -22,8 +22,13 @@ const ConfirmModal = ({
   image,
   onPressFirstButton,
   fullScreen = false,
+  disabled = false,
 }: ConfirmModalProps) => {
   const marginTop = fullScreen ? size(24) : size(10);
+
+  const toggleModal = () => {
+    setIsModalOpen(prev => !prev);
+  };
   return (
     <Modal visible={openModal} animationType="slide" transparent={true}>
       <SafeAreaView
@@ -32,11 +37,7 @@ const ConfirmModal = ({
             ? CoreStyleSheet.fullScreenModalContainer
             : CoreStyleSheet.modalContainer
         }>
-        <BackButton
-          onPress={() => setIsModalOpen(false)}
-          style={styles.backButton}
-          close
-        />
+        <BackButton onPress={toggleModal} style={styles.backButton} close />
         <ApplyForFlatScreenBackground style={styles.backgroundImage} />
         {fullScreen ? (
           <>
@@ -62,11 +63,13 @@ const ConfirmModal = ({
                 <CoreButton
                   value={modalAsset.buttonText.first}
                   onPress={onPressFirstButton}
+                  disabled={disabled}
                 />
                 <CoreButton
                   invert={true}
                   value={modalAsset.buttonText.second}
-                  onPress={() => setIsModalOpen(false)}
+                  onPress={toggleModal}
+                  disabled={disabled}
                 />
               </View>
             </View>
@@ -87,11 +90,13 @@ const ConfirmModal = ({
                   value={modalAsset.buttonText.first}
                   style={styles.coreButtonStyle}
                   onPress={onPressFirstButton}
+                  disabled={disabled}
                 />
                 <CoreButton
                   value={modalAsset.buttonText.second}
                   style={styles.coreButtonStyle}
                   invert={true}
+                  disabled={disabled}
                   onPress={() => {
                     setIsModalOpen(false);
                   }}

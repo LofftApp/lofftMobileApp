@@ -1,12 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-  DimensionValue,
-} from 'react-native';
+import {Text, View, StyleSheet, Dimensions, DimensionValue} from 'react-native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -38,18 +31,18 @@ const StatusBarComponent = ({
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<StatusBarNavigationProp>();
 
-  // const currentApplicationStatus = applicationStatusIndex(application?.status);
-  // const currentAdvertStatus = advertStatusIndex(advert?.status ?? '');
-  // const round1 = application?.round1;
-  // const round2 = application?.round2;
-  // const round3 = application?.round3;
-
+  const currentApplicationStatus = applicationStatusIndex(application?.status);
+  const currentAdvertStatus = advertStatusIndex(advert?.status ?? '');
+  const round1 = application?.round1;
+  const round2 = application?.round2;
+  const round3 = application?.round3;
+  console.log('advert status', advert?.status);
   // hardcoded to test status bar
-  const currentApplicationStatus = 0;
-  const currentAdvertStatus = 0;
-  const round1 = true;
-  const round2 = true;
-  const round3 = true;
+  // const currentApplicationStatus = 0;
+  // const currentAdvertStatus = 0;
+  // const round1 = true;
+  // const round2 = true;
+  // const round3 = true;
 
   const screenheight = Dimensions.get('window').height;
 
@@ -164,7 +157,7 @@ const StatusBarComponent = ({
                   value="See Applicants"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('allApplicants', {id: advert?.id ?? 0})
+                    navigation.navigate('seeApplicants', {id: advert?.id ?? 0})
                   }
                 />
               )}
@@ -173,7 +166,7 @@ const StatusBarComponent = ({
                   value="See Profiles"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('allApplicants', {id: advert?.id ?? 0})
+                    navigation.navigate('seeApplicants', {id: advert?.id ?? 0})
                   }
                 />
               )}

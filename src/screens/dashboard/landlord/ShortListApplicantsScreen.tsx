@@ -21,7 +21,7 @@ import FilterButton from 'components/buttons/FilterButton';
 import BackButton from 'components/buttons/BackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const ShortListApplicantsScreen = ({navigation}) => {
+const seeProfilesApplicantsScreen = ({navigation}) => {
   const [userProfilesJson, setUserProfilesJson] = useState(userProfiles.users);
   const [maxSelect, setMaxSelected] = useState(5);
   const [finalRound, setFinalRound] = useState([]);
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShortListApplicantsScreen;
+export default seeProfilesApplicantsScreen;

@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  Pressable,
+} from 'react-native';
 //Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
@@ -106,10 +113,8 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
             isLessor={isLessor}
           />
 
-          <View style={styles.seeMoreContainer}>
-            <Text
-              onPress={toggleExpand}
-              style={[fontStyles.bodySmall, styles.seeMore]}>
+          <Pressable onPress={toggleExpand} style={styles.seeMoreContainer}>
+            <Text style={[fontStyles.bodySmall, styles.seeMore]}>
               {collapsed ? 'See less' : 'See more'}
             </Text>
             {collapsed ? (
@@ -129,7 +134,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
                 />
               </>
             )}
-          </View>
+          </Pressable>
 
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
