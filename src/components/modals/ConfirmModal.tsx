@@ -97,9 +97,7 @@ const ConfirmModal = ({
                   style={styles.coreButtonStyle}
                   invert={true}
                   disabled={disabled}
-                  onPress={() => {
-                    setIsModalOpen(false);
-                  }}
+                  onPress={toggleModal}
                 />
               </View>
             </View>
