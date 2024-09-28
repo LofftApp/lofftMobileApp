@@ -254,6 +254,7 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: size(183),
     height: size(48),
+    paddingHorizontal: size(10),
   },
   textbutton: {
     color: Color.Lavendar[100],
