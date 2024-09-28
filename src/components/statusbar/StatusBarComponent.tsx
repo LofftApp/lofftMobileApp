@@ -20,6 +20,7 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
+import {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
 
 const StatusBarComponent = ({
   application,
@@ -29,7 +30,9 @@ const StatusBarComponent = ({
   const advert = isLessor ? _advert : application?.advert;
 
   const [statusBar, setStatusBar] = useState('');
-  const navigation = useNavigation<StatusBarNavigationProp>();
+  const navigation = useNavigation<
+    StatusBarNavigationProp | LessorNavigatorScreenNavigationProp
+  >();
 
   const currentApplicationStatus = applicationStatusIndex(application?.status);
   const currentAdvertStatus = advertStatusIndex(advert?.status ?? '');
@@ -166,7 +169,9 @@ const StatusBarComponent = ({
                   value="See Profiles"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('seeApplicants', {id: advert?.id ?? 0})
+                    navigation.navigate('seeProfiles', {
+                      advertId: advert?.id ?? 0,
+                    })
                   }
                 />
               )}

@@ -39,6 +39,7 @@ type SearchStackParamsList = {
   flatOverview: undefined;
   flatShow: {advertId: number};
   applyforflat: undefined;
+  applications: undefined;
 };
 
 type ApplicationScreenNavigationProp = CompositeNavigationProp<
@@ -66,8 +67,6 @@ type LessorNavigatorStackParamsList = {
   applicationshow: {id: number};
   seeApplicants: {id: number};
   seeProfiles: {
-    // secondRoundApplicants: AdvertApplicantWithSelected[];
-    // currentAdvert: Advert;
     advertId: number;
   };
   ApplicantProfile: {

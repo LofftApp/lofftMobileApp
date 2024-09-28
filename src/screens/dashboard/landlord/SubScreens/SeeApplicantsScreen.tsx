@@ -53,7 +53,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   const [
     confirmApplications,
-    {data, isLoading: isConfirming, error: errorConfirming},
+    {isLoading: isConfirming, error: errorConfirming},
   ] = useConfirmApplicationsMutation();
 
   const [applicationsState, setApplicationsState] = useState<Application[]>([]);
@@ -99,6 +99,10 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     setSelectedApplications(applicationsSelected);
   };
 
+  const toggleModal = () => {
+    setModalVisible(prev => !prev);
+  };
+
   const handleConfirmApplications = () => {
     confirmApplications({
       id: advertId,
@@ -106,6 +110,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       applications: selectedApplications,
     });
     navigation.navigate('seeProfiles', {advertId: advertId});
+    toggleModal();
   };
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
@@ -173,9 +178,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           disabled={selectedApplications.length >= 1 ? false : true}
           value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
           style={styles.coreButton}
-          onPress={() => {
-            setModalVisible(prev => !prev);
-          }}
+          onPress={toggleModal}
         />
       </View>
 

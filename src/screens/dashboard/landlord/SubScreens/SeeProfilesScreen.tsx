@@ -69,7 +69,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   return (
     <View style={styles.pageWrapper}>
-      <Text style={[styles.header, fontStyles.headerSmall]}>Applicants</Text>
+      <Text style={[styles.header, fontStyles.headerSmall]}>profiles</Text>
       <SafeAreaView style={styles.safeareaview}>
         <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
           {secondRoundProfiles.map(el => (
