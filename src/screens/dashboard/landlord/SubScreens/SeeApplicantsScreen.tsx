@@ -4,18 +4,24 @@ import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Redux
 import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
+import {Application} from 'reduxFeatures/applications/types';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import BackButton from 'components/buttons/BackButton';
+import ConfirmModal from 'components/modals/ConfirmModal';
+
+//Assets
 import {Search} from 'assets';
 
 // Helpers
@@ -24,10 +30,6 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import {Application} from 'reduxFeatures/applications/types';
-import ConfirmModal from 'components/modals/ConfirmModal';
-import BackButton from 'components/buttons/BackButton';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 export const MAX_SELECT = 5;
 
