@@ -1,18 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles
-import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Redux
 import {
@@ -25,7 +16,6 @@ import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
-// import SearchImage from 'Assets/images/Illustration.png';
 import {Search} from 'assets';
 
 // Helpers
