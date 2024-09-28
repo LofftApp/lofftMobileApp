@@ -76,7 +76,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     });
 
     setApplicationsState(updatedApplications);
-    console.log('updatedApplications🌎 ', updatedApplications);
     const applicationsSelected = updatedApplications
       .filter(app => app.round1)
       .map(app => {
@@ -87,7 +86,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           round_3: app.round3,
         };
       });
-    console.log('applicationsSelected🌎 ', applicationsSelected);
     setSelectedApplications(applicationsSelected);
   };
 
