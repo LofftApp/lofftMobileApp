@@ -61,6 +61,6 @@ export const fontStyles = StyleSheet.create({
   bodyExtraSmall: {
     fontFamily: InterRegular,
     color: color.Black[100],
-    fontSize: fontSize(20),
+    fontSize: fontSize(12),
   },
 });
