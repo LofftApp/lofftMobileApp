@@ -20,7 +20,10 @@ import {size} from 'react-native-responsive-sizes';
 import type {ListFlatApplicationCardProps} from './types';
 
 // Types
-import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {
+  LessorNavigatorScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from '../../../navigationStacks/types';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
@@ -34,7 +37,9 @@ const ListFlatApplicationCard = ({
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
-  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const navigation = useNavigation<
+    SearchScreenNavigationProp & LessorNavigatorScreenNavigationProp
+  >();
 
   const [active] = useState(
     !['offered', 'closed'].includes(application?.status ?? ''),
