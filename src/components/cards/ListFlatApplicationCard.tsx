@@ -15,14 +15,15 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // helpers 🧰
 import {size} from 'react-native-responsive-sizes';
+import {advertStatusIndex} from 'helpers/advertStatusIndex';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 // Types 🏷
 import type {ListFlatApplicationCardProps} from './types';
-
-// Types
-import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
+import {
+  LessorNavigatorScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from '../../../navigationStacks/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -34,7 +35,9 @@ const ListFlatApplicationCard = ({
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
-  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const navigation = useNavigation<
+    SearchScreenNavigationProp & LessorNavigatorScreenNavigationProp
+  >();
 
   const [active] = useState(
     !['offered', 'closed'].includes(application?.status ?? ''),
@@ -74,11 +77,12 @@ const ListFlatApplicationCard = ({
         break;
     }
   };
+  console.log('adert status in listflatapplicationcard', advert?.status);
 
   useEffect(() => {
-    const index = applicationStatusIndex(application?.status ?? '');
+    const index = advertStatusIndex(advert?.status ?? '');
     calculateStatusBar(index);
-  }, [application?.status]);
+  }, [advert?.status]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 

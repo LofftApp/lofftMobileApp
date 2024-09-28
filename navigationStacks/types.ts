@@ -2,10 +2,7 @@ import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 import type {Advert} from 'reduxFeatures/adverts/types';
-import {
-  AdvertApplicantWithSelected,
-  SecondRoundApplicantWithSelected,
-} from 'screens/dashboard/landlord/SubScreens/types';
+import {SecondRoundApplicantWithSelected} from 'screens/dashboard/landlord/SubScreens/types';
 
 // Renter Navigator Stack
 
@@ -39,6 +36,7 @@ type SearchStackParamsList = {
   flatOverview: undefined;
   flatShow: {advertId: number};
   applyforflat: undefined;
+  applications: {screen: 'applicationsList'};
 };
 
 type ApplicationScreenNavigationProp = CompositeNavigationProp<
@@ -64,10 +62,9 @@ type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
   applicationshow: {id: number};
-  allApplicants: {id: number};
-  shortlist: {
-    secondRoundApplicants: AdvertApplicantWithSelected[];
-    currentAdvert: Advert;
+  seeApplicants: {id: number};
+  seeProfiles: {
+    advertId: number;
   };
   ApplicantProfile: {
     applicantName: string | undefined;

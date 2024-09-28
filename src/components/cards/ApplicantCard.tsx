@@ -23,17 +23,20 @@ import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScr
 
 // Types
 import type {ApplicantCardProps} from './types';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import Collapsible from 'react-native-collapsible';
 
 const ApplicantCard = ({
   currentSelectedNums,
   selectApplication,
   application,
 }: ApplicantCardProps) => {
-  const [accordion, setAccordion] = useState(false);
-  const {height, width} = useWindowDimensions();
+  const [collapsed, setCollapsed] = useState(false);
+  const {width} = useWindowDimensions();
   const applicant = application.applicant;
+
   if (!applicant) {
-    return null;
+    return <ErrorComponent message="No one has applied yet" />;
   }
   const {email: name} = applicant;
 
@@ -47,12 +50,12 @@ const ApplicantCard = ({
     }
   };
 
-  const activateAccordion = () => {
-    setAccordion(!accordion);
+  const toggleCollapsed = () => {
+    setCollapsed(prev => !prev);
   };
 
   return (
-    <View style={[styles.outterContainer, {width: width - 20}]}>
+    <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
         <CheckBox
           value={application.round1}
@@ -67,19 +70,17 @@ const ApplicantCard = ({
             (96 % Match)
           </Text>
         </View>
-        <Pressable
-          style={styles.iconContainer}
-          onPress={() => activateAccordion()}>
+        <Pressable style={styles.iconContainer} onPress={toggleCollapsed}>
           <LofftIcon
-            name={accordion ? 'chevron-up' : 'chevron-down'}
+            name={collapsed ? 'chevron-up' : 'chevron-down'}
             size={35}
             color={Color.Lavendar[80]}
           />
         </Pressable>
       </View>
 
-      {accordion && (
-        <View style={styles.accordionExpand}>
+      <Collapsible collapsed={!collapsed} duration={300}>
+        <View style={styles.collapsedExpand}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
           <Chips
             tags={[
@@ -130,7 +131,7 @@ const ApplicantCard = ({
             features={true}
           />
         </View>
-      )}
+      </Collapsible>
     </View>
   );
 };
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   matcher: {
     color: Color.Mint[100],
   },
-  accordionExpand: {
+  collapsedExpand: {
     marginTop: size(20),
   },
   iconContainer: {

@@ -15,11 +15,19 @@ export const CoreStyleSheet = StyleSheet.create({
   },
 
   modalContainer: {
-    height: '70%',
+    height: '75%',
     marginTop: 'auto',
     backgroundColor: Color.White[100],
     borderRadius: 10,
+    alignItems: 'center',
   },
+  fullScreenModalContainer: {
+    height: '100%',
+    backgroundColor: Color.White[100],
+    flex: 1,
+    alignItems: 'center',
+  },
+
   safeAreaViewListContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
@@ -28,17 +36,20 @@ export const CoreStyleSheet = StyleSheet.create({
     backgroundColor: Color.White[100],
     flex: 1,
     alignItems: 'center',
+    height: '100%',
   },
   screenContainer: {
-    width: '100%',
     flex: 1,
+    width: '100%',
     paddingHorizontal: size(16),
+    alignItems: 'center',
   },
   headerContainer: {
     paddingHorizontal: size(20),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: size(10),
     marginBottom: size(10),
   },
 });

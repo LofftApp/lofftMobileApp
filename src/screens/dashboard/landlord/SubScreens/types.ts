@@ -1,4 +1,4 @@
-import {Advert, AdvertApplicant} from 'reduxFeatures/adverts/types';
+import {AdvertApplicant} from 'reduxFeatures/adverts/types';
 
 interface AdvertApplicantWithSelected {
   applicant: {
@@ -14,16 +14,7 @@ type SeeApplicantsScreenProp = {
   route: {params: {id: number}};
 };
 
-type SeeProfilesScreenProp = {
-  route: {
-    params: {
-      secondRoundApplicants:
-        | AdvertApplicantWithSelected[]
-        | SecondRoundApplicantWithSelected[];
-      currentAdvert: Advert;
-    };
-  };
-};
+type SeeProfilesScreenProp = {};
 
 export type {
   AdvertApplicantWithSelected,

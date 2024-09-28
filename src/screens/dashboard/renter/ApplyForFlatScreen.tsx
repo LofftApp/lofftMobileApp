@@ -45,7 +45,9 @@ const ApplyForFlatScreen = () => {
         <View style={styles.buttonsWrap}>
           <CoreButton
             value={'See all applications'}
-            onPress={() => navigation.navigate('applicationsList')}
+            onPress={() =>
+              navigation.navigate('applications', {screen: 'applicationsList'})
+            }
           />
           <CoreButton
             invert={true}

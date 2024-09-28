@@ -12,9 +12,9 @@ import {
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
-import CompleteProfileImage from 'Assets/images/Illustration.png';
+import {Search} from 'assets';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
-import CompleteProfilePopUpModal from 'components/modals/CompleteProfilePopUpModal';
+import ConfirmModal from 'components/modals/ConfirmModal';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -31,17 +31,23 @@ import {size} from 'react-native-responsive-sizes';
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
 
-const profileNotDoneObject = {
+const profileNotDone = {
   header: "Your application profile isn't complete",
   description:
     'To apply for this flat, please go to the profile section and complete your application. This takes only 5 minutes!',
-  icon: CompleteProfileImage,
+  buttonText: {
+    first: 'Complete my profile now',
+    second: 'Do it later',
+  },
 };
-const outOfTokensObject = {
+const outOfTokens = {
   header: 'Why are tokens limited?',
   description:
     "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
-  icon: CompleteProfileImage,
+  buttonText: {
+    first: 'Get more tokens',
+    second: 'Back to search',
+  },
 };
 
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
@@ -136,16 +142,19 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             )}
           </View>
 
-          <CompleteProfilePopUpModal
+          <ConfirmModal
             openModal={isModalOpen}
             setIsModalOpen={setIsModalOpen}
-            profileNotDoneObject={
+            modalAsset={
               !completeProfile
-                ? profileNotDoneObject
+                ? profileNotDone
                 : !hasTokens
-                ? outOfTokensObject
-                : profileNotDoneObject
+                ? outOfTokens
+                : profileNotDone
             }
+            image={<Search />}
+            onPressFirstButton={() => {}}
+            // fullScreen
           />
         </View>
       </SafeAreaView>

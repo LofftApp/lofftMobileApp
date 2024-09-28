@@ -49,14 +49,19 @@ const BackButton = ({
 
 const styles = StyleSheet.create({
   headerContainer: {
-    maxHeight: height(75),
-    alignContent: 'flex-start',
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
+    // maxHeight: height(75),
+    // alignContent: 'flex-start',
+    // flexDirection: 'row-reverse',
+    // alignItems: 'center',
+    position: 'absolute',
+    left: size(10),
+    zIndex: 10,
   },
   headerContainClose: {
     flexDirection: 'row',
     alignContent: 'flex-end',
+    top: size(16),
+    right: size(8),
   },
   button: {
     justifyContent: 'center',
@@ -67,13 +72,13 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    marginLeft: size(-48),
+    // marginLeft: size(-48),
     marginTop: size(12),
     textAlign: 'center',
   },
   headerRight: {
-    marginLeft: 0,
-    marginRight: size(-48),
+    // marginLeft: 0,
+    // marginRight: size(-48),
   },
   neutral: {
     backgroundColor: Color.White[50],
