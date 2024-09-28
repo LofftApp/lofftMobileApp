@@ -39,7 +39,7 @@ type SearchStackParamsList = {
   flatOverview: undefined;
   flatShow: {advertId: number};
   applyforflat: undefined;
-  applications: undefined;
+  applications: {screen: 'applicationsList'};
 };
 
 type ApplicationScreenNavigationProp = CompositeNavigationProp<
