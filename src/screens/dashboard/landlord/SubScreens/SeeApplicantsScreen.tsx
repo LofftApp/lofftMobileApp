@@ -54,6 +54,10 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     Partial<Application>[]
   >([]);
 
+  const [notSelectedApplications, setNotSelectedApplications] = useState<
+    Partial<Application>[]
+  >([]);
+
   useEffect(() => {
     if (advert) {
       setApplicationsState(applications ?? []);
@@ -87,7 +91,25 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         };
       });
     setSelectedApplications(applicationsSelected);
+
+    const applicationsNotSelected = updatedApplications
+      .filter(app => !app.round1)
+      .map(app => {
+        return {
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        };
+      });
+    setNotSelectedApplications(applicationsNotSelected);
   };
+
+  const applicationToBeSent = [
+    ...selectedApplications,
+    ...notSelectedApplications,
+  ];
+  console.log('applicationToBeSent', applicationToBeSent);
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);
@@ -97,7 +119,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     confirmApplications({
       id: advertId,
       applicationType: 'Round-1',
-      applications: selectedApplications,
+      applications: applicationToBeSent,
     });
     navigation.navigate('seeProfiles', {advertId: advertId});
     toggleModal();
