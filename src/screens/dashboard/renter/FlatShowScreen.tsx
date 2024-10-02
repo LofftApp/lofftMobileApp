@@ -74,7 +74,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
-  const hasTokens = userCredits && userCredits < 0;
+  const hasTokens = userCredits && userCredits > 0;
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -145,7 +145,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
               />
             ) : (
               <CoreButton
-                value={advert?.applied ? 'Applied' : 'Applyuuuu'}
+                value={advert?.applied ? 'Applied' : 'Apply'}
                 style={styles.coreButtonCustom}
                 disabled={advert?.applied}
                 onPress={() => setIsModalOpen(true)}
