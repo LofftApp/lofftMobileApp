@@ -18,9 +18,14 @@ type SeeProfilesScreenProp = {
   route: {params: {advertId: number}};
 };
 
+type SelectionConfirmedScreenProp = {
+  route: {params: {advertId: number; round1?: boolean; round2?: boolean}};
+};
+
 export type {
   AdvertApplicantWithSelected,
   SeeApplicantsScreenProp,
   SecondRoundApplicantWithSelected,
   SeeProfilesScreenProp,
+  SelectionConfirmedScreenProp,
 };

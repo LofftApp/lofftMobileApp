@@ -12,6 +12,9 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // External
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import Collapsible from 'react-native-collapsible';
+
+//Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 
@@ -23,8 +26,6 @@ import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScr
 
 // Types
 import type {ApplicantCardProps} from './types';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
-import Collapsible from 'react-native-collapsible';
 
 const ApplicantCard = ({
   currentSelectedNums,

@@ -19,6 +19,7 @@ import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
+import UserBlobCard from 'components/cards/UserBlobCard';
 
 //Assets
 import {Search} from 'assets';
@@ -29,7 +30,6 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import UserBlobCard from 'components/cards/UserBlobCard';
 
 export const MAX_SELECT_2_ROUND = 20;
 

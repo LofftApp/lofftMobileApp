@@ -31,7 +31,7 @@ import {size} from 'react-native-responsive-sizes';
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 
-export const MAX_SELECT = 5;
+export const MAX_SELECT = 100;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advertId} = route.params;
@@ -121,7 +121,10 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       applicationType: 'Round-1',
       applications: applicationToBeSent,
     });
-    navigation.navigate('seeProfiles', {advertId: advertId});
+    navigation.navigate('selectionConfirmed', {
+      advertId: advertId,
+      round1: true,
+    });
     toggleModal();
   };
   const totalApplications = applicationsState.length;

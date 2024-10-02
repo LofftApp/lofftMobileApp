@@ -66,6 +66,11 @@ type LessorNavigatorStackParamsList = {
   seeProfiles: {
     advertId: number;
   };
+  selectionConfirmed: {
+    advertId: number;
+    round1?: boolean;
+    round2?: boolean;
+  };
   ApplicantProfile: {
     applicantName: string | undefined;
     handleClickCheckbox: () => void;
