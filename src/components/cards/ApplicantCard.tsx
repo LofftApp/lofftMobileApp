@@ -34,6 +34,7 @@ const ApplicantCard = ({
   const [collapsed, setCollapsed] = useState(false);
   const {width} = useWindowDimensions();
   const applicant = application.applicant;
+  console.log('application in applicant card', application);
 
   if (!applicant) {
     return <ErrorComponent message="No one has applied yet" />;
@@ -60,7 +61,7 @@ const ApplicantCard = ({
         <CheckBox
           value={application.round1}
           disabled={!application.round1 && currentSelectedNums >= MAX_SELECT}
-          onPress={() => toggleCheckbox()}
+          onPress={toggleCheckbox}
         />
         <View style={styles.details}>
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
@@ -74,7 +75,7 @@ const ApplicantCard = ({
           <LofftIcon
             name={collapsed ? 'chevron-up' : 'chevron-down'}
             size={35}
-            color={Color.Lavendar[80]}
+            color={Color.Blue[80]}
           />
         </Pressable>
       </View>

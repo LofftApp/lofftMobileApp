@@ -34,7 +34,7 @@ import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigatio
 export const MAX_SELECT = 5;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
-  const {id: advertId} = route.params;
+  const {advertId} = route.params;
 
   const {
     data: advert,
@@ -188,7 +188,9 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
         <CoreButton
           disabled={selectedApplications.length >= 1 ? false : true}
-          value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
+          value={`Selected ${selectedApplications.length}/${
+            MAX_SELECT <= totalApplications ? MAX_SELECT : totalApplications
+          }`}
           style={styles.coreButton}
           onPress={toggleModal}
         />

@@ -1,131 +1,228 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Styles
-import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+// Redux
+import {
+  useConfirmApplicationsMutation,
+  useSeeApplicationsByAdvertIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
+import {Application} from 'reduxFeatures/applications/types';
 
 // Components
+import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
-import UserBlobCard from 'components/cards/UserBlobCard';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import BackButton from 'components/buttons/BackButton';
+import ConfirmModal from 'components/modals/ConfirmModal';
+
+//Assets
+import {Search} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
-// Constants
-import {MAX_SELECT} from './SeeApplicantsScreen';
-
 // Types
-import type {
-  SecondRoundApplicantWithSelected,
-  SeeProfilesScreenProp,
-} from './types';
+import type {SeeApplicantsScreenProp, SeeProfilesScreenProp} from './types';
+import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import UserBlobCard from 'components/cards/UserBlobCard';
 
-const secondRoundApplicants = [
-  {
-    id: 1,
-    name: 'John Doe',
-    secondRoundSelected: false,
-    email: 'john@doe@control.com',
-  },
-];
+export const MAX_SELECT_2_ROUND = 20;
+
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
-  const secondRoundApplicantsWithSelected = secondRoundApplicants.map(
-    applicant => {
-      return {...applicant, secondRoundSelected: false};
-    },
-  );
-  // const {currentAdvert} = route.params;
-  const currentAdvert = 2;
-  const [userSelectedByProfile, setUserSelectedByProfile] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
-  const [finalRound, setFinalRound] = useState<
-    SecondRoundApplicantWithSelected[]
-  >([]);
-  const [secondRoundProfiles, setSecondRoundProfiles] = useState<
-    SecondRoundApplicantWithSelected[]
-  >(secondRoundApplicantsWithSelected);
+  const {advertId} = route.params;
 
-  const selectProfiles = (id: number | null) => {
-    const updatedProfiles = secondRoundProfiles.map(el => {
-      if (el.id === id) {
+  const {
+    data: advert,
+    error,
+    isLoading,
+  } = useSeeApplicationsByAdvertIdQuery(advertId);
+  const applications = advert?.applications;
+
+  const [
+    confirmApplications,
+    {isLoading: isConfirming, error: errorConfirming},
+  ] = useConfirmApplicationsMutation();
+
+  const [applicationsState, setApplicationsState] = useState<Application[]>([]);
+
+  const [selectedApplications, setSelectedApplications] = useState<
+    Partial<Application>[]
+  >([]);
+
+  const [notSelectedApplications, setNotSelectedApplications] = useState<
+    Partial<Application>[]
+  >([]);
+
+  useEffect(() => {
+    if (advert) {
+      setApplicationsState(applications ?? []);
+    }
+  }, [advert, applications]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
+
+  const selectApplication = (id: number) => {
+    const updatedApplications = applicationsState.map(application => {
+      if (application.id === id) {
         return {
-          ...el,
-          secondRoundSelected: !el.secondRoundSelected,
+          ...application,
+          round1: !application.round1,
         };
-      } else {
-        return el;
       }
+      return application;
     });
 
-    setSecondRoundProfiles(updatedProfiles);
+    setApplicationsState(updatedApplications);
+    const applicationsSelected = updatedApplications
+      .filter(app => app.round1)
+      .map(app => {
+        return {
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        };
+      });
+    setSelectedApplications(applicationsSelected);
 
-    const selectedProfilesOnly = updatedProfiles.filter(
-      el => el.secondRoundSelected,
-    );
-
-    setFinalRound(selectedProfilesOnly);
+    const applicationsNotSelected = updatedApplications
+      .filter(app => !app.round1)
+      .map(app => {
+        return {
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        };
+      });
+    setNotSelectedApplications(applicationsNotSelected);
   };
 
+  const applicationToBeSent = [
+    ...selectedApplications,
+    ...notSelectedApplications,
+  ];
+  console.log('applicationToBeSent', applicationToBeSent);
+
+  const toggleModal = () => {
+    setModalVisible(prev => !prev);
+  };
+
+  const handleConfirmApplications = () => {
+    confirmApplications({
+      id: advertId,
+      applicationType: 'Round-1',
+      applications: applicationToBeSent,
+    });
+    navigation.navigate('seeProfiles', {advertId: advertId});
+    toggleModal();
+  };
+  const totalApplications = applicationsState.length;
+  const totalSelected = selectedApplications.length;
+  const totalRemaining = Math.min(
+    MAX_SELECT_2_ROUND - totalSelected,
+    totalApplications - totalSelected,
+  );
+
+  const confirmApplicationsModalAsset = {
+    header: 'Are you sure you want to confirm these applicants?',
+    description:
+      'Once confirmed, you cannot select any more applicants or change the decision. In the next step, you will be able to see more details about the selected applicants.',
+    middleText:
+      totalRemaining > 0
+        ? `⚡️ You can still select ${totalRemaining} more applicant${
+            totalRemaining > 1 ? 's' : ''
+          }`
+        : '',
+    buttonText: {
+      first: isConfirming
+        ? 'Confirming'
+        : errorConfirming
+        ? 'There was an error. Try Again'
+        : `Confirm selection (${totalSelected})`,
+      second: 'Back to applicants list',
+    },
+  };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return (
+      <ErrorComponent message="There was an error getting the applicants" />
+    );
+  }
+
+  if (applicationsState.length === 0) {
+    return <ErrorComponent message="No one has applied yet" />;
+  }
+
   return (
-    <View style={styles.pageWrapper}>
-      <Text style={[styles.header, fontStyles.headerSmall]}>profiles</Text>
-      <SafeAreaView style={styles.safeareaview}>
-        <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
-          {secondRoundProfiles.map(el => (
-            <UserBlobCard
-              key={el.id}
-              secondRoundProfile={el}
-              selectProfiles={selectProfiles}
-              currentAdvert={currentAdvert}
+    <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
+      <BackButton onPress={navigation.goBack} />
+      <View style={CoreStyleSheet.headerContainer}>
+        <Text style={fontStyles.headerSmall}>Applicants</Text>
+      </View>
 
-              // sayHi={'sayHi'}
-            />
-          ))}
+      <View style={styles.screenContainer}>
+        <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
+          {applicationsState?.map(application => {
+            return (
+              <UserBlobCard
+                key={application.id}
+                selectApplication={selectApplication}
+                currentSelectedNums={selectedApplications.length}
+                application={application}
+              />
+            );
+          })}
         </ScrollView>
-      </SafeAreaView>
 
-      <CoreButton
-        disabled={finalRound.length >= 1 ? false : true}
-        value={`Selected ${finalRound.length}/${MAX_SELECT}`}
-        style={styles.selectedButton}
-        onPress={() => {
-          setModalVisible(!modalVisible);
-        }}
+        <CoreButton
+          disabled={selectedApplications.length >= 1 ? false : true}
+          value={`Selected ${selectedApplications.length}/${
+            MAX_SELECT_2_ROUND <= totalApplications
+              ? MAX_SELECT_2_ROUND
+              : totalApplications
+          }`}
+          style={styles.coreButton}
+          onPress={toggleModal}
+        />
+      </View>
+
+      <ConfirmModal
+        openModal={modalVisible}
+        setIsModalOpen={setModalVisible}
+        modalAsset={confirmApplicationsModalAsset}
+        image={<Search />}
+        onPressFirstButton={handleConfirmApplications}
+        fullScreen
+        disabled={isConfirming}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageWrapper: {
-    flex: 1,
-    backgroundColor: 'white',
-    position: 'relative',
-    alignItems: 'center',
-    width: '100%',
+  screenContainer: StyleSheet.flatten([
+    CoreStyleSheet.screenContainer,
+    {paddingVertical: 8},
+  ]),
+
+  coreButton: {width: '100%', marginTop: size(24), marginBottom: size(10)},
+
+  iconContainer: {
+    zIndex: 100,
   },
-  scrollView: {
-    alignItems: 'center',
-  },
-  header: {
-    marginTop: size(70),
-    width: '100%',
-    textAlign: 'center',
-    marginBottom: size(20),
-  },
-  headerText: {
-    position: 'absolute',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  },
-  safeareaview: {
-    marginTop: 0,
-  },
-  selectedButton: {width: '90%', position: 'absolute', bottom: 10},
 });
 
 export default SeeProfilesScreen;

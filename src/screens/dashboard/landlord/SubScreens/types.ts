@@ -11,10 +11,12 @@ interface SecondRoundApplicantWithSelected extends AdvertApplicantWithSelected {
 }
 
 type SeeApplicantsScreenProp = {
-  route: {params: {id: number}};
+  route: {params: {advertId: number}};
 };
 
-type SeeProfilesScreenProp = {};
+type SeeProfilesScreenProp = {
+  route: {params: {advertId: number}};
+};
 
 export type {
   AdvertApplicantWithSelected,

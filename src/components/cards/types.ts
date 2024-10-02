@@ -27,9 +27,9 @@ type ApplicantCardProps = {
 };
 
 type UserBlobCardProps = {
-  secondRoundProfile: SecondRoundApplicantWithSelected;
-  currentAdvert: Advert;
-  selectProfiles: (id: number | null) => void;
+  currentSelectedNums: number;
+  selectApplication: (id: number) => void;
+  application: Application;
 };
 
 type LanguagesCardProps = {

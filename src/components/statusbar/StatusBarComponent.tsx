@@ -160,7 +160,7 @@ const StatusBarComponent = ({
                   value="See Applicants"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('seeApplicants', {id: advert?.id ?? 0})
+                    navigation.navigate('seeApplicants', {advertId: advert?.id ?? 0})
                   }
                 />
               )}

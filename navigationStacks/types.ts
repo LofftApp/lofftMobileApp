@@ -62,7 +62,7 @@ type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
   applicationshow: {id: number};
-  seeApplicants: {id: number};
+  seeApplicants: {advertId: number};
   seeProfiles: {
     advertId: number;
   };
