@@ -1,7 +1,7 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Pressable} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {width, height, size} from 'react-native-responsive-sizes';
+import {height, size} from 'react-native-responsive-sizes';
 
 // Stylesheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -14,15 +14,16 @@ const BackButton = ({
   onPress,
   title = '',
   close = false,
-  style = {},
+  style,
   neutral = false,
+  absolute = false,
 }: BackButtonProps) => {
   return (
     <View
       style={[
-        styles.headerContainer,
-        close ? styles.headerContainClose : null,
+        absolute ? styles.headerContainerAbsolute : styles.headerContainer,
         style,
+        close ? styles.headerContainClose : null,
       ]}>
       <Text
         style={[
@@ -32,9 +33,17 @@ const BackButton = ({
         ]}>
         {title}
       </Text>
-      <TouchableOpacity onPress={onPress}>
+      <Pressable
+        onPress={() => {
+          console.log('onPress clicked', onPress);
+          onPress();
+        }}>
         {close ? (
-          <LofftIcon name="x-close" size={35} color={Color.Black[50]} />
+          <LofftIcon
+            name="x-close"
+            size={35}
+            color={neutral ? Color.Black[50] : Color.Lavendar[80]}
+          />
         ) : (
           <LofftIcon
             name="chevron-left"
@@ -42,38 +51,37 @@ const BackButton = ({
             color={neutral ? Color.Black[50] : Color.Lavendar[80]}
           />
         )}
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
-    // maxHeight: height(75),
-    // alignContent: 'flex-start',
-    // flexDirection: 'row-reverse',
-    // alignItems: 'center',
-    position: 'absolute',
-    left: size(10),
-    zIndex: 10,
+    maxHeight: height(75),
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
+  headerContainerAbsolute: {
+    position: 'absolute',
+    top: size(10),
+    left: size(0),
+    right: size(0),
+    zIndex: 100,
+  },
+
   headerContainClose: {
     flexDirection: 'row',
     alignContent: 'flex-end',
-    top: size(16),
-    right: size(8),
+    right: size(12),
+    top: size(6),
   },
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: width(40),
-    height: height(40),
-    borderRadius: 22,
-  },
+
   header: {
     flex: 1,
     // marginLeft: size(-48),
-    marginTop: size(12),
+    left: size(22),
     textAlign: 'center',
   },
   headerRight: {

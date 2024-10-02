@@ -37,7 +37,7 @@ const ConfirmModal = ({
             ? CoreStyleSheet.fullScreenModalContainer
             : CoreStyleSheet.modalContainer
         }>
-        <BackButton onPress={toggleModal} style={styles.backButton} close />
+        <BackButton onPress={toggleModal} close />
         <ApplyForFlatScreenBackground style={styles.backgroundImage} />
         {fullScreen ? (
           <>
@@ -142,10 +142,7 @@ const styles = StyleSheet.create({
   coreButtonStyle: {
     width: '100%',
   },
-  backButton: {
-    marginRight: size(16),
-    marginTop: size(10),
-  },
+
   backgroundImage: {
     position: 'absolute',
     top: 50,

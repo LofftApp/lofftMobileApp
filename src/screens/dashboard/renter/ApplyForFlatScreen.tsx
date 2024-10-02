@@ -28,11 +28,12 @@ const ApplyForFlatScreen = () => {
     ApplicationScreenNavigationProp & SearchScreenNavigationProp
   >();
   const credits = useAppSelector(state => state.user.user.credits);
-
+  const canGoBack = navigation.canGoBack();
+  console.log('canGoBack', canGoBack);
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={() => navigation.goBack} style={styles.backButton} />
       <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+      <BackButton style={styles.backButton} onPress={navigation.goBack} />
       <HiFive />
       <View style={CoreStyleSheet.screenContainer}>
         <Text style={[fontStyles.headerSmall, styles.textContainer]}>

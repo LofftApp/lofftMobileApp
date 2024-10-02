@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {getProfile} from './usersMiddleware';
-import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
+// import {applyForAdvert} from 'reduxFeatures/adverts/advertMiddleware';
 
 // Types
 import type {UserState} from './types';
+import {advertApi} from 'reduxFeatures/adverts/advertApi';
 
 const initialState: UserState = {
   loading: false,
@@ -48,6 +49,7 @@ const userSlice = createSlice({
     builder.addCase(
       getProfile.fulfilled,
       (state, action: PayloadAction<any>) => {
+        console.log('getProfile.fulfilled', action.payload);
         state.loading = false;
         state.user.id = action.payload.user.id;
         state.user.email = action.payload.user.email;
@@ -64,10 +66,16 @@ const userSlice = createSlice({
         state.user.filter = action.payload.user.filter;
       },
     );
-    builder.addCase(applyForAdvert.fulfilled, (state, action) => {
-      state.user.credits = action.payload;
-    });
-    builder.addCase(applyForAdvert.rejected, (state, action) => {});
+    // builder.addCase(applyForAdvert.fulfilled, (state, action) => {
+    //   state.user.credits = action.payload;
+    // });
+    // builder.addCase(applyForAdvert.rejected, (state, action) => {});
+    builder.addMatcher(
+      advertApi.endpoints.applyForFlat.matchFulfilled,
+      (state, action) => {
+        state.user.credits = action.payload.credits;
+      },
+    );
   },
 });
 

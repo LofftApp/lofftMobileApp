@@ -48,6 +48,7 @@ type BackButtonProps = {
   close?: boolean;
   style?: StyleProp<ViewStyle>;
   neutral?: boolean;
+  absolute?: boolean;
 };
 
 export type {

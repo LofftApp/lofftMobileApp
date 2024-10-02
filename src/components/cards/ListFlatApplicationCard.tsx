@@ -39,21 +39,13 @@ const ListFlatApplicationCard = ({
     SearchScreenNavigationProp & LessorNavigatorScreenNavigationProp
   >();
 
-  const [active] = useState(
-    !['offered', 'closed'].includes(application?.status ?? ''),
-  );
-  const [renterActiveStatus] = useState([
-    'Applied',
-    'In review',
-    'Viewing',
-    'Offer',
-  ]);
-  const [lessorActiveStatus] = useState([
-    'Received',
-    'Review',
-    'Viewing',
-    'Offer',
-  ]);
+  const active = isLessor
+    ? !['offered', 'closed'].includes(advert?.status ?? '')
+    : ['active'].includes(application?.status ?? '');
+
+  const renterActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
+  const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
+
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
@@ -77,7 +69,11 @@ const ListFlatApplicationCard = ({
         break;
     }
   };
-  console.log('adert status in listflatapplicationcard', advert?.status);
+  console.log('advert status in listflatapplicationcard', advert?.status);
+  console.log(
+    'application status in listflatapplicationcard',
+    application?.status,
+  );
 
   useEffect(() => {
     const index = advertStatusIndex(advert?.status ?? '');

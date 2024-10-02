@@ -30,6 +30,7 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
+import {useAppSelector} from 'reduxCore/hooks';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -53,17 +54,27 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
+  const userCredits = useAppSelector(state => state.user.user.credits);
+  console.log('user credits', userCredits);
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
   const [
     applyForFlat,
-    {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
+
+    {
+      isSuccess: applyIsSuccess,
+      isLoading: applyIsLoading,
+      error: applyError,
+      data: applyData,
+    },
   ] = useApplyForFlatMutation();
+
+  console.log('applyData', applyData);
 
   // //Placeholder for complete profile and has tokens
   const completeProfile = true;
-  const hasTokens = true;
+  const hasTokens = userCredits && userCredits < 0;
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -154,7 +165,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             }
             image={<Search />}
             onPressFirstButton={() => {}}
-            // fullScreen
           />
         </View>
       </SafeAreaView>
