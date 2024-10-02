@@ -14,7 +14,6 @@ import {
 import {Application} from 'reduxFeatures/applications/types';
 
 // Components
-import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
@@ -28,7 +27,7 @@ import {Search} from 'assets';
 import {size} from 'react-native-responsive-sizes';
 
 // Types
-import type {SeeApplicantsScreenProp, SeeProfilesScreenProp} from './types';
+import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 import UserBlobCard from 'components/cards/UserBlobCard';
 
@@ -74,7 +73,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       if (application.id === id) {
         return {
           ...application,
-          round1: !application.round1,
+          round2: !application.round2,
         };
       }
       return application;
@@ -82,7 +81,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
     setApplicationsState(updatedApplications);
     const applicationsSelected = updatedApplications
-      .filter(app => app.round1)
+      .filter(app => app.round2)
       .map(app => {
         return {
           id: app.id,
@@ -94,7 +93,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     setSelectedApplications(applicationsSelected);
 
     const applicationsNotSelected = updatedApplications
-      .filter(app => !app.round1)
+      .filter(app => !app.round2)
       .map(app => {
         return {
           id: app.id,
@@ -119,7 +118,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const handleConfirmApplications = () => {
     confirmApplications({
       id: advertId,
-      applicationType: 'Round-1',
+      applicationType: 'Round-2',
       applications: applicationToBeSent,
     });
     navigation.navigate('seeProfiles', {advertId: advertId});
@@ -135,7 +134,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const confirmApplicationsModalAsset = {
     header: 'Are you sure you want to confirm these applicants?',
     description:
-      'Once confirmed, you cannot select any more applicants or change the decision. In the next step, you will be able to see more details about the selected applicants.',
+      'Once confirmed, you cannot select any more applicants or change the decision.',
     middleText:
       totalRemaining > 0
         ? `⚡️ You can still select ${totalRemaining} more applicant${
@@ -148,7 +147,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
         : errorConfirming
         ? 'There was an error. Try Again'
         : `Confirm selection (${totalSelected})`,
-      second: 'Back to applicants list',
+      second: 'Back to applicants profiles',
     },
   };
 
@@ -163,7 +162,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   }
 
   if (applicationsState.length === 0) {
-    return <ErrorComponent message="No one has applied yet" />;
+    return <ErrorComponent message="We could not find the applicants" />;
   }
 
   return (

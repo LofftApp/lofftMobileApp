@@ -37,7 +37,7 @@ const ApplicantCard = ({
   console.log('application in applicant card', application);
 
   if (!applicant) {
-    return <ErrorComponent message="No one has applied yet" />;
+    return null;
   }
   const {email: name} = applicant;
 

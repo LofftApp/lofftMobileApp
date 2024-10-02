@@ -99,9 +99,9 @@ const UserBlobCard = ({
     <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
         <CheckBox
-          value={application.round1}
+          value={application.round2}
           disabled={
-            !application.round1 && currentSelectedNums >= MAX_SELECT_2_ROUND
+            !application.round2 && currentSelectedNums >= MAX_SELECT_2_ROUND
           }
           onPress={toggleCheckbox}
         />
