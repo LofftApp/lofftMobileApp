@@ -167,9 +167,9 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton onPress={navigation.goBack} />
+      <BackButton absolute onPress={navigation.goBack} />
       <View style={CoreStyleSheet.headerContainer}>
-        <Text style={fontStyles.headerSmall}>Applicants</Text>
+        <Text style={fontStyles.headerSmall}>Profiles</Text>
       </View>
 
       <View style={styles.screenContainer}>
