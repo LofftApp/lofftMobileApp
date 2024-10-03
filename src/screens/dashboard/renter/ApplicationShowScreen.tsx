@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  Pressable,
-} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, Pressable} from 'react-native';
 //Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
@@ -91,22 +84,21 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     );
   }
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={CoreStyleSheet.showContainer}>
       <View>
         <HighlightButtons
           favorite={advert?.favorite}
           heartPresent={!advert?.lessor}
           onPressHeart={handleFavorite}
         />
-        <View>
-          <LofftHeaderPhoto
-            imageContainerHeight={300}
-            images={advert?.flat.photos ?? []}
-          />
-        </View>
+
+        <LofftHeaderPhoto
+          imageContainerHeight={300}
+          images={advert?.flat.photos ?? []}
+        />
       </View>
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        <View style={styles.mainContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={CoreStyleSheet.screenContainer}>
           <StatusBarComponent
             application={application}
             _advert={advert}
@@ -140,17 +132,12 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    width: '100%',
-    paddingHorizontal: size(16),
-    alignItems: 'center',
-  },
   seeMore: {
     color: Color.Blue[100],
 

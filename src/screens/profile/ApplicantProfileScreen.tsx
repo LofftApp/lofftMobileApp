@@ -73,7 +73,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   return (
     <View style={styles.container}>
       <View>
-        <LofftHeaderPhoto images={images} imageContainerHeight={400} />
+        <LofftHeaderPhoto images={images} imageContainerHeight={size(350)} />
         <HighlightButtons heartPresent={false} />
       </View>
       <ScrollView>

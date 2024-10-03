@@ -160,7 +160,9 @@ const StatusBarComponent = ({
                   value="See Applicants"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('seeApplicants', {advertId: advert?.id ?? 0})
+                    navigation.navigate('seeApplicants', {
+                      advertId: advert?.id ?? 0,
+                    })
                   }
                 />
               )}
@@ -283,7 +285,7 @@ const styles = StyleSheet.create({
   maincontainer: {
     width: '100%',
     alignItems: 'center',
-    paddingVertical: size(20),
+    paddingVertical: size(0),
     justifyContent: 'space-between',
   },
   infoBlockHeader: {

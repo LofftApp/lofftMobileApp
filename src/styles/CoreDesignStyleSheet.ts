@@ -38,10 +38,16 @@ export const CoreStyleSheet = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
   },
+  showContainer: {
+    flex: 1,
+    backgroundColor: Color.White[100],
+  },
+
   screenContainer: {
     flex: 1,
     width: '100%',
     paddingHorizontal: size(16),
+    paddingVertical: size(20),
     alignItems: 'center',
   },
   headerContainer: {

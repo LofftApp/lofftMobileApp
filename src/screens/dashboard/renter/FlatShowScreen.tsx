@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView, Text} from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
@@ -73,7 +73,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   console.log('applyData', applyData);
 
   // //Placeholder for complete profile and has tokens
-  const completeProfile = true;
+  const completeProfile = false;
   const hasTokens = userCredits && userCredits > 0;
 
   // //Modal
@@ -103,7 +103,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={CoreStyleSheet.showContainer}>
       <View>
         {!isModalOpen && (
           <HighlightedButtons
@@ -112,14 +112,12 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
           />
         )}
         <LofftHeaderPhoto
-          imageContainerHeight={300}
+          imageContainerHeight={size(300)}
           images={advert?.flat.photos ?? []}
           activeBlur={isModalOpen}
         />
       </View>
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        {isModalOpen && <View style={styles.blurOverlay} />}
-
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.flatCardContainer}>
           {advert && <FlatInfoSubScreen advert={advert} />}
 
@@ -167,8 +165,8 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             onPressFirstButton={() => {}}
           />
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -192,15 +190,6 @@ const styles = StyleSheet.create({
   coreButtonCustom: {
     marginTop: size(14),
     width: '100%',
-  },
-  blurOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 1,
   },
 });
 
