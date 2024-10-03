@@ -48,7 +48,6 @@ export const CoreStyleSheet = StyleSheet.create({
     width: '100%',
     paddingHorizontal: size(16),
     paddingVertical: size(20),
-    alignItems: 'center',
   },
   headerContainer: {
     paddingHorizontal: size(20),

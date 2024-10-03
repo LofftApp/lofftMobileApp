@@ -1,9 +1,10 @@
 /* React Stuff */
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, Pressable} from 'react-native';
 
 /* Redux Api Calls etc */
-import {getSpecificUserProfile} from 'reduxFeatures/user/usersMiddleware';
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {useGetSpecificUserQuery} from 'reduxFeatures/user/userApi';
 
 /* Components */
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
@@ -11,22 +12,24 @@ import HighlightButtons from 'components/containers/HighlightButtons';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 /* Helpers */
 import {matchMaker} from 'helpers/matchMaker';
 import {capitalize} from 'helpers/capitalize';
+import {size} from 'react-native-responsive-sizes';
 
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
-import {size} from 'react-native-responsive-sizes';
-import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
-import {useGetUserProfileQuery} from 'reduxFeatures/user/userApi';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
+import Collapsible from 'react-native-collapsible';
+import {tagSorter} from 'helpers/tagSorter';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -39,14 +42,25 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {advertId, applicantId} = route.params;
 
   const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
-  console.log('Advert Data in applicant profile screen', advert);
+  // console.log('Advert Data in applicant profile screen', advert);
 
-  const {data: profile, isLoading, error} = useGetUserProfileQuery(applicantId);
-  console.log('Profile Data in applicant profile screen', profile);
+  const {
+    data: profile,
+    isLoading,
+    error,
+  } = useGetSpecificUserQuery(applicantId);
+  console.log(
+    'Profile Data in applicant profile screen',
+    profile?.profileDetails.description,
+  );
 
   const [profileDetails, setProfileDetails] = useState({});
   const [profileChars, setProfileChars] = useState([]);
   const [buttonClicked, setButtonClicked] = useState(false);
+
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [matchExpand, setMatchExpand] = useState(false);
+  const [otherExpand, setOtherExpand] = useState(false);
 
   if (!advert || !profile) {
     return null;
@@ -54,13 +68,43 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {characteristics: flatChars} = advert?.flat;
   // const {secondRoundSelected, id: applicantId} = secondRoundProfile;
 
-  const matches = matchMaker(flatChars, profileChars)[0];
-  const noMatches = matchMaker(flatChars, profileChars)[1];
+  const charTags = tagSorter(
+    profile.profileCharacteristics,
+    advert.flat.characteristics,
+  );
+
+  const positiveCharTags = charTags.positiveTags;
+  const negativeCharTags = charTags.negativeTags;
+
+  // const matches = matchMaker(flatChars, profileChars)[0];
+  // const noMatches = matchMaker(flatChars, profileChars)[1];
 
   const handleButtonClicked = () => {
     setButtonClicked(!buttonClicked);
     handleClickCheckbox();
   };
+
+  const toggleMatchExpand = () => {
+    setMatchExpand(prev => !prev);
+  };
+  const toggleDescriptionExpand = () => {
+    setDescriptionExpanded(prev => !prev);
+  };
+
+  const toggleOtherExpand = () => {
+    setOtherExpand(prev => !prev);
+  };
+
+  const maxDescriptionLength = 250;
+  const truncatedDescription = truncateTextAtWord(
+    profile.profileDetails.description,
+    maxDescriptionLength,
+  );
+  const hiddenDescription = profile.profileDetails.description.slice(
+    truncatedDescription.length,
+  );
+  const isTruncated =
+    profile.profileDetails.description.length > truncatedDescription.length;
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -71,50 +115,139 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={CoreStyleSheet.showContainer}>
       <View>
         <LofftHeaderPhoto images={images} imageContainerHeight={size(350)} />
         <HighlightButtons heartPresent={false} />
       </View>
-      <ScrollView>
-        <View style={styles.contentContainer}>
-          <View style={styles.infoA}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={CoreStyleSheet.screenContainer}>
+          <View style={styles.nameAgeContainer}>
             <Text style={fontStyles.headerMedium}>{capitalize('john')}</Text>
             <Text style={{color: Color.Black[80]}}>28 years old</Text>
           </View>
 
-          <View style={styles.infoB}>
+          <View style={styles.timeCOntainer}>
             <LofftIcon name="calendar" size={25} color={Color.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.calendarText]}>
               From: 25/12/22 - unlimited
             </Text>
           </View>
 
-          <View style={styles.infoC}>
+          <View style={styles.languageContainer}>
             <LofftIcon name="translate" size={25} color={Color.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.translateText]}>
               English, German, Arabic
             </Text>
           </View>
 
-          <View>
-            <Text style={[fontStyles.bodySmall, {color: Color.Black[80]}]}>
-              {/* will display when apiCallToRetriveUser is fixed  */}
-              {/* {profileDetails.description} */}
+          <View style={styles.descriptionContainer}>
+            <Text style={{color: Color.Black[80]}}>
+              {truncatedDescription}
+              {!descriptionExpanded && isTruncated && '...'}
             </Text>
+
+            {isTruncated && (
+              <Collapsible collapsed={!descriptionExpanded} duration={300}>
+                <Text style={{color: Color.Black[80]}}>
+                  {hiddenDescription}
+                </Text>
+              </Collapsible>
+            )}
+
+            {profile.profileDetails.description &&
+              profile.profileDetails.description.length >
+                maxDescriptionLength && (
+                <CoreButton
+                  value={descriptionExpanded ? 'Read Less' : 'Read More'}
+                  style={styles.coreButtonStyle}
+                  textStyle={[
+                    fontStyles.headerSmall,
+                    {color: Color.Lavendar[100]},
+                  ]}
+                  invert
+                  disabled={false}
+                  onPress={toggleDescriptionExpand}
+                />
+              )}
           </View>
 
-          <Text style={[fontStyles.headerMedium, styles.matchText]}>
-            Match with you
-          </Text>
-          <Chips tags={matches} features={true} emoji />
+          {/* Match with you */}
+          <View style={styles.chipsContainer}>
+            <Text style={fontStyles.headerSmall}>Match with you</Text>
 
-          <Text style={[fontStyles.headerMedium, styles.differencesText]}>
-            Differences
-          </Text>
-          <Chips tags={noMatches} features={true} emoji />
+            <Pressable
+              onPress={toggleMatchExpand}
+              style={styles.seeMoreContainer}>
+              <Text style={[fontStyles.bodySmall, styles.seeMore]}>
+                {matchExpand ? 'See less' : 'See more'}
+              </Text>
+              {matchExpand ? (
+                <>
+                  <LofftIcon
+                    name="chevron-up"
+                    size={25}
+                    color={Color.Blue[100]}
+                  />
+                </>
+              ) : (
+                <>
+                  <LofftIcon
+                    name="chevron-down"
+                    size={25}
+                    color={Color.Blue[100]}
+                  />
+                </>
+              )}
+            </Pressable>
+          </View>
 
-          {/* {profileChars.map((el, index) => <Text key={index}>{el.name}</Text>)} */}
+          <View style={styles.matchWithYouContainer}>
+            <Chips
+              tags={positiveCharTags}
+              features={false}
+              emoji
+              expand={matchExpand}
+            />
+          </View>
+
+          {/* Other */}
+          <View style={styles.chipsContainer}>
+            <Text style={fontStyles.headerSmall}>Other</Text>
+            <Pressable
+              onPress={toggleOtherExpand}
+              style={styles.seeMoreContainer}>
+              <Text style={[fontStyles.bodySmall, styles.seeMore]}>
+                {otherExpand ? 'See less' : 'See more'}
+              </Text>
+              {otherExpand ? (
+                <>
+                  <LofftIcon
+                    name="chevron-up"
+                    size={25}
+                    color={Color.Blue[100]}
+                  />
+                </>
+              ) : (
+                <>
+                  <LofftIcon
+                    name="chevron-down"
+                    size={25}
+                    color={Color.Blue[100]}
+                  />
+                </>
+              )}
+            </Pressable>
+          </View>
+
+          <View style={styles.matchWithYouContainer}>
+            <Chips
+              tags={negativeCharTags}
+              features={false}
+              emoji
+              expand={otherExpand}
+            />
+          </View>
         </View>
       </ScrollView>
       <View style={styles.centerButtonContainer}>
@@ -143,18 +276,18 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: size(12),
   },
-  infoA: {
+  nameAgeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  infoB: {
+  timeCOntainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: size(10),
     paddingTop: size(10),
   },
-  infoC: {
+  languageContainer: {
     paddingBottom: size(20),
     flexDirection: 'row',
   },
@@ -162,7 +295,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    bottom: 5,
+    paddingTop: size(20),
+    paddingBottom: size(10),
+  },
+  descriptionContainer: {
+    paddingHorizontal: size(10),
+  },
+  descriptionText: {
+    color: Color.Black[80],
+  },
+  chipsContainer: {
+    marginTop: size(23),
+    marginBottom: size(5),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  matchWithYouContainer: {
+    marginTop: size(10),
+  },
+  seeMoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  seeMore: {
+    color: Color.Blue[100],
+    alignSelf: 'flex-end',
+    marginRight: size(10),
+    marginBottom: size(10),
   },
   customCoreButtonStyle: {
     width: '94%',
@@ -176,6 +336,9 @@ const styles = StyleSheet.create({
   translateText: {color: Color.Black[100], paddingLeft: size(10)},
   matchText: {color: Color.Black[100], paddingTop: size(20)},
   differencesText: {color: Color.Black[100], paddingTop: size(10)},
+  coreButtonStyle: {
+    marginTop: size(20),
+  },
 });
 
 export default ApplicantProfileScreen;

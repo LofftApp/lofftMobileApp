@@ -2,9 +2,6 @@ import React from 'react';
 import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-// Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
-
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';

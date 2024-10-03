@@ -54,8 +54,7 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
-  const userCredits = useAppSelector(state => state.user.user.credits);
-  console.log('user credits', userCredits);
+  const user = useAppSelector(state => state.user.user);
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -73,8 +72,8 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   console.log('applyData', applyData);
 
   // //Placeholder for complete profile and has tokens
-  const completeProfile = false;
-  const hasTokens = userCredits && userCredits > 0;
+  const completeProfile = user.userType !== 'newuser';
+  const hasTokens = user.credits && user.credits > 0;
 
   // //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);

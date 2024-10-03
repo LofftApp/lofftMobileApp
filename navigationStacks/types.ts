@@ -1,8 +1,6 @@
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
-import type {Advert} from 'reduxFeatures/adverts/types';
-import {SecondRoundApplicantWithSelected} from 'screens/dashboard/landlord/SubScreens/types';
 
 // Renter Navigator Stack
 

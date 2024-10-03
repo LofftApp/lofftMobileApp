@@ -27,4 +27,35 @@ interface UserState {
   };
 }
 
-export type {UserState, UserProfile, UserCharacteristics, UserFilter};
+interface IncomingSpecificUser {
+  profile_characteristics: UserCharacteristics[];
+  profile_details: {
+    id: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    description: string;
+    gender_identity: string;
+  };
+}
+
+interface SpecificUser {
+  profileCharacteristics: UserCharacteristics[];
+  profileDetails: {
+    id: number;
+    userId: number;
+    createdAt: string;
+    updatedAt: string;
+    description: string;
+    genderIdentity: string;
+  };
+}
+
+export type {
+  UserState,
+  UserProfile,
+  UserCharacteristics,
+  UserFilter,
+  IncomingSpecificUser,
+  SpecificUser,
+};
