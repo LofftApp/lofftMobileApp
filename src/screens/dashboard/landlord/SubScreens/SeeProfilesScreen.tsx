@@ -11,7 +11,6 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {Application} from 'reduxFeatures/applications/types';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -32,7 +31,7 @@ import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
-  setApplications,
+  setApplicationsRound2,
   toggleRound2,
 } from 'reduxFeatures/applications/applicationSlice';
 
@@ -46,10 +45,10 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     state => state.applications.applications,
   );
   const selectedApplications = useAppSelector(
-    state => state.applications.selectedApplications,
+    state => state.applications.applicationsSelected,
   );
   const notSelectedApplications = useAppSelector(
-    state => state.applications.notSelectedApplications,
+    state => state.applications.applicationsNotSelected,
   );
   const {
     data: advert,
@@ -63,18 +62,9 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     {isLoading: isConfirming, error: errorConfirming},
   ] = useConfirmApplicationsMutation();
 
-  // const [applicationsState, setApplicationsState] = useState<Application[]>([]);
-
-  // const [selectedApplications, setSelectedApplications] = useState<
-  //   Partial<Application>[]
-  // >([]);
-
-  // const [notSelectedApplications, setNotSelectedApplications] = useState<
-  //   Partial<Application>[]
-  // >([]);
   useEffect(() => {
     if (advert) {
-      dispatch(setApplications(applications ?? []));
+      dispatch(setApplicationsRound2(applications ?? []));
     }
   }, [applications, advert, dispatch]);
 
@@ -85,43 +75,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
-
-  // const selectApplication = (id: number) => {
-  //   const updatedApplications = applicationsState.map(application => {
-  //     if (application.id === id) {
-  //       return {
-  //         ...application,
-  //         round2: !application.round2,
-  //       };
-  //     }
-  //     return application;
-  //   });
-
-  //   setApplicationsState(updatedApplications);
-  //   const applicationsSelected = updatedApplications
-  //     .filter(app => app.round2)
-  //     .map(app => {
-  //       return {
-  //         id: app.id,
-  //         round_1: app.round1,
-  //         round_2: app.round2,
-  //         round_3: app.round3,
-  //       };
-  //     });
-  //   setSelectedApplications(applicationsSelected);
-
-  //   const applicationsNotSelected = updatedApplications
-  //     .filter(app => !app.round2)
-  //     .map(app => {
-  //       return {
-  //         id: app.id,
-  //         round_1: app.round1,
-  //         round_2: app.round2,
-  //         round_3: app.round3,
-  //       };
-  //     });
-  //   setNotSelectedApplications(applicationsNotSelected);
-  // };
 
   const applicationToBeSent = [
     ...selectedApplications,

@@ -1,10 +1,12 @@
 /* React Stuff */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, ScrollView, Pressable} from 'react-native';
 
-/* Redux Api Calls etc */
+/* Redux ß*/
 import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {useGetSpecificUserQuery} from 'reduxFeatures/user/userApi';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {toggleRound2} from 'reduxFeatures/applications/applicationSlice';
 
 /* Components */
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
@@ -14,11 +16,14 @@ import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import Collapsible from 'react-native-collapsible';
 
 /* Helpers */
 import {matchMaker} from 'helpers/matchMaker';
 import {capitalize} from 'helpers/capitalize';
 import {size} from 'react-native-responsive-sizes';
+import {tagSorter} from 'helpers/tagSorter';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -27,12 +32,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
-import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
-import Collapsible from 'react-native-collapsible';
-import {tagSorter} from 'helpers/tagSorter';
-import {useAppDispatch} from 'reduxCore/hooks';
-import {toggleRound2} from 'reduxFeatures/applications/applicationSlice';
-import {useSelector} from 'react-redux';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -47,10 +46,8 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
   // console.log('Advert Data in applicant profile screen', advert);
   const dispatch = useAppDispatch();
-  const application = useSelector(state =>
-    state.applications.applications.find(
-      application => application.id === applicationId,
-    ),
+  const application = useAppSelector(state =>
+    state.applications.applications.find(app => app.id === applicationId),
   );
   const {
     data: profile,
@@ -62,10 +59,6 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
     profile?.profileDetails.description,
   );
 
-  const [profileDetails, setProfileDetails] = useState({});
-  const [profileChars, setProfileChars] = useState([]);
-  const [buttonClicked, setButtonClicked] = useState(false);
-
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [matchExpand, setMatchExpand] = useState(false);
   const [otherExpand, setOtherExpand] = useState(false);
@@ -73,8 +66,6 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   if (!advert || !profile) {
     return null;
   }
-  const {characteristics: flatChars} = advert?.flat;
-  // const {secondRoundSelected, id: applicantId} = secondRoundProfile;
 
   const charTags = tagSorter(
     profile.profileCharacteristics,
@@ -134,7 +125,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
             <Text style={{color: Color.Black[80]}}>28 years old</Text>
           </View>
 
-          <View style={styles.timeCOntainer}>
+          <View style={styles.timeContainer}>
             <LofftIcon name="calendar" size={25} color={Color.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.calendarText]}>
               From: 25/12/22 - unlimited
@@ -167,7 +158,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
                 maxDescriptionLength && (
                 <CoreButton
                   value={descriptionExpanded ? 'Read Less' : 'Read More'}
-                  style={styles.coreButtonStyle}
+                  style={styles.readMoreButton}
                   textStyle={[
                     fontStyles.headerSmall,
                     {color: Color.Lavendar[100]},
@@ -259,10 +250,10 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
       </ScrollView>
       <View style={styles.centerButtonContainer}>
         <CoreButton
-          value={application.round2 ? 'Selected !' : '+ Add to selection'}
+          value={application?.round2 ? 'Selected !' : '+ Add to selection'}
           style={[
-            styles.customCoreButtonStyle,
-            application.round2 ? styles.selected : null,
+            styles.selectedButton,
+            application?.round2 && styles.selected,
           ]}
           onPress={() => selectApplication(applicationId)}
         />
@@ -276,19 +267,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  userImage: {
-    width: '100%',
-    height: size(400),
-  },
-  contentContainer: {
-    padding: size(12),
-  },
+
   nameAgeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  timeCOntainer: {
+  timeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: size(10),
@@ -331,7 +316,7 @@ const styles = StyleSheet.create({
     marginRight: size(10),
     marginBottom: size(10),
   },
-  customCoreButtonStyle: {
+  selectedButton: {
     width: '94%',
     margin: 0,
   },
@@ -341,9 +326,8 @@ const styles = StyleSheet.create({
   },
   calendarText: {color: Color.Black[100], paddingLeft: size(10)},
   translateText: {color: Color.Black[100], paddingLeft: size(10)},
-  matchText: {color: Color.Black[100], paddingTop: size(20)},
-  differencesText: {color: Color.Black[100], paddingTop: size(10)},
-  coreButtonStyle: {
+
+  readMoreButton: {
     marginTop: size(20),
   },
 });

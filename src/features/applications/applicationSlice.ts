@@ -1,23 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { Application } from './types';
-
-interface ApplicationState {
-  applications: Application[];
-  selectedApplications: Partial<Application>[];
-  notSelectedApplications: Partial<Application>[];
-}
+import {Application, ApplicationState} from './types';
 
 const initialState: ApplicationState = {
   applications: [],
-  selectedApplications: [],
-  notSelectedApplications: [],
+  applicationsSelected: [],
+  applicationsNotSelected: [],
 };
 
 export const applicationSlice = createSlice({
   name: 'applications',
   initialState,
   reducers: {
-    setApplications(state, action: PayloadAction<Application[]>) {
+    setApplicationsRound2(state, action: PayloadAction<Application[]>) {
       state.applications = action.payload;
     },
     toggleRound2(state, action: PayloadAction<number>) {
@@ -28,13 +22,29 @@ export const applicationSlice = createSlice({
         return app;
       });
 
-      state.selectedApplications = state.applications.filter(app => app.round2);
-      state.notSelectedApplications = state.applications.filter(
-        app => !app.round2,
-      );
+      state.applicationsSelected = state.applications
+        .filter(app => app.round2)
+        .map(app => {
+          return {
+            id: app.id,
+            round_1: app.round1,
+            round_2: app.round2,
+            round_3: app.round3,
+          };
+        });
+      state.applicationsNotSelected = state.applications
+        .filter(app => !app.round2)
+        .map(app => {
+          return {
+            id: app.id,
+            round_1: app.round1,
+            round_2: app.round2,
+            round_3: app.round3,
+          };
+        });
     },
   },
 });
 
-export const {setApplications, toggleRound2} = applicationSlice.actions;
+export const {setApplicationsRound2, toggleRound2} = applicationSlice.actions;
 export default applicationSlice.reducer;
