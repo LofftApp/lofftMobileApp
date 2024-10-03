@@ -30,6 +30,9 @@ import type {ApplicantProfileScreenProps} from './types';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import Collapsible from 'react-native-collapsible';
 import {tagSorter} from 'helpers/tagSorter';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {toggleRound2} from 'reduxFeatures/applications/applicationSlice';
+import {useSelector} from 'react-redux';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -39,11 +42,16 @@ const images = [
 ];
 
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
-  const {advertId, applicantId} = route.params;
+  const {advertId, applicantId, applicationId} = route.params;
 
   const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
   // console.log('Advert Data in applicant profile screen', advert);
-
+  const dispatch = useAppDispatch();
+  const application = useSelector(state =>
+    state.applications.applications.find(
+      application => application.id === applicationId,
+    ),
+  );
   const {
     data: profile,
     isLoading,
@@ -79,9 +87,8 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   // const matches = matchMaker(flatChars, profileChars)[0];
   // const noMatches = matchMaker(flatChars, profileChars)[1];
 
-  const handleButtonClicked = () => {
-    setButtonClicked(!buttonClicked);
-    handleClickCheckbox();
+  const selectApplication = (id: number) => {
+    dispatch(toggleRound2(id));
   };
 
   const toggleMatchExpand = () => {
@@ -252,12 +259,12 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
       </ScrollView>
       <View style={styles.centerButtonContainer}>
         <CoreButton
-          value={buttonClicked ? 'Selected !' : '+ Add to selection'}
+          value={application.round2 ? 'Selected !' : '+ Add to selection'}
           style={[
             styles.customCoreButtonStyle,
-            buttonClicked ? styles.selected : null,
+            application.round2 ? styles.selected : null,
           ]}
-          onPress={() => {}}
+          onPress={() => selectApplication(applicationId)}
         />
       </View>
     </View>

@@ -30,12 +30,27 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {
+  setApplications,
+  toggleRound2,
+} from 'reduxFeatures/applications/applicationSlice';
 
 export const MAX_SELECT_2_ROUND = 20;
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const {advertId} = route.params;
+  const dispatch = useAppDispatch();
 
+  const applicationsState = useAppSelector(
+    state => state.applications.applications,
+  );
+  const selectedApplications = useAppSelector(
+    state => state.applications.selectedApplications,
+  );
+  const notSelectedApplications = useAppSelector(
+    state => state.applications.notSelectedApplications,
+  );
   const {
     data: advert,
     error,
@@ -48,62 +63,65 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     {isLoading: isConfirming, error: errorConfirming},
   ] = useConfirmApplicationsMutation();
 
-  const [applicationsState, setApplicationsState] = useState<Application[]>([]);
+  // const [applicationsState, setApplicationsState] = useState<Application[]>([]);
 
-  const [selectedApplications, setSelectedApplications] = useState<
-    Partial<Application>[]
-  >([]);
+  // const [selectedApplications, setSelectedApplications] = useState<
+  //   Partial<Application>[]
+  // >([]);
 
-  const [notSelectedApplications, setNotSelectedApplications] = useState<
-    Partial<Application>[]
-  >([]);
-
+  // const [notSelectedApplications, setNotSelectedApplications] = useState<
+  //   Partial<Application>[]
+  // >([]);
   useEffect(() => {
     if (advert) {
-      setApplicationsState(applications ?? []);
+      dispatch(setApplications(applications ?? []));
     }
-  }, [advert, applications]);
+  }, [applications, advert, dispatch]);
+
+  const selectApplication = (id: number) => {
+    dispatch(toggleRound2(id));
+  };
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
-  const selectApplication = (id: number) => {
-    const updatedApplications = applicationsState.map(application => {
-      if (application.id === id) {
-        return {
-          ...application,
-          round2: !application.round2,
-        };
-      }
-      return application;
-    });
+  // const selectApplication = (id: number) => {
+  //   const updatedApplications = applicationsState.map(application => {
+  //     if (application.id === id) {
+  //       return {
+  //         ...application,
+  //         round2: !application.round2,
+  //       };
+  //     }
+  //     return application;
+  //   });
 
-    setApplicationsState(updatedApplications);
-    const applicationsSelected = updatedApplications
-      .filter(app => app.round2)
-      .map(app => {
-        return {
-          id: app.id,
-          round_1: app.round1,
-          round_2: app.round2,
-          round_3: app.round3,
-        };
-      });
-    setSelectedApplications(applicationsSelected);
+  //   setApplicationsState(updatedApplications);
+  //   const applicationsSelected = updatedApplications
+  //     .filter(app => app.round2)
+  //     .map(app => {
+  //       return {
+  //         id: app.id,
+  //         round_1: app.round1,
+  //         round_2: app.round2,
+  //         round_3: app.round3,
+  //       };
+  //     });
+  //   setSelectedApplications(applicationsSelected);
 
-    const applicationsNotSelected = updatedApplications
-      .filter(app => !app.round2)
-      .map(app => {
-        return {
-          id: app.id,
-          round_1: app.round1,
-          round_2: app.round2,
-          round_3: app.round3,
-        };
-      });
-    setNotSelectedApplications(applicationsNotSelected);
-  };
+  //   const applicationsNotSelected = updatedApplications
+  //     .filter(app => !app.round2)
+  //     .map(app => {
+  //       return {
+  //         id: app.id,
+  //         round_1: app.round1,
+  //         round_2: app.round2,
+  //         round_3: app.round3,
+  //       };
+  //     });
+  //   setNotSelectedApplications(applicationsNotSelected);
+  // };
 
   const applicationToBeSent = [
     ...selectedApplications,

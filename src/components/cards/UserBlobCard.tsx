@@ -61,6 +61,7 @@ const UserBlobCard = ({
     navigation.navigate('ApplicantProfile', {
       advertId: application.advertId,
       applicantId: application.applicantId,
+      applicationId: application.id,
     });
   };
 
