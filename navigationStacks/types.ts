@@ -72,10 +72,8 @@ type LessorNavigatorStackParamsList = {
     round2?: boolean;
   };
   ApplicantProfile: {
-    applicantName: string | undefined;
-    handleClickCheckbox: () => void;
-    secondRoundProfile: SecondRoundApplicantWithSelected;
-    currentAdvert: Advert;
+    advertId: number;
+    applicantId: number;
   };
   chat: undefined;
 };

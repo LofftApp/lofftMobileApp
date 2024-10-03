@@ -23,6 +23,10 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Types
 import type {ApplicantProfileScreenProps} from './types';
 import {size} from 'react-native-responsive-sizes';
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserProfileQuery} from 'reduxFeatures/user/userApi';
+import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -32,37 +36,39 @@ const images = [
 ];
 
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
-  const {
-    applicantName,
-    handleClickCheckbox,
-    secondRoundProfile,
-    currentAdvert,
-  } = route.params;
+  const {advertId, applicantId} = route.params;
 
-  const {characteristics: flatChars} = currentAdvert.flat;
-  const {secondRoundSelected, id: applicantId} = secondRoundProfile;
+  const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
+  console.log('Advert Data in applicant profile screen', advert);
+
+  const {data: profile, isLoading, error} = useGetUserProfileQuery(applicantId);
+  console.log('Profile Data in applicant profile screen', profile);
 
   const [profileDetails, setProfileDetails] = useState({});
   const [profileChars, setProfileChars] = useState([]);
-  const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  if (!advert || !profile) {
+    return null;
+  }
+  const {characteristics: flatChars} = advert?.flat;
+  // const {secondRoundSelected, id: applicantId} = secondRoundProfile;
 
   const matches = matchMaker(flatChars, profileChars)[0];
   const noMatches = matchMaker(flatChars, profileChars)[1];
-
-  // Not working 👇
-  useEffect(() => {
-    const apiCallToRetriveUser = getSpecificUserProfile(applicantId ?? 1);
-
-    apiCallToRetriveUser.then((result: any) => {
-      setProfileDetails(result.data.profile_details);
-      setProfileChars(result.data.profile_characteristics);
-    });
-  }, [applicantId]);
 
   const handleButtonClicked = () => {
     setButtonClicked(!buttonClicked);
     handleClickCheckbox();
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return <ErrorComponent message="We could not find the applicant" />;
+  }
 
   return (
     <View style={styles.container}>
@@ -73,9 +79,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
       <ScrollView>
         <View style={styles.contentContainer}>
           <View style={styles.infoA}>
-            <Text style={fontStyles.headerMedium}>
-              {capitalize(applicantName)}
-            </Text>
+            <Text style={fontStyles.headerMedium}>{capitalize('john')}</Text>
             <Text style={{color: Color.Black[80]}}>28 years old</Text>
           </View>
 
@@ -120,7 +124,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
             styles.customCoreButtonStyle,
             buttonClicked ? styles.selected : null,
           ]}
-          onPress={() => handleButtonClicked()}
+          onPress={() => {}}
         />
       </View>
     </View>

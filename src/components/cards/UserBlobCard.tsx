@@ -58,7 +58,10 @@ const UserBlobCard = ({
   };
 
   const handleNavigate = () => {
-    navigation.navigate('ApplicantProfile');
+    navigation.navigate('ApplicantProfile', {
+      advertId: application.advertId,
+      applicantId: application.applicantId,
+    });
   };
 
   return (
