@@ -45,6 +45,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     isLoading: applicationIsLoading,
     error: applicationError,
   } = useGetApplicationByIdQuery(id, {skip: isLessor});
+  console.log('application in show', application);
 
   //Lessor Journey
   const {
@@ -57,6 +58,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const dispatch = useAppDispatch();
 
   const advert = isLessor ? _advert : application?.advert;
+  console.log('advert in show', advert);
 
   const [collapsed, setCollapsed] = useState(false);
   const toggleExpand = () => {

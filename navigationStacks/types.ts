@@ -72,6 +72,7 @@ type LessorNavigatorStackParamsList = {
   ApplicantProfile: {
     advertId: number;
     applicantId: number;
+    applicationId: number;
   };
   chat: undefined;
 };

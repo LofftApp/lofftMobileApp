@@ -26,7 +26,7 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
     if (round1) {
       navigation.navigate('applicationshow', {id: advertId});
     } else if (round2) {
-      navigation.goBack();
+      navigation.navigate('applicationshow', {id: advertId});
     }
   };
 

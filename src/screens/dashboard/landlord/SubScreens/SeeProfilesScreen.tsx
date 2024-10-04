@@ -54,7 +54,9 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     data: advert,
     error,
     isLoading,
-  } = useSeeApplicationsByAdvertIdQuery(advertId);
+  } = useSeeApplicationsByAdvertIdQuery(advertId, {
+    refetchOnMountOrArgChange: true,
+  });
   const applications = advert?.applications;
 
   const [
@@ -92,7 +94,10 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       applicationType: 'Round-2',
       applications: applicationToBeSent,
     });
-    navigation.navigate('seeProfiles', {advertId: advertId});
+    navigation.navigate('selectionConfirmed', {
+      advertId: advertId,
+      round2: true,
+    });
     toggleModal();
   };
   const totalApplications = applicationsState.length;
