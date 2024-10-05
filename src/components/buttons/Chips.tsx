@@ -7,7 +7,14 @@ import type {ChipsProps} from './types';
 import {size} from 'react-native-responsive-sizes';
 import Collapsible from 'react-native-collapsible';
 
-const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
+const Chips = ({
+  tags,
+  emoji = false,
+  features,
+  expand,
+  xs,
+  whiteBg,
+}: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
@@ -16,7 +23,13 @@ const Chips = ({tags, emoji = false, features, expand, xs}: ChipsProps) => {
             <View
               style={[
                 styles.chip,
-                features ? styles.featureTag : styles.characteristicTag,
+                whiteBg
+                  ? styles.whiteBackground
+                  : features
+                  ? styles.featureTag
+                  : styles.characteristicTag,
+                whiteBg && features && styles.featureBorder,
+                whiteBg && !features && styles.characteristicBorder,
               ]}
               key={tag?.emoji + index.toString()}>
               {emoji && <Text>{tag?.emoji}</Text>}
@@ -85,13 +98,13 @@ const styles = StyleSheet.create({
   chipsWrap: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingVertical: 4,
+    paddingVertical: size(4),
     alignItems: 'center',
   },
   chip: {
     flexDirection: 'row',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: size(8),
+    paddingVertical: size(4),
     alignSelf: 'flex-start',
     borderRadius: 8,
     marginRight: size(8),
@@ -99,9 +112,24 @@ const styles = StyleSheet.create({
   },
   featureTag: {
     backgroundColor: Color.Blue[10],
+    alignItems: 'center',
+    gap: size(5),
   },
   characteristicTag: {
-    backgroundColor: Color.Lavendar[10],
+    backgroundColor: Color.Lavendar[20],
+    alignItems: 'center',
+    gap: size(5),
+  },
+  featureBorder: {
+    borderColor: Color.Blue[100],
+    borderWidth: 0.5,
+  },
+  characteristicBorder: {
+    borderColor: Color.Lavendar[100],
+    borderWidth: 0.5,
+  },
+  whiteBackground: {
+    backgroundColor: Color.White[100],
   },
   featureTagFont: {
     color: Color.Blue[100],

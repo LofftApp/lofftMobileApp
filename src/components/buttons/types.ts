@@ -31,6 +31,7 @@ type ChipsProps = {
   features?: boolean;
   expand?: boolean;
   xs?: boolean;
+  whiteBg?: boolean;
 };
 
 type FilterButtonProps = {

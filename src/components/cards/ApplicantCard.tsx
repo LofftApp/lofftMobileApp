@@ -6,7 +6,11 @@ import {
   Pressable,
   useWindowDimensions,
 } from 'react-native';
+//Redux
 
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+
+//Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
@@ -20,15 +24,13 @@ import Chips from 'components/buttons/Chips';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
+import {tagSorter} from 'helpers/tagSorter';
 
 // Constants
 import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
 
 // Types
 import type {ApplicantCardProps} from './types';
-import SeeMoreButton from 'components/buttons/SeeMoreButton';
-import {tagSorter} from 'helpers/tagSorter';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const ApplicantCard = ({
   currentSelectedNums,
@@ -121,8 +123,14 @@ const ApplicantCard = ({
               emoji={true}
               features={true}
               expand={true}
+              whiteBg={true}
             />
-            <Chips tags={negativeCharTags} emoji={true} expand={true} />
+            <Chips
+              tags={negativeCharTags}
+              emoji={true}
+              expand={true}
+              whiteBg={true}
+            />
           </View>
         </View>
       </Collapsible>
