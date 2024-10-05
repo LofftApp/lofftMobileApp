@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Redux
 import {
@@ -155,23 +156,28 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
               <UserBlobCard
                 key={application.id}
                 selectApplication={selectApplication}
-                currentSelectedNums={selectedApplications.length}
+                currentSelectedNums={totalSelected}
                 application={application}
               />
             );
           })}
         </ScrollView>
 
-        <CoreButton
-          disabled={selectedApplications.length >= 1 ? false : true}
-          value={`Selected ${selectedApplications.length}/${
-            MAX_SELECT_2_ROUND <= totalApplications
-              ? MAX_SELECT_2_ROUND
-              : totalApplications
-          }`}
-          style={styles.coreButton}
-          onPress={toggleModal}
-        />
+        <View style={styles.selectedButtonContainer}>
+          <Text style={[styles.selectText, fontStyles.bodyExtraSmall]}>
+            {`You can select up to ${MAX_SELECT_2_ROUND} applicants`}
+          </Text>
+          <CoreButton
+            disabled={totalSelected >= 1 ? false : true}
+            value={`Selected ${totalSelected}/${
+              MAX_SELECT_2_ROUND <= totalApplications
+                ? MAX_SELECT_2_ROUND
+                : totalApplications
+            }`}
+            style={styles.coreButton}
+            onPress={toggleModal}
+          />
+        </View>
       </View>
 
       <ConfirmModal
@@ -193,10 +199,20 @@ const styles = StyleSheet.create({
     {paddingVertical: 8},
   ]),
 
-  coreButton: {width: '100%', marginTop: size(24), marginBottom: size(10)},
+  coreButton: {width: '100%'},
 
   iconContainer: {
     zIndex: 100,
+  },
+  selectedButtonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: size(10),
+    paddingBottom: size(10),
+    gap: size(10),
+  },
+  selectText: {
+    color: Color.Black[50],
   },
 });
 
