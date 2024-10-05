@@ -123,14 +123,9 @@ const ApplicantCard = ({
               emoji={true}
               features={true}
               expand={true}
-              whiteBg={true}
+              whiteBg
             />
-            <Chips
-              tags={negativeCharTags}
-              emoji={true}
-              expand={true}
-              whiteBg={true}
-            />
+            <Chips tags={negativeCharTags} emoji={true} expand={true} whiteBg />
           </View>
         </View>
       </Collapsible>
