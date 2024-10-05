@@ -1,3 +1,4 @@
+import {UserCharacteristics, UserFilter} from 'reduxFeatures/user/types';
 import {Application, IncomingApplication} from '../applications/types';
 interface AdvertUser {
   id: number;
@@ -9,7 +10,11 @@ interface AdvertUser {
   admin: boolean;
 }
 
-interface AdvertApplicant extends AdvertUser {}
+interface AdvertApplicant extends AdvertUser {
+  filters: UserFilter[];
+  characteristics: UserCharacteristics[];
+  matchScore: number;
+}
 
 interface AdvertCharacteristics {
   emoji: string;

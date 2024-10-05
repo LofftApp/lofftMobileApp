@@ -26,6 +26,9 @@ import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScr
 
 // Types
 import type {ApplicantCardProps} from './types';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
+import {tagSorter} from 'helpers/tagSorter';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const ApplicantCard = ({
   currentSelectedNums,
@@ -36,6 +39,9 @@ const ApplicantCard = ({
   const {width} = useWindowDimensions();
   const applicant = application.applicant;
   console.log('application in applicant card', application);
+  console.log('filter', application.advert);
+
+  const {data: advert} = useGetAdvertByIdQuery(application.advertId);
 
   if (!applicant) {
     return null;
@@ -56,6 +62,21 @@ const ApplicantCard = ({
     setCollapsed(prev => !prev);
   };
 
+  const featuresTags = tagSorter(
+    applicant.filters ?? [],
+    advert?.flat.features ?? [],
+  );
+  const positiveFeaturesTags = featuresTags.positiveTags;
+  const negativeFeaturesTags = featuresTags.negativeTags;
+
+  const charTags = tagSorter(
+    applicant.characteristics ?? [],
+    advert?.flat.characteristics ?? [],
+  );
+
+  const positiveCharTags = charTags.positiveTags;
+  const negativeCharTags = charTags.negativeTags;
+
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
@@ -69,7 +90,7 @@ const ApplicantCard = ({
             {name?.split('')[0].toUpperCase()}.
           </Text>
           <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
-            (96 % Match)
+            {applicant.matchScore}% Match
           </Text>
         </View>
         <Pressable style={styles.iconContainer} onPress={toggleCollapsed}>
@@ -84,54 +105,25 @@ const ApplicantCard = ({
       <Collapsible collapsed={!collapsed} duration={300}>
         <View style={styles.collapsedExpand}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
-          <Chips
-            tags={[
-              {
-                name: 'Adam',
-                emoji: '👾',
-              },
-              {
-                name: 'James',
-                emoji: '🚀',
-              },
-              {
-                name: 'Freddy',
-                emoji: '🏓',
-              },
-              {
-                name: 'Josh',
-                emoji: '👮🏽',
-              },
-            ]}
-            emoji={true}
-            features={true}
-          />
-
-          <Text style={[fontStyles.headerSmall, styles.otherMargin]}>
-            Other
-          </Text>
-          <Chips
-            tags={[
-              {
-                name: 'Adam',
-                emoji: '👾',
-              },
-              {
-                name: 'James',
-                emoji: '🚀',
-              },
-              {
-                name: 'Freddy',
-                emoji: '🏓',
-              },
-              {
-                name: 'Josh',
-                emoji: '👮🏽',
-              },
-            ]}
-            emoji={true}
-            features={true}
-          />
+          <View style={styles.chipsContainer}>
+            <Chips
+              tags={positiveFeaturesTags}
+              emoji={true}
+              features={true}
+              expand={true}
+            />
+            <Chips tags={positiveCharTags} emoji={true} expand={true} />
+          </View>
+          <Text style={[fontStyles.headerSmall]}>Other</Text>
+          <View style={styles.chipsContainer}>
+            <Chips
+              tags={negativeFeaturesTags}
+              emoji={true}
+              features={true}
+              expand={true}
+            />
+            <Chips tags={negativeCharTags} emoji={true} expand={true} />
+          </View>
         </View>
       </Collapsible>
     </View>
@@ -159,7 +151,8 @@ const styles = StyleSheet.create({
     color: Color.Mint[100],
   },
   collapsedExpand: {
-    marginTop: size(20),
+    marginTop: size(10),
+    gap: size(10),
   },
   iconContainer: {
     padding: size(10),
@@ -167,8 +160,8 @@ const styles = StyleSheet.create({
   nameMargin: {
     marginRight: size(20),
   },
-  otherMargin: {
-    marginTop: size(20),
+  chipsContainer: {
+    flexWrap: 'wrap',
   },
 });
 

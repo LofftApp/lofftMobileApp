@@ -11,18 +11,18 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
+import Collapsible from 'react-native-collapsible';
 
 // Helpers
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
+import {tagSorter} from 'helpers/tagSorter';
 
 // Types 🏷
 import {UserState} from 'reduxFeatures/user/types';
-import {tagSorter} from 'helpers/tagSorter';
-import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {Advert} from 'reduxFeatures/adverts/types';
-import Collapsible from 'react-native-collapsible';
-import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(

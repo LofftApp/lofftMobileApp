@@ -21,11 +21,11 @@ import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import StatusBarComponent from 'components/statusbar/StatusBarComponent';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;

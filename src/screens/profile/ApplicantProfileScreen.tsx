@@ -17,6 +17,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 import Collapsible from 'react-native-collapsible';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 /* Helpers */
 import {matchMaker} from 'helpers/matchMaker';
@@ -32,7 +33,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
-import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
