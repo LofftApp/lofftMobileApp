@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
@@ -22,6 +22,7 @@ import {tagSorter} from 'helpers/tagSorter';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {Advert} from 'reduxFeatures/adverts/types';
 import Collapsible from 'react-native-collapsible';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
@@ -154,30 +155,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Features */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Flat Characteristics</Text>
-              <Pressable
-                onPress={toggleFlatCharExpand}
-                style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {flatCharExpand ? 'See less' : 'See more'}
-                </Text>
-                {flatCharExpand ? (
-                  <>
-                    <LofftIcon
-                      name="chevron-up"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <LofftIcon
-                      name="chevron-down"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                )}
-              </Pressable>
+              <SeeMoreButton
+                collapsed={flatCharExpand}
+                toggleExpand={toggleFlatCharExpand}
+              />
             </View>
             <Chips
               tags={advert.flat.features}
@@ -200,30 +181,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Match with you</Text>
 
-              <Pressable
-                onPress={toggleMatchExpand}
-                style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {matchExpand ? 'See less' : 'See more'}
-                </Text>
-                {matchExpand ? (
-                  <>
-                    <LofftIcon
-                      name="chevron-up"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <LofftIcon
-                      name="chevron-down"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                )}
-              </Pressable>
+              <SeeMoreButton
+                collapsed={matchExpand}
+                toggleExpand={toggleMatchExpand}
+              />
             </View>
 
             <View style={styles.matchWithYouContainer}>
@@ -246,30 +207,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Other */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Other</Text>
-              <Pressable
-                onPress={toggleOtherExpand}
-                style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {otherExpand ? 'See less' : 'See more'}
-                </Text>
-                {otherExpand ? (
-                  <>
-                    <LofftIcon
-                      name="chevron-up"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <LofftIcon
-                      name="chevron-down"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                )}
-              </Pressable>
+              <SeeMoreButton
+                collapsed={otherExpand}
+                toggleExpand={toggleOtherExpand}
+              />
             </View>
 
             <View style={styles.matchWithYouContainer}>
@@ -360,17 +301,6 @@ const styles = StyleSheet.create({
 
   descriptionMargin: {
     marginTop: size(20),
-  },
-
-  seeMoreContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  seeMore: {
-    color: Color.Blue[100],
-    alignSelf: 'flex-end',
-    marginRight: size(10),
-    marginBottom: size(10),
   },
 });
 

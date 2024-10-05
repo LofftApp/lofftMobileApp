@@ -51,6 +51,11 @@ type BackButtonProps = {
   absolute?: boolean;
 };
 
+type SeeMoreButtonProps = {
+  collapsed: boolean;
+  toggleExpand: () => void;
+};
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
@@ -58,4 +63,5 @@ export type {
   FilterButtonProps,
   MatchingScoreButtonProps,
   BackButtonProps,
+  SeeMoreButtonProps,
 };

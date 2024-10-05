@@ -1,6 +1,6 @@
 /* React Stuff */
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, Pressable} from 'react-native';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 
 /* Redux ß*/
 import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
@@ -32,6 +32,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -174,30 +175,10 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
           <View style={styles.chipsContainer}>
             <Text style={fontStyles.headerSmall}>Match with you</Text>
 
-            <Pressable
-              onPress={toggleMatchExpand}
-              style={styles.seeMoreContainer}>
-              <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                {matchExpand ? 'See less' : 'See more'}
-              </Text>
-              {matchExpand ? (
-                <>
-                  <LofftIcon
-                    name="chevron-up"
-                    size={25}
-                    color={Color.Blue[100]}
-                  />
-                </>
-              ) : (
-                <>
-                  <LofftIcon
-                    name="chevron-down"
-                    size={25}
-                    color={Color.Blue[100]}
-                  />
-                </>
-              )}
-            </Pressable>
+            <SeeMoreButton
+              collapsed={matchExpand}
+              toggleExpand={toggleMatchExpand}
+            />
           </View>
 
           <View style={styles.matchWithYouContainer}>
@@ -212,30 +193,10 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
           {/* Other */}
           <View style={styles.chipsContainer}>
             <Text style={fontStyles.headerSmall}>Other</Text>
-            <Pressable
-              onPress={toggleOtherExpand}
-              style={styles.seeMoreContainer}>
-              <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                {otherExpand ? 'See less' : 'See more'}
-              </Text>
-              {otherExpand ? (
-                <>
-                  <LofftIcon
-                    name="chevron-up"
-                    size={25}
-                    color={Color.Blue[100]}
-                  />
-                </>
-              ) : (
-                <>
-                  <LofftIcon
-                    name="chevron-down"
-                    size={25}
-                    color={Color.Blue[100]}
-                  />
-                </>
-              )}
-            </Pressable>
+            <SeeMoreButton
+              collapsed={otherExpand}
+              toggleExpand={toggleOtherExpand}
+            />
           </View>
 
           <View style={styles.matchWithYouContainer}>
@@ -306,16 +267,7 @@ const styles = StyleSheet.create({
   matchWithYouContainer: {
     marginTop: size(10),
   },
-  seeMoreContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  seeMore: {
-    color: Color.Blue[100],
-    alignSelf: 'flex-end',
-    marginRight: size(10),
-    marginBottom: size(10),
-  },
+
   selectedButton: {
     width: '94%',
     margin: 0,

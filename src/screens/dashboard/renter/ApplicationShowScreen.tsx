@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, Pressable} from 'react-native';
+import {View, ScrollView} from 'react-native';
 //Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
@@ -14,11 +14,6 @@ import {
 // External
 import Collapsible from 'react-native-collapsible';
 
-// Styles
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-
 // Components
 import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
@@ -27,12 +22,10 @@ import StatusBarComponent from 'components/statusbar/StatusBarComponent';
 import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 
-// Helpers
-import {size} from 'react-native-responsive-sizes';
-
 // Types
 import type {ApplicationShowScreenProp} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
@@ -107,28 +100,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
             isLessor={isLessor}
           />
 
-          <Pressable onPress={toggleExpand} style={styles.seeMoreContainer}>
-            <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-              {collapsed ? 'See less' : 'See more'}
-            </Text>
-            {collapsed ? (
-              <>
-                <LofftIcon
-                  name="chevron-up"
-                  size={25}
-                  color={Color.Blue[100]}
-                />
-              </>
-            ) : (
-              <>
-                <LofftIcon
-                  name="chevron-down"
-                  size={25}
-                  color={Color.Blue[100]}
-                />
-              </>
-            )}
-          </Pressable>
+          <SeeMoreButton collapsed={collapsed} toggleExpand={toggleExpand} />
 
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
@@ -138,20 +110,5 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  seeMore: {
-    color: Color.Blue[100],
-
-    marginHorizontal: size(10),
-    marginBottom: size(2),
-  },
-  seeMoreContainer: {
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    marginRight: size(10),
-    paddingBottom: size(10),
-  },
-});
 
 export default ApplicationShowScreen;
