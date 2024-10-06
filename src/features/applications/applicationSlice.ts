@@ -23,6 +23,7 @@ export const applicationSlice = createSlice({
         };
       });
       state.applications = newApplications;
+      // state.applications = action.payload;
     },
     toggleRound2(state, action: PayloadAction<number>) {
       state.applications = state.applications.map(app => {

@@ -24,11 +24,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   version: 1,
-  blacklist: [
-    lofftApi.reducerPath,
-    advertReducer.name,
-    applicationsReducer.name,
-  ],
+  blacklist: [lofftApi.reducerPath, advertReducer.name],
 };
 
 const reducers = combineReducers({
@@ -53,6 +49,8 @@ export const store = configureStore({
       },
     }).concat(lofftApi.middleware);
   },
+  // middleware: getDefaultMiddleware =>
+  //   getDefaultMiddleware().concat(lofftApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
