@@ -26,6 +26,7 @@ import {tagSorter} from 'helpers/tagSorter';
 import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {matchMaker} from 'helpers/matchMaker';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
@@ -44,6 +45,17 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
     currentUser.filter ?? [],
     advert.flat.features,
   );
+  const positiveFeatures = featuresTags.positiveTags;
+  const positiveChars = characteristicsTags.positiveTags;
+
+  // const positiveFeatures = matchMaker(
+  //   currentUser.filter ?? [],
+  //   advert.flat.features,
+  // )[0];
+  // const positiveChars = matchMaker(
+  //   currentUser.profile.characteristics ?? [],
+  //   advert.flat.characteristics ?? [],
+  // )[0];
 
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);
@@ -92,8 +104,8 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
         )}
 
         <View style={styles.chipContainer}>
-          <Chips tags={featuresTags.positiveTags} features={true} />
-          <Chips tags={characteristicsTags.positiveTags} features={false} />
+          <Chips tags={positiveFeatures} features={true} />
+          <Chips tags={positiveChars} features={false} />
         </View>
       </View>
       <CoreButton

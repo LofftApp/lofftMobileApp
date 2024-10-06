@@ -23,6 +23,7 @@ import {tagSorter} from 'helpers/tagSorter';
 // Types 🏷
 import {UserState} from 'reduxFeatures/user/types';
 import {Advert} from 'reduxFeatures/adverts/types';
+import {matchMaker} from 'helpers/matchMaker';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
@@ -48,21 +49,44 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
     setOtherExpand(prev => !prev);
   };
 
-  const charTags = tagSorter(
+  console.log('user characteristics', currentUser.profile.characteristics);
+  console.log('flat characteristics', advert.flat.characteristics);
+  console.log('user filter', currentUser.filter);
+  console.log('flat features', advert.flat.features);
+
+  // const charTags = tagSorter(
+  //   currentUser.profile.characteristics ?? [],
+  //   advert.flat.characteristics,
+  // );
+
+  // const positiveCharTags = charTags.positiveTags;
+  // const negativeCharTags = charTags.negativeTags;
+
+  // const featuresTags = tagSorter(
+  //   currentUser.filter ?? [],
+  //   advert.flat.features,
+  // );
+
+  // const positiveFeaturesTags = featuresTags.positiveTags;
+  // const negativeFeaturesTags = featuresTags.negativeTags;
+
+  const positiveCharTags = matchMaker(
     currentUser.profile.characteristics ?? [],
     advert.flat.characteristics,
-  );
+  )[0];
+  const negativeCharTags = matchMaker(
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics,
+  )[1];
 
-  const positiveCharTags = charTags.positiveTags;
-  const negativeCharTags = charTags.negativeTags;
-
-  const featuresTags = tagSorter(
+  const positiveFeaturesTags = matchMaker(
     currentUser.filter ?? [],
     advert.flat.features,
-  );
-
-  const positiveFeaturesTags = featuresTags.positiveTags;
-  const negativeFeaturesTags = featuresTags.negativeTags;
+  )[0];
+  const negativeFeaturesTags = matchMaker(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  )[1];
 
   const maxDescriptionLength = 100;
   const truncatedDescription = truncateTextAtWord(

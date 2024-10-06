@@ -61,25 +61,38 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
     return null;
   }
 
-  const charTags = tagSorter(
-    user.profile.characteristics ?? [],
-    advert.flat.characteristics,
+  const featuresTags = tagSorter(
+    user.filter ?? [],
+    advert?.flat.features ?? [],
   );
 
-  // const positiveCharTags = charTags.positiveTags;
-  // const negativeCharTags = charTags.negativeTags;
-  // const featuresTags = tagSorter(
-  //   applicant.filters ?? [],
-  //   advert?.flat.features ?? [],
-  // );
-  // const positiveFeaturesTags = featuresTags.positiveTags;
-  // const negativeFeaturesTags = featuresTags.negativeTags;
+  const positiveFeaturesTags = featuresTags.positiveTags;
+  const negativeFeaturesTags = featuresTags.negativeTags;
 
+    const charTags = tagSorter(
+      user.profile.characteristics ?? [],
+      advert.flat.characteristics,
+    );
   const positiveCharTags = charTags.positiveTags;
   const negativeCharTags = charTags.negativeTags;
 
-  // const matches = matchMaker(flatChars, profileChars)[0];
-  // const noMatches = matchMaker(flatChars, profileChars)[1];
+  // const positiveFeaturesTags = matchMaker(
+  //   user.filter ?? [],
+  //   advert?.flat.features ?? [],
+  // )[0];
+  // const negativeFeaturesTags = matchMaker(
+  //   user.filter ?? [],
+  //   advert?.flat.features ?? [],
+  // )[1];
+
+  // const positiveCharTags = matchMaker(
+  //   user.profile.characteristics ?? [],
+  //   advert.flat.characteristics,
+  // )[0];
+  // const negativeCharTags = matchMaker(
+  //   user.profile.characteristics ?? [],
+  //   advert.flat.characteristics,
+  // )[1];
 
   const selectApplication = (id: number) => {
     dispatch(toggleRound2(id));
@@ -124,8 +137,12 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={CoreStyleSheet.screenContainer}>
           <View style={styles.nameAgeContainer}>
-            <Text style={fontStyles.headerMedium}>{capitalize('john')}</Text>
-            <Text style={{color: Color.Black[80]}}>28 years old</Text>
+            <Text style={fontStyles.headerMedium}>
+              {user.profile.firstName} {user.profile.lastName}
+            </Text>
+            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[80]}]}>
+              {user.profile.age} years old
+            </Text>
           </View>
 
           <View style={styles.timeContainer}>
@@ -184,6 +201,12 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
 
           <View style={styles.matchWithYouContainer}>
             <Chips
+              tags={positiveFeaturesTags}
+              features={true}
+              emoji
+              expand={matchExpand}
+            />
+            <Chips
               tags={positiveCharTags}
               features={false}
               emoji
@@ -201,6 +224,12 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
           </View>
 
           <View style={styles.matchWithYouContainer}>
+            <Chips
+              tags={negativeFeaturesTags}
+              features={true}
+              emoji
+              expand={matchExpand}
+            />
             <Chips
               tags={negativeCharTags}
               features={false}
@@ -231,9 +260,11 @@ const styles = StyleSheet.create({
   },
 
   nameAgeContainer: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
   timeContainer: {
     flexDirection: 'row',

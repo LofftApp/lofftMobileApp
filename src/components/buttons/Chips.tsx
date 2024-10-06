@@ -49,7 +49,13 @@ const Chips = ({
           <View
             style={[
               styles.chip,
-              features ? styles.featureTag : styles.characteristicTag,
+              whiteBg
+                ? styles.whiteBackground
+                : features
+                ? styles.featureTag
+                : styles.characteristicTag,
+              whiteBg && features && styles.featureBorder,
+              whiteBg && !features && styles.characteristicBorder,
             ]}>
             <Text
               style={[
@@ -70,7 +76,13 @@ const Chips = ({
               <View
                 style={[
                   styles.chip,
-                  features ? styles.featureTag : styles.characteristicTag,
+                  whiteBg
+                    ? styles.whiteBackground
+                    : features
+                    ? styles.featureTag
+                    : styles.characteristicTag,
+                  whiteBg && features && styles.featureBorder,
+                  whiteBg && !features && styles.characteristicBorder,
                 ]}>
                 {emoji && <Text>{tag?.emoji}</Text>}
                 <Text
@@ -130,6 +142,8 @@ const styles = StyleSheet.create({
   },
   whiteBackground: {
     backgroundColor: Color.White[100],
+    alignItems: 'center',
+    gap: size(5),
   },
   featureTagFont: {
     color: Color.Blue[100],

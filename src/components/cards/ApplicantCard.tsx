@@ -31,6 +31,7 @@ import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScr
 
 // Types
 import type {ApplicantCardProps} from './types';
+import {matchMaker} from 'helpers/matchMaker';
 
 const ApplicantCard = ({
   currentSelectedNums,
@@ -40,10 +41,14 @@ const ApplicantCard = ({
   const [collapsed, setCollapsed] = useState(false);
   const {width} = useWindowDimensions();
   const applicant = application.applicant;
-  console.log('application in applicant card', application);
-  console.log('filter', application.advert);
+  // console.log('application in applicant card', application);
+  // console.log('filter', application.advert);
 
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
+  console.log('user characteristics', applicant?.characteristics);
+  console.log('flat characteristics', advert?.flat.characteristics);
+  console.log('user filter', applicant.filters);
+  console.log('flat features', advert?.flat.features);
 
   if (!applicant) {
     return null;
@@ -64,20 +69,39 @@ const ApplicantCard = ({
     setCollapsed(prev => !prev);
   };
 
-  const featuresTags = tagSorter(
+  // const featuresTags = tagSorter(
+  //   applicant.filters ?? [],
+  //   advert?.flat.features ?? [],
+  // );
+  // const positiveFeaturesTags = featuresTags.positiveTags;
+  // const negativeFeaturesTags = featuresTags.negativeTags;
+
+  // const charTags = tagSorter(
+  //   applicant.characteristics ?? [],
+  //   advert?.flat.characteristics ?? [],
+  // );
+
+  // const positiveCharTags = charTags.positiveTags;
+  // const negativeCharTags = charTags.negativeTags;
+
+  const positiveFeaturesTags = matchMaker(
     applicant.filters ?? [],
     advert?.flat.features ?? [],
-  );
-  const positiveFeaturesTags = featuresTags.positiveTags;
-  const negativeFeaturesTags = featuresTags.negativeTags;
+  )[0];
+  const negativeFeaturesTags = matchMaker(
+    applicant.filters ?? [],
+    advert?.flat.features ?? [],
+  )[1];
 
-  const charTags = tagSorter(
+  const positiveCharTags = matchMaker(
     applicant.characteristics ?? [],
     advert?.flat.characteristics ?? [],
-  );
+  )[0];
 
-  const positiveCharTags = charTags.positiveTags;
-  const negativeCharTags = charTags.negativeTags;
+  const negativeCharTags = matchMaker(
+    applicant.characteristics ?? [],
+    advert?.flat.characteristics ?? [],
+  )[1];
 
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
@@ -112,9 +136,9 @@ const ApplicantCard = ({
               tags={positiveFeaturesTags}
               emoji={true}
               features={true}
-              expand={true}
+              expand={collapsed}
             />
-            <Chips tags={positiveCharTags} emoji={true} expand={true} />
+            <Chips tags={positiveCharTags} emoji={true} expand={collapsed} />
           </View>
           <Text style={[fontStyles.headerSmall]}>Other</Text>
           <View style={styles.chipsContainer}>
@@ -122,10 +146,15 @@ const ApplicantCard = ({
               tags={negativeFeaturesTags}
               emoji={true}
               features={true}
-              expand={true}
+              expand={collapsed}
               whiteBg
             />
-            <Chips tags={negativeCharTags} emoji={true} expand={true} whiteBg />
+            <Chips
+              tags={negativeCharTags}
+              emoji={true}
+              expand={collapsed}
+              whiteBg
+            />
           </View>
         </View>
       </Collapsible>

@@ -44,9 +44,6 @@ const UserBlobCard = ({
   if (!applicant) {
     return <ErrorComponent message="We could not find the applicants" />;
   }
-  const {email} = applicant;
-
-  const applicantName = applicant.profile?.firstName;
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT_2_ROUND) {
@@ -85,9 +82,9 @@ const UserBlobCard = ({
         />
         <View>
           <Text style={fontStyles.headerSmall}>
-            {capitalize(applicant.profile?.firstName)}
+            {capitalize(applicant.profile.firstName)}
           </Text>
-          <Text style={fontStyles.headerExtraSmall}>
+          <Text style={fontStyles.bodySmall}>
             🌟 {applicant.matchScore}% match
           </Text>
         </View>
