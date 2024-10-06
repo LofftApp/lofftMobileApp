@@ -24,6 +24,7 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../../navigationStacks/types';
+import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -76,9 +77,11 @@ const ListFlatApplicationCard = ({
   );
 
   useEffect(() => {
-    const index = advertStatusIndex(advert?.status ?? '');
+    const index = active
+      ? advertStatusIndex(advert?.status ?? '')
+      : advertStatusIndex('offered');
     calculateStatusBar(index);
-  }, [advert?.status]);
+  }, [advert?.status, application?.status, active]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
@@ -174,7 +177,7 @@ const ListFlatApplicationCard = ({
           {textForStatusBar.map(el => (
             <Text
               style={
-                el === textForStatusBar[activeStage]
+                el === textForStatusBar[activeStage] && active
                   ? styles.active
                   : styles.inactive
               }

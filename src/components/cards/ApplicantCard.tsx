@@ -25,13 +25,13 @@ import Chips from 'components/buttons/Chips';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 import {tagSorter} from 'helpers/tagSorter';
+import {matchMaker} from 'helpers/matchMaker';
 
 // Constants
 import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
 
 // Types
 import type {ApplicantCardProps} from './types';
-import {matchMaker} from 'helpers/matchMaker';
 
 const ApplicantCard = ({
   currentSelectedNums,
@@ -46,6 +46,7 @@ const ApplicantCard = ({
   // console.log('filter', application.advert);
 
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
+
   console.log('user characteristics', applicant?.characteristics);
   console.log('flat characteristics', advert?.flat.characteristics);
   console.log('user filter', applicant?.filters);
