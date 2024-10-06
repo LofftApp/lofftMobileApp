@@ -1,4 +1,8 @@
-import {UserCharacteristics, UserFilter} from 'reduxFeatures/user/types';
+import {
+  UserCharacteristics,
+  UserFilter,
+  UserProfile,
+} from 'reduxFeatures/user/types';
 import {Application, IncomingApplication} from '../applications/types';
 interface AdvertUser {
   id: number;
@@ -14,6 +18,7 @@ interface AdvertApplicant extends AdvertUser {
   filters: UserFilter[];
   characteristics: UserCharacteristics[];
   matchScore: number;
+  profile: UserProfile;
 }
 
 interface AdvertCharacteristics {

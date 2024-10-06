@@ -37,6 +37,7 @@ const UserBlobCard = ({
 }: UserBlobCardProps) => {
   const applicant = application.applicant;
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
+  console.log('application in user blob', application);
 
   const {width} = useWindowDimensions();
 
@@ -45,7 +46,7 @@ const UserBlobCard = ({
   }
   const {email} = applicant;
 
-  const applicantName = email?.split('@')[0];
+  const applicantName = applicant.profile?.firstName;
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT_2_ROUND) {
@@ -84,7 +85,7 @@ const UserBlobCard = ({
         />
         <View>
           <Text style={fontStyles.headerSmall}>
-            {applicantName ? capitalize(applicantName) : 'No name'}
+            {capitalize(applicant.profile?.firstName)}
           </Text>
           <Text style={fontStyles.headerExtraSmall}>
             🌟 {applicant.matchScore}% match
