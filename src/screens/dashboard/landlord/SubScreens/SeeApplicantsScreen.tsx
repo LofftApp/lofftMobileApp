@@ -31,8 +31,13 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import { useAppDispatch, useAppSelector } from 'reduxCore/hooks';
-import { setApplicationsRound1, toggleRound1 } from 'reduxFeatures/applications/applicationSlice';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {
+  setApplicationsRound1,
+  toggleRound1,
+  toggleSelectAllRound1,
+} from 'reduxFeatures/applications/applicationSlice';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 export const MAX_SELECT = 100;
 
@@ -48,6 +53,9 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   );
   const notSelectedApplications = useAppSelector(
     state => state.applications.applicationsNotSelectedRound1,
+  );
+  const selectedAll = useAppSelector(
+    state => state.applications.selectedAllRound1, // Get selectedAll state from Redux
   );
   const {
     data: advert,
@@ -124,6 +132,9 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   // };
   const selectApplication = (id: number) => {
     dispatch(toggleRound1(id));
+  };
+  const handleSelectAll = () => {
+    dispatch(toggleSelectAllRound1()); // This will toggle the selection of all applications
   };
   const applicationToBeSent = [
     ...selectedApplications,
@@ -209,12 +220,25 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           })}
         </ScrollView>
         <View style={styles.selectedButtonContainer}>
-          <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
-            {totalSelected === MAX_SELECT &&
-              "You've selected the maximum number of 100"}
-          </Text>
+          {totalSelected === MAX_SELECT && (
+            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
+              You've selected the maximum number of {MAX_SELECT}
+            </Text>
+          )}
+          {totalApplications <= MAX_SELECT && (
+            <View style={styles.checkboxContainer}>
+              <CheckBox onPress={handleSelectAll} value={selectedAll} />
+              <Text
+                style={[
+                  fontStyles.headerExtraSmall,
+                  {color: Color.Black[100]},
+                ]}>
+                Select all applicants
+              </Text>
+            </View>
+          )}
           <CoreButton
-            disabled={totalSelected >= 1 ? false : true}
+            disabled={totalSelected < 1}
             value={`Selected ${totalSelected}/${
               MAX_SELECT <= totalApplications ? MAX_SELECT : totalApplications
             }`}
@@ -251,12 +275,17 @@ const styles = StyleSheet.create({
   selectedButtonContainer: {
     width: '100%',
     alignItems: 'center',
-    paddingTop: size(10),
+    paddingTop: size(20),
     paddingBottom: size(10),
-    gap: size(10),
+    gap: size(15),
   },
   maxNumberText: {
     color: Color.Mint[100],
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
   },
 });
 

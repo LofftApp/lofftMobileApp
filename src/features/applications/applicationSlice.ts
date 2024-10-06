@@ -1,10 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Application, ApplicationState} from './types';
+import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
 
 const initialState: ApplicationState = {
   applicationsRound1: [],
   applicationsSelectedRound1: [],
   applicationsNotSelectedRound1: [],
+  selectedAllRound1: false,
   applicationsRound2: [],
   applicationsSelectedRound2: [],
   applicationsNotSelectedRound2: [],
@@ -22,11 +24,29 @@ export const applicationSlice = createSlice({
 
         return {
           ...app,
-          round1: isSelected ? true : app.round1, // Retain selection
+          round1: isSelected ? true : app.round1,
         };
       });
       state.applicationsRound1 = newApplications;
-      // state.applications = action.payload;
+      state.applicationsSelectedRound1 = newApplications
+        .filter(app => app.round1)
+        .map(app => ({
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        }));
+
+      state.applicationsNotSelectedRound1 = newApplications
+        .filter(app => !app.round1)
+        .map(app => ({
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        }));
+      state.selectedAllRound1 =
+        state.applicationsSelectedRound1.length === newApplications.length;
     },
     toggleRound1(state, action: PayloadAction<number>) {
       state.applicationsRound1 = state.applicationsRound1.map(app => {
@@ -60,7 +80,64 @@ export const applicationSlice = createSlice({
             round_3: app.round3,
           };
         });
+      state.selectedAllRound1 =
+        state.applicationsSelectedRound1.length ===
+        state.applicationsRound1.length;
     },
+    toggleSelectAllRound1(state) {
+      const isSelectingAll = !state.selectedAllRound1;
+      const totalApplications = state.applicationsRound1.length;
+      const availableToSelect = Math.min(MAX_SELECT, totalApplications); // Limit selection to MAX_SELECT
+
+      if (isSelectingAll) {
+        // Select only up to MAX_SELECT applicants
+        state.applicationsRound1 = state.applicationsRound1.map(
+          (app, index) => ({
+            ...app,
+            round1: index < availableToSelect, // Mark selected only if it's within the MAX_SELECT limit
+          }),
+        );
+
+        state.applicationsSelectedRound1 = state.applicationsRound1
+          .filter(app => app.round1)
+          .map(app => ({
+            id: app.id,
+            round_1: app.round1,
+            round_2: app.round2,
+            round_3: app.round3,
+          }));
+
+        state.applicationsNotSelectedRound1 = state.applicationsRound1
+          .filter(app => !app.round1)
+          .map(app => ({
+            id: app.id,
+            round_1: app.round1,
+            round_2: app.round2,
+            round_3: app.round3,
+          }));
+      } else {
+        // Deselect all
+        state.applicationsRound1 = state.applicationsRound1.map(app => ({
+          ...app,
+          round1: false,
+        }));
+
+        state.applicationsSelectedRound1 = [];
+        state.applicationsNotSelectedRound1 = state.applicationsRound1.map(
+          app => ({
+            id: app.id,
+            round_1: app.round1,
+            round_2: app.round2,
+            round_3: app.round3,
+          }),
+        );
+      }
+
+      // Update "Select All" based on current state
+      state.selectedAllRound1 =
+        state.applicationsSelectedRound1.length === availableToSelect;
+    },
+
     setApplicationsRound2(state, action: PayloadAction<Application[]>) {
       const newApplications = action.payload.map(app => {
         const isSelected = state.applicationsSelectedRound2.find(
@@ -112,5 +189,6 @@ export const {
   toggleRound2,
   setApplicationsRound1,
   toggleRound1,
+  toggleSelectAllRound1,
 } = applicationSlice.actions;
 export default applicationSlice.reducer;
