@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: size(8),
   },
   featureTag: {
-    backgroundColor: Color.Blue[10],
+    backgroundColor: Color.Blue[20],
     alignItems: 'center',
     gap: size(5),
   },

@@ -12,7 +12,17 @@ export const applicationSlice = createSlice({
   initialState,
   reducers: {
     setApplicationsRound2(state, action: PayloadAction<Application[]>) {
-      state.applications = action.payload;
+      const newApplications = action.payload.map(app => {
+        const isSelected = state.applicationsSelected.find(
+          selectedApp => selectedApp.id === app.id,
+        );
+
+        return {
+          ...app,
+          round2: isSelected ? true : app.round2, // Retain selection
+        };
+      });
+      state.applications = newApplications;
     },
     toggleRound2(state, action: PayloadAction<number>) {
       state.applications = state.applications.map(app => {

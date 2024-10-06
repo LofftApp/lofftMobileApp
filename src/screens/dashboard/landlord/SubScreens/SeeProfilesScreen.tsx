@@ -58,6 +58,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   } = useSeeApplicationsByAdvertIdQuery(advertId, {
     refetchOnMountOrArgChange: true,
   });
+  console.log('advert in see profiles screen', advert);
   const applications = advert?.applications;
 
   const [
@@ -103,6 +104,8 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   };
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
+  console.log('totalSelected', totalSelected);
+
   const totalRemaining = Math.min(
     MAX_SELECT_2_ROUND - totalSelected,
     totalApplications - totalSelected,
@@ -164,7 +167,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
         </ScrollView>
 
         <View style={styles.selectedButtonContainer}>
-          <Text style={[styles.selectText, fontStyles.bodyExtraSmall]}>
+          <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[50]}]}>
             {`You can select up to ${MAX_SELECT_2_ROUND} applicants`}
           </Text>
           <CoreButton
@@ -210,9 +213,6 @@ const styles = StyleSheet.create({
     paddingTop: size(10),
     paddingBottom: size(10),
     gap: size(10),
-  },
-  selectText: {
-    color: Color.Black[50],
   },
 });
 

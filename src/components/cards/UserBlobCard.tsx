@@ -66,40 +66,6 @@ const UserBlobCard = ({
   };
 
   return (
-    // <View style={styles.blobContainer}>
-    //   <CheckBox
-    //     style={styles.checkbox}
-    //     value={clickCheckbox}
-    //     onPress={toggleCheckbox}
-    //   />
-    //   {/* hardecoded image url */}
-    //   <Image
-    //     style={styles.profilePic}
-    //     source={{
-    //       uri: 'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp',
-    //     }}
-    //   />
-    //   <View>
-    //     <Text style={fontStyles.headerMedium}>
-    //       {applicantName ? capitalize(applicantName) : 'No name'}
-    //     </Text>
-    //     <Text style={fontStyles.bodyMedium}>🌟 98% Match</Text>
-    //   </View>
-    //   <LofftIcon
-    //     name="chevron-right"
-    //     size={35}
-    //     color={Color.Blue[80]}
-    //     onPress={() =>
-    //       navigation.navigate('ApplicantProfile', {
-    //         applicantName: applicantName,
-    //         handleClickCheckbox: handleClickCheckbox,
-    //         secondRoundProfile: secondRoundProfile,
-    //         currentAdvert: currentAdvert,
-    //       })
-    //     }
-    //   />
-    // </View>
-
     <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
         <CheckBox
@@ -120,7 +86,9 @@ const UserBlobCard = ({
           <Text style={fontStyles.headerSmall}>
             {applicantName ? capitalize(applicantName) : 'No name'}
           </Text>
-          <Text style={fontStyles.bodySmall}>🌟 98% Match</Text>
+          <Text style={fontStyles.headerExtraSmall}>
+            🌟 {applicant.matchScore}% match
+          </Text>
         </View>
         <Pressable style={styles.iconContainer} onPress={handleNavigate}>
           <LofftIcon name="chevron-right" size={35} color={Color.Blue[80]} />
@@ -131,18 +99,6 @@ const UserBlobCard = ({
 };
 
 const styles = StyleSheet.create({
-  // blobContainer: {
-  //   width: '95%',
-  //   height: size(120),
-  //   padding: size(7),
-  //   backgroundColor: Color.Lavendar[10],
-  //   borderRadius: 12,
-  //   marginBottom: 20,
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   justifyContent: 'space-between',
-  // },
-
   outterContainer: {
     backgroundColor: Color.Lavendar[10],
     borderRadius: 10,

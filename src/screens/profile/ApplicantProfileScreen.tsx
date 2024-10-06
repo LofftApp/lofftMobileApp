@@ -50,28 +50,30 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const application = useAppSelector(state =>
     state.applications.applications.find(app => app.id === applicationId),
   );
-  const {
-    data: profile,
-    isLoading,
-    error,
-  } = useGetSpecificUserQuery(applicantId);
-  console.log(
-    'Profile Data in applicant profile screen',
-    profile?.profileDetails.description,
-  );
+  const {data: user, isLoading, error} = useGetSpecificUserQuery(applicantId);
+  console.log('user Data in applicant user screen', user);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [matchExpand, setMatchExpand] = useState(false);
   const [otherExpand, setOtherExpand] = useState(false);
 
-  if (!advert || !profile) {
+  if (!advert || !user) {
     return null;
   }
 
   const charTags = tagSorter(
-    profile.profileCharacteristics,
+    user.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
+
+  // const positiveCharTags = charTags.positiveTags;
+  // const negativeCharTags = charTags.negativeTags;
+  // const featuresTags = tagSorter(
+  //   applicant.filters ?? [],
+  //   advert?.flat.features ?? [],
+  // );
+  // const positiveFeaturesTags = featuresTags.positiveTags;
+  // const negativeFeaturesTags = featuresTags.negativeTags;
 
   const positiveCharTags = charTags.positiveTags;
   const negativeCharTags = charTags.negativeTags;
@@ -96,14 +98,14 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
 
   const maxDescriptionLength = 250;
   const truncatedDescription = truncateTextAtWord(
-    profile.profileDetails.description,
+    user.profile.description,
     maxDescriptionLength,
   );
-  const hiddenDescription = profile.profileDetails.description.slice(
+  const hiddenDescription = user.profile.description.slice(
     truncatedDescription.length,
   );
   const isTruncated =
-    profile.profileDetails.description.length > truncatedDescription.length;
+    user.profile.description?.length > truncatedDescription.length;
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -154,9 +156,8 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
               </Collapsible>
             )}
 
-            {profile.profileDetails.description &&
-              profile.profileDetails.description.length >
-                maxDescriptionLength && (
+            {user.profile?.description &&
+              user.profile?.description.length > maxDescriptionLength && (
                 <CoreButton
                   value={descriptionExpanded ? 'Read Less' : 'Read More'}
                   style={styles.readMoreButton}

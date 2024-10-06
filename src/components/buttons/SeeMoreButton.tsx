@@ -8,7 +8,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 //Helpers
 import {size} from 'react-native-responsive-sizes';
 //Types
-import { SeeMoreButtonProps } from './types';
+import {SeeMoreButtonProps} from './types';
 
 function SeeMoreButton({collapsed, toggleExpand}: SeeMoreButtonProps) {
   return (
@@ -32,13 +32,12 @@ function SeeMoreButton({collapsed, toggleExpand}: SeeMoreButtonProps) {
 const styles = StyleSheet.create({
   seeMore: {
     color: Color.Blue[100],
-    marginHorizontal: size(10),
+    marginHorizontal: size(5),
     marginBottom: size(2),
   },
   seeMoreContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
-    marginRight: size(10),
     paddingBottom: size(10),
   },
 });

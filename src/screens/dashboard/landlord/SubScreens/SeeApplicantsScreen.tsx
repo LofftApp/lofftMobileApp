@@ -190,7 +190,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           })}
         </ScrollView>
         <View style={styles.selectedButtonContainer}>
-          <Text style={[styles.maxNumberText, fontStyles.bodyExtraSmall]}>
+          <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
             {totalSelected === MAX_SELECT &&
               "You've selected the maximum number of 100"}
           </Text>
