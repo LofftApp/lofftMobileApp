@@ -48,7 +48,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   // console.log('Advert Data in applicant profile screen', advert);
   const dispatch = useAppDispatch();
   const application = useAppSelector(state =>
-    state.applications.applications.find(app => app.id === applicationId),
+    state.applications.applicationsRound2.find(app => app.id === applicationId),
   );
   const {data: user, isLoading, error} = useGetSpecificUserQuery(applicantId);
   console.log('user Data in applicant user screen', user);

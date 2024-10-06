@@ -43,13 +43,13 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const dispatch = useAppDispatch();
 
   const applicationsState = useAppSelector(
-    state => state.applications.applications,
+    state => state.applications.applicationsRound2,
   );
   const selectedApplications = useAppSelector(
-    state => state.applications.applicationsSelected,
+    state => state.applications.applicationsSelectedRound2,
   );
   const notSelectedApplications = useAppSelector(
-    state => state.applications.applicationsNotSelected,
+    state => state.applications.applicationsNotSelectedRound2,
   );
   const {
     data: advert,
