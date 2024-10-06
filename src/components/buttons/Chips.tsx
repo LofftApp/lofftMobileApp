@@ -9,11 +9,12 @@ import Collapsible from 'react-native-collapsible';
 
 const Chips = ({
   tags,
-  emoji = false,
+  emoji,
   features,
   expand,
   xs,
   whiteBg,
+  open,
 }: ChipsProps) => {
   return (
     <View style={styles.chipContainer}>
@@ -68,7 +69,30 @@ const Chips = ({
         )}
 
         {tags.slice(2).map((tag, index) => {
-          return (
+          return open ? (
+            <View
+              style={[
+                styles.chip,
+                whiteBg
+                  ? styles.whiteBackground
+                  : features
+                  ? styles.featureTag
+                  : styles.characteristicTag,
+                whiteBg && features && styles.featureBorder,
+                whiteBg && !features && styles.characteristicBorder,
+              ]}>
+              {emoji && <Text>{tag?.emoji}</Text>}
+              <Text
+                style={[
+                  xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
+                  features
+                    ? styles.featureTagFont
+                    : styles.characteristicTagFont,
+                ]}>
+                {tag?.name}
+              </Text>
+            </View>
+          ) : (
             <Collapsible
               key={tag?.emoji + index.toString()}
               collapsed={!expand}
@@ -87,7 +111,7 @@ const Chips = ({
                 {emoji && <Text>{tag?.emoji}</Text>}
                 <Text
                   style={[
-                    fontStyles.bodySmall,
+                    xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
                     features
                       ? styles.featureTagFont
                       : styles.characteristicTagFont,

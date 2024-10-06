@@ -21,12 +21,12 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷️
 import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
-import {matchMaker} from 'helpers/matchMaker';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();

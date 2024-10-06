@@ -39,6 +39,7 @@ const ApplicantCard = ({
   application,
 }: ApplicantCardProps) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [expand, setExpand] = useState(true);
   const {width} = useWindowDimensions();
   const applicant = application.applicant;
   // console.log('application in applicant card', application);
@@ -47,7 +48,7 @@ const ApplicantCard = ({
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
   console.log('user characteristics', applicant?.characteristics);
   console.log('flat characteristics', advert?.flat.characteristics);
-  console.log('user filter', applicant.filters);
+  console.log('user filter', applicant?.filters);
   console.log('flat features', advert?.flat.features);
 
   if (!applicant) {
@@ -67,6 +68,7 @@ const ApplicantCard = ({
 
   const toggleCollapsed = () => {
     setCollapsed(prev => !prev);
+    setExpand(prev => !prev);
   };
 
   // const featuresTags = tagSorter(
@@ -132,29 +134,21 @@ const ApplicantCard = ({
         <View style={styles.collapsedExpand}>
           <Text style={fontStyles.headerSmall}>Match with you</Text>
           <View style={styles.chipsContainer}>
-            <Chips
-              tags={positiveFeaturesTags}
-              emoji={true}
-              features={true}
-              expand={collapsed}
-            />
-            <Chips tags={positiveCharTags} emoji={true} expand={collapsed} />
+            <Chips tags={positiveFeaturesTags} emoji features xs open expand />
+            <Chips tags={positiveCharTags} emoji xs open expand />
           </View>
           <Text style={[fontStyles.headerSmall]}>Other</Text>
           <View style={styles.chipsContainer}>
             <Chips
               tags={negativeFeaturesTags}
-              emoji={true}
-              features={true}
-              expand={collapsed}
+              emoji
+              features
               whiteBg
+              xs
+              open
+              expand
             />
-            <Chips
-              tags={negativeCharTags}
-              emoji={true}
-              expand={collapsed}
-              whiteBg
-            />
+            <Chips tags={negativeCharTags} emoji whiteBg xs open expand />
           </View>
         </View>
       </Collapsible>
@@ -168,6 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: size(20),
     padding: size(15),
+    height: 'auto',
   },
   innerContainer: {
     justifyContent: 'space-between',
@@ -185,6 +180,7 @@ const styles = StyleSheet.create({
   collapsedExpand: {
     marginTop: size(10),
     gap: size(10),
+    height: 'auto',
   },
   iconContainer: {
     padding: size(10),
