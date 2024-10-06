@@ -12,7 +12,12 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {Application} from 'reduxFeatures/applications/types';
+import {
+  setApplicationsRound1,
+  toggleRound1,
+  toggleSelectAllRound1,
+} from 'reduxFeatures/applications/applicationSlice';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
@@ -21,6 +26,7 @@ import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
 import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 //Assets
 import {Search} from 'assets';
@@ -31,13 +37,6 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {
-  setApplicationsRound1,
-  toggleRound1,
-  toggleSelectAllRound1,
-} from 'reduxFeatures/applications/applicationSlice';
-import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 export const MAX_SELECT = 100;
 
@@ -55,7 +54,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     state => state.applications.applicationsNotSelectedRound1,
   );
   const selectedAll = useAppSelector(
-    state => state.applications.selectedAllRound1, // Get selectedAll state from Redux
+    state => state.applications.selectedAllRound1,
   );
   const {
     data: advert,
@@ -69,21 +68,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     {isLoading: isConfirming, error: errorConfirming},
   ] = useConfirmApplicationsMutation();
 
-  // const [applicationsState, setApplicationsState] = useState<Application[]>([]);
-
-  // const [selectedApplications, setSelectedApplications] = useState<
-  //   Partial<Application>[]
-  // >([]);
-
-  // const [notSelectedApplications, setNotSelectedApplications] = useState<
-  //   Partial<Application>[]
-  // >([]);
-
-  // useEffect(() => {
-  //   if (advert) {
-  //     setApplicationsState(applications ?? []);
-  //   }
-  // }, [advert, applications]);
   useEffect(() => {
     if (advert) {
       dispatch(setApplicationsRound1(applications ?? []));
@@ -94,47 +78,11 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
-  // const selectApplication = (id: number) => {
-  //   const updatedApplications = applicationsState.map(application => {
-  //     if (application.id === id) {
-  //       return {
-  //         ...application,
-  //         round1: !application.round1,
-  //       };
-  //     }
-  //     return application;
-  //   });
-
-  //   setApplicationsState(updatedApplications);
-  //   const applicationsSelected = updatedApplications
-  //     .filter(app => app.round1)
-  //     .map(app => {
-  //       return {
-  //         id: app.id,
-  //         round_1: app.round1,
-  //         round_2: app.round2,
-  //         round_3: app.round3,
-  //       };
-  //     });
-  //   setSelectedApplications(applicationsSelected);
-
-  //   const applicationsNotSelected = updatedApplications
-  //     .filter(app => !app.round1)
-  //     .map(app => {
-  //       return {
-  //         id: app.id,
-  //         round_1: app.round1,
-  //         round_2: app.round2,
-  //         round_3: app.round3,
-  //       };
-  //     });
-  //   setNotSelectedApplications(applicationsNotSelected);
-  // };
   const selectApplication = (id: number) => {
     dispatch(toggleRound1(id));
   };
   const handleSelectAll = () => {
-    dispatch(toggleSelectAllRound1()); // This will toggle the selection of all applications
+    dispatch(toggleSelectAllRound1());
   };
   const applicationToBeSent = [
     ...selectedApplications,

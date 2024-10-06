@@ -27,7 +27,9 @@ export const applicationSlice = createSlice({
           round1: isSelected ? true : app.round1,
         };
       });
+
       state.applicationsRound1 = newApplications;
+
       state.applicationsSelectedRound1 = newApplications
         .filter(app => app.round1)
         .map(app => ({
@@ -150,7 +152,23 @@ export const applicationSlice = createSlice({
         };
       });
       state.applicationsRound2 = newApplications;
-      // state.applications = action.payload;
+      state.applicationsSelectedRound2 = newApplications
+        .filter(app => app.round2)
+        .map(app => ({
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        }));
+
+      state.applicationsNotSelectedRound2 = newApplications
+        .filter(app => !app.round2)
+        .map(app => ({
+          id: app.id,
+          round_1: app.round1,
+          round_2: app.round2,
+          round_3: app.round3,
+        }));
     },
     toggleRound2(state, action: PayloadAction<number>) {
       state.applicationsRound2 = state.applicationsRound2.map(app => {

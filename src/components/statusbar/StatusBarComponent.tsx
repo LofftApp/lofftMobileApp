@@ -39,7 +39,7 @@ const StatusBarComponent = ({
   const round1 = application?.round1;
   const round2 = application?.round2;
   const round3 = application?.round3;
-  console.log('advert status', advert?.status);
+  console.log('advert status', advert);
   console.log('application status', application);
   // hardcoded to test status bar
   // const currentApplicationStatus = 0;

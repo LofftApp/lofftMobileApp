@@ -12,6 +12,11 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {
+  setApplicationsRound2,
+  toggleRound2,
+} from 'reduxFeatures/applications/applicationSlice';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -30,11 +35,6 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {
-  setApplicationsRound2,
-  toggleRound2,
-} from 'reduxFeatures/applications/applicationSlice';
 
 export const MAX_SELECT_2_ROUND = 20;
 
