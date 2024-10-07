@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {height, size} from 'react-native-responsive-sizes';
@@ -20,6 +20,8 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {SearchFilterModalProps} from './types';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import {AdvertFeatures} from 'reduxFeatures/adverts/types';
 
 const SearchFilterModal = ({
   openModal,
@@ -30,11 +32,38 @@ const SearchFilterModal = ({
   const [minFocus, setMinFocus] = useState(false);
   const [maxFocus, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
-  const [intitalpreferencesArray, seIintitalPreferencesArray] =
-    useState<typeof flatPreferences>(flatPreferences);
-  const [selectedTrack, setSelectedTrack] = useState<typeof flatPreferences>(
-    [],
-  );
+  const [selectedTrack, setSelectedTrack] = useState<AdvertFeatures[]>([]);
+  console.log('selectedTrack', selectedTrack);
+  const [searchTerm, setSearchTerm] = useState({});
+  const {data} = useGetAdvertsQuery(searchTerm, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const [intitalpreferencesArray, seIintitalPreferencesArray] = useState<
+    AdvertFeatures[]
+  >([]);
+  console.log('intitalpreferencesArray', intitalpreferencesArray);
+  useEffect(() => {
+    if (data?.allFlatFeaturesFromDb) {
+      seIintitalPreferencesArray(data.allFlatFeaturesFromDb);
+    }
+  }, [data?.allFlatFeaturesFromDb]);
+  console.log('Data adverts >>>>>>>', data);
+  // console.log('data in search filter modal', data?.allFlatFeaturesFromDb);
+  // '/api/adverts?features=1,2,3,4,5&minPrice=100&maxPrice=5000'
+  const handleSearch = () => {
+    const selectedFeatures = selectedTrack.map(track => track.id).join(',');
+    // console.log('features', features);
+    // console.log('minPrice', minPrice);
+    // console.log('maxPrice', maxPrice);
+    const query = {
+      features: selectedFeatures,
+      minPrice,
+      maxPrice,
+    };
+    console.log('query', query);
+    setSearchTerm(query);
+  };
 
   const handleMin = (num: string | number) => {
     setMinPrice(num.toString());
@@ -62,7 +91,7 @@ const SearchFilterModal = ({
     }
   };
 
-  const taco = (array: number[] | string[]) => {
+  const handleSlider = (array: number[] | string[]) => {
     handleMin(array[0]);
     handleMax(array[1]);
   };
@@ -94,7 +123,7 @@ const SearchFilterModal = ({
         key={index + 1}
         id={emojiElement.id}
         emojiIcon={emojiElement.emoji}
-        value={emojiElement.value}
+        value={emojiElement.name}
         toggle={emojiElement.toggle}
         selectedEmojis={selectedEmojis}
       />
@@ -166,7 +195,7 @@ const SearchFilterModal = ({
             minimumValue={100}
             maximumValue={5000}
             onValueChange={value => {
-              taco(value);
+              handleSlider(value);
             }}
             step={100}
           />
@@ -191,7 +220,12 @@ const SearchFilterModal = ({
             style={styles.clearAllButton}
             onPress={clearAll}
           />
-          <CoreButton value="See Results" style={styles.seeResultButton} />
+          {/* // event handler to send request */}
+          <CoreButton
+            value="See Results"
+            style={styles.seeResultButton}
+            onPress={handleSearch}
+          />
         </View>
       </View>
     </Modal>

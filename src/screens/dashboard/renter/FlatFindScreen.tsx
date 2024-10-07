@@ -25,11 +25,11 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types 🏷️
 
 const FlatFindScreen = () => {
-  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
+  const {data, error, isLoading} = useGetAdvertsQuery(undefined);
+  const adverts = data?.adverts;
 
   const [openModal, setOpenModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [sortedFlats, setSortedFlats] = useState([]);
+
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
@@ -42,7 +42,12 @@ const FlatFindScreen = () => {
   }
 
   if (error) {
-    return <NotFoundComponent backButton message="There was an error getting flats" />;
+    return (
+      <NotFoundComponent
+        backButton
+        message="There was an error getting flats"
+      />
+    );
   }
 
   return (
