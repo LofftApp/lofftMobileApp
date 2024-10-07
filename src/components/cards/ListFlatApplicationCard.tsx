@@ -41,8 +41,9 @@ const ListFlatApplicationCard = ({
   >();
 
   const active = isLessor
-    ? !['offered', 'closed'].includes(advert?.status ?? '')
-    : ['active'].includes(application?.status ?? '');
+    ? !['closed'].includes(advert?.status ?? '')
+    : ['active'].includes(application?.status ?? '') &&
+      !['closed'].includes(advert?.status ?? '');
 
   const renterActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
   const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
