@@ -38,7 +38,10 @@ export const advertApi = lofftApi.injectEndpoints({
       transformResponse: (response: IncomingAdvertWithApplications) =>
         toCamelCaseKeys(response as unknown as AdvertWithApplications),
     }),
-    toggleFavorite: builder.mutation<Advert, number>({
+    toggleFavorite: builder.mutation<
+      {action: 'created' | 'deleted'; status: string},
+      number
+    >({
       query: id => ({
         url: `/api/adverts/${id}/favorite`,
         method: 'POST',
@@ -62,7 +65,7 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
-    applyForFlat: builder.mutation<Advert, number>({
+    applyForFlat: builder.mutation<{credits: number; status: string}, number>({
       query: id => ({
         url: `/api/adverts/${id}/apply`,
         method: 'POST',

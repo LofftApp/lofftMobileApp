@@ -42,8 +42,13 @@ interface Application {
 }
 
 interface ApplicationState {
-  loading: boolean;
-  applications: Application[];
+  applicationsRound1: Application[];
+  applicationsSelectedRound1: Partial<Application>[];
+  applicationsNotSelectedRound1: Partial<Application>[];
+  selectedAllRound1: boolean;
+  applicationsRound2: Application[];
+  applicationsSelectedRound2: Partial<Application>[];
+  applicationsNotSelectedRound2: Partial<Application>[];
 }
 
 export type {

@@ -39,13 +39,11 @@ const StatusBarComponent = ({
   const round1 = application?.round1;
   const round2 = application?.round2;
   const round3 = application?.round3;
-  console.log('advert status', advert?.status);
-  // hardcoded to test status bar
-  // const currentApplicationStatus = 0;
-  // const currentAdvertStatus = 0;
-  // const round1 = true;
-  // const round2 = true;
-  // const round3 = true;
+
+  const active = isLessor
+    ? !['closed'].includes(advert?.status ?? '')
+    : ['active'].includes(application?.status ?? '') &&
+      !['closed'].includes(advert?.status ?? '');
 
   const screenheight = Dimensions.get('window').height;
 
@@ -57,30 +55,32 @@ const StatusBarComponent = ({
           name={key.icon}
           size={28}
           color={
-            isLessor
-              ? (currentAdvertStatus === 0 && index <= 0) ||
-                (currentAdvertStatus === 1 && index <= 1) ||
-                (currentAdvertStatus === 2 && index <= 2) ||
-                currentAdvertStatus === index ||
-                currentAdvertStatus > index
+            active
+              ? isLessor
+                ? (currentAdvertStatus === 0 && index <= 0) ||
+                  (currentAdvertStatus === 1 && index <= 1) ||
+                  (currentAdvertStatus === 2 && index <= 2) ||
+                  currentAdvertStatus === index ||
+                  currentAdvertStatus > index
+                  ? Color.White[100]
+                  : Color.Lavendar[50]
+                : (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 1 &&
+                    round1 &&
+                    index <= 2) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 2 &&
+                    round2 &&
+                    index <= 3) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 3 &&
+                    round3 &&
+                    index <= 4) ||
+                  currentApplicationStatus === index ||
+                  currentApplicationStatus > index
                 ? Color.White[100]
                 : Color.Lavendar[50]
-              : (currentApplicationStatus === 0 &&
-                  currentAdvertStatus === 1 &&
-                  round1 &&
-                  index <= 2) ||
-                (currentApplicationStatus === 0 &&
-                  currentAdvertStatus === 2 &&
-                  round2 &&
-                  index <= 3) ||
-                (currentApplicationStatus === 0 &&
-                  currentAdvertStatus === 3 &&
-                  round3 &&
-                  index <= 4) ||
-                currentApplicationStatus === index ||
-                currentApplicationStatus > index
-              ? Color.White[100]
-              : Color.Lavendar[50]
+              : Color.Black[50]
           }
         />
       );
@@ -95,29 +95,31 @@ const StatusBarComponent = ({
             style={[
               fontStyles.headerSmall,
               styles.infoBlockHeader,
-              isLessor
-                ? (currentAdvertStatus === 0 && index <= 0) ||
-                  (currentAdvertStatus === 1 && index <= 1) ||
-                  (currentAdvertStatus === 2 && index <= 2) ||
-                  currentAdvertStatus === index ||
-                  currentAdvertStatus > index
+              active
+                ? isLessor
+                  ? (currentAdvertStatus === 0 && index <= 0) ||
+                    (currentAdvertStatus === 1 && index <= 1) ||
+                    (currentAdvertStatus === 2 && index <= 2) ||
+                    currentAdvertStatus === index ||
+                    currentAdvertStatus > index
+                    ? styles.infoBlockActive
+                    : styles.infoBlock
+                  : (currentApplicationStatus === 0 &&
+                      currentAdvertStatus === 1 &&
+                      round1 &&
+                      index <= 2) ||
+                    (currentApplicationStatus === 0 &&
+                      currentAdvertStatus === 2 &&
+                      round2 &&
+                      index <= 3) ||
+                    (currentApplicationStatus === 0 &&
+                      currentAdvertStatus === 3 &&
+                      round3 &&
+                      index <= 4) ||
+                    currentApplicationStatus === index ||
+                    currentApplicationStatus > index
                   ? styles.infoBlockActive
                   : styles.infoBlock
-                : (currentApplicationStatus === 0 &&
-                    currentAdvertStatus === 1 &&
-                    round1 &&
-                    index <= 2) ||
-                  (currentApplicationStatus === 0 &&
-                    currentAdvertStatus === 2 &&
-                    round2 &&
-                    index <= 3) ||
-                  (currentApplicationStatus === 0 &&
-                    currentAdvertStatus === 3 &&
-                    round3 &&
-                    index <= 4) ||
-                  currentApplicationStatus === index ||
-                  currentApplicationStatus > index
-                ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
             {key.header}
@@ -125,29 +127,31 @@ const StatusBarComponent = ({
           <Text
             style={[
               fontStyles.bodySmall,
-              isLessor
-                ? (currentAdvertStatus === 0 && index <= 0) ||
-                  (currentAdvertStatus === 1 && index <= 1) ||
-                  (currentAdvertStatus === 2 && index <= 2) ||
-                  currentAdvertStatus === index ||
-                  currentAdvertStatus > index
+              active
+                ? isLessor
+                  ? (currentAdvertStatus === 0 && index <= 0) ||
+                    (currentAdvertStatus === 1 && index <= 1) ||
+                    (currentAdvertStatus === 2 && index <= 2) ||
+                    currentAdvertStatus === index ||
+                    currentAdvertStatus > index
+                    ? styles.infoBlockActive
+                    : styles.infoBlock
+                  : (currentApplicationStatus === 0 &&
+                      currentAdvertStatus === 1 &&
+                      round1 &&
+                      index <= 2) ||
+                    (currentApplicationStatus === 0 &&
+                      currentAdvertStatus === 2 &&
+                      round2 &&
+                      index <= 3) ||
+                    (currentApplicationStatus === 0 &&
+                      currentAdvertStatus === 3 &&
+                      round3 &&
+                      index <= 4) ||
+                    currentApplicationStatus === index ||
+                    currentApplicationStatus > index
                   ? styles.infoBlockActive
                   : styles.infoBlock
-                : (currentApplicationStatus === 0 &&
-                    currentAdvertStatus === 1 &&
-                    round1 &&
-                    index <= 2) ||
-                  (currentApplicationStatus === 0 &&
-                    currentAdvertStatus === 2 &&
-                    round2 &&
-                    index <= 3) ||
-                  (currentApplicationStatus === 0 &&
-                    currentAdvertStatus === 3 &&
-                    round3 &&
-                    index <= 4) ||
-                  currentApplicationStatus === index ||
-                  currentApplicationStatus > index
-                ? styles.infoBlockActive
                 : styles.infoBlock,
             ]}>
             {key.subText}
@@ -160,7 +164,9 @@ const StatusBarComponent = ({
                   value="See Applicants"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('seeApplicants', {id: advert?.id ?? 0})
+                    navigation.navigate('seeApplicants', {
+                      advertId: advert?.id ?? 0,
+                    })
                   }
                 />
               )}
@@ -228,9 +234,16 @@ const StatusBarComponent = ({
 
   // The background color height of the statusbar is set here 👨🏻‍🍳
   // The Index needs to be stored in state or in the advert.status enum for the color to change
+  // useEffect(() => {
+  //   calculateStatusBar(currentAdvertStatus);
+  // }, [currentAdvertStatus, calculateStatusBar]);
+
   useEffect(() => {
-    calculateStatusBar(currentAdvertStatus);
-  }, [currentAdvertStatus, calculateStatusBar]);
+    const index = active
+      ? advertStatusIndex(advert?.status ?? '')
+      : advertStatusIndex('offered');
+    calculateStatusBar(index);
+  }, [advert?.status, active, calculateStatusBar]);
 
   return (
     <>
@@ -248,9 +261,11 @@ const StatusBarComponent = ({
             style={[
               styles.progressBarOutline,
               {
-                backgroundColor: advert?.lessor
-                  ? Color.Lavendar[10]
-                  : Color.Mint[10],
+                backgroundColor: active
+                  ? advert?.lessor
+                    ? Color.Lavendar[10]
+                    : Color.Mint[10]
+                  : Color.Tomato[10],
               },
             ]}>
             <View style={styles.iconsPosition}>{iconsCreated}</View>
@@ -259,9 +274,11 @@ const StatusBarComponent = ({
                 styles.progressBar,
                 {
                   height: `${statusBar}%` as DimensionValue,
-                  backgroundColor: advert?.lessor
-                    ? Color.Lavendar[100]
-                    : Color.Mint[100],
+                  backgroundColor: active
+                    ? advert?.lessor
+                      ? Color.Lavendar[100]
+                      : Color.Mint[100]
+                    : Color.Tomato[100],
                 },
               ]}
             />
@@ -283,7 +300,7 @@ const styles = StyleSheet.create({
   maincontainer: {
     width: '100%',
     alignItems: 'center',
-    paddingVertical: size(20),
+    paddingVertical: size(0),
     justifyContent: 'space-between',
   },
   infoBlockHeader: {

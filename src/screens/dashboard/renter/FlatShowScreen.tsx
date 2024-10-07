@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView, Text} from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
@@ -18,8 +18,8 @@ import ConfirmModal from 'components/modals/ConfirmModal';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 //StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -30,6 +30,7 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
+import {useAppSelector} from 'reduxCore/hooks';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -53,19 +54,20 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
+  const user = useAppSelector(state => state.user.user);
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
   const [
     applyForFlat,
+
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
 
-  // //Placeholder for complete profile and has tokens
-  const completeProfile = true;
-  const hasTokens = true;
+  const completeProfile = user.userType !== 'newuser';
+  const hasTokens = user.credits && user.credits > 0;
 
-  // //Modal
+  //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //navigate to the next screen if applyForFlat is successful
@@ -88,11 +90,11 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   }
 
   if (error) {
-    return <ErrorComponent message="There was an error getting this flat" />;
+    return <NotFoundComponent message="There was an error getting this flat" />;
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={CoreStyleSheet.showContainer}>
       <View>
         {!isModalOpen && (
           <HighlightedButtons
@@ -101,14 +103,12 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
           />
         )}
         <LofftHeaderPhoto
-          imageContainerHeight={300}
+          imageContainerHeight={size(300)}
           images={advert?.flat.photos ?? []}
           activeBlur={isModalOpen}
         />
       </View>
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        {isModalOpen && <View style={styles.blurOverlay} />}
-
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.flatCardContainer}>
           {advert && <FlatInfoSubScreen advert={advert} />}
 
@@ -134,7 +134,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
               />
             ) : (
               <CoreButton
-                value={advert?.applied ? 'Applied' : 'Applyuuuu'}
+                value={advert?.applied ? 'Applied' : 'Apply'}
                 style={styles.coreButtonCustom}
                 disabled={advert?.applied}
                 onPress={() => setIsModalOpen(true)}
@@ -154,11 +154,10 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             }
             image={<Search />}
             onPressFirstButton={() => {}}
-            // fullScreen
           />
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -182,15 +181,6 @@ const styles = StyleSheet.create({
   coreButtonCustom: {
     marginTop: size(14),
     width: '100%',
-  },
-  blurOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 1,
   },
 });
 

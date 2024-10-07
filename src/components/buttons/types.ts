@@ -31,6 +31,8 @@ type ChipsProps = {
   features?: boolean;
   expand?: boolean;
   xs?: boolean;
+  whiteBg?: boolean;
+  open?: boolean;
 };
 
 type FilterButtonProps = {
@@ -48,6 +50,12 @@ type BackButtonProps = {
   close?: boolean;
   style?: StyleProp<ViewStyle>;
   neutral?: boolean;
+  absolute?: boolean;
+};
+
+type SeeMoreButtonProps = {
+  collapsed: boolean;
+  toggleExpand: () => void;
 };
 
 export type {
@@ -57,4 +65,5 @@ export type {
   FilterButtonProps,
   MatchingScoreButtonProps,
   BackButtonProps,
+  SeeMoreButtonProps,
 };

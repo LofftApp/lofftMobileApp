@@ -39,21 +39,14 @@ const ListFlatApplicationCard = ({
     SearchScreenNavigationProp & LessorNavigatorScreenNavigationProp
   >();
 
-  const [active] = useState(
-    !['offered', 'closed'].includes(application?.status ?? ''),
-  );
-  const [renterActiveStatus] = useState([
-    'Applied',
-    'In review',
-    'Viewing',
-    'Offer',
-  ]);
-  const [lessorActiveStatus] = useState([
-    'Received',
-    'Review',
-    'Viewing',
-    'Offer',
-  ]);
+  const active = isLessor
+    ? !['closed'].includes(advert?.status ?? '')
+    : ['active'].includes(application?.status ?? '') &&
+      !['closed'].includes(advert?.status ?? '');
+
+  const renterActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
+  const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
+
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
@@ -77,12 +70,13 @@ const ListFlatApplicationCard = ({
         break;
     }
   };
-  console.log('adert status in listflatapplicationcard', advert?.status);
 
   useEffect(() => {
-    const index = advertStatusIndex(advert?.status ?? '');
+    const index = active
+      ? advertStatusIndex(advert?.status ?? '')
+      : advertStatusIndex('offered');
     calculateStatusBar(index);
-  }, [advert?.status]);
+  }, [advert?.status, application?.status, active]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
@@ -178,7 +172,7 @@ const ListFlatApplicationCard = ({
           {textForStatusBar.map(el => (
             <Text
               style={
-                el === textForStatusBar[activeStage]
+                el === textForStatusBar[activeStage] && active
                   ? styles.active
                   : styles.inactive
               }
@@ -254,6 +248,7 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: size(183),
     height: size(48),
+    paddingHorizontal: size(10),
   },
   textbutton: {
     color: Color.Lavendar[100],

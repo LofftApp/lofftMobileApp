@@ -3,9 +3,23 @@ interface UserCharacteristics {
   name: string | null;
 }
 interface UserProfile {
-  genderIdentity: string | null;
-  description: string | null;
+  age: number | null;
   characteristics: UserCharacteristics[] | null;
+  dateOfBirth: string | null;
+  description: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  genderIdentity: string | null;
+}
+
+interface IncomingUserProfile {
+  age: number;
+  characteristics: UserCharacteristics[];
+  date_of_birth: string;
+  description: string;
+  first_name: string;
+  last_name: string;
+  gender_identity: string;
 }
 
 interface UserFilter {
@@ -27,4 +41,23 @@ interface UserState {
   };
 }
 
-export type {UserState, UserProfile, UserCharacteristics, UserFilter};
+interface SpecificUser {
+  email: string;
+  filter: UserFilter[];
+  id: number;
+  profile: UserProfile;
+}
+interface IncomingSpecificUser {
+  email: string;
+  filter: UserFilter[];
+  id: number;
+  profile: IncomingUserProfile;
+}
+export type {
+  UserState,
+  UserProfile,
+  UserCharacteristics,
+  UserFilter,
+  IncomingSpecificUser,
+  SpecificUser,
+};

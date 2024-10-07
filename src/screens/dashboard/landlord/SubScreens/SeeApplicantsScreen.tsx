@@ -5,21 +5,28 @@ import {useNavigation} from '@react-navigation/native';
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Redux
 import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {Application} from 'reduxFeatures/applications/types';
+import {
+  setApplicationsRound1,
+  toggleRound1,
+  toggleSelectAllRound1,
+} from 'reduxFeatures/applications/applicationSlice';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
 // Components
-import ApplicantCard from 'components/cards/ApplicantCard';
+import ApplicantCardRound1 from 'components/cards/ApplicantCardRound1';
 import {CoreButton} from 'components/buttons/CoreButton';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 //Assets
 import {Search} from 'assets';
@@ -31,11 +38,24 @@ import {size} from 'react-native-responsive-sizes';
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
 
-export const MAX_SELECT = 5;
+export const MAX_SELECT = 100;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
-  const {id: advertId} = route.params;
+  const {advertId} = route.params;
+  const dispatch = useAppDispatch();
 
+  const applicationsState = useAppSelector(
+    state => state.applications.applicationsRound1,
+  );
+  const selectedApplications = useAppSelector(
+    state => state.applications.applicationsSelectedRound1,
+  );
+  const notSelectedApplications = useAppSelector(
+    state => state.applications.applicationsNotSelectedRound1,
+  );
+  const selectedAll = useAppSelector(
+    state => state.applications.selectedAllRound1,
+  );
   const {
     data: advert,
     error,
@@ -48,46 +68,26 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     {isLoading: isConfirming, error: errorConfirming},
   ] = useConfirmApplicationsMutation();
 
-  const [applicationsState, setApplicationsState] = useState<Application[]>([]);
-
-  const [selectedApplications, setSelectedApplications] = useState<
-    Partial<Application>[]
-  >([]);
-
   useEffect(() => {
     if (advert) {
-      setApplicationsState(applications ?? []);
+      dispatch(setApplicationsRound1(applications ?? []));
     }
-  }, [advert, applications]);
+  }, [applications, advert, dispatch]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
   const selectApplication = (id: number) => {
-    const updatedApplications = applicationsState.map(application => {
-      if (application.id === id) {
-        return {
-          ...application,
-          round1: !application.round1,
-        };
-      }
-      return application;
-    });
-
-    setApplicationsState(updatedApplications);
-    const applicationsSelected = updatedApplications
-      .filter(app => app.round1)
-      .map(app => {
-        return {
-          id: app.id,
-          round_1: app.round1,
-          round_2: app.round2,
-          round_3: app.round3,
-        };
-      });
-    setSelectedApplications(applicationsSelected);
+    dispatch(toggleRound1(id));
   };
+  const handleSelectAll = () => {
+    dispatch(toggleSelectAllRound1());
+  };
+  const applicationToBeSent = [
+    ...selectedApplications,
+    ...notSelectedApplications,
+  ];
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);
@@ -97,9 +97,12 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     confirmApplications({
       id: advertId,
       applicationType: 'Round-1',
-      applications: selectedApplications,
+      applications: applicationToBeSent,
     });
-    navigation.navigate('seeProfiles', {advertId: advertId});
+    navigation.navigate('selectionConfirmed', {
+      advertId: advertId,
+      round1: true,
+    });
     toggleModal();
   };
   const totalApplications = applicationsState.length;
@@ -135,17 +138,20 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   if (error) {
     return (
-      <ErrorComponent message="There was an error getting the applicants" />
+      <NotFoundComponent
+        backButton
+        message="There was an error getting the applicants"
+      />
     );
   }
 
   if (applicationsState.length === 0) {
-    return <ErrorComponent message="No one has applied yet" />;
+    return <NotFoundComponent backButton message="No one has applied yet" />;
   }
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton onPress={navigation.goBack} />
+      <BackButton absolute onPress={navigation.goBack} />
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerSmall}>Applicants</Text>
       </View>
@@ -154,22 +160,42 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
             return (
-              <ApplicantCard
+              <ApplicantCardRound1
                 key={application.id}
                 selectApplication={selectApplication}
-                currentSelectedNums={selectedApplications.length}
+                currentSelectedNums={totalSelected}
                 application={application}
               />
             );
           })}
         </ScrollView>
-
-        <CoreButton
-          disabled={selectedApplications.length >= 1 ? false : true}
-          value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
-          style={styles.coreButton}
-          onPress={toggleModal}
-        />
+        <View style={styles.selectedButtonContainer}>
+          {totalSelected === MAX_SELECT && (
+            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
+              You've selected the maximum number of {MAX_SELECT}
+            </Text>
+          )}
+          {totalApplications <= MAX_SELECT && (
+            <View style={styles.checkboxContainer}>
+              <CheckBox onPress={handleSelectAll} value={selectedAll} />
+              <Text
+                style={[
+                  fontStyles.headerExtraSmall,
+                  {color: Color.Black[100]},
+                ]}>
+                Select all applicants
+              </Text>
+            </View>
+          )}
+          <CoreButton
+            disabled={totalSelected < 1}
+            value={`Selected ${totalSelected}/${
+              MAX_SELECT <= totalApplications ? MAX_SELECT : totalApplications
+            }`}
+            style={styles.coreButton}
+            onPress={toggleModal}
+          />
+        </View>
       </View>
 
       <ConfirmModal
@@ -191,10 +217,25 @@ const styles = StyleSheet.create({
     {paddingVertical: 8},
   ]),
 
-  coreButton: {width: '100%', marginTop: size(24), marginBottom: size(10)},
+  coreButton: {width: '100%'},
 
   iconContainer: {
     zIndex: 100,
+  },
+  selectedButtonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: size(20),
+    paddingBottom: size(10),
+    gap: size(15),
+  },
+  maxNumberText: {
+    color: Color.Mint[100],
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
   },
 });
 
