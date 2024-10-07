@@ -21,6 +21,9 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
 
+const initialMinPrice = '100';
+const initialMaxPrice = '5000';
+
 const SearchFilterModal = ({
   openModal,
   setOpenModal,
@@ -30,8 +33,8 @@ const SearchFilterModal = ({
   isError,
   isLoading,
 }: SearchFilterModalProps) => {
-  const [minPrice, setMinPrice] = useState('100');
-  const [maxPrice, setMaxPrice] = useState('5000');
+  const [minPrice, setMinPrice] = useState(initialMinPrice);
+  const [maxPrice, setMaxPrice] = useState(initialMaxPrice);
   const [, setMinFocus] = useState(false);
   const [, setMaxFocus] = useState(false);
   const featuresWithSelected = useCallback(
@@ -139,7 +142,13 @@ const SearchFilterModal = ({
       selected: false,
     }));
     setFeaturesState(clearedPreferences);
+    setMinPrice(initialMinPrice);
+    setMaxPrice(initialMaxPrice);
     setSelectedFeatures([]);
+  };
+
+  const onlyNumber = (value: string) => {
+    return Number(value.replace(/\D/g, ''));
   };
 
   return (
@@ -154,46 +163,45 @@ const SearchFilterModal = ({
             <View style={styles.priceFlex}>
               <View style={styles.inputContainer}>
                 <View style={styles.formContainer}>
-                  <Text>Min. price</Text>
+                  <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
                   <InputFieldText
                     style={styles.priceInputContainer}
                     placeholder="0"
                     // String is passed as value into text form.
-                    value={String(minPrice)}
+                    value={String(onlyNumber(minPrice))}
                     type="currency"
-                    onChangeText={(num: string) => {
-                      handleMin(num);
-                    }}
+                    onChangeText={handleMin}
                   />
                 </View>
 
                 <View style={styles.formContainer}>
-                  <Text>Max. price</Text>
+                  <Text style={fontStyles.bodyExtraSmall}>Max. price</Text>
                   <InputFieldText
                     style={styles.priceInputContainer}
                     placeholder="5000"
                     // String is passed as value into text form.
-                    value={String(maxPrice)}
+                    value={String(onlyNumber(maxPrice))}
                     type="currency"
-                    onChangeText={(num: string) => handleMax(num)}
+                    onChangeText={handleMax}
                   />
                 </View>
               </View>
             </View>
           </View>
         </View>
-        {Number(minPrice) > Number(maxPrice) && (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorMessage}>
-              The min value must not be more than the max value!
-            </Text>
-          </View>
-        )}
+
         <View style={styles.sliderContainer}>
+          {+minPrice > +maxPrice && (
+            <View style={styles.errorContainer}>
+              <Text style={styles.errorMessage}>
+                The min value must not be more than the max value!
+              </Text>
+            </View>
+          )}
           <Slider
             thumbTintColor={Color.Lavendar[100]}
             minimumTrackTintColor={Color.Lavendar[80]}
-            value={[+minPrice, +maxPrice]}
+            value={[onlyNumber(minPrice), onlyNumber(maxPrice)]}
             animateTransitions={true}
             minimumValue={100}
             maximumValue={5000}
@@ -202,9 +210,10 @@ const SearchFilterModal = ({
             }}
             step={100}
           />
+
           <View style={styles.sliderLegend}>
-            <Text>{minPrice} €</Text>
-            <Text>{maxPrice} €</Text>
+            <Text>{onlyNumber(minPrice)} €</Text>
+            <Text>{onlyNumber(maxPrice)} €</Text>
           </View>
         </View>
         <View style={styles.lowerPageHalfContainer}>
@@ -212,7 +221,13 @@ const SearchFilterModal = ({
             <Text style={fontStyles.headerSmall}>Flat details</Text>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.emojiContainer}>{allFeaturesButtons}</View>
+            <View style={styles.emojiContainer}>
+              {isError ? (
+                <Text>Error fetching features. Please try again.</Text>
+              ) : (
+                allFeaturesButtons
+              )}
+            </View>
           </ScrollView>
         </View>
         <View style={styles.pageBreak} />
@@ -228,11 +243,7 @@ const SearchFilterModal = ({
           {/* // event handler to send request */}
           <CoreButton
             value={
-              isLoading
-                ? 'Loading...'
-                : isError
-                ? 'Error. Try again'
-                : 'See results'
+              isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
             }
             disabled={isLoading}
             style={styles.seeResultButton}
@@ -295,7 +306,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorContainer: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   priceFlex: {
     flex: 1,
