@@ -49,7 +49,6 @@ const ApplicantCardRound1 = ({
   if (!applicant) {
     return null;
   }
-  const {email: name} = applicant;
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT) {
@@ -109,7 +108,7 @@ const ApplicantCardRound1 = ({
         />
         <View style={styles.details}>
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
-            {name?.split('')[0].toUpperCase()}.
+            {applicant.profile.firstName?.split('')[0].toUpperCase()}.
           </Text>
           <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
             {applicant.matchScore}% Match

@@ -37,25 +37,25 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
-  const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
-    advert.flat.characteristics ?? [],
-  );
-  const featuresTags = tagSorter(
-    currentUser.filter ?? [],
-    advert.flat.features,
-  );
-  const positiveFeatures = featuresTags.positiveTags;
-  const positiveChars = characteristicsTags.positiveTags;
-
-  // const positiveFeatures = matchMaker(
-  //   currentUser.filter ?? [],
-  //   advert.flat.features,
-  // )[0];
-  // const positiveChars = matchMaker(
+  // const characteristicsTags = tagSorter(
   //   currentUser.profile.characteristics ?? [],
   //   advert.flat.characteristics ?? [],
-  // )[0];
+  // );
+  // const featuresTags = tagSorter(
+  //   currentUser.filter ?? [],
+  //   advert.flat.features,
+  // );
+  // const positiveFeatures = featuresTags.positiveTags;
+  // const positiveChars = characteristicsTags.positiveTags;
+
+  const positiveFeatures = matchMaker(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  )[0];
+  const positiveChars = matchMaker(
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics ?? [],
+  )[0];
 
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);
