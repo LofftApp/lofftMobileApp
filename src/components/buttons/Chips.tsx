@@ -71,6 +71,7 @@ const Chips = ({
         {tags.slice(2).map((tag, index) => {
           return open ? (
             <View
+              key={tag?.emoji + index.toString()}
               style={[
                 styles.chip,
                 whiteBg

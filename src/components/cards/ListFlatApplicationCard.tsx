@@ -70,11 +70,6 @@ const ListFlatApplicationCard = ({
         break;
     }
   };
-  console.log('advert status in listflatapplicationcard', advert?.status);
-  console.log(
-    'application status in listflatapplicationcard',
-    application?.status,
-  );
 
   useEffect(() => {
     const index = active

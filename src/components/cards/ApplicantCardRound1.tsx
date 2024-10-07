@@ -46,11 +46,6 @@ const ApplicantCardRound1 = ({
 
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
 
-  console.log('user characteristics', applicant?.characteristics);
-  console.log('flat characteristics', advert?.flat.characteristics);
-  console.log('user filter', applicant?.filters);
-  console.log('flat features', advert?.flat.features);
-
   if (!applicant) {
     return null;
   }

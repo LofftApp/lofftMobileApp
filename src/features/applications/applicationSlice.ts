@@ -57,10 +57,6 @@ export const applicationSlice = createSlice({
         }
         return app;
       });
-      // const selectedApp = state.applicationsRound1.find(app => app.id === action.payload);
-      // if (selectedApp) {
-      //   selectedApp.round1 = !selectedApp.round1;
-      // }
 
       state.applicationsSelectedRound1 = state.applicationsRound1
         .filter(app => app.round1)
@@ -89,14 +85,14 @@ export const applicationSlice = createSlice({
     toggleSelectAllRound1(state) {
       const isSelectingAll = !state.selectedAllRound1;
       const totalApplications = state.applicationsRound1.length;
-      const availableToSelect = Math.min(MAX_SELECT, totalApplications); // Limit selection to MAX_SELECT
+      const availableToSelect = Math.min(MAX_SELECT, totalApplications);
 
       if (isSelectingAll) {
         // Select only up to MAX_SELECT applicants
         state.applicationsRound1 = state.applicationsRound1.map(
           (app, index) => ({
             ...app,
-            round1: index < availableToSelect, // Mark selected only if it's within the MAX_SELECT limit
+            round1: index < availableToSelect,
           }),
         );
 
@@ -148,7 +144,7 @@ export const applicationSlice = createSlice({
 
         return {
           ...app,
-          round2: isSelected ? true : app.round2, // Retain selection
+          round2: isSelected ? true : app.round2,
         };
       });
       state.applicationsRound2 = newApplications;

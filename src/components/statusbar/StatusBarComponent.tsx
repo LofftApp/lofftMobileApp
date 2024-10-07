@@ -39,14 +39,6 @@ const StatusBarComponent = ({
   const round1 = application?.round1;
   const round2 = application?.round2;
   const round3 = application?.round3;
-  console.log('advert status', advert);
-  console.log('application status', application);
-  // hardcoded to test status bar
-  // const currentApplicationStatus = 0;
-  // const currentAdvertStatus = 0;
-  // const round1 = true;
-  // const round2 = true;
-  // const round3 = true;
 
   const active = isLessor
     ? !['closed'].includes(advert?.status ?? '')

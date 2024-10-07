@@ -29,7 +29,7 @@ import {MAX_SELECT_2_ROUND} from 'screens/dashboard/landlord/SubScreens/SeeProfi
 
 // Types
 import type {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
-import { ApplicantCardRound2Props } from './types';
+import {ApplicantCardRound2Props} from './types';
 
 const ApplicantCardRound2 = ({
   currentSelectedNums,
@@ -38,7 +38,6 @@ const ApplicantCardRound2 = ({
 }: ApplicantCardRound2Props) => {
   const applicant = application.applicant;
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
-  console.log('application in user blob', application);
 
   const {width} = useWindowDimensions();
 
