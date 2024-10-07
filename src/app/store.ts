@@ -47,8 +47,6 @@ export const store = configureStore({
       },
     }).concat(lofftApi.middleware);
   },
-  // middleware: getDefaultMiddleware =>
-  //   getDefaultMiddleware().concat(lofftApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
