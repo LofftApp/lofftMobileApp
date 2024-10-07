@@ -24,7 +24,7 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
-import UserBlobCard from 'components/cards/UserBlobCard';
+import ApplicantCardRound2 from 'components/cards/ApplicantCardRound2';
 
 //Assets
 import {Search} from 'assets';
@@ -137,12 +137,20 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   if (error) {
     return (
-      <NotFoundComponent message="There was an error getting the applicants" />
+      <NotFoundComponent
+        backButton
+        message="There was an error getting the applicants"
+      />
     );
   }
 
   if (applicationsState.length === 0) {
-    return <NotFoundComponent message="We could not find the applicants" />;
+    return (
+      <NotFoundComponent
+        backButton
+        message="We could not find the applicants"
+      />
+    );
   }
 
   return (
@@ -156,7 +164,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
             return (
-              <UserBlobCard
+              <ApplicantCardRound2
                 key={application.id}
                 selectApplication={selectApplication}
                 currentSelectedNums={totalSelected}

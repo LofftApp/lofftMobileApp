@@ -111,13 +111,14 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
 
   const maxDescriptionLength = 250;
   const truncatedDescription = truncateTextAtWord(
-    user.profile.description,
+    user.profile.description ?? '',
     maxDescriptionLength,
   );
-  const hiddenDescription = user.profile.description.slice(
+  const hiddenDescription = user.profile.description?.slice(
     truncatedDescription.length,
   );
   const isTruncated =
+    user.profile.description &&
     user.profile.description?.length > truncatedDescription.length;
 
   if (isLoading) {
@@ -125,7 +126,9 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   }
 
   if (error) {
-    return <NotFoundComponent message="We could not find the applicant" />;
+    return (
+      <NotFoundComponent backButton message="We could not find the applicant" />
+    );
   }
 
   return (
@@ -138,7 +141,8 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
         <View style={CoreStyleSheet.screenContainer}>
           <View style={styles.nameAgeContainer}>
             <Text style={fontStyles.headerMedium}>
-              {user.profile.firstName} {user.profile.lastName}
+              {capitalize(user.profile.firstName ?? '')}{' '}
+              {capitalize(user.profile.lastName ?? '')}
             </Text>
             <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[80]}]}>
               {user.profile.age} years old

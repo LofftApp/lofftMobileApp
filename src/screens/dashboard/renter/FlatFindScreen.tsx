@@ -42,7 +42,7 @@ const FlatFindScreen = () => {
   }
 
   if (error) {
-    return <NotFoundComponent message="There was an error getting flats" />;
+    return <NotFoundComponent backButton message="There was an error getting flats" />;
   }
 
   return (

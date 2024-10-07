@@ -17,7 +17,7 @@ function NotFoundComponent({message, backButton}: NotFoundComponentProps) {
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={navigation.goBack} />
+      {backButton && <BackButton onPress={navigation.goBack} />}
       <View style={styles.ErrorContainer}>
         <Text style={fontStyles.headerSmall}>{message}</Text>
         {backButton && (

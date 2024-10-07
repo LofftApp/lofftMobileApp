@@ -75,7 +75,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
 
   if (applicationError || advertError) {
     return (
-      <NotFoundComponent message="There was an error getting the application" />
+      <NotFoundComponent backButton message="There was an error getting the application" />
     );
   }
   return (

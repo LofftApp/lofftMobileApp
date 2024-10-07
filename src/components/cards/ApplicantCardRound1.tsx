@@ -31,13 +31,13 @@ import {matchMaker} from 'helpers/matchMaker';
 import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
 
 // Types
-import type {ApplicantCardProps} from './types';
+import type {ApplicantCardRound1Props} from './types';
 
-const ApplicantCard = ({
+const ApplicantCardRound1 = ({
   currentSelectedNums,
   selectApplication,
   application,
-}: ApplicantCardProps) => {
+}: ApplicantCardRound1Props) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const {width} = useWindowDimensions();
@@ -192,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ApplicantCard;
+export default ApplicantCardRound1;

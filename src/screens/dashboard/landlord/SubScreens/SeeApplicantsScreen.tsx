@@ -20,7 +20,7 @@ import {
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
 // Components
-import ApplicantCard from 'components/cards/ApplicantCard';
+import ApplicantCardRound1 from 'components/cards/ApplicantCardRound1';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
@@ -139,12 +139,15 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   if (error) {
     return (
-      <NotFoundComponent message="There was an error getting the applicants" />
+      <NotFoundComponent
+        backButton
+        message="There was an error getting the applicants"
+      />
     );
   }
 
   if (applicationsState.length === 0) {
-    return <NotFoundComponent message="No one has applied yet" />;
+    return <NotFoundComponent backButton message="No one has applied yet" />;
   }
 
   return (
@@ -158,7 +161,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
             return (
-              <ApplicantCard
+              <ApplicantCardRound1
                 key={application.id}
                 selectApplication={selectApplication}
                 currentSelectedNums={totalSelected}

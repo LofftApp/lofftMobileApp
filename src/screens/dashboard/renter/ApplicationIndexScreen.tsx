@@ -46,7 +46,10 @@ const ApplicationIndexScreen = () => {
 
   if (error) {
     return (
-      <NotFoundComponent message="There was an error getting your applications" />
+      <NotFoundComponent
+        backButton
+        message="There was an error getting your applications"
+      />
     );
   }
 

@@ -19,7 +19,6 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Helpers
 import {capitalize} from 'helpers/capitalize';
@@ -29,14 +28,14 @@ import {size} from 'react-native-responsive-sizes';
 import {MAX_SELECT_2_ROUND} from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 
 // Types
-import type {UserBlobCardProps} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
+import { ApplicantCardRound2Props } from './types';
 
-const UserBlobCard = ({
+const ApplicantCardRound2 = ({
   currentSelectedNums,
   selectApplication,
   application,
-}: UserBlobCardProps) => {
+}: ApplicantCardRound2Props) => {
   const applicant = application.applicant;
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   console.log('application in user blob', application);
@@ -44,7 +43,7 @@ const UserBlobCard = ({
   const {width} = useWindowDimensions();
 
   if (!applicant) {
-    return <NotFoundComponent message="We could not find the applicants" />;
+    return null;
   }
 
   const toggleCheckbox = () => {
@@ -123,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserBlobCard;
+export default ApplicantCardRound2;

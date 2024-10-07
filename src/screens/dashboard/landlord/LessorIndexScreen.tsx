@@ -33,7 +33,7 @@ const LessorIndexScreen = () => {
 
   if (error) {
     return (
-      <NotFoundComponent message="There was an error getting your adverts" />
+      <NotFoundComponent backButton message="There was an error getting your adverts" />
     );
   }
 
