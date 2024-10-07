@@ -23,21 +23,21 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
-type SearchTermType = {
-  features?: string;
-  minPrice?: string | number;
-  maxPrice?: string | number;
-};
+import {SearchTermType} from 'components/modals/types';
 
 const FlatFindScreen = () => {
   const [searchTerm, setSearchTerm] = useState<SearchTermType | undefined>(
     undefined,
   );
 
-  const {data, isLoading, error, isSuccess} = useGetAdvertsQuery(searchTerm, {
-    refetchOnMountOrArgChange: true,
-  });
+  const {data, isLoading, error, isError, isSuccess} = useGetAdvertsQuery(
+    searchTerm,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
   const adverts = data?.adverts;
+  console.log('adverts', adverts);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -48,19 +48,18 @@ const FlatFindScreen = () => {
     setScreen(activeScreen);
   };
 
-
   if (isLoading) {
     return <LoadingComponent />;
   }
 
-  if (error) {
-    return (
-      <NotFoundComponent
-        backButton
-        message="There was an error getting flats"
-      />
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <NotFoundComponent
+  //       backButton
+  //       message="There was an error getting flats"
+  //     />
+  //   );
+  // }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
@@ -95,10 +94,11 @@ const FlatFindScreen = () => {
       <SearchFilterModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        isSuccess={isSuccess}
         setSearchTerm={setSearchTerm}
         initialFeatures={data?.allFlatFeaturesFromDb ?? []}
-
+        isSuccess={isSuccess}
+        isError={isError}
+        isLoading={isLoading}
       />
     </SafeAreaView>
   );

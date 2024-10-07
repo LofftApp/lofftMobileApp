@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {height, size} from 'react-native-responsive-sizes';
 
 // Data 💿
-import flatPreferences from 'components/componentData/flatPreferences.json';
 
 // Screens 📺
 import BackButton from 'components/buttons/BackButton';
@@ -19,8 +18,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
-import type {SearchFilterModalProps} from './types';
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
 
 const SearchFilterModal = ({
@@ -29,26 +27,35 @@ const SearchFilterModal = ({
   setSearchTerm,
   initialFeatures,
   isSuccess,
+  isError,
+  isLoading,
 }: SearchFilterModalProps) => {
   const [minPrice, setMinPrice] = useState('100');
   const [maxPrice, setMaxPrice] = useState('5000');
-  const [minFocus, setMinFocus] = useState(false);
-  const [maxFocus, setMaxFocus] = useState(false);
+  const [, setMinFocus] = useState(false);
+  const [, setMaxFocus] = useState(false);
+  const featuresWithSelected = useCallback(
+    () =>
+      initialFeatures.map(element => ({
+        ...element,
+        selected: false,
+      })),
+    [initialFeatures],
+  );
 
-  const [selectedTrack, setSelectedTrack] = useState<AdvertFeatures[]>([]);
-  console.log('selectedTrack', selectedTrack);
-
-  const [intitalpreferencesArray, seIintitalPreferencesArray] = useState<
-    AdvertFeatures[]
-  >([]);
-  console.log('intitalpreferencesArray', intitalpreferencesArray);
+  const [selectedFeatures, setSelectedFeatures] = useState<AdvertFeatures[]>(
+    [],
+  );
+  console.log('selectedFeatures', selectedFeatures);
+  const [featuresState, setFeaturesState] = useState<FeaturesState[]>([]);
+  console.log('featuresState', featuresState);
 
   useEffect(() => {
-    seIintitalPreferencesArray(initialFeatures);
-  }, [initialFeatures]);
+    setFeaturesState(featuresWithSelected);
+  }, [featuresWithSelected]);
 
   const handleSearch = async () => {
-    const featuresIds = selectedTrack.map(track => track.id).join(',');
+    const featuresIds = selectedFeatures.map(track => track.id).join(',');
 
     const query = {
       features: featuresIds,
@@ -59,6 +66,8 @@ const SearchFilterModal = ({
     setSearchTerm(query);
     if (isSuccess) {
       setOpenModal(false);
+      setFeaturesState([]);
+      setSelectedFeatures([]);
     }
   };
 
@@ -94,46 +103,43 @@ const SearchFilterModal = ({
   };
 
   const selectedEmojis = (id: number) => {
-    const targets = [];
-
-    const preSelected = intitalpreferencesArray.map(element => {
+    const updatedFeatures = featuresState.map(element => {
       if (element.id === id) {
-        targets.push(element);
         return {
           ...element,
-          toggle: !element.toggle,
+          selected: !element.selected,
         };
       } else {
         return element;
       }
     });
 
-    const wash = preSelected.filter(el => el.toggle);
+    const featuresSelected = updatedFeatures.filter(el => el.selected);
 
-    setSelectedTrack(wash);
-    seIintitalPreferencesArray(preSelected);
+    setSelectedFeatures(featuresSelected);
+    setFeaturesState(updatedFeatures);
   };
 
-  const emojiElements = intitalpreferencesArray.map((emojiElement, index) => {
+  const allFeaturesButtons = featuresState.map((emojiElement, index) => {
     return (
       <EmojiIcon
         key={index + 1}
         id={emojiElement.id}
         emojiIcon={emojiElement.emoji}
         value={emojiElement.name}
-        toggle={emojiElement.toggle}
+        toggle={emojiElement.selected}
         selectedEmojis={selectedEmojis}
       />
     );
   });
 
   const clearAll = () => {
-    const clearedPreferences = intitalpreferencesArray.map(element => ({
+    const clearedPreferences = featuresState.map(element => ({
       ...element,
-      toggle: false,
+      selected: false,
     }));
-    seIintitalPreferencesArray(clearedPreferences);
-    setSelectedTrack([]);
+    setFeaturesState(clearedPreferences);
+    setSelectedFeatures([]);
   };
 
   return (
@@ -206,7 +212,7 @@ const SearchFilterModal = ({
             <Text style={fontStyles.headerSmall}>Flat details</Text>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.emojiContainer}>{emojiElements}</View>
+            <View style={styles.emojiContainer}>{allFeaturesButtons}</View>
           </ScrollView>
         </View>
         <View style={styles.pageBreak} />
@@ -214,14 +220,24 @@ const SearchFilterModal = ({
           <CoreButton
             value="Clear all"
             invert={true}
+            disabled={isLoading}
             style={styles.clearAllButton}
             onPress={clearAll}
+            textSize={fontStyles.headerExtraSmall}
           />
           {/* // event handler to send request */}
           <CoreButton
-            value="See Results"
+            value={
+              isLoading
+                ? 'Loading...'
+                : isError
+                ? 'Error. Try again'
+                : 'See results'
+            }
+            disabled={isLoading}
             style={styles.seeResultButton}
-            onPress={handleSearch}
+            onPress={isError ? () => setOpenModal(false) : handleSearch}
+            textSize={fontStyles.headerExtraSmall}
           />
         </View>
       </View>
