@@ -61,21 +61,13 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const [
     applyForFlat,
 
-    {
-      isSuccess: applyIsSuccess,
-      isLoading: applyIsLoading,
-      error: applyError,
-      data: applyData,
-    },
+    {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
 
-  console.log('applyData', applyData);
-
-  // //Placeholder for complete profile and has tokens
   const completeProfile = user.userType !== 'newuser';
   const hasTokens = user.credits && user.credits > 0;
 
-  // //Modal
+  //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //navigate to the next screen if applyForFlat is successful

@@ -45,13 +45,13 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {advertId, applicantId, applicationId} = route.params;
 
   const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
-  // console.log('Advert Data in applicant profile screen', advert);
+
   const dispatch = useAppDispatch();
+
   const application = useAppSelector(state =>
     state.applications.applicationsRound2.find(app => app.id === applicationId),
   );
   const {data: user, isLoading, error} = useGetSpecificUserQuery(applicantId);
-  console.log('user Data in applicant user screen', user);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [matchExpand, setMatchExpand] = useState(false);

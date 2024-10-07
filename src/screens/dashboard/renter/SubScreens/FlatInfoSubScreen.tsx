@@ -3,11 +3,14 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
+import {UserState} from 'reduxFeatures/user/types';
+import {Advert} from 'reduxFeatures/adverts/types';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
+//Components
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -19,11 +22,9 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
+import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷
-import {UserState} from 'reduxFeatures/user/types';
-import {Advert} from 'reduxFeatures/adverts/types';
-import {matchMaker} from 'helpers/matchMaker';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
@@ -48,11 +49,6 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const toggleOtherExpand = () => {
     setOtherExpand(prev => !prev);
   };
-
-  console.log('user characteristics', currentUser.profile.characteristics);
-  console.log('flat characteristics', advert.flat.characteristics);
-  console.log('user filter', currentUser.filter);
-  console.log('flat features', advert.flat.features);
 
   // const charTags = tagSorter(
   //   currentUser.profile.characteristics ?? [],

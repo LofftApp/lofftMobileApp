@@ -58,7 +58,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   } = useSeeApplicationsByAdvertIdQuery(advertId, {
     refetchOnMountOrArgChange: true,
   });
-  console.log('advert in see profiles screen', advert);
   const applications = advert?.applications;
 
   const [
@@ -84,7 +83,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     ...selectedApplications,
     ...notSelectedApplications,
   ];
-  console.log('applicationToBeSent', applicationToBeSent);
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);
