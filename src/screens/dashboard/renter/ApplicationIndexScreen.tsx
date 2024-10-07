@@ -10,8 +10,8 @@ import ListFlatApplicationComponent from './SubScreens/ListFlatApplicationCompon
 
 // Components 🪢
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -28,8 +28,7 @@ const ApplicationIndexScreen = () => {
   const userType = currentUser.userType;
 
   const {data: applications, error, isLoading} = useGetApplicationsQuery();
-  console.log ('applications', applications);
-
+  console.log('applications', applications);
 
   const [screen, setScreen] = useState('thumbs-up');
 
@@ -47,7 +46,7 @@ const ApplicationIndexScreen = () => {
 
   if (error) {
     return (
-      <ErrorComponent message="There was an error getting your applications" />
+      <NotFoundComponent message="There was an error getting your applications" />
     );
   }
 

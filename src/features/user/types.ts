@@ -3,13 +3,13 @@ interface UserCharacteristics {
   name: string | null;
 }
 interface UserProfile {
-  age: number;
-  characteristics: UserCharacteristics[];
-  dateOfBirth: string;
-  description: string;
-  firstName: string;
-  lastName: string;
-  genderIdentity: string;
+  age: number | null;
+  characteristics: UserCharacteristics[] | null;
+  dateOfBirth: string | null;
+  description: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  genderIdentity: string | null;
 }
 
 interface IncomingUserProfile {

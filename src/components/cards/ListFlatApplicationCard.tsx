@@ -24,7 +24,6 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../../navigationStacks/types';
-import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({

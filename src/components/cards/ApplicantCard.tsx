@@ -39,11 +39,10 @@ const ApplicantCard = ({
   application,
 }: ApplicantCardProps) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [expand, setExpand] = useState(true);
+
   const {width} = useWindowDimensions();
+
   const applicant = application.applicant;
-  // console.log('application in applicant card', application);
-  // console.log('filter', application.advert);
 
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
 
@@ -69,7 +68,6 @@ const ApplicantCard = ({
 
   const toggleCollapsed = () => {
     setCollapsed(prev => !prev);
-    setExpand(prev => !prev);
   };
 
   // const featuresTags = tagSorter(

@@ -18,8 +18,8 @@ import ConfirmModal from 'components/modals/ConfirmModal';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 //StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -98,7 +98,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   }
 
   if (error) {
-    return <ErrorComponent message="There was an error getting this flat" />;
+    return <NotFoundComponent message="There was an error getting this flat" />;
   }
 
   return (

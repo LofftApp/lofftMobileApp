@@ -19,6 +19,10 @@ const initialState: UserState = {
       description: null,
       genderIdentity: null,
       characteristics: null,
+      age: null,
+      dateOfBirth: null,
+      firstName: null,
+      lastName: null,
     },
     filter: null,
   },
@@ -33,11 +37,16 @@ const userSlice = createSlice({
     clearProfile: state => {
       state.user.id = null;
       state.user.userType = null;
+      state.user.email = null;
       state.user.profile.genderIdentity = null;
       state.user.credits = null;
       state.user.admin = false;
       state.user.termsAccepted = false;
       state.user.profile.description = null;
+      state.user.profile.age = null;
+      state.user.profile.dateOfBirth = null;
+      state.user.profile.firstName = null;
+      state.user.profile.lastName = null;
       state.user.filter = null;
       state.user.profile.characteristics = null;
     },
@@ -61,15 +70,17 @@ const userSlice = createSlice({
           action.payload.user.profile.gender_identity;
         state.user.profile.description =
           action.payload.user.profile.description;
+        state.user.profile.age = action.payload.user.profile.age;
+        state.user.profile.dateOfBirth =
+          action.payload.user.profile.date_of_birth;
+        state.user.profile.firstName = action.payload.user.profile.first_name;
+        state.user.profile.lastName = action.payload.user.profile.last_name;
         state.user.profile.characteristics =
           action.payload.user.profile.characteristics;
         state.user.filter = action.payload.user.filter;
       },
     );
-    // builder.addCase(applyForAdvert.fulfilled, (state, action) => {
-    //   state.user.credits = action.payload;
-    // });
-    // builder.addCase(applyForAdvert.rejected, (state, action) => {});
+
     builder.addMatcher(
       advertApi.endpoints.applyForFlat.matchFulfilled,
       (state, action) => {

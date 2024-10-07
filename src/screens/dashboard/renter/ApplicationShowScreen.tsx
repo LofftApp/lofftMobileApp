@@ -19,8 +19,8 @@ import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import StatusBarComponent from 'components/statusbar/StatusBarComponent';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 // Types
@@ -75,7 +75,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
 
   if (applicationError || advertError) {
     return (
-      <ErrorComponent message="There was an error getting the application" />
+      <NotFoundComponent message="There was an error getting the application" />
     );
   }
   return (

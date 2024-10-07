@@ -22,8 +22,8 @@ import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 // Components
 import ApplicantCard from 'components/cards/ApplicantCard';
 import {CoreButton} from 'components/buttons/CoreButton';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
@@ -139,12 +139,12 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   if (error) {
     return (
-      <ErrorComponent message="There was an error getting the applicants" />
+      <NotFoundComponent message="There was an error getting the applicants" />
     );
   }
 
   if (applicationsState.length === 0) {
-    return <ErrorComponent message="No one has applied yet" />;
+    return <NotFoundComponent message="No one has applied yet" />;
   }
 
   return (

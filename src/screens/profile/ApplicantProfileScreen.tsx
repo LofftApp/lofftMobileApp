@@ -14,8 +14,8 @@ import HighlightButtons from 'components/containers/HighlightButtons';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import Collapsible from 'react-native-collapsible';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
@@ -69,10 +69,10 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const positiveFeaturesTags = featuresTags.positiveTags;
   const negativeFeaturesTags = featuresTags.negativeTags;
 
-    const charTags = tagSorter(
-      user.profile.characteristics ?? [],
-      advert.flat.characteristics,
-    );
+  const charTags = tagSorter(
+    user.profile.characteristics ?? [],
+    advert.flat.characteristics,
+  );
   const positiveCharTags = charTags.positiveTags;
   const negativeCharTags = charTags.negativeTags;
 
@@ -125,7 +125,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   }
 
   if (error) {
-    return <ErrorComponent message="We could not find the applicant" />;
+    return <NotFoundComponent message="We could not find the applicant" />;
   }
 
   return (

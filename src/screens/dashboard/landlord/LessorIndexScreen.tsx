@@ -15,8 +15,8 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import * as Color from 'styleSheets/lofftColorPallet.json';
 
 //Components
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -32,7 +32,9 @@ const LessorIndexScreen = () => {
   }
 
   if (error) {
-    return <ErrorComponent message="There was an error getting your adverts" />;
+    return (
+      <NotFoundComponent message="There was an error getting your adverts" />
+    );
   }
 
   return (

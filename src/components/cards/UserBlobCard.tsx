@@ -19,16 +19,18 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Helpers
 import {capitalize} from 'helpers/capitalize';
 import {size} from 'react-native-responsive-sizes';
 
+//Constants
+import {MAX_SELECT_2_ROUND} from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
+
 // Types
 import type {UserBlobCardProps} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
-import {MAX_SELECT_2_ROUND} from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 
 const UserBlobCard = ({
   currentSelectedNums,
@@ -42,7 +44,7 @@ const UserBlobCard = ({
   const {width} = useWindowDimensions();
 
   if (!applicant) {
-    return <ErrorComponent message="We could not find the applicants" />;
+    return <NotFoundComponent message="We could not find the applicants" />;
   }
 
   const toggleCheckbox = () => {
@@ -82,7 +84,8 @@ const UserBlobCard = ({
         />
         <View>
           <Text style={fontStyles.headerSmall}>
-            {capitalize(applicant.profile.firstName)}
+            {applicant.profile.firstName &&
+              capitalize(applicant.profile.firstName)}
           </Text>
           <Text style={fontStyles.bodySmall}>
             🌟 {applicant.matchScore}% match

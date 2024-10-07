@@ -7,7 +7,12 @@ import {size} from 'react-native-responsive-sizes';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-function ErrorComponent({message}: {message: string}) {
+type NotFoundComponentProps = {
+  message: string;
+  backButton?: boolean;
+};
+
+function NotFoundComponent({message, backButton}: NotFoundComponentProps) {
   const navigation = useNavigation();
 
   return (
@@ -15,7 +20,9 @@ function ErrorComponent({message}: {message: string}) {
       <BackButton onPress={navigation.goBack} />
       <View style={styles.ErrorContainer}>
         <Text style={fontStyles.headerSmall}>{message}</Text>
-        <CoreButton value="Go back" onPress={navigation.goBack} />
+        {backButton && (
+          <CoreButton value="Go back" onPress={navigation.goBack} />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -31,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ErrorComponent;
+export default NotFoundComponent;
