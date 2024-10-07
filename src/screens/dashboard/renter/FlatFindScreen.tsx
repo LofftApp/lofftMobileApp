@@ -23,9 +23,20 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
+type SearchTermType = {
+  features?: string;
+  minPrice?: string | number;
+  maxPrice?: string | number;
+};
 
 const FlatFindScreen = () => {
-  const {data, error, isLoading} = useGetAdvertsQuery(undefined);
+  const [searchTerm, setSearchTerm] = useState<SearchTermType | undefined>(
+    undefined,
+  );
+
+  const {data, isLoading, error, isSuccess} = useGetAdvertsQuery(searchTerm, {
+    refetchOnMountOrArgChange: true,
+  });
   const adverts = data?.adverts;
 
   const [openModal, setOpenModal] = useState(false);
@@ -36,6 +47,7 @@ const FlatFindScreen = () => {
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
+
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -80,7 +92,14 @@ const FlatFindScreen = () => {
           <AdvertMap adverts={adverts ?? []} />
         </View>
       )}
-      <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
+      <SearchFilterModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        isSuccess={isSuccess}
+        setSearchTerm={setSearchTerm}
+        initialFeatures={data?.allFlatFeaturesFromDb ?? []}
+
+      />
     </SafeAreaView>
   );
 };
