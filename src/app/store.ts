@@ -15,7 +15,6 @@ import authenticationReducer from 'reduxFeatures/authentication/authenticationSl
 import userJourneyReducer from 'reduxFeatures/registration/userJourneySlice';
 import imageUploadReducer from 'reduxFeatures/imageHandling/userImageUploadSlice';
 import userReducer from 'reduxFeatures/user/usersSlice';
-import flatsReducer from 'reduxFeatures/flat/flatsSlice';
 import advertReducer from 'reduxFeatures/adverts/advertSlice';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import applicationsReducer from 'reduxFeatures/applications/applicationSlice';
@@ -32,7 +31,6 @@ const reducers = combineReducers({
   userDetails: userJourneyReducer,
   imageUpload: imageUploadReducer,
   user: userReducer,
-  flats: flatsReducer,
   adverts: advertReducer,
   applications: applicationsReducer,
   [lofftApi.reducerPath]: lofftApi.reducer,
