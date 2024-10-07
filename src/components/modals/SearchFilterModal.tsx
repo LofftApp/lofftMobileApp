@@ -73,7 +73,7 @@ const SearchFilterModal = ({
     setSearchTerm(query);
     if (isSuccess) {
       setOpenModal(false);
-      setFeaturesState([]);
+      setFeaturesState(featuresWithSelected);
       setSelectedFeatures([]);
     }
   };
