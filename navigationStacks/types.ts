@@ -1,8 +1,6 @@
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
-import type {Advert} from 'reduxFeatures/adverts/types';
-import {SecondRoundApplicantWithSelected} from 'screens/dashboard/landlord/SubScreens/types';
 
 // Renter Navigator Stack
 
@@ -62,15 +60,19 @@ type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
   applicationshow: {id: number};
-  seeApplicants: {id: number};
+  seeApplicants: {advertId: number};
   seeProfiles: {
     advertId: number;
   };
+  selectionConfirmed: {
+    advertId: number;
+    round1?: boolean;
+    round2?: boolean;
+  };
   ApplicantProfile: {
-    applicantName: string | undefined;
-    handleClickCheckbox: () => void;
-    secondRoundProfile: SecondRoundApplicantWithSelected;
-    currentAdvert: Advert;
+    advertId: number;
+    applicantId: number;
+    applicationId: number;
   };
   chat: undefined;
 };

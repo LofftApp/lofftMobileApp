@@ -1,9 +1,5 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {
-  Application,
-  IncomingApplication,
-  IncomingApplications,
-} from './types';
+import {Application, IncomingApplication, IncomingApplications} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 
 export const applicationApi = lofftApi.injectEndpoints({

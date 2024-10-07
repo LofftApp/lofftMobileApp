@@ -16,8 +16,8 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -42,7 +42,7 @@ const FlatFindScreen = () => {
   }
 
   if (error) {
-    return <ErrorComponent message="There was an error getting flats" />;
+    return <NotFoundComponent backButton message="There was an error getting flats" />;
   }
 
   return (

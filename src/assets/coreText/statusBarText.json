@@ -8,7 +8,7 @@
       "icon": "file-check"
     },
     {
-      "header": "seeProfiles",
+      "header": "Shortlist",
       "subText": "Here you have full access to selected applicants’ profile. You have 48 hours to select up to 20 applicants to chat with, schedule an interview, and/or flat viewing.",
       "buttonText": "See profiles",
       "route": "seeProfiles",

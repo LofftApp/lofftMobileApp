@@ -1,7 +1,11 @@
+import {KeyValueObject} from './types';
 
-export const matchMaker = (array1, array2) => {
-  const match = [];
-  const noMatch = [];
+export const matchMaker = (
+  array1: KeyValueObject[],
+  array2: KeyValueObject[],
+): [KeyValueObject[], KeyValueObject[]] => {
+  const match: KeyValueObject[] = [];
+  const noMatch: KeyValueObject[] = [];
 
   array1.forEach(obj1 => {
     const obj2 = array2.find(item => item.name === obj1.name); // Find corresponding object in array2
@@ -26,5 +30,5 @@ export const matchMaker = (array1, array2) => {
     }
   });
 
-  return [match, noMatch]
-}
+  return [match, noMatch];
+};

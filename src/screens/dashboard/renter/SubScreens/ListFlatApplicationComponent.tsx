@@ -8,7 +8,7 @@ import ListFlatApplicationCard from 'components/cards/ListFlatApplicationCard';
 import type {ListFlatApplicationComponentProps} from './types';
 import {Application} from 'reduxFeatures/applications/types';
 import {Advert} from 'reduxFeatures/adverts/types';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // if isLessor is true, then the list will be of adverts, otherwise it will be of applications
 const ListFlatApplicationComponent = ({
@@ -20,7 +20,7 @@ const ListFlatApplicationComponent = ({
     (!applications || applications.length === 0) &&
     (!adverts || adverts.length === 0)
   ) {
-    return <ErrorComponent message="No applications found" />;
+    return <NotFoundComponent message="No applications found" />;
   }
 
   return (

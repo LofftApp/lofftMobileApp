@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  Pressable,
-} from 'react-native';
+import {View, ScrollView} from 'react-native';
 //Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
@@ -21,21 +14,14 @@ import {
 // External
 import Collapsible from 'react-native-collapsible';
 
-// Styles
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-
 // Components
 import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import StatusBarComponent from 'components/statusbar/StatusBarComponent';
-import LoadingComponent from 'components/LoadingAndError/LoadingComponent';
-import ErrorComponent from 'components/LoadingAndError/ErrorComponent';
-
-// Helpers
-import {size} from 'react-native-responsive-sizes';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
@@ -87,82 +73,43 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
 
   if (applicationError || advertError) {
     return (
-      <ErrorComponent message="There was an error getting the application" />
+      <NotFoundComponent
+        backButton
+        message="There was an error getting the application"
+      />
     );
   }
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={CoreStyleSheet.showContainer}>
       <View>
         <HighlightButtons
           favorite={advert?.favorite}
           heartPresent={!advert?.lessor}
           onPressHeart={handleFavorite}
         />
-        <View>
-          <LofftHeaderPhoto
-            imageContainerHeight={300}
-            images={advert?.flat.photos ?? []}
-          />
-        </View>
+
+        <LofftHeaderPhoto
+          imageContainerHeight={300}
+          images={advert?.flat.photos ?? []}
+        />
       </View>
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        <View style={styles.mainContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={CoreStyleSheet.screenContainer}>
           <StatusBarComponent
             application={application}
             _advert={advert}
             isLessor={isLessor}
           />
 
-          <Pressable onPress={toggleExpand} style={styles.seeMoreContainer}>
-            <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-              {collapsed ? 'See less' : 'See more'}
-            </Text>
-            {collapsed ? (
-              <>
-                <LofftIcon
-                  name="chevron-up"
-                  size={25}
-                  color={Color.Blue[100]}
-                />
-              </>
-            ) : (
-              <>
-                <LofftIcon
-                  name="chevron-down"
-                  size={25}
-                  color={Color.Blue[100]}
-                />
-              </>
-            )}
-          </Pressable>
+          <SeeMoreButton collapsed={collapsed} toggleExpand={toggleExpand} />
 
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    width: '100%',
-    paddingHorizontal: size(16),
-    alignItems: 'center',
-  },
-  seeMore: {
-    color: Color.Blue[100],
-
-    marginHorizontal: size(10),
-    marginBottom: size(2),
-  },
-  seeMoreContainer: {
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    marginRight: size(10),
-    paddingBottom: size(10),
-  },
-});
 
 export default ApplicationShowScreen;
