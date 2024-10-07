@@ -57,6 +57,10 @@ const SearchFilterModal = ({
     setFeaturesState(featuresWithSelected);
   }, [featuresWithSelected]);
 
+  const onlyNumber = (value: string) => {
+    return Number(value.replace(/\D/g, ''));
+  };
+
   const handleSearch = async () => {
     const featuresIds = selectedFeatures.map(track => track.id).join(',');
 
@@ -147,8 +151,10 @@ const SearchFilterModal = ({
     setSelectedFeatures([]);
   };
 
-  const onlyNumber = (value: string) => {
-    return Number(value.replace(/\D/g, ''));
+  const isPriceValid = () => {
+    const min = Number(minPrice);
+    const max = Number(maxPrice);
+    return min <= max && min >= 0 && max >= 0;
   };
 
   return (
@@ -245,7 +251,9 @@ const SearchFilterModal = ({
             value={
               isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
             }
-            disabled={isLoading}
+            disabled={
+              isLoading || selectedFeatures.length === 0 || !isPriceValid()
+            }
             style={styles.seeResultButton}
             onPress={isError ? () => setOpenModal(false) : handleSearch}
             textSize={fontStyles.headerExtraSmall}
