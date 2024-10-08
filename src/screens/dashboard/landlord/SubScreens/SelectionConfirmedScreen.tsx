@@ -2,9 +2,6 @@ import React from 'react';
 import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-// Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
-
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -18,16 +15,20 @@ import BackButton from 'components/buttons/BackButton';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-import {
-  ApplicationScreenNavigationProp,
-  SearchScreenNavigationProp,
-} from '../../../../navigationStacks/types';
+import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {SelectionConfirmedScreenProp} from './types';
 
-const ApplyForFlatScreen = () => {
-  const navigation = useNavigation<
-    ApplicationScreenNavigationProp & SearchScreenNavigationProp
-  >();
-  const credits = useAppSelector(state => state.user.user.credits);
+const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
+  const {advertId, round1, round2} = route.params;
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
+
+  const handleNavigate = () => {
+    if (round1) {
+      navigation.navigate('applicationshow', {id: advertId});
+    } else if (round2) {
+      navigation.navigate('applicationshow', {id: advertId});
+    }
+  };
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -36,23 +37,18 @@ const ApplyForFlatScreen = () => {
       <HiFive />
       <View style={CoreStyleSheet.screenContainer}>
         <Text style={[fontStyles.headerSmall, styles.textContainer]}>
-          You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
-          to get back to you!
+          Selection Confirmed!
         </Text>
         <Text style={[fontStyles.bodyMedium, styles.textContainer]}>
-          ⚡️ Remaining tokens : {credits}
+          We'll notify the selected applicants, as well as those who didn't make
+          it.
         </Text>
+
         <View style={styles.buttonsWrap}>
           <CoreButton
-            value={'See all applications'}
-            onPress={() =>
-              navigation.navigate('applications', {screen: 'applicationsList'})
-            }
-          />
-          <CoreButton
             invert={true}
-            value={'Back to search'}
-            onPress={() => navigation.navigate('flatOverview')}
+            value={'Back to my listing'}
+            onPress={handleNavigate}
           />
         </View>
       </View>
@@ -66,9 +62,9 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'absolute',
-    top: 50,
+    top: size(50),
     zIndex: -1,
-    left: -20,
+    left: size(-20),
   },
   textContainer: {
     textAlign: 'center',
@@ -81,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ApplyForFlatScreen;
+export default SelectionConfirmedScreen;

@@ -1,6 +1,11 @@
-export const matchMaker = (array1: any[], array2: any[]) => {
-  const match: any[] = [];
-  const noMatch: any[] = [];
+import {KeyValueObject} from './types';
+
+export const matchMaker = (
+  array1: KeyValueObject[],
+  array2: KeyValueObject[],
+): [KeyValueObject[], KeyValueObject[]] => {
+  const match: KeyValueObject[] = [];
+  const noMatch: KeyValueObject[] = [];
 
   array1.forEach((obj1: any) => {
     const obj2 = array2.find((item: any) => item.name === obj1.name);

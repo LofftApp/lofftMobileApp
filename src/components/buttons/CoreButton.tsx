@@ -11,9 +11,11 @@ import type {CoreButtonProps} from './types';
 
 export const CoreButton = ({
   value,
+  icon,
   invert = false,
   style = null,
   textStyle = null,
+  textSize = fontStyles.headerSmall,
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
@@ -27,9 +29,10 @@ export const CoreButton = ({
         style,
       ]}
       onPress={onPress}>
+      {icon}
       <Text
         style={[
-          fontStyles.headerSmall,
+          textSize,
           styles.buttonTextStyle,
           invert ? styles.textInvertButton : null,
           disabled ? styles.textDisabled : null,
@@ -48,8 +51,11 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar[100],
     borderColor: Color.Lavendar[100],
     borderRadius: 12,
-    padding: size(7),
+    paddingVertical: size(10),
+    paddingHorizontal: size(16),
     borderWidth: size(2),
+    flexDirection: 'row',
+    gap: size(7),
   },
   buttonTextStyle: {
     color: Color.White[100],

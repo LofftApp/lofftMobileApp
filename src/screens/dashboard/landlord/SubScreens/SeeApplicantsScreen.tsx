@@ -1,261 +1,241 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  Modal,
-  Alert,
-} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles
-import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Redux
-import {changeAdvertStatus} from 'reduxFeatures/adverts/advertMiddleware';
-import {useAppDispatch} from 'reduxCore/hooks';
+import {
+  useConfirmApplicationsMutation,
+  useSeeApplicationsByAdvertIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
+import {
+  setApplicationsRound1,
+  toggleRound1,
+  toggleSelectAllRound1,
+} from 'reduxFeatures/applications/applicationSlice';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
 // Components
-import ApplicantCard from 'components/cards/ApplicantCard';
+import ApplicantCardRound1 from 'components/cards/ApplicantCardRound1';
 import {CoreButton} from 'components/buttons/CoreButton';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import BackButton from 'components/buttons/BackButton';
+import ConfirmModal from 'components/modals/ConfirmModal';
+import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+
+//Assets
+import {Search} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
-import {logWithLocation} from 'helpers/logWithLocation';
 
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
-import {Application} from 'reduxFeatures/applications/types';
 
-export const MAX_SELECT = 5;
+export const MAX_SELECT = 100;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
-  const {id: advertId} = route.params;
+  const {advertId} = route.params;
+  const dispatch = useAppDispatch();
 
-  const {data: advert, isLoading} = useSeeApplicationsByAdvertIdQuery(advertId);
+  const applicationsState = useAppSelector(
+    state => state.applications.applicationsRound1,
+  );
+  const selectedApplications = useAppSelector(
+    state => state.applications.applicationsSelectedRound1,
+  );
+  const notSelectedApplications = useAppSelector(
+    state => state.applications.applicationsNotSelectedRound1,
+  );
+  const selectedAll = useAppSelector(
+    state => state.applications.selectedAllRound1,
+  );
+  const {
+    data: advert,
+    error,
+    isLoading,
+  } = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
 
-  logWithLocation('applicantions>>>>>>>', applications);
-
-  const [applicationsState, setApplicationsState] = useState<Application[]>([]);
-
-  const [selectedApplications, setSelectedApplications] = useState<
-    Application[]
-  >([]);
+  const [
+    confirmApplications,
+    {isLoading: isConfirming, error: errorConfirming},
+  ] = useConfirmApplicationsMutation();
 
   useEffect(() => {
     if (advert) {
-      setApplicationsState(applications ?? []);
+      dispatch(setApplicationsRound1(applications ?? []));
     }
-  }, [advert, applications]);
+  }, [applications, advert, dispatch]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
-  const dispatch = useAppDispatch();
 
   const selectApplication = (id: number) => {
-    const updatedApplications = applicationsState.map(application => {
-      if (application.id === id) {
-        return {
-          ...application,
-          round1: !application.round1,
-        };
-      }
-      return application;
-    });
+    dispatch(toggleRound1(id));
+  };
+  const handleSelectAll = () => {
+    dispatch(toggleSelectAllRound1());
+  };
+  const applicationToBeSent = [
+    ...selectedApplications,
+    ...notSelectedApplications,
+  ];
 
-    setApplicationsState(updatedApplications);
-    const applicationsSelected = updatedApplications.filter(app => app.round1);
-    setSelectedApplications(applicationsSelected);
+  const toggleModal = () => {
+    setModalVisible(prev => !prev);
+  };
+
+  const handleConfirmApplications = () => {
+    confirmApplications({
+      id: advertId,
+      applicationType: 'Round-1',
+      applications: applicationToBeSent,
+    });
+    navigation.navigate('selectionConfirmed', {
+      advertId: advertId,
+      round1: true,
+    });
+    toggleModal();
+  };
+  const totalApplications = applicationsState.length;
+  const totalSelected = selectedApplications.length;
+  const totalRemaining = Math.min(
+    MAX_SELECT - totalSelected,
+    totalApplications - totalSelected,
+  );
+
+  const confirmApplicationsModalAsset = {
+    header: 'Are you sure you want to confirm these applicants?',
+    description:
+      'Once confirmed, you cannot select any more applicants or change the decision. In the next step, you will be able to see more details about the selected applicants.',
+    middleText:
+      totalRemaining > 0
+        ? `⚡️ You can still select ${totalRemaining} more applicant${
+            totalRemaining > 1 ? 's' : ''
+          }`
+        : '',
+    buttonText: {
+      first: isConfirming
+        ? 'Confirming'
+        : errorConfirming
+        ? 'There was an error. Try Again'
+        : `Confirm selection (${totalSelected})`,
+      second: 'Back to applicants list',
+    },
   };
 
   if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
     return (
-      <View style={styles.pageWrapper}>
-        <SafeAreaView>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
+      <NotFoundComponent
+        backButton
+        message="There was an error getting the applicants"
+      />
     );
   }
 
+  if (applicationsState.length === 0) {
+    return <NotFoundComponent backButton message="No one has applied yet" />;
+  }
+
   return (
-    <View style={styles.pageWrapper}>
-      <View style={styles.header}>
-        <Pressable
-          style={styles.iconContainer}
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <LofftIcon name="chevron-left" size={35} color={Color.Lavendar[80]} />
-        </Pressable>
-        <View style={styles.headerText}>
-          <Text style={fontStyles.headerSmall}>Applicants</Text>
-        </View>
+    <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
+      <BackButton absolute onPress={navigation.goBack} />
+      <View style={CoreStyleSheet.headerContainer}>
+        <Text style={fontStyles.headerSmall}>Applicants</Text>
       </View>
 
-      <SafeAreaView style={styles.safeareaview}>
-        <ScrollView bounces={true} contentContainerStyle={styles.scrollView}>
+      <View style={styles.screenContainer}>
+        <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
             return (
-              <ApplicantCard
+              <ApplicantCardRound1
                 key={application.id}
                 selectApplication={selectApplication}
-                currentSelectedNums={selectedApplications.length}
+                currentSelectedNums={totalSelected}
                 application={application}
               />
             );
           })}
         </ScrollView>
-      </SafeAreaView>
-      <CoreButton
-        disabled={selectedApplications.length >= 1 ? false : true}
-        value={`Selected ${selectedApplications.length}/${MAX_SELECT}`}
-        style={styles.coreButton}
-        onPress={() => {
-          setModalVisible(!modalVisible);
-        }}
-      />
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={[fontStyles.bodyMedium, styles.textAlign]}>
-              🖐 {'\n'}
-              Are you sure about your selection? There is no way back later on!!
+        <View style={styles.selectedButtonContainer}>
+          {totalSelected === MAX_SELECT && (
+            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
+              You've selected the maximum number of {MAX_SELECT}
             </Text>
-            <View style={styles.choicesContainer}>
-              <Pressable
-                style={[styles.button, styles.buttonNo]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>No</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.button, styles.buttonClose, styles.marginButton]}
-                onPress={() => {
-                  dispatch(changeAdvertStatus(advert.id ?? 1));
-                  setModalVisible(!modalVisible);
-                  navigation.navigate('shortlist', {
-                    secondRoundApplicants: selectedApplications,
-                    currentAdvert: advert,
-                  });
-                }}>
-                <Text style={styles.textStyle}>Yes</Text>
-              </Pressable>
+          )}
+          {totalApplications <= MAX_SELECT && (
+            <View style={styles.checkboxContainer}>
+              <CheckBox onPress={handleSelectAll} value={selectedAll} />
+              <Text
+                style={[
+                  fontStyles.headerExtraSmall,
+                  {color: Color.Black[100]},
+                ]}>
+                Select all applicants
+              </Text>
             </View>
-          </View>
+          )}
+          <CoreButton
+            disabled={totalSelected < 1}
+            value={`Selected ${totalSelected}/${
+              MAX_SELECT <= totalApplications ? MAX_SELECT : totalApplications
+            }`}
+            style={styles.coreButton}
+            onPress={toggleModal}
+          />
         </View>
-      </Modal>
-    </View>
+      </View>
+
+      <ConfirmModal
+        openModal={modalVisible}
+        setIsModalOpen={setModalVisible}
+        modalAsset={confirmApplicationsModalAsset}
+        image={<Search />}
+        onPressFirstButton={handleConfirmApplications}
+        fullScreen
+        disabled={isConfirming}
+      />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  pageWrapper: {
-    flex: 1,
-    backgroundColor: 'white',
-    position: 'relative',
-    alignItems: 'center',
-    width: '100%',
-  },
-  header: {
-    marginTop: size(60),
-    width: '100%',
-  },
-  headerText: {
-    position: 'absolute',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  },
-  safeareaview: {
-    position: 'relative',
-  },
-  scrollView: {
-    paddingBottom: size(130),
-    marginTop: size(20),
-  },
+  screenContainer: StyleSheet.flatten([
+    CoreStyleSheet.screenContainer,
+    {paddingVertical: 8},
+  ]),
 
-  choicesContainer: {
-    flexDirection: 'row',
-    marginTop: size(30),
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.Black[10],
-    opacity: 0.8,
-  },
-  coreButton: {width: '90%', position: 'absolute', bottom: size(10)},
-  modalView: {
-    margin: size(20),
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: size(35),
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 8,
-    padding: size(10),
-    elevation: 2,
-  },
+  coreButton: {width: '100%'},
 
-  buttonNo: {
-    backgroundColor: Color.Tomato[100],
-  },
-
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: Color.Mint[100],
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-
-  modalText: {
-    marginBottom: size(15),
-    textAlign: 'center',
-  },
   iconContainer: {
-    paddingLeft: size(28),
     zIndex: 100,
   },
-  textAlign: {
-    textAlign: 'center',
+  selectedButtonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: size(20),
+    paddingBottom: size(10),
+    gap: size(15),
   },
-  marginButton: {
-    marginLeft: size(20),
+  maxNumberText: {
+    color: Color.Mint[100],
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
   },
 });
 

@@ -9,21 +9,24 @@ import SeeApplicantsScreen from 'screens/dashboard/landlord/SubScreens/SeeApplic
 import SeeProfilesScreen from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 import type {LessorNavigatorStackParamsList} from './types';
+import SelectionConfirmedScreen from 'screens/dashboard/landlord/SubScreens/SelectionConfirmedScreen';
 
 const Lessor = createNativeStackNavigator<LessorNavigatorStackParamsList>();
 const LessorNavigator = () => {
   return (
     <Lessor.Navigator screenOptions={{headerShown: false}}>
-      {/* <Lessor.Screen
-        name="applicantsOverview"
-        component={ApplicantsIndexScreen}
-      /> Joshes Part*/}
       <Lessor.Screen name="LessorIndex" component={LessorIndexScreen} />
       <Lessor.Screen name="LessorAction" component={LessorActionScreen} />
       <Lessor.Screen name="applicationshow" component={ApplicationShowScreen} />
       {/* {Dynamic Status Bar Screen for Landlord Applicaiton Selection Process} */}
-      <Lessor.Screen name="allApplicants" component={SeeApplicantsScreen} />
-      <Lessor.Screen name="shortlist" component={SeeProfilesScreen} />
+      <Lessor.Screen name="seeApplicants" component={SeeApplicantsScreen} />
+      <Lessor.Screen name="seeProfiles" component={SeeProfilesScreen} />
+      <Lessor.Screen
+        name="selectionConfirmed"
+        component={SelectionConfirmedScreen}
+      />
+
+      {/* Chat etc need to be added */}
       <Lessor.Screen name="chat" component={LessorChatScreen} />
 
       {/* Chat etc need to be added */}

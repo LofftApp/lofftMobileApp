@@ -1,18 +1,26 @@
-import {ImageSourcePropType} from 'react-native';
+import {Dispatch, SetStateAction} from 'react';
 
 type SearchFilterModalProps = {
   openModal: boolean;
   setOpenModal: (arg: boolean) => void;
 };
 
-type CompleteProfilePopUpModalProps = {
+type ConfirmModalProps = {
   openModal: boolean;
-  setIsModalOpen: (state: boolean) => void;
-  profileNotDoneObject: {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  modalAsset: {
     header: string;
     description: string;
-    icon: ImageSourcePropType;
+    middleText?: string;
+    buttonText: {
+      first: string;
+      second: string;
+    };
   };
+  image: JSX.Element;
+  onPressFirstButton: () => void;
+  fullScreen?: boolean;
+  disabled?: boolean;
 };
 
-export type {SearchFilterModalProps, CompleteProfilePopUpModalProps};
+export type {SearchFilterModalProps, ConfirmModalProps};

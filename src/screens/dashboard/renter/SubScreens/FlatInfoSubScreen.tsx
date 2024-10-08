@@ -1,27 +1,30 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {useAppSelector} from 'reduxCore/hooks';
+import {UserState} from 'reduxFeatures/user/types';
+import {Advert} from 'reduxFeatures/adverts/types';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
+//Components
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
+import Collapsible from 'react-native-collapsible';
 
 // Helpers
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
+import {tagSorter} from 'helpers/tagSorter';
+import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷
-import {UserState} from 'reduxFeatures/user/types';
-import {tagSorter} from 'helpers/tagSorter';
-import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
-import {Advert} from 'reduxFeatures/adverts/types';
-import Collapsible from 'react-native-collapsible';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const currentUser = useAppSelector(
@@ -47,21 +50,39 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
     setOtherExpand(prev => !prev);
   };
 
-  const charTags = tagSorter(
+  // const charTags = tagSorter(
+  //   currentUser.profile.characteristics ?? [],
+  //   advert.flat.characteristics,
+  // );
+
+  // const positiveCharTags = charTags.positiveTags;
+  // const negativeCharTags = charTags.negativeTags;
+
+  // const featuresTags = tagSorter(
+  //   currentUser.filter ?? [],
+  //   advert.flat.features,
+  // );
+
+  // const positiveFeaturesTags = featuresTags.positiveTags;
+  // const negativeFeaturesTags = featuresTags.negativeTags;
+
+  const positiveCharTags = matchMaker(
     currentUser.profile.characteristics ?? [],
     advert.flat.characteristics,
-  );
+  )[0];
+  const negativeCharTags = matchMaker(
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics,
+  )[1];
 
-  const positiveCharTags = charTags.positiveTags;
-  const negativeCharTags = charTags.negativeTags;
-
-  const featuresTags = tagSorter(
+  const positiveFeaturesTags = matchMaker(
     currentUser.filter ?? [],
     advert.flat.features,
-  );
-
-  const positiveFeaturesTags = featuresTags.positiveTags;
-  const negativeFeaturesTags = featuresTags.negativeTags;
+  )[0];
+  const negativeFeaturesTags = matchMaker(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  )[1];
 
   const maxDescriptionLength = 100;
   const truncatedDescription = truncateTextAtWord(
@@ -75,7 +96,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
     advert.flat.description.length > truncatedDescription.length;
 
   return (
-    <View style={styles.centralizerContainer}>
+    <>
       {!advert.lessor && (
         <View style={styles.matchContainer}>
           <View>
@@ -93,12 +114,13 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
       <View style={styles.infoContainer}>
         <Text style={fontStyles.bodySmall}>{advert.flat.address}</Text>
         <Text style={[fontStyles.headerSmall]}>{advert.flat.tagLine}</Text>
+
         <View style={styles.LegendContainer}>
           <View style={styles.firstRowLegendContainer}>
             <View style={styles.iconContainer}>
               <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-                {advert.monthlyRent}€
+                {advert.monthlyRent} {advert.currency}
               </Text>
             </View>
             <View style={styles.iconContainer}>
@@ -111,7 +133,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
           </View>
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
-            <Text style={[fontStyles.bodyMedium, styles.dateText]}>
+            <Text style={fontStyles.bodyMedium}>
               From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
               {`- ${dateFormatConverter({
                 date: {seconds: advert.toDate || 1715990400},
@@ -119,6 +141,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             </Text>
           </View>
         </View>
+
         <View style={styles.descriptionMargin}>
           <Text style={{color: Color.Black[80]}}>
             {truncatedDescription}
@@ -140,6 +163,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
                   fontStyles.headerSmall,
                   {color: Color.Lavendar[100]},
                 ]}
+                invert
                 disabled={false}
                 onPress={toggleDescriptionExpand}
               />
@@ -151,39 +175,19 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Features */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Flat Characteristics</Text>
-              <Pressable
-                onPress={toggleFlatCharExpand}
-                style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {flatCharExpand ? 'See less' : 'See more'}
-                </Text>
-                {flatCharExpand ? (
-                  <>
-                    <LofftIcon
-                      name="chevron-up"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <LofftIcon
-                      name="chevron-down"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                )}
-              </Pressable>
+              <SeeMoreButton
+                collapsed={flatCharExpand}
+                toggleExpand={toggleFlatCharExpand}
+              />
             </View>
             <Chips
-              tags={positiveFeaturesTags}
+              tags={advert.flat.features}
               features={true}
               emoji
               expand={flatCharExpand}
             />
             <Chips
-              tags={positiveCharTags}
+              tags={advert.flat.characteristics}
               features={false}
               emoji
               expand={flatCharExpand}
@@ -197,30 +201,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Match with you</Text>
 
-              <Pressable
-                onPress={toggleMatchExpand}
-                style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {matchExpand ? 'See less' : 'See more'}
-                </Text>
-                {matchExpand ? (
-                  <>
-                    <LofftIcon
-                      name="chevron-up"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <LofftIcon
-                      name="chevron-down"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                )}
-              </Pressable>
+              <SeeMoreButton
+                collapsed={matchExpand}
+                toggleExpand={toggleMatchExpand}
+              />
             </View>
 
             <View style={styles.matchWithYouContainer}>
@@ -243,30 +227,10 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             {/* Other */}
             <View style={styles.chipsContainer}>
               <Text style={fontStyles.headerSmall}>Other</Text>
-              <Pressable
-                onPress={toggleOtherExpand}
-                style={styles.seeMoreContainer}>
-                <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-                  {otherExpand ? 'See less' : 'See more'}
-                </Text>
-                {otherExpand ? (
-                  <>
-                    <LofftIcon
-                      name="chevron-up"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <LofftIcon
-                      name="chevron-down"
-                      size={25}
-                      color={Color.Blue[100]}
-                    />
-                  </>
-                )}
-              </Pressable>
+              <SeeMoreButton
+                collapsed={otherExpand}
+                toggleExpand={toggleOtherExpand}
+              />
             </View>
 
             <View style={styles.matchWithYouContainer}>
@@ -288,25 +252,16 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
           </>
         )}
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-  },
-  centralizerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: size(20),
-  },
   matchContainer: {
     width: '100%',
     backgroundColor: Color.Mint[10],
     marginVertical: size(20),
-    borderRadius: size(8),
+    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: size(20),
@@ -314,37 +269,35 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     width: '100%',
-    marginTop: size(15),
+    marginTop: size(10),
   },
   LegendContainer: {
-    width: '90%',
+    width: '100%',
     marginTop: size(20),
   },
   firstRowLegendContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: size(20),
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
+  },
+  iconMargin: {
+    marginRight: size(70),
   },
   secondRowLegendContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: size(10),
   },
-  pricePlacementContainer: {
-    marginLeft: size(10),
-    marginRight: size(100),
-  },
-  sizePlacementContainer: {
-    marginLeft: size(10),
-  },
-  dateText: {
-    marginLeft: size(10),
-  },
+
   descriptionContainer: {
     marginTop: size(10),
   },
-  flatCharText: {
-    marginTop: size(23),
-    marginBottom: size(5),
-  },
+
   chipsContainer: {
     marginTop: size(23),
     marginBottom: size(5),
@@ -356,58 +309,19 @@ const styles = StyleSheet.create({
   matchWithYouContainer: {
     marginTop: size(10),
   },
-  otherText: {
-    marginTop: size(23),
-    marginBottom: size(5),
-  },
+
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
   },
-  countDownTimer: {
-    textAlign: 'center',
-    color: Color.Mint[100],
+
+  coreButtonStyle: {
     marginTop: size(20),
   },
-  coreButtonCustom: {
-    marginTop: size(14),
-  },
-  coreButtonStyle: {
-    backgroundColor: 'white',
-    borderWidth: size(2),
-    marginTop: size(14),
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconMargin: {
-    marginLeft: size(10),
-    marginRight: size(100),
-  },
+
   descriptionMargin: {
     marginTop: size(20),
   },
-  readMoreButton: {
-    backgroundColor: 'white',
-    borderWidth: 2,
-    marginTop: size(14),
-    height: size(40),
-  },
-
-  seeMoreContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  seeMore: {
-    color: Color.Blue[100],
-    alignSelf: 'flex-end',
-    marginRight: size(10),
-    marginBottom: size(10),
-  },
-  marginFlatCharacteristics: {marginTop: size(23), marginBottom: size(5)},
-  marginChipsCharacteristics: {marginTop: size(10), marginBottom: size(20)},
-  marginChipsOther: {marginTop: size(10)},
 });
 
 export default FlatInfoSubScreen;

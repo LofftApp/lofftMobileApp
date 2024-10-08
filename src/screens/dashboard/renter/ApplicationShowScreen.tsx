@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {View, ScrollView} from 'react-native';
 //Redux
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
@@ -14,22 +14,18 @@ import {
 // External
 import Collapsible from 'react-native-collapsible';
 
-// Styles
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-
 // Components
 import HighlightButtons from 'components/containers/HighlightButtons';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import StatusBarComponent from 'components/statusbar/StatusBarComponent';
-
-// Helpers
-import {size} from 'react-native-responsive-sizes';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
@@ -72,119 +68,48 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   };
 
   if (applicationIsLoading || advertIsLoading) {
-    return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView
-          style={[styles.pageContainer, styles.loadingErrorContainer]}>
-          <Text style={fontStyles.headerSmall}>Loading...</Text>
-        </SafeAreaView>
-      </View>
-    );
+    return <LoadingComponent />;
   }
 
   if (applicationError || advertError) {
     return (
-      <View style={styles.pageContainer}>
-        <SafeAreaView
-          style={[styles.pageContainer, styles.loadingErrorContainer]}>
-          <Text style={fontStyles.headerSmall}>
-            There was an error getting this application
-          </Text>
-        </SafeAreaView>
-      </View>
+      <NotFoundComponent
+        backButton
+        message="There was an error getting the application"
+      />
     );
   }
   return (
-    <View style={styles.pageContainer}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollView}>
+    <View style={CoreStyleSheet.showContainer}>
+      <View>
         <HighlightButtons
           favorite={advert?.favorite}
           heartPresent={!advert?.lessor}
           onPressHeart={handleFavorite}
         />
-        <View>
-          <LofftHeaderPhoto
-            imageContainerHeight={300}
-            images={advert?.flat.photos ?? []}
+
+        <LofftHeaderPhoto
+          imageContainerHeight={300}
+          images={advert?.flat.photos ?? []}
+        />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={CoreStyleSheet.screenContainer}>
+          <StatusBarComponent
+            application={application}
+            _advert={advert}
+            isLessor={isLessor}
           />
-          <View style={styles.maincontainer}>
-            <StatusBarComponent
-              application={application}
-              _advert={advert}
-              isLessor={isLessor}
-            />
-          </View>
-        </View>
-        <SafeAreaView>
-          <View style={styles.seeMoreContainer}>
-            <Text
-              onPress={toggleExpand}
-              style={[fontStyles.bodySmall, styles.seeMore]}>
-              {collapsed ? 'See less' : 'See more'}
-            </Text>
-            {collapsed ? (
-              <>
-                <LofftIcon
-                  name="chevron-up"
-                  size={25}
-                  color={Color.Blue[100]}
-                />
-              </>
-            ) : (
-              <>
-                <LofftIcon
-                  name="chevron-down"
-                  size={25}
-                  color={Color.Blue[100]}
-                />
-              </>
-            )}
-          </View>
+
+          <SeeMoreButton collapsed={collapsed} toggleExpand={toggleExpand} />
 
           <Collapsible collapsed={!collapsed} duration={300}>
             {advert && <FlatInfoSubScreen advert={advert} />}
           </Collapsible>
-        </SafeAreaView>
+        </View>
       </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    flex: 1,
-  },
-
-  scrollView: {
-    backgroundColor: Color.White[100],
-    width: '100%',
-  },
-
-  maincontainer: {
-    width: '100%',
-    alignContent: 'center',
-  },
-  seeMore: {
-    color: Color.Blue[100],
-    alignSelf: 'flex-end',
-    marginHorizontal: size(10),
-    marginBottom: size(2),
-  },
-  loadingErrorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  seeMoreContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginRight: size(10),
-    paddingBottom: size(10),
-  },
-});
 
 export default ApplicationShowScreen;

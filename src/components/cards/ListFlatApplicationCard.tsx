@@ -15,14 +15,15 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // helpers 🧰
 import {size} from 'react-native-responsive-sizes';
+import {advertStatusIndex} from 'helpers/advertStatusIndex';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 // Types 🏷
 import type {ListFlatApplicationCardProps} from './types';
-
-// Types
-import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import {applicationStatusIndex} from 'helpers/applicationStatusIndex';
+import {
+  LessorNavigatorScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from '../../../navigationStacks/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -34,23 +35,18 @@ const ListFlatApplicationCard = ({
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
-  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const navigation = useNavigation<
+    SearchScreenNavigationProp & LessorNavigatorScreenNavigationProp
+  >();
 
-  const [active] = useState(
-    !['offered', 'closed'].includes(application?.status ?? ''),
-  );
-  const [renterActiveStatus] = useState([
-    'Applied',
-    'In review',
-    'Viewing',
-    'Offer',
-  ]);
-  const [lessorActiveStatus] = useState([
-    'Received',
-    'Review',
-    'Viewing',
-    'Offer',
-  ]);
+  const active = isLessor
+    ? !['closed'].includes(advert?.status ?? '')
+    : ['active'].includes(application?.status ?? '') &&
+      !['closed'].includes(advert?.status ?? '');
+
+  const renterActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
+  const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
+
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
@@ -76,9 +72,11 @@ const ListFlatApplicationCard = ({
   };
 
   useEffect(() => {
-    const index = applicationStatusIndex(application?.status ?? '');
+    const index = active
+      ? advertStatusIndex(advert?.status ?? '')
+      : advertStatusIndex('offered');
     calculateStatusBar(index);
-  }, [application?.status]);
+  }, [advert?.status, application?.status, active]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
 
@@ -88,42 +86,36 @@ const ListFlatApplicationCard = ({
 
   return (
     <View style={styles.advertCardContainer}>
-      <View>
-        <View style={styles.advertCardImage}>
-          <LofftHeaderPhoto
-            imageContainerHeight={size(300)}
-            images={advert?.flat.photos ?? []}
-          />
-        </View>
-        <View style={styles.advertCardButtonsOverlay}>
-          <View style={styles.advertCardbuttonsWrap}>
-            {!isLessor && (
-              <View>
-                <Pressable
-                  style={styles.advertCardSaveButton}
-                  onPress={handleFavorite}>
-                  {advert?.favorite ? (
-                    <LofftIcon
-                      name="heart-filled"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  ) : (
-                    <LofftIcon
-                      name="heart"
-                      size={25}
-                      color={Color.Tomato[100]}
-                    />
-                  )}
-                </Pressable>
-              </View>
-            )}
-          </View>
+      <View style={styles.advertCardButtonsOverlay}>
+        <View style={styles.advertCardbuttonsWrap}>
+          {!isLessor && (
+            <Pressable onPress={handleFavorite}>
+              {advert?.favorite ? (
+                <LofftIcon
+                  name="heart-filled"
+                  size={25}
+                  color={Color.Tomato[100]}
+                />
+              ) : (
+                <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
+              )}
+            </Pressable>
+          )}
         </View>
       </View>
 
+      {/* flat image */}
+      <View style={styles.advertCardImage}>
+        <LofftHeaderPhoto
+          imageContainerHeight={size(300)}
+          images={advert?.flat.photos ?? []}
+        />
+      </View>
+
       <View style={styles.metaDataContainer}>
-        <Text style={[fontStyles.headerSmall]}>{advert?.monthlyRent} €</Text>
+        <Text style={[fontStyles.headerSmall]}>
+          {advert?.monthlyRent} {advert?.currency}
+        </Text>
         <Text style={[fontStyles.headerSmall]}>
           {advert?.flat.size} {advert?.flat.measurementUnit}
         </Text>
@@ -144,7 +136,7 @@ const ListFlatApplicationCard = ({
 
       <View style={styles.locationContainer}>
         {advert?.flat.district && (
-          <Text style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
+          <Text style={[fontStyles.bodySmall, styles.locationData]}>
             {advert?.flat.district}, {advert?.flat.city}
           </Text>
         )}
@@ -180,7 +172,7 @@ const ListFlatApplicationCard = ({
           {textForStatusBar.map(el => (
             <Text
               style={
-                el === textForStatusBar[activeStage]
+                el === textForStatusBar[activeStage] && active
                   ? styles.active
                   : styles.inactive
               }
@@ -193,9 +185,16 @@ const ListFlatApplicationCard = ({
 
       {isLessor ? (
         <View style={styles.buttonContainer}>
-          <CoreButton value="Edit listing" invert style={styles.button} />
+          <CoreButton
+            value="Edit listing"
+            textSize={fontStyles.headerExtraSmall}
+            textStyle={styles.textbutton}
+            invert
+            style={styles.button}
+          />
           <CoreButton
             value="See applicants"
+            textSize={fontStyles.headerExtraSmall}
             style={styles.button}
             onPress={() =>
               navigation.navigate('applicationshow', {
@@ -221,14 +220,7 @@ const ListFlatApplicationCard = ({
 
 const styles = StyleSheet.create({
   advertCardContainer: {
-    flex: 1,
     marginBottom: size(18),
-  },
-  advertCardImage: {
-    width: '100%',
-    overflow: 'hidden',
-    zIndex: 1,
-    borderRadius: 12,
   },
   advertCardButtonsOverlay: {
     position: 'absolute',
@@ -240,10 +232,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     padding: size(15),
   },
-  advertCardSaveButton: {
-    padding: size(10),
-    position: 'absolute',
-    right: 0,
+  advertCardImage: {
+    width: '100%',
+    overflow: 'hidden',
+    zIndex: 1,
+    borderRadius: 12,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -255,6 +248,10 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: size(183),
     height: size(48),
+    paddingHorizontal: size(10),
+  },
+  textbutton: {
+    color: Color.Lavendar[100],
   },
   metaDataContainer: {
     display: 'flex',
@@ -263,10 +260,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: size(10),
   },
-  flatLocation: {
-    color: Color.Black['50'],
-    margin: 0,
+  locationData: {
+    color: Color.Black[50],
   },
+  locationContainer: {
+    marginTop: size(5),
+    marginBottom: size(10),
+  },
+
   progressBarOutline: {
     flex: 1,
     padding: size(6),
@@ -298,13 +299,6 @@ const styles = StyleSheet.create({
     color: Color.Tomato[100],
     marginTop: size(2),
     marginLeft: size(7),
-  },
-  flatCardMetadataLocation: {
-    color: Color.Black[50],
-  },
-  locationContainer: {
-    marginTop: size(5),
-    marginBottom: size(10),
   },
 });
 

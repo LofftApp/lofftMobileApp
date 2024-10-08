@@ -21,6 +21,7 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷️
 import type {UserState} from 'reduxFeatures/user/types';
@@ -36,14 +37,25 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
-  const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
-    advert.flat.characteristics ?? [],
-  );
-  const featuresTags = tagSorter(
+  // const characteristicsTags = tagSorter(
+  //   currentUser.profile.characteristics ?? [],
+  //   advert.flat.characteristics ?? [],
+  // );
+  // const featuresTags = tagSorter(
+  //   currentUser.filter ?? [],
+  //   advert.flat.features,
+  // );
+  // const positiveFeatures = featuresTags.positiveTags;
+  // const positiveChars = characteristicsTags.positiveTags;
+
+  const positiveFeatures = matchMaker(
     currentUser.filter ?? [],
     advert.flat.features,
-  );
+  )[0];
+  const positiveChars = matchMaker(
+    currentUser.profile.characteristics ?? [],
+    advert.flat.characteristics ?? [],
+  )[0];
 
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);
@@ -51,60 +63,54 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 
   return (
     <View style={styles.flatCardContainer}>
+      {/* favorite button /> */}
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          {advert.matchScore && (
-            <View>
-              <Pressable onPress={handleFavorite}>
-                {advert.favorite ? (
-                  <LofftIcon
-                    name="heart-filled"
-                    size={25}
-                    color={Color.Tomato[100]}
-                  />
-                ) : (
-                  <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
-                )}
-              </Pressable>
-            </View>
-          )}
+          <Pressable onPress={handleFavorite}>
+            {advert.favorite ? (
+              <LofftIcon
+                name="heart-filled"
+                size={25}
+                color={Color.Tomato[100]}
+              />
+            ) : (
+              <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
+            )}
+          </Pressable>
         </View>
       </View>
+      {/* flat image */}
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
           images={advert.flat.photos ?? []}
         />
       </View>
-      <View style={styles.flatCardInfoWrap}>
-        <View style={styles.flatCardMetadataWrap}>
-          <View style={styles.apartmentLocationInfo}>
-            <View style={styles.apartmentMonthlyRentSize}>
-              <Text style={[fontStyles.headerSmall]}>
-                {advert.monthlyRent} €
-              </Text>
-              <Text style={[fontStyles.headerSmall]}>
-                {advert.flat.size} {advert.flat.measurementUnit}
-              </Text>
-            </View>
-
-            <MatchingScoreButton size="Big" score={advert.matchScore ?? 5} />
-          </View>
-          {advert.flat.district && (
-            <Text
-              style={[fontStyles.bodySmall, styles.flatCardMetadataLocation]}>
-              {advert.flat.district}, {advert.flat.city}
+      <View style={styles.flatCardInfoContainer}>
+        <View style={styles.flatDetailsContainer}>
+          <View style={styles.flatMonthlyRentSizeContainer}>
+            <Text style={[fontStyles.headerSmall]}>{advert.monthlyRent} €</Text>
+            <Text style={[fontStyles.headerSmall]}>
+              {advert.flat.size} {advert.flat.measurementUnit}
             </Text>
-          )}
+          </View>
+
+          <MatchingScoreButton size="Big" score={advert.matchScore ?? 5} />
         </View>
+        {advert.flat.district && (
+          <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
+            {advert.flat.district}, {advert.flat.city}
+          </Text>
+        )}
+
         <View style={styles.chipContainer}>
-          <Chips tags={featuresTags.positiveTags} features={true} />
-          <Chips tags={characteristicsTags.positiveTags} features={false} />
+          <Chips tags={positiveFeatures} features={true} />
+          <Chips tags={positiveChars} features={false} />
         </View>
       </View>
       <CoreButton
         value="View flat"
-        onPress={() => navigation.navigate('flatShow', {id: advert.id})}
+        onPress={() => navigation.navigate('flatShow', {advertId: advert.id})}
       />
     </View>
   );
@@ -113,12 +119,6 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 const styles = StyleSheet.create({
   flatCardContainer: {
     marginBottom: size(18),
-  },
-  flatCardImage: {
-    width: '100%',
-    overflow: 'hidden',
-    zIndex: 1,
-    borderRadius: 12,
   },
   flatCardButtonsOverlay: {
     position: 'absolute',
@@ -130,24 +130,27 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     padding: size(15),
   },
-  flatCardInfoWrap: {
-    padding: size(8),
+  flatCardImage: {
+    width: '100%',
+    overflow: 'hidden',
+    zIndex: 1,
+    borderRadius: 12,
   },
-  flatCardMetadataWrap: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+  flatCardInfoContainer: {
+    paddingVertical: size(8),
   },
-  apartmentLocationInfo: {
+
+  flatDetailsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  apartmentMonthlyRentSize: {
+  flatMonthlyRentSizeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(20),
   },
-  flatCardMetadataLocation: {
+  flatLocation: {
     color: Color.Black[50],
   },
   chipContainer: {

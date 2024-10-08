@@ -1,9 +1,12 @@
 /* React Stuff */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
 
-/* Redux Api Calls etc */
-import {getSpecificUserProfile} from 'reduxFeatures/user/usersMiddleware';
+/* Redux ß*/
+import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {useGetSpecificUserQuery} from 'reduxFeatures/user/userApi';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {toggleRound2} from 'reduxFeatures/applications/applicationSlice';
 
 /* Components */
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
@@ -11,18 +14,25 @@ import HighlightButtons from 'components/containers/HighlightButtons';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 import {CoreButton} from 'components/buttons/CoreButton';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import Collapsible from 'react-native-collapsible';
+import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 /* Helpers */
 import {matchMaker} from 'helpers/matchMaker';
 import {capitalize} from 'helpers/capitalize';
+import {size} from 'react-native-responsive-sizes';
+import {tagSorter} from 'helpers/tagSorter';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 /* Styles */
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
-import {size} from 'react-native-responsive-sizes';
 
 const images = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -32,98 +42,215 @@ const images = [
 ];
 
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
-  const {
-    applicantName,
-    handleClickCheckbox,
-    secondRoundProfile,
-    currentAdvert,
-  } = route.params;
+  const {advertId, applicantId, applicationId} = route.params;
 
-  const {characteristics: flatChars} = currentAdvert.flat;
-  const {secondRoundSelected, id: applicantId} = secondRoundProfile;
+  const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
 
-  const [profileDetails, setProfileDetails] = useState({});
-  const [profileChars, setProfileChars] = useState([]);
-  const [buttonClicked, setButtonClicked] = useState(secondRoundSelected);
-  // This has been updated to fix issue with TS, and should now be reviewed
+  const dispatch = useAppDispatch();
 
-  const matches =
-    flatChars && profileChars ? matchMaker(flatChars, profileChars)[0] : [];
-  const noMatches =
-    flatChars && profileChars ? matchMaker(flatChars, profileChars)[1] : [];
+  const application = useAppSelector(state =>
+    state.applications.applicationsRound2.find(app => app.id === applicationId),
+  );
+  const {data: user, isLoading, error} = useGetSpecificUserQuery(applicantId);
 
-  // Not working 👇
-  useEffect(() => {
-    const apiCallToRetriveUser = getSpecificUserProfile(applicantId ?? 1);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [matchExpand, setMatchExpand] = useState(false);
+  const [otherExpand, setOtherExpand] = useState(false);
 
-    apiCallToRetriveUser.then((result: any) => {
-      setProfileDetails(result.data.profile_details);
-      setProfileChars(result.data.profile_characteristics);
-    });
-  }, [applicantId]);
+  if (!advert || !user) {
+    return null;
+  }
 
-  const handleButtonClicked = () => {
-    setButtonClicked(!buttonClicked);
-    handleClickCheckbox();
+  const featuresTags = tagSorter(
+    user.filter ?? [],
+    advert?.flat.features ?? [],
+  );
+
+  const positiveFeaturesTags = featuresTags.positiveTags;
+  const negativeFeaturesTags = featuresTags.negativeTags;
+
+  const charTags = tagSorter(
+    user.profile.characteristics ?? [],
+    advert.flat.characteristics,
+  );
+  const positiveCharTags = charTags.positiveTags;
+  const negativeCharTags = charTags.negativeTags;
+
+  // const positiveFeaturesTags = matchMaker(
+  //   user.filter ?? [],
+  //   advert?.flat.features ?? [],
+  // )[0];
+  // const negativeFeaturesTags = matchMaker(
+  //   user.filter ?? [],
+  //   advert?.flat.features ?? [],
+  // )[1];
+
+  // const positiveCharTags = matchMaker(
+  //   user.profile.characteristics ?? [],
+  //   advert.flat.characteristics,
+  // )[0];
+  // const negativeCharTags = matchMaker(
+  //   user.profile.characteristics ?? [],
+  //   advert.flat.characteristics,
+  // )[1];
+
+  const selectApplication = (id: number) => {
+    dispatch(toggleRound2(id));
   };
 
+  const toggleMatchExpand = () => {
+    setMatchExpand(prev => !prev);
+  };
+  const toggleDescriptionExpand = () => {
+    setDescriptionExpanded(prev => !prev);
+  };
+
+  const toggleOtherExpand = () => {
+    setOtherExpand(prev => !prev);
+  };
+
+  const maxDescriptionLength = 250;
+  const truncatedDescription = truncateTextAtWord(
+    user.profile.description ?? '',
+    maxDescriptionLength,
+  );
+  const hiddenDescription = user.profile.description?.slice(
+    truncatedDescription.length,
+  );
+  const isTruncated =
+    user.profile.description &&
+    user.profile.description?.length > truncatedDescription.length;
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return (
+      <NotFoundComponent backButton message="We could not find the applicant" />
+    );
+  }
+
   return (
-    <View style={styles.container}>
+    <View style={CoreStyleSheet.showContainer}>
       <View>
-        <LofftHeaderPhoto images={images} imageContainerHeight={400} />
+        <LofftHeaderPhoto images={images} imageContainerHeight={size(350)} />
         <HighlightButtons heartPresent={false} />
       </View>
-      <ScrollView>
-        <View style={styles.contentContainer}>
-          <View style={styles.infoA}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={CoreStyleSheet.screenContainer}>
+          <View style={styles.nameAgeContainer}>
             <Text style={fontStyles.headerMedium}>
-              {capitalize(applicantName)}
+              {capitalize(user.profile.firstName ?? '')}{' '}
+              {capitalize(user.profile.lastName ?? '')}
             </Text>
-            <Text style={{color: Color.Black[80]}}>28 years old</Text>
+            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[80]}]}>
+              {user.profile.age} years old
+            </Text>
           </View>
 
-          <View style={styles.infoB}>
+          <View style={styles.timeContainer}>
             <LofftIcon name="calendar" size={25} color={Color.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.calendarText]}>
               From: 25/12/22 - unlimited
             </Text>
           </View>
 
-          <View style={styles.infoC}>
+          <View style={styles.languageContainer}>
             <LofftIcon name="translate" size={25} color={Color.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.translateText]}>
               English, German, Arabic
             </Text>
           </View>
 
-          <View>
-            <Text style={[fontStyles.bodySmall, {color: Color.Black[80]}]}>
-              {/* will display when apiCallToRetriveUser is fixed  */}
-              {/* {profileDetails.description} */}
+          <View style={styles.descriptionContainer}>
+            <Text style={{color: Color.Black[80]}}>
+              {truncatedDescription}
+              {!descriptionExpanded && isTruncated && '...'}
             </Text>
+
+            {isTruncated && (
+              <Collapsible collapsed={!descriptionExpanded} duration={300}>
+                <Text style={{color: Color.Black[80]}}>
+                  {hiddenDescription}
+                </Text>
+              </Collapsible>
+            )}
+
+            {user.profile?.description &&
+              user.profile?.description.length > maxDescriptionLength && (
+                <CoreButton
+                  value={descriptionExpanded ? 'Read Less' : 'Read More'}
+                  style={styles.readMoreButton}
+                  textStyle={[
+                    fontStyles.headerSmall,
+                    {color: Color.Lavendar[100]},
+                  ]}
+                  invert
+                  disabled={false}
+                  onPress={toggleDescriptionExpand}
+                />
+              )}
           </View>
 
-          <Text style={[fontStyles.headerMedium, styles.matchText]}>
-            Match with you
-          </Text>
-          <Chips tags={matches} features={true} emoji />
+          {/* Match with you */}
+          <View style={styles.chipsContainer}>
+            <Text style={fontStyles.headerSmall}>Match with you</Text>
 
-          <Text style={[fontStyles.headerMedium, styles.differencesText]}>
-            Differences
-          </Text>
-          <Chips tags={noMatches} features={true} emoji />
+            <SeeMoreButton
+              collapsed={matchExpand}
+              toggleExpand={toggleMatchExpand}
+            />
+          </View>
 
-          {/* {profileChars.map((el, index) => <Text key={index}>{el.name}</Text>)} */}
+          <View style={styles.matchWithYouContainer}>
+            <Chips
+              tags={positiveFeaturesTags}
+              features={true}
+              emoji
+              expand={matchExpand}
+            />
+            <Chips
+              tags={positiveCharTags}
+              features={false}
+              emoji
+              expand={matchExpand}
+            />
+          </View>
+
+          {/* Other */}
+          <View style={styles.chipsContainer}>
+            <Text style={fontStyles.headerSmall}>Other</Text>
+            <SeeMoreButton
+              collapsed={otherExpand}
+              toggleExpand={toggleOtherExpand}
+            />
+          </View>
+
+          <View style={styles.matchWithYouContainer}>
+            <Chips
+              tags={negativeFeaturesTags}
+              features={true}
+              emoji
+              expand={matchExpand}
+            />
+            <Chips
+              tags={negativeCharTags}
+              features={false}
+              emoji
+              expand={otherExpand}
+            />
+          </View>
         </View>
       </ScrollView>
       <View style={styles.centerButtonContainer}>
         <CoreButton
-          value={buttonClicked ? 'Selected !' : '+ Add to selection'}
+          value={application?.round2 ? 'Selected !' : '+ Add to selection'}
           style={[
-            styles.customCoreButtonStyle,
-            buttonClicked ? styles.selected : null,
+            styles.selectedButton,
+            application?.round2 && styles.selected,
           ]}
-          onPress={() => handleButtonClicked()}
+          onPress={() => selectApplication(applicationId)}
         />
       </View>
     </View>
@@ -135,25 +262,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  userImage: {
+
+  nameAgeContainer: {
     width: '100%',
-    height: size(400),
-  },
-  contentContainer: {
-    padding: size(12),
-  },
-  infoA: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
-  infoB: {
+  timeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: size(10),
     paddingTop: size(10),
   },
-  infoC: {
+  languageContainer: {
     paddingBottom: size(20),
     flexDirection: 'row',
   },
@@ -161,9 +284,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    bottom: 5,
+    paddingTop: size(20),
+    paddingBottom: size(10),
   },
-  customCoreButtonStyle: {
+  descriptionContainer: {
+    paddingHorizontal: size(10),
+  },
+  descriptionText: {
+    color: Color.Black[80],
+  },
+  chipsContainer: {
+    marginTop: size(23),
+    marginBottom: size(5),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  matchWithYouContainer: {
+    marginTop: size(10),
+  },
+
+  selectedButton: {
     width: '94%',
     margin: 0,
   },
@@ -173,8 +314,10 @@ const styles = StyleSheet.create({
   },
   calendarText: {color: Color.Black[100], paddingLeft: size(10)},
   translateText: {color: Color.Black[100], paddingLeft: size(10)},
-  matchText: {color: Color.Black[100], paddingTop: size(20)},
-  differencesText: {color: Color.Black[100], paddingTop: size(10)},
+
+  readMoreButton: {
+    marginTop: size(20),
+  },
 });
 
 export default ApplicantProfileScreen;

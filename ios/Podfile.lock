@@ -1537,7 +1537,7 @@ PODS:
     - React-utils (= 0.75.3)
   - RNCAsyncStorage (1.24.0):
     - React-Core
-  - RNGestureHandler (2.19.0):
+  - RNGestureHandler (2.20.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1925,7 +1925,7 @@ SPEC CHECKSUMS:
   ReactCodegen: ff95a93d5ab5d9b2551571886271478eaa168565
   ReactCommon: 289214026502e6a93484f4a46bcc0efa4f3f2864
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
-  RNGestureHandler: 3b6fa2bfa341c413d3d08444b838515b58e48ee7
+  RNGestureHandler: 6dfe7692a191ee224748964127114edf057a1475
   rnmapbox-maps: 86b215fe77632a897b34a2dbf0c3ad4e9e8c3570
   RNScreens: 19719a9c326e925498ac3b2d35c4e50fe87afc06
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
@@ -1936,4 +1936,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 168de355cac62c0a967d060b7e60d51456cdb178
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.0

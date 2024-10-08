@@ -17,6 +17,8 @@ type HeaderPageContentSwitchProps = {
 type CoreButtonProps = {
   value: string;
   invert?: boolean;
+  icon?: JSX.Element;
+  textSize?: TextStyle;
   style?: StyleProp<ViewStyle>;
   textStyle?: TextStyle | TextStyle[] | null;
   onPress?: (event: GestureResponderEvent) => void;
@@ -29,6 +31,8 @@ type ChipsProps = {
   features?: boolean;
   expand?: boolean;
   xs?: boolean;
+  whiteBg?: boolean;
+  open?: boolean;
 };
 
 type FilterButtonProps = {
@@ -46,6 +50,12 @@ type BackButtonProps = {
   close?: boolean;
   style?: StyleProp<ViewStyle>;
   neutral?: boolean;
+  absolute?: boolean;
+};
+
+type SeeMoreButtonProps = {
+  collapsed: boolean;
+  toggleExpand: () => void;
 };
 
 export type {
@@ -55,4 +65,5 @@ export type {
   FilterButtonProps,
   MatchingScoreButtonProps,
   BackButtonProps,
+  SeeMoreButtonProps,
 };

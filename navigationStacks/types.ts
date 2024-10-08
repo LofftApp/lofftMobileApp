@@ -1,17 +1,12 @@
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
-import type {Advert} from 'reduxFeatures/adverts/types';
-import {
-  AdvertApplicantWithSelected,
-  SecondRoundApplicantWithSelected,
-} from 'screens/dashboard/landlord/SubScreens/types';
 
 // Renter Navigator Stack
 
 type RootTabParamsList = {
   search: undefined;
-  favorite: undefined;
+  application: undefined;
   alerts: undefined;
   user: undefined;
   admin: undefined;
@@ -28,8 +23,9 @@ type newUserNavigationParamsList = {
   dashboard: undefined;
 };
 
-type FavoriteStackParamsList = {
-  favorite: undefined;
+type ApplicationStackParamsList = {
+  application: undefined;
+  applicationsList: undefined;
   applicationshow: {id: number};
   chat: undefined;
 };
@@ -41,15 +37,14 @@ type LanguageStackParamsList = {
 type SearchStackParamsList = {
   search: undefined;
   flatOverview: undefined;
-  flatShow: {id: number};
-  applyforflat: {id: number};
-  applicationshow: {id: number};
-  chat: undefined;
+  flatShow: {advertId: number};
+  applyforflat: undefined;
+  applications: {screen: 'applicationsList'};
 };
 
-type FavoriteScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<RootTabParamsList, 'favorite'>,
-  StackNavigationProp<FavoriteStackParamsList>
+type ApplicationScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamsList, 'application'>,
+  StackNavigationProp<ApplicationStackParamsList>
 >;
 
 type SearchScreenNavigationProp = CompositeNavigationProp<
@@ -74,16 +69,19 @@ type LessorNavigatorStackParamsList = {
   LessorIndex: undefined;
   LessorAction: undefined;
   applicationshow: {id: number};
-  allApplicants: {id: number};
-  shortlist: {
-    secondRoundApplicants: AdvertApplicantWithSelected[];
-    currentAdvert: Advert;
+  seeApplicants: {advertId: number};
+  seeProfiles: {
+    advertId: number;
+  };
+  selectionConfirmed: {
+    advertId: number;
+    round1?: boolean;
+    round2?: boolean;
   };
   ApplicantProfile: {
-    applicantName: string | undefined;
-    handleClickCheckbox: () => void;
-    secondRoundProfile: SecondRoundApplicantWithSelected;
-    currentAdvert: Advert;
+    advertId: number;
+    applicantId: number;
+    applicationId: number;
   };
   chat: undefined;
 };
@@ -103,10 +101,9 @@ type NewUserJourneyStackNavigation =
 
 export type {
   RootTabParamsList,
-  FavoriteStackParamsList,
+  ApplicationStackParamsList,
   SearchStackParamsList,
-  FavoriteScreenNavigationProp,
-  LanguageScreenNavigationProp,
+  ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
   LessorTabParamsList,
   LessorNavigatorStackParamsList,

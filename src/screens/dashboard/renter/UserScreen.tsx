@@ -12,8 +12,12 @@ import {fontStyles} from 'styleSheets/fontStyles';
 const UserScreen = () => {
   const dispatch = useAppDispatch();
 
-  const userCredits = useAppSelector(state => state.user.user.credits);
+  const userCredits = useAppSelector(state => {
+    console.log('state.user.user.credits', state.user.user);
+    return state.user.user.credits;
+  });
 
+  console.log('userCredits', userCredits);
   return (
     <View style={styles.userScreenContainer}>
       <Text>Hi from User Screen 👋</Text>
