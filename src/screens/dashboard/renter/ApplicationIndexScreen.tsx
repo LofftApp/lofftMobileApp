@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
+
 import {useGetApplicationsQuery} from 'reduxFeatures/applications/applicationApi';
 
 // Screens 📺
@@ -19,9 +19,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {applicationPartition} from 'helpers/applicationsPartition';
 
 const ApplicationIndexScreen = () => {
-  const currentUser = useAppSelector(state => state.user.user);
-  const userType = currentUser.userType;
-
   const {data: applications, isError, isLoading} = useGetApplicationsQuery();
 
   const [screen, setScreen] = useState('thumbs-up');
