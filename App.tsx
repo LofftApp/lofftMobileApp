@@ -34,7 +34,7 @@ import {createSelector} from '@reduxjs/toolkit';
 const RootStack = createNativeStackNavigator();
 
 // Remove ErrorBoundary in production
-import ErrorBoundary from './src/ErrorBoundary';
+// import ErrorBoundary from './src/ErrorBoundary';
 
 const App = () => {
   // Define selectors
@@ -83,9 +83,8 @@ const App = () => {
   useEffect(() => {
     if (__DEV__) {
       console.log('Lofft API Development Environment');
-      let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '127.0.0.1';
+      const host = 'localhost';
       console.log(
         host === 'localhost'
           ? 'Host running on local host'
@@ -125,7 +124,7 @@ export default () => {
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
       {/* <ErrorBoundary> */}
-        <App />
+      <App />
       {/* </ErrorBoundary> */}
     </NavigationContainer>
   );

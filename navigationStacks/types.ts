@@ -30,9 +30,9 @@ type ApplicationStackParamsList = {
   chat: undefined;
 };
 
-type LanguageStackParamsList = {
-  indexSigniture: undefined;
-};
+// type LanguageStackParamsList = {
+//   indexSigniture: undefined;
+// };
 
 type SearchStackParamsList = {
   search: undefined;
@@ -52,11 +52,20 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<SearchStackParamsList>
 >;
 
-type LanguageScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<RootTabParamsList, 'language'>,
-  StackNavigationProp<LanguageStackParamsList>
->;
+// type LanguageScreenNavigationProp = CompositeNavigationProp<
+//   BottomTabNavigationProp<RootTabParamsList, 'language'>,
+//   StackNavigationProp<LanguageStackParamsList>
+// >;
 // Lessor Navigator Stack
+
+type RootTabParamList = {
+  search: undefined;
+  application: undefined;
+  alerts: undefined;
+  user: undefined;
+  Ello: undefined;
+  admin: undefined;
+};
 
 type LessorTabParamsList = {
   lessorIndex: undefined;
@@ -105,6 +114,7 @@ export type {
   SearchStackParamsList,
   ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
+  RootTabParamList,
   LessorTabParamsList,
   LessorNavigatorStackParamsList,
   LessorNavigatorScreenNavigationProp,

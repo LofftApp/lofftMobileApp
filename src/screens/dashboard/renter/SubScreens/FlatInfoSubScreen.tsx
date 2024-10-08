@@ -21,7 +21,6 @@ import Collapsible from 'react-native-collapsible';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
-import {tagSorter} from 'helpers/tagSorter';
 import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷

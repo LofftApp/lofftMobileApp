@@ -20,7 +20,6 @@ import Collapsible from 'react-native-collapsible';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 /* Helpers */
-import {matchMaker} from 'helpers/matchMaker';
 import {capitalize} from 'helpers/capitalize';
 import {size} from 'react-native-responsive-sizes';
 import {tagSorter} from 'helpers/tagSorter';

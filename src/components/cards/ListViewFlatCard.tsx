@@ -20,7 +20,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 // Helpers
-import {tagSorter} from 'helpers/tagSorter';
+// import {tagSorter} from 'helpers/tagSorter';
 import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷️

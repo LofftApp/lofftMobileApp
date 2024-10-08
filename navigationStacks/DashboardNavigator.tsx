@@ -1,11 +1,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {RouteProp} from '@react-navigation/native';
+import {RootTabParamList} from './types';
 
 // Redux 🏪
 import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import {tabIcons} from './tabIcons';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -15,39 +17,46 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
 import UserScreen from 'screens/dashboard/renter/UserScreen';
-// import SavedListingsScreen from 'screens/dashboard/renter/SavedScreens/SavedListingsScreen'; Commented out because it is not used
 import AdminScreen from 'screens/admin/adminScreen';
 import TempScreen from 'screens/dashboard/renter/TempScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+const tabBarIcons = ({
+  route,
+  color,
+}: {
+  route: RouteProp<RootTabParamList, keyof RootTabParamList>;
+  color: string;
+}) => {
+  let iconName = 'settings';
+  switch (route.name) {
+    case 'search':
+      iconName = 'search-sm';
+      break;
+    case 'application':
+      iconName = 'list';
+      break;
+    case 'alerts':
+      iconName = 'heart';
+      break;
+    case 'user':
+      iconName = 'user';
+      break;
+    case 'admin':
+      iconName = 'gaming-pad';
+      break;
+  }
+  return <LofftIcon name={iconName} size={25} color={color} />;
+};
 
 const DashboardNavigator = () => {
   const admin = useAppSelector(state => state.user.user.admin);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
-          let iconName = 'settings';
-          switch (route.name) {
-            case 'search':
-              iconName = 'search-sm';
-              break;
-            case 'application':
-              iconName = 'list';
-              break;
-            case 'alerts':
-              iconName = 'heart';
-              break;
-            case 'user':
-              iconName = 'user';
-              break;
-            case 'admin':
-              iconName = 'gaming-pad';
-              break;
-          }
-          return <LofftIcon name={iconName} size={25} color={color} />;
-        },
+        tabBarIcon: ({color}) => tabBarIcons({route, color}),
         tabBarActiveTintColor: Color.Lavendar[100],
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,

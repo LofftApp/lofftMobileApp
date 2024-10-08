@@ -24,7 +24,6 @@ import Chips from 'components/buttons/Chips';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
-import {tagSorter} from 'helpers/tagSorter';
 import {matchMaker} from 'helpers/matchMaker';
 
 // Constants
