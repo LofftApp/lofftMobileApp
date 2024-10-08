@@ -151,11 +151,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton absolute onPress={navigation.goBack} />
-      <View style={CoreStyleSheet.headerContainer}>
-        <Text style={fontStyles.headerSmall}>Applicants</Text>
-      </View>
-
+      <BackButton close title="Applicants" onPress={navigation.goBack} />
       <View style={styles.screenContainer}>
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
