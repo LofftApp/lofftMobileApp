@@ -27,6 +27,7 @@ interface AdvertCharacteristics {
 }
 
 interface AdvertFeatures {
+  id: number;
   emoji: string;
   name: string;
 }
@@ -61,6 +62,11 @@ interface Advert {
   lessor: boolean;
   flat: AdvertFlat;
   applicants?: AdvertApplicant[];
+}
+
+interface AdvertsAndFeatures {
+  adverts: Advert[];
+  allFlatFeaturesFromDb: AdvertFeatures[];
 }
 
 interface AdvertWithApplications extends Advert {
@@ -118,6 +124,11 @@ interface IncomingAdvert {
   applicants?: IncomingAdvertApplicant[];
 }
 
+interface IncomingAdvertAndFeatures {
+  adverts: IncomingAdvert[];
+  all_flat_features_from_db: AdvertFeatures[];
+}
+
 interface IncomingAdvertWithApplications extends IncomingAdvert {
   applications: IncomingApplication[];
   applicants: IncomingAdvertApplicant[];
@@ -136,10 +147,12 @@ export type {
   AdvertUser,
   AdvertApplicant,
   AdvertWithApplications,
+  AdvertsAndFeatures,
   IncomingAdverts,
   IncomingAdvert,
   IncomingAdvertFlat,
   IncomingAdvertUser,
+  IncomingAdvertAndFeatures,
   IncomingAdvertApplicant,
   IncomingAdvertWithApplications,
 };
