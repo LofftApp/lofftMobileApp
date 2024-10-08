@@ -7,7 +7,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 // Components 🪢
 import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import SelectionButton from 'components/buttons/SelectionButton';
 import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
 
 // StylesSheet 🖼️
@@ -37,7 +37,7 @@ const AboutYouFlatHuntScreen = () => {
   const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
   const [alertTriger] = useState(false);
 
-  const selectedEmojis = (id: number) => {
+  const selectFn = (id: number) => {
     const targets = [];
     const preSeleted = intitalpreferencesArray.map(element => {
       if (element.id === id) {
@@ -61,13 +61,13 @@ const AboutYouFlatHuntScreen = () => {
     (emojiElement, index: number) => {
       const {value, emoji, id, toggle} = emojiElement;
       return (
-        <EmojiIcon
+        <SelectionButton
           key={index + 1}
           id={id}
           emojiIcon={emoji}
           value={value}
           toggle={toggle}
-          selectedEmojis={selectedEmojis}
+          selectFn={selectFn}
           disabled={
             selectedTracks.length === 10 &&
             !selectedTracks.includes(emojiElement)

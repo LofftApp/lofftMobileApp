@@ -33,11 +33,7 @@ const BackButton = ({
         ]}>
         {title}
       </Text>
-      <Pressable
-        onPress={() => {
-          console.log('onPress clicked', onPress);
-          onPress();
-        }}>
+      <Pressable onPress={onPress}>
         {close ? (
           <LofftIcon
             name="x-close"
@@ -58,6 +54,7 @@ const BackButton = ({
 
 const styles = StyleSheet.create({
   headerContainer: {
+    marginLeft: size(5),
     maxHeight: height(75),
     flexDirection: 'row-reverse',
     alignItems: 'center',
@@ -72,21 +69,23 @@ const styles = StyleSheet.create({
   },
 
   headerContainClose: {
+    marginTop: size(5),
+    marginRight: size(5),
+    maxHeight: height(75),
     flexDirection: 'row',
-    alignContent: 'flex-end',
-    right: size(12),
-    top: size(6),
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   header: {
     flex: 1,
-    // marginLeft: size(-48),
-    left: size(22),
+    marginRight: size(40),
     textAlign: 'center',
   },
   headerRight: {
-    // marginLeft: 0,
-    // marginRight: size(-48),
+    flex: 1,
+    marginLeft: size(77),
+    textAlign: 'center',
   },
   neutral: {
     backgroundColor: Color.White[50],
