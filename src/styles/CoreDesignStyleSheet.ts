@@ -34,8 +34,7 @@ export const CoreStyleSheet = StyleSheet.create({
   },
   safeAreaViewShowContainer: {
     backgroundColor: Color.White[100],
-    flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
     height: '100%',
   },
   showContainer: {

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Modal, SafeAreaView} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {height, size} from 'react-native-responsive-sizes';
 
@@ -161,7 +161,7 @@ const SearchFilterModal = ({
 
   return (
     <Modal visible={openModal} animationType="fade">
-      <View style={styles.mainContainer}>
+      <SafeAreaView style={styles.mainContainer}>
         <View style={styles.filterHeight}>
           <BackButton title="Filters" onPress={toggleModal} />
         </View>
@@ -261,7 +261,7 @@ const SearchFilterModal = ({
             textSize={fontStyles.headerExtraSmall}
           />
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };
@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
     marginVertical: size(65),
     height: '100%',
     paddingHorizontal: size(16),
+    
   },
   priceRangeContainer: {
     paddingVertical: size(20),

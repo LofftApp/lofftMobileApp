@@ -16,6 +16,9 @@ const ListFlatApplicationComponent = ({
   adverts,
   isLessor,
 }: ListFlatApplicationComponentProps) => {
+  console.log('applications', applications);
+  console.log('adverts', adverts);
+  console.log('isLessor', isLessor);
   if (
     (!applications || applications.length === 0) &&
     (!adverts || adverts.length === 0)

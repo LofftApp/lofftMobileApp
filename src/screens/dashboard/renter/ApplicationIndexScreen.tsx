@@ -28,7 +28,7 @@ const ApplicationIndexScreen = () => {
   const userType = currentUser.userType;
 
   const {data: applications, error, isLoading} = useGetApplicationsQuery();
-  console.log('applications', applications);
+  console.log('applications in Application Index Screen', applications);
 
   const [screen, setScreen] = useState('thumbs-up');
 

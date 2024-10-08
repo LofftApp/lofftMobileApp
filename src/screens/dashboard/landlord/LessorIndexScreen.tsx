@@ -25,7 +25,8 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types
 
 const LessorIndexScreen = () => {
-  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
+  const {data, error, isLoading} = useGetAdvertsQuery(undefined);
+  const adverts = data?.adverts;
 
   if (isLoading) {
     return <LoadingComponent />;
