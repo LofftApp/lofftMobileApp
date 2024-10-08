@@ -19,7 +19,9 @@ function NotFoundComponent({message, backButton}: NotFoundComponentProps) {
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       {backButton && <BackButton onPress={navigation.goBack} />}
       <View style={styles.ErrorContainer}>
-        <Text style={fontStyles.headerSmall}>{message}</Text>
+        <Text style={[fontStyles.headerSmall, styles.textAlign]}>
+          {message}
+        </Text>
         {backButton && (
           <CoreButton value="Go back" onPress={navigation.goBack} />
         )}
@@ -35,6 +37,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: size(16),
     gap: size(16),
+    textAlign: 'center',
+  },
+  textAlign: {
+    textAlign: 'center',
   },
 });
 

@@ -1,5 +1,4 @@
 import {Advert} from 'reduxFeatures/adverts/types';
-import type {SearchScreenNavigationProp} from '../../../../../navigationStacks/types';
 import {Application} from 'reduxFeatures/applications/types';
 
 type ListFlatApplicationComponentProps = {
@@ -9,7 +8,9 @@ type ListFlatApplicationComponentProps = {
 };
 
 type FlatListSubScreenProps = {
-  navigation: SearchScreenNavigationProp;
+  adverts: Advert[];
+  isError: boolean;
+  isLoading: boolean;
 };
 
 export type {ListFlatApplicationComponentProps, FlatListSubScreenProps};

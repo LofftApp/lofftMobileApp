@@ -16,8 +16,6 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -30,14 +28,10 @@ const FlatFindScreen = () => {
     undefined,
   );
 
-  const {data, isLoading, error, isError, isSuccess} = useGetAdvertsQuery(
-    searchTerm,
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const {data, isLoading, isError, isSuccess} = useGetAdvertsQuery(searchTerm, {
+    refetchOnMountOrArgChange: true,
+  });
   const adverts = data?.adverts;
-  console.log('adverts', adverts);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -50,19 +44,6 @@ const FlatFindScreen = () => {
   const toggleModal = () => {
     setOpenModal(prev => !prev);
   };
-
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
-
-  // if (error) {
-  //   return (
-  //     <NotFoundComponent
-  //       backButton
-  //       message="There was an error getting flats"
-  //     />
-  //   );
-  // }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
@@ -87,7 +68,11 @@ const FlatFindScreen = () => {
       />
       {screen === 'list' ? (
         <View style={CoreStyleSheet.screenContainer}>
-          <FlatListSubScreen adverts={adverts ?? []} />
+          <FlatListSubScreen
+            adverts={adverts ?? []}
+            isError={isError}
+            isLoading={isLoading}
+          />
         </View>
       ) : (
         <View style={styles.mapContainer}>

@@ -45,6 +45,7 @@ const SearchFilterModal = ({
   const [maxPrice, setMaxPrice] = useState(initialMaxPrice);
   const [, setMinFocus] = useState(false);
   const [, setMaxFocus] = useState(false);
+
   const featuresWithSelected = useCallback(
     () =>
       initialFeatures.map(element => ({
@@ -54,12 +55,11 @@ const SearchFilterModal = ({
     [initialFeatures],
   );
 
+  const [featuresState, setFeaturesState] = useState<FeaturesState[]>([]);
+
   const [selectedFeatures, setSelectedFeatures] = useState<AdvertFeatures[]>(
     [],
   );
-  console.log('selectedFeatures', selectedFeatures);
-  const [featuresState, setFeaturesState] = useState<FeaturesState[]>([]);
-  console.log('featuresState', featuresState);
 
   useEffect(() => {
     setFeaturesState(featuresWithSelected);
@@ -77,8 +77,6 @@ const SearchFilterModal = ({
       minPrice,
       maxPrice,
     };
-
-    console.log('query', query);
 
     setSearchTerm(query);
     if (isSuccess) {
@@ -162,8 +160,8 @@ const SearchFilterModal = ({
   };
 
   const isPriceValid = () => {
-    const min = Number(minPrice);
-    const max = Number(maxPrice);
+    const min = +minPrice;
+    const max = +maxPrice;
     return min <= max && min >= 0 && max >= 0;
   };
 
