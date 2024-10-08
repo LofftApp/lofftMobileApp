@@ -8,6 +8,7 @@ import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -23,40 +24,12 @@ import ApplicationNavigator from './ApplicationNavigator';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-const tabBarIcons = ({
-  route,
-  color,
-}: {
-  route: RouteProp<RootTabParamList, keyof RootTabParamList>;
-  color: string;
-}) => {
-  let iconName = 'settings';
-  switch (route.name) {
-    case 'search':
-      iconName = 'search-sm';
-      break;
-    case 'application':
-      iconName = 'list';
-      break;
-    case 'alerts':
-      iconName = 'heart';
-      break;
-    case 'user':
-      iconName = 'user';
-      break;
-    case 'admin':
-      iconName = 'gaming-pad';
-      break;
-  }
-  return <LofftIcon name={iconName} size={25} color={color} />;
-};
-
 const DashboardNavigator = () => {
   const admin = useAppSelector(state => state.user.user.admin);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => tabBarIcons({route, color}),
+        tabBarIcon: ({color}) => tabIcons({route, color}),
         tabBarActiveTintColor: Color.Lavendar[100],
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,

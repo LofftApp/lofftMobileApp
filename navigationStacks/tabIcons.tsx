@@ -1,13 +1,21 @@
 import React from 'react';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {RouteProp} from '@react-navigation/native';
+import {RootTabParamList} from './types';
 
-export const tabIcons = (route: string, color: string) => {
+export const tabIcons = ({
+  route,
+  color,
+}: {
+  route: RouteProp<RootTabParamList, keyof RootTabParamList>;
+  color: string;
+}) => {
   let iconName = 'settings';
-  switch (route) {
+  switch (route.name) {
     case 'search':
       iconName = 'search-sm';
       break;
-    case 'favorite':
+    case 'application':
       iconName = 'list';
       break;
     case 'alerts':
