@@ -44,7 +44,6 @@ const ApplicantCardRound1 = ({
   const applicant = application.applicant;
 
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
-  console.log('applicant in round 1', applicant?.profile.firstName);
 
   if (!applicant) {
     return null;
