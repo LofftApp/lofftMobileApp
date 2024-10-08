@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {height, size} from 'react-native-responsive-sizes';
@@ -26,7 +26,7 @@ const initialMaxPrice = '5000';
 
 const SearchFilterModal = ({
   openModal,
-  setOpenModal,
+  toggleModal,
   setSearchTerm,
   initialFeatures,
   isSuccess,
@@ -69,10 +69,12 @@ const SearchFilterModal = ({
       minPrice,
       maxPrice,
     };
+
     console.log('query', query);
+
     setSearchTerm(query);
     if (isSuccess) {
-      setOpenModal(false);
+      toggleModal();
       setFeaturesState(featuresWithSelected);
       setSelectedFeatures([]);
     }
@@ -140,7 +142,7 @@ const SearchFilterModal = ({
     );
   });
 
-  const clearAll = () => {
+  const handleClearAll = () => {
     const clearedPreferences = featuresState.map(element => ({
       ...element,
       selected: false,
@@ -161,7 +163,7 @@ const SearchFilterModal = ({
     <Modal visible={openModal} animationType="fade">
       <View style={styles.mainContainer}>
         <View style={styles.filterHeight}>
-          <BackButton title="Filters" onPress={() => setOpenModal(false)} />
+          <BackButton title="Filters" onPress={toggleModal} />
         </View>
         <View>
           <Text style={fontStyles.headerSmall}>Price Range</Text>
@@ -243,7 +245,7 @@ const SearchFilterModal = ({
             invert={true}
             disabled={isLoading}
             style={styles.clearAllButton}
-            onPress={clearAll}
+            onPress={handleClearAll}
             textSize={fontStyles.headerExtraSmall}
           />
           {/* // event handler to send request */}
@@ -255,7 +257,7 @@ const SearchFilterModal = ({
               isLoading || selectedFeatures.length === 0 || !isPriceValid()
             }
             style={styles.seeResultButton}
-            onPress={isError ? () => setOpenModal(false) : handleSearch}
+            onPress={isError ? toggleModal : handleSearch}
             textSize={fontStyles.headerExtraSmall}
           />
         </View>

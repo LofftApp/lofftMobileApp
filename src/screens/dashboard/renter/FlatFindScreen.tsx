@@ -47,6 +47,9 @@ const FlatFindScreen = () => {
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
+  const toggleModal = () => {
+    setOpenModal(prev => !prev);
+  };
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -93,7 +96,7 @@ const FlatFindScreen = () => {
       )}
       <SearchFilterModal
         openModal={openModal}
-        setOpenModal={setOpenModal}
+        toggleModal={toggleModal}
         setSearchTerm={setSearchTerm}
         initialFeatures={data?.allFlatFeaturesFromDb ?? []}
         isSuccess={isSuccess}

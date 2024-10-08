@@ -12,7 +12,7 @@ interface FeaturesState extends AdvertFeatures {
 
 type SearchFilterModalProps = {
   openModal: boolean;
-  setOpenModal: (arg: boolean) => void;
+  toggleModal: () => void;
   setSearchTerm: Dispatch<SetStateAction<SearchTermType | undefined>>;
   initialFeatures: AdvertFeatures[] | FeaturesState[];
   isSuccess: boolean;
