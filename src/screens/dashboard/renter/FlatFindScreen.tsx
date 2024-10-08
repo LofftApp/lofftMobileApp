@@ -32,7 +32,6 @@ const FlatFindScreen = () => {
     refetchOnMountOrArgChange: true,
   });
   const adverts = data?.adverts;
-  console.log('adverts', adverts);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -58,7 +57,7 @@ const FlatFindScreen = () => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={() => setOpenModal(true)} />
+        <FilterButton onPress={toggleModal} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}

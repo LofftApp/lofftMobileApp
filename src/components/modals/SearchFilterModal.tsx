@@ -29,8 +29,8 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
 
-const initialMinPrice = '100';
-const initialMaxPrice = '5000';
+export const initialMinPrice = '100';
+export const initialMaxPrice = '5000';
 
 const SearchFilterModal = ({
   openModal,
@@ -71,7 +71,14 @@ const SearchFilterModal = ({
 
   const handleSearch = async () => {
     const featuresIds = selectedFeatures.map(track => track.id).join(',');
-
+    if (
+      (!featuresIds || featuresIds.length === 0) &&
+      minPrice === initialMinPrice &&
+      maxPrice === initialMaxPrice
+    ) {
+      toggleModal();
+      return;
+    }
     const query = {
       features: featuresIds,
       minPrice,
@@ -157,6 +164,7 @@ const SearchFilterModal = ({
     setMinPrice(initialMinPrice);
     setMaxPrice(initialMaxPrice);
     setSelectedFeatures([]);
+    setSearchTerm(undefined);
   };
 
   const isPriceValid = () => {
