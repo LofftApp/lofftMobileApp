@@ -32,6 +32,7 @@ const FlatFindScreen = () => {
     refetchOnMountOrArgChange: true,
   });
   const adverts = data?.adverts;
+  console.log('adverts', adverts);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -72,6 +73,7 @@ const FlatFindScreen = () => {
             adverts={adverts ?? []}
             isError={isError}
             isLoading={isLoading}
+            toggleModal={toggleModal}
           />
         </View>
       ) : (

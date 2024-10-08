@@ -260,9 +260,7 @@ const SearchFilterModal = ({
               value={
                 isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
               }
-              disabled={
-                isLoading || selectedFeatures.length === 0 || !isPriceValid()
-              }
+              disabled={isLoading || !isPriceValid()}
               style={styles.seeResultButton}
               onPress={isError ? toggleModal : handleSearch}
               textSize={fontStyles.headerExtraSmall}
