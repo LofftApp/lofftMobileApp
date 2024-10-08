@@ -19,10 +19,6 @@ const ListFlatApplicationComponent = ({
   isLoading,
   isError,
 }: ListFlatApplicationComponentProps) => {
-  console.log('applications', applications);
-  console.log('adverts', adverts);
-  console.log('isLessor', isLessor);
-
   if (isLoading) {
     return <LoadingComponent />;
   }

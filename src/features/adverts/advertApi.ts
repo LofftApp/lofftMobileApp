@@ -22,7 +22,6 @@ export const advertApi = lofftApi.injectEndpoints({
       | undefined
     >({
       query: ({features = '', minPrice = '', maxPrice = ''} = {}) => {
-        console.log('features in query', features);
         const baseUrl = '/api/adverts';
         const params = new URLSearchParams();
         if (features) {

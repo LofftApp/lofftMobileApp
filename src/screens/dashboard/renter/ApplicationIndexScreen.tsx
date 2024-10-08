@@ -19,12 +19,10 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {applicationPartition} from 'helpers/applicationsPartition';
 
 const ApplicationIndexScreen = () => {
-  console.log('Application Index Screen RENDERED 😀');
   const currentUser = useAppSelector(state => state.user.user);
   const userType = currentUser.userType;
 
   const {data: applications, isError, isLoading} = useGetApplicationsQuery();
-  console.log('applications in Application Index Screen', applications);
 
   const [screen, setScreen] = useState('thumbs-up');
 
@@ -55,7 +53,7 @@ const ApplicationIndexScreen = () => {
           applications={
             screen === 'thumbs-down' ? inactiveApplications : activeApplications
           }
-          isLessor={userType === 'lessor'}
+          isLessor={false}
           isLoading={isLoading}
           isError={isError}
         />

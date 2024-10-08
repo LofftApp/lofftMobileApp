@@ -21,8 +21,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types
 
 const LessorIndexScreen = () => {
-  console.log('Lessor Index rendered 😀');
-
   const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
   const adverts = data?.adverts;
 

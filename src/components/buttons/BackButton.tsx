@@ -33,11 +33,7 @@ const BackButton = ({
         ]}>
         {title}
       </Text>
-      <Pressable
-        onPress={() => {
-          console.log('onPress clicked', onPress);
-          onPress();
-        }}>
+      <Pressable onPress={onPress}>
         {close ? (
           <LofftIcon
             name="x-close"

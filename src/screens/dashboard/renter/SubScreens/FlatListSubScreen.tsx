@@ -15,8 +15,6 @@ const FlatListSubScreen = ({
   isError,
   isLoading,
 }: FlatListSubScreenProps) => {
-  console.log(isError);
-
   if (isLoading) {
     return <LoadingComponent />;
   }
