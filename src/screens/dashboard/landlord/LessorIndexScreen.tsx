@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 
 // Screens 📺
-import FlatListComponent from '../renter/SubScreens/ListFlatApplicationComponent';
+import ListFlatApplicationComponent from '../renter/SubScreens/ListFlatApplicationComponent';
 
 // Helpers 🧰
 import {size} from 'react-native-responsive-sizes';
@@ -14,10 +14,6 @@ import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import * as Color from 'styleSheets/lofftColorPallet.json';
 
-//Components
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -27,18 +23,8 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 const LessorIndexScreen = () => {
   console.log('Lessor Index rendered 😀');
 
-  const {data, error, isLoading} = useGetAdvertsQuery(undefined);
+  const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
   const adverts = data?.adverts;
-
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
-
-  if (error) {
-    return (
-      <NotFoundComponent backButton message="There was an error getting your adverts" />
-    );
-  }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
@@ -59,7 +45,12 @@ const LessorIndexScreen = () => {
       </View>
 
       <View style={CoreStyleSheet.screenContainer}>
-        <FlatListComponent adverts={adverts} isLessor={true} />
+        <ListFlatApplicationComponent
+          adverts={adverts}
+          isLessor={true}
+          isLoading={isLoading}
+          isError={isError}
+        />
       </View>
     </SafeAreaView>
   );
