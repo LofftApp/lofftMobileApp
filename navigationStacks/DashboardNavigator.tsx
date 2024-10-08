@@ -1,13 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {RouteProp} from '@react-navigation/native';
 import {RootTabParamList} from './types';
 
 // Redux 🏪
 import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
