@@ -1,9 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, Modal, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Modal,
+  SafeAreaView,
+} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
-import {height, size} from 'react-native-responsive-sizes';
-
-// Data 💿
 
 // Screens 📺
 import BackButton from 'components/buttons/BackButton';
@@ -14,8 +18,12 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 
+//Helpers
+import {size} from 'react-native-responsive-sizes';
+
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
 import type {SearchFilterModalProps, FeaturesState} from './types';
@@ -161,105 +169,107 @@ const SearchFilterModal = ({
 
   return (
     <Modal visible={openModal} animationType="fade">
-      <SafeAreaView style={styles.mainContainer}>
-        <View style={styles.filterHeight}>
-          <BackButton title="Filters" onPress={toggleModal} />
-        </View>
-        <View>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton title="Filters" onPress={toggleModal} />
+        <View style={CoreStyleSheet.screenContainer}>
           <Text style={fontStyles.headerSmall}>Price Range</Text>
           <View style={styles.priceRangeContainer}>
-            <View style={styles.priceFlex}>
-              <View style={styles.inputContainer}>
-                <View style={styles.formContainer}>
-                  <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
-                  <InputFieldText
-                    style={styles.priceInputContainer}
-                    placeholder="0"
-                    // String is passed as value into text form.
-                    value={String(onlyNumber(minPrice))}
-                    type="currency"
-                    onChangeText={handleMin}
-                  />
-                </View>
+            <View style={styles.inputContainer}>
+              <View style={styles.formContainer}>
+                <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
+                <InputFieldText
+                  style={styles.priceInputContainer}
+                  placeholder="0"
+                  // String is passed as value into text form.
+                  value={String(onlyNumber(minPrice))}
+                  type="currency"
+                  onChangeText={handleMin}
+                />
+              </View>
 
-                <View style={styles.formContainer}>
-                  <Text style={fontStyles.bodyExtraSmall}>Max. price</Text>
-                  <InputFieldText
-                    style={styles.priceInputContainer}
-                    placeholder="5000"
-                    // String is passed as value into text form.
-                    value={String(onlyNumber(maxPrice))}
-                    type="currency"
-                    onChangeText={handleMax}
-                  />
-                </View>
+              <View style={styles.formContainer}>
+                <Text style={fontStyles.bodyExtraSmall}>Max. price</Text>
+                <InputFieldText
+                  style={styles.priceInputContainer}
+                  placeholder="5000"
+                  // String is passed as value into text form.
+                  value={String(onlyNumber(maxPrice))}
+                  type="currency"
+                  onChangeText={handleMax}
+                />
               </View>
             </View>
-          </View>
-        </View>
 
-        <View style={styles.sliderContainer}>
-          {+minPrice > +maxPrice && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorMessage}>
-                The min value must not be more than the max value!
+            <View style={styles.sliderContainer}>
+              {+minPrice > +maxPrice && (
+                <View style={styles.errorContainer}>
+                  <Text style={styles.errorMessage}>
+                    The min value must not be more than the max value!
+                  </Text>
+                </View>
+              )}
+              <Slider
+                thumbTintColor={Color.Lavendar[100]}
+                minimumTrackTintColor={Color.Lavendar[80]}
+                value={[onlyNumber(minPrice), onlyNumber(maxPrice)]}
+                animateTransitions={true}
+                minimumValue={100}
+                maximumValue={5000}
+                onValueChange={value => {
+                  handleSlider(value);
+                }}
+                step={100}
+              />
+            </View>
+
+            <View style={styles.sliderLegend}>
+              <Text style={fontStyles.bodyExtraSmall}>
+                {onlyNumber(minPrice)} €
+              </Text>
+              <Text style={fontStyles.bodyExtraSmall}>
+                {onlyNumber(maxPrice)} €
               </Text>
             </View>
-          )}
-          <Slider
-            thumbTintColor={Color.Lavendar[100]}
-            minimumTrackTintColor={Color.Lavendar[80]}
-            value={[onlyNumber(minPrice), onlyNumber(maxPrice)]}
-            animateTransitions={true}
-            minimumValue={100}
-            maximumValue={5000}
-            onValueChange={value => {
-              handleSlider(value);
-            }}
-            step={100}
-          />
-
-          <View style={styles.sliderLegend}>
-            <Text>{onlyNumber(minPrice)} €</Text>
-            <Text>{onlyNumber(maxPrice)} €</Text>
           </View>
-        </View>
-        <View style={styles.lowerPageHalfContainer}>
-          <View style={styles.flatDetails}>
-            <Text style={fontStyles.headerSmall}>Flat details</Text>
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.emojiContainer}>
-              {isError ? (
-                <Text>Error fetching features. Please try again.</Text>
-              ) : (
-                allFeaturesButtons
-              )}
+          <View style={styles.lowerPageHalfContainer}>
+            <View style={styles.flatDetails}>
+              <Text style={fontStyles.headerSmall}>Flat details</Text>
             </View>
-          </ScrollView>
-        </View>
-        <View style={styles.pageBreak} />
-        <View style={styles.buttonsContainer}>
-          <CoreButton
-            value="Clear all"
-            invert={true}
-            disabled={isLoading}
-            style={styles.clearAllButton}
-            onPress={handleClearAll}
-            textSize={fontStyles.headerExtraSmall}
-          />
-          {/* // event handler to send request */}
-          <CoreButton
-            value={
-              isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
-            }
-            disabled={
-              isLoading || selectedFeatures.length === 0 || !isPriceValid()
-            }
-            style={styles.seeResultButton}
-            onPress={isError ? toggleModal : handleSearch}
-            textSize={fontStyles.headerExtraSmall}
-          />
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.featuresContainer}>
+                {isError ? (
+                  <Text style={fontStyles.headerSmall}>
+                    Error fetching features. Please try again.
+                  </Text>
+                ) : (
+                  allFeaturesButtons
+                )}
+              </View>
+            </ScrollView>
+          </View>
+          <View style={styles.pageBreak} />
+          <View style={styles.buttonsContainer}>
+            <CoreButton
+              value="Clear all"
+              invert={true}
+              disabled={isLoading}
+              style={styles.clearAllButton}
+              onPress={handleClearAll}
+              textSize={fontStyles.headerExtraSmall}
+            />
+            {/* // event handler to send request */}
+            <CoreButton
+              value={
+                isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
+              }
+              disabled={
+                isLoading || selectedFeatures.length === 0 || !isPriceValid()
+              }
+              style={styles.seeResultButton}
+              onPress={isError ? toggleModal : handleSearch}
+              textSize={fontStyles.headerExtraSmall}
+            />
+          </View>
         </View>
       </SafeAreaView>
     </Modal>
@@ -267,31 +277,19 @@ const SearchFilterModal = ({
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    marginVertical: size(65),
-    height: '100%',
-    paddingHorizontal: size(16),
-    
-  },
   priceRangeContainer: {
     paddingVertical: size(20),
   },
-  emojiContainer: {
+  featuresContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
   },
-  inputForm: {
-    borderWidth: size(2),
-    padding: size(15),
-    borderColor: Color.Black[100],
-    borderRadius: 12,
-    marginTop: size(10),
-  },
+
   inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: height(20),
+    height: size(60),
   },
   formContainer: {
     width: '48%',
@@ -302,26 +300,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sliderContainer: {
-    marginTop: size(72),
+    marginTop: size(30),
   },
-  pagingationBarContainer: {
-    marginVertical: size(45),
-  },
-  buttonContainer: {
-    marginBottom: size(55),
-  },
-  switchContainer: {
-    marginTop: size(15),
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
+
   errorContainer: {
     alignItems: 'center',
   },
-  priceFlex: {
-    flex: 1,
-  },
+
   filterHeight: {
     flex: 1,
     maxHeight: size(66),
@@ -333,8 +318,8 @@ const styles = StyleSheet.create({
     marginVertical: size(10),
   },
   lowerPageHalfContainer: {
-    paddingTop: size(20),
-    flex: 2,
+    flex: 1,
+    height: '100%',
   },
   flatDetails: {
     paddingBottom: size(10),
@@ -342,8 +327,8 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingTop: size(10),
-    marginBottom: size(90),
+    paddingTop: size(16),
+    paddingBottom: size(0),
   },
   seeResultButton: {
     paddingHorizontal: size(25),
@@ -354,11 +339,8 @@ const styles = StyleSheet.create({
   pageBreak: {
     borderBottomWidth: size(1),
     paddingVertical: size(5),
+    borderColor: Color.Black[30],
   },
 });
 
 export default SearchFilterModal;
-
-/* borderStyle: "solid",
-borderColor: "red",
-borderWidth: 2,*/
