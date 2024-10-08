@@ -20,7 +20,6 @@ import Collapsible from 'react-native-collapsible';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 /* Helpers */
-import {matchMaker} from 'helpers/matchMaker';
 import {capitalize} from 'helpers/capitalize';
 import {size} from 'react-native-responsive-sizes';
 import {tagSorter} from 'helpers/tagSorter';
@@ -75,24 +74,6 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   );
   const positiveCharTags = charTags.positiveTags;
   const negativeCharTags = charTags.negativeTags;
-
-  // const positiveFeaturesTags = matchMaker(
-  //   user.filter ?? [],
-  //   advert?.flat.features ?? [],
-  // )[0];
-  // const negativeFeaturesTags = matchMaker(
-  //   user.filter ?? [],
-  //   advert?.flat.features ?? [],
-  // )[1];
-
-  // const positiveCharTags = matchMaker(
-  //   user.profile.characteristics ?? [],
-  //   advert.flat.characteristics,
-  // )[0];
-  // const negativeCharTags = matchMaker(
-  //   user.profile.characteristics ?? [],
-  //   advert.flat.characteristics,
-  // )[1];
 
   const selectApplication = (id: number) => {
     dispatch(toggleRound2(id));
