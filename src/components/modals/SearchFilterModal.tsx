@@ -21,7 +21,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {SearchFilterModalProps} from './types';
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const SearchFilterModal = ({
   openModal,
   setOpenModal,
@@ -197,6 +197,7 @@ const SearchFilterModal = ({
     </Modal>
   );
 };
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const styles = StyleSheet.create({
   mainContainer: {
