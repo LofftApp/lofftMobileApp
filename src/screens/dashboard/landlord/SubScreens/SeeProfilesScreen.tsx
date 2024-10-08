@@ -153,10 +153,10 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton absolute onPress={navigation.goBack} />
-      <View style={CoreStyleSheet.headerContainer}>
+      <BackButton title="Profiles" onPress={navigation.goBack} />
+      {/* <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerSmall}>Profiles</Text>
-      </View>
+      </View> */}
 
       <View style={styles.screenContainer}>
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
@@ -205,7 +205,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 const styles = StyleSheet.create({
   screenContainer: StyleSheet.flatten([
     CoreStyleSheet.screenContainer,
-    {paddingVertical: 8},
+    {paddingVertical: size(10)},
   ]),
 
   coreButton: {width: '100%'},

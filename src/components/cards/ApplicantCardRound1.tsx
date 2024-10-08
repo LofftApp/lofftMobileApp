@@ -45,7 +45,7 @@ const ApplicantCardRound1 = ({
   const applicant = application.applicant;
 
   const {data: advert} = useGetAdvertByIdQuery(application.advertId);
-  console.log('applicant in round 1', applicant);
+  console.log('applicant in round 1', applicant?.profile.firstName);
 
   if (!applicant) {
     return null;
@@ -109,7 +109,7 @@ const ApplicantCardRound1 = ({
         />
         <View style={styles.details}>
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
-            {/* {applicant.profile.firstName?.split('')[0].toUpperCase()}. */}
+            {applicant.profile?.firstName?.split('')[0].toUpperCase()}.
           </Text>
           <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
             {applicant.matchScore}% Match

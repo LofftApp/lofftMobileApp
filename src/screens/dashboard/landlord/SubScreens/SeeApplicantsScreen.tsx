@@ -151,7 +151,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton close title="Applicants" onPress={navigation.goBack} />
+      <BackButton title="Applicants" onPress={navigation.goBack} />
       <View style={styles.screenContainer}>
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
@@ -210,7 +210,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 const styles = StyleSheet.create({
   screenContainer: StyleSheet.flatten([
     CoreStyleSheet.screenContainer,
-    {paddingVertical: 8},
+    {paddingVertical: size(10)},
   ]),
 
   coreButton: {width: '100%'},
