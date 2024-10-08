@@ -11,7 +11,7 @@ import BackButton from 'components/buttons/BackButton';
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import {fontStyles} from 'styleSheets/fontStyles';
-import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // StyleSheets 🖼️
@@ -111,7 +111,7 @@ const SearchFilterModal = ({
     handleMax(array[1]);
   };
 
-  const selectedEmojis = (id: number) => {
+  const selectFeature = (id: number) => {
     const updatedFeatures = featuresState.map(element => {
       if (element.id === id) {
         return {
@@ -129,15 +129,15 @@ const SearchFilterModal = ({
     setFeaturesState(updatedFeatures);
   };
 
-  const allFeaturesButtons = featuresState.map((emojiElement, index) => {
+  const allFeaturesButtons = featuresState.map(feature => {
     return (
-      <EmojiIcon
-        key={index + 1}
-        id={emojiElement.id}
-        emojiIcon={emojiElement.emoji}
-        value={emojiElement.name}
-        toggle={emojiElement.selected}
-        selectedEmojis={selectedEmojis}
+      <SelectionButton
+        key={feature.id}
+        id={feature.id}
+        emojiIcon={feature.emoji}
+        value={feature.name}
+        toggle={feature.selected}
+        selectFn={selectFeature}
       />
     );
   });
