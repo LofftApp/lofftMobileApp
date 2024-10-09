@@ -9,6 +9,10 @@ import {
 } from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/modals/SearchFilterModal';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -21,21 +25,23 @@ export const advertApi = lofftApi.injectEndpoints({
         }
       | undefined
     >({
-      query: ({features = '', minPrice = '', maxPrice = ''} = {}) => {
-        const baseUrl = '/api/adverts';
+      query: ({
+        features = '',
+        minPrice = initialMinPrice,
+        maxPrice = initialMaxPrice,
+      } = {}) => {
+        const baseEndpoint = '/api/adverts';
         const params = new URLSearchParams();
         if (features) {
           params.append('features', features);
         }
-        if (minPrice) {
+
+        if (minPrice !== initialMinPrice || maxPrice !== initialMaxPrice) {
           params.append('minPrice', String(minPrice));
-        }
-        if (maxPrice) {
           params.append('maxPrice', String(maxPrice));
         }
-        console.log('params', params.toString());
 
-        return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+        return params.toString() ? `${baseEndpoint}?${params.toString()}` : baseEndpoint;
       },
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {

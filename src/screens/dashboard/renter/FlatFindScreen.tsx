@@ -57,7 +57,7 @@ const FlatFindScreen = () => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={() => setOpenModal(true)} />
+        <FilterButton onPress={toggleModal} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
@@ -72,6 +72,7 @@ const FlatFindScreen = () => {
             adverts={adverts ?? []}
             isError={isError}
             isLoading={isLoading}
+            toggleModal={toggleModal}
           />
         </View>
       ) : (

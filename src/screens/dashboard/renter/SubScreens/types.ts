@@ -13,6 +13,7 @@ type FlatListSubScreenProps = {
   adverts: Advert[];
   isError: boolean;
   isLoading: boolean;
+  toggleModal: () => void;
 };
 
 export type {ListFlatApplicationComponentProps, FlatListSubScreenProps};

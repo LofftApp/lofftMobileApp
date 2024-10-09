@@ -10,10 +10,24 @@ import {fontStyles} from 'styleSheets/fontStyles';
 type NotFoundComponentProps = {
   message: string;
   backButton?: boolean;
+  buttonValue?: string;
+  onPress?: () => void;
 };
 
-function NotFoundComponent({message, backButton}: NotFoundComponentProps) {
+function NotFoundComponent({
+  message,
+  backButton,
+  buttonValue,
+  onPress,
+}: NotFoundComponentProps) {
   const navigation = useNavigation();
+  const onPressHandler = () => {
+    if (onPress) {
+      onPress();
+    } else {
+      navigation.goBack();
+    }
+  };
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -22,8 +36,8 @@ function NotFoundComponent({message, backButton}: NotFoundComponentProps) {
         <Text style={[fontStyles.headerSmall, styles.textAlign]}>
           {message}
         </Text>
-        {backButton && (
-          <CoreButton value="Go back" onPress={navigation.goBack} />
+        {buttonValue && (
+          <CoreButton value={buttonValue} onPress={onPressHandler} />
         )}
       </View>
     </SafeAreaView>
