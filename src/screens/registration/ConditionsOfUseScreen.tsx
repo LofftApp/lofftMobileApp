@@ -5,7 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useAppDispatch} from 'reduxCore/hooks';
 import {saveUserDetails} from 'reduxFeatures/registration/userJourneySlice';
 import {useNavigation} from '@react-navigation/native';
-import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
+import {signOut} from 'reduxFeatures/auth/authenticationMiddleware';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';

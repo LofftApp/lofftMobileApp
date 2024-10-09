@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🧠
-import {useSignInMutation} from 'reduxFeatures/authentication/authApi';
+import {useSignInMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import SignUpButton from 'components/buttons/SignUpButton';

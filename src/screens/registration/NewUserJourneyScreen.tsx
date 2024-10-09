@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
 import {useAppDispatch} from 'reduxCore/hooks';
-import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
+import {signOut} from 'reduxFeatures/auth/authenticationMiddleware';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';

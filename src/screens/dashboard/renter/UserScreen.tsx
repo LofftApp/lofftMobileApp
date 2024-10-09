@@ -9,7 +9,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 //Styles
 import {fontStyles} from 'styleSheets/fontStyles';
-import {useSignOutMutation} from 'reduxFeatures/authentication/authApi';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 const UserScreen = () => {
   const {data} = useGetUserQuery();

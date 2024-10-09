@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Slices (Reducers)
-import authReducer from 'reduxFeatures/authentication/authSlice';
+import authReducer from 'reduxFeatures/auth/authSlice';
 import userJourneyReducer from 'reduxFeatures/registration/userJourneySlice';
 import imageUploadReducer from 'reduxFeatures/imageHandling/userImageUploadSlice';
 import advertReducer from 'reduxFeatures/adverts/advertSlice';

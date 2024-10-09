@@ -15,13 +15,13 @@ import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
 
 // Mock the async thunk
-// jest.mock('../src/features/auth/authSlice', () => ({
-//   checkToken: {
-//     pending: 'checkToken/pending',
-//     fulfilled: 'checkToken/fulfilled',
-//     rejected: 'checkToken/rejected',
-//   },
-// }));
+jest.mock('../src/features/auth/authSlice', () => ({
+  checkToken: {
+    pending: 'checkToken/pending',
+    fulfilled: 'checkToken/fulfilled',
+    rejected: 'checkToken/rejected',
+  },
+}));
 
 // Create mock store
 const store = createMockStore(defaultMockState);

@@ -13,7 +13,7 @@ import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAuth} from 'reduxFeatures/authentication/useAuth';
+import {useAuth} from 'reduxFeatures/auth/useAuth';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Navigation 🚀

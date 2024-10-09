@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 
 // Redux
-import {useSignOutMutation} from 'reduxFeatures/authentication/authApi';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 //Styles
 import Color from 'styleSheets/lofftColorPallet.json';
