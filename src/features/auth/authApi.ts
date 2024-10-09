@@ -78,8 +78,33 @@ export const authApi = lofftApi.injectEndpoints({
         }
       },
     }),
+
+    signUp: builder.mutation<SignInResponse, SignInArgs>({
+      query: ({email, password}) => ({
+        url: 'api/users',
+        method: 'POST',
+        body: {
+          user: {
+            email,
+            password,
+          },
+          client_id: LOFFT_API_CLIENT_ID,
+        },
+      }),
+      async onQueryStarted(_, {dispatch, queryFulfilled}) {
+        try {
+          const response = await queryFulfilled;
+
+          await EncryptedStorage.setItem('token', response.data.access_token);
+          console.log('Token stored successfully after sign up');
+        } catch (error) {
+          console.log('Error during sign UP:', error);
+        }
+      },
+    }),
   }),
   overrideExisting: false,
 });
 
-export const {useSignInMutation, useSignOutMutation} = authApi;
+export const {useSignInMutation, useSignOutMutation, useSignUpMutation} =
+  authApi;
