@@ -18,7 +18,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -38,40 +37,33 @@ import ErrorBoundary from './src/ErrorBoundary';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useCheckTokenQuery} from 'reduxFeatures/authentication/authApi';
 
 const App = () => {
   // Define selectors
   const getAuthenticated = (state: any) => state.authentication?.authenticated;
-  // const getUserType = (state: any) => state.user?.user?.userType;
-  // const getAdmin = (state: any) => state.user?.user?.admin;
 
   // Create memoized selectors
   const selectAuthenticated = createSelector(
     [getAuthenticated],
     authenticated => authenticated,
   );
-  // const selectUserTypeAndAdmin = createSelector(
-  //   [getUserType, getAdmin],
-  //   (userType, admin) => [userType, admin],
-  // );
+
   const authenticated = useAppSelector(selectAuthenticated);
   console.log('authenticated', authenticated);
-  // const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
 
   const dispatch = useAppDispatch();
-  const [initializing, setInitializing] = useState(true);
+  const {data: token} = useCheckTokenQuery();
+  console.log('token in APP', token);
+  // useEffect(() => {
+  //   // dispatch(checkToken());
+  // }, []);
 
-  useEffect(() => {
-    dispatch(checkToken());
-  }, []);
-
-  const {data, error, isLoading} = useGetUserQuery();
+  const {data, error, isLoading} = useGetUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   console.log('data user in APP', data);
 
-  // useEffect(() => {
-  //   if (initializing) setInitializing(false);
-  //   // if (authenticated && !userType) dispatch(getProfile());
-  // }, [authenticated]);
   const userType = data?.user.userType;
   const admin = data?.user.admin;
   console.log('userType', data?.user.userType);

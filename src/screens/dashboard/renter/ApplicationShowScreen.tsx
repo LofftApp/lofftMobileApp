@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
 //Redux
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {
   applicationApi,
   useGetApplicationByIdQuery,
@@ -10,6 +10,7 @@ import {
   useGetAdvertByIdQuery,
   useToggleFavoriteMutation,
 } from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -26,7 +27,6 @@ import SeeMoreButton from 'components/buttons/SeeMoreButton';
 // Types
 import type {ApplicationShowScreenProp} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;

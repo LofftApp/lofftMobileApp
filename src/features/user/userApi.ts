@@ -7,7 +7,7 @@ export const userApi = lofftApi.injectEndpoints({
     getUser: builder.query<User, void>({
       query: () => 'api/users/profile',
       transformResponse: (response: IncomingUser) => {
-        console.log('getUser called 🚨');
+        console.log('getUser called 👾');
         console.log('response USER:', response);
         return toCamelCaseKeys(response as unknown as User);
       },
