@@ -75,24 +75,6 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const positiveCharTags = charTags.positiveTags;
   const negativeCharTags = charTags.negativeTags;
 
-  // const positiveFeaturesTags = matchMaker(
-  //   user.filter ?? [],
-  //   advert?.flat.features ?? [],
-  // )[0];
-  // const negativeFeaturesTags = matchMaker(
-  //   user.filter ?? [],
-  //   advert?.flat.features ?? [],
-  // )[1];
-
-  // const positiveCharTags = matchMaker(
-  //   user.profile.characteristics ?? [],
-  //   advert.flat.characteristics,
-  // )[0];
-  // const negativeCharTags = matchMaker(
-  //   user.profile.characteristics ?? [],
-  //   advert.flat.characteristics,
-  // )[1];
-
   const selectApplication = (id: number) => {
     dispatch(toggleRound2(id));
   };

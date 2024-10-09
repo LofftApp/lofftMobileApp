@@ -6,7 +6,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import SelectionButton from 'components/buttons/SelectionButton';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Data 💿
@@ -30,7 +30,7 @@ const FlatFeaturesScreen = ({route}: any) => {
     useState(preferences);
   const [selectedTrack, setselectedTrack] = useState<FlatFeature[]>([]);
 
-  const selectedEmojis = (id: number) => {
+  const selectFn = (id: number) => {
     const targets = [];
 
     const preSeleted = intitalpreferencesArray.map(element => {
@@ -53,13 +53,13 @@ const FlatFeaturesScreen = ({route}: any) => {
 
   const emojiElements = intitalpreferencesArray.map((emojiElement, index) => {
     return (
-      <EmojiIcon
+      <SelectionButton
         key={index + 1}
         id={emojiElement.id}
         emojiIcon={emojiElement.emoji}
         value={emojiElement.value}
         toggle={emojiElement.toggle}
-        selectedEmojis={selectedEmojis}
+        selectFn={selectFn}
       />
     );
   });

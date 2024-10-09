@@ -6,21 +6,17 @@ import {size} from 'react-native-responsive-sizes';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const EmojiIcon = ({
+//Types
+import {SelectionButtonProps} from './types';
+
+const SelectionButton = ({
   id,
   emojiIcon,
   value,
   toggle,
-  selectedEmojis,
+  selectFn,
   disabled = false,
-}: {
-  id: number;
-  emojiIcon?: string;
-  value: string;
-  toggle: boolean;
-  selectedEmojis: (id: number) => void;
-  disabled?: boolean;
-}) => {
+}: SelectionButtonProps) => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -31,6 +27,8 @@ const EmojiIcon = ({
     }).start();
   }, [fadeAnim]);
 
+  const colorText = {color: toggle ? Color.White[100] : Color.Black[100]};
+
   return (
     <Animated.View // Special animatable View
       style={{
@@ -38,7 +36,7 @@ const EmojiIcon = ({
       }}>
       <Pressable
         onPress={() => {
-          selectedEmojis(id);
+          selectFn(id);
         }}
         style={[
           styles.buttonStyle,
@@ -46,11 +44,7 @@ const EmojiIcon = ({
           disabled && styles.disabled,
         ]}
         disabled={disabled}>
-        <Text
-          style={[
-            fontStyles.bodyMedium,
-            toggle ? styles.colorWhite : styles.colorBlack,
-          ]}>
+        <Text style={[fontStyles.bodyMedium, colorText]}>
           {emojiIcon} {value}
         </Text>
       </Pressable>
@@ -79,12 +73,6 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Black[5],
     borderColor: Color.Black[10],
   },
-  colorWhite: {
-    color: Color.White[100],
-  },
-  colorBlack: {
-    color: Color.Black[100],
-  },
 });
 
-export default EmojiIcon;
+export default SelectionButton;

@@ -34,8 +34,6 @@ export const CoreStyleSheet = StyleSheet.create({
   },
   safeAreaViewShowContainer: {
     backgroundColor: Color.White[100],
-    flex: 1,
-    alignItems: 'center',
     height: '100%',
   },
   showContainer: {
@@ -45,6 +43,7 @@ export const CoreStyleSheet = StyleSheet.create({
 
   screenContainer: {
     flex: 1,
+    height: '100%',
     width: '100%',
     paddingHorizontal: size(16),
     paddingVertical: size(20),

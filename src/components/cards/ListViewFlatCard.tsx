@@ -20,8 +20,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 // Helpers
-// import {tagSorter} from 'helpers/tagSorter';
-import {matchMaker} from 'helpers/matchMaker';
+import {tagSorter} from 'helpers/tagSorter';
 
 // Types 🏷️
 import type {UserState} from 'reduxFeatures/user/types';
@@ -37,25 +36,16 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
-  // const characteristicsTags = tagSorter(
-  //   currentUser.profile.characteristics ?? [],
-  //   advert.flat.characteristics ?? [],
-  // );
-  // const featuresTags = tagSorter(
-  //   currentUser.filter ?? [],
-  //   advert.flat.features,
-  // );
-  // const positiveFeatures = featuresTags.positiveTags;
-  // const positiveChars = characteristicsTags.positiveTags;
-
-  const positiveFeatures = matchMaker(
-    currentUser.filter ?? [],
-    advert.flat.features,
-  )[0];
-  const positiveChars = matchMaker(
+  const characteristicsTags = tagSorter(
     currentUser.profile.characteristics ?? [],
     advert.flat.characteristics ?? [],
-  )[0];
+  );
+  const featuresTags = tagSorter(
+    currentUser.filter ?? [],
+    advert.flat.features,
+  );
+  const positiveFeatures = featuresTags.positiveTags;
+  const positiveChars = characteristicsTags.positiveTags;
 
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);

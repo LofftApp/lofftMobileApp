@@ -7,7 +7,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import EmojiIcon from 'components/Emojicon/EmojiIcon';
+import SelectionButton from 'components/buttons/SelectionButton';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
@@ -104,7 +104,7 @@ const SelectCityScreen = () => {
     }, 0);
   };
 
-  const selectedEmojis = (id: number) => {
+  const selectFn = (id: number) => {
     const targets = [];
 
     const preSeleted = districts.map(element => {
@@ -126,13 +126,13 @@ const SelectCityScreen = () => {
 
   const emojiElements = districts.map((emojiElement, index: number) => {
     return (
-      <EmojiIcon
+      <SelectionButton
         key={index + 1}
         id={emojiElement.id}
         value={emojiElement.name}
         emojiIcon={emojiElement.emoji}
         toggle={emojiElement.toggle}
-        selectedEmojis={selectedEmojis}
+        selectFn={selectFn}
         disabled={false}
       />
     );

@@ -102,7 +102,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   };
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
-  console.log('totalSelected', totalSelected);
 
   const totalRemaining = Math.min(
     MAX_SELECT_2_ROUND - totalSelected,
@@ -153,10 +152,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton absolute onPress={navigation.goBack} />
-      <View style={CoreStyleSheet.headerContainer}>
-        <Text style={fontStyles.headerSmall}>Profiles</Text>
-      </View>
+      <BackButton title="Profiles" onPress={navigation.goBack} />
 
       <View style={styles.screenContainer}>
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
@@ -205,7 +201,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 const styles = StyleSheet.create({
   screenContainer: StyleSheet.flatten([
     CoreStyleSheet.screenContainer,
-    {paddingVertical: 8},
+    {paddingVertical: size(10)},
   ]),
 
   coreButton: {width: '100%'},

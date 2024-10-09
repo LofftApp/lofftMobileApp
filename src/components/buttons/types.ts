@@ -58,6 +58,15 @@ type SeeMoreButtonProps = {
   toggleExpand: () => void;
 };
 
+type SelectionButtonProps = {
+  id: number;
+  emojiIcon?: string;
+  value: string;
+  toggle: boolean;
+  selectFn: (id: number) => void;
+  disabled?: boolean;
+}
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
@@ -66,4 +75,5 @@ export type {
   MatchingScoreButtonProps,
   BackButtonProps,
   SeeMoreButtonProps,
+  SelectionButtonProps,
 };
