@@ -13,13 +13,13 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import languagesData from 'Assets/coreText/languagesText.json';
 import LanguagesCard from 'components/cards/LanguagesCard';
 
-import {StackNavigation} from '../../../../navigationStacks/types';
+import {LanguageScreenNavigationProp} from '../../../../navigationStacks/types';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
 const LanguageSelectionScreen = () => {
-  const navigation = useNavigation<StackNavigation>();
+  const navigation = useNavigation<LanguageScreenNavigationProp>();
 
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
@@ -98,7 +98,7 @@ const LanguageSelectionScreen = () => {
           )}
           <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
-              <Text style={[fontStyles.headerSmall, {paddingTop: 16}]}>
+              <Text style={[fontStyles.headerSmall, styles.paddingTop16]}>
                 Not what you're looking for?
               </Text>
             )}
@@ -117,7 +117,8 @@ const LanguageSelectionScreen = () => {
         <CoreButton
           value="Continue"
           onPress={() => {
-            navigation.navigate('AboutYouFlatHuntScreen');
+            // Todo: This needs to be created or updated in the navigator
+            // navigation.navigate('AboutYouFlatHuntScreen');
           }}
           style={styles.button}
           disabled={selectedLanguages.length === 0}
@@ -163,6 +164,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: size(50),
+  },
+  paddingTop16: {
+    paddingTop: size(16),
   },
 });
 

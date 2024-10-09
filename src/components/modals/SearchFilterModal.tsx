@@ -279,6 +279,7 @@ const SearchFilterModal = ({
     </Modal>
   );
 };
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const styles = StyleSheet.create({
   priceRangeContainer: {

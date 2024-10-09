@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -10,11 +10,11 @@ import {clearProfile} from 'reduxFeatures/user/usersSlice';
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const TempScreen = ({navigation}: any) => {
+const TempScreen = () => {
   const dispatch = useAppDispatch();
   return (
     <View style={styles.pageContainer}>
-      <View style={{marginTop: 400}}>
+      <View style={styles.marginTop400}>
         <CoreButton
           value="Sign Out"
           onPress={() => {
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  marginTop400: {
+    marginTop: 400,
   },
 });
 

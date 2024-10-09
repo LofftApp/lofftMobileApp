@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {signIn} from 'reduxFeatures/authentication/authenticationMiddleware';
 
 // Components 🪢
@@ -16,14 +16,14 @@ const SignInForm = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState({target: '', message: ''});
+  const [message] = useState({target: '', message: ''});
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello again!</Text>
       <View style={styles.textInputWrap}>
         <InputFieldText
           value={email}
-          onChangeText={(text: string) => setEmail(text)}
+          onChangeText={(text: string | number) => setEmail(text.toString())}
           placeholder="Email"
           type="email"
           keyboardType="email-address"

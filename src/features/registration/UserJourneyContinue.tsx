@@ -6,7 +6,7 @@ import {setDetails} from './userJourneySlice';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Helpers 🤝
-import {getKeyByValue} from 'helpers/getKeyByValue';
+import {GetKeyByValue} from 'helpers/getKeyByValue';
 
 const UserJourneyContinue = ({
   onPress,
@@ -18,7 +18,7 @@ const UserJourneyContinue = ({
   const userJourney = useAppSelector(
     (state: any) => state.userDetails.userJourney,
   );
-  const [currentPageKey] = useState(getKeyByValue(userJourney));
+  const [currentPageKey] = useState(GetKeyByValue(userJourney));
   const dispatch = useAppDispatch();
 
   return (
