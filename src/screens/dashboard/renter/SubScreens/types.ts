@@ -4,7 +4,6 @@ import {Application} from 'reduxFeatures/applications/types';
 type ListFlatApplicationComponentProps = {
   applications?: Application[];
   adverts?: Advert[];
-  isLessor: boolean;
   isLoading: boolean;
   isError: boolean;
 };

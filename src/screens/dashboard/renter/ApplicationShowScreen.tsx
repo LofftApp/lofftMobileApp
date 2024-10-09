@@ -26,11 +26,13 @@ import SeeMoreButton from 'components/buttons/SeeMoreButton';
 // Types
 import type {ApplicationShowScreenProp} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
-  const currentUser = useAppSelector(state => state.user.user);
-  const isLessor = currentUser.userType === 'lessor';
+
+  const {data} = useGetUserQuery();
+  const isLessor = data?.user?.userType === 'lessor';
 
   //Renter Journey
   const {

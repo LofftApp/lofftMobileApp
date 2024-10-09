@@ -1,24 +1,29 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 
+//Redux
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
 // Components  🪢
 import ListFlatApplicationCard from 'components/cards/ListFlatApplicationCard';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // Types  🏷
 import type {ListFlatApplicationComponentProps} from './types';
 import {Application} from 'reduxFeatures/applications/types';
 import {Advert} from 'reduxFeatures/adverts/types';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // if isLessor is true, then the list will be of adverts, otherwise it will be of applications
 const ListFlatApplicationComponent = ({
   applications,
   adverts,
-  isLessor,
   isLoading,
   isError,
 }: ListFlatApplicationComponentProps) => {
+  const {data} = useGetUserQuery();
+  const isLessor = data?.user?.userType === 'lessor';
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -50,7 +55,6 @@ const ListFlatApplicationComponent = ({
             key={el.id}
             application={el as Application}
             _advert={isLessor ? (el as Advert) : undefined}
-            isLessor={isLessor}
           />
         );
       })}

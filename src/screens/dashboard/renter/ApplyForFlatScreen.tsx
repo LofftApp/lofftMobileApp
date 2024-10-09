@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -14,6 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {ApplyForFlatScreenBackground, HiFive} from 'assets';
 import BackButton from 'components/buttons/BackButton';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -23,16 +24,14 @@ import {
   ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../../../navigationStacks/types';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 const ApplyForFlatScreen = () => {
   const navigation = useNavigation<
     ApplicationScreenNavigationProp & SearchScreenNavigationProp
   >();
-  // const credits = useAppSelector(state => state.user.user.credits);
   const {data, isLoading, isError} = useGetUserQuery();
   const credits = data?.user.credits;
+
   if (isLoading) {
     <LoadingComponent />;
   }
