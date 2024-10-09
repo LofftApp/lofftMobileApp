@@ -5,16 +5,19 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Platform} from 'react-native';
+
+//Mapbox 🗺️
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useIsAuth} from 'reduxFeatures/authentication/useIsAuth';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
+// Navigation 🚀
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
@@ -28,40 +31,16 @@ import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLess
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
-import {createSelector} from '@reduxjs/toolkit';
 
-const RootStack = createNativeStackNavigator();
+//Components 🪢
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Remove ErrorBoundary in production
 import ErrorBoundary from './src/ErrorBoundary';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {
-  useCheckTokenQuery,
-  useSignInMutation,
-} from 'reduxFeatures/authentication/authApi';
-import {useIsAuth} from 'reduxFeatures/authentication/useIsAuth';
 
+const RootStack = createNativeStackNavigator();
 const App = () => {
-  // Define selectors
-  const getAuthenticated = (state: any) => state.authentication?.authenticated;
-
-  // Create memoized selectors
-  // const selectAuthenticated = createSelector(
-  //   [getAuthenticated],
-  //   authenticated => authenticated,
-  // );
-
-  // const authenticated = useAppSelector(selectAuthenticated);
-  // console.log('authenticated', authenticated);
-
-  // const dispatch = useAppDispatch();
-  // const {data: token} = useCheckTokenQuery();
-  // console.log('token in APP', token);
-  // useEffect(() => {
-  //   // dispatch(checkToken());
-  // }, []);
   const isAuth = useIsAuth();
   console.log('isAuth', isAuth);
 
@@ -69,7 +48,6 @@ const App = () => {
     refetchOnMountOrArgChange: true,
     skip: !isAuth,
   });
-  console.log('data user in APP', data);
 
   const userType = data?.user.userType;
   const admin = data?.user.admin;

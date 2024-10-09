@@ -1,6 +1,6 @@
-import { useAppSelector } from 'reduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 export const useIsAuth = () => {
-  const isAuthenticated = useAppSelector((state) => state.authentication.isAuthenticated);
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
   return isAuthenticated;
 };

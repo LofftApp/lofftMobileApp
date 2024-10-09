@@ -1,32 +1,24 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
-import {logout, setAuthenticated} from './authenticationSlice';
+import {logout, setAuthenticated} from './authSlice';
 
 type SignInArgs = {
   email: string;
   password: string;
 };
-type SignInBody = SignInArgs & {
-  client_id: string;
-  client_secret: string;
-  grant_type: string;
+
+type SignInResponse = {
+  access_token: string;
+  created_at: number;
+  expires_in: number;
+  refresh_token: string;
+  token_type: string;
 };
 
 export const authApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
-    checkToken: builder.query<boolean, void>({
-      query: () => 'authentication/checkToken',
-      transformResponse: async (response: boolean) => {
-        console.log('checkToken called 🎃');
-        console.log('response :', response);
-        const token = await EncryptedStorage.getItem('token');
-        console.log('token:', token, !!token);
-        return !!token;
-      },
-    }),
-
-    signIn: builder.mutation<void, SignInArgs>({
+    signIn: builder.mutation<SignInResponse, SignInArgs>({
       query: ({email, password}) => ({
         url: '/oauth/token',
         method: 'POST',
@@ -36,15 +28,16 @@ export const authApi = lofftApi.injectEndpoints({
           client_id: LOFFT_API_CLIENT_ID,
           client_secret: LOFFT_API_CLIENT_SECRET,
           grant_type: 'password',
-        } as SignInBody,
+        },
       }),
-      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
-      async onQueryStarted({email, password}, {dispatch, queryFulfilled}) {
+      invalidatesTags: [
+        {type: 'User', id: 'PROFILE'},
+        {type: 'Adverts', id: 'LIST'},
+      ],
+      async onQueryStarted({}, {dispatch, queryFulfilled}) {
         try {
-          // Wait for the query to fulfill
           const response = await queryFulfilled;
 
-          // Store the access token in EncryptedStorage
           dispatch(setAuthenticated({token: response.data.access_token}));
           await EncryptedStorage.setItem('token', response.data.access_token);
 
@@ -67,17 +60,14 @@ export const authApi = lofftApi.injectEndpoints({
       }),
       async onQueryStarted(_, {dispatch, queryFulfilled}) {
         try {
-          // Retrieve the token from EncryptedStorage
           const token = await EncryptedStorage.getItem('token');
 
           if (!token) {
             throw new Error('No token found');
           }
 
-          // Perform the query with the token
           await queryFulfilled;
 
-          // Remove the token after successful sign-out
           dispatch(logout());
           await EncryptedStorage.removeItem('token');
           console.log('Token removed and user signed out successfully');
@@ -90,5 +80,4 @@ export const authApi = lofftApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const {useCheckTokenQuery, useSignInMutation, useSignOutMutation} =
-  authApi;
+export const {useSignInMutation, useSignOutMutation} = authApi;

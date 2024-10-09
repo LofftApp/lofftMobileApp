@@ -2,8 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Redux
-import {useAppDispatch} from 'reduxCore/hooks';
-// import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 //Components
@@ -14,15 +12,13 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {useSignOutMutation} from 'reduxFeatures/authentication/authApi';
 
 const UserScreen = () => {
-  const dispatch = useAppDispatch();
-
   const {data} = useGetUserQuery();
-  const [signOut, result] = useSignOutMutation();
+  const [signOut] = useSignOutMutation();
+
   const userCredits = data?.user?.credits;
 
   const handleSignOut = () => {
     signOut();
-    // dispatch(signOut());
   };
   return (
     <View style={styles.userScreenContainer}>
