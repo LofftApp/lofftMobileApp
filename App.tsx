@@ -34,16 +34,17 @@ import AdminScreen from 'screens/admin/adminScreen';
 
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+// import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Remove ErrorBoundary in production
-import ErrorBoundary from './src/ErrorBoundary';
+// import ErrorBoundary from './src/ErrorBoundary';
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
   const isAuth = useAuth();
   console.log('isAuth', isAuth);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {data, error, isLoading} = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
     skip: !isAuth,
