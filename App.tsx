@@ -115,7 +115,6 @@ export default () => {
       onReady={() => SplashScreen.hide()}>
       {/* <ErrorBoundary> */}
       <App />
-      <App />
       {/* </ErrorBoundary> */}
     </NavigationContainer>
   );

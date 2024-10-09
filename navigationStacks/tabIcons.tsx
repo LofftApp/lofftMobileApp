@@ -1,13 +1,14 @@
 import React from 'react';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {RouteProp} from '@react-navigation/native';
-import {RootTabParamList} from './types';
+import {LessorTabParamsList, RootTabParamList} from './types';
+type CombinedParams = RootTabParamList & LessorTabParamsList;
 
 export const tabIcons = ({
   route,
   color,
 }: {
-  route: RouteProp<RootTabParamList, keyof RootTabParamList>;
+  route: RouteProp<CombinedParams, keyof CombinedParams>;
   color: string;
 }) => {
   let iconName = 'settings';

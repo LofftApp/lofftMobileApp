@@ -18,14 +18,17 @@ import UserScreen from 'screens/dashboard/renter/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
 // import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
+import LessorNavigator from './LessorNavigator';
+import {LessorTabParamsList} from './types';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const DashboardNavigatorLessor = () => {
-  const admin = useAppSelector(state => state.user.user.admin);
+  const {data} = useGetUserQuery();
+  const admin = data?.user?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => tabIcons(route.name, color),
+        tabBarIcon: ({color}) => tabIcons({route, color}),
         tabBarActiveTintColor: Color.Lavendar[100],
         tabBarInActiveTintColor: Color.Black[30],
         tabBarShowLabel: false,
