@@ -19,6 +19,7 @@ const SignInForm = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState({target: '', message: ''});
   const [signIn, result] = useSignInMutation();
+  console.log('result.data', result.data);
 
   const handleSignIn = () => {
     signIn({email, password});

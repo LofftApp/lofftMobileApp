@@ -37,31 +37,37 @@ import ErrorBoundary from './src/ErrorBoundary';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {useCheckTokenQuery} from 'reduxFeatures/authentication/authApi';
+import {
+  useCheckTokenQuery,
+  useSignInMutation,
+} from 'reduxFeatures/authentication/authApi';
+import {useIsAuth} from 'reduxFeatures/authentication/useIsAuth';
 
 const App = () => {
   // Define selectors
   const getAuthenticated = (state: any) => state.authentication?.authenticated;
 
   // Create memoized selectors
-  const selectAuthenticated = createSelector(
-    [getAuthenticated],
-    authenticated => authenticated,
-  );
+  // const selectAuthenticated = createSelector(
+  //   [getAuthenticated],
+  //   authenticated => authenticated,
+  // );
 
-  const authenticated = useAppSelector(selectAuthenticated);
-  console.log('authenticated', authenticated);
+  // const authenticated = useAppSelector(selectAuthenticated);
+  // console.log('authenticated', authenticated);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   // const {data: token} = useCheckTokenQuery();
   // console.log('token in APP', token);
   // useEffect(() => {
   //   // dispatch(checkToken());
   // }, []);
+  const isAuth = useIsAuth();
+  console.log('isAuth', isAuth);
 
   const {data, error, isLoading} = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
-    skip: !authenticated,
+    skip: !isAuth,
   });
   console.log('data user in APP', data);
 
@@ -103,7 +109,7 @@ const App = () => {
 
   return (
     <>
-      {!authenticated ? (
+      {!isAuth ? (
         <GuestStackNavigator />
       ) : (
         <RootStack.Navigator screenOptions={{headerShown: false}}>

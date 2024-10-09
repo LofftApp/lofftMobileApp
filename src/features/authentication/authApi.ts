@@ -1,6 +1,7 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
+import {setAuthenticated} from './authenticationSlice';
 
 type SignInArgs = {
   email: string;
@@ -44,6 +45,7 @@ export const authApi = lofftApi.injectEndpoints({
           const response = await queryFulfilled;
 
           // Store the access token in EncryptedStorage
+          dispatch(setAuthenticated({token: response.data.access_token}));
           await EncryptedStorage.setItem('token', response.data.access_token);
 
           console.log('Token stored successfully');
@@ -52,6 +54,7 @@ export const authApi = lofftApi.injectEndpoints({
         }
       },
     }),
+
     signOut: builder.mutation<void, void>({
       query: token => ({
         url: '/oauth/revoke',
