@@ -13,7 +13,7 @@ import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useIsAuth} from 'reduxFeatures/authentication/useIsAuth';
+import {useAuth} from 'reduxFeatures/authentication/useAuth';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Navigation 🚀
@@ -41,7 +41,7 @@ import ErrorBoundary from './src/ErrorBoundary';
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
-  const isAuth = useIsAuth();
+  const isAuth = useAuth();
   console.log('isAuth', isAuth);
 
   const {data, error, isLoading} = useGetUserQuery(undefined, {
