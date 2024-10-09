@@ -9,16 +9,8 @@ export const createMockStore = (initialState = {}) => {
 
 // Example of an initial state you can reuse in tests
 export const defaultMockState = {
-  authentication: {
-    loading: false,
+  auth: {
+    isAuthenticated: false,
   },
-  user: {
-    user: {
-      id: 1,
-      email: 'james@example.com',
-      admin: false,
-      terms_accepted: false,
-      user_type: 'tenant',
-    },
-  },
+
 };
