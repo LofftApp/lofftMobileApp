@@ -14,7 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 const SignInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState({target: '', message: ''});
+  const [message] = useState({target: '', message: ''});
   const [signIn] = useSignInMutation();
 
   const handleSignIn = () => {
