@@ -41,8 +41,10 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
   'authentication/signIn',
   async ({email, password}: {email: string; password: string}) => {
+    console.log('signIn called 👽');
     // development url
     const url = 'http://localhost:3000/oauth/token';
+    console.log('email', email, 'password', password);
     try {
       const response = await axios.post(url, {
         email,

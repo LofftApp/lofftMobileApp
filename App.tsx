@@ -36,6 +36,8 @@ const RootStack = createNativeStackNavigator();
 // Remove ErrorBoundary in production
 import ErrorBoundary from './src/ErrorBoundary';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 const App = () => {
   // Define selectors
@@ -97,6 +99,15 @@ const App = () => {
       );
     }
   }, []);
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  // if (error) {
+  //   return <NotFoundComponent backButton message="There was an error getting user" />;
+  // }
+
   return (
     <>
       {!authenticated ? (

@@ -22,13 +22,16 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Types 🏷
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  // const currentUser = useAppSelector(
+  //   (state: {user: UserState}) => state.user.user,
+  // );
+  const {data} = useGetUserQuery();
+  const currentUser = data?.user;
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
 
@@ -50,7 +53,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   };
 
   const charTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
 
@@ -58,7 +61,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const negativeCharTags = charTags.negativeTags;
 
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.filter ?? [],
     advert.flat.features,
   );
 
@@ -151,7 +154,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             )}
         </View>
 
-        {currentUser.userType === 'lessor' && (
+        {currentUser?.userType === 'lessor' && (
           <>
             {/* Features */}
             <View style={styles.chipsContainer}>
@@ -176,7 +179,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
           </>
         )}
 
-        {currentUser.userType === 'tenant' && (
+        {currentUser?.userType === 'tenant' && (
           <>
             {/* Match with you */}
             <View style={styles.chipsContainer}>

@@ -26,22 +26,25 @@ import {tagSorter} from 'helpers/tagSorter';
 import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  // const currentUser = useAppSelector(
+  //   (state: {user: UserState}) => state.user.user,
+  // );
+  const {data} = useGetUserQuery();
+  const currentUser = data?.user;
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics ?? [],
   );
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.filter ?? [],
     advert.flat.features,
   );
   const positiveFeatures = featuresTags.positiveTags;

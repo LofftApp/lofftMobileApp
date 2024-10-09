@@ -23,7 +23,12 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   version: 1,
-  blacklist: [lofftApi.reducerPath, advertReducer.name],
+  blacklist: [
+    lofftApi.reducerPath,
+    advertReducer.name,
+    userReducer.name,
+    authenticationReducer.name,
+  ],
 };
 
 const reducers = combineReducers({
