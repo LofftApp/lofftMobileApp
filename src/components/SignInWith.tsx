@@ -1,16 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // API 🧠
 
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 
-// Assets 💿
-import {AppleIcon} from '../assets';
-import {GoogleIcon} from '../assets';
-
-const SignInWith = ({navigation}: any) => {
+// navigation removed from SignInWith component to remove error.
+const SignInWith = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text1}>

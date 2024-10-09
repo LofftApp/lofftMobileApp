@@ -34,16 +34,17 @@ import AdminScreen from 'screens/admin/adminScreen';
 
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+// import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Remove ErrorBoundary in production
-import ErrorBoundary from './src/ErrorBoundary';
+// import ErrorBoundary from './src/ErrorBoundary';
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
   const isAuth = useAuth();
   console.log('isAuth', isAuth);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {data, error, isLoading} = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
     skip: !isAuth,
@@ -60,15 +61,12 @@ const App = () => {
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
 
-  // TODO: This will need to be placed in another useEffect with new DB path.
-
   // Use Effect for dev environment
   useEffect(() => {
     if (__DEV__) {
       console.log('Lofft API Development Environment');
-      let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '127.0.0.1';
+      const host = 'localhost';
       console.log(
         host === 'localhost'
           ? 'Host running on local host'

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import React from 'react';
+import {Text} from 'react-native';
 
 // Api
 
@@ -7,23 +7,25 @@ import {StyleSheet, View, Text, Button} from 'react-native';
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Redux 🧠
-import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
+// import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
 
 // StyleSheets 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
+// import {fontStyles} from 'styleSheets/fontStyles';
 
 const AdminScreen = () => {
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const assignUsers = async () => {
-      const users: any = await getUsersFromNotion();
-      setUsers(users);
-    };
-    assignUsers();
-  }, []);
+  // TODO: This is legacy, and needs updating and changing
+  // const [users, setUsers] = useState([]);
+  // useEffect(() => {
+  //   const assignUsers = async () => {
+  //     const users: any = await getUsersFromNotion();
+  //     setUsers(users);
+  //   };
+  //   assignUsers();
+  // }, []);
   return (
     <ScreenBackButton nav={() => {}} title={'Admin Screen'}>
-      <Text style={fontStyles.bodySmall}>
+      <Text>This is placeholder</Text>
+      {/* <Text style={fontStyles.bodySmall}>
         This is the admin screen, use this to seed and update details in the
         applicaiton.
       </Text>
@@ -41,25 +43,25 @@ const AdminScreen = () => {
             </View>
           </View>
         ))}
-      </View>
+      </View> */}
     </ScreenBackButton>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: 10,
-  },
-  header: {
-    padding: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     marginVertical: 10,
+//   },
+//   header: {
+//     padding: 5,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//   },
+//   buttonContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//   },
+// });
 
 export default AdminScreen;

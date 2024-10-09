@@ -1,18 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
 // Cards 🃏
 import ApplicantsCard from 'components/cards/ListViewApplicantCard';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
-import FilterButton from 'components/buttons/FilterButton';
 import BackButton from 'components/buttons/BackButton';
 
 // StyleSheets 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreButton} from 'components/buttons/CoreButton';
 

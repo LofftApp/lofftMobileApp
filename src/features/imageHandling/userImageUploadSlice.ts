@@ -19,7 +19,7 @@ export const imageUploadSlice = createSlice({
     },
 
     deleteImageToUpload: (state: any, action: PayloadAction<string>) => {
-      const imageUrl = action.payload;
+      // const imageUrl = action.payload;
       const index = state.imagesToUpload.indexOf(action.payload);
       state.imagesToUpload.splice(index, 1);
       // deleteImage(imageUrl);

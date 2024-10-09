@@ -16,8 +16,8 @@ const PrimaryScreen = ({background = false, children}: any) => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View
         style={[
+          background ? styles.paddingH10 : null,
           CoreStyleSheet.viewContainerStyle,
-          background ? {paddingHorizontal: 0} : null,
           Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
         ]}>
         <View style={styles.boundries}>{children}</View>
@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     paddingBottom: 5,
+  },
+  paddingH10: {
+    paddingHorizontal: 10,
   },
 });
 

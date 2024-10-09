@@ -30,7 +30,7 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
-import {useAppSelector} from 'reduxCore/hooks';
+// import {useAppSelector} from 'reduxCore/hooks';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const profileNotDone = {

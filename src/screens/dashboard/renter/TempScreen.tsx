@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React from 'react';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 
 // Redux
@@ -10,7 +10,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const TempScreen = ({navigation}: any) => {
+const TempScreen = () => {
   const [signOut] = useSignOutMutation();
 
   const handleSignOut = () => {
@@ -18,7 +18,7 @@ const TempScreen = ({navigation}: any) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <View style={{marginTop: 400}}>
+      <View style={styles.marginTop400}>
         <Text>Temp Screen</Text>
         <CoreButton value="Sign Out" onPress={handleSignOut} />
       </View>
@@ -37,6 +37,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  marginTop400: {
+    marginTop: 400,
   },
 });
 

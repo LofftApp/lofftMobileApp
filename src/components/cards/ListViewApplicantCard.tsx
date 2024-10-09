@@ -1,12 +1,5 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
-
-// Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-
-// Components 🪢
-import {CoreButton} from 'components/buttons/CoreButton';
-import Chips from 'components/buttons/Chips';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -20,10 +13,6 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 const ApplicantsCard = ({email}: any) => {
   const [activateBox, setActiveBox] = useState(false);
   const [hasCollapsed, setHasCollapsed] = useState(true);
-
-  // getting the first name from the database+capitalizing it
-  // getting the Match percentage from the database
-  // annoy james into showing me how to do the whole thing so i can do it myself
 
   const firstLetter = email.charAt(0).toUpperCase();
 
