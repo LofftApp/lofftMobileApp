@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
 import {saveUserDetails} from 'reduxFeatures/registration/userJourneySlice';
-import {useNavigation} from '@react-navigation/native';
-import {signOut} from 'reduxFeatures/auth/authenticationMiddleware';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -27,7 +27,11 @@ import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 
 const ConditionsOfUseScreen = () => {
   const dispatch = useAppDispatch();
+  const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const handleSignOut = () => {
+    signOut();
+  };
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
       <HeadlineContainer
@@ -65,7 +69,7 @@ const ConditionsOfUseScreen = () => {
           style={styles.buttonStyle}
           textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
           disabled={false}
-          onPress={() => dispatch(signOut())}
+          onPress={handleSignOut}
         />
       </View>
     </ScreenBackButton>

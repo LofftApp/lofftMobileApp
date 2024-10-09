@@ -3,19 +3,7 @@ import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
 import {logout, setAuthenticated} from './authSlice';
 import {clearPersister} from 'persistance/persister';
-
-type SignInArgs = {
-  email: string;
-  password: string;
-};
-
-type SignInResponse = {
-  access_token: string;
-  created_at: number;
-  expires_in: number;
-  refresh_token: string;
-  token_type: string;
-};
+import {SignInArgs, SignUpArgs, SignInResponse, SignUpResponse} from './types';
 
 export const authApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -79,7 +67,7 @@ export const authApi = lofftApi.injectEndpoints({
       },
     }),
 
-    signUp: builder.mutation<SignInResponse, SignInArgs>({
+    signUp: builder.mutation<SignUpResponse, SignUpArgs>({
       query: ({email, password}) => ({
         url: 'api/users',
         method: 'POST',
@@ -95,7 +83,11 @@ export const authApi = lofftApi.injectEndpoints({
         try {
           const response = await queryFulfilled;
 
-          await EncryptedStorage.setItem('token', response.data.access_token);
+          dispatch(setAuthenticated({token: response.data.access_token}));
+          await EncryptedStorage.setItem(
+            'token',
+            response.data.user.access_token,
+          );
           console.log('Token stored successfully after sign up');
         } catch (error) {
           console.log('Error during sign UP:', error);

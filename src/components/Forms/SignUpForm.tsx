@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
@@ -59,9 +59,18 @@ const SignUpForm = () => {
   //     }
   //   }
   // };
-  const [signUp, result] = useSignUpMutation();
-  const handleSignUp = () => {
-    signUp({email, password});
+  const [signUp, {isSuccess}] = useSignUpMutation();
+  console.log('result SIGNUP:', isSuccess);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setEmail('');
+      setPassword('');
+      setRepeatPassword('');
+    }
+  }, [isSuccess]);
+  const handleSignUp = async () => {
+    await signUp({email, password});
   };
 
   return (

@@ -91,7 +91,7 @@ const App = () => {
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
           ) : null}
-          {!userType ? (
+          {userType === 'newuser' ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
           {userType === 'lessor' ? (
