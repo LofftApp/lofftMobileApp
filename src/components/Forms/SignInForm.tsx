@@ -26,7 +26,7 @@ const SignInForm = () => {
       <View style={styles.textInputWrap}>
         <InputFieldText
           value={email}
-          onChangeText={(text: string) => setEmail(text)}
+          onChangeText={(text: string | number) => setEmail(text.toString())}
           placeholder="Email"
           type="email"
           keyboardType="email-address"

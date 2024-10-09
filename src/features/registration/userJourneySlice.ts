@@ -1,4 +1,4 @@
-import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 const renterJourney = () => {
   return {
@@ -150,31 +150,33 @@ export const userJourneySlice = createSlice({
     },
 
     saveUserDetails: (state: any) => {
-      const userDetails = state.userDetails;
+      // const userDetails = state.userDetails;
       if (state.userType === 'renter') {
-        createUserProfile({
-          genderIdentity: userDetails.genderIdentity,
-          userDescription: userDetails.userDescription,
-          personalPreferences: userDetails.flatMate,
-          districts: userDetails.districts,
-          flatPreferences: userDetails.flatFeatures,
-          maxRent: userDetails.maxRent,
-          minRent: userDetails.minRent,
-          warmRent: userDetails.warmRent,
-        });
+        // TODO: Create user profile
+        // createUserProfile({
+        //   genderIdentity: userDetails.genderIdentity,
+        //   userDescription: userDetails.userDescription,
+        //   personalPreferences: userDetails.flatMate,
+        //   districts: userDetails.districts,
+        //   flatPreferences: userDetails.flatFeatures,
+        //   maxRent: userDetails.maxRent,
+        //   minRent: userDetails.minRent,
+        //   warmRent: userDetails.warmRent,
+        // });
       } else if (state.userType === 'lesser') {
-        createFlatProfile({
-          flatFeatures: userDetails.flatFeatures || {},
-          cost: userDetails.cost || 0,
-          warmrent: userDetails.warmRent || false,
-          location: userDetails.location || '',
-          district: userDetails.district || null,
-          fromDate: userDetails.fromDate || Date.now,
-          untilDate: userDetails.untilDate || null,
-          perminant: userDetails.perminant || false,
-          flatMate: userDetails.flatMate || {},
-          images: userDetails.images || null,
-        });
+        // TODO: Create flat profile
+        // createFlatProfile({
+        //   flatFeatures: userDetails.flatFeatures || {},
+        //   cost: userDetails.cost || 0,
+        //   warmrent: userDetails.warmRent || false,
+        //   location: userDetails.location || '',
+        //   district: userDetails.district || null,
+        //   fromDate: userDetails.fromDate || Date.now,
+        //   untilDate: userDetails.untilDate || null,
+        //   perminant: userDetails.perminant || false,
+        //   flatMate: userDetails.flatMate || {},
+        //   images: userDetails.images || null,
+        // });
       }
     },
   },

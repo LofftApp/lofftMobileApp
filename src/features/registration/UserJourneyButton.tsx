@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {setUserType} from './userJourneySlice';
 import IconButton from 'components/buttons/IconButton';
 
@@ -12,7 +12,7 @@ type UserButton = {
 };
 
 const UserJourneyButton = ({text, icon, style, onPress, type}: UserButton) => {
-  const userType = useAppSelector((state: any) => state.userDetails.userType);
+  // const userType = useAppSelector((state: any) => state.userDetails.userType);
   const dispatch = useAppDispatch();
   return (
     <IconButton

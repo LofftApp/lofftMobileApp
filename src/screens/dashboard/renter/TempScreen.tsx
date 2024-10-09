@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
+  marginTop400: {
+    marginTop: 400,
+  },
 });
 
 export default TempScreen;
