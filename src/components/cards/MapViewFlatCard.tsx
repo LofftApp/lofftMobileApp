@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 
 // Redux 🏪
-import {useAppSelector} from 'reduxCore/hooks';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';
@@ -26,25 +27,22 @@ import noFlatImage from 'Assets/images/no-flat-image.png';
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
 import {width, height, size} from 'react-native-responsive-sizes';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
-import type {UserState} from 'reduxFeatures/user/types';
-import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
-import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  const {data} = useGetUserQuery();
+  const currentUser = data?.user;
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.filter ?? [],
     advert.flat.features,
   );
   const maxTaglineLength = 35;
