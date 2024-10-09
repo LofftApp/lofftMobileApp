@@ -30,7 +30,7 @@ export const advertApi = lofftApi.injectEndpoints({
         minPrice = initialMinPrice,
         maxPrice = initialMaxPrice,
       } = {}) => {
-        const baseUrl = '/api/adverts';
+        const baseEndpoint = '/api/adverts';
         const params = new URLSearchParams();
         if (features) {
           params.append('features', features);
@@ -41,7 +41,7 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('maxPrice', String(maxPrice));
         }
 
-        return params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+        return params.toString() ? `${baseEndpoint}?${params.toString()}` : baseEndpoint;
       },
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
