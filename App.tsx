@@ -53,14 +53,15 @@ const App = () => {
   console.log('authenticated', authenticated);
 
   const dispatch = useAppDispatch();
-  const {data: token} = useCheckTokenQuery();
-  console.log('token in APP', token);
+  // const {data: token} = useCheckTokenQuery();
+  // console.log('token in APP', token);
   // useEffect(() => {
   //   // dispatch(checkToken());
   // }, []);
 
   const {data, error, isLoading} = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
+    skip: !authenticated,
   });
   console.log('data user in APP', data);
 
