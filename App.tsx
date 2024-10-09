@@ -35,25 +35,26 @@ const RootStack = createNativeStackNavigator();
 
 // Remove ErrorBoundary in production
 import ErrorBoundary from './src/ErrorBoundary';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const App = () => {
   // Define selectors
   const getAuthenticated = (state: any) => state.authentication?.authenticated;
-  const getUserType = (state: any) => state.user?.user?.userType;
-  const getAdmin = (state: any) => state.user?.user?.admin;
+  // const getUserType = (state: any) => state.user?.user?.userType;
+  // const getAdmin = (state: any) => state.user?.user?.admin;
 
   // Create memoized selectors
   const selectAuthenticated = createSelector(
     [getAuthenticated],
     authenticated => authenticated,
   );
-  const selectUserTypeAndAdmin = createSelector(
-    [getUserType, getAdmin],
-    (userType, admin) => [userType, admin],
-  );
+  // const selectUserTypeAndAdmin = createSelector(
+  //   [getUserType, getAdmin],
+  //   (userType, admin) => [userType, admin],
+  // );
   const authenticated = useAppSelector(selectAuthenticated);
   console.log('authenticated', authenticated);
-  const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
+  // const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
 
   const dispatch = useAppDispatch();
   const [initializing, setInitializing] = useState(true);
@@ -62,11 +63,16 @@ const App = () => {
     dispatch(checkToken());
   }, []);
 
-  useEffect(() => {
-    if (initializing) setInitializing(false);
-    if (authenticated && !userType) dispatch(getProfile());
-  }, [authenticated]);
+  const {data, error, isLoading} = useGetUserQuery();
+  console.log('data user in APP', data);
 
+  // useEffect(() => {
+  //   if (initializing) setInitializing(false);
+  //   // if (authenticated && !userType) dispatch(getProfile());
+  // }, [authenticated]);
+  const userType = data?.user.userType;
+  const admin = data?.user.admin;
+  console.log('userType', data?.user.userType);
   // Mapbox
   MapboxGL.setWellKnownTileServer(
     Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
@@ -123,7 +129,7 @@ export default () => {
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
       {/* <ErrorBoundary> */}
-        <App />
+      <App />
       {/* </ErrorBoundary> */}
     </NavigationContainer>
   );
