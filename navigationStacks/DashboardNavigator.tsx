@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Redux 🏪
-import {useAppSelector} from 'reduxCore/hooks';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -23,7 +23,8 @@ import ApplicationNavigator from './ApplicationNavigator';
 const Tab = createBottomTabNavigator();
 
 const DashboardNavigator = () => {
-  const admin = useAppSelector(state => state.user.user.admin);
+  const {data} = useGetUserQuery();
+  const admin = data?.user?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

@@ -68,7 +68,6 @@ interface IncomingSpecificUser {
 }
 export type {
   User,
-  UserState,
   UserProfile,
   UserCharacteristics,
   UserFilter,
