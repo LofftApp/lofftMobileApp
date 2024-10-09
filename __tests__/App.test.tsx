@@ -25,7 +25,6 @@ const store = createMockStore(defaultMockState);
 
 describe('App Component', () => {
   test('renders correctly when authenticated', () => {
-    // Mock the useAuth hook to return `true` for authentication
     const mockAuth = require('../src/features/auth/authSlice').useAuth;
     mockAuth.mockReturnValue({isAuthenticated: true});
 
@@ -38,7 +37,6 @@ describe('App Component', () => {
   });
 
   test('renders correctly when not authenticated', () => {
-    // Mock the useAuth hook to return `false` for unauthenticated state
     const mockAuth = require('../src/features/auth/authSlice').useAuth;
     mockAuth.mockReturnValue({isAuthenticated: false});
 
