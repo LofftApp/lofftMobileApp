@@ -34,10 +34,11 @@ const MatchingScoreButton = ({size, score}: MatchingScoreButtonProps) => {
 const styles = StyleSheet.create({
   flatCardMatchingScoreButtonBig: {
     height: sizeResponsive(38),
-    width: sizeResponsive(77),
+    width: sizeResponsive(90),
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: sizeResponsive(5),
   },
   fontColor: {
     color: Color.Mint[100],

@@ -41,7 +41,9 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('maxPrice', String(maxPrice));
         }
 
-        return params.toString() ? `${baseEndpoint}?${params.toString()}` : baseEndpoint;
+        return params.toString()
+          ? `${baseEndpoint}?${params.toString()}`
+          : baseEndpoint;
       },
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
@@ -104,6 +106,7 @@ export const advertApi = lofftApi.injectEndpoints({
       invalidatesTags: (result, error, id) => [
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
+        {type: 'User', id: 'PROFILE'},
       ],
     }),
     confirmApplications: builder.mutation<

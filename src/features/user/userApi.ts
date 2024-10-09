@@ -11,6 +11,7 @@ export const userApi = lofftApi.injectEndpoints({
         console.log('response USER:', response);
         return toCamelCaseKeys(response as unknown as User);
       },
+      providesTags: [{type: 'User', id: 'PROFILE'}],
     }),
     getSpecificUser: builder.query<SpecificUser, number>({
       query: id => `api/users/${id}/specific_user`,

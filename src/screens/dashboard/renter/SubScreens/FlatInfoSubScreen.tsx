@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
-import {UserState} from 'reduxFeatures/user/types';
 import {Advert} from 'reduxFeatures/adverts/types';
 
 // StyleSheet 🖼️
@@ -27,9 +25,6 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // Types 🏷
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
-  // const currentUser = useAppSelector(
-  //   (state: {user: UserState}) => state.user.user,
-  // );
   const {data} = useGetUserQuery();
   const currentUser = data?.user;
 
