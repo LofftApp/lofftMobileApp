@@ -9,6 +9,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 // Redux 🐙
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -29,8 +30,9 @@ import {
 const ListFlatApplicationCard = ({
   application,
   _advert,
-  isLessor,
 }: ListFlatApplicationCardProps) => {
+  const {data} = useGetUserQuery();
+  const isLessor = data?.user?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
   const [toggleFavorite] = useToggleFavoriteMutation();

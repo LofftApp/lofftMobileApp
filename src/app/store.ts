@@ -11,10 +11,9 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Slices (Reducers)
-import authenticationReducer from 'reduxFeatures/authentication/authenticationSlice';
+import authReducer from 'reduxFeatures/auth/authSlice';
 import userJourneyReducer from 'reduxFeatures/registration/userJourneySlice';
 import imageUploadReducer from 'reduxFeatures/imageHandling/userImageUploadSlice';
-import userReducer from 'reduxFeatures/user/usersSlice';
 import advertReducer from 'reduxFeatures/adverts/advertSlice';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import applicationsReducer from 'reduxFeatures/applications/applicationSlice';
@@ -23,14 +22,13 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   version: 1,
-  blacklist: [lofftApi.reducerPath, advertReducer.name],
+  blacklist: [lofftApi.reducerPath, advertReducer.name, authReducer.name],
 };
 
 const reducers = combineReducers({
-  authentication: authenticationReducer,
+  auth: authReducer,
   userDetails: userJourneyReducer,
   imageUpload: imageUploadReducer,
-  user: userReducer,
   adverts: advertReducer,
   applications: applicationsReducer,
   [lofftApi.reducerPath]: lofftApi.reducer,

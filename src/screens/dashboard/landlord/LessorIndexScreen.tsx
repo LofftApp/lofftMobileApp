@@ -22,6 +22,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const LessorIndexScreen = () => {
   const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
+
   const adverts = data?.adverts;
 
   return (
@@ -45,7 +46,6 @@ const LessorIndexScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <ListFlatApplicationComponent
           adverts={adverts}
-          isLessor={true}
           isLoading={isLoading}
           isError={isError}
         />

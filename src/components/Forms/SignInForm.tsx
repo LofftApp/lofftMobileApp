@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-// API 🌎
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {signIn} from 'reduxFeatures/authentication/authenticationMiddleware';
+// Redux 🧠
+import {useSignInMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import SignUpButton from 'components/buttons/SignUpButton';
@@ -13,10 +12,14 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import Color from 'styleSheets/lofftColorPallet.json';
 
 const SignInForm = () => {
-  const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState({target: '', message: ''});
+  const [signIn] = useSignInMutation();
+
+  const handleSignIn = () => {
+    signIn({email, password});
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello again!</Text>
@@ -41,10 +44,7 @@ const SignInForm = () => {
         <Text style={styles.text}>Forgot password?</Text>
       </View>
       <View style={styles.signUpButtonView}>
-        <SignUpButton
-          title="Sign in"
-          onPress={() => dispatch(signIn({email, password}))}
-        />
+        <SignUpButton title="Sign in" onPress={handleSignIn} />
       </View>
     </View>
   );

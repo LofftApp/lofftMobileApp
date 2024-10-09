@@ -3,8 +3,8 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -23,25 +23,23 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {tagSorter} from 'helpers/tagSorter';
 
 // Types 🏷️
-import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  const {data} = useGetUserQuery();
+  const currentUser = data?.user;
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics ?? [],
   );
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.filter ?? [],
     advert.flat.features,
   );
   const positiveFeatures = featuresTags.positiveTags;

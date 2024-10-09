@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
 //Redux
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {
   applicationApi,
   useGetApplicationByIdQuery,
@@ -10,6 +10,7 @@ import {
   useGetAdvertByIdQuery,
   useToggleFavoriteMutation,
 } from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // External
 import Collapsible from 'react-native-collapsible';
@@ -29,8 +30,9 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
-  const currentUser = useAppSelector(state => state.user.user);
-  const isLessor = currentUser.userType === 'lessor';
+
+  const {data} = useGetUserQuery();
+  const isLessor = data?.user?.userType === 'lessor';
 
   //Renter Journey
   const {

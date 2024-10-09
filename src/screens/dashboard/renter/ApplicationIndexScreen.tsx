@@ -50,7 +50,6 @@ const ApplicationIndexScreen = () => {
           applications={
             screen === 'thumbs-down' ? inactiveApplications : activeApplications
           }
-          isLessor={false}
           isLoading={isLoading}
           isError={isError}
         />

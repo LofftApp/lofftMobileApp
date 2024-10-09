@@ -14,12 +14,12 @@ type NotFoundComponentProps = {
   onPress?: () => void;
 };
 
-function NotFoundComponent({
+const NotFoundComponent = ({
   message,
   backButton,
   buttonValue,
   onPress,
-}: NotFoundComponentProps) {
+}: NotFoundComponentProps) => {
   const navigation = useNavigation();
   const onPressHandler = () => {
     if (onPress) {
@@ -42,7 +42,7 @@ function NotFoundComponent({
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   ErrorContainer: {

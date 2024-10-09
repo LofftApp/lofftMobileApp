@@ -3,16 +3,18 @@ import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
 import {ApplyForFlatScreenBackground, HiFive} from 'assets';
 import BackButton from 'components/buttons/BackButton';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -27,10 +29,14 @@ const ApplyForFlatScreen = () => {
   const navigation = useNavigation<
     ApplicationScreenNavigationProp & SearchScreenNavigationProp
   >();
-  const credits = useAppSelector(state => state.user.user.credits);
+  const {data, isLoading, isError} = useGetUserQuery();
+  const credits = data?.user.credits;
 
+  if (isLoading) {
+    <LoadingComponent />;
+  }
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={styles.mainContainer}>
       <ApplyForFlatScreenBackground style={styles.backgroundImage} />
       <BackButton style={styles.backButton} onPress={navigation.goBack} />
       <HiFive />
@@ -39,9 +45,20 @@ const ApplyForFlatScreen = () => {
           You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
           to get back to you!
         </Text>
-        <Text style={[fontStyles.bodyMedium, styles.textContainer]}>
-          ⚡️ Remaining tokens : {credits}
-        </Text>
+        {!isError ? (
+          <Text style={[fontStyles.bodyMedium, styles.textContainer]}>
+            ⚡️ Remaining tokens: {credits}
+          </Text>
+        ) : (
+          <Text
+            style={[
+              fontStyles.bodyMedium,
+              styles.textContainer,
+              {color: Color.Tomato[100]},
+            ]}>
+            Failed to get ramining tokens
+          </Text>
+        )}
         <View style={styles.buttonsWrap}>
           <CoreButton
             value={'See all applications'}
@@ -61,6 +78,10 @@ const ApplyForFlatScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: StyleSheet.flatten([
+    CoreStyleSheet.safeAreaViewShowContainer,
+    {alignItems: 'center', flex: 1},
+  ]),
   backButton: {
     marginLeft: 10,
   },

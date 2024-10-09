@@ -5,20 +5,22 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Platform} from 'react-native';
+
+//Mapbox 🗺️
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useAuth} from 'reduxFeatures/auth/useAuth';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
+// Navigation 🚀
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 
 // Navigators 🧭
 import GuestStackNavigator from './navigationStacks/GuestNavigator';
@@ -29,44 +31,27 @@ import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLess
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
-import {createSelector} from '@reduxjs/toolkit';
 
-const RootStack = createNativeStackNavigator();
+//Components 🪢
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Remove ErrorBoundary in production
 import ErrorBoundary from './src/ErrorBoundary';
 
+const RootStack = createNativeStackNavigator();
 const App = () => {
-  // Define selectors
-  const getAuthenticated = (state: any) => state.authentication?.authenticated;
-  const getUserType = (state: any) => state.user?.user?.userType;
-  const getAdmin = (state: any) => state.user?.user?.admin;
+  const isAuth = useAuth();
+  console.log('isAuth', isAuth);
 
-  // Create memoized selectors
-  const selectAuthenticated = createSelector(
-    [getAuthenticated],
-    authenticated => authenticated,
-  );
-  const selectUserTypeAndAdmin = createSelector(
-    [getUserType, getAdmin],
-    (userType, admin) => [userType, admin],
-  );
-  const authenticated = useAppSelector(selectAuthenticated);
-  console.log('authenticated', authenticated);
-  const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
+  const {data, error, isLoading} = useGetUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    skip: !isAuth,
+  });
 
-  const dispatch = useAppDispatch();
-  const [initializing, setInitializing] = useState(true);
-
-  useEffect(() => {
-    dispatch(checkToken());
-  }, []);
-
-  useEffect(() => {
-    if (initializing) setInitializing(false);
-    if (authenticated && !userType) dispatch(getProfile());
-  }, [authenticated]);
-
+  const userType = data?.user.userType;
+  const admin = data?.user.admin;
+  console.log('userType', data?.user.userType);
   // Mapbox
   MapboxGL.setWellKnownTileServer(
     Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
@@ -91,9 +76,18 @@ const App = () => {
       );
     }
   }, []);
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  // if (error) {
+  //   return <NotFoundComponent backButton message="There was an error getting user" />;
+  // }
+
   return (
     <>
-      {!authenticated ? (
+      {!isAuth ? (
         <GuestStackNavigator />
       ) : (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
@@ -123,7 +117,7 @@ export default () => {
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
       {/* <ErrorBoundary> */}
-        <App />
+      <App />
       {/* </ErrorBoundary> */}
     </NavigationContainer>
   );

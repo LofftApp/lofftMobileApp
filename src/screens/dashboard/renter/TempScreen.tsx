@@ -1,27 +1,26 @@
 import React, {useState, useCallback} from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions, Text} from 'react-native';
 
-import Color from 'styleSheets/lofftColorPallet.json';
 // Redux
-import {useAppDispatch} from 'reduxCore/hooks';
-import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
-import {clearProfile} from 'reduxFeatures/user/usersSlice';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
+
+//Styles
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
 
 const TempScreen = ({navigation}: any) => {
-  const dispatch = useAppDispatch();
+  const [signOut] = useSignOutMutation();
+
+  const handleSignOut = () => {
+    signOut();
+  };
   return (
     <View style={styles.pageContainer}>
       <View style={{marginTop: 400}}>
-        <CoreButton
-          value="Sign Out"
-          onPress={() => {
-            dispatch(signOut());
-            dispatch(clearProfile());
-          }}
-        />
+        <Text>Temp Screen</Text>
+        <CoreButton value="Sign Out" onPress={handleSignOut} />
       </View>
     </View>
   );

@@ -1,23 +1,25 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+// Redux
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+//Components
 import {CoreButton} from 'components/buttons/CoreButton';
 
-// Redux
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
-import {clearProfile} from 'reduxFeatures/user/usersSlice';
+//Styles
 import {fontStyles} from 'styleSheets/fontStyles';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 const UserScreen = () => {
-  const dispatch = useAppDispatch();
+  const {data} = useGetUserQuery();
+  const [signOut] = useSignOutMutation();
 
-  const userCredits = useAppSelector(state => {
-    console.log('state.user.user.credits', state.user.user);
-    return state.user.user.credits;
-  });
+  const userCredits = data?.user?.credits;
 
-  console.log('userCredits', userCredits);
+  const handleSignOut = () => {
+    signOut();
+  };
   return (
     <View style={styles.userScreenContainer}>
       <Text>Hi from User Screen 👋</Text>
@@ -25,10 +27,7 @@ const UserScreen = () => {
       <CoreButton
         value="Sign Out"
         style={styles.coreButtonStyle}
-        onPress={() => {
-          dispatch(signOut());
-          dispatch(clearProfile());
-        }}
+        onPress={handleSignOut}
       />
     </View>
   );

@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-function LoadingComponent() {
+const LoadingComponent = () => {
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <View style={styles.loadingContainer}>
@@ -12,7 +12,7 @@ function LoadingComponent() {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   loadingContainer: {

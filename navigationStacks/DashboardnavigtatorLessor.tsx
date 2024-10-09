@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Redux 🏪
-import {useAppSelector} from 'reduxCore/hooks';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -11,19 +11,17 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
-import FlatSearchNavigator from './FlatSearchNavigator';
+import LessorNavigator from './LessorNavigator';
 
 // Screens
-
 import UserScreen from 'screens/dashboard/renter/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
-import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
-import LessorNavigator from './LessorNavigator';
 
 const Tab = createBottomTabNavigator();
 const DashboardNavigatorLessor = () => {
-  const admin = useAppSelector(state => state.user.admin);
+  const {data} = useGetUserQuery();
+  const admin = data?.user?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
