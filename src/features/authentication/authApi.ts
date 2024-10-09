@@ -1,7 +1,7 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
-import {setAuthenticated} from './authenticationSlice';
+import {logout, setAuthenticated} from './authenticationSlice';
 
 type SignInArgs = {
   email: string;
@@ -78,6 +78,7 @@ export const authApi = lofftApi.injectEndpoints({
           await queryFulfilled;
 
           // Remove the token after successful sign-out
+          dispatch(logout());
           await EncryptedStorage.removeItem('token');
           console.log('Token removed and user signed out successfully');
         } catch (error) {

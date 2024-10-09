@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // Redux
 import {useAppDispatch} from 'reduxCore/hooks';
-import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
+// import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 //Components
@@ -11,15 +11,18 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 //Styles
 import {fontStyles} from 'styleSheets/fontStyles';
+import {useSignOutMutation} from 'reduxFeatures/authentication/authApi';
 
 const UserScreen = () => {
   const dispatch = useAppDispatch();
 
   const {data} = useGetUserQuery();
+  const [signOut, result] = useSignOutMutation();
   const userCredits = data?.user?.credits;
 
   const handleSignOut = () => {
-    dispatch(signOut());
+    signOut();
+    // dispatch(signOut());
   };
   return (
     <View style={styles.userScreenContainer}>
