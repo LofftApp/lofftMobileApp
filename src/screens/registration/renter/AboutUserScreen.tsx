@@ -20,6 +20,8 @@ import userPreferences from 'components/componentData/userPreferences.json';
 import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {setCurrentScreen} from 'reduxFeatures/registration/newUserSlice';
 
 interface SelectedTracks {
   id: number;
@@ -36,6 +38,15 @@ const AboutYouFlatHuntScreen = () => {
     useState(preferences);
   const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
   const [alertTriger] = useState(false);
+
+  const currentScreen = useAppSelector(state => state.newUser.currentScreen);
+  const dispatch = useAppDispatch();
+
+  const handleBackButton = () => {
+    const previousScreen = (Number(currentScreen) - 1).toString();
+    dispatch(setCurrentScreen(previousScreen));
+    navigation.goBack();
+  };
 
   const selectFn = (id: number) => {
     const targets = [];
@@ -78,7 +89,7 @@ const AboutYouFlatHuntScreen = () => {
   );
 
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <ScreenBackButton nav={handleBackButton}>
       <HeadlineContainer
         headlineText="Tell us a bit about yourself"
         subDescription="Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
