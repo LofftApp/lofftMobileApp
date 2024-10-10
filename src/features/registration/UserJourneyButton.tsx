@@ -12,7 +12,6 @@ type UserButton = {
 };
 
 const UserJourneyButton = ({text, icon, style, onPress, type}: UserButton) => {
-  // const userType = useAppSelector((state: any) => state.userDetails.userType);
   const dispatch = useAppDispatch();
   return (
     <IconButton
