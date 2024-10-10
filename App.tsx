@@ -34,18 +34,16 @@ import AdminScreen from 'screens/admin/adminScreen';
 
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Remove ErrorBoundary in production
-import ErrorBoundary from './src/ErrorBoundary';
+
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
   const isAuth = useAuth();
   console.log('isAuth', isAuth);
 
-  const {data, error, isLoading} = useGetUserQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+  const {data, isLoading} = useGetUserQuery(undefined, {
     skip: !isAuth,
   });
 
@@ -78,10 +76,6 @@ const App = () => {
     return <LoadingComponent />;
   }
 
-  // if (error) {
-  //   return <NotFoundComponent backButton message="There was an error getting user" />;
-  // }
-
   return (
     <>
       {!isAuth ? (
@@ -113,9 +107,7 @@ export default () => {
     <NavigationContainer
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
-      {/* <ErrorBoundary> */}
       <App />
-      {/* </ErrorBoundary> */}
     </NavigationContainer>
   );
 };

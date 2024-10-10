@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch} from 'reduxCore/hooks';
+import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import SignUpButton from 'components/buttons/SignUpButton';
@@ -11,10 +11,8 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 const SignUpForm = () => {
-  const dispatch = useAppDispatch();
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

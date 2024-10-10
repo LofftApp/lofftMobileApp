@@ -3,8 +3,8 @@ import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
-import {useAppDispatch} from 'reduxCore/hooks';
-// import {signOut} from 'reduxFeatures/auth/authenticationMiddleware';
+
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -21,10 +21,8 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Helper
 import {size} from 'react-native-responsive-sizes';
 import {NewUserNavigatorProp} from '../../../navigationStacks/types';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 const StartJourney = () => {
-  const dispatch = useAppDispatch();
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserNavigatorProp>();
 
