@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 // Components 🪢
 import SignUpForm from 'components/Forms/SignUpForm';
-import SignInWith from 'components/SignInWith';
+import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

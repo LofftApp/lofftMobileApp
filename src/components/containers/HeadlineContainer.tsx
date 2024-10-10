@@ -11,19 +11,20 @@ const HeadlineContainer = ({headlineText, subDescription}: any) => {
   return (
     <View style={styles.container}>
       <Text style={fontStyles.headerDisplay}>{headlineText}</Text>
-      <Text style={styles.subHeaderText}>{subDescription}</Text>
+      <Text style={[fontStyles.bodyExtraSmall, styles.subHeaderText]}>
+        {subDescription}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 25,
-    marginBottom: size(20),
+    gap: size(10),
+
   },
   subHeaderText: {
     color: color.Black[80],
-    marginTop: size(10),
   },
 });
 

@@ -3,7 +3,7 @@ import {View, StyleSheet, Text} from 'react-native';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
-import SignInWith from 'components/SignInWith';
+import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

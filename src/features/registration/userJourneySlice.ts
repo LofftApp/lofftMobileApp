@@ -1,4 +1,5 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {PURGE} from 'redux-persist';
 
 const renterJourney = () => {
   return {
@@ -79,7 +80,7 @@ interface UserJourneyActions {
 }
 
 const initialState: UserJourneyState = {
-  userType: null,
+  userType: '',
   userJourney: {},
   userDetails: {
     genderIdentity: null,
@@ -105,13 +106,20 @@ export const userJourneySlice = createSlice({
   name: 'userDetails',
   initialState,
   reducers: {
+    // setUserType: (state, action: PayloadAction<string>) => {
+    //   state.userType = action.payload;
+    //   if (action.payload === 'lesser') {
+    //     state.userJourney = lesserJourney();
+    //   } else if (action.payload === 'renter') {
+    //     state.userJourney = renterJourney();
+    //   }
+    // },
+
     setUserType: (state, action: PayloadAction<string>) => {
       state.userType = action.payload;
-      if (action.payload === 'lesser') {
-        state.userJourney = lesserJourney();
-      } else if (action.payload === 'renter') {
-        state.userJourney = renterJourney();
-      }
+      action.payload === 'lessor'
+        ? (state.userJourney = 'lessor')
+        : (state.userJourney = 'renter');
     },
 
     setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
@@ -179,6 +187,11 @@ export const userJourneySlice = createSlice({
         // });
       }
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => {
+      return initialState;
+    });
   },
 });
 

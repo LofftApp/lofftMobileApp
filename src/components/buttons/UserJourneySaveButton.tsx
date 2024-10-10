@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {saveUserDetails} from './userJourneySlice';
+import {saveUserDetails} from '../../features/registration/userJourneySlice';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';

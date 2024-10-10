@@ -5,10 +5,10 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'components/buttons/UserJourneyPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
-import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
+import UserJourneyContinue from 'components/buttons/UserJourneyContinue';
 
 // StylesSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

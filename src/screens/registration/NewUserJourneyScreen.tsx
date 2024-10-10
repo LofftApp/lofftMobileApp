@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -13,7 +13,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 
 // Redux 🧠
-import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
+import UserJourneyButton from 'components/buttons/UserJourneyButton';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -23,10 +23,16 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserNavigatorProp} from '../../../navigationStacks/types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {setUserType} from 'reduxFeatures/registration/userJourneySlice';
 
-const StartJourney = () => {
+const NewUserJourneyScreen = () => {
+  const dispatch = useAppDispatch();
+
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserNavigatorProp>();
+  const userType = useAppSelector(state => state.userDetails.userType);
+  console.log('userType in startJounet', userType);
 
   const renterText = {
     headerText: 'What language(s) do you speak?',
@@ -40,40 +46,49 @@ const StartJourney = () => {
     signOut();
   };
 
+  const handleSelected = (type: string) => {
+    dispatch(setUserType(type));
+    setTimeout(() => {
+      if (type === 'renter') {
+        navigation.navigate('LanguageSelectionScreen', [
+          renterText.headerText,
+          'renter',
+        ]);
+      } else {
+        navigation.navigate('LanguageSelectionScreen', [
+          lessorText.headerText,
+          'lessor',
+        ]);
+      }
+    }, 600);
+  };
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton onPress={handleSignOut} />
       <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={'What brings you here?'}
-          subDescription={
-            'Tell us what you want to do on Lofft and we will create the matching experience!'
-          }
-        />
-        <UserJourneyButton
-          text="I'm looking for a flat"
-          icon="search-sm"
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate('LanguageSelectionScreen', [
-              renterText.headerText,
-              'renter',
-            ]);
-          }}
-          type="renter"
-        />
-        <UserJourneyButton
-          text="I have a room to rent"
-          icon="home-door"
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate('LanguageSelectionScreen', [
-              lessorText.headerText,
-              'lessor',
-            ]);
-          }}
-          type="lesser"
-        />
+        <View style={styles.mainContainer}>
+          <HeadlineContainer
+            headlineText={'What brings you here?'}
+            subDescription={
+              'Tell us what you want to do on Lofft and we will create the matching experience!'
+            }
+          />
+          <UserJourneyButton
+            text="I'm looking for a flat"
+            icon="search-sm"
+            onPress={() => handleSelected('renter')}
+            type="renter"
+            isActive={userType === 'renter'}
+          />
+          <UserJourneyButton
+            text="I have a room to rent"
+            icon="home-door"
+            onPress={() => handleSelected('lessor')}
+            type="lessor"
+            isActive={userType === 'lessor'}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -97,11 +112,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Color.Lavendar[10],
   },
-  icon: {
-    width: size(40),
-    height: size(40),
-    marginRight: size(8),
+
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: size(30),
   },
 });
 
-export default StartJourney;
+export default NewUserJourneyScreen;

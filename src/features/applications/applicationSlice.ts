@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Application, ApplicationState} from './types';
 import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+import {PURGE} from 'redux-persist';
 
 const initialState: ApplicationState = {
   applicationsRound1: [],
@@ -195,6 +196,12 @@ export const applicationSlice = createSlice({
           };
         });
     },
+  },
+
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => {
+      return initialState;
+    });
   },
 });
 
