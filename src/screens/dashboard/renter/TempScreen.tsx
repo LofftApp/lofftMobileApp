@@ -11,6 +11,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 const TempScreen = () => {
+const TempScreen = () => {
   const [signOut] = useSignOutMutation();
 
   const handleSignOut = () => {
