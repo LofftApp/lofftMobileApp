@@ -23,7 +23,7 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-        {/* Rentor Screens */}
+        {/* Renter Screens */}
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}

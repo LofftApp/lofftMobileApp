@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
-import {saveUserDetails} from 'reduxFeatures/registration/userJourneySlice';
+import {saveUserDetails} from 'reduxFeatures/registration/newUserSlice';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Screens 📺

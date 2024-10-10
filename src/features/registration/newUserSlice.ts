@@ -102,19 +102,10 @@ const initialState: UserJourneyState = {
   },
 };
 
-export const userJourneySlice = createSlice({
-  name: 'userDetails',
+export const newUserSlice = createSlice({
+  name: 'newUser',
   initialState,
   reducers: {
-    // setUserType: (state, action: PayloadAction<string>) => {
-    //   state.userType = action.payload;
-    //   if (action.payload === 'lesser') {
-    //     state.userJourney = lesserJourney();
-    //   } else if (action.payload === 'renter') {
-    //     state.userJourney = renterJourney();
-    //   }
-    // },
-
     setUserType: (state, action: PayloadAction<string>) => {
       state.userType = action.payload;
       action.payload === 'lessor'
@@ -195,6 +186,5 @@ export const userJourneySlice = createSlice({
   },
 });
 
-export const {setUserType, setDetails, saveUserDetails} =
-  userJourneySlice.actions;
-export default userJourneySlice.reducer;
+export const {setUserType, setDetails, saveUserDetails} = newUserSlice.actions;
+export default newUserSlice.reducer;

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {setDetails} from '../../features/registration/userJourneySlice';
+import {setDetails} from '../../features/registration/newUserSlice';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
