@@ -17,16 +17,28 @@ import {LanguageScreenNavigationProp} from '../../../../navigationStacks/types';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
+import {RegistrationBackground} from 'assets';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
+import Divider from 'components/bars/Divider';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const LanguageSelectionScreen = () => {
   const navigation = useNavigation<LanguageScreenNavigationProp>();
+  const userType = useNewUserType();
+  const isLessor = userType === 'lessor';
+  const insets = useSafeAreaInsets(); // Get the safe area insets dynamically
 
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   //gets all languages from languagesText.json and filters them based on the searchValue and selectedLanguages state
   useEffect(() => {
+    setIsLoading(true);
     const languageList = Object.values(languagesData);
     const filteredLanguages = languageList.filter(
       language =>
@@ -34,6 +46,7 @@ const LanguageSelectionScreen = () => {
         !selectedLanguages.includes(language.name),
     );
     setLanguages(filteredLanguages.map(language => language.name));
+    setIsLoading(false);
   }, [searchValue, selectedLanguages]);
 
   const handleSelectedLanguages = (l: string) => {
@@ -56,18 +69,39 @@ const LanguageSelectionScreen = () => {
 
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
+  if (isLoading) {
+    <LoadingComponent />;
+  }
+
   return (
-    <View style={styles.mainContainer}>
-      <ScrollView ref={scrollViewRef} style={styles.scrollViewContainer}>
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
+    <View
+      style={[
+        styles.safeAreaContainer,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
+      <BackButton onPress={navigation.goBack} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
+      <View style={styles.mainContainer}>
+        <HeadlineContainer
+          headlineText={
+            isLessor
+              ? 'What are the common language(s) in your Lofft?'
+              : 'What language(s) do you speak?'
+          }
         />
-        <Text style={[fontStyles.headerDisplay, styles.textHeader]}>
-          What {'\n'}language(s) do{'\n'}you speak?
-        </Text>
-        <View style={styles.searchBar}>
+
+        <View style={styles.inputContainer}>
           <InputFieldText
             type="search"
             placeholder="Search for your language"
@@ -79,8 +113,11 @@ const LanguageSelectionScreen = () => {
               setSearchValue('');
             }}
           />
+        </View>
+
+        <ScrollView ref={scrollViewRef}>
           {selectedLanguages.length > 0 && (
-            <View>
+            <>
               <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
                 Your current Selection:
               </Text>
@@ -94,33 +131,33 @@ const LanguageSelectionScreen = () => {
                   />
                 ))}
               </View>
-            </View>
+            </>
           )}
           <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
-              <Text style={[fontStyles.headerSmall, styles.paddingTop16]}>
-                Not what you're looking for?
-              </Text>
+              <Text style={fontStyles.headerSmall}>Other languages</Text>
             )}
-            {languages.map(language => (
-              <LanguagesCard
-                key={language}
-                language={language}
-                selected={selectedLanguages.includes(language)}
-                handleSelectedLanguages={handleSelectedLanguages}
-              />
-            ))}
+            <View style={styles.languagesContainer}>
+              {languages.map(language => (
+                <LanguagesCard
+                  key={language}
+                  language={language}
+                  selected={selectedLanguages.includes(language)}
+                  handleSelectedLanguages={handleSelectedLanguages}
+                />
+              ))}
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
+      <Divider />
       <View style={styles.continueButtonView}>
         <CoreButton
           value="Continue"
           onPress={() => {
             // Todo: This needs to be created or updated in the navigator
-            // navigation.navigate('AboutYouFlatHuntScreen');
+            navigation.navigate('AboutYouFlatHuntScreen');
           }}
-          style={styles.button}
           disabled={selectedLanguages.length === 0}
         />
       </View>
@@ -129,44 +166,33 @@ const LanguageSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    paddingTop: size(66),
-    paddingHorizontal: size(16),
+  safeAreaContainer: {
     flex: 1,
-    backgroundColor: 'white',
   },
-  scrollViewContainer: {
-    marginBottom: size(153),
+  mainContainer: {
+    flex: 1,
+    paddingVertical: size(20),
+    paddingHorizontal: size(16),
   },
-  textHeader: {
+  inputContainer: {
     paddingTop: size(20),
+    paddingBottom: size(10),
   },
-  searchBar: {
-    paddingTop: size(16),
+
+  languagesContainer: {
+    flex: 1,
   },
+
   currentSelection: {
-    paddingTop: size(16),
     marginBottom: size(8),
   },
   notSelected: {
     marginTop: size(16),
   },
   continueButtonView: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingTop: size(40),
     paddingHorizontal: size(16),
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderColor: 'black',
-  },
-  button: {
-    marginBottom: size(50),
-  },
-  paddingTop16: {
-    paddingTop: size(16),
+    paddingTop: size(20),
+    paddingBottom: size(10),
   },
 });
 

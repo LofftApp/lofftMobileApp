@@ -5,7 +5,7 @@ import {GetKeyByValue} from 'helpers/getKeyByValue';
 
 const UserJourneyPaginationBar = () => {
   const userJourney = useAppSelector(
-    (state: any) => state.userDetails.userJourney,
+    (state: any) => state.newUser.userJourney,
   );
   const [activeScreen] = useState(GetKeyByValue(userJourney));
 

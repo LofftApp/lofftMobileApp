@@ -16,7 +16,7 @@ const UserJourneyContinue = ({
   details,
 }: any) => {
   const userJourney = useAppSelector(
-    (state: any) => state.userDetails.userJourney,
+    (state: any) => state.newUser.userJourney,
   );
   const [currentPageKey] = useState(GetKeyByValue(userJourney));
   const dispatch = useAppDispatch();

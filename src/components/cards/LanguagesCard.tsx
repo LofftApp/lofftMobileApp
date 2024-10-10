@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -25,7 +25,7 @@ const LanguagesCard = ({
 
   return (
     <View style={[selected ? styles.Selected : styles.textContainer]}>
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
           setIsSelected(!isSelected);
           handleSelectedLanguages(language);
@@ -48,7 +48,7 @@ const LanguagesCard = ({
             {language}
           </Text>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

@@ -56,4 +56,15 @@ export const CoreStyleSheet = StyleSheet.create({
     paddingTop: size(10),
     marginBottom: size(10),
   },
+  backgroundContainer: {
+    position: 'absolute',
+    backgroundColor: Color.Lavendar[100],
+    zIndex: -1,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    zIndex: -1,
+    left: 0,
+  },
 });

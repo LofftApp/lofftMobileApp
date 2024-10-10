@@ -13,10 +13,10 @@ import BackButton from 'components/buttons/BackButton';
 // Redux 🧠
 import UserJourneyButton from 'components/buttons/UserJourneyButton';
 import {setUserType} from 'reduxFeatures/registration/newUserSlice';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 
 // Styles 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Assets
@@ -27,7 +27,6 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserNavigatorProp} from '../../../navigationStacks/types';
-import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 
 const NewUserJourneyScreen = () => {
   const dispatch = useAppDispatch();
@@ -73,7 +72,7 @@ const NewUserJourneyScreen = () => {
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={styles.backgroundImage}
+        style={CoreStyleSheet.backgroundImage}
       />
 
       <View style={CoreStyleSheet.screenContainer}>
@@ -110,17 +109,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: size(100),
     gap: size(30),
-  },
-  backgroundContainer: {
-    position: 'absolute',
-    backgroundColor: Color.Lavendar[100],
-    zIndex: -1,
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    zIndex: -1,
-    left: 0,
   },
 });
 

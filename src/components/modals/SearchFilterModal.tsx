@@ -28,6 +28,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types 🏷️
 import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
+import Divider from 'components/bars/Divider';
 
 export const initialMinPrice = '100';
 export const initialMaxPrice = '5000';
@@ -253,7 +254,7 @@ const SearchFilterModal = ({
               </View>
             </ScrollView>
           </View>
-          <View style={styles.pageBreak} />
+          <Divider />
           <View style={styles.buttonsContainer}>
             <CoreButton
               value="Clear all"
@@ -263,7 +264,6 @@ const SearchFilterModal = ({
               onPress={handleClearAll}
               textSize={fontStyles.headerExtraSmall}
             />
-            {/* // event handler to send request */}
             <CoreButton
               value={
                 isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
@@ -339,11 +339,6 @@ const styles = StyleSheet.create({
   },
   clearAllButton: {
     paddingHorizontal: size(25),
-  },
-  pageBreak: {
-    borderBottomWidth: size(1),
-    paddingVertical: size(5),
-    borderColor: Color.Black[30],
   },
 });
 
