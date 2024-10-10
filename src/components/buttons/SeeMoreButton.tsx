@@ -10,7 +10,12 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import {SeeMoreButtonProps} from './types';
 
-function SeeMoreButton({collapsed, toggleExpand}: SeeMoreButtonProps) {
+function SeeMoreButton({
+  collapsed,
+  toggleExpand,
+  noText = false,
+  iconSize = size(25),
+}: SeeMoreButtonProps) {
   const rotateAnim = useRef(new Animated.Value(collapsed ? 0 : 1)).current;
 
   useEffect(() => {
@@ -28,11 +33,13 @@ function SeeMoreButton({collapsed, toggleExpand}: SeeMoreButtonProps) {
 
   return (
     <Pressable onPress={toggleExpand} style={styles.seeMoreContainer}>
-      <Text style={[fontStyles.bodySmall, styles.seeMore]}>
-        {collapsed ? 'See less' : 'See more'}
-      </Text>
+      {!noText && (
+        <Text style={[fontStyles.bodySmall, styles.seeMore]}>
+          {collapsed ? 'See less' : 'See more'}
+        </Text>
+      )}
       <Animated.View style={{transform: [{rotate}]}}>
-        <LofftIcon name="chevron-up" size={25} color={Color.Blue[100]} />
+        <LofftIcon name="chevron-up" size={iconSize} color={Color.Blue[100]} />
       </Animated.View>
     </Pressable>
   );

@@ -56,6 +56,8 @@ type BackButtonProps = {
 type SeeMoreButtonProps = {
   collapsed: boolean;
   toggleExpand: () => void;
+  noText?: boolean;
+  iconSize?: number;
 };
 
 type SelectionButtonProps = {
@@ -65,7 +67,7 @@ type SelectionButtonProps = {
   toggle: boolean;
   selectFn: (id: number) => void;
   disabled?: boolean;
-}
+};
 
 export type {
   HeaderPageContentSwitchProps,
