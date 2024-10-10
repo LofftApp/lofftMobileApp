@@ -5873,9 +5873,11 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.28":
-  version: 1.5.34
-  resolution: "electron-to-chromium@npm:1.5.34"
-  checksum: 10/e52afa555cac2b50c33ea863468e7d244961ca403f5700ea7b58972f639b408ec364aaa89fd9f3269e1bb1ee3d5ac3a617c3ce9d51e61bf9519384a90f1257a0
+
+  version: 1.5.35
+  resolution: "electron-to-chromium@npm:1.5.35"
+  checksum: 10/fe8cf5f1ec8587bbd256ddede11272808dd25cdef9d06d546c66495364e03463e9a3b664bf11ec077c1dbc91114dbeb52802b01d944e57ce922112d00b722a74
+
   languageName: node
   linkType: hard
 
@@ -6748,13 +6750,13 @@ __metadata:
   linkType: hard
 
 "form-data@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "form-data@npm:4.0.0"
+  version: 4.0.1
+  resolution: "form-data@npm:4.0.1"
   dependencies:
     asynckit: "npm:^0.4.0"
     combined-stream: "npm:^1.0.8"
     mime-types: "npm:^2.1.12"
-  checksum: 10/7264aa760a8cf09482816d8300f1b6e2423de1b02bba612a136857413fdc96d7178298ced106817655facc6b89036c6e12ae31c9eb5bdc16aabf502ae8a5d805
+  checksum: 10/6adb1cff557328bc6eb8a68da205f9ae44ab0e88d4d9237aaf91eed591ffc64f77411efb9016af7d87f23d0a038c45a788aa1c6634e51175c4efa36c2bc53774
   languageName: node
   linkType: hard
 
@@ -10374,13 +10376,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-devtools-core@npm:5.3.1, react-devtools-core@npm:^5.3.1":
-  version: 5.3.1
-  resolution: "react-devtools-core@npm:5.3.1"
+"react-devtools-core@npm:5.3.2, react-devtools-core@npm:^5.3.1":
+  version: 5.3.2
+  resolution: "react-devtools-core@npm:5.3.2"
   dependencies:
     shell-quote: "npm:^1.6.1"
     ws: "npm:^7"
-  checksum: 10/247056e0cbb791f4e181f9331b0ab945feb1a770f5f76c9899d7a2d429afd20bcd69763af38e9eb881ac6f5a961dc7f07ee146babaa4111612747c68102dfa13
+  checksum: 10/640123f775daeb2176ebc9caf85b1cb9dbb147cbb607f221254ac4967530ddf96332a582d5b169c840984220596a23780ed6f9b37c37461160e9b623f5f4caee
   languageName: node
   linkType: hard
 
@@ -10395,18 +10397,18 @@ __metadata:
   linkType: hard
 
 "react-devtools@npm:^5.3.1":
-  version: 5.3.1
-  resolution: "react-devtools@npm:5.3.1"
+  version: 5.3.2
+  resolution: "react-devtools@npm:5.3.2"
   dependencies:
     cross-spawn: "npm:^5.0.1"
     electron: "npm:^23.1.2"
     internal-ip: "npm:^6.2.0"
     minimist: "npm:^1.2.3"
-    react-devtools-core: "npm:5.3.1"
+    react-devtools-core: "npm:5.3.2"
     update-notifier: "npm:^2.1.0"
   bin:
     react-devtools: bin.js
-  checksum: 10/939e04cf9b0e539ffe5b3fcf324ecd871465e84602cf538ac470e0d7a204519c81b910f84a85610b78b78c1fc48c45479390716a628b6cc9ae357b2f9825c0c7
+  checksum: 10/70524f12040bc68c4afba369d7f01874fcaa70f8bdbdbc8f5ca1df8c1a2a2c50a4268d395b6334714acfb562e0930c3a0aa2af4e9f3b75b082077720d70fff19
   languageName: node
   linkType: hard
 

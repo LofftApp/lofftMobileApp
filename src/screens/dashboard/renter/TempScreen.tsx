@@ -18,7 +18,7 @@ const TempScreen = () => {
   };
   return (
     <View style={styles.pageContainer}>
-      <View style={styles.marginTop400}>
+      <View style={styles.margin}>
         <Text>Temp Screen</Text>
         <CoreButton value="Sign Out" onPress={handleSignOut} />
       </View>
@@ -27,6 +27,9 @@ const TempScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  margin: {
+    marginTop: 400,
+  },
   pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,

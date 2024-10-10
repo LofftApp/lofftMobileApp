@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {View, TextInput, Pressable} from 'react-native';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -27,13 +27,9 @@ const PasswordInput = ({
         onFocus={onFocus}
         placeholder={placeholder}
       />
-      <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
+      <Pressable onPress={() => setHidePassword(!hidePassword)}>
         <LofftIcon name={hidePassword ? 'eye' : 'eye-off'} size={20} />
-        {/* <Icon
-          name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
-          size={20}
-        /> */}
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

@@ -8,6 +8,7 @@ import {
   useGetAdvertByIdQuery,
   useToggleFavoriteMutation,
 } from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
@@ -30,8 +31,9 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
-// import {useAppSelector} from 'reduxCore/hooks';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+
+
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -55,7 +57,6 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
-  // const user = useAppSelector(state => state.user.user);
   const {data} = useGetUserQuery();
   const user = data?.user;
 

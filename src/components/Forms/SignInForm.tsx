@@ -15,10 +15,14 @@ const SignInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message] = useState({target: '', message: ''});
-  const [signIn] = useSignInMutation();
+  const [signIn, {isSuccess}] = useSignInMutation();
 
-  const handleSignIn = () => {
-    signIn({email, password});
+  const handleSignIn = async () => {
+    await signIn({email, password});
+    if (isSuccess) {
+      setPassword('');
+      setEmail('');
+    }
   };
   return (
     <View style={styles.container}>
