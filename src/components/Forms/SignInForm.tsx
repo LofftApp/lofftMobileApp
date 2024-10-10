@@ -21,6 +21,7 @@ const SignInForm = () => {
     await signIn({email, password});
     if (isSuccess) {
       setPassword('');
+      setEmail('');
     }
   };
   return (
