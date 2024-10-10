@@ -18,17 +18,16 @@ const IconButton = ({
   console.log(isActive);
   useEffect(() => {
     console.log('useEffect');
-    // Animate the button whenever isActive changes
+
     Animated.timing(animatedValue, {
-      toValue: isActive ? 1 : 0, // Set animation based on the isActive state
+      toValue: isActive ? 1 : 0,
       duration: 200,
       useNativeDriver: false,
     }).start();
-  }, [isActive, animatedValue]); // Ensure animation runs when `isActive` changes
+  }, [isActive, animatedValue]);
 
   const handleOnPress = () => {
     if (animation) {
-      // Start animation when the button is pressed
       Animated.sequence([
         Animated.timing(animatedValue, {
           toValue: 1,
@@ -49,7 +48,7 @@ const IconButton = ({
         onPress();
       });
     } else {
-      onPress(); 
+      onPress();
     }
   };
 
@@ -83,7 +82,11 @@ const IconButton = ({
             {backgroundColor: animatedBackgroundColor},
             {borderColor: animatedBorderColor},
           ]}>
-          <LofftIcon name={icon} size={iconSize} color={Color.White[100]} />
+          <LofftIcon
+            name={icon}
+            size={iconSize}
+            color={isActive ? Color.White[100] : Color.Black[100]}
+          />
           <Animated.Text
             style={[fontStyles.headerSmall, {color: animatedTextColor}]}>
             {text}
@@ -97,7 +100,11 @@ const IconButton = ({
             styles.content,
             {backgroundColor, borderColor},
           ]}>
-          <LofftIcon name={icon} size={iconSize} />
+          <LofftIcon
+            name={icon}
+            size={iconSize}
+            color={isActive ? Color.White[100] : Color.Black[100]}
+          />
           <Text style={[fontStyles.headerSmall, {color: textColor}]}>
             {text}
           </Text>

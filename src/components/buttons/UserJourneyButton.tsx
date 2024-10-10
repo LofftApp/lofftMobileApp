@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {setUserType} from '../../features/registration/userJourneySlice';
+import React from 'react';
+
 import IconButton from 'components/buttons/IconButton';
 
 type UserButton = {
@@ -9,6 +8,7 @@ type UserButton = {
   style?: any;
   onPress: () => void;
   type: 'lessor' | 'renter';
+  isActive: boolean;
 };
 
 const UserJourneyButton = ({

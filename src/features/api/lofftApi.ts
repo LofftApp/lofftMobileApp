@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {baseUrl} from 'helpers/baseUrl';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import {logout} from 'reduxFeatures/auth/authSlice';
 
 export const lofftApi = createApi({
   reducerPath: 'lofftApi',
@@ -24,6 +25,9 @@ export const lofftApi = createApi({
     const result = await baseQuery(args, api, extraOptions);
 
     if (result.error) {
+      if (result.error.status === 401) {
+        api.dispatch(logout());
+      }
       console.error('API error:', result.error);
     }
 

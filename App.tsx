@@ -35,25 +35,20 @@ import AdminScreen from 'screens/admin/adminScreen';
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
-
 // Remove ErrorBoundary in production
-
-
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
   const isAuth = useAuth();
   console.log('isAuth', isAuth);
 
-
   const {data, isLoading} = useGetUserQuery(undefined, {
-
     skip: !isAuth,
   });
 
   const userType = data?.user.userType;
   const admin = data?.user.admin;
-  console.log('userType', data?.user.userType);
+
   // Mapbox
   MapboxGL.setWellKnownTileServer(
     Platform.OS === 'android' ? 'Mapbox' : 'mapbox',

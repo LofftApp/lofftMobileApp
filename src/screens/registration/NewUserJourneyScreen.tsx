@@ -1,30 +1,32 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
 
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
-// Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
-
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
+import BackButton from 'components/buttons/BackButton';
 
 // Redux 🧠
 import UserJourneyButton from 'components/buttons/UserJourneyButton';
+import {setUserType} from 'reduxFeatures/registration/userJourneySlice';
+import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Assets
+import {RegistrationBackground} from 'assets';
 
 // Helper
 import {size} from 'react-native-responsive-sizes';
+
+// Types 🏷 ️
 import {NewUserNavigatorProp} from '../../../navigationStacks/types';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import BackButton from 'components/buttons/BackButton';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {setUserType} from 'reduxFeatures/registration/userJourneySlice';
 
 const NewUserJourneyScreen = () => {
   const dispatch = useAppDispatch();
@@ -60,63 +62,66 @@ const NewUserJourneyScreen = () => {
           'lessor',
         ]);
       }
-    }, 600);
+    }, 400);
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleSignOut} />
-      <View style={CoreStyleSheet.screenContainer}>
-        <View style={styles.mainContainer}>
-          <HeadlineContainer
-            headlineText={'What brings you here?'}
-            subDescription={
-              'Tell us what you want to do on Lofft and we will create the matching experience!'
-            }
-          />
-          <UserJourneyButton
-            text="I'm looking for a flat"
-            icon="search-sm"
-            onPress={() => handleSelected('renter')}
-            type="renter"
-            isActive={userType === 'renter'}
-          />
-          <UserJourneyButton
-            text="I have a room to rent"
-            icon="home-door"
-            onPress={() => handleSelected('lessor')}
-            type="lessor"
-            isActive={userType === 'lessor'}
-          />
+    <>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton onPress={handleSignOut} />
+
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={styles.backgroundImage}
+        />
+
+        <View style={CoreStyleSheet.screenContainer}>
+          <View style={styles.mainContainer}>
+            <HeadlineContainer
+              headlineText={'What brings you here?'}
+              subDescription={
+                'Tell us what you want to do on Lofft and we will create the matching experience!'
+              }
+            />
+            <UserJourneyButton
+              text="I'm looking for a flat"
+              icon="search-sm"
+              onPress={() => handleSelected('renter')}
+              type="renter"
+              isActive={userType === 'renter'}
+            />
+            <UserJourneyButton
+              text="I have a room to rent"
+              icon="home-door"
+              onPress={() => handleSelected('lessor')}
+              type="lessor"
+              isActive={userType === 'lessor'}
+            />
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    borderRadius: size(12),
-    borderWidth: size(2),
-    borderColor: Color.Black[100],
-    marginBottom: size(16),
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  buttonActive: {
-    borderRadius: size(12),
-    borderWidth: size(2),
-    borderColor: Color.Lavendar[100],
-    marginBottom: size(16),
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Color.Lavendar[10],
-  },
-
   mainContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: size(100),
     gap: size(30),
+  },
+  backgroundContainer: {
+    position: 'absolute',
+    backgroundColor: Color.Lavendar[100],
+    zIndex: -1,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    zIndex: -1,
+    left: 0,
   },
 });
 
