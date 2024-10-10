@@ -3,5 +3,3 @@
 exports[`App Component renders correctly when authenticated 1`] = `null`;
 
 exports[`App Component renders correctly when not authenticated 1`] = `null`;
-
-exports[`renders correctly 1`] = `null`;
