@@ -2,16 +2,20 @@ import React, {useState} from 'react';
 import {useAppSelector} from 'reduxCore/hooks';
 import PaginationBar from 'components/bars/PaginationBar';
 import {GetKeyByValue} from 'helpers/getKeyByValue';
+import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 
 const UserJourneyPaginationBar = () => {
-  const userJourney = useAppSelector(
-    (state: any) => state.newUser.userJourney,
-  );
-  const [activeScreen] = useState(GetKeyByValue(userJourney));
+  const userType = useNewUserType();
+  const renterJourney = useAppSelector(state => state.newUser);
+  const lessorJourney = useAppSelector(state => state.newUser.lessorJourney);
+  const currentScreen = useAppSelector(state => state.newUser.currentScreen);
 
+  // Dynamically select the journey based on the userType
+  const userJourney = userType === 'lessor' ? lessorJourney : renterJourney;
+  console.log('userJourney', renterJourney);
   return (
     <PaginationBar
-      screen={activeScreen}
+      screen={Number(currentScreen) - 1}
       totalScreens={Object.keys(userJourney).length}
       marginVertical={10} // Added marginVertical prop, as it was missing
     />

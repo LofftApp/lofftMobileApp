@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {setDetails} from '../../features/registration/newUserSlice';
+import {
+  setCurrentScreen,
+  setDetails,
+} from '../../features/registration/newUserSlice';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -15,21 +18,20 @@ const UserJourneyContinue = ({
   disabled,
   details,
 }: any) => {
-  const userJourney = useAppSelector(
-    (state: any) => state.newUser.userJourney,
-  );
-  const [currentPageKey] = useState(GetKeyByValue(userJourney));
-  const dispatch = useAppDispatch();
+  const currentScreen = useAppSelector(state => state.newUser.currentScreen);
 
+  const dispatch = useAppDispatch();
+  const handleOnPress = () => {
+    const nextScreen = (Number(currentScreen) + 1).toString();
+    dispatch(setCurrentScreen(nextScreen));
+    onPress();
+  };
   return (
     <CoreButton
       value={value}
       textStyle={textStyle}
       disabled={disabled}
-      onPress={() => {
-        onPress(userJourney[currentPageKey + 1]);
-        dispatch(setDetails(details));
-      }}
+      onPress={handleOnPress}
     />
   );
 };

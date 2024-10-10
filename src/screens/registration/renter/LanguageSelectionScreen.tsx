@@ -24,6 +24,9 @@ import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 import Divider from 'components/bars/Divider';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import PaginationBar from 'components/bars/PaginationBar';
+import UserJourneyPaginationBar from 'components/buttons/UserJourneyPaginationBar';
+import UserJourneyContinue from 'components/buttons/UserJourneyContinue';
 
 const LanguageSelectionScreen = () => {
   const navigation = useNavigation<LanguageScreenNavigationProp>();
@@ -152,13 +155,14 @@ const LanguageSelectionScreen = () => {
       </View>
       <Divider />
       <View style={styles.continueButtonView}>
-        <CoreButton
+        <UserJourneyPaginationBar />
+
+        <UserJourneyContinue
           value="Continue"
+          disabled={selectedLanguages.length === 0}
           onPress={() => {
-            // Todo: This needs to be created or updated in the navigator
             navigation.navigate('AboutYouFlatHuntScreen');
           }}
-          disabled={selectedLanguages.length === 0}
         />
       </View>
     </View>

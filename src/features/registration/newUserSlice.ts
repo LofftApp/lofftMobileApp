@@ -1,45 +1,48 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {PURGE} from 'redux-persist';
 
-const renterJourney = () => {
-  return {
-    '0': {screenName: 'AboutYouFlatHuntScreen'},
-    '1': {screenName: 'GenderIdentityScreen'},
-    '2': {screenName: 'SelectCityScreen'},
-    '3': {screenName: 'FinderBudgetScreen'},
-    '4': {
-      screenName: 'FlatFeaturesScreen',
-      headerText: 'What is your ideal flat?',
-      subHeaderText:
-        'Select all tags that describe who you are and find the Lofft of your life!',
-    },
-    '5': {screenName: 'SelfDescribeScreen'},
-    '6': {screenName: 'ConditionsOfUseScreen'},
-  };
-};
+// const renterJourney = () => {
+//   return {
+//     '0': {screenName: 'AboutYouFlatHuntScreen'},
+//     '1': {screenName: 'GenderIdentityScreen'},
+//     '2': {screenName: 'SelectCityScreen'},
+//     '3': {screenName: 'FinderBudgetScreen'},
+//     '4': {
+//       screenName: 'FlatFeaturesScreen',
+//       headerText: 'What is your ideal flat?',
+//       subHeaderText:
+//         'Select all tags that describe who you are and find the Lofft of your life!',
+//     },
+//     '5': {screenName: 'SelfDescribeScreen'},
+//     '6': {screenName: 'ConditionsOfUseScreen'},
+//   };
+// };
 
-const lesserJourney = () => {
-  return {
-    '0': {screenName: 'WhereIsFlatScreen'},
-    '1': {screenName: 'FlatLengthAvailableScreen'},
-    '2': {
-      screenName: 'AboutYouFlatHuntScreen',
-      headerText: 'Who is your ideal flatmate?',
-      subHeaderText:
-        "Select all tags that describe your ideal flatmate and we'll match them for you!",
-    },
-    '3': {
-      screenName: 'FlatFeaturesScreen',
-      headerText: 'What is your flat like?',
-      subHeaderText: 'Select all the tags that match your place.',
-    },
-    '4': {screenName: 'FlatPhotoUploadScreen'},
-    '5': {screenName: 'ConditionsOfUseScreen'},
-  };
-};
+// const lesserJourney = () => {
+//   return {
+//     '0': {screenName: 'WhereIsFlatScreen'},
+//     '1': {screenName: 'FlatLengthAvailableScreen'},
+//     '2': {
+//       screenName: 'AboutYouFlatHuntScreen',
+//       headerText: 'Who is your ideal flatmate?',
+//       subHeaderText:
+//         "Select all tags that describe your ideal flatmate and we'll match them for you!",
+//     },
+//     '3': {
+//       screenName: 'FlatFeaturesScreen',
+//       headerText: 'What is your flat like?',
+//       subHeaderText: 'Select all the tags that match your place.',
+//     },
+//     '4': {screenName: 'FlatPhotoUploadScreen'},
+//     '5': {screenName: 'ConditionsOfUseScreen'},
+//   };
+// };
 
 interface UserJourneyState {
   userType: string | null;
+  renterJourney: {[key: string]: boolean};
+  lessorJourney: {[key: string]: boolean};
+  currentScreen: string;
   userJourney: any;
   userDetails: {
     genderIdentity: string | null;
@@ -80,8 +83,25 @@ interface UserJourneyActions {
 }
 
 const initialState: UserJourneyState = {
+  currentScreen: '1',
+  userJourney: '',
   userType: '',
-  userJourney: {},
+  renterJourney: {
+    '1': false,
+    '2': false,
+    '3': false,
+    '4': false,
+    '5': false,
+    '6': false,
+  },
+  lessorJourney: {
+    '1': false,
+    '2': false,
+    '3': false,
+    '4': false,
+    '5': false,
+  },
+
   userDetails: {
     genderIdentity: null,
     districts: null,
@@ -111,6 +131,10 @@ export const newUserSlice = createSlice({
       action.payload === 'lessor'
         ? (state.userJourney = 'lessor')
         : (state.userJourney = 'renter');
+    },
+
+    setCurrentScreen: (state, action: PayloadAction<string>) => {
+      state.currentScreen = action.payload;
     },
 
     setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
@@ -186,5 +210,6 @@ export const newUserSlice = createSlice({
   },
 });
 
-export const {setUserType, setDetails, saveUserDetails} = newUserSlice.actions;
+export const {setUserType, setCurrentScreen, setDetails, saveUserDetails} =
+  newUserSlice.actions;
 export default newUserSlice.reducer;
