@@ -24,10 +24,9 @@ import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 import Divider from 'components/bars/Divider';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import PaginationBar from 'components/bars/PaginationBar';
 import UserJourneyPaginationBar from 'components/buttons/UserJourneyPaginationBar';
 import UserJourneyContinue from 'components/buttons/UserJourneyContinue';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {setCurrentScreen} from 'reduxFeatures/registration/newUserSlice';
 
 const LanguageSelectionScreen = () => {
@@ -73,12 +72,10 @@ const LanguageSelectionScreen = () => {
   };
 
   const scrollViewRef = useRef<ScrollView>(null);
-  const currentScreen = useAppSelector(state => state.newUser.currentScreen);
   const dispatch = useAppDispatch();
 
   const handleBackButton = () => {
-    const previousScreen = (Number(currentScreen) - 1).toString();
-    dispatch(setCurrentScreen('1'));
+    dispatch(setCurrentScreen(1));
     navigation.goBack();
   };
 

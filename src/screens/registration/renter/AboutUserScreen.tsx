@@ -43,7 +43,7 @@ const AboutYouFlatHuntScreen = () => {
   const dispatch = useAppDispatch();
 
   const handleBackButton = () => {
-    const previousScreen = (Number(currentScreen) - 1).toString();
+    const previousScreen = currentScreen - 1;
     dispatch(setCurrentScreen(previousScreen));
     navigation.goBack();
   };

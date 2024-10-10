@@ -40,9 +40,9 @@ import {PURGE} from 'redux-persist';
 
 interface UserJourneyState {
   userType: string | null;
-  renterJourney: {[key: string]: boolean};
-  lessorJourney: {[key: string]: boolean};
-  currentScreen: string;
+  renterJourney: {[key: number]: boolean};
+  lessorJourney: {[key: number]: boolean};
+  currentScreen: number;
   userJourney: any;
   userDetails: {
     genderIdentity: string | null;
@@ -83,23 +83,23 @@ interface UserJourneyActions {
 }
 
 const initialState: UserJourneyState = {
-  currentScreen: '1',
+  currentScreen: 1,
   userJourney: '',
   userType: '',
   renterJourney: {
-    '1': false,
-    '2': false,
-    '3': false,
-    '4': false,
-    '5': false,
-    '6': false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false,
   },
   lessorJourney: {
-    '1': false,
-    '2': false,
-    '3': false,
-    '4': false,
-    '5': false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
   },
 
   userDetails: {
@@ -133,7 +133,7 @@ export const newUserSlice = createSlice({
         : (state.userJourney = 'renter');
     },
 
-    setCurrentScreen: (state, action: PayloadAction<string>) => {
+    setCurrentScreen: (state, action: PayloadAction<number>) => {
       state.currentScreen = action.payload;
     },
 
