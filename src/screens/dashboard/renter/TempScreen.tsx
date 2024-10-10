@@ -10,7 +10,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
 
-const TempScreen = ({navigation}: any) => {
+const TempScreen = () => {
   const [signOut] = useSignOutMutation();
 
   const handleSignOut = () => {
@@ -18,7 +18,7 @@ const TempScreen = ({navigation}: any) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <View style={{marginTop: 400}}>
+      <View style={styles.margin}>
         <Text>Temp Screen</Text>
         <CoreButton value="Sign Out" onPress={handleSignOut} />
       </View>
@@ -27,6 +27,9 @@ const TempScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
+  margin: {
+    marginTop: 400,
+  },
   pageContainer: {
     backgroundColor: Color.White[100],
     flex: 1,
