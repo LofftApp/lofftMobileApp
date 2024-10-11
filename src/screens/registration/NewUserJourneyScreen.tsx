@@ -44,11 +44,7 @@ const NewUserJourneyScreen = () => {
   const handleSelected = (type: string) => {
     dispatch(setUserType(type));
     setTimeout(() => {
-      if (type === 'renter') {
-        navigation.navigate('LanguageSelectionScreen');
-      } else {
-        navigation.navigate('LanguageSelectionScreen');
-      }
+      navigation.navigate('LanguageSelectionScreen');
     }, 400);
   };
 

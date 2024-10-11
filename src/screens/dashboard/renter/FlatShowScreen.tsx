@@ -58,7 +58,9 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const user = data?.user;
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
-  const [toggleFavorite] = useToggleFavoriteMutation();
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'FAVORITE',
+  });
   const [
     applyForFlat,
 

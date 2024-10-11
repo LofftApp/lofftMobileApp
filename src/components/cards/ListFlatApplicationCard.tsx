@@ -36,7 +36,9 @@ const ListFlatApplicationCard = ({
   const isLessor = data?.user?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
-  const [toggleFavorite] = useToggleFavoriteMutation();
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'FAVORITE',
+  });
 
   const navigation = useNavigation<
     SearchScreenNavigationProp & LessorNavigatorScreenNavigationProp
@@ -86,6 +88,7 @@ const ListFlatApplicationCard = ({
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
   };
+  console.log('advert favorite in application', advert?.favorite);
 
   return (
     <View style={styles.advertCardContainer}>

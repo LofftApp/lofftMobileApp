@@ -48,7 +48,9 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     isLoading: advertIsLoading,
   } = useGetAdvertByIdQuery(id, {skip: !isLessor});
 
-  const [toggleFavorite] = useToggleFavoriteMutation();
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'FAVORITE',
+  });
   const dispatch = useAppDispatch();
 
   const advert = isLessor ? _advert : application?.advert;
@@ -62,7 +64,12 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     try {
       await toggleFavorite(advert?.id ?? 0);
       dispatch(
-        applicationApi.util.invalidateTags([{type: 'Applications', id}]),
+        applicationApi.util.invalidateTags([
+          {type: 'Applications', id},
+          {type: 'Adverts', id: advert?.id},
+          {type: 'Adverts', id: 'LIST'},
+          {type: 'Applications', id: 'LIST'},
+        ]),
       );
     } catch (error) {
       console.error('Error toggling favorite:', error);

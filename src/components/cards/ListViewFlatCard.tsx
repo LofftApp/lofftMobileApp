@@ -32,7 +32,9 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const {data} = useGetUserQuery();
   const currentUser = data?.user;
 
-  const [toggleFavorite] = useToggleFavoriteMutation();
+  const [toggleFavorite] = useToggleFavoriteMutation({
+    fixedCacheKey: 'FAVORITE',
+  });
 
   const characteristicsTags = tagSorter(
     currentUser?.profile.characteristics ?? [],
@@ -48,7 +50,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);
   };
-
+  console.log('advert favortie in listviewflatcard', advert.favorite);
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
