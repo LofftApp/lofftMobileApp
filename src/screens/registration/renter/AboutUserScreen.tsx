@@ -5,10 +5,10 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
-import UserJourneyPaginationBar from 'components/buttons/UserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
-import UserJourneyContinue from 'components/buttons/UserJourneyContinue';
+import UserJourneyContinue from 'components/buttons/NewUserJourneyContinueButton';
 
 // StylesSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

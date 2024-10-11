@@ -24,8 +24,8 @@ import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 import Divider from 'components/bars/Divider';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import UserJourneyPaginationBar from 'components/buttons/UserJourneyPaginationBar';
-import UserJourneyContinue from 'components/buttons/UserJourneyContinue';
+import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
+import UserJourneyContinue from 'components/buttons/NewUserJourneyContinueButton';
 import {useAppDispatch} from 'reduxCore/hooks';
 import {setCurrentScreen} from 'reduxFeatures/registration/newUserSlice';
 

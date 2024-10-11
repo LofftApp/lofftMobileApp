@@ -32,7 +32,11 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+      <ApplyForFlatScreenBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
       <BackButton style={styles.backButton} onPress={navigation.goBack} />
       <HiFive />
       <View style={CoreStyleSheet.screenContainer}>
@@ -63,12 +67,6 @@ const styles = StyleSheet.create({
   ]),
   backButton: {
     marginLeft: 10,
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: size(50),
-    zIndex: -1,
-    left: size(-20),
   },
   textContainer: {
     textAlign: 'center',

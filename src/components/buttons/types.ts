@@ -69,6 +69,31 @@ type SelectionButtonProps = {
   disabled?: boolean;
 };
 
+type NewUserJourneyButtonProps = {
+  text: string;
+  icon: string;
+  style?: StyleProp<ViewStyle>;
+  onPress: () => void;
+  type: 'lessor' | 'renter';
+  isActive: boolean;
+};
+
+type IconButtonProps = {
+  text: string;
+  icon: string;
+  iconSize?: number;
+  onPress: () => void;
+  style?: StyleProp<ViewStyle>;
+  animation?: boolean;
+  isActive?: boolean;
+};
+type NewUserJourneyContinueButtonProps = {
+  onPress: () => void;
+  value: string;
+  textStyle?: TextStyle;
+  disabled?: boolean;
+};
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
@@ -78,4 +103,7 @@ export type {
   BackButtonProps,
   SeeMoreButtonProps,
   SelectionButtonProps,
+  NewUserJourneyButtonProps,
+  IconButtonProps,
+  NewUserJourneyContinueButtonProps,
 };

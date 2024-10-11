@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  useWindowDimensions,
-} from 'react-native';
+import {Text, View, StyleSheet, useWindowDimensions} from 'react-native';
 //Redux
 
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
@@ -19,7 +13,6 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import Collapsible from 'react-native-collapsible';
 
 //Components
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Chips from 'components/buttons/Chips';
 
 // Helpers
@@ -95,13 +88,6 @@ const ApplicantCardRound1 = ({
             {applicant.matchScore}% Match
           </Text>
         </View>
-        {/* <Pressable style={styles.iconContainer} onPress={toggleCollapsed}>
-          <LofftIcon
-            name={collapsed ? 'chevron-up' : 'chevron-down'}
-            size={35}
-            color={Color.Blue[80]}
-          />
-        </Pressable> */}
         <SeeMoreButton
           collapsed={collapsed}
           toggleExpand={toggleCollapsed}
@@ -148,7 +134,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: size(10),
+    alignContent: 'center',
+    padding: size(15),
   },
   details: {
     flexDirection: 'row',

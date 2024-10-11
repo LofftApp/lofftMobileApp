@@ -1,21 +1,19 @@
 import React from 'react';
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
+import {useAppDispatch} from 'reduxCore/hooks';
 import {setCurrentScreen} from '../../features/registration/newUserSlice';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {NewUserJourneyContinueButtonProps} from './types';
 
-// Helpers 🤝
-
-const UserJourneyContinue = ({
+const NewUserJourneyContinueButton = ({
   onPress,
   value,
   textStyle,
   disabled,
-  details,
-}: any) => {
-  const currentScreen = useAppSelector(state => state.newUser.currentScreen);
-
+}: NewUserJourneyContinueButtonProps) => {
+  const currentScreen = useNewUserCurrentScreen();
   const dispatch = useAppDispatch();
   const handleOnPress = () => {
     const nextScreen = currentScreen + 1;
@@ -32,4 +30,4 @@ const UserJourneyContinue = ({
   );
 };
 
-export default UserJourneyContinue;
+export default NewUserJourneyContinueButton;

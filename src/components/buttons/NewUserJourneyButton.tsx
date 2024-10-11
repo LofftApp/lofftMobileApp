@@ -1,23 +1,14 @@
 import React from 'react';
-
 import IconButton from 'components/buttons/IconButton';
+import {NewUserJourneyButtonProps} from './types';
 
-type UserButton = {
-  text: string;
-  icon: string;
-  style?: any;
-  onPress: () => void;
-  type: 'lessor' | 'renter';
-  isActive: boolean;
-};
-
-const UserJourneyButton = ({
+const NewUserJourneyButton = ({
   text,
   icon,
   style,
   onPress,
   isActive,
-}: UserButton) => {
+}: NewUserJourneyButtonProps) => {
   const handleOnPress = () => {
     onPress();
   };
@@ -33,4 +24,4 @@ const UserJourneyButton = ({
   );
 };
 
-export default UserJourneyButton;
+export default NewUserJourneyButton;

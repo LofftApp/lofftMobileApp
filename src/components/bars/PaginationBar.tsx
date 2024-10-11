@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Black[10],
     marginHorizontal: 3,
   },
-  active: {},
+
   positionTop: {
     position: 'absolute',
   },

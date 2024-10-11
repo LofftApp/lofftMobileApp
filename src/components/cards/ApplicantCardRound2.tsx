@@ -48,7 +48,7 @@ const ApplicantCardRound2 = ({
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT_2_ROUND) {
-      if (application.round1) {
+      if (application.round2) {
         selectApplication(application.id);
       }
     } else {

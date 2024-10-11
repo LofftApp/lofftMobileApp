@@ -13,11 +13,7 @@ type RootTabParamsList = {
   language: undefined;
 };
 
-type newUserNavigatorParamsList = {
-  LanguageSelectionScreen: [string, string];
-};
-
-type newUserNavigationParamsList = {
+type NewUserNavigationParamsList = {
   AboutYouFlatHuntScreen: undefined;
   LanguageSelectionScreen: undefined;
   dashboard: undefined;
@@ -100,13 +96,10 @@ type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<LessorNavigatorStackParamsList>
 >;
 
-type NewUserNavigatorProp = StackNavigationProp<
-  newUserNavigatorParamsList,
-  'LanguageSelectionScreen'
->;
+type NewUserNavigatorProp = StackNavigationProp<NewUserNavigationParamsList>;
 
 type NewUserJourneyStackNavigation =
-  StackNavigationProp<newUserNavigationParamsList>;
+  StackNavigationProp<NewUserNavigationParamsList>;
 
 export type {
   RootTabParamsList,
@@ -120,4 +113,5 @@ export type {
   LessorNavigatorScreenNavigationProp,
   NewUserNavigatorProp,
   NewUserJourneyStackNavigation,
+  NewUserNavigationParamsList,
 };

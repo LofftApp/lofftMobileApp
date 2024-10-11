@@ -4,6 +4,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
+import {IconButtonProps} from './types';
 
 const IconButton = ({
   text,
@@ -13,12 +14,10 @@ const IconButton = ({
   style,
   animation,
   isActive,
-}: any) => {
+}: IconButtonProps) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
-  console.log(isActive);
-  useEffect(() => {
-    console.log('useEffect');
 
+  useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: isActive ? 1 : 0,
       duration: 200,
