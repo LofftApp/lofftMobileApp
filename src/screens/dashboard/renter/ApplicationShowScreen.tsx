@@ -48,9 +48,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     isLoading: advertIsLoading,
   } = useGetAdvertByIdQuery(id, {skip: !isLessor});
 
-  const [toggleFavorite] = useToggleFavoriteMutation({
-    fixedCacheKey: 'FAVORITE',
-  });
+  const [toggleFavorite] = useToggleFavoriteMutation();
   const dispatch = useAppDispatch();
 
   const advert = isLessor ? _advert : application?.advert;

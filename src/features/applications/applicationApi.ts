@@ -33,8 +33,8 @@ export const applicationApi = lofftApi.injectEndpoints({
       providesTags: (result, error, id) => [
         {type: 'Applications', id},
         {type: 'Adverts', id},
-        {type: 'Applications', id: 'LIST'},
-        {type: 'Adverts', id: 'LIST'},
+        // {type: 'Applications', id: 'LIST'},
+        // {type: 'Adverts', id: 'LIST'},
       ],
     }),
   }),

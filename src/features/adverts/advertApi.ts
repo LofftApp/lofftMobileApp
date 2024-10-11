@@ -64,7 +64,7 @@ export const advertApi = lofftApi.injectEndpoints({
       providesTags: (result, error, id) => [
         {type: 'Adverts', id},
         {type: 'Applications', id},
-        {type: 'Applications', id: 'LIST'},
+        // {type: 'Applications', id: 'LIST'},
         {type: 'Adverts', id: 'LIST'},
       ],
       transformResponse: (response: IncomingAdvert) => {

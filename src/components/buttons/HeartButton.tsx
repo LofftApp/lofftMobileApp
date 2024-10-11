@@ -5,7 +5,7 @@ import {HeartDefault, HeartSaved} from 'assets'; // Assuming these are your SVG 
 type HeartButtonProps = {
   style?: StyleProp<ViewStyle>;
   favorite?: boolean;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
@@ -43,8 +43,9 @@ const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
         }),
       ]),
     ]).start();
-
-    onPress(); // Toggle the favorite state
+    if (onPress) {
+      onPress(); // Toggle the favorite state
+    }
   };
 
   return (
