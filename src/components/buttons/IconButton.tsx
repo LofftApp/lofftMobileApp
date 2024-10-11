@@ -31,17 +31,17 @@ const IconButton = ({
       Animated.sequence([
         Animated.timing(animatedValue, {
           toValue: 1,
-          duration: 200,
+          duration: 150,
           useNativeDriver: false,
         }),
         Animated.timing(animatedValue, {
           toValue: 0,
-          duration: 200,
+          duration: 150,
           useNativeDriver: false,
         }),
         Animated.timing(animatedValue, {
           toValue: 1,
-          duration: 200,
+          duration: 150,
           useNativeDriver: false,
         }),
       ]).start(() => {
