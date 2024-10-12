@@ -86,7 +86,6 @@ export const advertApi = lofftApi.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
-        // Optimistically update the advert by ID's favorite status
         const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
@@ -95,7 +94,6 @@ export const advertApi = lofftApi.injectEndpoints({
           }),
         );
 
-        // Optimistically update the advert list's favorite status
         const patchAdvertList = dispatch(
           advertApi.util.updateQueryData('getAdverts', undefined, draft => {
             draft.adverts.forEach(advert => {
@@ -106,7 +104,6 @@ export const advertApi = lofftApi.injectEndpoints({
           }),
         );
 
-        // Optimistically update the application by ID's favorite status
         const patchApplicationById = dispatch(
           applicationApi.util.updateQueryData(
             'getApplicationById',
@@ -119,7 +116,6 @@ export const advertApi = lofftApi.injectEndpoints({
           ),
         );
 
-        // Optimistically update the application list's favorite status
         const patchApplicationList = dispatch(
           applicationApi.util.updateQueryData(
             'getApplications',

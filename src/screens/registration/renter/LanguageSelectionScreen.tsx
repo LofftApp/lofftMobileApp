@@ -1,44 +1,61 @@
-import BackButton from 'components/buttons/BackButton';
 import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+//Redux
+import {useAppDispatch} from 'reduxCore/hooks';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {
+  setCurrentScreen,
+  setUserDetails,
+} from 'reduxFeatures/registration/newUserSlice';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Components 🧰
-import {CoreButton} from 'components/buttons/CoreButton';
-
-import languagesData from 'Assets/coreText/languagesText.json';
+import BackButton from 'components/buttons/BackButton';
 import LanguagesCard from 'components/cards/LanguagesCard';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import Divider from 'components/bars/Divider';
+import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
+import UserJourneyContinue from 'components/buttons/NewUserJourneyContinueButton';
 
-import {LanguageScreenNavigationProp} from '../../../../navigationStacks/types';
+//Assets 🎨
+import languagesData from 'Assets/coreText/languagesText.json';
+import {RegistrationBackground} from 'assets';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
-import {RegistrationBackground} from 'assets';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import HeadlineContainer from 'components/containers/HeadlineContainer';
-import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
-import Divider from 'components/bars/Divider';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
-import UserJourneyContinue from 'components/buttons/NewUserJourneyContinueButton';
-import {useAppDispatch} from 'reduxCore/hooks';
-import {setCurrentScreen} from 'reduxFeatures/registration/newUserSlice';
+
+//Types 🏷️
+import {NewUserNavigatorProp} from '../../../../navigationStacks/types';
 
 const LanguageSelectionScreen = () => {
-  const navigation = useNavigation<LanguageScreenNavigationProp>();
-  const userType = useNewUserType();
-  const isLessor = userType === 'lessor';
-  const insets = useSafeAreaInsets(); // Get the safe area insets dynamically
-
+  // Local State
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Navigation
+  const navigation = useNavigation<NewUserNavigatorProp>();
+
+  // Redux
+  const {isLessor, newUserDetails} = useNewUserDetails();
+  const savedLanguages = newUserDetails.languages;
+
+  // Safe Area
+  const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    if (savedLanguages && savedLanguages.length > 0) {
+      setSelectedLanguages(savedLanguages);
+    }
+  }, [savedLanguages]);
 
   //gets all languages from languagesText.json and filters them based on the searchValue and selectedLanguages state
   useEffect(() => {
@@ -54,29 +71,23 @@ const LanguageSelectionScreen = () => {
   }, [searchValue, selectedLanguages]);
 
   const handleSelectedLanguages = (l: string) => {
-    setSelectedLanguages(prevSelectedLanguages => {
-      if (prevSelectedLanguages.includes(l)) {
-        return prevSelectedLanguages.filter(
-          selectedLanguage => selectedLanguage !== l,
-        );
-      } else {
-        return [...prevSelectedLanguages, l];
-      }
-    });
-    scrollViewRef.current?.scrollTo({
-      x: 0,
-      y: 0,
-      animated: true,
-      // duration: 4000,
-    });
+    const updatedLanguages = selectedLanguages.includes(l)
+      ? selectedLanguages.filter(selectedLanguage => selectedLanguage !== l)
+      : [...selectedLanguages, l];
+    console.log('updatedLanguages', updatedLanguages);
+    setSelectedLanguages(updatedLanguages);
+
+    // Dispatch selected languages to Redux after updating local state
+    dispatch(setUserDetails({languages: updatedLanguages}));
+    scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
 
   const scrollViewRef = useRef<ScrollView>(null);
   const dispatch = useAppDispatch();
 
   const handleBackButton = () => {
-    dispatch(setCurrentScreen(1));
     navigation.goBack();
+    dispatch(setCurrentScreen(1));
   };
 
   if (isLoading) {
@@ -188,6 +199,7 @@ const styles = StyleSheet.create({
 
   languagesContainer: {
     flex: 1,
+    height: '100%',
   },
 
   currentSelection: {

@@ -14,7 +14,6 @@ import NewUserJourneyButton from 'components/buttons/NewUserJourneyButton';
 // Redux 🧠
 import {setUserType} from 'reduxFeatures/registration/newUserSlice';
 import {useAppDispatch} from 'reduxCore/hooks';
-import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 
 // Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -27,13 +26,14 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserNavigatorProp} from '../../../navigationStacks/types';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const NewUserJourneyScreen = () => {
   const dispatch = useAppDispatch();
 
   const navigation = useNavigation<NewUserNavigatorProp>();
 
-  const userType = useNewUserType();
+  const {userType} = useNewUserDetails();
 
   const [signOut] = useSignOutMutation();
 

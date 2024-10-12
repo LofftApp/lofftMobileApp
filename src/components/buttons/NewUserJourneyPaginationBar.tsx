@@ -1,16 +1,11 @@
 import React from 'react';
-import {useAppSelector} from 'reduxCore/hooks';
 import PaginationBar from 'components/bars/PaginationBar';
-import {useNewUserType} from 'reduxFeatures/registration/useNewUserType';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const NewUserPaginationBar = () => {
-  const userType = useNewUserType();
-  const renterJourney = useAppSelector(state => state.newUser.renterJourney);
-  const lessorJourney = useAppSelector(state => state.newUser.lessorJourney);
   const currentScreen = useNewUserCurrentScreen();
-
-  const userJourney = userType === 'lessor' ? lessorJourney : renterJourney;
+  const {userJourney} = useNewUserDetails();
 
   return (
     <PaginationBar

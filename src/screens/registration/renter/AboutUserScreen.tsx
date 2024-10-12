@@ -44,8 +44,8 @@ const AboutYouFlatHuntScreen = () => {
 
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;
-    dispatch(setCurrentScreen(previousScreen));
     navigation.goBack();
+    dispatch(setCurrentScreen(previousScreen));
   };
 
   const selectFn = (id: number) => {
