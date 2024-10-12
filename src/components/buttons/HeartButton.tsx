@@ -14,22 +14,20 @@ const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
   const opacityValue = useRef(new Animated.Value(1)).current;
 
   const handleOnPress = () => {
-    // Run the animation when pressed
     Animated.sequence([
-      // Scale up and reduce opacity briefly
       Animated.parallel([
         Animated.timing(scaleValue, {
-          toValue: 1.4, // Increase size
+          toValue: 1.4,
           duration: 70,
           useNativeDriver: true,
         }),
         Animated.timing(opacityValue, {
-          toValue: 0.7, // Briefly reduce opacity
+          toValue: 0.7,
           duration: 70,
           useNativeDriver: true,
         }),
       ]),
-      // Return to original size and opacity
+
       Animated.parallel([
         Animated.timing(scaleValue, {
           toValue: 1,
@@ -37,14 +35,14 @@ const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
           useNativeDriver: true,
         }),
         Animated.timing(opacityValue, {
-          toValue: 1, // Reset opacity to full after animation
+          toValue: 1,
           duration: 70,
           useNativeDriver: true,
         }),
       ]),
     ]).start();
     if (onPress) {
-      onPress(); // Toggle the favorite state
+      onPress();
     }
   };
 
@@ -52,8 +50,8 @@ const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
     <Pressable style={style} onPress={handleOnPress}>
       <Animated.View
         style={{
-          transform: [{scale: scaleValue}], // Apply scaling
-          opacity: opacityValue, // Apply opacity change only during animation
+          transform: [{scale: scaleValue}],
+          opacity: opacityValue,
         }}>
         {favorite ? <HeartSaved /> : <HeartDefault />}
       </Animated.View>

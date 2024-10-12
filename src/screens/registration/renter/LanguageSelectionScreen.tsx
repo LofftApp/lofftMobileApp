@@ -6,10 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux
 import {useAppDispatch} from 'reduxCore/hooks';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {
-  setCurrentScreen,
-  setUserDetails,
-} from 'reduxFeatures/registration/newUserSlice';
+import {setUserDetails} from 'reduxFeatures/registration/newUserSlice';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -33,6 +30,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserNavigatorProp} from '../../../../navigationStacks/types';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -46,6 +44,7 @@ const LanguageSelectionScreen = () => {
 
   // Redux
   const {isLessor, newUserDetails} = useNewUserDetails();
+  const {setCurrentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
 
   // Safe Area
@@ -74,10 +73,8 @@ const LanguageSelectionScreen = () => {
     const updatedLanguages = selectedLanguages.includes(l)
       ? selectedLanguages.filter(selectedLanguage => selectedLanguage !== l)
       : [...selectedLanguages, l];
-    console.log('updatedLanguages', updatedLanguages);
     setSelectedLanguages(updatedLanguages);
 
-    // Dispatch selected languages to Redux after updating local state
     dispatch(setUserDetails({languages: updatedLanguages}));
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
@@ -87,7 +84,7 @@ const LanguageSelectionScreen = () => {
 
   const handleBackButton = () => {
     navigation.goBack();
-    dispatch(setCurrentScreen(1));
+    setCurrentScreen(1);
   };
 
   if (isLoading) {

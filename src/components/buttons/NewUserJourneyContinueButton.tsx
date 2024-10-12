@@ -1,6 +1,4 @@
 import React from 'react';
-import {useAppDispatch} from 'reduxCore/hooks';
-import {setCurrentScreen} from '../../features/registration/newUserSlice';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -13,11 +11,11 @@ const NewUserJourneyContinueButton = ({
   textStyle,
   disabled,
 }: NewUserJourneyContinueButtonProps) => {
-  const currentScreen = useNewUserCurrentScreen();
-  const dispatch = useAppDispatch();
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+
   const handleOnPress = () => {
     const nextScreen = currentScreen + 1;
-    dispatch(setCurrentScreen(nextScreen));
+    setCurrentScreen(nextScreen);
     onPress();
   };
   return (

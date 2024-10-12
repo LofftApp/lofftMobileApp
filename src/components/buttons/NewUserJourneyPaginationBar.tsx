@@ -4,7 +4,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const NewUserPaginationBar = () => {
-  const currentScreen = useNewUserCurrentScreen();
+  const {currentScreen} = useNewUserCurrentScreen();
   const {userJourney} = useNewUserDetails();
 
   return (

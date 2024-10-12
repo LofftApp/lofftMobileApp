@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
+//Redux 📦
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -20,8 +22,6 @@ import userPreferences from 'components/componentData/userPreferences.json';
 import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {setCurrentScreen} from 'reduxFeatures/registration/newUserSlice';
 
 interface SelectedTracks {
   id: number;
@@ -39,13 +39,11 @@ const AboutYouFlatHuntScreen = () => {
   const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
   const [alertTriger] = useState(false);
 
-  const currentScreen = useAppSelector(state => state.newUser.currentScreen);
-  const dispatch = useAppDispatch();
-
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;
     navigation.goBack();
-    dispatch(setCurrentScreen(previousScreen));
+    setCurrentScreen(previousScreen);
   };
 
   const selectFn = (id: number) => {
