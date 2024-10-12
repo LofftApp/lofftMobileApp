@@ -14,8 +14,9 @@ type RootTabParamsList = {
 };
 
 type NewUserStackParamsList = {
-  AboutUserScreen: undefined;
   LanguageSelectionScreen: undefined;
+  AboutUserScreen: undefined;
+  GenderIdentityScreen: undefined;
   dashboard: undefined;
 };
 
@@ -25,7 +26,6 @@ type ApplicationStackParamsList = {
   applicationshow: {id: number};
   chat: undefined;
 };
-
 
 type SearchStackParamsList = {
   search: undefined;

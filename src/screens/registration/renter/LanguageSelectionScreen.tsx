@@ -4,9 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Redux
-import {useAppDispatch} from 'reduxCore/hooks';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {setUserDetails} from 'reduxFeatures/registration/newUserSlice';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -43,7 +41,7 @@ const LanguageSelectionScreen = () => {
   const navigation = useNavigation<NewUserNavigatorProp>();
 
   // Redux
-  const {isLessor, newUserDetails} = useNewUserDetails();
+  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
 
@@ -75,12 +73,11 @@ const LanguageSelectionScreen = () => {
       : [...selectedLanguages, l];
     setSelectedLanguages(updatedLanguages);
 
-    dispatch(setUserDetails({languages: updatedLanguages}));
+    setNewUserDetails({languages: updatedLanguages});
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
 
   const scrollViewRef = useRef<ScrollView>(null);
-  const dispatch = useAppDispatch();
 
   const handleBackButton = () => {
     navigation.goBack();
@@ -163,7 +160,7 @@ const LanguageSelectionScreen = () => {
             </View>
           </View>
         </ScrollView>
-      <Divider />
+        <Divider />
       </View>
       <View style={styles.footerContainer}>
         <UserJourneyPaginationBar />

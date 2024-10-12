@@ -11,6 +11,7 @@ import SelectButton from 'components/buttons/SelectButton';
 import {navigationHelper} from 'helpers/navigationHelper';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {useNavigation} from '@react-navigation/native';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 interface SelectButton {
   id: number;
@@ -20,6 +21,7 @@ interface SelectButton {
 
 const GenderIdentityScreen = () => {
   const navigation = useNavigation();
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
 
   const genders = [
     {value: 'Male', id: 1, toggle: false},
@@ -52,13 +54,17 @@ const GenderIdentityScreen = () => {
     setIntitalGenders(genderTicked);
   };
 
+  const handleBackButton = () => {
+    setCurrentScreen(currentScreen - 1);
+    navigation.goBack();
+  };
+
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <ScreenBackButton nav={handleBackButton}>
       <HeadlineContainer
         headlineText={'What is your gender identity?'}
         subDescription={'To create a safe place for ... '}
       />
-
 
       {intitalGenders.map((el, index) => (
         <SelectButton

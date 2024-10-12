@@ -38,8 +38,14 @@ import {PURGE} from 'redux-persist';
 //   };
 // };
 
-interface NewUserDetails {
+export interface NewUserDetails {
   languages: string[];
+  characteristics: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
   genderIdentity: string | null;
   districts: any[] | null;
   minRent: number | null;
@@ -111,6 +117,7 @@ const initialState: UserJourneyState = {
   newUserDetails: {
     renter: {
       languages: [],
+      characteristics: [],
       genderIdentity: null,
       districts: null,
       minRent: null,
@@ -130,6 +137,7 @@ const initialState: UserJourneyState = {
     },
     lessor: {
       languages: [],
+      characteristics: [],
       genderIdentity: null,
       districts: null,
       minRent: null,
@@ -165,12 +173,15 @@ export const newUserSlice = createSlice({
       state.currentScreen = action.payload;
     },
 
-    setUserDetails: (state, action: PayloadAction<Partial<NewUserDetails>>) => {
+    setNewUserDetails: (
+      state,
+      action: PayloadAction<Partial<NewUserDetails>>,
+    ) => {
       const renterDetails = state.newUserDetails.renter;
       const lessorDetails = state.newUserDetails.lessor;
-      state.userType === 'renter'
-        ? (state.newUserDetails.renter = {...renterDetails, ...action.payload})
-        : (state.newUserDetails.lessor = {...lessorDetails, ...action.payload});
+      state.userType === 'lessor'
+        ? (state.newUserDetails.lessor = {...lessorDetails, ...action.payload})
+        : (state.newUserDetails.renter = {...renterDetails, ...action.payload});
     },
 
     // setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
@@ -246,6 +257,6 @@ export const newUserSlice = createSlice({
   },
 });
 
-export const {setUserType, setCurrentScreen, setUserDetails} =
+export const {setUserType, setCurrentScreen, setNewUserDetails} =
   newUserSlice.actions;
 export default newUserSlice.reducer;

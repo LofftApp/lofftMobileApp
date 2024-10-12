@@ -1,5 +1,9 @@
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {setUserType as _setUserType} from './newUserSlice';
+import {
+  setUserType as _setUserType,
+  setNewUserDetails as _setNewUserDetails,
+  NewUserDetails,
+} from './newUserSlice';
 
 export const useNewUserDetails = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +23,10 @@ export const useNewUserDetails = () => {
       : state.newUser.newUserDetails.renter,
   );
 
+  const setNewUserDetails = (details: Partial<NewUserDetails>) => {
+    dispatch(_setNewUserDetails(details));
+  };
+
   return {
     userType,
     setUserType,
@@ -26,5 +34,6 @@ export const useNewUserDetails = () => {
     isRenter,
     userJourney,
     newUserDetails,
+    setNewUserDetails,
   };
 };
