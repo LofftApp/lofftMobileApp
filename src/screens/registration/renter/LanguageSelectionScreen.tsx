@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppDispatch} from 'reduxCore/hooks';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {setUserDetails} from 'reduxFeatures/registration/newUserSlice';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -19,7 +20,7 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import Divider from 'components/bars/Divider';
 import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
-import UserJourneyContinue from 'components/buttons/NewUserJourneyContinueButton';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 //Assets 🎨
 import languagesData from 'Assets/coreText/languagesText.json';
@@ -30,7 +31,6 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserNavigatorProp} from '../../../../navigationStacks/types';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -163,16 +163,16 @@ const LanguageSelectionScreen = () => {
             </View>
           </View>
         </ScrollView>
-      </View>
       <Divider />
-      <View style={styles.continueButtonView}>
+      </View>
+      <View style={styles.footerContainer}>
         <UserJourneyPaginationBar />
 
-        <UserJourneyContinue
+        <NewUserJourneyContinueButton
           value="Continue"
           disabled={selectedLanguages.length === 0}
           onPress={() => {
-            navigation.navigate('AboutYouFlatHuntScreen');
+            navigation.navigate('AboutUserScreen');
           }}
         />
       </View>
@@ -205,9 +205,9 @@ const styles = StyleSheet.create({
   notSelected: {
     marginTop: size(16),
   },
-  continueButtonView: {
+  footerContainer: {
     paddingHorizontal: size(16),
-    paddingTop: size(20),
+    paddingTop: size(0),
     paddingBottom: size(10),
   },
 });

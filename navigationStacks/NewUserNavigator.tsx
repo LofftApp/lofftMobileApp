@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
-import AboutYouFlatHuntScreen from 'screens/registration/renter/AboutUserScreen';
+import AboutUserScreen from 'screens/registration/renter/AboutUserScreen';
 import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
 import BudgetScreen from 'screens/registration/renter/BudgetScreen';
@@ -67,8 +67,8 @@ const NewUserNavigator = () => {
           component={FlatFeaturesScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="AboutYouFlatHuntScreen"
-          component={AboutYouFlatHuntScreen}
+          name="AboutUserScreen"
+          component={AboutUserScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="ConditionsOfUseScreen"

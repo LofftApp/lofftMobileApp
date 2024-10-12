@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 //Redux 📦
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
@@ -22,6 +22,13 @@ import userPreferences from 'components/componentData/userPreferences.json';
 import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import BackButton from 'components/buttons/BackButton';
+import {RegistrationBackground} from 'assets';
+import NewUserJourneyButton from 'components/buttons/NewUserJourneyButton';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Divider from 'components/bars/Divider';
 
 interface SelectedTracks {
   id: number;
@@ -30,14 +37,13 @@ interface SelectedTracks {
   toggle: boolean;
 }
 
-const AboutYouFlatHuntScreen = () => {
+const AboutUserScreen = () => {
   const navigation = useNavigation();
   const preferences = userPreferences;
 
   const [intitalpreferencesArray, setintitalPreferencesArray] =
     useState(preferences);
   const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
-  const [alertTriger] = useState(false);
 
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const handleBackButton = () => {
@@ -65,6 +71,7 @@ const AboutYouFlatHuntScreen = () => {
     setselectedTracks(wash);
     setintitalPreferencesArray(preSeleted);
   };
+  console.log(intitalpreferencesArray)
 
   const emojiElements = intitalpreferencesArray.map(
     (emojiElement, index: number) => {
@@ -87,51 +94,53 @@ const AboutYouFlatHuntScreen = () => {
   );
 
   return (
-    <ScreenBackButton nav={handleBackButton}>
-      <HeadlineContainer
-        headlineText="Tell us a bit about yourself"
-        subDescription="Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.emojiContainer}>{emojiElements}</View>
-      </ScrollView>
-      <View style={styles.footerContainer}>
-        <UserJourneyPaginationBar />
-        <View style={styles.tagInfoContainer}>
-          <Text
-            style={
-              // eslint-disable-next-line react-native/no-inline-styles
-              alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
-            }>
-            * Select at least 3 tags
-          </Text>
-        </View>
-        <UserJourneyContinue
-          value="Continue"
-          disabled={selectedTracks.length < 3}
-          details={{flatMate: selectedTracks}}
-          onPress={(targetScreen: number) =>
-            navigationHelper(navigation, targetScreen)
-          }
+      <View style={CoreStyleSheet.screenContainer}>
+        <HeadlineContainer
+          headlineText="Tell us a bit about yourself"
+          subDescription="Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
         />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.selectionContainer}>{emojiElements}</View>
+        </ScrollView>
+        <Divider />
+        <View style={styles.footerContainer}>
+          <View style={styles.tagInfoContainer}>
+            <Text style={fontStyles.bodySmall}>* Select at least 3 tags</Text>
+          </View>
+          <UserJourneyPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            disabled={selectedTracks.length < 3}
+            onPress={(targetScreen: number) =>
+              navigationHelper(navigation, targetScreen)
+            }
+          />
+        </View>
       </View>
-    </ScreenBackButton>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  emojiContainer: {
+  selectionContainer: {
+    marginTop: size(20),
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: size(150),
   },
   tagInfoContainer: {
-    marginVertical: size(13),
+    marginBottom: size(5),
   },
   footerContainer: {
-    paddingTop: size(35),
-    paddingBottom: size(28),
+    paddingTop: size(20),
+    paddingBottom: size(10),
   },
 });
 
-export default AboutYouFlatHuntScreen;
+export default AboutUserScreen;

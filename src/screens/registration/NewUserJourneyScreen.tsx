@@ -12,8 +12,8 @@ import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyButton from 'components/buttons/NewUserJourneyButton';
 
 // Redux 🧠
-import {setUserType} from 'reduxFeatures/registration/newUserSlice';
-import {useAppDispatch} from 'reduxCore/hooks';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -26,14 +26,12 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserNavigatorProp} from '../../../navigationStacks/types';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const NewUserJourneyScreen = () => {
-  const dispatch = useAppDispatch();
-
   const navigation = useNavigation<NewUserNavigatorProp>();
 
-  const {userType} = useNewUserDetails();
+  const {userType, setUserType} = useNewUserDetails();
+  const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();
 
@@ -42,7 +40,8 @@ const NewUserJourneyScreen = () => {
   };
 
   const handleSelected = (type: string) => {
-    dispatch(setUserType(type));
+    setUserType(type);
+    setCurrentScreen(1);
     setTimeout(() => {
       navigation.navigate('LanguageSelectionScreen');
     }, 400);

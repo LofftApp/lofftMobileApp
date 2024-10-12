@@ -13,8 +13,8 @@ type RootTabParamsList = {
   language: undefined;
 };
 
-type NewUserNavigationParamsList = {
-  AboutYouFlatHuntScreen: undefined;
+type NewUserStackParamsList = {
+  AboutUserScreen: undefined;
   LanguageSelectionScreen: undefined;
   dashboard: undefined;
 };
@@ -26,9 +26,6 @@ type ApplicationStackParamsList = {
   chat: undefined;
 };
 
-// type LanguageStackParamsList = {
-//   indexSigniture: undefined;
-// };
 
 type SearchStackParamsList = {
   search: undefined;
@@ -96,10 +93,10 @@ type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<LessorNavigatorStackParamsList>
 >;
 
-type NewUserNavigatorProp = StackNavigationProp<NewUserNavigationParamsList>;
+type NewUserNavigatorProp = StackNavigationProp<NewUserStackParamsList>;
 
 type NewUserJourneyStackNavigation =
-  StackNavigationProp<NewUserNavigationParamsList>;
+  StackNavigationProp<NewUserStackParamsList>;
 
 export type {
   RootTabParamsList,
@@ -113,5 +110,5 @@ export type {
   LessorNavigatorScreenNavigationProp,
   NewUserNavigatorProp,
   NewUserJourneyStackNavigation,
-  NewUserNavigationParamsList,
+  NewUserStackParamsList,
 };
