@@ -21,13 +21,10 @@ const LanguagesCard = ({
   selected,
   handleSelectedLanguages,
 }: LanguagesCardProps) => {
-  // Create animation values for fading and scaling
   const fadeAnim = useRef(new Animated.Value(1)).current; // For fading in and out
   const translateY = useRef(new Animated.Value(0)).current; // For movement up/down
 
-  // Handle press and toggle between selected/unselected with animation
   const handlePress = () => {
-    // Animate fade out and translate
     Animated.sequence([
       Animated.parallel([
         Animated.timing(fadeAnim, {
@@ -36,28 +33,13 @@ const LanguagesCard = ({
           useNativeDriver: true,
         }),
         Animated.timing(translateY, {
-          toValue: -10,
+          toValue: selected ? 10 : -10,
           duration: 300,
           useNativeDriver: true,
         }),
       ]),
     ]).start(() => {
-      // After fade out, handle selection and fade it back in the correct list
       handleSelectedLanguages(language);
-      Animated.sequence([
-        Animated.parallel([
-          Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(translateY, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-      ]).start();
     });
   };
   const container = selected ? styles.selectedContainer : styles.notSelected;
