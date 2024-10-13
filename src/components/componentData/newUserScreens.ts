@@ -1,6 +1,4 @@
-// Define the screen names as a union type
-
-import {NewUserScreens} from './types';
+import {NewUserScreens} from '../../navigationStacks/types';
 
 export const newUserScreens: NewUserScreens = {
   renter: {

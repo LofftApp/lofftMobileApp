@@ -28,8 +28,8 @@ import {RegistrationBackground} from 'assets';
 import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
-import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
-import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {newUserScreens} from '../../../components/componentData/newUserScreens';
 
 const LanguageSelectionScreen = () => {
   // Local State

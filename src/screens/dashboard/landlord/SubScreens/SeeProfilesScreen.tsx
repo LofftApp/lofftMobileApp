@@ -34,7 +34,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {SeeProfilesScreenProp} from './types';
-import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 
 export const MAX_SELECT_2_ROUND = 20;
 

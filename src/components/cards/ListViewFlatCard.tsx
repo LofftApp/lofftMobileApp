@@ -24,7 +24,7 @@ import {tagSorter} from 'helpers/tagSorter';
 
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
-import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {SearchScreenNavigationProp} from '../../navigationStacks/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();

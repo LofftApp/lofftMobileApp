@@ -12,7 +12,7 @@ import {navigationHelper} from 'helpers/navigationHelper';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {useNavigation} from '@react-navigation/native';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
@@ -23,7 +23,7 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
+import {newUserScreens} from '../../../components/componentData/newUserScreens';
 import Divider from 'components/bars/Divider';
 
 interface SelectButton {

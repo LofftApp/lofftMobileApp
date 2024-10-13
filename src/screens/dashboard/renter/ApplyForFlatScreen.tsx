@@ -23,7 +23,7 @@ import {size} from 'react-native-responsive-sizes';
 import {
   ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
-} from '../../../../navigationStacks/types';
+} from '../../../navigationStacks/types';
 
 const ApplyForFlatScreen = () => {
   const navigation = useNavigation<

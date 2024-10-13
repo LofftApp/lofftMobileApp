@@ -26,7 +26,7 @@ import userPreferences from 'components/componentData/userPreferences.json';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
-import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 interface SelectedTracks {
   id: number;
   value: string;
@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: size(10),
-
   },
   tagInfoContainer: {
     marginBottom: size(5),

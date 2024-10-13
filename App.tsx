@@ -23,11 +23,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
 
 // Navigators 🧭
-import GuestStackNavigator from './navigationStacks/GuestNavigator';
-import NewUserNavigator from './navigationStacks/NewUserNavigator';
-import DashboardNavigator from './navigationStacks/DashboardNavigator';
-// import LessorNavigator from './navigationStacks/LessorNavigator';
-import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
+import GuestStackNavigator from 'navigationStacks/GuestNavigator';
+import NewUserNavigator from 'navigationStacks/NewUserNavigator';
+import DashboardNavigator from 'navigationStacks/DashboardNavigator';
+import DashboardNavigatorLessor from 'navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';

@@ -23,7 +23,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 
 // Types
-import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 
 const ConditionsOfUseScreen = () => {
   const dispatch = useAppDispatch();

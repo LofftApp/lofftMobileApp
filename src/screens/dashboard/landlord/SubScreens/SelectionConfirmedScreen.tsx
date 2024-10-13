@@ -15,7 +15,7 @@ import BackButton from 'components/buttons/BackButton';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 import {SelectionConfirmedScreenProp} from './types';
 
 const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
