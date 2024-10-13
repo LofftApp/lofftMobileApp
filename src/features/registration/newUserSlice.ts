@@ -149,11 +149,17 @@ export const newUserSlice = createSlice({
       state,
       action: PayloadAction<Partial<NewUserDetails>>,
     ) => {
-      const renterDetails = state.newUserDetails.renter;
-      const lessorDetails = state.newUserDetails.lessor;
+      console.log('renterDetails', action.payload);
+
       state.userType === 'lessor'
-        ? (state.newUserDetails.lessor = {...lessorDetails, ...action.payload})
-        : (state.newUserDetails.renter = {...renterDetails, ...action.payload});
+        ? (state.newUserDetails.lessor = {
+            ...state.newUserDetails.lessor,
+            ...action.payload,
+          })
+        : (state.newUserDetails.renter = {
+            ...state.newUserDetails.renter,
+            ...action.payload,
+          });
     },
 
     // setDetails: (state, action: PayloadAction<UserJourneyActions>) => {

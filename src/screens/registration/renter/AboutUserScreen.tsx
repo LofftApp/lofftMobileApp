@@ -105,10 +105,7 @@ const AboutUserScreen = () => {
         value={value}
         toggle={toggle}
         selectFn={selectChar}
-        disabled={
-          selectedChars.length === MAX_SELECTED_CHARS &&
-          !selectedChars.includes(char)
-        }
+        disabled={selectedChars.length === MAX_SELECTED_CHARS && !toggle}
       />
     );
   });

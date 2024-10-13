@@ -59,6 +59,7 @@ const GenderIdentityScreen = () => {
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const savedGender = newUserDetails.genderIdentity;
+  console.log('newUserDetails', newUserDetails);
 
   useEffect(() => {
     if (savedGender && savedGender.length > 0) {
