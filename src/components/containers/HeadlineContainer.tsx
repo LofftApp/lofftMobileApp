@@ -20,7 +20,7 @@ const HeadlineContainer = ({
     <View style={styles.container}>
       <Text style={fontStyles.headerDisplay}>{headlineText}</Text>
       {subDescription && (
-        <Text style={[fontStyles.bodyExtraSmall, styles.subHeaderText]}>
+        <Text style={[fontStyles.bodyMedium, styles.subHeaderText]}>
           {subDescription}
         </Text>
       )}
@@ -31,6 +31,7 @@ const HeadlineContainer = ({
 const styles = StyleSheet.create({
   container: {
     gap: size(10),
+    paddingBottom: size(10),
   },
   subHeaderText: {
     color: color.Black[80],

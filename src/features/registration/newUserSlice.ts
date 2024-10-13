@@ -1,43 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {PURGE} from 'redux-persist';
 
-// const renterJourney = () => {
-//   return {
-//     '0': {screenName: 'AboutYouFlatHuntScreen'},
-//     '1': {screenName: 'GenderIdentityScreen'},
-//     '2': {screenName: 'SelectCityScreen'},
-//     '3': {screenName: 'FinderBudgetScreen'},
-//     '4': {
-//       screenName: 'FlatFeaturesScreen',
-//       headerText: 'What is your ideal flat?',
-//       subHeaderText:
-//         'Select all tags that describe who you are and find the Lofft of your life!',
-//     },
-//     '5': {screenName: 'SelfDescribeScreen'},
-//     '6': {screenName: 'ConditionsOfUseScreen'},
-//   };
-// };
-
-// const lesserJourney = () => {
-//   return {
-//     '0': {screenName: 'WhereIsFlatScreen'},
-//     '1': {screenName: 'FlatLengthAvailableScreen'},
-//     '2': {
-//       screenName: 'AboutYouFlatHuntScreen',
-//       headerText: 'Who is your ideal flatmate?',
-//       subHeaderText:
-//         "Select all tags that describe your ideal flatmate and we'll match them for you!",
-//     },
-//     '3': {
-//       screenName: 'FlatFeaturesScreen',
-//       headerText: 'What is your flat like?',
-//       subHeaderText: 'Select all the tags that match your place.',
-//     },
-//     '4': {screenName: 'FlatPhotoUploadScreen'},
-//     '5': {screenName: 'ConditionsOfUseScreen'},
-//   };
-// };
-
 export interface NewUserDetails {
   languages: string[];
   characteristics: {
@@ -105,6 +68,8 @@ const initialState: UserJourneyState = {
     4: false,
     5: false,
     6: false,
+    7: false,
+    8: false,
   },
   lessorJourney: {
     1: false,
@@ -112,6 +77,7 @@ const initialState: UserJourneyState = {
     3: false,
     4: false,
     5: false,
+    6: false,
   },
 
   newUserDetails: {

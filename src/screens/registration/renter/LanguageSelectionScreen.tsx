@@ -28,7 +28,8 @@ import {RegistrationBackground} from 'assets';
 import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
-import {NewUserNavigatorProp} from '../../../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
+import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -38,7 +39,7 @@ const LanguageSelectionScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Navigation
-  const navigation = useNavigation<NewUserNavigatorProp>();
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // Redux
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
@@ -82,6 +83,13 @@ const LanguageSelectionScreen = () => {
   const handleBackButton = () => {
     navigation.goBack();
     setCurrentScreen(1);
+  };
+
+  const handleNavigation = () => {
+    const screen = isLessor
+      ? newUserScreens.lessor[2]
+      : newUserScreens.renter[2];
+    navigation.navigate(screen);
   };
 
   if (isLoading) {
@@ -168,9 +176,7 @@ const LanguageSelectionScreen = () => {
         <NewUserJourneyContinueButton
           value="Continue"
           disabled={selectedLanguages.length === 0}
-          onPress={() => {
-            navigation.navigate('AboutUserScreen');
-          }}
+          onPress={handleNavigation}
         />
       </View>
     </View>

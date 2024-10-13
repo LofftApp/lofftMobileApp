@@ -12,6 +12,8 @@ import {navigationHelper} from 'helpers/navigationHelper';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {useNavigation} from '@react-navigation/native';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 interface SelectButton {
   id: number;
@@ -20,7 +22,7 @@ interface SelectButton {
 }
 
 const GenderIdentityScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
 
   const genders = [
@@ -54,9 +56,12 @@ const GenderIdentityScreen = () => {
     setIntitalGenders(genderTicked);
   };
 
+  const [signOut] = useSignOutMutation();
+
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
-    navigation.goBack();
+    // navigation.goBack();
+    signOut();
   };
 
   return (

@@ -53,7 +53,7 @@ const AboutUserScreen = () => {
 
       const updatedCharsState = characteristics.map(char => ({
         ...char,
-        toggle: savedChars.some(savedChar => savedChar.id === char.id), // Toggle if savedChar matches char id
+        toggle: savedChars.some(savedChar => savedChar.id === char.id),
       }));
 
       setCharsState(updatedCharsState);
@@ -147,7 +147,7 @@ const AboutUserScreen = () => {
 
 const styles = StyleSheet.create({
   selectionContainer: {
-    marginTop: size(20),
+    marginTop: size(10),
     flexDirection: 'row',
     flexWrap: 'wrap',
   },

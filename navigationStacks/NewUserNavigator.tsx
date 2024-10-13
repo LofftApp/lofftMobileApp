@@ -23,15 +23,12 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-        {/* Renter Screens */}
+        {/* initial screen */}
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
         />
-        <NewUserNavigatorFlow.Screen
-          name="LanguageSelectionScreen"
-          component={LanguageSelectionScreen}
-        />
+        {/* Renter Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
           component={GenderIdentityScreen}
@@ -62,6 +59,11 @@ const NewUserNavigator = () => {
           component={FlatPhotoUploadScreen}
         />
         {/* Shared screens */}
+
+        <NewUserNavigatorFlow.Screen
+          name="LanguageSelectionScreen"
+          component={LanguageSelectionScreen}
+        />
         <NewUserNavigatorFlow.Screen
           name="FlatFeaturesScreen"
           component={FlatFeaturesScreen}

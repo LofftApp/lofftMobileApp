@@ -21,16 +21,19 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 //Assets
 import {RegistrationBackground} from 'assets';
 
+//Screens
+import {newUserScreens} from '../../../navigationStacks/newUserScreens';
+
 // Helper
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
-import {NewUserNavigatorProp} from '../../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 
 const NewUserJourneyScreen = () => {
-  const navigation = useNavigation<NewUserNavigatorProp>();
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
-  const {userType, setUserType} = useNewUserDetails();
+  const {userType, setUserType, isLessor} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();
@@ -43,7 +46,11 @@ const NewUserJourneyScreen = () => {
     setUserType(type);
     setCurrentScreen(1);
     setTimeout(() => {
-      navigation.navigate('LanguageSelectionScreen');
+      const screen = isLessor
+        ? newUserScreens.lessor[1]
+        : newUserScreens.renter[1];
+
+      navigation.navigate(screen);
     }, 400);
   };
 
