@@ -7,6 +7,7 @@ import {
   setApplicationsRound2 as _setApplicationsRound2,
 } from './applicationSlice';
 import {Application} from './types';
+import {useCallback} from 'react';
 
 export const useSelectApplicants = () => {
   const dispatch = useAppDispatch();
@@ -23,17 +24,23 @@ export const useSelectApplicants = () => {
     state => state.applications.selectedAllRound1,
   );
 
-  const setApplicationsRound1 = (applications: Application[]) => {
-    dispatch(_setApplicationsRound1(applications));
-  };
+  const setApplicationsRound1 = useCallback(
+    (applications: Application[]) => {
+      dispatch(_setApplicationsRound1(applications));
+    },
+    [dispatch],
+  );
 
-  const toggleRound1 = (applicationId: number) => {
-    dispatch(_toggleRound1(applicationId));
-  };
+  const toggleRound1 = useCallback(
+    (applicationId: number) => {
+      dispatch(_toggleRound1(applicationId));
+    },
+    [dispatch],
+  );
 
-  const toggleSelectAllRound1 = () => {
+  const toggleSelectAllRound1 = useCallback(() => {
     dispatch(_toggleSelectAllRound1());
-  };
+  }, [dispatch]);
 
   const applicationsStateRound2 = useAppSelector(
     state => state.applications.applicationsRound2,
@@ -44,12 +51,19 @@ export const useSelectApplicants = () => {
   const notSelectedApplicationsRound2 = useAppSelector(
     state => state.applications.applicationsNotSelectedRound2,
   );
-  const toggleRound2 = (applicationId: number) => {
-    dispatch(_toggleRound2(applicationId));
-  };
-  const setApplicationsRound2 = (applications: Application[]) => {
-    dispatch(_setApplicationsRound2(applications));
-  };
+  const toggleRound2 = useCallback(
+    (applicationId: number) => {
+      dispatch(_toggleRound2(applicationId));
+    },
+    [dispatch],
+  );
+
+  const setApplicationsRound2 = useCallback(
+    (applications: Application[]) => {
+      dispatch(_setApplicationsRound2(applications));
+    },
+    [dispatch],
+  );
 
   return {
     applicationsStateRound1,
