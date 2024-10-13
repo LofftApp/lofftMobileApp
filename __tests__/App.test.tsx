@@ -9,6 +9,26 @@ import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
 import {createMockStore, defaultMockState} from '../__mocks__/reduxMock';
 
+// Mock lofftApi and injectEndpoints
+jest.mock('../src/features/api/lofftApi', () => ({
+  lofftApi: {
+    injectEndpoints: jest.fn(() => ({
+      useGetApplicationsQuery: jest.fn(),
+      useGetAdvertByIdQuery: jest.fn(),
+    })),
+  },
+}));
+
+// Mock RTK Query hooks from userApi
+jest.mock('../src/features/user/userApi', () => ({
+  useGetUserQuery: jest.fn(() => ({
+    data: {user: {userType: 'renter', admin: false}},
+    isLoading: false,
+    isError: false,
+    error: null,
+  })),
+}));
+
 // Mock RTK Query hooks from authApi
 jest.mock('../src/features/auth/authApi', () => ({
   useSignInMutation: jest.fn(() => [jest.fn(), {isLoading: false}]),
