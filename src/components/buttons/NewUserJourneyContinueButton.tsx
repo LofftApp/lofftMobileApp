@@ -15,7 +15,9 @@ const NewUserJourneyContinueButton = ({
 
   const handleOnPress = () => {
     const nextScreen = currentScreen + 1;
-    setCurrentScreen(nextScreen);
+    setTimeout(() => {
+      setCurrentScreen(nextScreen);
+    }, 100);
     onPress();
   };
   return (

@@ -80,16 +80,27 @@ const LanguageSelectionScreen = () => {
 
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+  };
+  const handleClearSearch = () => {
+    setSearchValue('');
+  };
+
   const handleBackButton = () => {
     navigation.goBack();
+
     setCurrentScreen(1);
+    handleClearSearch();
   };
 
   const handleContinue = () => {
     const screen = isLessor
       ? newUserScreens.lessor[2]
       : newUserScreens.renter[2];
-    navigation.navigate(screen);
+      navigation.navigate(screen);
+
+    handleClearSearch();
   };
 
   if (isLoading) {
@@ -125,12 +136,8 @@ const LanguageSelectionScreen = () => {
             type="search"
             placeholder="Search for your language"
             value={searchValue}
-            onChangeText={(newValue: any) => {
-              setSearchValue(newValue);
-            }}
-            onClear={() => {
-              setSearchValue('');
-            }}
+            onChangeText={handleSearch}
+            onClear={handleClearSearch}
           />
         </View>
 
@@ -140,7 +147,7 @@ const LanguageSelectionScreen = () => {
               <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
                 Your current Selection:
               </Text>
-              <View>
+              <View style={styles.languagesContainer}>
                 {selectedLanguages.map(language => (
                   <LanguagesCard
                     key={language}
@@ -200,6 +207,7 @@ const styles = StyleSheet.create({
   languagesContainer: {
     flex: 1,
     height: '100%',
+    paddingHorizontal: size(16),
   },
 
   currentSelection: {
