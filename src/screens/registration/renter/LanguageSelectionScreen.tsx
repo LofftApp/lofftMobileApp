@@ -98,13 +98,13 @@ const LanguageSelectionScreen = () => {
     const screen = isLessor
       ? newUserScreens.lessor[2]
       : newUserScreens.renter[2];
-      navigation.navigate(screen);
+    navigation.navigate(screen);
 
     handleClearSearch();
   };
 
   if (isLoading) {
-    <LoadingComponent />;
+    return <LoadingComponent />;
   }
 
   return (
