@@ -58,7 +58,6 @@ const SignUpForm = () => {
   //   }
   // };
   const [signUp, {isSuccess}] = useSignUpMutation();
-  console.log('result SIGNUP:', isSuccess);
 
   useEffect(() => {
     if (isSuccess) {

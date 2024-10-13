@@ -86,7 +86,6 @@ const ListFlatApplicationCard = ({
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
   };
-  console.log('advert favorite in application', advert?.favorite);
 
   return (
     <View style={styles.advertCardContainer}>

@@ -64,7 +64,6 @@ export const advertApi = lofftApi.injectEndpoints({
       providesTags: (result, error, id) => [
         {type: 'Adverts', id},
         {type: 'Applications', id},
-        // {type: 'Applications', id: 'LIST'},
         {type: 'Adverts', id: 'LIST'},
       ],
       transformResponse: (response: IncomingAdvert) => {
@@ -131,10 +130,8 @@ export const advertApi = lofftApi.injectEndpoints({
         );
 
         try {
-          // Wait for the API response
           await queryFulfilled;
         } catch {
-          // If the request fails, undo all optimistic updates
           patchAdvertById.undo();
           patchAdvertList.undo();
           patchApplicationById.undo();

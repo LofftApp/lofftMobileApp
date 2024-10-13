@@ -67,7 +67,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   const completeProfile = user?.userType !== 'newuser';
   const hasTokens = user?.credits && user?.credits > 0;
-  console.log('creadits 💶💶', user?.credits);
 
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);

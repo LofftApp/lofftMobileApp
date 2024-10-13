@@ -48,7 +48,6 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);
   };
-  console.log('advert favortie in listviewflatcard', advert.favorite);
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>

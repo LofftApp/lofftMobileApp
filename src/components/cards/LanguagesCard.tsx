@@ -21,8 +21,8 @@ const LanguagesCard = ({
   selected,
   handleSelectedLanguages,
 }: LanguagesCardProps) => {
-  const fadeAnim = useRef(new Animated.Value(1)).current; // For fading in and out
-  const translateY = useRef(new Animated.Value(0)).current; // For movement up/down
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
 
   const handlePress = () => {
     Animated.sequence([

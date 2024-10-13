@@ -9,7 +9,6 @@ type HeartButtonProps = {
 };
 
 const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
-  // Animation values for scaling
   const scaleValue = useRef(new Animated.Value(1)).current;
   const opacityValue = useRef(new Animated.Value(1)).current;
 
