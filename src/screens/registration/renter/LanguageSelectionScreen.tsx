@@ -17,7 +17,7 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import Divider from 'components/bars/Divider';
-import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 //Assets 🎨

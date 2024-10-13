@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
+import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
 import UserJourneyContinue from 'components/buttons/NewUserJourneyContinueButton';
 import {size} from 'react-native-responsive-sizes';
 

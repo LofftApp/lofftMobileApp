@@ -7,7 +7,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Components 🪢
-import UserJourneyPaginationBar from 'components/buttons/NewUserJourneyPaginationBar';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
 import Divider from 'components/bars/Divider';
@@ -133,7 +133,7 @@ const AboutUserScreen = () => {
                 fontStyles.bodySmall
               }>{`* Select at least ${MIN_SELECTED_CHARS} tags`}</Text>
           </View>
-          <UserJourneyPaginationBar />
+          <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={selectedChars.length < MIN_SELECTED_CHARS}
@@ -150,6 +150,8 @@ const styles = StyleSheet.create({
     marginTop: size(10),
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingHorizontal: size(10),
+
   },
   tagInfoContainer: {
     marginBottom: size(5),
