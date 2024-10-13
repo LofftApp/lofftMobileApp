@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -30,35 +30,49 @@ interface SelectButton {
   id: number;
   value: string;
   toggle: boolean;
+  emoji: string;
 }
 
+const genders = [
+  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
+  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
+  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
+  {
+    value: 'Another gender identity not listed',
+    id: 4,
+    toggle: false,
+    emoji: '🙆',
+  },
+  {value: 'Women only', id: 5, toggle: false, emoji: '🙋‍♀️'},
+  {value: 'Queer space', id: 6, toggle: false, emoji: '⚧️'},
+  {value: 'Trans & non-binary safe space', id: 7, toggle: false, emoji: '🏳️‍⚧️'},
+  {value: 'Prefer not to say', id: 8, toggle: false, emoji: '🤐'},
+];
 const GenderIdentityScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
 
-  const genders = [
-    {value: 'Male', id: 1, toggle: false, emoji: '👨'},
-    {value: 'Female', id: 2, toggle: false, emoji: '👩'},
-    {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
-    {
-      value: 'Another gender identity not listed',
-      id: 4,
-      toggle: false,
-      emoji: '🙆',
-    },
-    {value: 'Women only', id: 5, toggle: false, emoji: '🙋‍♀️'},
-    {value: 'Queer space', id: 6, toggle: false, emoji: '⚧️'},
-    {value: 'Trans & non-binary safe space', id: 7, toggle: false, emoji: '🏳️‍⚧️'},
-    {value: 'Prefer not to say', id: 8, toggle: false, emoji: '🤐'},
-  ];
-
   const [intitalGenders, setIntitalGenders] = useState(genders);
-  const [cleanGenders, setCleanGenders] = useState<SelectButton[]>([]);
+  const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
+  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const savedGender = newUserDetails.genderIdentity;
 
-  const {isLessor} = useNewUserDetails();
+  useEffect(() => {
+    if (savedGender && savedGender.length > 0) {
+      setSelectedGender(savedGender);
 
+      const updatedGenderState = genders.map(gender => ({
+        ...gender,
+        toggle: savedGender.some(g => g.id === gender.id),
+      }));
+
+      setIntitalGenders(updatedGenderState);
+    } else {
+      setSelectedGender([]);
+    }
+  }, [savedGender]);
   const selectGender = (id: number) => {
-    const genderTicked = intitalGenders.map(el => {
+    const updatedGender = intitalGenders.map(el => {
       if (el.id === id) {
         return {
           ...el,
@@ -72,12 +86,11 @@ const GenderIdentityScreen = () => {
       }
     });
 
-    const wash = genderTicked.filter(el => el.toggle);
-    setCleanGenders(wash);
-    setIntitalGenders(genderTicked);
+    const genderSelected = updatedGender.filter(el => el.toggle);
+    setSelectedGender(genderSelected);
+    setIntitalGenders(updatedGender);
+    setNewUserDetails({genderIdentity: genderSelected});
   };
-
-  const [signOut] = useSignOutMutation();
 
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
@@ -89,6 +102,7 @@ const GenderIdentityScreen = () => {
       ? newUserScreens.lessor[3]
       : newUserScreens.renter[4];
     navigation.navigate(screen);
+    setNewUserDetails({genderIdentity: selectedGender});
   };
 
   return (
@@ -124,7 +138,7 @@ const GenderIdentityScreen = () => {
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            disabled={cleanGenders.length === 0}
+            disabled={selectedGender.length === 0}
             onPress={handleNavigation}
           />
         </View>
@@ -137,8 +151,6 @@ const styles = StyleSheet.create({
   selectionContainer: {
     marginTop: size(10),
     paddingHorizontal: size(10),
-
-
   },
   tagInfoContainer: {
     marginBottom: size(5),

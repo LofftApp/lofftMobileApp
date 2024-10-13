@@ -9,7 +9,13 @@ export interface NewUserDetails {
     value: string;
     emoji: string;
   }[];
-  genderIdentity: string | null;
+  genderIdentity: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+
   districts: any[] | null;
   minRent: number | null;
   maxRent: number | null;
@@ -40,7 +46,7 @@ interface UserJourneyState {
 }
 
 interface UserJourneyActions {
-  genderIdentity: {id: number; toggle: boolean; value: string};
+  genderIdentity: [];
   districts: any[] | null;
   minRent: number;
   maxRent: number;
@@ -84,7 +90,7 @@ const initialState: UserJourneyState = {
     renter: {
       languages: [],
       characteristics: [],
-      genderIdentity: null,
+      genderIdentity: [],
       districts: null,
       minRent: null,
       maxRent: null,
