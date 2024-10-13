@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
-import {saveUserDetails} from 'reduxFeatures/registration/userJourneySlice';
+import {saveUserDetails} from 'reduxFeatures/registration/newUserSlice';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Screens 📺
@@ -13,7 +13,7 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
-import UserJourneySaveButton from 'reduxFeatures/registration/UserJourneySaveButton';
+import UserJourneySaveButton from 'components/buttons/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -23,7 +23,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 
 // Types
-import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 
 const ConditionsOfUseScreen = () => {
   const dispatch = useAppDispatch();

@@ -30,10 +30,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
-import {SearchScreenNavigationProp} from '../../../../navigationStacks/types';
-
-
-
+import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -70,7 +67,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   const completeProfile = user?.userType !== 'newuser';
   const hasTokens = user?.credits && user?.credits > 0;
-  console.log('creadits 💶💶', user?.credits);
 
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);

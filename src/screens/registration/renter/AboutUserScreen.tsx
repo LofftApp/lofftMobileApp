@@ -1,26 +1,33 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-// Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+//Redux 📦
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Components 🪢
-import UserJourneyPaginationBar from 'reduxFeatures/registration/UserJourneyPaginationBar';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
-import UserJourneyContinue from 'reduxFeatures/registration/UserJourneyContinue';
+import Divider from 'components/bars/Divider';
+import BackButton from 'components/buttons/BackButton';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 // StylesSheet 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {RegistrationBackground} from 'assets';
 
 // Data 💿
 import userPreferences from 'components/componentData/userPreferences.json';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Helper 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
-import {useNavigation} from '@react-navigation/native';
 
+// Types 🏷 ️
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 interface SelectedTracks {
   id: number;
   value: string;
@@ -28,20 +35,50 @@ interface SelectedTracks {
   toggle: boolean;
 }
 
-const AboutYouFlatHuntScreen = () => {
-  const navigation = useNavigation();
-  const preferences = userPreferences;
+const MAX_SELECTED_CHARS = 10;
+const MIN_SELECTED_CHARS = 3;
 
-  const [intitalpreferencesArray, setintitalPreferencesArray] =
-    useState(preferences);
-  const [selectedTracks, setselectedTracks] = useState<SelectedTracks[]>([]);
-  const [alertTriger] = useState(false);
+const AboutUserScreen = () => {
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const characteristics = userPreferences;
 
-  const selectFn = (id: number) => {
-    const targets = [];
-    const preSeleted = intitalpreferencesArray.map(element => {
+  const [charsState, setCharsState] = useState(characteristics);
+  const [selectedChars, setSelectedChars] = useState<SelectedTracks[]>([]);
+
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {newUserDetails, setNewUserDetails, isLessor} = useNewUserDetails();
+  const savedChars = newUserDetails.characteristics;
+  useEffect(() => {
+    if (savedChars && savedChars.length > 0) {
+      setSelectedChars(savedChars);
+
+      const updatedCharsState = characteristics.map(char => ({
+        ...char,
+        toggle: savedChars.some(savedChar => savedChar.id === char.id),
+      }));
+
+      setCharsState(updatedCharsState);
+    } else {
+      setSelectedChars([]);
+    }
+  }, [savedChars, characteristics]);
+
+  const handleBackButton = () => {
+    const previousScreen = currentScreen - 1;
+    navigation.goBack();
+    setCurrentScreen(previousScreen);
+  };
+
+  const handleContinue = () => {
+    const screen = isLessor
+      ? newUserScreens.lessor[5]
+      : newUserScreens.renter[3];
+    navigation.navigate(screen);
+  };
+
+  const selectChar = (id: number) => {
+    const updatedChars = charsState.map(element => {
       if (element.id === id) {
-        targets.push(element);
         return {
           ...element,
           toggle: !element.toggle,
@@ -51,78 +88,81 @@ const AboutYouFlatHuntScreen = () => {
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
+    const charsSelected = updatedChars.filter(el => el.toggle);
 
-    setselectedTracks(wash);
-    setintitalPreferencesArray(preSeleted);
+    setSelectedChars(charsSelected);
+    setCharsState(updatedChars);
+    setNewUserDetails({characteristics: charsSelected});
   };
 
-  const emojiElements = intitalpreferencesArray.map(
-    (emojiElement, index: number) => {
-      const {value, emoji, id, toggle} = emojiElement;
-      return (
-        <SelectionButton
-          key={index + 1}
-          id={id}
-          emojiIcon={emoji}
-          value={value}
-          toggle={toggle}
-          selectFn={selectFn}
-          disabled={
-            selectedTracks.length === 10 &&
-            !selectedTracks.includes(emojiElement)
-          }
-        />
-      );
-    },
-  );
+  const charsButtons = charsState.map(char => {
+    const {value, emoji, id, toggle} = char;
+    return (
+      <SelectionButton
+        key={id}
+        id={id}
+        emojiIcon={emoji}
+        value={value}
+        toggle={toggle}
+        selectFn={selectChar}
+        disabled={
+          selectedChars.length === MAX_SELECTED_CHARS &&
+          !selectedChars.includes(char)
+        }
+      />
+    );
+  });
 
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
-      <HeadlineContainer
-        headlineText="Tell us a bit about yourself"
-        subDescription="Select at least 3 tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!"
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.emojiContainer}>{emojiElements}</View>
-      </ScrollView>
-      <View style={styles.footerContainer}>
-        <UserJourneyPaginationBar />
-        <View style={styles.tagInfoContainer}>
-          <Text
-            style={
-              // eslint-disable-next-line react-native/no-inline-styles
-              alertTriger ? {color: Color.Tomato[100]} : {color: '#4A4A4A'}
-            }>
-            * Select at least 3 tags
-          </Text>
-        </View>
-        <UserJourneyContinue
-          value="Continue"
-          disabled={selectedTracks.length < 3}
-          details={{flatMate: selectedTracks}}
-          onPress={(targetScreen: number) =>
-            navigationHelper(navigation, targetScreen)
-          }
+      <View style={CoreStyleSheet.screenContainer}>
+        <HeadlineContainer
+          headlineText="Tell us a bit about yourself"
+          subDescription={`Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`}
         />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.selectionContainer}>{charsButtons}</View>
+        </ScrollView>
+        <Divider />
+        <View style={styles.footerContainer}>
+          <View style={styles.tagInfoContainer}>
+            <Text
+              style={
+                fontStyles.bodySmall
+              }>{`* Select at least ${MIN_SELECTED_CHARS} tags`}</Text>
+          </View>
+          <NewUserPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            disabled={selectedChars.length < MIN_SELECTED_CHARS}
+            onPress={handleContinue}
+          />
+        </View>
       </View>
-    </ScreenBackButton>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  emojiContainer: {
+  selectionContainer: {
+    marginTop: size(10),
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: size(150),
+    paddingHorizontal: size(10),
   },
   tagInfoContainer: {
-    marginVertical: size(13),
+    marginBottom: size(5),
   },
   footerContainer: {
-    paddingTop: size(35),
-    paddingBottom: size(28),
+    paddingTop: size(20),
+    paddingBottom: size(10),
   },
 });
 
-export default AboutYouFlatHuntScreen;
+export default AboutUserScreen;

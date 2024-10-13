@@ -23,37 +23,35 @@ import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
 
 // Navigators 🧭
-import GuestStackNavigator from './navigationStacks/GuestNavigator';
-import NewUserNavigator from './navigationStacks/NewUserNavigator';
-import DashboardNavigator from './navigationStacks/DashboardNavigator';
-// import LessorNavigator from './navigationStacks/LessorNavigator';
-import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
+import GuestStackNavigator from 'navigationStacks/GuestNavigator';
+import NewUserNavigator from 'navigationStacks/NewUserNavigator';
+import DashboardNavigator from 'navigationStacks/DashboardNavigator';
+import DashboardNavigatorLessor from 'navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
 
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Remove ErrorBoundary in production
-
-
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
   const isAuth = useAuth();
-  console.log('isAuth', isAuth);
 
-
-  const {data, isLoading} = useGetUserQuery(undefined, {
-
+  const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
     skip: !isAuth,
   });
 
   const userType = data?.user.userType;
   const admin = data?.user.admin;
-  console.log('userType', data?.user.userType);
+  const connectionError =
+    error && 'status' in error && error.status === 'FETCH_ERROR';
+  const [signOut] = useSignOutMutation();
+
   // Mapbox
   MapboxGL.setWellKnownTileServer(
     Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
@@ -76,8 +74,26 @@ const App = () => {
     }
   }, []);
 
+  const handleBackButton = () => {
+    signOut();
+  };
+
   if (isLoading) {
     return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        backButton
+        onPress={handleBackButton}
+        message={
+          connectionError
+            ? 'Network Error. Please check server or connection'
+            : 'Error loading user data and profile. Please try again'
+        }
+      />
+    );
   }
 
   return (

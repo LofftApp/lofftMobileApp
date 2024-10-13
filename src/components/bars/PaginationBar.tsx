@@ -6,6 +6,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷
 import type {PaginationBarProps} from './types';
+import {size} from 'react-native-responsive-sizes';
 
 const buildNumberArray = (length: number) => {
   let i = 1;
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingBottom: size(5),
   },
   paginationBlob: {
     width: 8,
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Black[10],
     marginHorizontal: 3,
   },
-  active: {},
+
   positionTop: {
     position: 'absolute',
   },

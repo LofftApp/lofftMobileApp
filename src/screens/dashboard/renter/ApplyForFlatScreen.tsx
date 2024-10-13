@@ -23,7 +23,7 @@ import {size} from 'react-native-responsive-sizes';
 import {
   ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
-} from '../../../../navigationStacks/types';
+} from '../../../navigationStacks/types';
 
 const ApplyForFlatScreen = () => {
   const navigation = useNavigation<
@@ -37,7 +37,11 @@ const ApplyForFlatScreen = () => {
   }
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+      <ApplyForFlatScreenBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
       <BackButton style={styles.backButton} onPress={navigation.goBack} />
       <HiFive />
       <View style={CoreStyleSheet.screenContainer}>
@@ -85,12 +89,7 @@ const styles = StyleSheet.create({
   backButton: {
     marginLeft: 10,
   },
-  backgroundImage: {
-    position: 'absolute',
-    top: 50,
-    zIndex: -1,
-    left: -20,
-  },
+
   textContainer: {
     textAlign: 'center',
     marginTop: size(24),

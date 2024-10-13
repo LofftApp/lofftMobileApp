@@ -1,7 +1,7 @@
 import type {
   SearchScreenNavigationProp,
   SearchStackParamsList,
-} from '../../../../navigationStacks/types';
+} from '../../../navigationStacks/types';
 import type {RouteProp} from '@react-navigation/native';
 
 type FlatFindScreenProp = {

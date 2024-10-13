@@ -27,7 +27,7 @@ export const authApi = lofftApi.injectEndpoints({
         try {
           const response = await queryFulfilled;
 
-          dispatch(setAuthenticated({token: response.data.access_token}));
+          dispatch(setAuthenticated());
           await EncryptedStorage.setItem('token', response.data.access_token);
 
           console.log('Token stored successfully');
@@ -83,7 +83,7 @@ export const authApi = lofftApi.injectEndpoints({
         try {
           const response = await queryFulfilled;
 
-          dispatch(setAuthenticated({token: response.data.user.access_token}));
+          dispatch(setAuthenticated());
           await EncryptedStorage.setItem(
             'token',
             response.data.user.access_token,

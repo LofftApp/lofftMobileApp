@@ -13,15 +13,26 @@ type RootTabParamsList = {
   language: undefined;
 };
 
-type newUserNavigatorParamsList = {
-  LanguageSelectionScreen: [string, string];
+type NewUserScreenNames =
+  | 'LanguageSelectionScreen'
+  | 'AboutUserScreen'
+  | 'GenderIdentityScreen'
+  | 'WhereIsFlatScreen'
+  | 'FlatLengthAvailableScreen'
+  | 'SelectCityScreen'
+  | 'FinderBudgetScreen'
+  | 'FlatFeaturesScreen'
+  | 'SelfDescribeScreen'
+  | 'ConditionsOfUseScreen'
+  | 'FlatPhotoUploadScreen'
+  | 'FinderBudgetScreen';
+
+type NewUserScreens = {
+  renter: Record<number, NewUserScreenNames>;
+  lessor: Record<number, NewUserScreenNames>;
 };
 
-type newUserNavigationParamsList = {
-  AboutYouFlatHuntScreen: undefined;
-  LanguageSelectionScreen: undefined;
-  dashboard: undefined;
-};
+type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
 
 type ApplicationStackParamsList = {
   application: undefined;
@@ -29,10 +40,6 @@ type ApplicationStackParamsList = {
   applicationshow: {id: number};
   chat: undefined;
 };
-
-// type LanguageStackParamsList = {
-//   indexSigniture: undefined;
-// };
 
 type SearchStackParamsList = {
   search: undefined;
@@ -100,13 +107,8 @@ type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<LessorNavigatorStackParamsList>
 >;
 
-type NewUserNavigatorProp = StackNavigationProp<
-  newUserNavigatorParamsList,
-  'LanguageSelectionScreen'
->;
-
 type NewUserJourneyStackNavigation =
-  StackNavigationProp<newUserNavigationParamsList>;
+  StackNavigationProp<NewUserStackParamsList>;
 
 export type {
   RootTabParamsList,
@@ -118,6 +120,8 @@ export type {
   LessorTabParamsList,
   LessorNavigatorStackParamsList,
   LessorNavigatorScreenNavigationProp,
-  NewUserNavigatorProp,
   NewUserJourneyStackNavigation,
+  NewUserStackParamsList,
+  NewUserScreenNames,
+  NewUserScreens,
 };

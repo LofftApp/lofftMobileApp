@@ -1,32 +1,63 @@
-import BackButton from 'components/buttons/BackButton';
 import React, {useState, useEffect, useRef} from 'react';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+//Redux
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Components 🧰
-import {CoreButton} from 'components/buttons/CoreButton';
-
-import languagesData from 'Assets/coreText/languagesText.json';
+import BackButton from 'components/buttons/BackButton';
 import LanguagesCard from 'components/cards/LanguagesCard';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import Divider from 'components/bars/Divider';
+import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
-import {LanguageScreenNavigationProp} from '../../../../navigationStacks/types';
+//Assets 🎨
+import languagesData from 'Assets/coreText/languagesText.json';
+import {RegistrationBackground} from 'assets';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
-const LanguageSelectionScreen = () => {
-  const navigation = useNavigation<LanguageScreenNavigationProp>();
+//Types 🏷️
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {newUserScreens} from '../../../components/componentData/newUserScreens';
 
+const LanguageSelectionScreen = () => {
+  // Local State
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Navigation
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  // Redux
+  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {setCurrentScreen} = useNewUserCurrentScreen();
+  const savedLanguages = newUserDetails.languages;
+
+  // Safe Area
+  const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    if (savedLanguages && savedLanguages.length > 0) {
+      setSelectedLanguages(savedLanguages);
+    }
+  }, [savedLanguages]);
 
   //gets all languages from languagesText.json and filters them based on the searchValue and selectedLanguages state
   useEffect(() => {
+    setIsLoading(true);
     const languageList = Object.values(languagesData);
     const filteredLanguages = languageList.filter(
       language =>
@@ -34,40 +65,62 @@ const LanguageSelectionScreen = () => {
         !selectedLanguages.includes(language.name),
     );
     setLanguages(filteredLanguages.map(language => language.name));
+    setIsLoading(false);
   }, [searchValue, selectedLanguages]);
 
   const handleSelectedLanguages = (l: string) => {
-    setSelectedLanguages(prevSelectedLanguages => {
-      if (prevSelectedLanguages.includes(l)) {
-        return prevSelectedLanguages.filter(
-          selectedLanguage => selectedLanguage !== l,
-        );
-      } else {
-        return [...prevSelectedLanguages, l];
-      }
-    });
-    scrollViewRef.current?.scrollTo({
-      x: 0,
-      y: 0,
-      animated: true,
-      // duration: 4000,
-    });
+    const updatedLanguages = selectedLanguages.includes(l)
+      ? selectedLanguages.filter(selectedLanguage => selectedLanguage !== l)
+      : [...selectedLanguages, l];
+    setSelectedLanguages(updatedLanguages);
+
+    setNewUserDetails({languages: updatedLanguages});
+    scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
 
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const handleBackButton = () => {
+    navigation.goBack();
+    setCurrentScreen(1);
+  };
+
+  const handleContinue = () => {
+    const screen = isLessor
+      ? newUserScreens.lessor[2]
+      : newUserScreens.renter[2];
+    navigation.navigate(screen);
+  };
+
+  if (isLoading) {
+    <LoadingComponent />;
+  }
+
   return (
-    <View style={styles.mainContainer}>
-      <ScrollView ref={scrollViewRef} style={styles.scrollViewContainer}>
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
+    <View
+      style={[
+        styles.safeAreaContainer,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
+      <View style={styles.mainContainer}>
+        <HeadlineContainer
+          headlineText={
+            isLessor
+              ? 'What are the common language(s) in your Lofft?'
+              : 'What language(s) do you speak?'
+          }
         />
-        <Text style={[fontStyles.headerDisplay, styles.textHeader]}>
-          What {'\n'}language(s) do{'\n'}you speak?
-        </Text>
-        <View style={styles.searchBar}>
+
+        <View style={styles.inputContainer}>
           <InputFieldText
             type="search"
             placeholder="Search for your language"
@@ -79,8 +132,11 @@ const LanguageSelectionScreen = () => {
               setSearchValue('');
             }}
           />
+        </View>
+
+        <ScrollView ref={scrollViewRef}>
           {selectedLanguages.length > 0 && (
-            <View>
+            <>
               <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
                 Your current Selection:
               </Text>
@@ -94,34 +150,33 @@ const LanguageSelectionScreen = () => {
                   />
                 ))}
               </View>
-            </View>
+            </>
           )}
           <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
-              <Text style={[fontStyles.headerSmall, styles.paddingTop16]}>
-                Not what you're looking for?
-              </Text>
+              <Text style={fontStyles.headerSmall}>Other languages</Text>
             )}
-            {languages.map(language => (
-              <LanguagesCard
-                key={language}
-                language={language}
-                selected={selectedLanguages.includes(language)}
-                handleSelectedLanguages={handleSelectedLanguages}
-              />
-            ))}
+            <View style={styles.languagesContainer}>
+              {languages.map(language => (
+                <LanguagesCard
+                  key={language}
+                  language={language}
+                  selected={selectedLanguages.includes(language)}
+                  handleSelectedLanguages={handleSelectedLanguages}
+                />
+              ))}
+            </View>
           </View>
-        </View>
-      </ScrollView>
-      <View style={styles.continueButtonView}>
-        <CoreButton
+        </ScrollView>
+        <Divider />
+      </View>
+      <View style={styles.footerContainer}>
+        <UserJourneyPaginationBar />
+
+        <NewUserJourneyContinueButton
           value="Continue"
-          onPress={() => {
-            // Todo: This needs to be created or updated in the navigator
-            // navigation.navigate('AboutYouFlatHuntScreen');
-          }}
-          style={styles.button}
           disabled={selectedLanguages.length === 0}
+          onPress={handleContinue}
         />
       </View>
     </View>
@@ -129,44 +184,34 @@ const LanguageSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    paddingTop: size(66),
-    paddingHorizontal: size(16),
+  safeAreaContainer: {
     flex: 1,
-    backgroundColor: 'white',
   },
-  scrollViewContainer: {
-    marginBottom: size(153),
+  mainContainer: {
+    flex: 1,
+    paddingVertical: size(20),
+    paddingHorizontal: size(16),
   },
-  textHeader: {
+  inputContainer: {
     paddingTop: size(20),
+    paddingBottom: size(10),
   },
-  searchBar: {
-    paddingTop: size(16),
+
+  languagesContainer: {
+    flex: 1,
+    height: '100%',
   },
+
   currentSelection: {
-    paddingTop: size(16),
     marginBottom: size(8),
   },
   notSelected: {
     marginTop: size(16),
   },
-  continueButtonView: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingTop: size(40),
+  footerContainer: {
     paddingHorizontal: size(16),
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderColor: 'black',
-  },
-  button: {
-    marginBottom: size(50),
-  },
-  paddingTop16: {
-    paddingTop: size(16),
+    paddingTop: size(0),
+    paddingBottom: size(10),
   },
 });
 

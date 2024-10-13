@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Slices (Reducers)
 import authReducer from 'reduxFeatures/auth/authSlice';
-import userJourneyReducer from 'reduxFeatures/registration/userJourneySlice';
+import newUserReducer from 'reduxFeatures/registration/newUserSlice';
 import imageUploadReducer from 'reduxFeatures/imageHandling/userImageUploadSlice';
 import advertReducer from 'reduxFeatures/adverts/advertSlice';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
@@ -27,7 +27,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   auth: authReducer,
-  userDetails: userJourneyReducer,
+  newUser: newUserReducer,
   imageUpload: imageUploadReducer,
   adverts: advertReducer,
   applications: applicationsReducer,

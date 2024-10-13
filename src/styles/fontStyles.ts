@@ -14,7 +14,7 @@ export const fontStyles = StyleSheet.create({
     color: color.Black[100],
     letterSpacing: 0.2,
     fontSize: fontSize(32),
-    // lineHeight: 48,
+    lineHeight: size(54),
   },
   headerLarge: {
     fontFamily: InterBold,

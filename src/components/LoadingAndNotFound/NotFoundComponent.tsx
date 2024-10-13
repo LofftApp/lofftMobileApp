@@ -21,6 +21,7 @@ const NotFoundComponent = ({
   onPress,
 }: NotFoundComponentProps) => {
   const navigation = useNavigation();
+
   const onPressHandler = () => {
     if (onPress) {
       onPress();
@@ -31,7 +32,7 @@ const NotFoundComponent = ({
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      {backButton && <BackButton onPress={navigation.goBack} />}
+      {backButton && <BackButton onPress={onPressHandler} />}
       <View style={styles.ErrorContainer}>
         <Text style={[fontStyles.headerSmall, styles.textAlign]}>
           {message}

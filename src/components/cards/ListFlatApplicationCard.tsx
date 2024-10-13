@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Pressable, DimensionValue} from 'react-native';
+import {Text, View, StyleSheet, DimensionValue} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {CoreButton} from 'components/buttons/CoreButton';
+import HeartButton from 'components/buttons/HeartButton';
 
 // Redux 🐙
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
@@ -24,7 +25,7 @@ import type {ListFlatApplicationCardProps} from './types';
 import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
-} from '../../../navigationStacks/types';
+} from '../../navigationStacks/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -91,17 +92,7 @@ const ListFlatApplicationCard = ({
       <View style={styles.advertCardButtonsOverlay}>
         <View style={styles.advertCardbuttonsWrap}>
           {!isLessor && (
-            <Pressable onPress={handleFavorite}>
-              {advert?.favorite ? (
-                <LofftIcon
-                  name="heart-filled"
-                  size={25}
-                  color={Color.Tomato[100]}
-                />
-              ) : (
-                <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
-              )}
-            </Pressable>
+            <HeartButton favorite={advert?.favorite} onPress={handleFavorite} />
           )}
         </View>
       </View>

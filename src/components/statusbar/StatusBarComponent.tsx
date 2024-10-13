@@ -20,7 +20,7 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
-import {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
+import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
 
 const StatusBarComponent = ({
   application,

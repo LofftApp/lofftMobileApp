@@ -28,7 +28,7 @@ import {size} from 'react-native-responsive-sizes';
 import {MAX_SELECT_2_ROUND} from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 
 // Types
-import type {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
+import type {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
 import {ApplicantCardRound2Props} from './types';
 
 const ApplicantCardRound2 = ({
@@ -48,7 +48,7 @@ const ApplicantCardRound2 = ({
 
   const toggleCheckbox = () => {
     if (currentSelectedNums >= MAX_SELECT_2_ROUND) {
-      if (application.round1) {
+      if (application.round2) {
         selectApplication(application.id);
       }
     } else {

@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Application, ApplicationState} from './types';
 import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+import {PURGE} from 'redux-persist';
 
 const initialState: ApplicationState = {
   applicationsRound1: [],
@@ -17,6 +18,13 @@ export const applicationSlice = createSlice({
   initialState,
   reducers: {
     setApplicationsRound1(state, action: PayloadAction<Application[]>) {
+      // const areApplicationsDifferent = JSON.stringify(state.applicationsRound1) !== JSON.stringify(action.payload);
+
+      // if (!areApplicationsDifferent) {
+      //   // If the new applications are identical to the current state, exit early to avoid updates
+      //   return;
+      // }
+
       const newApplications = action.payload.map(app => {
         const isSelected = state.applicationsSelectedRound1.find(
           selectedApp => selectedApp.id === app.id,
@@ -195,6 +203,12 @@ export const applicationSlice = createSlice({
           };
         });
     },
+  },
+
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => {
+      return initialState;
+    });
   },
 });
 

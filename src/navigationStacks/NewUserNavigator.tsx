@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
-import AboutYouFlatHuntScreen from 'screens/registration/renter/AboutUserScreen';
+import AboutUserScreen from 'screens/registration/renter/AboutUserScreen';
 import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
 import BudgetScreen from 'screens/registration/renter/BudgetScreen';
@@ -23,15 +23,12 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-        {/* Rentor Screens */}
+        {/* initial screen */}
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
         />
-        <NewUserNavigatorFlow.Screen
-          name="LanguageSelectionScreen"
-          component={LanguageSelectionScreen}
-        />
+        {/* Renter Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
           component={GenderIdentityScreen}
@@ -62,13 +59,18 @@ const NewUserNavigator = () => {
           component={FlatPhotoUploadScreen}
         />
         {/* Shared screens */}
+
+        <NewUserNavigatorFlow.Screen
+          name="LanguageSelectionScreen"
+          component={LanguageSelectionScreen}
+        />
         <NewUserNavigatorFlow.Screen
           name="FlatFeaturesScreen"
           component={FlatFeaturesScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="AboutYouFlatHuntScreen"
-          component={AboutYouFlatHuntScreen}
+          name="AboutUserScreen"
+          component={AboutUserScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="ConditionsOfUseScreen"
