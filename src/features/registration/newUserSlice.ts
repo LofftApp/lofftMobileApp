@@ -45,23 +45,23 @@ interface UserJourneyState {
   };
 }
 
-interface UserJourneyActions {
-  genderIdentity: [];
-  districts: any[] | null;
-  minRent: number;
-  maxRent: number;
-  textAboutUser: string;
-  cost: number;
-  location: string;
-  district: string;
-  fromDate: string;
-  perminant: boolean;
-  untilDate: string;
-  images: string[];
-  flatFeatures: string[];
-  flatMate: string[];
-  warmRent: number;
-}
+// interface UserJourneyActions {
+//   genderIdentity: [];
+//   districts: any[] | null;
+//   minRent: number;
+//   maxRent: number;
+//   textAboutUser: string;
+//   cost: number;
+//   location: string;
+//   district: string;
+//   fromDate: string;
+//   perminant: boolean;
+//   untilDate: string;
+//   images: string[];
+//   flatFeatures: string[];
+//   flatMate: string[];
+//   warmRent: number;
+// }
 
 const initialState: UserJourneyState = {
   currentScreen: 1,
@@ -110,7 +110,7 @@ const initialState: UserJourneyState = {
     lessor: {
       languages: [],
       characteristics: [],
-      genderIdentity: null,
+      genderIdentity: [],
       districts: null,
       minRent: null,
       maxRent: null,

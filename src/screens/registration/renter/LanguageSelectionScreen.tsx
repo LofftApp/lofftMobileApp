@@ -85,7 +85,7 @@ const LanguageSelectionScreen = () => {
     setCurrentScreen(1);
   };
 
-  const handleNavigation = () => {
+  const handleContinue = () => {
     const screen = isLessor
       ? newUserScreens.lessor[2]
       : newUserScreens.renter[2];
@@ -176,7 +176,7 @@ const LanguageSelectionScreen = () => {
         <NewUserJourneyContinueButton
           value="Continue"
           disabled={selectedLanguages.length === 0}
-          onPress={handleNavigation}
+          onPress={handleContinue}
         />
       </View>
     </View>

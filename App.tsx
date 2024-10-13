@@ -33,6 +33,8 @@ import AdminScreen from 'screens/admin/adminScreen';
 
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Remove ErrorBoundary in production
 
@@ -41,12 +43,15 @@ const App = () => {
   const isAuth = useAuth();
   console.log('isAuth', isAuth);
 
-  const {data, isLoading} = useGetUserQuery(undefined, {
+  const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
     skip: !isAuth,
   });
 
   const userType = data?.user.userType;
   const admin = data?.user.admin;
+  const connectionError =
+    error && 'status' in error && error.status === 'FETCH_ERROR';
+  const [signOut] = useSignOutMutation();
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -70,8 +75,26 @@ const App = () => {
     }
   }, []);
 
+  const handleBackButton = () => {
+    signOut();
+  };
+
   if (isLoading) {
     return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        backButton
+        onPress={handleBackButton}
+        message={
+          connectionError
+            ? 'Network Error. Please check server or connection'
+            : 'Error loading user data and profile. Please try again'
+        }
+      />
+    );
   }
 
   return (

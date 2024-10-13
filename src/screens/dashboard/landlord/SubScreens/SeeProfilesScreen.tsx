@@ -12,11 +12,6 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {
-  setApplicationsRound2,
-  toggleRound2,
-} from 'reduxFeatures/applications/applicationSlice';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -35,22 +30,21 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
+import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
 
 export const MAX_SELECT_2_ROUND = 20;
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const {advertId} = route.params;
-  const dispatch = useAppDispatch();
 
-  const applicationsState = useAppSelector(
-    state => state.applications.applicationsRound2,
-  );
-  const selectedApplications = useAppSelector(
-    state => state.applications.applicationsSelectedRound2,
-  );
-  const notSelectedApplications = useAppSelector(
-    state => state.applications.applicationsNotSelectedRound2,
-  );
+  const {
+    applicationsStateRound2: applicationsState,
+    selectedApplicationsRound2: selectedApplications,
+    notSelectedApplicationsRound2: notSelectedApplications,
+    toggleRound2,
+    setApplicationsRound2,
+  } = useSelectApplicants();
+
   const {
     data: advert,
     error,
@@ -67,12 +61,12 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   useEffect(() => {
     if (advert) {
-      dispatch(setApplicationsRound2(applications ?? []));
+      setApplicationsRound2(applications ?? []);
     }
-  }, [applications, advert, dispatch]);
+  }, [applications, advert, setApplicationsRound2]);
 
   const selectApplication = (id: number) => {
-    dispatch(toggleRound2(id));
+    toggleRound2(id);
   };
 
   const [modalVisible, setModalVisible] = useState(false);

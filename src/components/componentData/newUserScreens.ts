@@ -1,6 +1,15 @@
 import {NewUserScreens} from '../../navigationStacks/types';
 
 export const newUserScreens: NewUserScreens = {
+  lessor: {
+    1: 'LanguageSelectionScreen',
+    2: 'WhereIsFlatScreen',
+    3: 'FlatLengthAvailableScreen',
+    4: 'AboutUserScreen',
+    5: 'GenderIdentityScreen',
+    6: 'FlatFeaturesScreen',
+    7: 'FlatPhotoUploadScreen',
+  },
   renter: {
     1: 'LanguageSelectionScreen',
     2: 'AboutUserScreen',
@@ -10,13 +19,5 @@ export const newUserScreens: NewUserScreens = {
     6: 'FlatFeaturesScreen',
     7: 'SelfDescribeScreen',
     8: 'ConditionsOfUseScreen',
-  },
-  lessor: {
-    1: 'LanguageSelectionScreen',
-    2: 'WhereIsFlatScreen',
-    3: 'FlatLengthAvailableScreen',
-    4: 'AboutUserScreen',
-    5: 'FlatFeaturesScreen',
-    6: 'FlatPhotoUploadScreen',
   },
 };

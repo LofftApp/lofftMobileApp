@@ -1,31 +1,34 @@
 import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+//Redux
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from '../../../components/componentData/newUserScreens';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+
+//Styles 🎨
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Assets
+import {RegistrationBackground} from 'assets';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectButton from 'components/buttons/SelectButton';
-
-// Helper 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
-import {useNavigation} from '@react-navigation/native';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import SelectionButton from 'components/buttons/SelectionButton';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
-import {RegistrationBackground} from 'assets';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import {size} from 'react-native-responsive-sizes';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {newUserScreens} from '../../../components/componentData/newUserScreens';
 import Divider from 'components/bars/Divider';
 
+// Helper 🤝
+import {size} from 'react-native-responsive-sizes';
+
+//Types 🏷  ️
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 interface SelectButton {
   id: number;
   value: string;
@@ -97,9 +100,9 @@ const GenderIdentityScreen = () => {
     navigation.goBack();
   };
 
-  const handleNavigation = () => {
+  const handleContinue = () => {
     const screen = isLessor
-      ? newUserScreens.lessor[3]
+      ? newUserScreens.lessor[6]
       : newUserScreens.renter[4];
     navigation.navigate(screen);
     setNewUserDetails({genderIdentity: selectedGender});
@@ -139,7 +142,7 @@ const GenderIdentityScreen = () => {
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={selectedGender.length === 0}
-            onPress={handleNavigation}
+            onPress={handleContinue}
           />
         </View>
       </View>

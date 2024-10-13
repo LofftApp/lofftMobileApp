@@ -12,12 +12,7 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {
-  setApplicationsRound1,
-  toggleRound1,
-  toggleSelectAllRound1,
-} from 'reduxFeatures/applications/applicationSlice';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
+import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
 
 // Components
 import ApplicantCardRound1 from 'components/cards/ApplicantCardRound1';
@@ -42,20 +37,17 @@ export const MAX_SELECT = 100;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advertId} = route.params;
-  const dispatch = useAppDispatch();
 
-  const applicationsState = useAppSelector(
-    state => state.applications.applicationsRound1,
-  );
-  const selectedApplications = useAppSelector(
-    state => state.applications.applicationsSelectedRound1,
-  );
-  const notSelectedApplications = useAppSelector(
-    state => state.applications.applicationsNotSelectedRound1,
-  );
-  const selectedAll = useAppSelector(
-    state => state.applications.selectedAllRound1,
-  );
+  const {
+    applicationsStateRound1: applicationsState,
+    selectedApplicationsRound1: selectedApplications,
+    notSelectedApplicationsRound1: notSelectedApplications,
+    selectedAll,
+    setApplicationsRound1,
+    toggleRound1,
+    toggleSelectAllRound1,
+  } = useSelectApplicants();
+
   const {
     data: advert,
     error,
@@ -69,20 +61,20 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   ] = useConfirmApplicationsMutation();
 
   useEffect(() => {
-    if (advert) {
-      dispatch(setApplicationsRound1(applications ?? []));
+    if (advert && applications && applications?.length > 0) {
+      setApplicationsRound1(applications ?? []);
     }
-  }, [applications, advert, dispatch]);
+  }, [setApplicationsRound1, applications, advert]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
   const selectApplication = (id: number) => {
-    dispatch(toggleRound1(id));
+    toggleRound1(id);
   };
   const handleSelectAll = () => {
-    dispatch(toggleSelectAllRound1());
+    toggleSelectAllRound1();
   };
   const applicationToBeSent = [
     ...selectedApplications,
@@ -140,13 +132,20 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     return (
       <NotFoundComponent
         backButton
+        onPress={navigation.goBack}
         message="There was an error getting the applicants"
       />
     );
   }
 
   if (applicationsState.length === 0) {
-    return <NotFoundComponent backButton message="No one has applied yet" />;
+    return (
+      <NotFoundComponent
+        backButton
+        onPress={navigation.goBack}
+        message="No one has applied yet"
+      />
+    );
   }
 
   return (

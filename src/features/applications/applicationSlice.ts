@@ -18,6 +18,13 @@ export const applicationSlice = createSlice({
   initialState,
   reducers: {
     setApplicationsRound1(state, action: PayloadAction<Application[]>) {
+      // const areApplicationsDifferent = JSON.stringify(state.applicationsRound1) !== JSON.stringify(action.payload);
+
+      // if (!areApplicationsDifferent) {
+      //   // If the new applications are identical to the current state, exit early to avoid updates
+      //   return;
+      // }
+
       const newApplications = action.payload.map(app => {
         const isSelected = state.applicationsSelectedRound1.find(
           selectedApp => selectedApp.id === app.id,

@@ -21,6 +21,7 @@ import {RegistrationBackground} from 'assets';
 
 // Data 💿
 import userPreferences from 'components/componentData/userPreferences.json';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -45,7 +46,7 @@ const AboutUserScreen = () => {
   const [selectedChars, setSelectedChars] = useState<SelectedTracks[]>([]);
 
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {newUserDetails, setNewUserDetails, isLessor} = useNewUserDetails();
   const savedChars = newUserDetails.characteristics;
   useEffect(() => {
     if (savedChars && savedChars.length > 0) {
@@ -68,8 +69,11 @@ const AboutUserScreen = () => {
     setCurrentScreen(previousScreen);
   };
 
-  const handleNavigation = () => {
-    navigation.navigate('GenderIdentityScreen');
+  const handleContinue = () => {
+    const screen = isLessor
+      ? newUserScreens.lessor[5]
+      : newUserScreens.renter[3];
+    navigation.navigate(screen);
   };
 
   const selectChar = (id: number) => {
@@ -137,7 +141,7 @@ const AboutUserScreen = () => {
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={selectedChars.length < MIN_SELECTED_CHARS}
-            onPress={handleNavigation}
+            onPress={handleContinue}
           />
         </View>
       </View>
