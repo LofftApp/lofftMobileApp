@@ -7,11 +7,7 @@ const Divider = ({color}: {color?: string}) => {
   const borderColor = color
     ? {borderColor: color}
     : {borderColor: Color.Black[30]};
-  return (
-    <View>
-      <View style={[styles.pageBreak, borderColor]} />
-    </View>
-  );
+  return <View style={[styles.pageBreak, borderColor]} />;
 };
 
 const styles = StyleSheet.create({

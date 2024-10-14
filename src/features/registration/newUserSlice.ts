@@ -15,8 +15,8 @@ export interface NewUserDetails {
     value: string;
     emoji: string;
   }[];
-
-  districts: any[] | null;
+  city: string;
+  districts: string[];
   minRent: number | null;
   maxRent: number | null;
   userDescription: string | null;
@@ -91,7 +91,8 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      districts: null,
+      city: '',
+      districts: [],
       minRent: null,
       maxRent: null,
       userDescription: null,
@@ -111,7 +112,8 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      districts: null,
+      city: '',
+      districts: [],
       minRent: null,
       maxRent: null,
       userDescription: null,
@@ -149,8 +151,6 @@ export const newUserSlice = createSlice({
       state,
       action: PayloadAction<Partial<NewUserDetails>>,
     ) => {
-      console.log('renterDetails', action.payload);
-
       state.userType === 'lessor'
         ? (state.newUserDetails.lessor = {
             ...state.newUserDetails.lessor,

@@ -167,7 +167,15 @@ const AboutUserScreen = () => {
                 fontStyles.bodySmall
               }>{`* Select at least ${MIN_SELECTED_CHARS} tags`}</Text>
           </View>
-          {error && <ErrorMessage message={error} />}
+          {error ||
+            (selectedChars.length === MAX_SELECTED_CHARS && (
+              <ErrorMessage
+                message={
+                  error ||
+                  `You have selected maximum of ${MAX_SELECTED_CHARS} tags`
+                }
+              />
+            ))}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"

@@ -41,6 +41,13 @@ export const genderIdentitySchema = z
     message: 'You can select up to 3 options only',
   });
 
+export const cityDistrictsSchema = z.object({
+  city: z.string({required_error: 'Choose a city'}).min(1, 'Choose a city'),
+  districts: z.array(z.string()).nonempty({
+    message: 'Choose at least one district',
+  }),
+});
+
 // Main schema (combining the individual schemas if needed)
 export const newUserSchema = z.object({
   renter: z.object({

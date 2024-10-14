@@ -178,6 +178,7 @@ const LanguageSelectionScreen = () => {
               </View>
             </>
           )}
+          <Divider />
           <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
               <Text style={fontStyles.headerSmall}>Other languages</Text>
