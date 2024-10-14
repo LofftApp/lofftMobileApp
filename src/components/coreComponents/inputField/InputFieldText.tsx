@@ -142,11 +142,13 @@ const styles = StyleSheet.create({
   dropDownItem: {
     marginVertical: size(2),
     borderBottomWidth: size(3),
-    padding: size(3),
+    paddingVertical: size(6),
+    paddingHorizontal: size(8),
     borderBottomColor: Color.Black[100],
   },
-  // oddPlaceList: {
-  // },
+  oddPlaceList: {
+    backgroundColor: Color.Black[10],
+  },
   errorMessage: {
     margin: size(5),
     color: Color.Tomato[100],

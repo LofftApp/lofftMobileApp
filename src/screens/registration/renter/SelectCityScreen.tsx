@@ -56,11 +56,16 @@ const SelectCityScreen = () => {
   const [elementArray, setElementArray] = useState<SingleCity[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [, setCityPicked] = useState(false);
-  const [allDistricts, setAllDistricts] = useState(false);
+  const [isAllDistricts, setIsAllDistricts] = useState(false);
   const [washedDistricts, setWashedDistricts] = useState<District[]>([]);
   const [query, setQuery] = useState(false);
 
   const [error, setError] = useState('');
+  console.log('city', city);
+  console.log('districts', districts);
+  console.log('elementArray', elementArray);
+  console.log('isAllDistricts', isAllDistricts);
+  console.log('washedDistricts', washedDistricts);
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
@@ -72,23 +77,24 @@ const SelectCityScreen = () => {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    if (districts.length >= 1) {
+    if (districts.length >= 1 && city !== '') {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 800,
         useNativeDriver: true,
       }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
     }
-  }, [districts, fadeAnim]);
+  }, [districts, city, fadeAnim]);
 
-  const trigerAllFlats = () => {
-    selectAllDistrictsTags(allDistricts);
-    setAllDistricts(!allDistricts);
-  };
-
-  const selectAllDistrictsTags = (state: boolean) => {
+  const selectAllDistrictsTags = () => {
     const allDistrictTags = districts.map(el => {
-      if (!state) {
+      if (!isAllDistricts) {
         return {
           ...el,
           toggle: true,
@@ -102,7 +108,10 @@ const SelectCityScreen = () => {
     });
 
     setDistricts(allDistrictTags);
+    setWashedDistricts(allDistrictTags.filter(el => el.toggle));
+    setIsAllDistricts(prev => !prev);
   };
+
 
   const orderedCities = Object.keys(cities)
     .sort()
@@ -175,7 +184,6 @@ const SelectCityScreen = () => {
         emojiIcon={emojiElement.emoji}
         toggle={emojiElement.toggle}
         selectFn={selectFn}
-        disabled={false}
       />
     );
   });
@@ -269,13 +277,11 @@ const SelectCityScreen = () => {
                 opacity: fadeAnim,
               },
             ]}>
-            <Text style={[fontStyles.headerMedium, styles.districtText]}>
-              Districts
-            </Text>
+            <Text style={[fontStyles.headerMedium]}>Districts</Text>
             <View style={styles.switchContainer}>
               <CustomSwitch
-                value={allDistricts}
-                onValueChange={() => trigerAllFlats()}
+                value={isAllDistricts}
+                onValueChange={selectAllDistrictsTags}
               />
               <Text style={fontStyles.bodySmall}>Select All</Text>
             </View>
