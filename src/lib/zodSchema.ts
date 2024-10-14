@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
 // Schema for languages
 export const languagesSchema = z
@@ -10,15 +10,21 @@ export const languagesSchema = z
     message: 'You can select up to 5 languages only',
   });
 
-// Schema for characteristics
-export const characteristicsSchema = z.array(
-  z.object({
-    id: z.number(),
-    toggle: z.boolean(),
-    value: z.string(),
-    emoji: z.string(),
-  }),
-);
+export const characteristicsSchema = z
+  .array(
+    z.object({
+      id: z.number(),
+      toggle: z.boolean(),
+      value: z.string(),
+      emoji: z.string(),
+    }),
+  )
+  .min(3, {
+    message: 'Please select at least 3 tags',
+  })
+  .max(10, {
+    message: 'You can select up to 10 tags only',
+  });
 
 // Schema for gender identity
 export const genderIdentitySchema = z.array(

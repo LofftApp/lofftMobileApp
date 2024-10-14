@@ -10,6 +10,9 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
+//Screens  📺
+import {newUserScreens} from '../../components/componentData/newUserScreens';
+
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';
 import LanguagesCard from 'components/cards/LanguagesCard';
@@ -19,6 +22,7 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import Divider from 'components/bars/Divider';
 import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 //Assets 🎨
 import languagesData from 'Assets/coreText/languagesText.json';
@@ -27,11 +31,11 @@ import {RegistrationBackground} from 'assets';
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
+//Validation 🛡️
+import {languagesSchema} from 'lib/zodSchema';
+
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {newUserScreens} from '../../components/componentData/newUserScreens';
-import {languagesSchema} from 'lib/zodSchema';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -95,6 +99,7 @@ const LanguageSelectionScreen = () => {
 
     setCurrentScreen(1);
     handleClearSearch();
+    setError('');
   };
   console.log('selectedLanguages', selectedLanguages);
 
@@ -124,7 +129,7 @@ const LanguageSelectionScreen = () => {
   return (
     <View
       style={[
-        styles.safeAreaContainer,
+        CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
@@ -206,9 +211,6 @@ const LanguageSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-  },
   mainContainer: {
     flex: 1,
     paddingVertical: size(20),
@@ -237,11 +239,6 @@ const styles = StyleSheet.create({
     paddingBottom: size(10),
     alignItems: 'center',
     width: '100%',
-  },
-  errorText: {
-    color: 'red',
-    marginTop: size(5),
-    marginBottom: size(10),
   },
 });
 
