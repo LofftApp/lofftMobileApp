@@ -6,7 +6,7 @@ export type District = {
 };
 
 export type SingleCity = {
-  city: string;
+  name: string;
   flag: string;
 };
 

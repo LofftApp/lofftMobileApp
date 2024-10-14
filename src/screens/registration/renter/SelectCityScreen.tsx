@@ -1,52 +1,47 @@
 // Needs refactoring to work with TypeScript
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Animated,
-  SafeAreaView,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+//Redux
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import Divider from 'components/bars/Divider';
+import BackButton from 'components/buttons/BackButton';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Assets
+import {RegistrationBackground} from 'assets';
 
 // Data 💿
 import CityDistricts from 'components/componentData/cityDistricts.json';
 
+//Validation 🛡 ️
+import {cityDistrictsSchema} from 'lib/zodSchema';
+
 // Helper 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
+import {capitalize} from 'helpers/capitalize';
 
 // Types
 import {SingleCity, District, Cities} from './types';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import BackButton from 'components/buttons/BackButton';
-import {RegistrationBackground} from 'assets';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import {newUserScreens} from 'components/componentData/newUserScreens';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {cityDistrictsSchema} from 'lib/zodSchema';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Divider from 'components/bars/Divider';
-import {capitalize} from 'helpers/capitalize';
 
 const SelectCityScreen = () => {
   //Navigation
@@ -59,7 +54,6 @@ const SelectCityScreen = () => {
   const [isAllDistricts, setIsAllDistricts] = useState(false);
   const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
   const [isQuery, setIsQuery] = useState(false);
-
   const [error, setError] = useState<string | undefined>('');
   console.log('city', city);
   console.log('districts', districts);
@@ -69,11 +63,16 @@ const SelectCityScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {setNewUserDetails} = useNewUserDetails();
+  const {setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const savedCity = newUserDetails.city;
+  console.log(savedCity);
+  const savedDistricts = newUserDetails.districts;
 
+  //Safe Area
   const insets = useSafeAreaInsets();
 
-  const cities: Cities = CityDistricts; // intital empty hence undefined
+  const cities: Cities = CityDistricts;
+  console.log('cities', cities);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -92,24 +91,36 @@ const SelectCityScreen = () => {
     }
   }, [districts, city, fadeAnim]);
 
+  useEffect(() => {
+    if (savedCity.name && savedCity.name !== '') {
+      setCity(`${savedCity.flag} ${capitalize(savedCity.name)}`);
+      const updatedDistricts = cities[savedCity.name].districts.map(
+        (district: District) => {
+          return {
+            ...district,
+            toggle: savedDistricts.some(
+              savedDistrict => savedDistrict.id === district.id,
+            ),
+          };
+        },
+      );
+      setDistricts(updatedDistricts);
+
+      // Check if all districts are selected
+      const allSelected = updatedDistricts.every(district => district.toggle);
+      setIsAllDistricts(allSelected); // Sync the Select All toggle
+    }
+  }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
+
   const selectAllDistrictsTags = () => {
-    const allDistrictTags = districts.map(el => {
-      if (!isAllDistricts) {
-        return {
-          ...el,
-          toggle: true,
-        };
-      } else {
-        return {
-          ...el,
-          toggle: false,
-        };
-      }
-    });
+    const allDistrictTags = districts.map(el => ({
+      ...el,
+      toggle: !isAllDistricts, // Toggle all based on the current state
+    }));
 
     setDistricts(allDistrictTags);
     setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
-    setIsAllDistricts(prev => !prev);
+    setIsAllDistricts(prev => !prev); // Toggle the Select All switch
   };
 
   const orderedCities = Object.keys(cities)
@@ -126,20 +137,18 @@ const SelectCityScreen = () => {
       setDistricts([]);
     }
 
-    const creationArray: {city: string; flag: string}[] = [];
+    const creationArray: {name: string; flag: string}[] = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
-      // eslint-disable-next-line eqeqeq
-      if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
-        const inputObject = {city: '', flag: ''};
-        inputObject.city = key;
+      if (key.startsWith(userInput.toLowerCase()) && userInput !== '') {
+        const inputObject = {name: '', flag: ''};
+        inputObject.name = key;
         inputObject.flag = value.flag;
         creationArray.push(inputObject);
         setElementArray(creationArray);
       }
     }
 
-    // setDistrictTags(tagsArray);
     setCity(userInput);
     setIsQuery(true);
   };
@@ -169,6 +178,9 @@ const SelectCityScreen = () => {
     const districtsSelected = updatedDistricts.filter(el => el.toggle);
     setDistricts(updatedDistricts);
     setSelectedDistricts(districtsSelected);
+    // Check if all districts are selected and update the toggle
+    const allSelected = updatedDistricts.every(district => district.toggle);
+    setIsAllDistricts(allSelected);
   };
 
   const allDistrictsButtons = districts.map(district => {
@@ -185,8 +197,8 @@ const SelectCityScreen = () => {
   });
 
   const cityUsableData = (data: SingleCity[]) => {
-    return data.map((cityData: {city: string; flag: string}) => {
-      return `${cityData.flag} ${capitalize(cityData.city)} `;
+    return data.map((cityData: {name: string; flag: string}) => {
+      return `${cityData.flag} ${capitalize(cityData.name)} `;
     });
   };
 
@@ -197,7 +209,11 @@ const SelectCityScreen = () => {
   };
 
   const handleContinue = () => {
-    const formattedCity = city.split(' ')[1].toLowerCase();
+    const formattedCity = {
+      name: city.split(' ')[1].toLowerCase(),
+      flag: city.split(' ')[0],
+    };
+    console.log('formattedCity', formattedCity);
     const result = cityDistrictsSchema.safeParse({
       city: formattedCity,
       districts: selectedDistricts,
@@ -207,8 +223,10 @@ const SelectCityScreen = () => {
       const cityError = result.error?.flatten().fieldErrors.city?.[0];
       const districtError = result.error?.flatten().fieldErrors.districts?.[0];
       if (cityError) {
+        console.log('cityError', result.error?.flatten());
         setError(cityError);
       } else if (districtError) {
+        console.log('districtError', districtError);
         setError(districtError);
       }
       return;

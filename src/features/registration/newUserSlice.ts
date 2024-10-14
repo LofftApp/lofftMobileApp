@@ -15,7 +15,10 @@ export interface NewUserDetails {
     value: string;
     emoji: string;
   }[];
-  city: string;
+  city: {
+    name: string;
+    flag: string;
+  };
   districts: {
     id: number;
     name: string;
@@ -96,7 +99,10 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      city: '',
+      city: {
+        name: '',
+        flag: '',
+      },
       districts: [],
       minRent: null,
       maxRent: null,
@@ -117,7 +123,10 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      city: '',
+      city: {
+        name: '',
+        flag: '',
+      },
       districts: [],
       minRent: null,
       maxRent: null,

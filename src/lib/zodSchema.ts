@@ -42,7 +42,10 @@ export const genderIdentitySchema = z
   });
 
 export const cityDistrictsSchema = z.object({
-  city: z.string({required_error: 'Choose a city'}).min(1, 'Choose a city'),
+  city: z.object({
+    name: z.string(),
+    flag: z.string(),
+  }),
   districts: z
     .array(
       z.object({
