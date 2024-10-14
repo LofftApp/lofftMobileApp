@@ -43,9 +43,18 @@ export const genderIdentitySchema = z
 
 export const cityDistrictsSchema = z.object({
   city: z.string({required_error: 'Choose a city'}).min(1, 'Choose a city'),
-  districts: z.array(z.string()).nonempty({
-    message: 'Choose at least one district',
-  }),
+  districts: z
+    .array(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        toggle: z.boolean(),
+        emoji: z.string().optional(),
+      }),
+    )
+    .nonempty({
+      message: 'Choose at least one district',
+    }),
 });
 
 // Main schema (combining the individual schemas if needed)

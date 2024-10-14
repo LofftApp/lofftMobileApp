@@ -16,7 +16,12 @@ export interface NewUserDetails {
     emoji: string;
   }[];
   city: string;
-  districts: string[];
+  districts: {
+    id: number;
+    name: string;
+    toggle: boolean;
+    emoji?: string;
+  }[];
   minRent: number | null;
   maxRent: number | null;
   userDescription: string | null;

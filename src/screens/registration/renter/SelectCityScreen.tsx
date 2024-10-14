@@ -46,6 +46,7 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {cityDistrictsSchema} from 'lib/zodSchema';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Divider from 'components/bars/Divider';
+import {capitalize} from 'helpers/capitalize';
 
 const SelectCityScreen = () => {
   //Navigation
@@ -55,17 +56,16 @@ const SelectCityScreen = () => {
   const [city, setCity] = useState('');
   const [elementArray, setElementArray] = useState<SingleCity[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [, setCityPicked] = useState(false);
   const [isAllDistricts, setIsAllDistricts] = useState(false);
-  const [washedDistricts, setWashedDistricts] = useState<District[]>([]);
-  const [query, setQuery] = useState(false);
+  const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
+  const [isQuery, setIsQuery] = useState(false);
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | undefined>('');
   console.log('city', city);
   console.log('districts', districts);
   console.log('elementArray', elementArray);
   console.log('isAllDistricts', isAllDistricts);
-  console.log('washedDistricts', washedDistricts);
+  console.log('selectedDistricts', selectedDistricts);
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
@@ -108,10 +108,9 @@ const SelectCityScreen = () => {
     });
 
     setDistricts(allDistrictTags);
-    setWashedDistricts(allDistrictTags.filter(el => el.toggle));
+    setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
     setIsAllDistricts(prev => !prev);
   };
-
 
   const orderedCities = Object.keys(cities)
     .sort()
@@ -127,7 +126,7 @@ const SelectCityScreen = () => {
       setDistricts([]);
     }
 
-    const creationArray = [];
+    const creationArray: {city: string; flag: string}[] = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
       // eslint-disable-next-line eqeqeq
@@ -142,25 +141,22 @@ const SelectCityScreen = () => {
 
     // setDistrictTags(tagsArray);
     setCity(userInput);
-    setQuery(true);
+    setIsQuery(true);
   };
 
   const activateDistrictDisplay = (cityInput: string) => {
-    setCityPicked(true);
+    console.log('cityInput', cityInput);
+    console.log(
+      'citiesssss',
+      cities[cityInput.split(' ')[1].toLowerCase()].districts,
+    );
     setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
-    setCity(cityInput);
-    setTimeout(() => {
-      setElementArray([]);
-      setCityPicked(false);
-    }, 0);
+    setElementArray([]);
   };
 
   const selectFn = (id: number) => {
-    const targets = [];
-
-    const preSeleted = districts.map(element => {
+    const updatedDistricts = districts.map(element => {
       if (element.id === id) {
-        targets.push(element);
         return {
           ...element,
           toggle: !element.toggle,
@@ -170,19 +166,19 @@ const SelectCityScreen = () => {
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
-    setDistricts(preSeleted);
-    setWashedDistricts(wash);
+    const districtsSelected = updatedDistricts.filter(el => el.toggle);
+    setDistricts(updatedDistricts);
+    setSelectedDistricts(districtsSelected);
   };
 
-  const emojiElements = districts.map((emojiElement, index: number) => {
+  const allDistrictsButtons = districts.map(district => {
     return (
       <SelectionButton
-        key={index + 1}
-        id={emojiElement.id}
-        value={emojiElement.name}
-        emojiIcon={emojiElement.emoji}
-        toggle={emojiElement.toggle}
+        key={district.id}
+        id={district.id}
+        value={district.name}
+        emojiIcon={district.emoji}
+        toggle={district.toggle}
         selectFn={selectFn}
       />
     );
@@ -190,9 +186,7 @@ const SelectCityScreen = () => {
 
   const cityUsableData = (data: SingleCity[]) => {
     return data.map((cityData: {city: string; flag: string}) => {
-      return `${cityData.flag} ${cityData.city
-        .charAt(0)
-        .toUpperCase()}${cityData.city.slice(1)}`;
+      return `${cityData.flag} ${capitalize(cityData.city)} `;
     });
   };
 
@@ -203,13 +197,20 @@ const SelectCityScreen = () => {
   };
 
   const handleContinue = () => {
-    const result = cityDistrictsSchema.safeParse(washedDistricts);
-    console.log(
-      'error in city screen>>>>> ',
-      result.error?.flatten().fieldErrors,
-    );
+    const formattedCity = city.split(' ')[1].toLowerCase();
+    const result = cityDistrictsSchema.safeParse({
+      city: formattedCity,
+      districts: selectedDistricts,
+    });
+
     if (!result.success) {
-      setError(result.error?.flatten().fieldErrors[0]);
+      const cityError = result.error?.flatten().fieldErrors.city?.[0];
+      const districtError = result.error?.flatten().fieldErrors.districts?.[0];
+      if (cityError) {
+        setError(cityError);
+      } else if (districtError) {
+        setError(districtError);
+      }
       return;
     }
     setNewUserDetails({
@@ -259,11 +260,11 @@ const SelectCityScreen = () => {
                   city.substring(1, city.length)
                 : city
             }
-            dropdown={query}
+            dropdown={isQuery}
             dropDownContent={cityUsableData(elementArray)}
             dropDownPressAction={(value: string) => {
               setCity(value);
-              setQuery(false);
+              setIsQuery(false);
               activateDistrictDisplay(value);
             }}
           />
@@ -288,7 +289,7 @@ const SelectCityScreen = () => {
           </Animated.View>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.selectionContainer}>{emojiElements}</View>
+            <View style={styles.selectionContainer}>{allDistrictsButtons}</View>
           </ScrollView>
         </View>
 
