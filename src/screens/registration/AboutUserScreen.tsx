@@ -167,8 +167,8 @@ const AboutUserScreen = () => {
                 fontStyles.bodySmall
               }>{`* Select at least ${MIN_SELECTED_CHARS} tags`}</Text>
           </View>
-          <NewUserPaginationBar />
           {error && <ErrorMessage message={error} />}
+          <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={selectedChars.length < MIN_SELECTED_CHARS}

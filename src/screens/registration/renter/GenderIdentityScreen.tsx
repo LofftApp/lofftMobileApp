@@ -29,6 +29,8 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {genderIdentitySchema} from 'lib/zodSchema';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 interface SelectButton {
   id: number;
   value: string;
@@ -73,6 +75,7 @@ const GenderIdentityScreen = () => {
   const genders = isLessor ? gendersLessor : gendersRenter;
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
+  const [error, setError] = useState<string | undefined>('');
   const savedGender = newUserDetails.genderIdentity;
   console.log('newUserDetails', newUserDetails);
 
@@ -108,20 +111,30 @@ const GenderIdentityScreen = () => {
     const genderSelected = updatedGender.filter(el => el.toggle);
     setSelectedGender(genderSelected);
     setIntitalGenders(updatedGender);
-    setNewUserDetails({genderIdentity: genderSelected});
   };
 
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
+    setError('');
   };
 
   const handleContinue = () => {
+    const result = genderIdentitySchema.safeParse(selectedGender);
+    if (!result.success) {
+      setError(result.error?.flatten().formErrors.at(0));
+      return;
+    }
+
+    setNewUserDetails({genderIdentity: selectedGender});
+
     const screen = isLessor
       ? newUserScreens.lessor[6]
       : newUserScreens.renter[4];
     navigation.navigate(screen);
-    setNewUserDetails({genderIdentity: selectedGender});
+
+    setCurrentScreen(currentScreen + 1);
+    setError('');
   };
 
   return (
@@ -154,6 +167,7 @@ const GenderIdentityScreen = () => {
         <Divider />
 
         <View style={styles.footerContainer}>
+          {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"

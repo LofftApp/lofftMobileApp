@@ -197,8 +197,8 @@ const LanguageSelectionScreen = () => {
         <Divider />
       </View>
       <View style={styles.footerContainer}>
-        <UserJourneyPaginationBar />
         {error && <ErrorMessage message={error} />}
+        <UserJourneyPaginationBar />
 
         <NewUserJourneyContinueButton
           value="Continue"
