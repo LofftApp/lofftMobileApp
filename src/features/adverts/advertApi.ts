@@ -65,6 +65,7 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Adverts', id},
         {type: 'Applications', id},
         {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
       ],
       transformResponse: (response: IncomingAdvert) => {
         console.log('getAdvertById called 🌈');

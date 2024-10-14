@@ -36,7 +36,21 @@ interface SelectButton {
   emoji: string;
 }
 
-const genders = [
+const gendersRenter = [
+  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
+  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
+  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
+  {
+    value: 'Another gender identity not listed',
+    id: 4,
+    toggle: false,
+    emoji: '🙆',
+  },
+
+  {value: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
+];
+
+const gendersLessor = [
   {value: 'Male', id: 1, toggle: false, emoji: '👨'},
   {value: 'Female', id: 2, toggle: false, emoji: '👩'},
   {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
@@ -51,13 +65,14 @@ const genders = [
   {value: 'Trans & non-binary safe space', id: 7, toggle: false, emoji: '🏳️‍⚧️'},
   {value: 'Prefer not to say', id: 8, toggle: false, emoji: '🤐'},
 ];
+
 const GenderIdentityScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-
+  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const genders = isLessor ? gendersLessor : gendersRenter;
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
-  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const savedGender = newUserDetails.genderIdentity;
   console.log('newUserDetails', newUserDetails);
 
@@ -74,7 +89,7 @@ const GenderIdentityScreen = () => {
     } else {
       setSelectedGender([]);
     }
-  }, [savedGender]);
+  }, [savedGender, genders]);
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
       if (el.id === id) {

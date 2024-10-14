@@ -29,7 +29,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {newUserScreens} from '../../../components/componentData/newUserScreens';
+import {newUserScreens} from '../../components/componentData/newUserScreens';
 
 const LanguageSelectionScreen = () => {
   // Local State

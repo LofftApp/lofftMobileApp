@@ -288,6 +288,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
+    paddingHorizontal: size(5),
   },
 
   inputContainer: {
