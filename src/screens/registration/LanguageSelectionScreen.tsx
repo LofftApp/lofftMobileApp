@@ -30,6 +30,8 @@ import {size} from 'react-native-responsive-sizes';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {newUserScreens} from '../../components/componentData/newUserScreens';
+import {languagesSchema} from 'lib/zodSchema';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -37,13 +39,14 @@ const LanguageSelectionScreen = () => {
   const [languages, setLanguages] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>('');
 
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // Redux
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const {setCurrentScreen} = useNewUserCurrentScreen();
+  const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
   console.log('newUserdetaiils in languages', newUserDetails);
 
@@ -75,7 +78,6 @@ const LanguageSelectionScreen = () => {
       : [...selectedLanguages, l];
     setSelectedLanguages(updatedLanguages);
 
-    setNewUserDetails({languages: updatedLanguages});
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
 
@@ -94,14 +96,25 @@ const LanguageSelectionScreen = () => {
     setCurrentScreen(1);
     handleClearSearch();
   };
+  console.log('selectedLanguages', selectedLanguages);
 
   const handleContinue = () => {
+    const result = languagesSchema.safeParse(selectedLanguages);
+    if (!result.success) {
+      setError(result.error?.flatten().formErrors.at(0));
+      return;
+    }
+    setNewUserDetails({languages: result.data});
+
     const screen = isLessor
       ? newUserScreens.lessor[2]
       : newUserScreens.renter[2];
     navigation.navigate(screen);
 
+    setCurrentScreen(currentScreen + 1);
+
     handleClearSearch();
+    setError('');
   };
 
   if (isLoading) {
@@ -180,6 +193,7 @@ const LanguageSelectionScreen = () => {
       </View>
       <View style={styles.footerContainer}>
         <UserJourneyPaginationBar />
+        {error && <ErrorMessage message={error} />}
 
         <NewUserJourneyContinueButton
           value="Continue"
@@ -221,6 +235,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(16),
     paddingTop: size(0),
     paddingBottom: size(10),
+    alignItems: 'center',
+    width: '100%',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: size(5),
+    marginBottom: size(10),
   },
 });
 
