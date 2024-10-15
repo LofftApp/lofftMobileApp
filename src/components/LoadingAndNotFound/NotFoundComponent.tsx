@@ -10,18 +10,34 @@ import {fontStyles} from 'styleSheets/fontStyles';
 type NotFoundComponentProps = {
   message: string;
   backButton?: boolean;
+  buttonValue?: string;
+  onPress?: () => void;
 };
 
-function NotFoundComponent({message, backButton}: NotFoundComponentProps) {
+function NotFoundComponent({
+  message,
+  backButton,
+  buttonValue,
+  onPress,
+}: NotFoundComponentProps) {
   const navigation = useNavigation();
+  const onPressHandler = () => {
+    if (onPress) {
+      onPress();
+    } else {
+      navigation.goBack();
+    }
+  };
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       {backButton && <BackButton onPress={navigation.goBack} />}
       <View style={styles.ErrorContainer}>
-        <Text style={fontStyles.headerSmall}>{message}</Text>
-        {backButton && (
-          <CoreButton value="Go back" onPress={navigation.goBack} />
+        <Text style={[fontStyles.headerSmall, styles.textAlign]}>
+          {message}
+        </Text>
+        {buttonValue && (
+          <CoreButton value={buttonValue} onPress={onPressHandler} />
         )}
       </View>
     </SafeAreaView>
@@ -35,6 +51,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: size(16),
     gap: size(16),
+    textAlign: 'center',
+  },
+  textAlign: {
+    textAlign: 'center',
   },
 });
 

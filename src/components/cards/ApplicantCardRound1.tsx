@@ -25,7 +25,6 @@ import Chips from 'components/buttons/Chips';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 import {tagSorter} from 'helpers/tagSorter';
-import {matchMaker} from 'helpers/matchMaker';
 
 // Constants
 import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
@@ -64,39 +63,20 @@ const ApplicantCardRound1 = ({
     setCollapsed(prev => !prev);
   };
 
-  // const featuresTags = tagSorter(
-  //   applicant.filters ?? [],
-  //   advert?.flat.features ?? [],
-  // );
-  // const positiveFeaturesTags = featuresTags.positiveTags;
-  // const negativeFeaturesTags = featuresTags.negativeTags;
-
-  // const charTags = tagSorter(
-  //   applicant.characteristics ?? [],
-  //   advert?.flat.characteristics ?? [],
-  // );
-
-  // const positiveCharTags = charTags.positiveTags;
-  // const negativeCharTags = charTags.negativeTags;
-
-  const positiveFeaturesTags = matchMaker(
+  const featuresTags = tagSorter(
     applicant.filters ?? [],
     advert?.flat.features ?? [],
-  )[0];
-  const negativeFeaturesTags = matchMaker(
-    applicant.filters ?? [],
-    advert?.flat.features ?? [],
-  )[1];
+  );
+  const positiveFeaturesTags = featuresTags.positiveTags;
+  const negativeFeaturesTags = featuresTags.negativeTags;
 
-  const positiveCharTags = matchMaker(
+  const charTags = tagSorter(
     applicant.characteristics ?? [],
     advert?.flat.characteristics ?? [],
-  )[0];
+  );
 
-  const negativeCharTags = matchMaker(
-    applicant.characteristics ?? [],
-    advert?.flat.characteristics ?? [],
-  )[1];
+  const positiveCharTags = charTags.positiveTags;
+  const negativeCharTags = charTags.negativeTags;
 
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
@@ -108,7 +88,7 @@ const ApplicantCardRound1 = ({
         />
         <View style={styles.details}>
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
-            {applicant.profile.firstName?.split('')[0].toUpperCase()}.
+            {applicant.profile?.firstName?.split('')[0].toUpperCase()}.
           </Text>
           <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
             {applicant.matchScore}% Match

@@ -1,9 +1,8 @@
-import React, {useState, useCallback} from 'react';
-import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 // Icons
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -39,7 +38,7 @@ const ApplicantsCardAdvanced = ({
     <View style={styles.cardInnerWrapper}>
       <CheckBox
         value={activateBox}
-        style={{marginLeft: 10}}
+        style={styles.margin10Left}
         onPress={() => {
           defaultBehaviour();
         }}
@@ -89,6 +88,9 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     right: 0,
+  },
+  margin10Left: {
+    marginLeft: 10,
   },
 });
 

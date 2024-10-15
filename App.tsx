@@ -34,7 +34,7 @@ import {createSelector} from '@reduxjs/toolkit';
 const RootStack = createNativeStackNavigator();
 
 // Remove ErrorBoundary in production
-import ErrorBoundary from './src/ErrorBoundary';
+// import ErrorBoundary from './src/ErrorBoundary';
 
 const App = () => {
   // Define selectors
@@ -60,12 +60,16 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkToken());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (initializing) setInitializing(false);
-    if (authenticated && !userType) dispatch(getProfile());
-  }, [authenticated]);
+    if (initializing) {
+      setInitializing(false);
+    }
+    if (authenticated && !userType) {
+      dispatch(getProfile());
+    }
+  }, [authenticated, dispatch, initializing, userType]);
 
   // Mapbox
   MapboxGL.setWellKnownTileServer(
@@ -75,15 +79,12 @@ const App = () => {
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
 
-  // TODO: This will need to be placed in another useEffect with new DB path.
-
   // Use Effect for dev environment
   useEffect(() => {
     if (__DEV__) {
       console.log('Lofft API Development Environment');
-      let host = 'localhost';
       // If using Mobile device set the host as local IP
-      host = '127.0.0.1';
+      const host = 'localhost';
       console.log(
         host === 'localhost'
           ? 'Host running on local host'
@@ -123,7 +124,7 @@ export default () => {
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
       {/* <ErrorBoundary> */}
-        <App />
+      <App />
       {/* </ErrorBoundary> */}
     </NavigationContainer>
   );

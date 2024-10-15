@@ -16,34 +16,34 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
+import {SearchTermType} from 'components/modals/types';
 
 const FlatFindScreen = () => {
-  const {data: adverts, error, isLoading} = useGetAdvertsQuery();
+  const [searchTerm, setSearchTerm] = useState<SearchTermType | undefined>(
+    undefined,
+  );
+
+  const {data, isLoading, isError, isSuccess} = useGetAdvertsQuery(searchTerm, {
+    refetchOnMountOrArgChange: true,
+  });
+  const adverts = data?.adverts;
 
   const [openModal, setOpenModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [sortedFlats, setSortedFlats] = useState([]);
+
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
-
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
-
-  if (error) {
-    return <NotFoundComponent backButton message="There was an error getting flats" />;
-  }
+  const toggleModal = () => {
+    setOpenModal(prev => !prev);
+  };
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
@@ -57,7 +57,7 @@ const FlatFindScreen = () => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={() => setOpenModal(true)} />
+        <FilterButton onPress={toggleModal} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
@@ -68,14 +68,27 @@ const FlatFindScreen = () => {
       />
       {screen === 'list' ? (
         <View style={CoreStyleSheet.screenContainer}>
-          <FlatListSubScreen adverts={adverts ?? []} />
+          <FlatListSubScreen
+            adverts={adverts ?? []}
+            isError={isError}
+            isLoading={isLoading}
+            toggleModal={toggleModal}
+          />
         </View>
       ) : (
         <View style={styles.mapContainer}>
           <AdvertMap adverts={adverts ?? []} />
         </View>
       )}
-      <SearchFilterModal openModal={openModal} setOpenModal={setOpenModal} />
+      <SearchFilterModal
+        openModal={openModal}
+        toggleModal={toggleModal}
+        setSearchTerm={setSearchTerm}
+        initialFeatures={data?.allFlatFeaturesFromDb ?? []}
+        isSuccess={isSuccess}
+        isError={isError}
+        isLoading={isLoading}
+      />
     </SafeAreaView>
   );
 };

@@ -1,26 +1,57 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {
   Advert,
+  AdvertsAndFeatures,
   AdvertWithApplications,
   IncomingAdvert,
-  IncomingAdverts,
+  IncomingAdvertAndFeatures,
   IncomingAdvertWithApplications,
 } from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/modals/SearchFilterModal';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
-    getAdverts: builder.query<Advert[], void>({
-      query: () => '/api/adverts',
-      transformResponse: (response: IncomingAdverts) => {
+    getAdverts: builder.query<
+      AdvertsAndFeatures,
+      | {
+          features?: string;
+          minPrice?: string | number;
+          maxPrice?: string | number;
+        }
+      | undefined
+    >({
+      query: ({
+        features = '',
+        minPrice = initialMinPrice,
+        maxPrice = initialMaxPrice,
+      } = {}) => {
+        const baseEndpoint = '/api/adverts';
+        const params = new URLSearchParams();
+        if (features) {
+          params.append('features', features);
+        }
+
+        if (minPrice !== initialMinPrice || maxPrice !== initialMaxPrice) {
+          params.append('minPrice', String(minPrice));
+          params.append('maxPrice', String(maxPrice));
+        }
+
+        return params.toString() ? `${baseEndpoint}?${params.toString()}` : baseEndpoint;
+      },
+
+      transformResponse: (response: IncomingAdvertAndFeatures) => {
         console.log('getAdverts called 🚨');
-        return toCamelCaseKeys(response.adverts as unknown as Advert[]);
+        return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
       },
       providesTags: result =>
         result
           ? [
-              ...result.map(({id}) => ({type: 'Adverts', id} as const)),
+              ...result.adverts.map(({id}) => ({type: 'Adverts', id} as const)),
               {type: 'Adverts', id: 'LIST'},
             ]
           : [{type: 'Adverts', id: 'LIST'}],

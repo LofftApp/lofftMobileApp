@@ -22,7 +22,6 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
-import {matchMaker} from 'helpers/matchMaker';
 
 // Types 🏷
 
@@ -50,39 +49,21 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
     setOtherExpand(prev => !prev);
   };
 
-  // const charTags = tagSorter(
-  //   currentUser.profile.characteristics ?? [],
-  //   advert.flat.characteristics,
-  // );
-
-  // const positiveCharTags = charTags.positiveTags;
-  // const negativeCharTags = charTags.negativeTags;
-
-  // const featuresTags = tagSorter(
-  //   currentUser.filter ?? [],
-  //   advert.flat.features,
-  // );
-
-  // const positiveFeaturesTags = featuresTags.positiveTags;
-  // const negativeFeaturesTags = featuresTags.negativeTags;
-
-  const positiveCharTags = matchMaker(
+  const charTags = tagSorter(
     currentUser.profile.characteristics ?? [],
     advert.flat.characteristics,
-  )[0];
-  const negativeCharTags = matchMaker(
-    currentUser.profile.characteristics ?? [],
-    advert.flat.characteristics,
-  )[1];
+  );
 
-  const positiveFeaturesTags = matchMaker(
+  const positiveCharTags = charTags.positiveTags;
+  const negativeCharTags = charTags.negativeTags;
+
+  const featuresTags = tagSorter(
     currentUser.filter ?? [],
     advert.flat.features,
-  )[0];
-  const negativeFeaturesTags = matchMaker(
-    currentUser.filter ?? [],
-    advert.flat.features,
-  )[1];
+  );
+
+  const positiveFeaturesTags = featuresTags.positiveTags;
+  const negativeFeaturesTags = featuresTags.negativeTags;
 
   const maxDescriptionLength = 100;
   const truncatedDescription = truncateTextAtWord(
