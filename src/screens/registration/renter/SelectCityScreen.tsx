@@ -55,24 +55,17 @@ const SelectCityScreen = () => {
   const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
   const [isQuery, setIsQuery] = useState(false);
   const [error, setError] = useState<string | undefined>('');
-  console.log('city', city);
-  console.log('districts', districts);
-  console.log('elementArray', elementArray);
-  console.log('isAllDistricts', isAllDistricts);
-  console.log('selectedDistricts', selectedDistricts);
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {setNewUserDetails, newUserDetails} = useNewUserDetails();
   const savedCity = newUserDetails.city;
-  console.log(savedCity);
   const savedDistricts = newUserDetails.districts;
 
   //Safe Area
   const insets = useSafeAreaInsets();
 
   const cities: Cities = CityDistricts;
-  console.log('cities', cities);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -155,11 +148,6 @@ const SelectCityScreen = () => {
   };
 
   const activateDistrictDisplay = (cityInput: string) => {
-    console.log('cityInput', cityInput);
-    console.log(
-      'citiesssss',
-      cities[cityInput.split(' ')[1].toLowerCase()].districts,
-    );
     setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
     setElementArray([]);
   };
@@ -225,7 +213,6 @@ const SelectCityScreen = () => {
       name: city.split(' ')[1].toLowerCase(),
       flag: city.split(' ')[0],
     };
-    console.log('formattedCity', formattedCity);
     const result = cityDistrictsSchema.safeParse({
       city: formattedCity,
       districts: selectedDistricts,
@@ -235,10 +222,8 @@ const SelectCityScreen = () => {
       const cityError = result.error?.flatten().fieldErrors.city?.[0];
       const districtError = result.error?.flatten().fieldErrors.districts?.[0];
       if (cityError) {
-        console.log('cityError', result.error?.flatten());
         setError(cityError);
       } else if (districtError) {
-        console.log('districtError', districtError);
         setError(districtError);
       }
       return;

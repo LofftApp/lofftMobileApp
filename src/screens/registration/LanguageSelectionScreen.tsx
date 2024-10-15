@@ -101,7 +101,6 @@ const LanguageSelectionScreen = () => {
     handleClearSearch();
     setError('');
   };
-  console.log('selectedLanguages', selectedLanguages);
 
   const handleContinue = () => {
     const result = languagesSchema.safeParse(selectedLanguages);
