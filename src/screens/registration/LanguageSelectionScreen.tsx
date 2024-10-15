@@ -225,7 +225,8 @@ const styles = StyleSheet.create({
   languagesContainer: {
     flex: 1,
     height: '100%',
-    paddingHorizontal: size(16),
+    paddingHorizontal: size(10),
+    width: '100%',
   },
 
   currentSelection: {

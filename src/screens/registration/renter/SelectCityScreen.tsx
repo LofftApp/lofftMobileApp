@@ -330,7 +330,7 @@ const SelectCityScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    paddingVertical: size(20),
+    paddingVertical: size(0),
     paddingHorizontal: size(16),
   },
   inputContainer: {
