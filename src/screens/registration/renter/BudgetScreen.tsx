@@ -132,7 +132,7 @@ const BudgetScreen = () => {
 
     setNewUserDetails({budget: result.data});
 
-    navigation.navigate(newUserScreens.renter[6]);
+    navigation.navigate(newUserScreens.renter[currentScreen + 1]);
     setCurrentScreen(currentScreen + 1);
     setError('');
   };
@@ -147,7 +147,7 @@ const BudgetScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={`What is your ${'\n'}budget?`}
+          headlineText={'What is your budget?'}
           subDescription={'Define the range for your monthly rental budget'}
         />
 

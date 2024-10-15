@@ -11,7 +11,8 @@ export const newUserScreens: NewUserScreens = {
     7: 'FlatPhotoUploadScreen',
   },
   renter: {
-    1: 'LanguageSelectionScreen',
+    // 1: 'LanguageSelectionScreen',
+    1: 'SelfDescribeScreen',
     2: 'AboutUserScreen',
     3: 'GenderIdentityScreen',
     4: 'SelectCityScreen',

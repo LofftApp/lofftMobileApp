@@ -128,8 +128,8 @@ const GenderIdentityScreen = () => {
     setNewUserDetails({genderIdentity: selectedGender});
 
     const screen = isLessor
-      ? newUserScreens.lessor[6]
-      : newUserScreens.renter[4];
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);

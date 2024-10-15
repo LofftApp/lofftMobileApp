@@ -37,6 +37,7 @@ export interface NewUserRenterDetails {
     toggle: boolean;
     emoji: string;
   }[];
+  description: string;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -86,6 +87,7 @@ export interface NewUserLessorDetails {
     toggle: boolean;
     emoji: string;
   }[];
+  description: string;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -170,6 +172,7 @@ const initialState: UserJourneyState = {
         warmRent: false,
       },
       filter: [],
+      description: '',
       // userDescription: null,
       // textAboutUser: null,
       // cost: null,
@@ -199,6 +202,7 @@ const initialState: UserJourneyState = {
         warmRent: false,
       },
       flatFeatures: [],
+      description: '',
       // userDescription: null,
       // textAboutUser: null,
       // cost: null,

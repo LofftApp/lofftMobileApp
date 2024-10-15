@@ -233,7 +233,7 @@ const SelectCityScreen = () => {
       districts: result.data.districts,
     });
 
-    navigation.navigate(newUserScreens.renter[5]);
+    navigation.navigate(newUserScreens.renter[currentScreen + 1]);
     setCurrentScreen(currentScreen + 1);
     setError('');
   };

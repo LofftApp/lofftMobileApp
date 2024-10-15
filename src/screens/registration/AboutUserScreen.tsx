@@ -96,8 +96,8 @@ const AboutUserScreen = () => {
     }
     setNewUserDetails({characteristics: selectedChars});
     const screen = isLessor
-      ? newUserScreens.lessor[5]
-      : newUserScreens.renter[3];
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);

@@ -129,8 +129,8 @@ const FlatFeaturesScreen = () => {
     }
 
     const screen = isLessor
-      ? newUserScreens.lessor[5]
-      : newUserScreens.renter[7];
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
