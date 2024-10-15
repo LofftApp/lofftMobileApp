@@ -29,6 +29,8 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
 import Divider from 'components/bars/Divider';
+import {onlyNumber} from 'helpers/onlyNumber';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 export const initialMinPrice = '100';
 export const initialMaxPrice = '5000';
@@ -65,10 +67,6 @@ const SearchFilterModal = ({
   useEffect(() => {
     setFeaturesState(featuresWithSelected);
   }, [featuresWithSelected]);
-
-  const onlyNumber = (value: string) => {
-    return Number(value.replace(/\D/g, ''));
-  };
 
   const handleSearch = async () => {
     const featuresIds = selectedFeatures.map(track => track.id).join(',');
@@ -209,11 +207,10 @@ const SearchFilterModal = ({
 
             <View style={styles.sliderContainer}>
               {+minPrice > +maxPrice && (
-                <View style={styles.errorContainer}>
-                  <Text style={styles.errorMessage}>
-                    The min value must not be more than the max value!
-                  </Text>
-                </View>
+                <ErrorMessage
+                  fontSize={fontStyles.bodyExtraSmall}
+                  message="The min value must not be more than the max value!"
+                />
               )}
               <Slider
                 thumbTintColor={Color.Lavendar[100]}
@@ -283,6 +280,7 @@ const SearchFilterModal = ({
 const styles = StyleSheet.create({
   priceRangeContainer: {
     paddingVertical: size(20),
+    paddingHorizontal: size(10),
   },
   featuresContainer: {
     flexDirection: 'row',

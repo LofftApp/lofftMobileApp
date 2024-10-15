@@ -294,11 +294,11 @@ const SelectCityScreen = () => {
             ]}>
             <Text style={[fontStyles.headerMedium]}>Districts</Text>
             <View style={styles.switchContainer}>
+              <Text style={fontStyles.bodySmall}>Select All</Text>
               <CustomSwitch
                 value={isAllDistricts}
                 onValueChange={selectAllDistrictsTags}
               />
-              <Text style={fontStyles.bodySmall}>Select All</Text>
             </View>
           </Animated.View>
 
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     paddingHorizontal: size(16),
     paddingTop: size(0),
-    paddingBottom: size(10),
+    paddingBottom: size(20),
     width: '100%',
   },
 });
