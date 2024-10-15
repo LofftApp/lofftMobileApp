@@ -3,14 +3,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
-import AboutUserScreen from 'screens/registration/renter/AboutUserScreen';
+import AboutUserScreen from 'screens/registration/AboutUserScreen';
 import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
 import BudgetScreen from 'screens/registration/renter/BudgetScreen';
 import FlatFeaturesScreen from 'screens/registration/renter/FlatFeaturesScreen';
 import SelfDescribeScreen from 'screens/registration/renter/SelfDescribeScreen';
 import ConditionsOfUseScreen from 'screens/registration/ConditionsOfUseScreen';
-import LanguageSelectionScreen from 'screens/registration/renter/LanguageSelectionScreen';
+import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';

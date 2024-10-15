@@ -37,7 +37,7 @@ const PaginationBar = ({
       {blobs.map((i, index) => {
         const active = index === screen && {
           width: 18,
-          backgroundColor: Color.Lavendar[50],
+          backgroundColor: Color.Lavendar[80],
         };
 
         return <View style={[styles.paginationBlob, active]} key={index} />;

@@ -27,12 +27,13 @@ import {Search} from 'assets';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
+//Constants
+import {MAX_SELECT_ROUND2} from 'components/componentData/constants';
+
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
-
-export const MAX_SELECT_2_ROUND = 20;
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const {advertId} = route.params;
@@ -98,7 +99,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const totalSelected = selectedApplications.length;
 
   const totalRemaining = Math.min(
-    MAX_SELECT_2_ROUND - totalSelected,
+    MAX_SELECT_ROUND2 - totalSelected,
     totalApplications - totalSelected,
   );
 
@@ -164,13 +165,13 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
         <View style={styles.selectedButtonContainer}>
           <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[50]}]}>
-            {`You can select up to ${MAX_SELECT_2_ROUND} applicants`}
+            {`You can select up to ${MAX_SELECT_ROUND2} applicants`}
           </Text>
           <CoreButton
             disabled={totalSelected >= 1 ? false : true}
             value={`Selected ${totalSelected}/${
-              MAX_SELECT_2_ROUND <= totalApplications
-                ? MAX_SELECT_2_ROUND
+              MAX_SELECT_ROUND2 <= totalApplications
+                ? MAX_SELECT_ROUND2
                 : totalApplications
             }`}
             style={styles.coreButton}

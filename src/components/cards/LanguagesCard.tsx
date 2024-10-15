@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
   },
 
   selected: {
-    backgroundColor: '#F1EDFF',
+    backgroundColor: Color.Lavendar[20],
     borderRadius: size(8),
     flexDirection: 'row',
     alignItems: 'center',
-
+    paddingHorizontal: size(20),
     paddingVertical: size(10),
   },
   textContainer: {

@@ -20,8 +20,7 @@ import {size} from 'react-native-responsive-sizes';
 import {tagSorter} from 'helpers/tagSorter';
 
 // Constants
-import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
-
+import {MAX_SELECT_ROUND1} from 'components/componentData/constants';
 // Types
 import type {ApplicantCardRound1Props} from './types';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
@@ -44,7 +43,7 @@ const ApplicantCardRound1 = ({
   }
 
   const toggleCheckbox = () => {
-    if (currentSelectedNums >= MAX_SELECT) {
+    if (currentSelectedNums >= MAX_SELECT_ROUND1) {
       if (application.round1) {
         selectApplication(application.id);
       }
@@ -77,7 +76,9 @@ const ApplicantCardRound1 = ({
       <View style={[styles.innerContainer]}>
         <CheckBox
           value={application.round1}
-          disabled={!application.round1 && currentSelectedNums >= MAX_SELECT}
+          disabled={
+            !application.round1 && currentSelectedNums >= MAX_SELECT_ROUND1
+          }
           onPress={toggleCheckbox}
         />
         <View style={styles.details}>

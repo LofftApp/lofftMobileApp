@@ -3,11 +3,10 @@ export type District = {
   name: string;
   toggle: boolean;
   emoji?: string;
-  disabled?: boolean; // optional, since not all districts have emojis
 };
 
 export type SingleCity = {
-  city: string;
+  name: string;
   flag: string;
 };
 
@@ -26,5 +25,5 @@ export type FlatFeature = {
   id: number;
   value: string;
   toggle: boolean;
-  emoji?: string;
+  emoji: string;
 };

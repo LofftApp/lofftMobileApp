@@ -42,7 +42,7 @@ const NewUserJourneyScreen = () => {
     signOut();
   };
 
-  const handleSelected = (type: string) => {
+  const handleSelected = (type: 'lessor' | 'renter') => {
     setUserType(type);
     setCurrentScreen(1);
     setTimeout(() => {

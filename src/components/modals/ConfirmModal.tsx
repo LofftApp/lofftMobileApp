@@ -38,7 +38,11 @@ const ConfirmModal = ({
             : CoreStyleSheet.modalContainer
         }>
         <BackButton onPress={toggleModal} close />
-        <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+        <ApplyForFlatScreenBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
+        />
         {fullScreen ? (
           <>
             <View style={styles.fullScreenModalContainer}>

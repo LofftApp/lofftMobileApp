@@ -10,6 +10,9 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
+//Screens  📺
+import {newUserScreens} from '../../components/componentData/newUserScreens';
+
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';
 import LanguagesCard from 'components/cards/LanguagesCard';
@@ -19,6 +22,7 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import Divider from 'components/bars/Divider';
 import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 //Assets 🎨
 import languagesData from 'Assets/coreText/languagesText.json';
@@ -27,9 +31,11 @@ import {RegistrationBackground} from 'assets';
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
+//Validation 🛡️
+import {languagesSchema} from 'lib/zodSchema';
+
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {newUserScreens} from '../../../components/componentData/newUserScreens';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -37,14 +43,16 @@ const LanguageSelectionScreen = () => {
   const [languages, setLanguages] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>('');
 
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // Redux
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const {setCurrentScreen} = useNewUserCurrentScreen();
+  const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
+  console.log('newUserdetaiils in languages', newUserDetails);
 
   // Safe Area
   const insets = useSafeAreaInsets();
@@ -74,32 +82,55 @@ const LanguageSelectionScreen = () => {
       : [...selectedLanguages, l];
     setSelectedLanguages(updatedLanguages);
 
-    setNewUserDetails({languages: updatedLanguages});
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
 
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+  };
+  const handleClearSearch = () => {
+    setSearchValue('');
+  };
+
   const handleBackButton = () => {
     navigation.goBack();
+
     setCurrentScreen(1);
+    handleClearSearch();
+    setError('');
   };
 
   const handleContinue = () => {
+    const result = languagesSchema.safeParse(selectedLanguages);
+    if (!result.success) {
+      setError(result.error?.flatten().formErrors.at(0));
+      return;
+    }
+    setNewUserDetails({languages: result.data});
+
     const screen = isLessor
-      ? newUserScreens.lessor[2]
+      ? // ? newUserScreens.lessor[2]
+        //test
+        newUserScreens.lessor[6]
       : newUserScreens.renter[2];
     navigation.navigate(screen);
+
+    setCurrentScreen(currentScreen + 1);
+
+    handleClearSearch();
+    setError('');
   };
 
   if (isLoading) {
-    <LoadingComponent />;
+    return <LoadingComponent />;
   }
 
   return (
     <View
       style={[
-        styles.safeAreaContainer,
+        CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
@@ -125,12 +156,8 @@ const LanguageSelectionScreen = () => {
             type="search"
             placeholder="Search for your language"
             value={searchValue}
-            onChangeText={(newValue: any) => {
-              setSearchValue(newValue);
-            }}
-            onClear={() => {
-              setSearchValue('');
-            }}
+            onChangeText={handleSearch}
+            onClear={handleClearSearch}
           />
         </View>
 
@@ -140,7 +167,7 @@ const LanguageSelectionScreen = () => {
               <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
                 Your current Selection:
               </Text>
-              <View>
+              <View style={styles.languagesContainer}>
                 {selectedLanguages.map(language => (
                   <LanguagesCard
                     key={language}
@@ -152,6 +179,7 @@ const LanguageSelectionScreen = () => {
               </View>
             </>
           )}
+          <Divider />
           <View style={selectedLanguages.length > 0 && styles.notSelected}>
             {selectedLanguages.length > 0 && (
               <Text style={fontStyles.headerSmall}>Other languages</Text>
@@ -171,6 +199,7 @@ const LanguageSelectionScreen = () => {
         <Divider />
       </View>
       <View style={styles.footerContainer}>
+        {error && <ErrorMessage message={error} />}
         <UserJourneyPaginationBar />
 
         <NewUserJourneyContinueButton
@@ -184,9 +213,6 @@ const LanguageSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-  },
   mainContainer: {
     flex: 1,
     paddingVertical: size(20),
@@ -200,6 +226,8 @@ const styles = StyleSheet.create({
   languagesContainer: {
     flex: 1,
     height: '100%',
+    paddingHorizontal: size(10),
+    width: '100%',
   },
 
   currentSelection: {
@@ -211,7 +239,9 @@ const styles = StyleSheet.create({
   footerContainer: {
     paddingHorizontal: size(16),
     paddingTop: size(0),
-    paddingBottom: size(10),
+    paddingBottom: size(20),
+    alignItems: 'center',
+    width: '100%',
   },
 });
 
