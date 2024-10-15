@@ -1,7 +1,8 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {PURGE} from 'redux-persist';
 
-export interface NewUserDetails {
+export interface NewUserRenterDetails {
+  userType: 'renter';
   languages: string[];
   characteristics: {
     id: number;
@@ -30,31 +31,85 @@ export interface NewUserDetails {
     maxPrice: number;
     warmRent: boolean;
   };
+  filter: {
+    id: number;
+    value: string;
+    toggle: boolean;
+    emoji: string;
+  }[];
 
-  userDescription: string | null;
-  textAboutUser: string | null;
-  cost: number | null;
-  location: string | null;
-  district: string | null;
-  fromDate: string | null;
-  perminant: boolean | null;
-  untilDate: string | null;
-  images: string[] | null;
-  flatFeatures: string[] | null;
-  flatMate: string[] | null;
-  warmRent: number | null;
+  // userDescription: string | null;
+  // textAboutUser: string | null;
+  // cost: number | null;
+  // location: string | null;
+  // district: string | null;
+  // fromDate: string | null;
+  // perminant: boolean | null;
+  // untilDate: string | null;
+  // images: string[] | null;
+  // flatMate: string[] | null;
+  // warmRent: number | null;
 }
+export interface NewUserLessorDetails {
+  userType: 'lessor';
+  languages: string[];
+  characteristics: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+  genderIdentity: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+  city: {
+    name: string;
+    flag: string;
+  };
+  districts: {
+    id: number;
+    name: string;
+    toggle: boolean;
+    emoji?: string;
+  }[];
+  budget: {
+    minPrice: number;
+    maxPrice: number;
+    warmRent: boolean;
+  };
+  flatFeatures: {
+    id: number;
+    value: string;
+    toggle: boolean;
+    emoji: string;
+  }[];
 
+  // userDescription: string | null;
+  // textAboutUser: string | null;
+  // cost: number | null;
+  // location: string | null;
+  // district: string | null;
+  // fromDate: string | null;
+  // perminant: boolean | null;
+  // untilDate: string | null;
+  // images: string[] | null;
+  // flatMate: string[] | null;
+  // warmRent: number | null;
+}
+export type NewUserDetails = {
+  renter: NewUserRenterDetails;
+  lessor: NewUserLessorDetails;
+};
 interface UserJourneyState {
   userType: string | null;
   renterJourney: {[key: number]: boolean};
   lessorJourney: {[key: number]: boolean};
   currentScreen: number;
   userJourney: string;
-  newUserDetails: {
-    renter: NewUserDetails;
-    lessor: NewUserDetails;
-  };
+  newUserDetails: NewUserDetails;
 }
 
 // interface UserJourneyActions {
@@ -100,6 +155,7 @@ const initialState: UserJourneyState = {
 
   newUserDetails: {
     renter: {
+      userType: 'renter',
       languages: [],
       characteristics: [],
       genderIdentity: [],
@@ -113,20 +169,22 @@ const initialState: UserJourneyState = {
         maxPrice: 0,
         warmRent: false,
       },
-      userDescription: null,
-      textAboutUser: null,
-      cost: null,
-      location: null,
-      district: null,
-      fromDate: null,
-      perminant: null,
-      untilDate: null,
-      images: null,
-      flatFeatures: [],
-      flatMate: [],
-      warmRent: null,
+      filter: [],
+      // userDescription: null,
+      // textAboutUser: null,
+      // cost: null,
+      // location: null,
+      // district: null,
+      // fromDate: null,
+      // perminant: null,
+      // untilDate: null,
+      // images: null,
+      // flatFeatures: [],
+      // flatMate: [],
+      // warmRent: null,
     },
     lessor: {
+      userType: 'lessor',
       languages: [],
       characteristics: [],
       genderIdentity: [],
@@ -140,18 +198,18 @@ const initialState: UserJourneyState = {
         maxPrice: 0,
         warmRent: false,
       },
-      userDescription: null,
-      textAboutUser: null,
-      cost: null,
-      location: null,
-      district: null,
-      fromDate: null,
-      perminant: null,
-      untilDate: null,
-      images: null,
       flatFeatures: [],
-      flatMate: [],
-      warmRent: null,
+      // userDescription: null,
+      // textAboutUser: null,
+      // cost: null,
+      // location: null,
+      // district: null,
+      // fromDate: null,
+      // perminant: null,
+      // untilDate: null,
+      // images: null,
+      // flatMate: [],
+      // warmRent: null,
     },
   },
 };
@@ -173,18 +231,23 @@ export const newUserSlice = createSlice({
 
     setNewUserDetails: (
       state,
-      action: PayloadAction<Partial<NewUserDetails>>,
+      action: PayloadAction<
+        Partial<NewUserLessorDetails> | Partial<NewUserRenterDetails>
+      >,
     ) => {
-      state.userType === 'lessor'
-        ? (state.newUserDetails.lessor = {
-            ...state.newUserDetails.lessor,
-            ...action.payload,
-          })
-        : (state.newUserDetails.renter = {
-            ...state.newUserDetails.renter,
-            ...action.payload,
-          });
+      if (state.userType === 'lessor') {
+        state.newUserDetails.lessor = {
+          ...state.newUserDetails.lessor,
+          ...(action.payload as Partial<NewUserLessorDetails>),
+        };
+      } else {
+        state.newUserDetails.renter = {
+          ...state.newUserDetails.renter,
+          ...(action.payload as Partial<NewUserRenterDetails>),
+        };
+      }
     },
+
 
     // setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
     //   const data = action.payload;

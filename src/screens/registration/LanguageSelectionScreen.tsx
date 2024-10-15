@@ -112,7 +112,9 @@ const LanguageSelectionScreen = () => {
     setNewUserDetails({languages: result.data});
 
     const screen = isLessor
-      ? newUserScreens.lessor[2]
+      ? // ? newUserScreens.lessor[2]
+        //test
+        newUserScreens.lessor[6]
       : newUserScreens.renter[2];
     navigation.navigate(screen);
 

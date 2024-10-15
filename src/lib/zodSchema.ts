@@ -1,6 +1,6 @@
 import {z} from 'zod';
 
-export const languagesSchema = z
+const languagesSchema = z
   .array(z.string())
   .nonempty({
     message: 'Please select at least one language',
@@ -9,7 +9,7 @@ export const languagesSchema = z
     message: 'You can select up to 5 languages only',
   });
 
-export const characteristicsSchema = z
+const characteristicsSchema = z
   .array(
     z.object({
       id: z.number(),
@@ -25,7 +25,7 @@ export const characteristicsSchema = z
     message: 'You can select up to 10 tags only',
   });
 
-export const genderIdentitySchema = z
+const genderIdentitySchema = z
   .array(
     z.object({
       id: z.number(),
@@ -41,7 +41,7 @@ export const genderIdentitySchema = z
     message: 'You can select up to 3 options only',
   });
 
-export const cityDistrictsSchema = z.object({
+const cityDistrictsSchema = z.object({
   city: z.object({
     name: z.string(),
     flag: z.string(),
@@ -60,7 +60,7 @@ export const cityDistrictsSchema = z.object({
     }),
 });
 
-export const budgetSchema = z
+const budgetSchema = z
   .object({
     minPrice: z
       .number()
@@ -76,11 +76,35 @@ export const budgetSchema = z
     message: 'Minimum price must be less than or equal to maximum price',
     path: ['maxPrice'], // The error will be attached to the maxPrice field
   });
+
+const featuresSchema = z
+  .array(
+    z.object({
+      id: z.number(),
+      toggle: z.boolean(),
+      value: z.string(),
+      emoji: z.string(),
+    }),
+  )
+  .nonempty({
+    message: 'Please select at least one tag',
+  });
+
 // Main schema (combining the individual schemas if needed)
-export const newUserSchema = z.object({
+const newUserSchema = z.object({
   renter: z.object({
     languages: languagesSchema,
     characteristics: characteristicsSchema,
     genderIdentity: genderIdentitySchema,
   }),
 });
+
+export {
+  languagesSchema,
+  characteristicsSchema,
+  genderIdentitySchema,
+  cityDistrictsSchema,
+  budgetSchema,
+  newUserSchema,
+  featuresSchema,
+};

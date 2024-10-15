@@ -25,5 +25,5 @@ export type FlatFeature = {
   id: number;
   value: string;
   toggle: boolean;
-  emoji?: string;
+  emoji: string;
 };

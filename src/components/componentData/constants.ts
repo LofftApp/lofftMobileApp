@@ -9,6 +9,8 @@ const MAX_SELECT_ROUND2 = 100;
 const MAX_SELECTED_CHARS = 10;
 const MIN_SELECTED_CHARS = 3;
 
+const MIN_SELECTED_FEATURES = 3;
+
 export {
   initialMinPrice,
   initialMaxPrice,
@@ -16,4 +18,5 @@ export {
   MAX_SELECT_ROUND2,
   MAX_SELECTED_CHARS,
   MIN_SELECTED_CHARS,
+  MIN_SELECTED_FEATURES,
 };
