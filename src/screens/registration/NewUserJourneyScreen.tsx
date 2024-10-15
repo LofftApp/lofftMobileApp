@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -42,16 +42,24 @@ const NewUserJourneyScreen = () => {
     signOut();
   };
 
+  console.log('userType', userType);
+  console.log('isLessor', isLessor);
+  useEffect(() => {
+    if (userType) {
+      const screen =
+        userType === 'lessor'
+          ? newUserScreens.lessor[1]
+          : newUserScreens.renter[1];
+
+      setTimeout(() => {
+        navigation.navigate(screen);
+      }, 400);
+    }
+  }, [userType, navigation]);
+
   const handleSelected = (type: 'lessor' | 'renter') => {
     setUserType(type);
     setCurrentScreen(1);
-    setTimeout(() => {
-      const screen = isLessor
-        ? newUserScreens.lessor[1]
-        : newUserScreens.renter[1];
-
-      navigation.navigate(screen);
-    }, 400);
   };
 
   return (

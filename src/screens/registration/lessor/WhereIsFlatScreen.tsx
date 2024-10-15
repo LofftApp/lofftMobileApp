@@ -29,9 +29,12 @@ const WhereIsFlatScreen = ({navigation}: any) => {
     address: null,
     district: null,
   });
+  const handleBackButton = () => {
+    navigation.goBack();
+  };
 
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <ScreenBackButton nav={handleBackButton}>
       <View style={styles.whereContainer}>
         <Text style={fontStyles.headerDisplay}>Where is your flat?</Text>
         <InputFieldText

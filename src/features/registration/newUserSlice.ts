@@ -222,7 +222,7 @@ export const newUserSlice = createSlice({
   name: 'newUser',
   initialState,
   reducers: {
-    setUserType: (state, action: PayloadAction<'lessor' | 'renter'>) => {
+    setUserType: (state, action: PayloadAction<'lessor' | 'renter' | ''>) => {
       state.userType = action.payload;
       action.payload === 'lessor'
         ? (state.userJourney = 'lessor')
