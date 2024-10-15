@@ -104,7 +104,7 @@ export type NewUserDetails = {
   lessor: NewUserLessorDetails;
 };
 interface UserJourneyState {
-  userType: string | null;
+  userType: 'lessor' | 'renter' | '';
   renterJourney: {[key: number]: boolean};
   lessorJourney: {[key: number]: boolean};
   currentScreen: number;
@@ -218,7 +218,7 @@ export const newUserSlice = createSlice({
   name: 'newUser',
   initialState,
   reducers: {
-    setUserType: (state, action: PayloadAction<string>) => {
+    setUserType: (state, action: PayloadAction<'lessor' | 'renter'>) => {
       state.userType = action.payload;
       action.payload === 'lessor'
         ? (state.userJourney = 'lessor')
@@ -247,7 +247,6 @@ export const newUserSlice = createSlice({
         };
       }
     },
-
 
     // setDetails: (state, action: PayloadAction<UserJourneyActions>) => {
     //   const data = action.payload;
