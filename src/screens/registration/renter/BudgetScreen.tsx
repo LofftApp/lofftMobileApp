@@ -1,58 +1,85 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
+import {useNavigation} from '@react-navigation/native';
+
+//Redux 📦
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-
-// StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-
-// Helpers 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
-import {useNavigation} from '@react-navigation/native';
-import {size} from 'react-native-responsive-sizes';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {RegistrationBackground} from 'assets';
-import {onlyNumber} from 'helpers/onlyNumber';
-import {fontStyles} from 'styleSheets/fontStyles';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import {newUserScreens} from 'components/componentData/newUserScreens';
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-export const initialMinPrice = '100';
-export const initialMaxPrice = '5000';
 
+//Assets 🎨
+import {RegistrationBackground} from 'assets';
+
+// StyleSheets 🖼️
+import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {fontStyles} from 'styleSheets/fontStyles';
+
+//Validation 🛡️
+import {budgetSchema} from 'lib/zodSchema';
+
+// Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
+import {isPriceValid} from 'helpers/isPriceValid';
+import {onlyNumber} from 'helpers/onlyNumber';
+
+//Constants 📊
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/componentData/constants';
+
+//Types 🏷️
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 const BudgetScreen = () => {
+  //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
+  // Local State
   const [minPrice, setMinPrice] = useState(initialMinPrice);
   const [maxPrice, setMaxPrice] = useState(initialMaxPrice);
   const [, setMinFocus] = useState(false);
   const [, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
   const [error, setError] = useState<string | undefined>('');
+  //Redux
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const savedBudget = newUserDetails.budget;
 
-  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen(0);
+  useEffect(() => {
+    if (savedBudget.maxPrice && savedBudget.minPrice && savedBudget.warmRent) {
+      setMinPrice(String(savedBudget.minPrice));
+      setMaxPrice(String(savedBudget.maxPrice));
+      setWarmRent(savedBudget.warmRent);
+    }
+  }, [savedBudget.minPrice, savedBudget.maxPrice, savedBudget.warmRent]);
 
   const handleMin = (num: string | number) => {
-    setMinPrice(num.toString());
-    handleMinFocus();
+    if (+num <= +initialMaxPrice) {
+      setMinPrice(num.toString());
+      handleMinFocus();
+    }
   };
 
   const handleMax = (num: string | number) => {
-    setMaxPrice(num.toString());
-    handleMaxFocus();
+    if (+num >= +initialMinPrice && +num <= +initialMaxPrice) {
+      setMaxPrice(num.toString());
+      handleMaxFocus();
+    }
   };
 
   const handleMinFocus = () => {
@@ -86,7 +113,27 @@ const BudgetScreen = () => {
   };
 
   const handleContinue = () => {
+    const result = budgetSchema.safeParse({
+      minPrice: +minPrice,
+      maxPrice: +maxPrice,
+      warmRent,
+    });
+    if (!result.success) {
+      const maxPriceError = result.error?.flatten().fieldErrors?.maxPrice?.[0];
+      const minPriceError = result.error?.flatten().fieldErrors?.minPrice?.[0];
+      if (minPriceError) {
+        setError(minPriceError);
+      } else if (maxPriceError) {
+        setError(maxPriceError);
+      }
+      return;
+    }
+
+    setNewUserDetails({budget: result.data});
+
     navigation.navigate(newUserScreens.renter[6]);
+    setCurrentScreen(currentScreen + 1);
+    setError('');
   };
 
   return (
@@ -169,7 +216,7 @@ const BudgetScreen = () => {
         <NewUserPaginationBar />
         <NewUserJourneyContinueButton
           value="Continue"
-          disabled={+minPrice > +maxPrice}
+          disabled={!isPriceValid(minPrice, maxPrice)}
           onPress={handleContinue}
         />
       </View>

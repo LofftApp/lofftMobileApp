@@ -17,9 +17,19 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import {fontStyles} from 'styleSheets/fontStyles';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import Divider from 'components/bars/Divider';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
+import {isPriceValid} from 'helpers/isPriceValid';
+import {onlyNumber} from 'helpers/onlyNumber';
+
+//Constants
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/componentData/constants';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -28,12 +38,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types 🏷️
 import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
-import Divider from 'components/bars/Divider';
-import {onlyNumber} from 'helpers/onlyNumber';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-
-export const initialMinPrice = '100';
-export const initialMaxPrice = '5000';
 
 const SearchFilterModal = ({
   openModal,
@@ -166,12 +170,6 @@ const SearchFilterModal = ({
     setSearchTerm(undefined);
   };
 
-  const isPriceValid = () => {
-    const min = +minPrice;
-    const max = +maxPrice;
-    return min <= max && min >= 0 && max >= 0;
-  };
-
   return (
     <Modal visible={openModal} animationType="fade">
       <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -265,7 +263,7 @@ const SearchFilterModal = ({
               value={
                 isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
               }
-              disabled={isLoading || !isPriceValid()}
+              disabled={isLoading || !isPriceValid(minPrice, maxPrice)}
               style={styles.seeResultButton}
               onPress={isError ? toggleModal : handleSearch}
               textSize={fontStyles.headerExtraSmall}

@@ -25,8 +25,12 @@ export interface NewUserDetails {
     toggle: boolean;
     emoji?: string;
   }[];
-  minRent: number | null;
-  maxRent: number | null;
+  budget: {
+    minPrice: number;
+    maxPrice: number;
+    warmRent: boolean;
+  };
+
   userDescription: string | null;
   textAboutUser: string | null;
   cost: number | null;
@@ -104,8 +108,11 @@ const initialState: UserJourneyState = {
         flag: '',
       },
       districts: [],
-      minRent: null,
-      maxRent: null,
+      budget: {
+        minPrice: 0,
+        maxPrice: 0,
+        warmRent: false,
+      },
       userDescription: null,
       textAboutUser: null,
       cost: null,
@@ -128,8 +135,11 @@ const initialState: UserJourneyState = {
         flag: '',
       },
       districts: [],
-      minRent: null,
-      maxRent: null,
+      budget: {
+        minPrice: 0,
+        maxPrice: 0,
+        warmRent: false,
+      },
       userDescription: null,
       textAboutUser: null,
       cost: null,

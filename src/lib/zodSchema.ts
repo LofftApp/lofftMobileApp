@@ -60,6 +60,22 @@ export const cityDistrictsSchema = z.object({
     }),
 });
 
+export const budgetSchema = z
+  .object({
+    minPrice: z
+      .number()
+      .nonnegative({message: 'Minimum price must be non-negative'})
+      .gte(100, {message: 'Minimum price must be at least 100'}),
+    maxPrice: z
+      .number()
+      .nonnegative({message: 'Maximum price must be non-negative'})
+      .lte(5000, {message: 'Maximum price must be at most 5000'}),
+    warmRent: z.boolean(),
+  })
+  .refine(data => data.minPrice <= data.maxPrice, {
+    message: 'Minimum price must be less than or equal to maximum price',
+    path: ['maxPrice'], // The error will be attached to the maxPrice field
+  });
 // Main schema (combining the individual schemas if needed)
 export const newUserSchema = z.object({
   renter: z.object({
