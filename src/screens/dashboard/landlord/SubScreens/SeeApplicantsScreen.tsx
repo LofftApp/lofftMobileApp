@@ -29,11 +29,11 @@ import {Search} from 'assets';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
+// constants
+import {MAX_SELECT_ROUND1} from 'components/componentData/constants';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
-
-export const MAX_SELECT = 100;
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advertId} = route.params;
@@ -100,7 +100,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
   const totalRemaining = Math.min(
-    MAX_SELECT - totalSelected,
+    MAX_SELECT_ROUND1 - totalSelected,
     totalApplications - totalSelected,
   );
 
@@ -165,12 +165,12 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           })}
         </ScrollView>
         <View style={styles.selectedButtonContainer}>
-          {totalSelected === MAX_SELECT && (
+          {totalSelected === MAX_SELECT_ROUND1 && (
             <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
-              You've selected the maximum number of {MAX_SELECT}
+              You've selected the maximum number of {MAX_SELECT_ROUND1}
             </Text>
           )}
-          {totalApplications <= MAX_SELECT && (
+          {totalApplications <= MAX_SELECT_ROUND1 && (
             <View style={styles.checkboxContainer}>
               <CheckBox onPress={handleSelectAll} value={selectedAll} />
               <Text
@@ -185,7 +185,9 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           <CoreButton
             disabled={totalSelected < 1}
             value={`Selected ${totalSelected}/${
-              MAX_SELECT <= totalApplications ? MAX_SELECT : totalApplications
+              MAX_SELECT_ROUND1 <= totalApplications
+                ? MAX_SELECT_ROUND1
+                : totalApplications
             }`}
             style={styles.coreButton}
             onPress={toggleModal}

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Application, ApplicationState} from './types';
-import {MAX_SELECT} from 'screens/dashboard/landlord/SubScreens/SeeApplicantsScreen';
+import {MAX_SELECT_ROUND1} from 'components/componentData/constants';
 import {PURGE} from 'redux-persist';
 
 const initialState: ApplicationState = {
@@ -86,10 +86,10 @@ export const applicationSlice = createSlice({
     toggleSelectAllRound1(state) {
       const isSelectingAll = !state.selectedAllRound1;
       const totalApplications = state.applicationsRound1.length;
-      const availableToSelect = Math.min(MAX_SELECT, totalApplications);
+      const availableToSelect = Math.min(MAX_SELECT_ROUND1, totalApplications);
 
       if (isSelectingAll) {
-        // Select only up to MAX_SELECT applicants
+        // Select only up to MAX_SELECT_ROUND1 applicants
         state.applicationsRound1 = state.applicationsRound1.map(
           (app, index) => ({
             ...app,

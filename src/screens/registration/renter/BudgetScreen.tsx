@@ -55,6 +55,7 @@ const BudgetScreen = () => {
   const [, setMaxFocus] = useState(false);
   const [warmRent, setWarmRent] = useState(false);
   const [error, setError] = useState<string | undefined>('');
+
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();

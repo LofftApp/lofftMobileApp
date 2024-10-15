@@ -30,6 +30,11 @@ import {newUserScreens} from 'components/componentData/newUserScreens';
 // Validation 🛡  ️
 import {characteristicsSchema} from 'lib/zodSchema';
 
+// Constants 📊
+import {
+  MAX_SELECTED_CHARS,
+  MIN_SELECTED_CHARS,
+} from 'components/componentData/constants';
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
 
@@ -41,9 +46,6 @@ interface SelectedTracks {
   emoji: string;
   toggle: boolean;
 }
-
-const MAX_SELECTED_CHARS = 10;
-const MIN_SELECTED_CHARS = 3;
 
 const AboutUserScreen = () => {
   // initial state
