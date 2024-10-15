@@ -13,6 +13,7 @@ import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
 
 const SignInScreen = ({navigation}: any) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>
