@@ -8730,7 +8730,7 @@ __metadata:
     react-devtools: "npm:^5.3.1"
     react-native: "npm:0.75.3"
     react-native-collapsible: "npm:^1.6.1"
-    react-native-date-picker: "npm:^4.2.9"
+    react-native-date-picker: "npm:^5.0.7"
     react-native-dotenv: "npm:^3.4.8"
     react-native-encrypted-storage: "npm:^4.0.3"
     react-native-gesture-handler: "npm:^2.13.4"
@@ -10412,13 +10412,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-date-picker@npm:^4.2.9":
-  version: 4.4.2
-  resolution: "react-native-date-picker@npm:4.4.2"
+"react-native-date-picker@npm:^5.0.7":
+  version: 5.0.7
+  resolution: "react-native-date-picker@npm:5.0.7"
   peerDependencies:
     react: ">= 17.0.1"
     react-native: ">= 0.64.3"
-  checksum: 10/2ea45003fbaa957e970a699459b950ddef245bb41dd35f081ae70b3aaeae375427afc0af645e4eac13329b32386393119c5cc443f99901b0034959c8025bec9e
+  checksum: 10/e1ae4ac7b864c6934c8537d2dee1984e85f8fb028824b8fe51b79ab424dcc0003756e4d063f6520d8ec2d62dc87c7cd52390cc44d4d48e542128e8438f6d3478
   languageName: node
   linkType: hard
 

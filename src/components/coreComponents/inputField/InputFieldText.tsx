@@ -27,6 +27,7 @@ const InputFieldText = ({
   dropDownContent = [],
   dropDownPressAction = () => {},
   style,
+  onFocus = () => {},
 }: InputFieldTextProps) => {
   const [focus, setFocus] = useState(false);
   return (
@@ -78,7 +79,7 @@ const InputFieldText = ({
           <DefaultInput
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
-            onFocus={() => setFocus(true)}
+            onFocus={onFocus || (() => setFocus(true))}
             value={value}
             placeholder={placeholder || 'Default Field'}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}

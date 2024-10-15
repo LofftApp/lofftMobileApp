@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TextInput, Text, SafeAreaView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  SafeAreaView,
+  Pressable,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -34,6 +41,8 @@ import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import DatePicker from 'react-native-date-picker';
+import {dateFormatConverter} from 'helpers/dateFormatConverter';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -44,6 +53,8 @@ const NameProfileScreen = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [textFocus, setTextFocus] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
 
   //Redux
@@ -69,11 +80,20 @@ const NameProfileScreen = () => {
     setText(input);
   };
   const handleOnFocus = () => {
-    setTextFocus(true);
+    setIsModalOpen(true);
   };
 
   const handleOnBlur = () => {
     setTextFocus(false);
+  };
+
+  const handleDateChange = (input: Date) => {
+    setDate(input);
+    setIsModalOpen(false);
+  };
+
+  const handleCancelDate = () => {
+    setIsModalOpen(false);
   };
 
   const handleBackButton = () => {
@@ -133,6 +153,25 @@ const NameProfileScreen = () => {
               onChangeText={handleLastName}
             />
             {error && <ErrorMessage message={error} />}
+
+            <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+              Date of Birth
+            </Text>
+            <Pressable onPress={() => setIsModalOpen(true)}>
+              <View style={styles.dateInput}>
+                <Text style={[fontStyles.bodyMedium, styles.dateText]}>
+                  {dateFormatConverter({date: date})}
+                </Text>
+              </View>
+            </Pressable>
+            <DatePicker
+              modal
+              mode="date"
+              open={isModalOpen}
+              date={date}
+              onConfirm={handleDateChange}
+              onCancel={handleCancelDate}
+            />
           </View>
 
           <View style={styles.footerContainer}>
@@ -161,6 +200,21 @@ const styles = StyleSheet.create({
     paddingVertical: size(10),
     gap: size(10),
   },
+  dateInput: {
+    marginBottom: size(8),
+    borderWidth: size(2),
+    borderRadius: size(12),
+    borderColor: Color.Black[50],
+    paddingHorizontal: size(8),
+    height: size(48),
+    justifyContent: 'center',
+  },
+
+  dateText: {
+    color: Color.Black[100],
+    marginLeft: size(10),
+  },
+
   minText: {
     color: Color.Black[80],
   },

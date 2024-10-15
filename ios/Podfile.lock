@@ -1246,7 +1246,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-date-picker (4.4.2):
+  - react-native-date-picker (5.0.7):
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
@@ -1893,7 +1893,7 @@ SPEC CHECKSUMS:
   React-logger: 4072f39df335ca443932e0ccece41fbeb5ca8404
   React-Mapbuffer: 714f2fae68edcabfc332b754e9fbaa8cfc68fdd4
   React-microtasksnativemodule: 4943ad8f99be8ccf5a63329fa7d269816609df9e
-  react-native-date-picker: 312c387d2ff873c66c5e4cf78ff6827fa91644e2
+  react-native-date-picker: 06a4d96ab525a163c7a90bccd68833d136b0bb13
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: 2fbbafdae7a7c6db9d25df2f2b1db4442d2ca2ad
   react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
