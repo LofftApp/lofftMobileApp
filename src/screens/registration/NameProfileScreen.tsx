@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   TextInput,
+  ScrollView,
   Text,
   SafeAreaView,
   Pressable,
@@ -43,6 +44,9 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import DatePicker from 'react-native-date-picker';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
+import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
+import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -133,46 +137,50 @@ const NameProfileScreen = () => {
           subDescription="How others should call you? Uploading a picture gets more attention!"
         />
         <View style={styles.mainContainer}>
-          <View style={styles.textContainer}>
-            <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
-              First Name
-            </Text>
-            <InputFieldText
-              placeholder="Which name do you go by?"
-              value={firstName}
-              onChangeText={handleFirstName}
-            />
-            {error && <ErrorMessage message={error} />}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.textContainer}>
+              <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+                First Name
+              </Text>
+              <InputFieldText
+                placeholder="Which name do you go by?"
+                value={firstName}
+                onChangeText={handleFirstName}
+              />
+              {error && <ErrorMessage message={error} />}
 
-            <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
-              Last Name
-            </Text>
-            <InputFieldText
-              placeholder="To be more authentic"
-              value={lastName}
-              onChangeText={handleLastName}
-            />
-            {error && <ErrorMessage message={error} />}
+              <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+                Last Name
+              </Text>
+              <InputFieldText
+                placeholder="To be more authentic"
+                value={lastName}
+                onChangeText={handleLastName}
+              />
+              {error && <ErrorMessage message={error} />}
 
-            <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
-              Date of Birth
-            </Text>
-            <Pressable onPress={() => setIsModalOpen(true)}>
-              <View style={styles.dateInput}>
-                <Text style={[fontStyles.bodyMedium, styles.dateText]}>
-                  {dateFormatConverter({date: date})}
-                </Text>
-              </View>
-            </Pressable>
-            <DatePicker
-              modal
-              mode="date"
-              open={isModalOpen}
-              date={date}
-              onConfirm={handleDateChange}
-              onCancel={handleCancelDate}
-            />
-          </View>
+              <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+                Date of Birth
+              </Text>
+              <Pressable onPress={() => setIsModalOpen(true)}>
+                <View style={styles.dateInput}>
+                  <Text style={[fontStyles.bodyMedium, styles.dateText]}>
+                    {dateFormatConverter({date: date})}
+                  </Text>
+                </View>
+              </Pressable>
+              <DatePicker
+                modal
+                mode="date"
+                open={isModalOpen}
+                date={date}
+                onConfirm={handleDateChange}
+                onCancel={handleCancelDate}
+              />
+              <ImagePreviewRow />
+              <UploadImageButton />
+            </View>
+          </ScrollView>
 
           <View style={styles.footerContainer}>
             <Divider />
