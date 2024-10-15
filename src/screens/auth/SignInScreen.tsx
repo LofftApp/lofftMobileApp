@@ -3,7 +3,7 @@ import {View, StyleSheet, Text} from 'react-native';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
-import SignInWith from 'components/SignInWith';
+import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -13,7 +13,6 @@ import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
 
 const SignInScreen = ({navigation}: any) => {
-
   return (
     <View style={styles.container}>
       <View style={styles.imageWrap}>

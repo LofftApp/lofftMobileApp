@@ -1,65 +1,121 @@
 // Needs refactoring to work with TypeScript
 import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+//Redux
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import Divider from 'components/bars/Divider';
+import BackButton from 'components/buttons/BackButton';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Assets
+import {RegistrationBackground} from 'assets';
 
 // Data 💿
 import CityDistricts from 'components/componentData/cityDistricts.json';
 
+//Validation 🛡 ️
+import {cityDistrictsSchema} from 'lib/zodSchema';
+
 // Helper 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
+import {capitalize} from 'helpers/capitalize';
 
 // Types
 import {SingleCity, District, Cities} from './types';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 const SelectCityScreen = () => {
-  const navigation = useNavigation();
+  //Navigation
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  //Local State
   const [city, setCity] = useState('');
   const [elementArray, setElementArray] = useState<SingleCity[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [, setCityPicked] = useState(false);
-  const [allDistricts, setAllDistricts] = useState(false);
-  const [washedDistricts, setWashedDistricts] = useState<District[]>([]);
-  const [query, setQuery] = useState(false);
+  const [isAllDistricts, setIsAllDistricts] = useState(false);
+  const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
+  const [isQuery, setIsQuery] = useState(false);
+  const [error, setError] = useState<string | undefined>('');
 
-  const cities: Cities = CityDistricts; // intital empty hence undefined
+  //Redux
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const savedCity = newUserDetails.city;
+  const savedDistricts = newUserDetails.districts;
 
-  const trigerAllFlats = () => {
-    selectAllDistrictsTags(allDistricts);
-    setAllDistricts(!allDistricts);
-  };
+  //Safe Area
+  const insets = useSafeAreaInsets();
 
-  const selectAllDistrictsTags = (state: boolean) => {
-    const allDistrictTags = districts.map(el => {
-      if (!state) {
-        return {
-          ...el,
-          toggle: true,
-        };
-      } else {
-        return {
-          ...el,
-          toggle: false,
-        };
-      }
-    });
+  const cities: Cities = CityDistricts;
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (districts.length >= 1 && city !== '') {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [districts, city, fadeAnim]);
+
+  useEffect(() => {
+    if (savedCity.name && savedCity.name !== '') {
+      setCity(`${savedCity.flag} ${capitalize(savedCity.name)}`);
+      const updatedDistricts = cities[savedCity.name].districts.map(
+        district => {
+          return {
+            ...district,
+            toggle: savedDistricts.some(
+              savedDistrict => savedDistrict.id === district.id,
+            ),
+          };
+        },
+      );
+      setDistricts(updatedDistricts);
+
+      const districtsSelected = updatedDistricts.filter(el => el.toggle);
+      setSelectedDistricts(districtsSelected);
+
+      const allSelected = updatedDistricts.every(district => district.toggle);
+      setIsAllDistricts(allSelected);
+    }
+  }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
+
+  const selectAllDistrictsTags = () => {
+    const allDistrictTags = districts.map(el => ({
+      ...el,
+      toggle: !isAllDistricts,
+    }));
 
     setDistricts(allDistrictTags);
+    setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
+    setIsAllDistricts(prev => !prev);
   };
 
   const orderedCities = Object.keys(cities)
@@ -69,47 +125,36 @@ const SelectCityScreen = () => {
       return obj;
     }, {});
 
-  // Functions
-  const cityTrack = (userInput: string) => {
+  const handleOnChangeSearch = (userInput: string) => {
     if (userInput === '' && city !== '') {
       setElementArray([]);
       setDistricts([]);
     }
 
-    const creationArray = [];
+    const creationArray: {name: string; flag: string}[] = [];
 
     for (const [key, value] of Object.entries(orderedCities)) {
-      // eslint-disable-next-line eqeqeq
-      if (key.startsWith(userInput.toLowerCase()) && userInput != '') {
-        const inputObject = {city: '', flag: ''};
-        inputObject.city = key;
+      if (key.startsWith(userInput.toLowerCase()) && userInput !== '') {
+        const inputObject = {name: '', flag: ''};
+        inputObject.name = key;
         inputObject.flag = value.flag;
         creationArray.push(inputObject);
         setElementArray(creationArray);
       }
     }
 
-    // setDistrictTags(tagsArray);
     setCity(userInput);
-    setQuery(true);
+    setIsQuery(true);
   };
 
   const activateDistrictDisplay = (cityInput: string) => {
-    setCityPicked(true);
     setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
-    setCity(cityInput);
-    setTimeout(() => {
-      setElementArray([]);
-      setCityPicked(false);
-    }, 0);
+    setElementArray([]);
   };
 
   const selectFn = (id: number) => {
-    const targets = [];
-
-    const preSeleted = districts.map(element => {
+    const updatedDistricts = districts.map(element => {
       if (element.id === id) {
-        targets.push(element);
         return {
           ...element,
           toggle: !element.toggle,
@@ -119,170 +164,189 @@ const SelectCityScreen = () => {
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
-    setDistricts(preSeleted);
-    setWashedDistricts(wash);
+    setDistricts(updatedDistricts);
+    const districtsSelected = updatedDistricts.filter(el => el.toggle);
+    setSelectedDistricts(districtsSelected);
+    const allSelected = updatedDistricts.every(district => district.toggle);
+    setIsAllDistricts(allSelected);
   };
 
-  const emojiElements = districts.map((emojiElement, index: number) => {
+  const allDistrictsButtons = districts.map(district => {
     return (
       <SelectionButton
-        key={index + 1}
-        id={emojiElement.id}
-        value={emojiElement.name}
-        emojiIcon={emojiElement.emoji}
-        toggle={emojiElement.toggle}
+        key={district.id}
+        id={district.id}
+        value={district.name}
+        emojiIcon={district.emoji}
+        toggle={district.toggle}
         selectFn={selectFn}
-        disabled={false}
       />
     );
   });
 
-  const cityUsableData = (data: SingleCity[]) => {
-    return data.map((cityData: {city: string; flag: string}) => {
-      return `${cityData.flag} ${cityData.city
-        .charAt(0)
-        .toUpperCase()}${cityData.city.slice(1)}`;
+  const dropDownContent = (data: SingleCity[]) => {
+    return data.map((cityData: {name: string; flag: string}) => {
+      return `${cityData.flag} ${capitalize(cityData.name)} `;
     });
   };
 
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
+  const handleDropDownPress = (value: string) => {
+    setCity(value);
+    setIsQuery(false);
+    activateDistrictDisplay(value);
+  };
 
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 3000,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
+  const handleClearSearch = () => {
+    setCity('');
+    setDistricts([]);
+    setElementArray([]);
+  };
 
+  const handleBackButton = () => {
+    navigation.goBack();
+    setCurrentScreen(currentScreen - 1);
+    setError('');
+  };
+
+  const handleContinue = () => {
+    const formattedCity = {
+      name: city.split(' ')[1].toLowerCase(),
+      flag: city.split(' ')[0],
+    };
+    const result = cityDistrictsSchema.safeParse({
+      city: formattedCity,
+      districts: selectedDistricts,
+    });
+
+    if (!result.success) {
+      const cityError = result.error?.flatten().fieldErrors.city?.[0];
+      const districtError = result.error?.flatten().fieldErrors.districts?.[0];
+      if (cityError) {
+        setError(cityError);
+      } else if (districtError) {
+        setError(districtError);
+      }
+      return;
+    }
+    setNewUserDetails({
+      city: result.data.city,
+      districts: result.data.districts,
+    });
+
+    navigation.navigate(newUserScreens.renter[5]);
+    setCurrentScreen(currentScreen + 1);
+    setError('');
+  };
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
+      <View style={styles.mainContainer}>
         <HeadlineContainer
-          headlineText={`Where are you looking for ${''} the flat?`}
-          subDescription={''}
+          headlineText={'Where are you looking for the flat?'}
         />
-        <View>
+        <View style={styles.inputContainer}>
           <InputFieldText
             type="search"
             placeholder="Berlin for instance?"
-            onChangeText={text => {
-              cityTrack(text);
-            }}
-            onClear={() => {
-              setCity('');
-              setDistricts([]);
-            }}
-            value={
-              city && city in cities
-                ? cities[city].flag +
-                  ' ' +
-                  city[0].toUpperCase() +
-                  city.substring(1, city.length)
-                : city
-            }
-            dropdown={query}
-            dropDownContent={cityUsableData(elementArray)}
-            dropDownPressAction={(value: string) => {
-              setCity(value);
-              setQuery(false);
-              activateDistrictDisplay(value);
-            }}
+            onChangeText={handleOnChangeSearch}
+            onClear={handleClearSearch}
+            value={city}
+            dropdown={isQuery}
+            dropDownContent={dropDownContent(elementArray)}
+            dropDownPressAction={handleDropDownPress}
           />
         </View>
 
-        {districts.length >= 1 && (
-          <View style={styles.resultWrapper}>
-            <Animated.View // Special animatable View
-              style={{
-                opacity: fadeAnim, // Bind opacity to animated value
-              }}>
-              <View style={styles.options}>
-                <Text style={[fontStyles.headerMedium, styles.districtText]}>
-                  Districts
-                </Text>
-                <View style={styles.switchContainer}>
-                  <CustomSwitch
-                    value={allDistricts}
-                    onValueChange={() => trigerAllFlats()}
-                  />
-                  <Text style={styles.selectAllText}>Select All</Text>
-                </View>
-              </View>
-            </Animated.View>
-            <View style={styles.emojiContainer}>{emojiElements}</View>
-          </View>
-        )}
-      </ScrollView>
+        <View style={styles.resultWrapper}>
+          <Animated.View
+            style={[
+              styles.districtTitleContainer,
+              {
+                opacity: fadeAnim,
+              },
+            ]}>
+            <Text style={[fontStyles.headerMedium]}>Districts</Text>
+            <View style={styles.switchContainer}>
+              <Text style={fontStyles.bodySmall}>Select All</Text>
+              <CustomSwitch
+                value={isAllDistricts}
+                onValueChange={selectAllDistrictsTags}
+              />
+            </View>
+          </Animated.View>
 
-      <FooterNavBarWithPagination
-        onPress={(targetScreen: any) =>
-          navigationHelper(navigation, targetScreen)
-        }
-        disabled={districts.length === 0}
-        details={{districts: washedDistricts}}
-      />
-    </ScreenBackButton>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.selectionContainer}>{allDistrictsButtons}</View>
+          </ScrollView>
+        </View>
+
+        <Divider />
+      </View>
+
+      <View style={styles.footerContainer}>
+        {error && <ErrorMessage message={error} />}
+        <NewUserPaginationBar />
+        <NewUserJourneyContinueButton
+          value="Continue"
+          disabled={districts.length === 0}
+          onPress={handleContinue}
+        />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  questionInputStyle: {
-    padding: size(15),
-    color: Color.Black[80],
-    borderTopLeftRadius: size(12),
-    borderTopRightRadius: size(12),
-    borderWidth: size(2),
+  mainContainer: {
+    flex: 1,
+    paddingVertical: size(20),
+    paddingHorizontal: size(16),
   },
-  cityTag: {
-    padding: size(15),
-    borderColor: Color.Lavendar[100],
-    borderRightWidth: size(2),
-    borderLeftWidth: size(2),
-    borderBottomWidth: 0,
+  inputContainer: {
+    paddingTop: size(10),
   },
-  resultWrapper: {
-    marginTop: size(10),
-  },
-  districtText: {
-    marginTop: size(15),
-    marginBottom: size(20),
-  },
-  selectAllText: {
-    marginLeft: size(20),
-  },
-  lastCityTag: {
-    borderColor: Color.Lavendar[100],
-    borderBottomWidth: size(2),
-    borderBottomLeftRadius: size(12),
-    borderBottomRightRadius: size(12),
-    borderRightWidth: size(2),
-    borderLeftWidth: size(2),
-    padding: size(15),
-  },
-  inputFieldStyle: {
-    marginBottom: size(8),
-    borderWidth: size(2),
-    borderRadius: size(12),
-    backgroundColor: 'blue',
-
-    justifyContent: 'center',
-  },
-  emojiContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: size(150),
-  },
-  options: {
+  districtTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: size(15),
+    paddingTop: size(10),
+    paddingBottom: size(20),
+  },
+
+  resultWrapper: {
+    marginTop: size(10),
+    flex: 1,
+    height: '100%',
+  },
+
+  selectionContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    height: '100%',
+    paddingHorizontal: size(10),
   },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: size(16),
+  },
+  footerContainer: {
+    paddingHorizontal: size(16),
+    paddingTop: size(0),
+    paddingBottom: size(20),
+    width: '100%',
   },
 });
 

@@ -17,9 +17,19 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import {fontStyles} from 'styleSheets/fontStyles';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import Divider from 'components/bars/Divider';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
+import {isPriceValid} from 'helpers/isPriceValid';
+import {onlyNumber} from 'helpers/onlyNumber';
+
+//Constants
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/componentData/constants';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -28,9 +38,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types 🏷️
 import type {SearchFilterModalProps, FeaturesState} from './types';
 import {AdvertFeatures} from 'reduxFeatures/adverts/types';
-
-export const initialMinPrice = '100';
-export const initialMaxPrice = '5000';
 
 const SearchFilterModal = ({
   openModal,
@@ -64,10 +71,6 @@ const SearchFilterModal = ({
   useEffect(() => {
     setFeaturesState(featuresWithSelected);
   }, [featuresWithSelected]);
-
-  const onlyNumber = (value: string) => {
-    return Number(value.replace(/\D/g, ''));
-  };
 
   const handleSearch = async () => {
     const featuresIds = selectedFeatures.map(track => track.id).join(',');
@@ -167,12 +170,6 @@ const SearchFilterModal = ({
     setSearchTerm(undefined);
   };
 
-  const isPriceValid = () => {
-    const min = +minPrice;
-    const max = +maxPrice;
-    return min <= max && min >= 0 && max >= 0;
-  };
-
   return (
     <Modal visible={openModal} animationType="fade">
       <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -208,11 +205,10 @@ const SearchFilterModal = ({
 
             <View style={styles.sliderContainer}>
               {+minPrice > +maxPrice && (
-                <View style={styles.errorContainer}>
-                  <Text style={styles.errorMessage}>
-                    The min value must not be more than the max value!
-                  </Text>
-                </View>
+                <ErrorMessage
+                  fontSize={fontStyles.bodyExtraSmall}
+                  message="The min value must not be more than the max value!"
+                />
               )}
               <Slider
                 thumbTintColor={Color.Lavendar[100]}
@@ -253,7 +249,7 @@ const SearchFilterModal = ({
               </View>
             </ScrollView>
           </View>
-          <View style={styles.pageBreak} />
+          <Divider />
           <View style={styles.buttonsContainer}>
             <CoreButton
               value="Clear all"
@@ -263,12 +259,11 @@ const SearchFilterModal = ({
               onPress={handleClearAll}
               textSize={fontStyles.headerExtraSmall}
             />
-            {/* // event handler to send request */}
             <CoreButton
               value={
                 isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
               }
-              disabled={isLoading || !isPriceValid()}
+              disabled={isLoading || !isPriceValid(minPrice, maxPrice)}
               style={styles.seeResultButton}
               onPress={isError ? toggleModal : handleSearch}
               textSize={fontStyles.headerExtraSmall}
@@ -279,16 +274,17 @@ const SearchFilterModal = ({
     </Modal>
   );
 };
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const styles = StyleSheet.create({
   priceRangeContainer: {
     paddingVertical: size(20),
+    paddingHorizontal: size(10),
   },
   featuresContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
+    paddingHorizontal: size(5),
   },
 
   inputContainer: {
@@ -340,11 +336,6 @@ const styles = StyleSheet.create({
   },
   clearAllButton: {
     paddingHorizontal: size(25),
-  },
-  pageBreak: {
-    borderBottomWidth: size(1),
-    paddingVertical: size(5),
-    borderColor: Color.Black[30],
   },
 });
 

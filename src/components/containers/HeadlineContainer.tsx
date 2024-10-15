@@ -7,23 +7,34 @@ import {fontStyles} from '../../styles/fontStyles';
 import color from '../../styles/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 
-const HeadlineContainer = ({headlineText, subDescription}: any) => {
+type HeadlineContainerProps = {
+  headlineText: string;
+  subDescription?: string;
+};
+
+const HeadlineContainer = ({
+  headlineText,
+  subDescription,
+}: HeadlineContainerProps) => {
   return (
     <View style={styles.container}>
       <Text style={fontStyles.headerDisplay}>{headlineText}</Text>
-      <Text style={styles.subHeaderText}>{subDescription}</Text>
+      {subDescription && (
+        <Text style={[fontStyles.bodyMedium, styles.subHeaderText]}>
+          {subDescription}
+        </Text>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 25,
-    marginBottom: size(20),
+    gap: size(10),
+    paddingBottom: size(10),
   },
   subHeaderText: {
     color: color.Black[80],
-    marginTop: size(10),
   },
 });
 

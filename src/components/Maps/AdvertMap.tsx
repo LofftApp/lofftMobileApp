@@ -11,9 +11,11 @@ import MapMarker from 'components/Maps/MapMarker';
 // Types 🏷️
 import {Advert} from 'reduxFeatures/adverts/types';
 import {AdvertWithCoordinates} from './types';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [mapboxAdverts, setMapboxAdverts] = useState<AdvertWithCoordinates[]>(
     [],
   );
@@ -42,6 +44,8 @@ const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
         setMapboxAdverts(advertsWithCoordinates);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     geoCoding();
@@ -57,6 +61,10 @@ const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
     }
     return [0, 0];
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <>

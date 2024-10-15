@@ -12,11 +12,6 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
-import {
-  setApplicationsRound2,
-  toggleRound2,
-} from 'reduxFeatures/applications/applicationSlice';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -32,25 +27,25 @@ import {Search} from 'assets';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
+//Constants
+import {MAX_SELECT_ROUND2} from 'components/componentData/constants';
+
 // Types
 import type {SeeProfilesScreenProp} from './types';
-import type {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
-
-export const MAX_SELECT_2_ROUND = 20;
+import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
+import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const {advertId} = route.params;
-  const dispatch = useAppDispatch();
 
-  const applicationsState = useAppSelector(
-    state => state.applications.applicationsRound2,
-  );
-  const selectedApplications = useAppSelector(
-    state => state.applications.applicationsSelectedRound2,
-  );
-  const notSelectedApplications = useAppSelector(
-    state => state.applications.applicationsNotSelectedRound2,
-  );
+  const {
+    applicationsStateRound2: applicationsState,
+    selectedApplicationsRound2: selectedApplications,
+    notSelectedApplicationsRound2: notSelectedApplications,
+    toggleRound2,
+    setApplicationsRound2,
+  } = useSelectApplicants();
+
   const {
     data: advert,
     error,
@@ -67,12 +62,12 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   useEffect(() => {
     if (advert) {
-      dispatch(setApplicationsRound2(applications ?? []));
+      setApplicationsRound2(applications ?? []);
     }
-  }, [applications, advert, dispatch]);
+  }, [applications, advert, setApplicationsRound2]);
 
   const selectApplication = (id: number) => {
-    dispatch(toggleRound2(id));
+    toggleRound2(id);
   };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -104,7 +99,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const totalSelected = selectedApplications.length;
 
   const totalRemaining = Math.min(
-    MAX_SELECT_2_ROUND - totalSelected,
+    MAX_SELECT_ROUND2 - totalSelected,
     totalApplications - totalSelected,
   );
 
@@ -170,13 +165,13 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
         <View style={styles.selectedButtonContainer}>
           <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[50]}]}>
-            {`You can select up to ${MAX_SELECT_2_ROUND} applicants`}
+            {`You can select up to ${MAX_SELECT_ROUND2} applicants`}
           </Text>
           <CoreButton
             disabled={totalSelected >= 1 ? false : true}
             value={`Selected ${totalSelected}/${
-              MAX_SELECT_2_ROUND <= totalApplications
-                ? MAX_SELECT_2_ROUND
+              MAX_SELECT_ROUND2 <= totalApplications
+                ? MAX_SELECT_ROUND2
                 : totalApplications
             }`}
             style={styles.coreButton}

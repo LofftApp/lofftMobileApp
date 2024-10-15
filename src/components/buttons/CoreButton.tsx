@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     borderWidth: size(2),
     flexDirection: 'row',
     gap: size(7),
+    width: '100%',
   },
   buttonTextStyle: {
     color: Color.White[100],

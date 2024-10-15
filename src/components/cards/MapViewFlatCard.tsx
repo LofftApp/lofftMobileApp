@@ -1,20 +1,14 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
 
 // Redux 🏪
-import {useAppSelector} from 'reduxCore/hooks';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
+import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -26,28 +20,26 @@ import noFlatImage from 'Assets/images/no-flat-image.png';
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
 import {width, height, size} from 'react-native-responsive-sizes';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
-import type {UserState} from 'reduxFeatures/user/types';
-import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
-import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+
+const maxTaglineLength = 35;
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  const {data} = useGetUserQuery();
+  const currentUser = data?.user;
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.filter ?? [],
     advert.flat.features,
   );
-  const maxTaglineLength = 35;
 
   const handleFavorite = () => {
     toggleFavorite(advert.id);
@@ -75,17 +67,10 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
                 size="Small"
                 score={advert.matchScore ?? 5}
               />
-              <Pressable onPress={handleFavorite}>
-                {advert.favorite ? (
-                  <LofftIcon
-                    name="heart-filled"
-                    size={26}
-                    color={Color.Tomato[100]}
-                  />
-                ) : (
-                  <LofftIcon name="heart" size={26} color={Color.Tomato[100]} />
-                )}
-              </Pressable>
+              <HeartButton
+                favorite={advert.favorite}
+                onPress={handleFavorite}
+              />
             </View>
 
             <View style={styles.flatCardMetadataWrap}>
@@ -134,7 +119,8 @@ const styles = StyleSheet.create({
   flatCardContainer: {
     height: size(280),
     width: width(95),
-    padding: size(8),
+    paddingVertical: size(6),
+    paddingHorizontal: size(8),
     borderRadius: 12,
     backgroundColor: Color.White[100],
   },
@@ -167,6 +153,8 @@ const styles = StyleSheet.create({
   flatCardbuttonsWrap: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingTop: size(3),
+    paddingRight: size(1),
   },
 
   flatCardMatchingScoreButton: {

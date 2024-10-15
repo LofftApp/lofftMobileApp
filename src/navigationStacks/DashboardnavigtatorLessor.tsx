@@ -1,9 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {RootTabParamList} from './types';
 
 // Redux 🏪
-import {useAppSelector} from 'reduxCore/hooks';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import {tabIcons} from './tabIcons';
@@ -12,18 +11,20 @@ import {tabIcons} from './tabIcons';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
-import FlatSearchNavigator from './FlatSearchNavigator';
+// import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
 import UserScreen from 'screens/dashboard/renter/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
-import TempScreen from 'screens/dashboard/renter/TempScreen';
-import ApplicationNavigator from './ApplicationNavigator';
+// import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
+import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
+import LessorNavigator from './LessorNavigator';
+import {LessorTabParamsList} from './types';
 
-const Tab = createBottomTabNavigator<RootTabParamList>();
-
-const DashboardNavigator = () => {
-  const admin = useAppSelector(state => state.user.user.admin);
+const Tab = createBottomTabNavigator<LessorTabParamsList>();
+const DashboardNavigatorLessor = () => {
+  const {data} = useGetUserQuery();
+  const admin = data?.user?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -33,23 +34,18 @@ const DashboardNavigator = () => {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen
-        name="search"
-        component={FlatSearchNavigator}
+        name="lessorIndex"
+        component={LessorNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="application"
-        component={ApplicationNavigator}
+        name="lessorAction"
+        component={LessorActionScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
         name="user"
         component={UserScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="Ello"
-        component={TempScreen}
         options={{headerShown: false}}
       />
       {admin ? (
@@ -63,4 +59,4 @@ const DashboardNavigator = () => {
   );
 };
 
-export default DashboardNavigator;
+export default DashboardNavigatorLessor;

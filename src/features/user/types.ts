@@ -2,6 +2,7 @@ interface UserCharacteristics {
   emoji: string | null;
   name: string | null;
 }
+
 interface UserProfile {
   age: number | null;
   characteristics: UserCharacteristics[] | null;
@@ -10,6 +11,31 @@ interface UserProfile {
   firstName: string | null;
   lastName: string | null;
   genderIdentity: string | null;
+}
+interface User {
+  user: {
+    admin: boolean | null;
+    credits: number | null;
+    id: number | null;
+    email: string | null;
+    termsAccepted: boolean | null;
+    userType: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
+    profile: UserProfile;
+    filter: UserFilter[] | null;
+  };
+}
+
+interface IncomingUser {
+  user: {
+    admin: boolean | null;
+    credits: number | null;
+    id: number | null;
+    email: string | null;
+    terms_accepted: boolean | null;
+    user_type: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
+    profile: IncomingUserProfile;
+    filter: UserFilter[] | null;
+  };
 }
 
 interface IncomingUserProfile {
@@ -27,19 +53,6 @@ interface UserFilter {
   emoji: string | null;
   name: string | null;
 }
-interface UserState {
-  loading: boolean;
-  user: {
-    id: number | null;
-    email: string | null;
-    admin: boolean | null;
-    termsAccepted: boolean | null;
-    userType: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
-    profile: UserProfile;
-    filter: UserFilter[] | null;
-    credits: number | null;
-  };
-}
 
 interface SpecificUser {
   email: string;
@@ -54,10 +67,11 @@ interface IncomingSpecificUser {
   profile: IncomingUserProfile;
 }
 export type {
-  UserState,
+  User,
   UserProfile,
   UserCharacteristics,
   UserFilter,
+  IncomingUser,
   IncomingSpecificUser,
   SpecificUser,
 };

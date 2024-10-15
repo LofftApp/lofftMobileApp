@@ -13,6 +13,7 @@ import {
   initialMaxPrice,
   initialMinPrice,
 } from 'components/modals/SearchFilterModal';
+import {applicationApi} from 'reduxFeatures/applications/applicationApi';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -41,7 +42,9 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('maxPrice', String(maxPrice));
         }
 
-        return params.toString() ? `${baseEndpoint}?${params.toString()}` : baseEndpoint;
+        return params.toString()
+          ? `${baseEndpoint}?${params.toString()}`
+          : baseEndpoint;
       },
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
@@ -58,7 +61,12 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     getAdvertById: builder.query<Advert, number>({
       query: id => `/api/adverts/${id}`,
-      providesTags: (result, error, id) => [{type: 'Adverts', id}],
+      providesTags: (result, error, id) => [
+        {type: 'Adverts', id},
+        {type: 'Applications', id},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+      ],
       transformResponse: (response: IncomingAdvert) => {
         console.log('getAdvertById called 🌈');
         return toCamelCaseKeys(response as unknown as Advert);
@@ -78,22 +86,65 @@ export const advertApi = lofftApi.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
-        const patchResult = dispatch(
+        const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
               draft.favorite = !draft.favorite;
             }
           }),
         );
+
+        const patchAdvertList = dispatch(
+          advertApi.util.updateQueryData('getAdverts', undefined, draft => {
+            draft.adverts.forEach(advert => {
+              if (advert.id === id) {
+                advert.favorite = !advert.favorite;
+              }
+            });
+          }),
+        );
+
+        const patchApplicationById = dispatch(
+          applicationApi.util.updateQueryData(
+            'getApplicationById',
+            id,
+            draft => {
+              if (draft && draft.advert) {
+                draft.advert.favorite = !draft.advert?.favorite;
+              }
+            },
+          ),
+        );
+
+        const patchApplicationList = dispatch(
+          applicationApi.util.updateQueryData(
+            'getApplications',
+            undefined,
+            draft => {
+              draft.forEach(application => {
+                if (application.advert?.id === id) {
+                  application.advert.favorite = !application.advert.favorite;
+                }
+              });
+            },
+          ),
+        );
+
         try {
           await queryFulfilled;
         } catch {
-          patchResult.undo();
+          patchAdvertById.undo();
+          patchAdvertList.undo();
+          patchApplicationById.undo();
+          patchApplicationList.undo();
         }
       },
+
       invalidatesTags: (result, error, id) => [
+        {type: 'Adverts', id: 'LIST'},
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id},
       ],
     }),
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
@@ -104,6 +155,7 @@ export const advertApi = lofftApi.injectEndpoints({
       invalidatesTags: (result, error, id) => [
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
+        {type: 'User', id: 'PROFILE'},
       ],
     }),
     confirmApplications: builder.mutation<

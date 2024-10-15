@@ -1,41 +1,85 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+//Redux 📦
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
+import BackButton from 'components/buttons/BackButton';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import Divider from 'components/bars/Divider';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+
+//Assets 🎨
+import {RegistrationBackground} from 'assets';
+
+// Styles 🖼  ️
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Data 💿
 import flatPreferences from 'components/componentData/flatPreferences.json';
 
 // Helper 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
 import {size} from 'react-native-responsive-sizes';
 
+//Constants 📊
+import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
+
+// Validation 🛡  ️
+import {featuresSchema} from 'lib/zodSchema';
+
 // Types 🧩
 import {FlatFeature} from './types';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
-const FlatFeaturesScreen = ({route}: any) => {
-  const navigation = useNavigation();
-  const headerText = route.params.headerText;
-  const subHeaderText = route.params.subText;
-  const preferences = flatPreferences;
+const FlatFeaturesScreen = () => {
+  // Navigation
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
-  const [intitalpreferencesArray, seIintitalPreferencesArray] =
-    useState(preferences);
-  const [selectedTrack, setselectedTrack] = useState<FlatFeature[]>([]);
+  //Local State
+  const features = flatPreferences;
+  const [featuresState, setFeaturesState] = useState(features);
+  const [selectedFeatures, setSelectedFeatures] = useState<FlatFeature[]>([]);
+  const [error, setError] = useState<string | undefined>('');
 
-  const selectFn = (id: number) => {
-    const targets = [];
+  //Redux
+  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const savedFeatures =
+    newUserDetails.userType === 'lessor'
+      ? newUserDetails.flatFeatures
+      : newUserDetails.filter;
 
-    const preSeleted = intitalpreferencesArray.map(element => {
+  const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    if (savedFeatures && savedFeatures.length > 0) {
+      setSelectedFeatures(savedFeatures);
+
+      const updatedCharsState = features.map(feat => ({
+        ...feat,
+        toggle: savedFeatures.some(savedFeat => savedFeat.id === feat.id),
+      }));
+
+      setFeaturesState(updatedCharsState);
+    } else {
+      setSelectedFeatures([]);
+    }
+  }, [savedFeatures, features]);
+
+  const selectFeatures = (id: number) => {
+    const updatedFeatures = featuresState.map(element => {
       if (element.id === id) {
-        targets.push(element);
         return {
           ...element,
           toggle: !element.toggle,
@@ -45,49 +89,121 @@ const FlatFeaturesScreen = ({route}: any) => {
       }
     });
 
-    const wash = preSeleted.filter(el => el.toggle);
+    const featuresSelected = updatedFeatures.filter(el => el.toggle);
 
-    setselectedTrack(wash);
-    seIintitalPreferencesArray(preSeleted);
+    setSelectedFeatures(featuresSelected);
+    setFeaturesState(updatedFeatures);
   };
 
-  const emojiElements = intitalpreferencesArray.map((emojiElement, index) => {
+  const featuresButtons = featuresState.map(feature => {
     return (
       <SelectionButton
-        key={index + 1}
-        id={emojiElement.id}
-        emojiIcon={emojiElement.emoji}
-        value={emojiElement.value}
-        toggle={emojiElement.toggle}
-        selectFn={selectFn}
+        key={feature.id}
+        id={feature.id}
+        emojiIcon={feature.emoji}
+        value={feature.value}
+        toggle={feature.toggle}
+        selectFn={selectFeatures}
       />
     );
   });
 
+  const handleBackButton = () => {
+    const previousScreen = currentScreen - 1;
+    navigation.goBack();
+    setCurrentScreen(previousScreen);
+    setError('');
+  };
+
+  const handleContinue = () => {
+    const result = featuresSchema.safeParse(selectedFeatures);
+    if (!result.success) {
+      setError(result.error?.flatten().formErrors[0]);
+      return;
+    }
+
+    if (newUserDetails.userType === 'lessor') {
+      setNewUserDetails({flatFeatures: result.data});
+    } else {
+      setNewUserDetails({filter: result.data});
+    }
+
+    const screen = isLessor
+      ? newUserScreens.lessor[5]
+      : newUserScreens.renter[7];
+    navigation.navigate(screen);
+
+    setCurrentScreen(currentScreen + 1);
+
+    setError('');
+  };
+
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
-      <HeadlineContainer
-        headlineText={headerText}
-        subDescription={subHeaderText}
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.emojiContainer}>{emojiElements}</View>
-      </ScrollView>
-      <FooterNavBarWithPagination
-        onPress={(targetScreen: any) =>
-          navigationHelper(navigation, targetScreen)
-        }
-        details={{flatFeatures: selectedTrack}}
-      />
-    </ScreenBackButton>
+      <View style={CoreStyleSheet.screenContainer}>
+        <HeadlineContainer
+          headlineText={
+            isLessor
+              ? 'What is your flat like?'
+              : 'What is your ideal flat like?'
+          }
+          subDescription={
+            isLessor
+              ? 'Select all the tags that match your place.'
+              : 'Select all the tags that match the place you are looking for.'
+          }
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.selectionContainer}>{featuresButtons}</View>
+        </ScrollView>
+
+        <Divider />
+        <View style={styles.footerContainer}>
+          <View style={styles.tagInfoContainer}>
+            <Text
+              style={
+                fontStyles.bodySmall
+              }>{`* Select at least ${MIN_SELECTED_FEATURES} tags`}</Text>
+          </View>
+          {error && <ErrorMessage message={error} />}
+          <NewUserPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            disabled={selectedFeatures.length < MIN_SELECTED_FEATURES}
+            onPress={handleContinue}
+          />
+        </View>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  emojiContainer: {
+  selectionContainer: {
+    marginTop: size(10),
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: size(150),
+    paddingHorizontal: size(10),
+  },
+  tagInfoContainer: {
+    marginBottom: size(5),
+  },
+  footerContainer: {
+    paddingTop: size(20),
+    paddingBottom: size(10),
   },
 });
 

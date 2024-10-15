@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // API 🌎
-import {useAppDispatch} from 'reduxCore/hooks';
-import {signUp} from 'reduxFeatures/authentication/authenticationMiddleware';
+import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import SignUpButton from 'components/buttons/SignUpButton';
@@ -14,7 +13,6 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 const SignUpForm = () => {
-  const dispatch = useAppDispatch();
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,6 +57,18 @@ const SignUpForm = () => {
   //     }
   //   }
   // };
+  const [signUp, {isSuccess}] = useSignUpMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setEmail('');
+      setPassword('');
+      setRepeatPassword('');
+    }
+  }, [isSuccess]);
+  const handleSignUp = async () => {
+    await signUp({email, password});
+  };
 
   return (
     <View style={styles.container}>
@@ -98,10 +108,7 @@ const SignUpForm = () => {
         </View>
       </View>
       <View style={styles.signUpButtonView}>
-        <SignUpButton
-          title="Sign up"
-          onPress={() => dispatch(signUp({email, password}))}
-        />
+        <SignUpButton title="Sign up" onPress={handleSignUp} />
       </View>
     </View>
   );

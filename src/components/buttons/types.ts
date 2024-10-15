@@ -56,6 +56,8 @@ type BackButtonProps = {
 type SeeMoreButtonProps = {
   collapsed: boolean;
   toggleExpand: () => void;
+  noText?: boolean;
+  iconSize?: number;
 };
 
 type SelectionButtonProps = {
@@ -65,7 +67,32 @@ type SelectionButtonProps = {
   toggle: boolean;
   selectFn: (id: number) => void;
   disabled?: boolean;
-}
+};
+
+type NewUserJourneyButtonProps = {
+  text: string;
+  icon: string;
+  style?: StyleProp<ViewStyle>;
+  onPress: () => void;
+  type: 'lessor' | 'renter';
+  isActive: boolean;
+};
+
+type IconButtonProps = {
+  text: string;
+  icon: string;
+  iconSize?: number;
+  onPress: () => void;
+  style?: StyleProp<ViewStyle>;
+  animation?: boolean;
+  isActive?: boolean;
+};
+type NewUserJourneyContinueButtonProps = {
+  onPress: () => void;
+  value: string;
+  textStyle?: TextStyle;
+  disabled?: boolean;
+};
 
 export type {
   HeaderPageContentSwitchProps,
@@ -76,4 +103,7 @@ export type {
   BackButtonProps,
   SeeMoreButtonProps,
   SelectionButtonProps,
+  NewUserJourneyButtonProps,
+  IconButtonProps,
+  NewUserJourneyContinueButtonProps,
 };

@@ -3,14 +3,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
-import AboutYouFlatHuntScreen from 'screens/registration/renter/AboutUserScreen';
+import AboutUserScreen from 'screens/registration/AboutUserScreen';
 import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
 import BudgetScreen from 'screens/registration/renter/BudgetScreen';
 import FlatFeaturesScreen from 'screens/registration/renter/FlatFeaturesScreen';
 import SelfDescribeScreen from 'screens/registration/renter/SelfDescribeScreen';
 import ConditionsOfUseScreen from 'screens/registration/ConditionsOfUseScreen';
-import LanguageSelectionScreen from 'screens/registration/renter/LanguageSelectionScreen';
+import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
@@ -23,15 +23,12 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-        {/* Rentor Screens */}
+        {/* initial screen */}
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
         />
-        <NewUserNavigatorFlow.Screen
-          name="LanguageSelectionScreen"
-          component={LanguageSelectionScreen}
-        />
+        {/* Renter Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
           component={GenderIdentityScreen}
@@ -62,13 +59,18 @@ const NewUserNavigator = () => {
           component={FlatPhotoUploadScreen}
         />
         {/* Shared screens */}
+
+        <NewUserNavigatorFlow.Screen
+          name="LanguageSelectionScreen"
+          component={LanguageSelectionScreen}
+        />
         <NewUserNavigatorFlow.Screen
           name="FlatFeaturesScreen"
           component={FlatFeaturesScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="AboutYouFlatHuntScreen"
-          component={AboutYouFlatHuntScreen}
+          name="AboutUserScreen"
+          component={AboutUserScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="ConditionsOfUseScreen"
