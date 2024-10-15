@@ -3,7 +3,6 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
-
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
