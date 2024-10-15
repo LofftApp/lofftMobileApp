@@ -29,7 +29,6 @@ const NewUserNavigator = () => {
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
         />
-
         {/* Which journey screen */}
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
