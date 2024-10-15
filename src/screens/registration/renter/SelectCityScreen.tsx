@@ -95,7 +95,7 @@ const SelectCityScreen = () => {
     if (savedCity.name && savedCity.name !== '') {
       setCity(`${savedCity.flag} ${capitalize(savedCity.name)}`);
       const updatedDistricts = cities[savedCity.name].districts.map(
-        (district: District) => {
+        district => {
           return {
             ...district,
             toggle: savedDistricts.some(
@@ -106,21 +106,23 @@ const SelectCityScreen = () => {
       );
       setDistricts(updatedDistricts);
 
-      // Check if all districts are selected
+      const districtsSelected = updatedDistricts.filter(el => el.toggle);
+      setSelectedDistricts(districtsSelected);
+
       const allSelected = updatedDistricts.every(district => district.toggle);
-      setIsAllDistricts(allSelected); // Sync the Select All toggle
+      setIsAllDistricts(allSelected);
     }
   }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
 
   const selectAllDistrictsTags = () => {
     const allDistrictTags = districts.map(el => ({
       ...el,
-      toggle: !isAllDistricts, // Toggle all based on the current state
+      toggle: !isAllDistricts,
     }));
 
     setDistricts(allDistrictTags);
     setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
-    setIsAllDistricts(prev => !prev); // Toggle the Select All switch
+    setIsAllDistricts(prev => !prev);
   };
 
   const orderedCities = Object.keys(cities)
@@ -130,8 +132,7 @@ const SelectCityScreen = () => {
       return obj;
     }, {});
 
-  // Functions
-  const cityTrack = (userInput: string) => {
+  const handleOnChangeSearch = (userInput: string) => {
     if (userInput === '' && city !== '') {
       setElementArray([]);
       setDistricts([]);
@@ -175,10 +176,9 @@ const SelectCityScreen = () => {
       }
     });
 
-    const districtsSelected = updatedDistricts.filter(el => el.toggle);
     setDistricts(updatedDistricts);
+    const districtsSelected = updatedDistricts.filter(el => el.toggle);
     setSelectedDistricts(districtsSelected);
-    // Check if all districts are selected and update the toggle
     const allSelected = updatedDistricts.every(district => district.toggle);
     setIsAllDistricts(allSelected);
   };
@@ -196,10 +196,22 @@ const SelectCityScreen = () => {
     );
   });
 
-  const cityUsableData = (data: SingleCity[]) => {
+  const dropDownContent = (data: SingleCity[]) => {
     return data.map((cityData: {name: string; flag: string}) => {
       return `${cityData.flag} ${capitalize(cityData.name)} `;
     });
+  };
+
+  const handleDropDownPress = (value: string) => {
+    setCity(value);
+    setIsQuery(false);
+    activateDistrictDisplay(value);
+  };
+
+  const handleClearSearch = () => {
+    setCity('');
+    setDistricts([]);
+    setElementArray([]);
   };
 
   const handleBackButton = () => {
@@ -263,28 +275,12 @@ const SelectCityScreen = () => {
           <InputFieldText
             type="search"
             placeholder="Berlin for instance?"
-            onChangeText={text => {
-              cityTrack(text);
-            }}
-            onClear={() => {
-              setCity('');
-              setDistricts([]);
-            }}
-            value={
-              city && city in cities
-                ? cities[city].flag +
-                  ' ' +
-                  city[0].toUpperCase() +
-                  city.substring(1, city.length)
-                : city
-            }
+            onChangeText={handleOnChangeSearch}
+            onClear={handleClearSearch}
+            value={city}
             dropdown={isQuery}
-            dropDownContent={cityUsableData(elementArray)}
-            dropDownPressAction={(value: string) => {
-              setCity(value);
-              setIsQuery(false);
-              activateDistrictDisplay(value);
-            }}
+            dropDownContent={dropDownContent(elementArray)}
+            dropDownPressAction={handleDropDownPress}
           />
         </View>
 
@@ -330,7 +326,7 @@ const SelectCityScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    paddingVertical: size(0),
+    paddingVertical: size(20),
     paddingHorizontal: size(16),
   },
   inputContainer: {
