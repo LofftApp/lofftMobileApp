@@ -74,10 +74,10 @@ const SelfDescribeScreen = () => {
     const trimmedText = text.trim();
     const result = descriptionSchema.safeParse(trimmedText);
     if (!result.success) {
-      console.log('description Error', result.error.flatten().formErrors?.[0]);
       setError(result.error.flatten().formErrors?.[0]);
       return;
     }
+
     setNewUserDetails({description: result.data});
 
     setCurrentScreen(currentScreen + 1);
@@ -116,7 +116,9 @@ const SelfDescribeScreen = () => {
                 fontStyles.bodySmall,
                 {
                   borderColor: textFocus
-                    ? Color.Lavendar[100]
+                    ? error
+                      ? Color.Tomato[100]
+                      : Color.Lavendar[100]
                     : Color.Black[50],
                 },
               ]}
@@ -126,19 +128,20 @@ const SelfDescribeScreen = () => {
               multiline={true}
             />
 
-            <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+            <Text style={[fontStyles.bodySmall, styles.minText]}>
               {text.length < MIN_DESCRIPTION_CHARS &&
+                !error &&
                 `*Share your story in ${
                   MIN_DESCRIPTION_CHARS - text.length
                 } word${
                   MIN_DESCRIPTION_CHARS - text.length === 1 ? '' : 's'
                 } or more`}
+              {error && <ErrorMessage isInputField message={error} />}
             </Text>
           </View>
 
           <View style={styles.footerContainer}>
             <Divider />
-            {error && <ErrorMessage message={error} />}
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
@@ -168,11 +171,11 @@ const styles = StyleSheet.create({
   },
 
   inputText: {
-    borderWidth: size(2),
+    borderWidth: 2,
     paddingLeft: size(10),
     paddingVertical: size(5),
     flex: 1,
-    borderRadius: 16,
+    borderRadius: 12,
   },
   footerContainer: {
     paddingTop: size(20),

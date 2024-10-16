@@ -1,14 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  Text,
-  SafeAreaView,
-  Pressable,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, ScrollView, Text, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -25,6 +16,11 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import DatePicker from 'react-native-date-picker';
+import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
+import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
+import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -35,20 +31,13 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
-import {descriptionSchema, nameSchema} from 'lib/zodSchema';
+import {nameSchema} from 'lib/zodSchema';
 
-//Constants  📊
-import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+
+//Types 🏷 ️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import DatePicker from 'react-native-date-picker';
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
-import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
-import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
-import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
 
 const NameProfileScreen = () => {
   //Navigation

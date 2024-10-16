@@ -1,3 +1,4 @@
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import React, {useEffect, useRef, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
@@ -30,6 +31,7 @@ const DatePickerInput = ({setOpen, date, error}: DatePickerInputProps) => {
     <>
       <Pressable onPress={handleOpen}>
         <View style={[styles.dateInput, {borderColor: borderColor}]}>
+          <LofftIcon name="calendar" size={18} />
           <Text
             style={[
               fontStyles.bodyMedium,
@@ -52,11 +54,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: size(8),
     height: size(48),
-    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: size(10),
+    paddingLeft: size(15),
   },
 
   dateText: {
-    marginLeft: size(15),
   },
 });
 
