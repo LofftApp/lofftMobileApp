@@ -14,6 +14,7 @@ type RootTabParamsList = {
 };
 
 type NewUserScreenNames =
+  | 'NewUserJourney'
   | 'LanguageSelectionScreen'
   | 'AboutUserScreen'
   | 'GenderIdentityScreen'
