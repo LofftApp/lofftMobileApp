@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, Pressable, ActivityIndicator } from 'react-native';
 
 // Components 🦾
 import BackButton from 'components/buttons/BackButton';
@@ -90,7 +90,7 @@ const ConfirmEmailScreen = () => {
                 </Text>
               </View>
             ) : (
-              <TouchableOpacity
+              <Pressable
                 onPress={refetch}
                 style={styles.refreshButtonContainer}
               >
@@ -102,7 +102,7 @@ const ConfirmEmailScreen = () => {
                 <Text style={[fontStyles.bodyMedium, styles.iconSubText]}>
                   I have confirmed my email
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             )}
           </View>
         </View>
