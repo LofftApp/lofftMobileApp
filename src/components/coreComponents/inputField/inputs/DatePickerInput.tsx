@@ -8,9 +8,10 @@ import Color from 'styleSheets/lofftColorPallet.json';
 type DatePickerInputProps = {
   setOpen: (value: boolean) => void;
   date: Date | null;
+  error?: string;
 };
 
-const DatePickerInput = ({setOpen, date}: DatePickerInputProps) => {
+const DatePickerInput = ({setOpen, date, error}: DatePickerInputProps) => {
   const [selected, setSelected] = useState(false);
   const dateRef = useRef(date);
 
@@ -24,10 +25,11 @@ const DatePickerInput = ({setOpen, date}: DatePickerInputProps) => {
     setOpen(true);
   };
   const dateColor = selected ? Color.Black[100] : Color.Black[30];
+  const borderColor = error ? Color.Tomato[100] : Color.Black[50];
   return (
     <>
       <Pressable onPress={handleOpen}>
-        <View style={styles.dateInput}>
+        <View style={[styles.dateInput, {borderColor: borderColor}]}>
           <Text
             style={[
               fontStyles.bodyMedium,
@@ -46,10 +48,8 @@ const DatePickerInput = ({setOpen, date}: DatePickerInputProps) => {
 
 const styles = StyleSheet.create({
   dateInput: {
-    marginBottom: size(8),
     borderWidth: 2,
     borderRadius: 12,
-    borderColor: Color.Black[50],
     paddingHorizontal: size(8),
     height: size(48),
     justifyContent: 'center',

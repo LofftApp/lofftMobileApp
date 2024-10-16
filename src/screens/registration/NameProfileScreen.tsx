@@ -7,6 +7,7 @@ import {
   Text,
   SafeAreaView,
   Pressable,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -34,7 +35,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
-import {descriptionSchema} from 'lib/zodSchema';
+import {descriptionSchema, nameSchema} from 'lib/zodSchema';
 
 //Constants  📊
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
@@ -54,24 +55,33 @@ const NameProfileScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Local State
-  const [text, setText] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [textFocus, setTextFocus] = useState(false);
   const [date, setDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState('');
+  const [errorFirstName, setErrorFirstName] = useState('');
+  const [errorLastName, setErrorLastName] = useState('');
+  const [errorDate, setErrorDate] = useState('');
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
-  const savedDescription = newUserDetails.description;
+  const savedFirstName = newUserDetails.firstName;
+  const savedLastName = newUserDetails.lastName;
+  const savedDate = newUserDetails.dateOfBirth;
+  console.log('newUserdetaiils in names', newUserDetails);
 
   useEffect(() => {
-    if (savedDescription) {
-      setText(savedDescription);
+    if (savedFirstName) {
+      setFirstName(savedFirstName);
     }
-  }, [savedDescription]);
+    if (savedLastName) {
+      setLastName(savedLastName);
+    }
+    if (savedDate) {
+      setDate(new Date(savedDate));
+    }
+  }, [savedFirstName, savedLastName, savedDate]);
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -79,17 +89,6 @@ const NameProfileScreen = () => {
 
   const handleLastName = (input: string) => {
     setLastName(input);
-  };
-
-  const handleOnChange = (input: string) => {
-    setText(input);
-  };
-  const handleOnFocus = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOnBlur = () => {
-    setTextFocus(false);
   };
 
   const handleDateChange = (input: Date) => {
@@ -104,23 +103,51 @@ const NameProfileScreen = () => {
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
-    setError('');
+    setErrorFirstName('');
+    setErrorLastName('');
+    setErrorDate('');
   };
+
   const handleContinue = () => {
-    const result = descriptionSchema.safeParse(text);
+    const trimmedFirstName = firstName.trim();
+    const trimmedLastName = lastName.trim();
+    const result = nameSchema.safeParse({
+      firstName: trimmedFirstName,
+      lastName: trimmedLastName,
+      dateOfBirth: date,
+    });
+
     if (!result.success) {
-      console.log('description Error', result.error.flatten().formErrors?.[0]);
-      setError(result.error.flatten().formErrors?.[0]);
+      console.log('error da vez', result.error.flatten().fieldErrors);
+      const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
+      const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
+      const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];
+      if (firstError) {
+        setErrorFirstName(firstError);
+      }
+      if (lastError) {
+        setErrorLastName(lastError);
+      }
+      if (dateError) {
+        setErrorDate(dateError);
+      }
       return;
     }
-    setNewUserDetails({description: text});
+
+    setNewUserDetails({
+      firstName: result.data.firstName,
+      lastName: result.data.lastName,
+      dateOfBirth: result.data.dateOfBirth.toISOString(),
+    });
 
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
-    setError('');
+    setErrorFirstName('');
+    setErrorLastName('');
+    setErrorDate('');
   };
 
   return (
@@ -147,9 +174,11 @@ const NameProfileScreen = () => {
                 placeholder="Which name do you go by?"
                 value={firstName}
                 onChangeText={handleFirstName}
+                errorMessage={errorFirstName}
               />
-              {error && <ErrorMessage message={error} />}
-
+              {errorFirstName && (
+                <ErrorMessage isInputField message={errorFirstName} />
+              )}
               <Text style={[fontStyles.bodySmall, styles.minText]}>
                 Last Name
               </Text>
@@ -157,13 +186,21 @@ const NameProfileScreen = () => {
                 placeholder="To be more authentic"
                 value={lastName}
                 onChangeText={handleLastName}
+                errorMessage={errorLastName}
               />
-              {error && <ErrorMessage message={error} />}
+              {errorLastName && (
+                <ErrorMessage isInputField message={errorLastName} />
+              )}
 
               <Text style={[fontStyles.bodySmall, styles.minText]}>
                 Date of Birth
               </Text>
-              <DatePickerInput date={date} setOpen={setIsModalOpen} />
+              <DatePickerInput
+                date={date}
+                setOpen={setIsModalOpen}
+                error={errorDate}
+              />
+              {errorDate && <ErrorMessage isInputField message={errorDate} />}
               <DatePicker
                 modal
                 mode="date"
@@ -179,11 +216,9 @@ const NameProfileScreen = () => {
 
           <View style={styles.footerContainer}>
             <Divider />
-            {error && <ErrorMessage message={error} />}
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
-              disabled={text.length < MIN_DESCRIPTION_CHARS}
               onPress={handleContinue}
             />
           </View>
@@ -203,32 +238,11 @@ const styles = StyleSheet.create({
     paddingVertical: size(10),
     gap: size(10),
   },
-  dateInput: {
-    marginBottom: size(8),
-    borderWidth: size(2),
-    borderRadius: size(12),
-    borderColor: Color.Black[50],
-    paddingHorizontal: size(8),
-    height: size(48),
-    justifyContent: 'center',
-  },
-
-  dateText: {
-    color: Color.Black[100],
-    marginLeft: size(10),
-  },
 
   minText: {
     color: Color.Black[80],
   },
 
-  inputText: {
-    borderWidth: size(2),
-    paddingLeft: size(10),
-    paddingVertical: size(5),
-    flex: 1,
-    borderRadius: 16,
-  },
   footerContainer: {
     paddingTop: size(20),
     paddingBottom: size(20),

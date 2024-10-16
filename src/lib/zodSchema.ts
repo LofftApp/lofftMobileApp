@@ -115,6 +115,12 @@ const descriptionSchema = z
     message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
   });
 
+const nameSchema = z.object({
+  firstName: z.string({required_error: 'Please enter your first name'}),
+  lastName: z.string({required_error: 'Please enter your last name'}),
+  dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
+});
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
   renter: z.object({
@@ -133,4 +139,5 @@ export {
   newUserSchema,
   featuresSchema,
   descriptionSchema,
+  nameSchema,
 };

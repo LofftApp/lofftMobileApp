@@ -106,18 +106,16 @@ const InputFieldText = ({
           })}
         </View>
       )}
-      {/* {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>} */}
     </>
   );
 };
 
 const styles = StyleSheet.create({
   inputFieldStyle: {
-    marginBottom: size(8),
     borderWidth: 2,
     borderRadius: 12,
     borderColor: Color.Black[50],
-    paddingHorizontal: size(8),
+    paddingHorizontal: size(4),
     height: size(48),
     justifyContent: 'center',
   },
@@ -150,10 +148,7 @@ const styles = StyleSheet.create({
   oddPlaceList: {
     backgroundColor: Color.Black[10],
   },
-  errorMessage: {
-    margin: size(5),
-    color: Color.Tomato[100],
-  },
+
   errorActive: {
     borderColor: Color.Tomato[100],
   },

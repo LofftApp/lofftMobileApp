@@ -13,28 +13,42 @@ type ErrorMessageProps = {
     lineHeight: number;
   };
   style?: StyleProp<ViewStyle>;
+  isInputField?: boolean;
 };
 
 const ErrorMessage = ({
   message,
   fontSize = fontStyles.bodySmall,
   style,
+  isInputField = false,
 }: ErrorMessageProps) => {
+  const textAlign = isInputField ? 'left' : 'center';
   return (
-    <View style={style ? style : styles.container}>
-      <Text style={[fontSize, styles.errorText]}>{message}</Text>
+    <View
+      style={
+        style
+          ? style
+          : isInputField
+          ? styles.inputFieldErrorContainer
+          : styles.container
+      }>
+      <Text
+        style={[fontSize, {textAlign: textAlign}, {color: Color.Tomato[100]}]}>
+        {message}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  inputFieldErrorContainer: {
+    marginTop: size(-5),
+    marginBottom: size(0),
+    marginLeft: size(10),
+  },
   container: {
     marginTop: size(5),
     marginBottom: size(10),
-  },
-  errorText: {
-    color: Color.Tomato[100],
-    textAlign: 'center',
   },
 });
 

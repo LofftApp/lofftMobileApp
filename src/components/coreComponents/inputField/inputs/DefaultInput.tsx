@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -15,18 +15,16 @@ const DefaultInput = ({
   keyboardType = 'default',
 }: any) => {
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        style={[styles.inputFieldTextStyle, fontStyles.bodyMedium]}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        placeholder={placeholder}
-        autoCapitalize={autoCapitalize}
-        keyboardType={keyboardType}
-      />
-    </View>
+    <TextInput
+      value={value}
+      onChangeText={onChangeText}
+      style={[styles.inputFieldTextStyle, fontStyles.bodyMedium]}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      placeholder={placeholder}
+      autoCapitalize={autoCapitalize}
+      keyboardType={keyboardType}
+    />
   );
 };
 
