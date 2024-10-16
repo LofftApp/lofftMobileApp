@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -6,62 +6,122 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  Animated,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+//Redux 🧠
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screen 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
-// APIs
-import {findAddress} from 'api/mapbox/findAddress';
+// API Hook 🪝
+import {useFindAddress} from 'hooks/useFindAdress';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
-
-// Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
-
-// Helpers 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
-import {RegistrationBackground} from 'assets';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import {size} from 'react-native-responsive-sizes';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import {useFindAddress} from 'hooks/useFindAdress';
 
-const WhereIsFlatScreen = ({navigation}: any) => {
+//Assets
+import {RegistrationBackground} from 'assets';
+
+// Styles 🖼️
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+
+//Validation 🛡️
+import {addressSchema} from 'lib/zodSchema';
+// Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+
+const WhereIsFlatScreen = () => {
+  // Navigation
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  // Local State
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
-  // const [adressesDropdown, setAdressesDropDown] = useState<string[]>([]);
   const [warmRent, setWarmRent] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  // const [query, setQuery] = useState([]);
-  const [addressDetails, setAddressDetails] = useState({
+  const [addressDetails, setAddressDetails] = useState<{
+    address: string;
+    district?: string;
+  }>({
     address: '',
     district: '',
   });
-  const [error, setError] = useState('');
-  const {addresses, query, isLoading} = useFindAddress(location);
-  console.log(addresses, 'adressesDropdown');
-  console.log('addressDetails', addressDetails);
-  console.log('query', query);
-  console.log('location', location);
+  const [errorAddress, setErrorAddress] = useState('');
+  const [errorPrice, setErrorPrice] = useState('');
 
-  const handleBackButton = () => {
-    navigation.goBack();
-  };
+  // API Hook
+  const {
+    addresses,
+    query,
+    isLoading,
+    error: errorSearch,
+    setError: setErrorSearch,
+  } = useFindAddress(location);
+  console.log('warmRent', warmRent);
+
+  // Redux
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const savedAddress =
+    newUserDetails.userType === 'lessor' && newUserDetails.address;
+  const savedPrice =
+    newUserDetails.userType === 'lessor' && newUserDetails.price;
+  const savedWarmRent =
+    newUserDetails.userType === 'lessor' && newUserDetails.warmRent;
+
+  useEffect(() => {
+    if (savedAddress) {
+      setLocation(savedAddress.address);
+      setAddressDetails({
+        address: savedAddress.address,
+        district: savedAddress.district,
+      });
+    }
+    if (savedPrice) {
+      setPrice(savedPrice.toString());
+    }
+    if (savedWarmRent) {
+      setWarmRent(savedWarmRent);
+    }
+  }, [savedAddress, savedPrice, savedWarmRent]);
+
   useEffect(() => {
     if (!location) {
       setIsSearching(false);
     }
   }, [location]);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  const handleBackButton = () => {
+    setCurrentScreen(currentScreen - 1);
+    navigation.goBack();
+    setErrorAddress('');
+    setErrorPrice('');
+    setErrorSearch('');
+  };
 
   const handleOnChangeSearch = async (searchTerm: string) => {
     setIsSearching(true);
@@ -77,6 +137,7 @@ const WhereIsFlatScreen = ({navigation}: any) => {
     setLocation(value);
     setAddressDetails(query[addressIndex]);
     setIsSearching(false);
+    setErrorAddress('');
   };
 
   const handleClearSearch = () => {
@@ -89,7 +150,41 @@ const WhereIsFlatScreen = ({navigation}: any) => {
   };
 
   const handleContinue = () => {
-    console.log('location', location);
+    const result = addressSchema.safeParse({
+      address: addressDetails.address,
+      district: addressDetails.district,
+      price: Number(price),
+      warmRent,
+    });
+
+    if (!result.success) {
+      console.log(result.error);
+      const errAddress = result.error?.flatten().fieldErrors.address?.[0];
+      const errPrice = result.error?.flatten().fieldErrors.price?.[0];
+
+      if (errAddress) {
+        setErrorAddress(errAddress);
+      }
+      if (errPrice) {
+        setErrorPrice(errPrice);
+      }
+      return;
+    }
+
+    setNewUserDetails({
+      address: {
+        address: result.data.address,
+        district: result.data.district,
+      },
+      price: result.data.price,
+      warmRent: result.data.warmRent,
+    });
+
+    navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
+
+    setErrorAddress('');
+    setErrorPrice('');
+    setErrorSearch('');
   };
 
   return (
@@ -105,17 +200,28 @@ const WhereIsFlatScreen = ({navigation}: any) => {
           <View style={styles.mainContainer}>
             <View>
               <HeadlineContainer headlineText={'Where is your flat?'} />
-              <InputFieldText
-                type="search"
-                placeholder="Address of the flat"
-                value={location}
-                onChangeText={handleOnChangeSearch}
-                dropdown={isSearching}
-                dropDownContent={addresses}
-                dropDownPressAction={handleDropdownPress}
-                onClear={handleClearSearch}
-                style={styles.inputContainer}
-              />
+              <Animated.View
+                style={{
+                  opacity: fadeAnim,
+                }}>
+                <InputFieldText
+                  type="search"
+                  placeholder="Address of the flat"
+                  value={location}
+                  onChangeText={handleOnChangeSearch}
+                  dropdown={isSearching}
+                  dropDownContent={addresses}
+                  dropDownPressAction={handleDropdownPress}
+                  onClear={handleClearSearch}
+                  style={styles.inputContainer}
+                />
+              </Animated.View>
+              {errorAddress && !errorSearch && !isSearching && (
+                <ErrorMessage isInputField message={errorAddress} />
+              )}
+              {errorSearch && !errorAddress && (
+                <ErrorMessage message={errorSearch} />
+              )}
               {isLoading && isSearching && (
                 <ActivityIndicator
                   size="large"
@@ -127,33 +233,40 @@ const WhereIsFlatScreen = ({navigation}: any) => {
             {!isSearching && (
               <View>
                 <HeadlineContainer headlineText="How much is the monthly rent?" />
-                <InputFieldText
-                  value={price}
-                  onChangeText={handleOnChangePrice}
-                  keyboardType="numeric"
-                  type="currency"
-                  style={styles.inputContainer}
-                />
-                <View style={styles.toggleContainer}>
-                  <CustomSwitch
-                    value={warmRent}
-                    onValueChange={handleToggleWarmRent}
+                <Animated.View
+                  style={{
+                    opacity: fadeAnim,
+                  }}>
+                  <InputFieldText
+                    value={price}
+                    onChangeText={handleOnChangePrice}
+                    keyboardType="numeric"
+                    type="currency"
+                    style={styles.inputContainer}
                   />
-                  <Text style={[fontStyles.bodyMedium, styles.warmRentText]}>
-                    This is warm rent
-                  </Text>
-                </View>
+                  {errorPrice && (
+                    <ErrorMessage isInputField message={errorPrice} />
+                  )}
+                  <View style={styles.toggleContainer}>
+                    <CustomSwitch
+                      value={warmRent}
+                      onValueChange={handleToggleWarmRent}
+                    />
+                    <Text style={[fontStyles.bodyMedium, styles.warmRentText]}>
+                      This is warm rent
+                    </Text>
+                  </View>
+                </Animated.View>
               </View>
             )}
           </View>
         </ScrollView>
         <Divider />
         <View style={styles.footerContainer}>
-          {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            // disabled={selectedGender.length === 0}
+            disabled={!location || !price}
             onPress={handleContinue}
           />
         </View>
@@ -169,7 +282,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: size(10),
   },
-  priceContainer: {},
 
   toggleContainer: {
     flexDirection: 'row',

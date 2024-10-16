@@ -26,7 +26,7 @@ const SearchInput = ({
         />
       </View>
       {value ? (
-        <Pressable onPress={onClear}>
+        <Pressable onPress={onClear} style={styles.clearContainer}>
           <LofftIcon name="x-close" size={20} color={Color.Black[50]} />
         </Pressable>
       ) : null}

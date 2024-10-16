@@ -79,11 +79,6 @@ export interface NewUserLessorDetails {
     toggle: boolean;
     emoji?: string;
   }[];
-  budget: {
-    minPrice: number;
-    maxPrice: number;
-    warmRent: boolean;
-  };
   flatFeatures: {
     id: number;
     value: string;
@@ -94,6 +89,12 @@ export interface NewUserLessorDetails {
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
+  address: {
+    address: string;
+    district?: string;
+  };
+  price: number;
+  warmRent: boolean;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -205,16 +206,17 @@ const initialState: UserJourneyState = {
         flag: '',
       },
       districts: [],
-      budget: {
-        minPrice: 0,
-        maxPrice: 0,
-        warmRent: false,
-      },
       flatFeatures: [],
       description: '',
       firstName: '',
       lastName: '',
       dateOfBirth: '',
+      address: {
+        address: '',
+        district: '',
+      },
+      price: 0,
+      warmRent: false,
       // userDescription: null,
       // textAboutUser: null,
       // cost: null,

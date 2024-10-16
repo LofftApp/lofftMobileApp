@@ -121,6 +121,20 @@ const nameSchema = z.object({
   dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
 });
 
+const addressSchema = z.object({
+  address: z
+    .string({required_error: 'Please enter your address'})
+    .min(1, 'Please enter your address'),
+  district: z.string().optional(),
+  price: z
+    .number({
+      required_error: 'Please enter a price',
+      invalid_type_error: 'Price must be a number',
+    })
+    .positive('Please enter a valid price'),
+  warmRent: z.boolean(),
+});
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
   renter: z.object({
@@ -140,4 +154,5 @@ export {
   featuresSchema,
   descriptionSchema,
   nameSchema,
+  addressSchema,
 };

@@ -4,8 +4,8 @@ import {findAddress} from 'api/mapbox/findAddress';
 const useFindAddress = (address: string) => {
   const [query, setQuery] = useState([]);
   const [addresses, setAddresses] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     if (!address) {
@@ -15,7 +15,7 @@ const useFindAddress = (address: string) => {
 
     const fetchAddress = async () => {
       setIsLoading(true);
-      setError(null);
+      setError('');
 
       try {
         const result = await findAddress(address);
@@ -38,7 +38,7 @@ const useFindAddress = (address: string) => {
     return () => clearTimeout(debounce);
   }, [address]);
 
-  return {addresses, query, isLoading, error};
+  return {addresses, query, isLoading, error, setError};
 };
 
 export {useFindAddress};

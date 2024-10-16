@@ -42,7 +42,7 @@ const ErrorMessage = ({
 
 const styles = StyleSheet.create({
   inputFieldErrorContainer: {
-    marginTop: size(-5),
+    marginTop: size(0),
     marginBottom: size(0),
     marginLeft: size(10),
   },

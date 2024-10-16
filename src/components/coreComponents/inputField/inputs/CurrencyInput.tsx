@@ -21,7 +21,7 @@ const CurrencyInput = ({
       <TextInput
         value={value}
         onChangeText={onChangeText}
-        style={[styles.inputFieldTextStyle, fontStyles.bodyMedium]}
+        style={fontStyles.bodyMedium}
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
