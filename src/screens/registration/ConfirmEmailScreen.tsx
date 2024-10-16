@@ -1,30 +1,34 @@
-
-
-import { RegistrationBackground } from 'assets';
-import { CoreButton } from 'components/buttons/CoreButton';
-import HeadlineContainer from 'components/containers/HeadlineContainer';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import React, { useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { size } from 'react-native-responsive-sizes';
-import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
+
+// Components 🦾
+import BackButton from 'components/buttons/BackButton';
+import {CoreButton} from 'components/buttons/CoreButton';
+import {RegistrationBackground} from 'assets';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+
 // Stylesheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useNavigation } from '@react-navigation/native';
-
-// RTK
-import { useGetUserQuery } from 'reduxFeatures/user/userApi';
-import BackButton from 'components/buttons/BackButton';
+import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
 
 // Redux 🧠
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+// Types 🏷 ️
+import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+
+// Helpers 🥷🏻
+import {size} from 'react-native-responsive-sizes';
 
 const ConfirmEmailScreen = () => {
   const { data, error, isLoading, refetch } = useGetUserQuery();
-  const emailConfirmed = data.user.confirmedEmail;
+  const emailConfirmed = data?.user.confirmedEmail;
   const [signOut] = useSignOutMutation();
-  const navigation = useNavigation()
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   console.log(emailConfirmed);
   const handleSignOut = () => {
