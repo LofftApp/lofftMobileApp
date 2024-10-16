@@ -1,7 +1,6 @@
 import {MAPBOX_API_KEY} from '@env';
 
 const mapData = (data: any) => {
-  console.log(data, 'data');
   return data.features.map((address: any) => {
     const addr = address?.place_name;
     let district = null;

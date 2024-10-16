@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, StyleSheet, Pressable, Animated} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
 // Components 🪢
@@ -30,6 +30,20 @@ const InputFieldText = ({
   onFocus = () => {},
 }: InputFieldTextProps) => {
   const [focus, setFocus] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (dropdown && dropDownContent.length > 0) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      fadeAnim.setValue(0);
+    }
+  }, [dropdown, dropDownContent, fadeAnim]);
+
   return (
     <>
       <View
@@ -88,8 +102,12 @@ const InputFieldText = ({
           />
         )}
       </View>
-      {dropdown && value.length > 0 && (
-        <View style={dropDownContent.length > 0 ? styles.dropDown : null}>
+      {dropdown && dropDownContent.length > 0 && (
+        <Animated.View
+          style={[
+            dropDownContent.length > 0 && styles.dropDown,
+            {opacity: fadeAnim},
+          ]}>
           {dropDownContent.map((val, i) => {
             return (
               <Pressable onPress={() => dropDownPressAction(val)} key={i}>
@@ -104,7 +122,7 @@ const InputFieldText = ({
               </Pressable>
             );
           })}
-        </View>
+        </Animated.View>
       )}
     </>
   );
@@ -137,6 +155,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: size(16),
     minHeight: size(48),
     justifyContent: 'center',
+    // opacity: 0,
   },
   dropDownItem: {
     marginVertical: 2,
