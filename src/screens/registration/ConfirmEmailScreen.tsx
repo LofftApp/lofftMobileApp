@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, SafeAreaView, StyleSheet, Text, Pressable, ActivityIndicator } from 'react-native';
 
 // Components 🦾
@@ -32,12 +32,6 @@ const ConfirmEmailScreen = () => {
   const emailConfirmed = data?.user?.confirmedEmail;
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
-
-  useEffect(() => {
-    if (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  }, [error]);
 
   const handleSignOut = () => {
     signOut();
