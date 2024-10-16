@@ -2,6 +2,8 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+// Redux 🧠
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -33,6 +35,12 @@ const NewUserJourneyScreen = () => {
   const {userType, setUserType, isLessor} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
+  const [signOut] = useSignOutMutation();
+
+  const handleSignOut = () => {
+    signOut();
+  };
+
   const handleSelected = (type: 'lessor' | 'renter') => {
     setUserType(type);
     setCurrentScreen(1);
@@ -47,7 +55,7 @@ const NewUserJourneyScreen = () => {
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={() => navigation.goBack()} />
+      <BackButton onPress={handleSignOut} />
 
       <RegistrationBackground
         height="100%"
