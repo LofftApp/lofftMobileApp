@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 
 // Screen 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -14,6 +21,7 @@ import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPaginati
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {navigationHelper} from 'helpers/navigationHelper';
@@ -26,20 +34,22 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {useFindAddress} from 'hooks/useFindAdress';
 
 const WhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
-  const [adressesDropdown, setAdressesDropDown] = useState<string[]>([]);
+  // const [adressesDropdown, setAdressesDropDown] = useState<string[]>([]);
   const [warmRent, setWarmRent] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [query, setQuery] = useState([]);
+  // const [query, setQuery] = useState([]);
   const [addressDetails, setAddressDetails] = useState({
     address: '',
     district: '',
   });
   const [error, setError] = useState('');
-  console.log(adressesDropdown, 'adressesDropdown');
+  const {addresses, query, isLoading} = useFindAddress(location);
+  console.log(addresses, 'adressesDropdown');
   console.log('addressDetails', addressDetails);
   console.log('query', query);
   console.log('location', location);
@@ -56,12 +66,6 @@ const WhereIsFlatScreen = ({navigation}: any) => {
   const handleOnChangeSearch = async (searchTerm: string) => {
     setIsSearching(true);
     setLocation(searchTerm);
-    const address = await findAddress(searchTerm);
-    setQuery(address);
-    const addresslist = address.map((data: any) => {
-      return data.address;
-    });
-    setAdressesDropDown(addresslist);
   };
 
   const handleOnChangePrice = (value: string) => {
@@ -69,7 +73,7 @@ const WhereIsFlatScreen = ({navigation}: any) => {
   };
 
   const handleDropdownPress = (value: string) => {
-    const addressIndex = adressesDropdown.indexOf(value);
+    const addressIndex = addresses.indexOf(value);
     setLocation(value);
     setAddressDetails(query[addressIndex]);
     setIsSearching(false);
@@ -107,11 +111,18 @@ const WhereIsFlatScreen = ({navigation}: any) => {
                 value={location}
                 onChangeText={handleOnChangeSearch}
                 dropdown={isSearching}
-                dropDownContent={adressesDropdown}
+                dropDownContent={addresses}
                 dropDownPressAction={handleDropdownPress}
                 onClear={handleClearSearch}
                 style={styles.inputContainer}
               />
+              {isLoading && isSearching && (
+                <ActivityIndicator
+                  size="large"
+                  color={Color.Lavendar[100]}
+                  style={styles.loading}
+                />
+              )}
             </View>
             {!isSearching && (
               <View>
@@ -164,6 +175,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 16,
+  },
+  loading: {
+    marginTop: size(50),
   },
   warmRentText: {
     marginLeft: 8,
