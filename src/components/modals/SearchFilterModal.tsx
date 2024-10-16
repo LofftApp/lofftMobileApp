@@ -128,15 +128,8 @@ const SearchFilterModal = ({
   };
 
   const selectFeature = (id: number) => {
-    const updatedFeatures = featuresState.map(element => {
-      if (element.id === id) {
-        return {
-          ...element,
-          selected: !element.selected,
-        };
-      } else {
-        return element;
-      }
+    const updatedFeatures = featuresState.map(el => {
+      return el.id === id ? {...el, selected: !el.selected} : el;
     });
 
     const featuresSelected = updatedFeatures.filter(el => el.selected);

@@ -238,7 +238,11 @@ const SelectCityScreen = () => {
       districts: result.data.districts,
     });
 
-    navigation.navigate(newUserScreens.renter[currentScreen + 1]);
+    navigation.navigate(
+      isLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.renter[currentScreen + 1],
+    );
     setCurrentScreen(currentScreen + 1);
     setError('');
   };
@@ -259,7 +263,11 @@ const SelectCityScreen = () => {
       />
       <View style={styles.mainContainer}>
         <HeadlineContainer
-          headlineText={'Where are you looking for the flat?'}
+          headlineText={
+            isLessor
+              ? 'In which city and district is your flat located?'
+              : 'Where are you looking for the flat?'
+          }
         />
         <View style={styles.inputContainer}>
           <InputFieldText

@@ -59,15 +59,20 @@ const BudgetScreen = () => {
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const savedBudget = newUserDetails.budget;
+  const savedBudget =
+    newUserDetails.userType === 'renter' ? newUserDetails.budget : undefined;
 
   useEffect(() => {
-    if (savedBudget.maxPrice && savedBudget.minPrice && savedBudget.warmRent) {
-      setMinPrice(String(savedBudget.minPrice));
-      setMaxPrice(String(savedBudget.maxPrice));
-      setWarmRent(savedBudget.warmRent);
+    if (
+      savedBudget?.maxPrice &&
+      savedBudget?.minPrice &&
+      savedBudget?.warmRent
+    ) {
+      setMinPrice(String(savedBudget?.minPrice));
+      setMaxPrice(String(savedBudget?.maxPrice));
+      setWarmRent(savedBudget?.warmRent);
     }
-  }, [savedBudget.minPrice, savedBudget.maxPrice, savedBudget.warmRent]);
+  }, [savedBudget?.minPrice, savedBudget?.maxPrice, savedBudget?.warmRent]);
 
   const handleMin = (num: string | number) => {
     if (+num <= +initialMaxPrice) {

@@ -3,6 +3,8 @@ import {TextInput} from 'react-native';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
+import {styles} from './styleSheet';
+
 
 const DefaultInput = ({
   placeholder = 'Text',
@@ -17,7 +19,7 @@ const DefaultInput = ({
     <TextInput
       value={value}
       onChangeText={onChangeText}
-      style={[fontStyles.bodyMedium]}
+      style={[fontStyles.bodyMedium, styles.inputFieldTextStyle]}
       onBlur={onBlur}
       onFocus={onFocus}
       placeholder={placeholder}

@@ -79,14 +79,9 @@ const FlatFeaturesScreen = () => {
 
   const selectFeatures = (id: number) => {
     const updatedFeatures = featuresState.map(element => {
-      if (element.id === id) {
-        return {
-          ...element,
-          toggle: !element.toggle,
-        };
-      } else {
-        return element;
-      }
+      return element.id === id
+        ? {...element, toggle: !element.toggle}
+        : element;
     });
 
     const featuresSelected = updatedFeatures.filter(el => el.toggle);

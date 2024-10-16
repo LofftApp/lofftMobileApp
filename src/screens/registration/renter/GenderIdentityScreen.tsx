@@ -139,8 +139,12 @@ const GenderIdentityScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={'What is your gender identity?'}
-          subDescription={'To create a safe place for... '}
+          headlineText={
+            isLessor
+              ? 'Your flat is a safe place for...'
+              : 'What is your gender identity?'
+          }
+          subDescription={isLessor ? '' : 'To create a safe place for... '}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>

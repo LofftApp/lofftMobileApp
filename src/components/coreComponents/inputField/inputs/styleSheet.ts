@@ -37,8 +37,8 @@ export const styles = StyleSheet.create({
 
   inputFieldTextStyle: {
     margin: 0,
-    marginLeft: 11,
-    paddingVertical: 8,
+    marginLeft: size(10),
+    paddingVertical: size(0),
     flex: 1,
   },
 });
