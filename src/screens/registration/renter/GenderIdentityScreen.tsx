@@ -92,19 +92,12 @@ const GenderIdentityScreen = () => {
       setSelectedGender([]);
     }
   }, [savedGender, genders]);
+
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
-      if (el.id === id) {
-        return {
-          ...el,
-          toggle: !el.toggle,
-        };
-      } else {
-        return {
-          ...el,
-          toggle: false,
-        };
-      }
+      return el.id === id
+        ? {...el, toggle: !el.toggle}
+        : {...el, toggle: false};
     });
 
     const genderSelected = updatedGender.filter(el => el.toggle);

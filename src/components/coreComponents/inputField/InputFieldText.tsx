@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   dropDown: {
     borderWidth: 2,
     borderTopWidth: 1,
-    borderTopColor: Color.Lavendar[30],
+    borderTopColor: Color.Lavendar[100],
     borderColor: Color.Lavendar[100],
     borderBottomLeftRadius: size(16),
     borderBottomRightRadius: size(16),
@@ -139,14 +139,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dropDownItem: {
-    marginVertical: size(2),
-    borderBottomWidth: size(3),
+    marginVertical: 2,
+    borderBottomWidth: 3,
     paddingVertical: size(6),
     paddingHorizontal: size(8),
     borderBottomColor: Color.Black[100],
   },
   oddPlaceList: {
-    backgroundColor: Color.Black[10],
+    // backgroundColor: Color.Black[10],
   },
 
   errorActive: {

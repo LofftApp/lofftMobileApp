@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {View, TextInput, Pressable} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -14,19 +14,21 @@ const SearchInput = ({
 }: any) => {
   return (
     <View style={styles.inputContainer}>
-      <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        style={[styles.inputFieldTextStyle, fontStyles.bodyMedium]}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        placeholder={placeholder}
-      />
+      <View style={styles.textContainer}>
+        <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          style={[fontStyles.bodyMedium]}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          placeholder={placeholder}
+        />
+      </View>
       {value ? (
-        <TouchableOpacity onPress={onClear}>
-          <LofftIcon name="x-close" size={20} />
-        </TouchableOpacity>
+        <Pressable onPress={onClear}>
+          <LofftIcon name="x-close" size={20} color={Color.Black[50]} />
+        </Pressable>
       ) : null}
     </View>
   );

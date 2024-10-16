@@ -58,7 +58,7 @@ const SelectCityScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const {setNewUserDetails, newUserDetails, isLessor} = useNewUserDetails();
   const savedCity = newUserDetails.city;
   const savedDistricts = newUserDetails.districts;
 
@@ -153,23 +153,27 @@ const SelectCityScreen = () => {
   };
 
   const selectFn = (id: number) => {
-    const updatedDistricts = districts.map(element => {
-      if (element.id === id) {
-        return {
-          ...element,
-          toggle: !element.toggle,
-        };
+    const updatedDistricts = districts.map(el => {
+      if (isLessor) {
+        return el.id === id
+          ? {...el, toggle: !el.toggle}
+          : {...el, toggle: false};
       } else {
-        return element;
+        return el.id === id ? {...el, toggle: !el.toggle} : el;
       }
     });
 
     setDistricts(updatedDistricts);
+
     const districtsSelected = updatedDistricts.filter(el => el.toggle);
     setSelectedDistricts(districtsSelected);
+
     const allSelected = updatedDistricts.every(district => district.toggle);
     setIsAllDistricts(allSelected);
+
+    setError('');
   };
+  console.log('newUserDetails in city', newUserDetails);
 
   const allDistrictsButtons = districts.map(district => {
     return (
@@ -200,6 +204,7 @@ const SelectCityScreen = () => {
     setCity('');
     setDistricts([]);
     setElementArray([]);
+    setError('');
   };
 
   const handleBackButton = () => {
@@ -278,13 +283,15 @@ const SelectCityScreen = () => {
               },
             ]}>
             <Text style={[fontStyles.headerMedium]}>Districts</Text>
-            <View style={styles.switchContainer}>
-              <Text style={fontStyles.bodySmall}>Select All</Text>
-              <CustomSwitch
-                value={isAllDistricts}
-                onValueChange={selectAllDistrictsTags}
-              />
-            </View>
+            {!isLessor && (
+              <View style={styles.switchContainer}>
+                <Text style={fontStyles.bodySmall}>Select All</Text>
+                <CustomSwitch
+                  value={isAllDistricts}
+                  onValueChange={selectAllDistrictsTags}
+                />
+              </View>
+            )}
           </Animated.View>
 
           <ScrollView showsVerticalScrollIndicator={false}>
