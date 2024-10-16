@@ -11,6 +11,7 @@ import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
 // Stylesheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import { useNavigation } from '@react-navigation/native';
 
 // RTK
 import { useGetUserQuery } from 'reduxFeatures/user/userApi';
@@ -23,6 +24,7 @@ const ConfirmEmailScreen = () => {
   const { data, error, isLoading, refetch } = useGetUserQuery();
   const emailConfirmed = data.user.confirmedEmail;
   const [signOut] = useSignOutMutation();
+  const navigation = useNavigation()
 
   console.log(emailConfirmed);
   const handleSignOut = () => {
@@ -54,25 +56,43 @@ const ConfirmEmailScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <View style={styles.mainContainer}>
           <HeadlineContainer
-            headlineText={'Almost Ready ...'}
+            headlineText={emailConfirmed ? "Let's Go 🚀" : 'Almost Ready ...'}
             subDescription={
-              'Please head to your email to confirm your account'
+              emailConfirmed ? 'Huston, we got your confirmation' : 'Please confirm your account via your email'
             }
           />
           <View style={styles.iconContainer}>
-            <TouchableOpacity
-            onPress={() => refetch()}
-            style={styles.refreshButtonContainer}>
+          {emailConfirmed ? (
+            <View style={styles.postiveIconContainer}>
               <LofftIcon
-              name="refresh-ccq-03"
-              size={33}
-              color={Color.White[100]} />
-              <Text style={[fontStyles.bodyMedium,styles.iconSubText]}>Refresh</Text>
-            </TouchableOpacity>
+                name="check-verified-02"
+                size={65}
+                color={Color.Mint[100]}
+              />
+              <Text style={[fontStyles.bodyMedium, styles.iconSubTextPostive]}>Email Confirmed</Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={() => refetch()}
+                style={styles.refreshButtonContainer}
+              >
+                <LofftIcon
+                  name="refresh-ccq-03"
+                  size={33}
+                  color={Color.White[100]}
+                />
+                <Text style={[fontStyles.bodyMedium, styles.iconSubText]}>
+                  I have confirmed my email
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
-
-        <CoreButton disabled={!emailConfirmed} value={emailConfirmed ? 'Continue' : 'eMail not confirmed'} />
+        <CoreButton
+        disabled={!emailConfirmed}
+        value={emailConfirmed ? 'Continue' : 'eMail not confirmed'}
+        onPress={() => navigation.navigate('NewUserJourney')}
+         />
       </View>
     </SafeAreaView>
   );
@@ -102,6 +122,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
+  postiveIconContainer: {
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  iconSubTextPostive: {
+    color: Color.Black[100],
+    marginTop: 10,
+  }
 });
 
 export default ConfirmEmailScreen;
