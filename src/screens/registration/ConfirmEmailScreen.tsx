@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: size(150),
   },
   iconSubText: {
-    marginLeft: 10,
+    marginLeft: size(10),
     color: Color.White[100],
   },
   refreshButtonContainer: {
@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: size(10),
+    paddingHorizontal: size(20),
   },
   positiveIconContainer: {
     textAlign: 'center',
