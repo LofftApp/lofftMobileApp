@@ -29,17 +29,20 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const WhereIsFlatScreen = ({navigation}: any) => {
   const [location, setLocation] = useState('');
-  const [cost, setCost] = useState('');
-  const [addresses, setAddresses] = useState<any[]>([]);
+  const [price, setPrice] = useState('');
+  const [adressesDropdown, setAdressesDropDown] = useState<string[]>([]);
   const [warmRent, setWarmRent] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [query, setQuery] = useState([]);
   const [addressDetails, setAddressDetails] = useState({
-    address: null,
-    district: null,
+    address: '',
+    district: '',
   });
   const [error, setError] = useState('');
+  console.log(adressesDropdown, 'adressesDropdown');
   console.log('addressDetails', addressDetails);
+  console.log('query', query);
+  console.log('location', location);
 
   const handleBackButton = () => {
     navigation.goBack();
@@ -50,22 +53,35 @@ const WhereIsFlatScreen = ({navigation}: any) => {
     }
   }, [location]);
 
-  const handleOnChangeSearch = async (
-    searchTerm: React.SetStateAction<string>,
-  ) => {
+  const handleOnChangeSearch = async (searchTerm: string) => {
     setIsSearching(true);
     setLocation(searchTerm);
-    const add = await findAddress(searchTerm);
-    setQuery(add);
-    const addresslist = add.map((data: any) => {
+    const address = await findAddress(searchTerm);
+    setQuery(address);
+    const addresslist = address.map((data: any) => {
       return data.address;
     });
-    setAddresses(addresslist);
+    setAdressesDropDown(addresslist);
+  };
+
+  const handleOnChangePrice = (value: string) => {
+    setPrice(value);
+  };
+
+  const handleDropdownPress = (value: string) => {
+    const addressIndex = adressesDropdown.indexOf(value);
+    setLocation(value);
+    setAddressDetails(query[addressIndex]);
+    setIsSearching(false);
   };
 
   const handleClearSearch = () => {
     setLocation('');
     setIsSearching(false);
+  };
+
+  const handleToggleWarmRent = () => {
+    setWarmRent(prev => !prev);
   };
 
   const handleContinue = () => {
@@ -83,7 +99,7 @@ const WhereIsFlatScreen = ({navigation}: any) => {
       <View style={[CoreStyleSheet.screenContainer]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.mainContainer}>
-            <View style={styles.inputContainer}>
+            <View>
               <HeadlineContainer headlineText={'Where is your flat?'} />
               <InputFieldText
                 type="search"
@@ -91,29 +107,26 @@ const WhereIsFlatScreen = ({navigation}: any) => {
                 value={location}
                 onChangeText={handleOnChangeSearch}
                 dropdown={isSearching}
-                dropDownContent={addresses}
-                dropDownPressAction={(value: string) => {
-                  const addressIndex = addresses.indexOf(value);
-                  setLocation(value);
-                  setAddressDetails(query[addressIndex]);
-                  setIsSearching(false);
-                }}
+                dropDownContent={adressesDropdown}
+                dropDownPressAction={handleDropdownPress}
                 onClear={handleClearSearch}
+                style={styles.inputContainer}
               />
             </View>
             {!isSearching && (
-              <View style={styles.inputContainer}>
+              <View>
                 <HeadlineContainer headlineText="How much is the monthly rent?" />
                 <InputFieldText
-                  value={cost}
-                  onChangeText={(t: React.SetStateAction<string>) => setCost(t)}
+                  value={price}
+                  onChangeText={handleOnChangePrice}
                   keyboardType="numeric"
                   type="currency"
+                  style={styles.inputContainer}
                 />
                 <View style={styles.toggleContainer}>
                   <CustomSwitch
                     value={warmRent}
-                    onValueChange={() => setWarmRent(!warmRent)}
+                    onValueChange={handleToggleWarmRent}
                   />
                   <Text style={[fontStyles.bodyMedium, styles.warmRentText]}>
                     This is warm rent
@@ -143,7 +156,7 @@ const styles = StyleSheet.create({
     gap: size(100),
   },
   inputContainer: {
-    gap: size(10),
+    marginTop: size(10),
   },
   priceContainer: {},
 
