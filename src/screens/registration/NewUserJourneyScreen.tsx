@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -33,6 +33,8 @@ import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
+  const [typeSelected, setTypeSelected] = useState(false);
+
   const {userType, setUserType, isLessor} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
@@ -44,8 +46,15 @@ const NewUserJourneyScreen = () => {
 
   console.log('userType', userType);
   console.log('isLessor', isLessor);
+
+  const handleSelected = (type: 'lessor' | 'renter') => {
+    setUserType(type);
+    setTypeSelected(true);
+    setCurrentScreen(1);
+  };
+
   useEffect(() => {
-    if (userType) {
+    if (typeSelected && userType) {
       const screen =
         userType === 'lessor'
           ? newUserScreens.lessor[1]
@@ -54,13 +63,10 @@ const NewUserJourneyScreen = () => {
       setTimeout(() => {
         navigation.navigate(screen);
       }, 400);
-    }
-  }, [userType, navigation]);
 
-  const handleSelected = (type: 'lessor' | 'renter') => {
-    setUserType(type);
-    setCurrentScreen(1);
-  };
+      setTypeSelected(false);
+    }
+  }, [userType, navigation, typeSelected]);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

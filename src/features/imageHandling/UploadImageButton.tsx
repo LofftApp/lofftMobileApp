@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   imageUploadButton: {
     borderWidth: 2,
     borderRadius: 12,
-    borderColor: Colors.Lavendar[100],
+    borderColor: Colors.Black[50],
     paddingVertical: 16,
     alignItems: 'center',
   },

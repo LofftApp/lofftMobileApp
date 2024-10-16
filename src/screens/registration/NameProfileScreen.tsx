@@ -47,6 +47,7 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
 import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
 import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
+import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -139,7 +140,7 @@ const NameProfileScreen = () => {
         <View style={styles.mainContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.textContainer}>
-              <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+              <Text style={[fontStyles.bodySmall, styles.minText]}>
                 First Name
               </Text>
               <InputFieldText
@@ -149,7 +150,7 @@ const NameProfileScreen = () => {
               />
               {error && <ErrorMessage message={error} />}
 
-              <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+              <Text style={[fontStyles.bodySmall, styles.minText]}>
                 Last Name
               </Text>
               <InputFieldText
@@ -159,16 +160,10 @@ const NameProfileScreen = () => {
               />
               {error && <ErrorMessage message={error} />}
 
-              <Text style={[fontStyles.bodyExtraSmall, styles.minText]}>
+              <Text style={[fontStyles.bodySmall, styles.minText]}>
                 Date of Birth
               </Text>
-              <Pressable onPress={() => setIsModalOpen(true)}>
-                <View style={styles.dateInput}>
-                  <Text style={[fontStyles.bodyMedium, styles.dateText]}>
-                    {dateFormatConverter({date: date})}
-                  </Text>
-                </View>
-              </Pressable>
+              <DatePickerInput date={date} setOpen={setIsModalOpen} />
               <DatePicker
                 modal
                 mode="date"

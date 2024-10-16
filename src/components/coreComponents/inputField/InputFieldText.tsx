@@ -114,8 +114,8 @@ const InputFieldText = ({
 const styles = StyleSheet.create({
   inputFieldStyle: {
     marginBottom: size(8),
-    borderWidth: size(2),
-    borderRadius: size(12),
+    borderWidth: 2,
+    borderRadius: 12,
     borderColor: Color.Black[50],
     paddingHorizontal: size(8),
     height: size(48),
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   dropDown: {
-    borderWidth: size(2),
-    borderTopWidth: size(1),
+    borderWidth: 2,
+    borderTopWidth: 1,
     borderTopColor: Color.Lavendar[30],
     borderColor: Color.Lavendar[100],
     borderBottomLeftRadius: size(16),

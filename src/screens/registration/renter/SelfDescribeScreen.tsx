@@ -71,13 +71,14 @@ const SelfDescribeScreen = () => {
     setError('');
   };
   const handleContinue = () => {
-    const result = descriptionSchema.safeParse(text);
+    const trimmedText = text.trim();
+    const result = descriptionSchema.safeParse(trimmedText);
     if (!result.success) {
       console.log('description Error', result.error.flatten().formErrors?.[0]);
       setError(result.error.flatten().formErrors?.[0]);
       return;
     }
-    setNewUserDetails({description: text});
+    setNewUserDetails({description: result.data});
 
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
