@@ -13,6 +13,7 @@ import { fontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useNavigation } from '@react-navigation/native';
 import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Redux 🧠
 import { useSignOutMutation } from 'reduxFeatures/auth/authApi';
@@ -24,10 +25,11 @@ import { NewUserJourneyStackNavigation } from '../../navigationStacks/types';
 // Helpers 🥷🏻
 import { size } from 'react-native-responsive-sizes';
 
+
 const ConfirmEmailScreen = () => {
   const { data, error, isLoading, refetch } = useGetUserQuery();
 
-  const emailConfirmed = data?.user?.confirmedEmail || false;
+  const emailConfirmed = data?.user?.confirmedEmail;
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -52,7 +54,7 @@ const ConfirmEmailScreen = () => {
   if (error) {
     return (
       <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        <Text>Error fetching profile!</Text>
+        <NotFoundComponent message="Error while getting profile" />
       </SafeAreaView>
     );
   }
