@@ -29,7 +29,7 @@ const SelfDescribeScreen = () => {
 /* 🚨 🚨 🚨 temp logic to hook in Patch Mutation Hook needs to be moved over to last screen of registration journey */
   const {newUserDetails} = useNewUserDetails();
   const {data} = useGetUserQuery();
-  console.log(newUserDetails, "🍌 🍌🍌🍌🍌🍌")
+
   const handleUserUpdate =  async () => {
     try {
       const result = await updateUser({ id: data?.user.id, userChoices: newUserDetails }).unwrap();
@@ -38,7 +38,6 @@ const SelfDescribeScreen = () => {
       console.error('Failed to update user:', error);
     }
   };
-
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
