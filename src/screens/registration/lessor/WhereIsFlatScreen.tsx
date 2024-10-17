@@ -286,13 +286,13 @@ const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: size(16),
   },
   loading: {
     marginTop: size(50),
   },
   warmRentText: {
-    marginLeft: 8,
+    marginLeft: size(8),
   },
   footerContainer: {
     paddingTop: size(20),
