@@ -19,8 +19,15 @@ export const userApi = lofftApi.injectEndpoints({
         return toCamelCaseKeys(response as unknown as SpecificUser);
       },
     }),
+    updateUser: builder.mutation({
+      query: ({ id, userChoices }) => ({
+      url: `/api/users/${id}`,
+      method: 'PATCH',
+      body: { userChoices },
+      }),
+    })
   }),
   overrideExisting: false,
 });
 
-export const {useGetUserQuery, useGetSpecificUserQuery} = userApi;
+export const {useGetUserQuery, useGetSpecificUserQuery, useUpdateUserMutation} = userApi;

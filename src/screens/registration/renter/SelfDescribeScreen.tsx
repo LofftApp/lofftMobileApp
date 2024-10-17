@@ -16,10 +16,22 @@ import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
 import {size} from 'react-native-responsive-sizes';
 
+// Redux
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {CoreButton} from 'components/buttons/CoreButton';
+import {useUpdateUserMutation} from 'reduxFeatures/user/userApi';
+
 const SelfDescribeScreen = () => {
   const navigation = useNavigation();
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
+
+/* 🚨 🚨 🚨 temp logic to hook in Patch Mutation Hook needs to be moved over to last screen of registration journey */
+  const {newUserDetails} = useNewUserDetails();
+  const {data} = useGetUserQuery();
+
+
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -53,13 +65,15 @@ const SelfDescribeScreen = () => {
         </Text>
       )}
 
-      <FooterNavBarWithPagination
+      <CoreButton value="update user in db" onPress={useUpdateUserMutation({id: data?.user.id, userChoices: newUserDetails})} />
+
+      {/* <FooterNavBarWithPagination
         onPress={(targetScreen: any) =>
           navigationHelper(navigation, targetScreen)
         }
         disabled={text.length >= 20 ? false : true}
         details={{textAboutUser: text}}
-      />
+      /> */}
     </ScreenBackButton>
   );
 };
