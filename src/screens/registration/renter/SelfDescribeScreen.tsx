@@ -32,7 +32,9 @@ const SelfDescribeScreen = () => {
   const {newUserDetails} = useNewUserDetails();
   const {data} = useGetUserQuery();
 
-
+  const handleUserUpdate = () => {
+    updateUser({ id: data?.user.id, userChoices: newUserDetails });
+  };
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -66,7 +68,7 @@ const SelfDescribeScreen = () => {
         </Text>
       )}
 
-      <CoreButton value="update user in db" onPress={() => updateUser({ id: data?.user.id, userChoices: newUserDetails })} />
+      <CoreButton value="update user in db" onPress={updateUser} />
 
       {/* <FooterNavBarWithPagination
         onPress={(targetScreen: any) =>
