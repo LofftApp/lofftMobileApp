@@ -97,7 +97,6 @@ const InputFieldText = ({
             placeholder={placeholder || 'Default Field'}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             keyboardType={keyboardType}
-            dropdown={dropdown}
           />
         )}
       </View>
