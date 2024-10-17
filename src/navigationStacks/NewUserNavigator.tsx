@@ -2,6 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
+import ConfirmEmailScreen from 'screens/registration/ConfirmEmailScreen';
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
 import AboutUserScreen from 'screens/registration/AboutUserScreen';
 import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
@@ -24,7 +25,12 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-        {/* initial screen */}
+         {/* Intial screen after sign up */}
+        <NewUserNavigatorFlow.Screen
+          name="ConfirmEmail"
+          component={ConfirmEmailScreen}
+        />
+        {/* Which journey screen */}
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}

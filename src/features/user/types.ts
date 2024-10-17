@@ -22,6 +22,7 @@ interface User {
     userType: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
     profile: UserProfile;
     filter: UserFilter[] | null;
+    confirmedEmail: boolean | null;
   };
 }
 
@@ -35,6 +36,7 @@ interface IncomingUser {
     user_type: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
     profile: IncomingUserProfile;
     filter: UserFilter[] | null;
+    confirmedEmail: boolean | null;
   };
 }
 
