@@ -52,7 +52,6 @@ const LanguageSelectionScreen = () => {
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
-  console.log('newUserdetaiils in languages', newUserDetails);
 
   // Safe Area
   const insets = useSafeAreaInsets();

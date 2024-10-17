@@ -173,7 +173,6 @@ const SelectCityScreen = () => {
 
     setError('');
   };
-  console.log('newUserDetails in city', newUserDetails);
 
   const allDistrictsButtons = districts.map(district => {
     return (

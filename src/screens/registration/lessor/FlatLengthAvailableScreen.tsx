@@ -21,13 +21,13 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import {navigationHelper} from 'helpers/navigationHelper';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {newUserScreens} from 'components/componentData/newUserScreens';
 import {useNavigation} from '@react-navigation/native';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 const FlatLengthAvailableScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [selector, setSelector] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);

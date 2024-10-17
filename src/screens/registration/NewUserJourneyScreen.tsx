@@ -44,9 +44,6 @@ const NewUserJourneyScreen = () => {
     signOut();
   };
 
-  console.log('userType', userType);
-  console.log('isLessor', isLessor);
-
   const handleSelected = (type: 'lessor' | 'renter') => {
     setUserType(type);
     setTypeSelected(true);

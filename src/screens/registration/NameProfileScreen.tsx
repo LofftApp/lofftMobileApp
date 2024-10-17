@@ -58,7 +58,6 @@ const NameProfileScreen = () => {
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
-  console.log('newUserdetaiils in names', newUserDetails);
 
   useEffect(() => {
     if (savedFirstName) {
@@ -107,7 +106,6 @@ const NameProfileScreen = () => {
     });
 
     if (!result.success) {
-      console.log('error da vez', result.error.flatten().fieldErrors);
       const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
       const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
       const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];

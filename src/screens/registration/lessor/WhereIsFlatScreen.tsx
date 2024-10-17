@@ -71,7 +71,6 @@ const WhereIsFlatScreen = () => {
     error: errorSearch,
     setError: setErrorSearch,
   } = useFindAddress(location);
-  console.log('warmRent', warmRent);
 
   // Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
@@ -158,7 +157,6 @@ const WhereIsFlatScreen = () => {
     });
 
     if (!result.success) {
-      console.log(result.error);
       const errAddress = result.error?.flatten().fieldErrors.address?.[0];
       const errPrice = result.error?.flatten().fieldErrors.price?.[0];
 
