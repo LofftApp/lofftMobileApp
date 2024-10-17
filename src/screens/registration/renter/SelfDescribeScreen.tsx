@@ -65,7 +65,7 @@ const SelfDescribeScreen = () => {
         </Text>
       )}
 
-      <CoreButton value="update user in db" onPress={useUpdateUserMutation({id: data?.user.id, userChoices: newUserDetails})} />
+      <CoreButton value="update user in db" onPress={() => updateUser({ id: data?.user.id, userChoices: newUserDetails })} />
 
       {/* <FooterNavBarWithPagination
         onPress={(targetScreen: any) =>
