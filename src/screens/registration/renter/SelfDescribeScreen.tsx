@@ -26,6 +26,7 @@ const SelfDescribeScreen = () => {
   const navigation = useNavigation();
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
+  const [updateUser] = useUpdateUserMutation();
 
 /* 🚨 🚨 🚨 temp logic to hook in Patch Mutation Hook needs to be moved over to last screen of registration journey */
   const {newUserDetails} = useNewUserDetails();
