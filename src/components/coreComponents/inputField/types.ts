@@ -12,7 +12,6 @@ type InputFieldTextProps = {
   dropDownContent?: string[];
   dropDownPressAction?: (value: string) => void;
   style?: StyleProp<ViewStyle>;
-  onFocus?: () => void;
 };
 
 export type {InputFieldTextProps};

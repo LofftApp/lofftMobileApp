@@ -1,19 +1,42 @@
 import React from 'react';
-import {TextInput} from 'react-native';
+import {TextInput, TextInputProps} from 'react-native';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
 
+type DefaultInputProps = {
+  placeholder?: string;
+  onChangeText: (text: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  value: string;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  keyboardType?:
+    | 'default'
+    | 'email-address'
+    | 'numeric'
+    | 'phone-pad'
+    | 'ascii-capable'
+    | 'numbers-and-punctuation'
+    | 'url'
+    | 'number-pad'
+    | 'name-phone-pad'
+    | 'decimal-pad'
+    | 'twitter'
+    | 'web-search'
+    | 'visible-password';
+};
+
 const DefaultInput = ({
   placeholder = 'Text',
   onChangeText,
-  onFocus = null,
-  onBlur = null,
+  onFocus,
+  onBlur,
   value,
   autoCapitalize,
   keyboardType = 'default',
-}: any) => {
+}: DefaultInputProps) => {
   return (
     <TextInput
       value={value}

@@ -27,7 +27,6 @@ const InputFieldText = ({
   dropDownContent = [],
   dropDownPressAction = () => {},
   style,
-  onFocus = () => {},
 }: InputFieldTextProps) => {
   const [focus, setFocus] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -93,7 +92,7 @@ const InputFieldText = ({
           <DefaultInput
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
-            onFocus={onFocus || (() => setFocus(true))}
+            onFocus={() => setFocus(true)}
             value={value}
             placeholder={placeholder || 'Default Field'}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
@@ -155,7 +154,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: size(16),
     minHeight: size(48),
     justifyContent: 'center',
-    // opacity: 0,
   },
   dropDownItem: {
     marginVertical: 2,
@@ -164,9 +162,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(8),
     borderBottomColor: Color.Black[100],
   },
-  oddPlaceList: {
-    // backgroundColor: Color.Black[10],
-  },
+  oddPlaceList: {},
 
   errorActive: {
     borderColor: Color.Tomato[100],
