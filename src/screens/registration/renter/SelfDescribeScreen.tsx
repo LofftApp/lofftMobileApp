@@ -6,13 +6,11 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
 import {size} from 'react-native-responsive-sizes';
 
@@ -31,10 +29,16 @@ const SelfDescribeScreen = () => {
 /* 🚨 🚨 🚨 temp logic to hook in Patch Mutation Hook needs to be moved over to last screen of registration journey */
   const {newUserDetails} = useNewUserDetails();
   const {data} = useGetUserQuery();
-
-  const handleUserUpdate = () => {
-    updateUser({ id: data?.user.id, userChoices: newUserDetails });
+  console.log(newUserDetails, "🍌 🍌🍌🍌🍌🍌")
+  const handleUserUpdate =  async () => {
+    try {
+      const result = await updateUser({ id: data?.user.id, userChoices: newUserDetails }).unwrap();
+      console.log('Update successful:', result);
+    } catch (error) {
+      console.error('Failed to update user:', error);
+    }
   };
+
 
   return (
     <ScreenBackButton nav={() => navigation.goBack()}>
@@ -68,7 +72,7 @@ const SelfDescribeScreen = () => {
         </Text>
       )}
 
-      <CoreButton value="update user in db" onPress={updateUser} />
+      <CoreButton value="update user in db" onPress={handleUserUpdate} />
 
       {/* <FooterNavBarWithPagination
         onPress={(targetScreen: any) =>

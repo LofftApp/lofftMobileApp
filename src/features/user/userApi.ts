@@ -20,12 +20,14 @@ export const userApi = lofftApi.injectEndpoints({
       },
     }),
     updateUser: builder.mutation({
-      query: ({ id, userChoices }) => ({
-      url: `/api/users/${id}`,
-      method: 'PATCH',
-      body: { userChoices },
-      }),
-    })
+      query: ({id, userChoices}) => {
+        return {
+        url: `/api/users/${id}`,
+        method: 'PATCH',
+        body: userChoices,
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
