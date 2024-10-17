@@ -219,7 +219,6 @@ const initialState: UserJourneyState = {
       warmRent: false,
       // userDescription: null,
       // textAboutUser: null,
-      // cost: null,
       // location: null,
       // district: null,
       // fromDate: null,
