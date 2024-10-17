@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: size(10),
   },
+  inputContainerWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   textContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -23,6 +28,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
   },
   input: {
+    paddingLeft: size(10),
     flex: 1,
   },
   clearButton: {
@@ -33,12 +39,5 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 0,
     margin: 0,
-  },
-
-  inputFieldTextStyle: {
-    margin: 0,
-    marginLeft: size(10),
-    paddingVertical: size(0),
-    flex: 1,
   },
 });

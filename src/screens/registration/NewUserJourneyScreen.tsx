@@ -35,20 +35,10 @@ const NewUserJourneyScreen = () => {
 
   const [typeSelected, setTypeSelected] = useState(false);
 
-  const {userType, setUserType, isLessor} = useNewUserDetails();
+  const {userType, setUserType} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();
-
-  const handleSignOut = () => {
-    signOut();
-  };
-
-  const handleSelected = (type: 'lessor' | 'renter') => {
-    setUserType(type);
-    setTypeSelected(true);
-    setCurrentScreen(1);
-  };
 
   useEffect(() => {
     if (typeSelected && userType) {
@@ -64,6 +54,16 @@ const NewUserJourneyScreen = () => {
       setTypeSelected(false);
     }
   }, [userType, navigation, typeSelected]);
+
+  const handleSignOut = () => {
+    signOut();
+  };
+
+  const handleSelected = (type: 'lessor' | 'renter') => {
+    setUserType(type);
+    setTypeSelected(true);
+    setCurrentScreen(1);
+  };
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

@@ -13,7 +13,7 @@ const SearchInput = ({
   value,
 }: any) => {
   return (
-    <View style={styles.inputContainer}>
+    <View style={styles.inputContainerWithIcon}>
       <View style={styles.textContainer}>
         <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
         <TextInput

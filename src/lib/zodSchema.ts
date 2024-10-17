@@ -116,8 +116,12 @@ const descriptionSchema = z
   });
 
 const nameSchema = z.object({
-  firstName: z.string({required_error: 'Please enter your first name'}),
-  lastName: z.string({required_error: 'Please enter your last name'}),
+  firstName: z
+    .string({required_error: 'Please enter your first name'})
+    .min(1, 'Please enter your first name'),
+  lastName: z
+    .string({required_error: 'Please enter your last name'})
+    .min(1, 'Please enter your last name'),
   dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
 });
 

@@ -47,6 +47,7 @@ const NameProfileScreen = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [date, setDate] = useState(new Date());
+  const [isDateSelected, setIsDateSelected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorFirstName, setErrorFirstName] = useState('');
   const [errorLastName, setErrorLastName] = useState('');
@@ -73,15 +74,19 @@ const NameProfileScreen = () => {
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
+    setErrorFirstName('');
   };
 
   const handleLastName = (input: string) => {
     setLastName(input);
+    setErrorLastName('');
   };
 
   const handleDateChange = (input: Date) => {
     setDate(input);
     setIsModalOpen(false);
+    setIsDateSelected(true);
+    setErrorDate('');
   };
 
   const handleCancelDate = () => {
@@ -95,6 +100,7 @@ const NameProfileScreen = () => {
     setErrorLastName('');
     setErrorDate('');
   };
+  console.log('isDateSelected', isDateSelected);
 
   const handleContinue = () => {
     const trimmedFirstName = firstName.trim();
@@ -102,13 +108,15 @@ const NameProfileScreen = () => {
     const result = nameSchema.safeParse({
       firstName: trimmedFirstName,
       lastName: trimmedLastName,
-      dateOfBirth: date,
+      dateOfBirth: isDateSelected ? date : null,
     });
 
     if (!result.success) {
       const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
       const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
-      const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];
+      const dateError = isDateSelected
+        ? result.error.flatten().fieldErrors?.dateOfBirth?.[0]
+        : 'Please select your date of birth';
       if (firstError) {
         setErrorFirstName(firstError);
       }
