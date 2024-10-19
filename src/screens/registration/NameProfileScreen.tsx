@@ -69,6 +69,7 @@ const NameProfileScreen = () => {
     }
     if (savedDate) {
       setDate(new Date(savedDate));
+      setIsDateSelected(true);
     }
   }, [savedFirstName, savedLastName, savedDate]);
 

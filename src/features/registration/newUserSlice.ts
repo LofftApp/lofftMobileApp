@@ -95,6 +95,8 @@ export interface NewUserLessorDetails {
   };
   price: number;
   warmRent: boolean;
+  fromDate: Date | string;
+  untilDate: Date | string | null;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -217,6 +219,8 @@ const initialState: UserJourneyState = {
       },
       price: 0,
       warmRent: false,
+      fromDate: '',
+      untilDate: '',
       // userDescription: null,
       // textAboutUser: null,
       // location: null,

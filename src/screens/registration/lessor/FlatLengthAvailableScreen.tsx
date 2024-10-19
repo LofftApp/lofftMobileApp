@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
@@ -6,7 +6,6 @@ import DatePicker from 'react-native-date-picker';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -25,6 +24,10 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
 import {size} from 'react-native-responsive-sizes';
 import IconButton from 'components/buttons/IconButton';
+import Divider from 'components/bars/Divider';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const FlatLengthAvailableScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -36,12 +39,52 @@ const FlatLengthAvailableScreen = () => {
   const [today, setToday] = useState(false);
   const [permanent, setPermanent] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const [errorDate, setErrorDate] = useState('');
+  const [errorFromDate, setErrorFromDate] = useState('');
+  const [errorUntilDate, setErrorUntilDate] = useState('');
   console.log('fromDate', fromDate);
   console.log('untilDate', untilDate);
   console.log('fromDateSelected', fromDateSelected);
   console.log('untilDateSelected', untilDateSelected);
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const savedFromDate =
+    newUserDetails.userType === 'lessor' && newUserDetails.fromDate;
+  const savedUntilDate =
+    newUserDetails.userType === 'lessor' && newUserDetails.untilDate;
+  console.log('savedFromDate', savedFromDate);
+  console.log('savedUntilDate', savedUntilDate);
+  const todayDate = useMemo(() => new Date(), []);
+
+  const isToday = useCallback(
+    (date: Date) => {
+      const newDate = new Date(date);
+      return (
+        newDate.getDate() === todayDate.getDate() &&
+        newDate.getMonth() === todayDate.getMonth() &&
+        newDate.getFullYear() === todayDate.getFullYear()
+      );
+    },
+    [todayDate],
+  );
+
+  useEffect(() => {
+    if (savedFromDate) {
+      if (isToday(new Date(savedFromDate))) {
+        setToday(true);
+      }
+      setFromDate(new Date(savedFromDate));
+      setFromDateSelected(true);
+    }
+    if (savedUntilDate) {
+      setUntilDate(new Date(savedUntilDate));
+      setUntilDateSelected(true);
+    }
+    if (savedUntilDate === null) {
+      setPermanent(true);
+      setUntilDateSelected(true);
+    }
+  }, [isToday, savedFromDate, savedUntilDate]);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -68,38 +111,13 @@ const FlatLengthAvailableScreen = () => {
     setIsModalOpen(true);
   };
 
-  // const handleDateChange = (input: Date) => {
-  //   setIsModalOpen(false);
-  //   if (selector === 'from') {
-  //     setFromDate(input);
-  //     setFromDateSelected(true);
-  //   } else if (selector === 'until') {
-  //     setUntilDate(input);
-  //     setPermanent(false);
-  //     setUntilDateSelected(true);
-  //   }
-  //   setSelector('');
-  // };
-
-  // const handleToggleToday = () => {
-  //   setFromDateSelected(prev => !prev);
-  //   setFromDate(new Date());
-  //   setToday(prev => !prev);
-  // };
-
   const handleDateChange = (input: Date) => {
     setIsModalOpen(false);
-
-    const todayDate = new Date();
-    const isToday =
-      input.getDate() === todayDate.getDate() &&
-      input.getMonth() === todayDate.getMonth() &&
-      input.getFullYear() === todayDate.getFullYear();
 
     if (selector === 'from') {
       setFromDate(input);
       setFromDateSelected(true);
-      setToday(isToday);
+      setToday(isToday(input));
     } else if (selector === 'until') {
       setUntilDate(input);
       setPermanent(false);
@@ -110,9 +128,9 @@ const FlatLengthAvailableScreen = () => {
   };
 
   const handleToggleToday = () => {
-    const isToday = today ? fromDate : new Date(); // Toggle between today and no selection
-    setFromDate(isToday);
-    setFromDateSelected(!today); // Toggle selection state
+    const isTodayDate = today ? fromDate : new Date();
+    setFromDate(isTodayDate);
+    setFromDateSelected(!today);
     setToday(prev => !prev);
   };
 
@@ -127,6 +145,17 @@ const FlatLengthAvailableScreen = () => {
     setSelector('');
   };
 
+  const handleContinue = () => {
+    setCurrentScreen(currentScreen + 1);
+    const screen = newUserScreens.lessor[currentScreen + 1];
+    navigation.navigate(screen);
+
+    setNewUserDetails({
+      fromDate: fromDate.toISOString(),
+      untilDate: untilDate === null ? null : untilDate?.toISOString(),
+    });
+  };
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
@@ -138,74 +167,75 @@ const FlatLengthAvailableScreen = () => {
 
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer headlineText="How long is the flat available for rent?" />
+        <View style={styles.mainContainer}>
+          <View>
+            <View style={styles.datePickerContainer}>
+              <Text style={fontStyles.headerSmall}>From</Text>
+              <Animated.View
+                style={[styles.buttonContainer, {opacity: fadeAnim}]}>
+                <DatePickerInput
+                  date={fromDate}
+                  error={errorFromDate}
+                  placeholder="First Day"
+                  height={60}
+                  dateSelected={fromDateSelected}
+                  disabled={today}
+                  handleOnPress={handleFromDate}
+                />
 
-        <View style={styles.datePickerContainer}>
-          <Text style={fontStyles.headerSmall}>From</Text>
-          <Animated.View style={[styles.buttonContainer, {opacity: fadeAnim}]}>
-            <DatePickerInput
-              date={fromDate}
-              error={errorDate}
-              placeholder="First Day"
-              height={60}
-              dateSelected={fromDateSelected}
-              disabled={today}
-              handleOnPress={handleFromDate}
-            />
+                <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
+                <IconButton
+                  text="Today"
+                  onPress={handleToggleToday}
+                  isActive={today}
+                  style={styles.setDateButton}
+                />
+              </Animated.View>
+            </View>
 
-            <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
-            <IconButton
-              text="Today"
-              onPress={handleToggleToday}
-              isActive={today}
-              style={styles.setDateButton}
+            <View style={styles.datePickerContainer}>
+              <Text style={fontStyles.headerSmall}>Until</Text>
+              <Animated.View
+                style={[styles.buttonContainer, {opacity: fadeAnim}]}>
+                <DatePickerInput
+                  date={untilDate}
+                  error={errorUntilDate}
+                  placeholder="Last Day"
+                  height={60}
+                  disabled={permanent}
+                  handleOnPress={handleUntilDate}
+                  dateSelected={untilDateSelected}
+                />
+
+                <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
+                <IconButton
+                  text="Permanent"
+                  onPress={handleTogglePermanent}
+                  isActive={permanent}
+                  style={styles.setDateButton}
+                />
+              </Animated.View>
+            </View>
+          </View>
+          <View style={styles.footerContainer}>
+            <Divider />
+            <NewUserPaginationBar />
+            <NewUserJourneyContinueButton
+              value="Continue"
+              onPress={handleContinue}
             />
-          </Animated.View>
+          </View>
         </View>
-
-        <View style={styles.datePickerContainer}>
-          <Text style={fontStyles.headerSmall}>Until</Text>
-          <Animated.View style={[styles.buttonContainer, {opacity: fadeAnim}]}>
-            <DatePickerInput
-              date={untilDate}
-              error={errorDate}
-              placeholder="Last Day"
-              height={60}
-              disabled={permanent}
-              handleOnPress={handleUntilDate}
-              dateSelected={untilDateSelected}
-            />
-
-            <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
-            <IconButton
-              text="Permanent"
-              onPress={handleTogglePermanent}
-              isActive={permanent}
-              style={styles.setDateButton}
-            />
-          </Animated.View>
-        </View>
-        <FooterNavBarWithPagination
-          disabled={!(fromDateSelected && untilDateSelected)}
-          onPress={() => {
-            navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
-            setCurrentScreen(currentScreen + 1);
-          }}
-          details={{
-            fromDate: String(fromDate),
-            untilDate: String(untilDate),
-            permanent,
-          }}
-        />
-        {/* Date Picker */}
-        <DatePicker
-          modal
-          mode="date"
-          open={isModalOpen}
-          date={fromDate}
-          onConfirm={handleDateChange}
-          onCancel={handleCancelDate}
-        />
       </View>
+      {/* Date Picker */}
+      <DatePicker
+        modal
+        mode="date"
+        open={isModalOpen}
+        date={fromDate}
+        onConfirm={handleDateChange}
+        onCancel={handleCancelDate}
+      />
     </SafeAreaView>
   );
 };
@@ -215,40 +245,31 @@ const styles = StyleSheet.create({
     marginTop: size(26),
     gap: size(5),
   },
-  dateField: {
-    minWidth: 183,
-    flexDirection: 'row',
-    borderWidth: 2,
-    paddingVertical: 14,
-    paddingHorizontal: 19,
-    borderRadius: 16,
-    alignItems: 'center',
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
-  dateLabel: {
-    marginLeft: 11,
-    color: Color.Black[30],
-  },
+
   setDateButton: {
     borderWidth: 2,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 16,
+    paddingVertical: size(14),
+    paddingHorizontal: size(16),
+    borderRadius: 12,
   },
   orText: {
-    marginHorizontal: 8,
+    marginHorizontal: size(8),
   },
-  selectedDate: {
-    color: Color.Black[100],
-  },
+
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  activeButton: {
-    backgroundColor: Color.Lavendar[100],
-  },
-  activeButtonText: {
-    color: Color.White[100],
+
+  footerContainer: {
+    paddingTop: size(20),
+    paddingBottom: size(20),
+    paddingHorizontal: size(16),
+    gap: size(10),
   },
 });
 
