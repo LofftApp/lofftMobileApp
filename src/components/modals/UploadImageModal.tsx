@@ -1,32 +1,39 @@
 import {CoreButton} from 'components/buttons/CoreButton';
-import React from 'react';
-import {Modal, StyleSheet, View} from 'react-native';
+import React, {Dispatch, SetStateAction} from 'react';
+import {Modal, SafeAreaView, StyleSheet, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const UploadImageModal = ({modalVisible, setModalVisible}) => {
-  const handleCancel = () => {
-    setModalVisible(false);
+type UploadImageModalProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+const UploadImageModal = ({
+  isModalOpen,
+  setIsModalOpen,
+}: UploadImageModalProps) => {
+  const toggleModal = () => {
+    setIsModalOpen(prev => !prev);
   };
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}>
+      visible={isModalOpen}
+      onRequestClose={toggleModal}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <CoreButton
             value="Take Photo"
             onPress={() => {}}
             // ! Disabled to be removed before production in new repo.
-            disabled={true}
+
           />
           {/* This image upload has been disabled and needs refactoring */}
           {/* <ImageUploadButton onPress={() => setModalVisible(false)} /> */}
-          <CoreButton value="Cancel" onPress={handleCancel} invert />
+          <CoreButton value="Cancel" onPress={toggleModal} invert />
         </View>
       </View>
     </Modal>
@@ -45,14 +52,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: '100%',
     backgroundColor: Color.White[100],
-    borderTopLeftRadius: size(16),
-    borderTopRightRadius: size(16),
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     paddingHorizontal: size(35),
     paddingBottom: size(35),
     shadowColor: '#000',
     shadowOffset: {
-      width: size(2),
-      height: size(2),
+      width: 2,
+      height: 2,
     },
     shadowOpacity: 0.5,
     shadowRadius: size(4),

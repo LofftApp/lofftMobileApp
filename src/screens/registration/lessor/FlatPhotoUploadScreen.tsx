@@ -39,6 +39,7 @@ import {newUserScreens} from 'components/componentData/newUserScreens';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {flatDescriptionSchema} from 'lib/zodSchema';
+import UploadImageModal from 'components/modals/UploadImageModal';
 
 const FlatPhotoUploadScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -90,69 +91,50 @@ const FlatPhotoUploadScreen = () => {
     setError('');
   };
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText="Show us how the flat looks like."
-          subDescription="Describe your flat in a short text. This can be edited later!"
+    <>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-        <View style={styles.mainContainer}>
-          <CustomTextInput
-            text={text}
-            textFocus={textFocus}
-            error={error}
-            handleOnChange={handleOnChange}
-            handleOnFocus={handleOnFocus}
-            handleOnBlur={handleOnBlur}
-            placeholder="Tell us about your lofft."
-            isFlat
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText="Show us how the flat looks like."
+            subDescription="Describe your flat in a short text. This can be edited later!"
           />
-          <ImagePreviewRow />
-          <UploadImageButton onPress={() => setModalVisible(true)} />
+          <View style={styles.mainContainer}>
+            <CustomTextInput
+              text={text}
+              textFocus={textFocus}
+              error={error}
+              handleOnChange={handleOnChange}
+              handleOnFocus={handleOnFocus}
+              handleOnBlur={handleOnBlur}
+              placeholder="Tell us about your lofft."
+              isFlat
+            />
+            <ImagePreviewRow />
+            <UploadImageButton onPress={() => setModalVisible(true)} />
 
-          <View style={styles.footerContainer}>
-            <Divider />
-            <NewUserPaginationBar />
-            <NewUserJourneyContinueButton
-              value="Continue"
-              disabled={text.length < MIN_DESCRIPTION_CHARS}
-              onPress={handleContinue}
-            />
+            <View style={styles.footerContainer}>
+              <Divider />
+              <NewUserPaginationBar />
+              <NewUserJourneyContinueButton
+                value="Continue"
+                disabled={text.length < MIN_DESCRIPTION_CHARS}
+                onPress={handleContinue}
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <CoreButton
-              value="Take Photo"
-              onPress={() => {}}
-              // ! Disabled to be removed before production in new repo.
-              disabled={true}
-            />
-            {/* This image upload has been disabled and needs refactoring */}
-            {/* <ImageUploadButton onPress={() => setModalVisible(false)} /> */}
-            <CoreButton
-              value="Cancel"
-              onPress={() => setModalVisible(false)}
-              invert
-            />
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+      </SafeAreaView>
+      <UploadImageModal
+        isModalOpen={modalVisible}
+        setIsModalOpen={setModalVisible}
+      />
+    </>
   );
 };
 
