@@ -58,7 +58,7 @@ const SelectCityScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const {setNewUserDetails, newUserDetails, isLessor} = useNewUserDetails();
   const savedCity = newUserDetails.city;
   const savedDistricts = newUserDetails.districts;
 
@@ -153,22 +153,25 @@ const SelectCityScreen = () => {
   };
 
   const selectFn = (id: number) => {
-    const updatedDistricts = districts.map(element => {
-      if (element.id === id) {
-        return {
-          ...element,
-          toggle: !element.toggle,
-        };
+    const updatedDistricts = districts.map(el => {
+      if (isLessor) {
+        return el.id === id
+          ? {...el, toggle: !el.toggle}
+          : {...el, toggle: false};
       } else {
-        return element;
+        return el.id === id ? {...el, toggle: !el.toggle} : el;
       }
     });
 
     setDistricts(updatedDistricts);
+
     const districtsSelected = updatedDistricts.filter(el => el.toggle);
     setSelectedDistricts(districtsSelected);
+
     const allSelected = updatedDistricts.every(district => district.toggle);
     setIsAllDistricts(allSelected);
+
+    setError('');
   };
 
   const allDistrictsButtons = districts.map(district => {
@@ -200,6 +203,7 @@ const SelectCityScreen = () => {
     setCity('');
     setDistricts([]);
     setElementArray([]);
+    setError('');
   };
 
   const handleBackButton = () => {
@@ -233,7 +237,11 @@ const SelectCityScreen = () => {
       districts: result.data.districts,
     });
 
-    navigation.navigate(newUserScreens.renter[5]);
+    navigation.navigate(
+      isLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.renter[currentScreen + 1],
+    );
     setCurrentScreen(currentScreen + 1);
     setError('');
   };
@@ -254,7 +262,11 @@ const SelectCityScreen = () => {
       />
       <View style={styles.mainContainer}>
         <HeadlineContainer
-          headlineText={'Where are you looking for the flat?'}
+          headlineText={
+            isLessor
+              ? 'In which city and district is your flat located?'
+              : 'Where are you looking for the flat?'
+          }
         />
         <View style={styles.inputContainer}>
           <InputFieldText
@@ -278,13 +290,15 @@ const SelectCityScreen = () => {
               },
             ]}>
             <Text style={[fontStyles.headerMedium]}>Districts</Text>
-            <View style={styles.switchContainer}>
-              <Text style={fontStyles.bodySmall}>Select All</Text>
-              <CustomSwitch
-                value={isAllDistricts}
-                onValueChange={selectAllDistrictsTags}
-              />
-            </View>
+            {!isLessor && (
+              <View style={styles.switchContainer}>
+                <Text style={fontStyles.bodySmall}>Select All</Text>
+                <CustomSwitch
+                  value={isAllDistricts}
+                  onValueChange={selectAllDistrictsTags}
+                />
+              </View>
+            )}
           </Animated.View>
 
           <ScrollView showsVerticalScrollIndicator={false}>

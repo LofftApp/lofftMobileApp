@@ -59,15 +59,20 @@ const BudgetScreen = () => {
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const savedBudget = newUserDetails.budget;
+  const savedBudget =
+    newUserDetails.userType === 'renter' ? newUserDetails.budget : undefined;
 
   useEffect(() => {
-    if (savedBudget.maxPrice && savedBudget.minPrice && savedBudget.warmRent) {
-      setMinPrice(String(savedBudget.minPrice));
-      setMaxPrice(String(savedBudget.maxPrice));
-      setWarmRent(savedBudget.warmRent);
+    if (
+      savedBudget?.maxPrice &&
+      savedBudget?.minPrice &&
+      savedBudget?.warmRent
+    ) {
+      setMinPrice(String(savedBudget?.minPrice));
+      setMaxPrice(String(savedBudget?.maxPrice));
+      setWarmRent(savedBudget?.warmRent);
     }
-  }, [savedBudget.minPrice, savedBudget.maxPrice, savedBudget.warmRent]);
+  }, [savedBudget?.minPrice, savedBudget?.maxPrice, savedBudget?.warmRent]);
 
   const handleMin = (num: string | number) => {
     if (+num <= +initialMaxPrice) {
@@ -132,7 +137,7 @@ const BudgetScreen = () => {
 
     setNewUserDetails({budget: result.data});
 
-    navigation.navigate(newUserScreens.renter[6]);
+    navigation.navigate(newUserScreens.renter[currentScreen + 1]);
     setCurrentScreen(currentScreen + 1);
     setError('');
   };
@@ -147,7 +152,7 @@ const BudgetScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={`What is your ${'\n'}budget?`}
+          headlineText={'What is your budget?'}
           subDescription={'Define the range for your monthly rental budget'}
         />
 

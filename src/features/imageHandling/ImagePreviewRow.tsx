@@ -37,7 +37,7 @@ const ImagePreviewRow = () => {
           );
         })
       ) : (
-        <Text>0 Images to upload add upto 5 images</Text>
+        <Text>0 Images to upload add up to 5 images</Text>
       )}
     </View>
   );

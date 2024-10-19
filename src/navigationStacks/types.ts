@@ -26,7 +26,8 @@ type NewUserScreenNames =
   | 'SelfDescribeScreen'
   | 'ConditionsOfUseScreen'
   | 'FlatPhotoUploadScreen'
-  | 'FinderBudgetScreen';
+  | 'FinderBudgetScreen'
+  | 'NameProfileScreen';
 
 type NewUserScreens = {
   renter: Record<number, NewUserScreenNames>;

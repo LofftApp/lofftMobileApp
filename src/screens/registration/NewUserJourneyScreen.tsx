@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -32,10 +32,27 @@ import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
-  const {userType, setUserType, isLessor} = useNewUserDetails();
+  const [typeSelected, setTypeSelected] = useState(false);
+
+  const {userType, setUserType} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();
+
+  useEffect(() => {
+    if (typeSelected && userType) {
+      const screen =
+        userType === 'lessor'
+          ? newUserScreens.lessor[1]
+          : newUserScreens.renter[1];
+
+      setTimeout(() => {
+        navigation.navigate(screen);
+      }, 400);
+
+      setTypeSelected(false);
+    }
+  }, [userType, navigation, typeSelected]);
 
   const handleSignOut = () => {
     signOut();
@@ -43,14 +60,8 @@ const NewUserJourneyScreen = () => {
 
   const handleSelected = (type: 'lessor' | 'renter') => {
     setUserType(type);
+    setTypeSelected(true);
     setCurrentScreen(1);
-    setTimeout(() => {
-      const screen = isLessor
-        ? newUserScreens.lessor[1]
-        : newUserScreens.renter[1];
-
-      navigation.navigate(screen);
-    }, 400);
   };
 
   return (

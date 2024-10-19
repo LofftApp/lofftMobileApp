@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   textInputWrap: {
     width: '100%',
     borderColor: 'black',
+    gap: 10,
   },
   text: {
     fontSize: 16,

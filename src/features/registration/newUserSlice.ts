@@ -37,6 +37,10 @@ export interface NewUserRenterDetails {
     toggle: boolean;
     emoji: string;
   }[];
+  description: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date | string;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -75,17 +79,22 @@ export interface NewUserLessorDetails {
     toggle: boolean;
     emoji?: string;
   }[];
-  budget: {
-    minPrice: number;
-    maxPrice: number;
-    warmRent: boolean;
-  };
   flatFeatures: {
     id: number;
     value: string;
     toggle: boolean;
     emoji: string;
   }[];
+  description: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date | string;
+  address: {
+    address: string;
+    district?: string;
+  };
+  price: number;
+  warmRent: boolean;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -170,6 +179,10 @@ const initialState: UserJourneyState = {
         warmRent: false,
       },
       filter: [],
+      description: '',
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '',
       // userDescription: null,
       // textAboutUser: null,
       // cost: null,
@@ -193,15 +206,19 @@ const initialState: UserJourneyState = {
         flag: '',
       },
       districts: [],
-      budget: {
-        minPrice: 0,
-        maxPrice: 0,
-        warmRent: false,
-      },
       flatFeatures: [],
+      description: '',
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '',
+      address: {
+        address: '',
+        district: '',
+      },
+      price: 0,
+      warmRent: false,
       // userDescription: null,
       // textAboutUser: null,
-      // cost: null,
       // location: null,
       // district: null,
       // fromDate: null,
@@ -218,7 +235,7 @@ export const newUserSlice = createSlice({
   name: 'newUser',
   initialState,
   reducers: {
-    setUserType: (state, action: PayloadAction<'lessor' | 'renter'>) => {
+    setUserType: (state, action: PayloadAction<'lessor' | 'renter' | ''>) => {
       state.userType = action.payload;
       action.payload === 'lessor'
         ? (state.userJourney = 'lessor')

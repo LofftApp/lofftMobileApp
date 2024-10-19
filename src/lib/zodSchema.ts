@@ -1,3 +1,13 @@
+import {
+  initialMaxPrice,
+  initialMinPrice,
+  MAX_DESCRIPTION_CHARS,
+  MAX_LANGUAGES,
+  MAX_SELECTED_CHARS,
+  MIN_DESCRIPTION_CHARS,
+  MIN_SELECTED_CHARS,
+  MIN_SELECTED_FEATURES,
+} from 'components/componentData/constants';
 import {z} from 'zod';
 
 const languagesSchema = z
@@ -5,8 +15,8 @@ const languagesSchema = z
   .nonempty({
     message: 'Please select at least one language',
   })
-  .max(5, {
-    message: 'You can select up to 5 languages only',
+  .max(MAX_LANGUAGES, {
+    message: `You can select up to ${MAX_LANGUAGES} languages only`,
   });
 
 const characteristicsSchema = z
@@ -18,11 +28,11 @@ const characteristicsSchema = z
       emoji: z.string(),
     }),
   )
-  .min(3, {
-    message: 'Please select at least 3 tags',
+  .min(MIN_SELECTED_CHARS, {
+    message: `Please select at least ${MIN_SELECTED_CHARS} tags`,
   })
-  .max(10, {
-    message: 'You can select up to 10 tags only',
+  .max(MAX_SELECTED_CHARS, {
+    message: `You can select up to ${MAX_SELECTED_CHARS} tags only`,
   });
 
 const genderIdentitySchema = z
@@ -37,7 +47,7 @@ const genderIdentitySchema = z
   .nonempty({
     message: 'Please select at least one option',
   })
-  .max(3, {
+  .max(MIN_SELECTED_FEATURES, {
     message: 'You can select up to 3 options only',
   });
 
@@ -65,16 +75,20 @@ const budgetSchema = z
     minPrice: z
       .number()
       .nonnegative({message: 'Minimum price must be non-negative'})
-      .gte(100, {message: 'Minimum price must be at least 100'}),
+      .gte(+initialMinPrice, {
+        message: `Minimum price must be at least ${initialMinPrice}`,
+      }),
     maxPrice: z
       .number()
       .nonnegative({message: 'Maximum price must be non-negative'})
-      .lte(5000, {message: 'Maximum price must be at most 5000'}),
+      .lte(+initialMaxPrice, {
+        message: `Maximum price must be at most ${initialMaxPrice}`,
+      }),
     warmRent: z.boolean(),
   })
   .refine(data => data.minPrice <= data.maxPrice, {
     message: 'Minimum price must be less than or equal to maximum price',
-    path: ['maxPrice'], // The error will be attached to the maxPrice field
+    path: ['maxPrice'],
   });
 
 const featuresSchema = z
@@ -89,6 +103,41 @@ const featuresSchema = z
   .nonempty({
     message: 'Please select at least one tag',
   });
+
+const descriptionSchema = z
+  .string({
+    required_error: `We need at least ${MIN_DESCRIPTION_CHARS} words to create your profile`,
+  })
+  .min(MIN_DESCRIPTION_CHARS, {
+    message: 'We are sure you have more to say about yourself',
+  })
+  .max(MAX_DESCRIPTION_CHARS, {
+    message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
+  });
+
+const nameSchema = z.object({
+  firstName: z
+    .string({required_error: 'Please enter your first name'})
+    .min(1, 'Please enter your first name'),
+  lastName: z
+    .string({required_error: 'Please enter your last name'})
+    .min(1, 'Please enter your last name'),
+  dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
+});
+
+const addressSchema = z.object({
+  address: z
+    .string({required_error: 'Please enter your address'})
+    .min(1, 'Please enter your address'),
+  district: z.string().optional(),
+  price: z
+    .number({
+      required_error: 'Please enter a price',
+      invalid_type_error: 'Price must be a number',
+    })
+    .positive('Please enter a valid price'),
+  warmRent: z.boolean(),
+});
 
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
@@ -107,4 +156,7 @@ export {
   budgetSchema,
   newUserSchema,
   featuresSchema,
+  descriptionSchema,
+  nameSchema,
+  addressSchema,
 };

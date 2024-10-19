@@ -96,8 +96,8 @@ const AboutUserScreen = () => {
     }
     setNewUserDetails({characteristics: selectedChars});
     const screen = isLessor
-      ? newUserScreens.lessor[5]
-      : newUserScreens.renter[3];
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
@@ -106,15 +106,8 @@ const AboutUserScreen = () => {
   };
 
   const selectChar = (id: number) => {
-    const updatedChars = charsState.map(element => {
-      if (element.id === id) {
-        return {
-          ...element,
-          toggle: !element.toggle,
-        };
-      } else {
-        return element;
-      }
+    const updatedChars = charsState.map(el => {
+      return el.id === id ? {...el, toggle: !el.toggle} : el;
     });
 
     const charsSelected = updatedChars.filter(el => el.toggle);
