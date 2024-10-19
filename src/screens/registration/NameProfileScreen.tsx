@@ -139,6 +139,7 @@ const NameProfileScreen = () => {
       ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
+
     setErrorFirstName('');
     setErrorLastName('');
     setErrorDate('');

@@ -80,7 +80,7 @@ type NewUserJourneyButtonProps = {
 
 type IconButtonProps = {
   text: string;
-  icon: string;
+  icon?: string;
   iconSize?: number;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
