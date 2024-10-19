@@ -1,38 +1,49 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Animated} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 
+//Redux 🧠
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+
 // Screen 📺
+import {newUserScreens} from 'components/componentData/newUserScreens';
+
+// Assets 🎨
+import {RegistrationBackground} from 'assets';
 
 // Components 🪢
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-
-// Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
-
-// Helpers 🤝
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {newUserScreens} from 'components/componentData/newUserScreens';
-import {useNavigation} from '@react-navigation/native';
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
-import {RegistrationBackground} from 'assets';
-import HeadlineContainer from 'components/containers/HeadlineContainer';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
-import {size} from 'react-native-responsive-sizes';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
 import IconButton from 'components/buttons/IconButton';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {dateLengthSchema} from 'lib/zodSchema';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
+//Validation 🛡 ️
+import {dateLengthSchema} from 'lib/zodSchema';
+
+// Styles 🖼️
+import {fontStyles} from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+// Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
+import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
+dayjs.extend(isToday);
+
+// Types
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+
 const FlatLengthAvailableScreen = () => {
+  // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  // Local State
   const [selector, setSelector] = useState('');
   const [fromDate, setFromDate] = useState<Date | null>(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
@@ -43,35 +54,18 @@ const FlatLengthAvailableScreen = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorFromDate, setErrorFromDate] = useState('');
   const [errorUntilDate, setErrorUntilDate] = useState('');
-  console.log('fromDate', fromDate);
-  console.log('untilDate', untilDate);
-  console.log('fromDateSelected', fromDateSelected);
-  console.log('untilDateSelected', untilDateSelected);
+
+  // Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();
   const savedFromDate =
     newUserDetails.userType === 'lessor' && newUserDetails.fromDate;
   const savedUntilDate =
     newUserDetails.userType === 'lessor' && newUserDetails.untilDate;
-  console.log('savedFromDate', savedFromDate);
-  console.log('savedUntilDate', savedUntilDate);
-  const todayDate = useMemo(() => new Date(), []);
-
-  const isToday = useCallback(
-    (date: Date) => {
-      const newDate = new Date(date);
-      return (
-        newDate.getDate() === todayDate.getDate() &&
-        newDate.getMonth() === todayDate.getMonth() &&
-        newDate.getFullYear() === todayDate.getFullYear()
-      );
-    },
-    [todayDate],
-  );
 
   useEffect(() => {
     if (savedFromDate) {
-      if (isToday(new Date(savedFromDate))) {
+      if (dayjs(new Date()).isToday()) {
         setToday(true);
       }
       setFromDate(new Date(savedFromDate));
@@ -85,10 +79,9 @@ const FlatLengthAvailableScreen = () => {
       setPermanent(true);
       setUntilDateSelected(true);
     }
-  }, [isToday, savedFromDate, savedUntilDate]);
+  }, [savedFromDate, savedUntilDate]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
-
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -119,7 +112,7 @@ const FlatLengthAvailableScreen = () => {
     if (selector === 'from') {
       setFromDate(input);
       setFromDateSelected(true);
-      setToday(isToday(input));
+      setToday(dayjs(input).isToday());
       setErrorFromDate('');
     } else if (selector === 'until') {
       setUntilDate(input);
@@ -176,8 +169,7 @@ const FlatLengthAvailableScreen = () => {
     setCurrentScreen(currentScreen + 1);
     const screen = newUserScreens.lessor[currentScreen + 1];
     navigation.navigate(screen);
-    console.log('result fromDate', result.data.fromDate);
-    console.log('result untilDate', result.data.untilDate);
+
     setNewUserDetails({
       fromDate: fromDate?.toISOString(),
       untilDate: result.data.permanent ? null : untilDate?.toISOString(),
