@@ -22,7 +22,7 @@ const ListFlatApplicationComponent = ({
   isError,
 }: ListFlatApplicationComponentProps) => {
   const {data} = useGetUserQuery();
-  const isLessor = data?.user?.userType === 'lessor';
+  const isLessor = data?.userType === 'lessor';
 
   if (isLoading) {
     return <LoadingComponent />;

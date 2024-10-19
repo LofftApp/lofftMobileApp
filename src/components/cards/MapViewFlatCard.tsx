@@ -28,8 +28,7 @@ import type {Advert} from 'reduxFeatures/adverts/types';
 const maxTaglineLength = 35;
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
-  const {data} = useGetUserQuery();
-  const currentUser = data?.user;
+  const {data: currentUser} = useGetUserQuery();
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
@@ -37,7 +36,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     advert.flat.characteristics,
   );
   const featuresTags = tagSorter(
-    currentUser?.filter ?? [],
+    currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
 

@@ -46,8 +46,8 @@ const App = () => {
     skip: !isAuth,
   });
 
-  const userType = data?.user.userType;
-  const admin = data?.user.admin;
+  const userType = data?.userType;
+  const admin = data?.admin;
   const connectionError =
     error && 'status' in error && error.status === 'FETCH_ERROR';
   const [signOut] = useSignOutMutation();

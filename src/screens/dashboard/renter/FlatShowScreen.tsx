@@ -46,7 +46,7 @@ const outOfTokens = {
   description:
     "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
   buttonText: {
-    first: 'Get more tokens',
+    first: 'Get more tocurrentUser',
     second: 'Back to search',
   },
 };
@@ -54,8 +54,7 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
-  const {data} = useGetUserQuery();
-  const user = data?.user;
+  const {data: currentUser} = useGetUserQuery();
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -65,8 +64,8 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
 
-  const completeProfile = user?.userType !== 'newuser';
-  const hasTokens = user?.credits && user?.credits > 0;
+  const completeProfile = currentUser?.userType !== 'newuser';
+  const hasTokens = currentUser?.credits && currentUser?.credits > 0;
 
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);

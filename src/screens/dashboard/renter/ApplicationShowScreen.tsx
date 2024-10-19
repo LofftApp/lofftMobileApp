@@ -32,7 +32,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
   const {id} = route.params;
 
   const {data} = useGetUserQuery();
-  const isLessor = data?.user?.userType === 'lessor';
+  const isLessor = data?.userType === 'lessor';
 
   //Renter Journey
   const {

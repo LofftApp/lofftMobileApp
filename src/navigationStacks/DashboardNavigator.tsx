@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const DashboardNavigator = () => {
   const {data} = useGetUserQuery();
-  const admin = data?.user?.admin;
+  const admin = data?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
