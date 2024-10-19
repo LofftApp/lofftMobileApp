@@ -55,13 +55,11 @@ interface UserFilter {
 
 interface SpecificUser {
   email: string;
-  filter: UserFilter[];
   id: number;
   profile: UserProfile;
 }
 interface IncomingSpecificUser {
   email: string;
-  filter: UserFilter[];
   id: number;
   profile: IncomingUserProfile;
 }

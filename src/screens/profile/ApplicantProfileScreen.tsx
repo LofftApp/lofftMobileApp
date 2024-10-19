@@ -61,7 +61,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   }
 
   const featuresTags = tagSorter(
-    user.filter ?? [],
+    user.profile.filter ?? [],
     advert?.flat.features ?? [],
   );
 

@@ -9,11 +9,9 @@ import {
 } from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
-import {
-  initialMaxPrice,
-  initialMinPrice,
-} from 'components/modals/SearchFilterModal';
+
 import {applicationApi} from 'reduxFeatures/applications/applicationApi';
+import { initialMaxPrice, initialMinPrice } from 'components/componentData/constants';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
