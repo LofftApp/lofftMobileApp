@@ -1,6 +1,7 @@
 import {CoreButton} from 'components/buttons/CoreButton';
 import React, {Dispatch, SetStateAction} from 'react';
 import {Modal, SafeAreaView, StyleSheet, View} from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {size} from 'react-native-responsive-sizes';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -17,6 +18,28 @@ const UploadImageModal = ({
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
+
+  const handleTakePhoto = async () => {
+    const result = await launchCamera({
+      mediaType: 'photo',
+      includeBase64: false,
+    });
+    if (result.didCancel) {
+      toggleModal();
+    }
+    console.log('Photo taken', result);
+  };
+
+  const handleImageUpload = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      includeBase64: false,
+    });
+    if (result.didCancel) {
+      toggleModal();
+    }
+    console.log('photo uploaded', result);
+  };
   return (
     <Modal
       animationType="fade"
@@ -25,14 +48,15 @@ const UploadImageModal = ({
       onRequestClose={toggleModal}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
+          <CoreButton value="Take Photo" onPress={handleTakePhoto} />
           <CoreButton
-            value="Take Photo"
-            onPress={() => {}}
-            // ! Disabled to be removed before production in new repo.
-
+            value="Upload from Library"
+            onPress={handleImageUpload}
+            style={{
+              backgroundColor: Color.Blue[80],
+              borderColor: Color.Blue[80],
+            }}
           />
-          {/* This image upload has been disabled and needs refactoring */}
-          {/* <ImageUploadButton onPress={() => setModalVisible(false)} /> */}
           <CoreButton value="Cancel" onPress={toggleModal} invert />
         </View>
       </View>
@@ -48,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    minHeight: size(250),
+    minHeight: size(350),
     justifyContent: 'space-evenly',
     width: '100%',
     backgroundColor: Color.White[100],

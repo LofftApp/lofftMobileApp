@@ -8735,7 +8735,7 @@ __metadata:
     react-native-dotenv: "npm:^3.4.8"
     react-native-encrypted-storage: "npm:^4.0.3"
     react-native-gesture-handler: "npm:^2.13.4"
-    react-native-image-picker: "npm:^7.0.2"
+    react-native-image-picker: "npm:^7.1.2"
     react-native-responsive-sizes: "npm:^2.0.4"
     react-native-safe-area-context: "npm:^4.5.0"
     react-native-screens: "npm:^3.27.0"
@@ -10459,7 +10459,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-image-picker@npm:^7.0.2":
+"react-native-image-picker@npm:^7.1.2":
   version: 7.1.2
   resolution: "react-native-image-picker@npm:7.1.2"
   peerDependencies:
