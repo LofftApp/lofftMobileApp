@@ -1,6 +1,6 @@
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {fontStyles} from 'styleSheets/fontStyles';

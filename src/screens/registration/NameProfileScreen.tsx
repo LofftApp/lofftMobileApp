@@ -112,15 +112,14 @@ const NameProfileScreen = () => {
     const result = nameSchema.safeParse({
       firstName: trimmedFirstName,
       lastName: trimmedLastName,
-      dateOfBirth: isDateSelected ? date : null,
+      dateOfBirth: isDateSelected ? date : undefined,
     });
 
     if (!result.success) {
       const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
       const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
-      const dateError = isDateSelected
-        ? result.error.flatten().fieldErrors?.dateOfBirth?.[0]
-        : 'Please select your date of birth';
+      const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];
+
       if (firstError) {
         setErrorFirstName(firstError);
       }

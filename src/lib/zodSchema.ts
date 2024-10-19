@@ -8,6 +8,7 @@ import {
   MIN_SELECTED_CHARS,
   MIN_SELECTED_FEATURES,
 } from 'components/componentData/constants';
+import dayjs from 'dayjs';
 import {z} from 'zod';
 
 const languagesSchema = z
@@ -139,11 +140,28 @@ const addressSchema = z.object({
   warmRent: z.boolean(),
 });
 
-const dateLengthSchema = z.object({
-  fromDate: z.date({required_error: 'Please enter a date'}),
-  untilDate: z.date().optional(),
-  permanent: z.boolean(),
-});
+const dateLengthSchema = z
+  .object({
+    fromDate: z
+      .date({required_error: 'Please enter a start date'})
+      .refine(val => dayjs(val).isAfter(dayjs().subtract(1, 'day')), {
+        message: 'Start date cannot be in the past',
+      }),
+    untilDate: z.union([z.date(), z.null()]).optional(),
+    permanent: z.boolean(),
+  })
+  .refine(data => data.permanent || data.untilDate !== null, {
+    message: 'Please select an end date or mark as permanent',
+    path: ['untilDate'],
+  })
+  .refine(
+    data =>
+      !data.untilDate || dayjs(data.untilDate).isAfter(dayjs(data.fromDate)),
+    {
+      message: 'End date must be after the start date',
+      path: ['untilDate'],
+    },
+  );
 
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
@@ -165,4 +183,5 @@ export {
   descriptionSchema,
   nameSchema,
   addressSchema,
+  dateLengthSchema,
 };

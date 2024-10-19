@@ -28,11 +28,13 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {dateLengthSchema} from 'lib/zodSchema';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const FlatLengthAvailableScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [selector, setSelector] = useState('');
-  const [fromDate, setFromDate] = useState<Date>(new Date());
+  const [fromDate, setFromDate] = useState<Date | null>(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
   const [untilDate, setUntilDate] = useState<Date | null>(new Date());
   const [untilDateSelected, setUntilDateSelected] = useState(false);
@@ -118,10 +120,12 @@ const FlatLengthAvailableScreen = () => {
       setFromDate(input);
       setFromDateSelected(true);
       setToday(isToday(input));
+      setErrorFromDate('');
     } else if (selector === 'until') {
       setUntilDate(input);
       setPermanent(false);
       setUntilDateSelected(true);
+      setErrorUntilDate('');
     }
 
     setSelector('');
@@ -132,12 +136,14 @@ const FlatLengthAvailableScreen = () => {
     setFromDate(isTodayDate);
     setFromDateSelected(!today);
     setToday(prev => !prev);
+    setErrorFromDate('');
   };
 
   const handleTogglePermanent = () => {
     setUntilDateSelected(!permanent);
     setUntilDate(null);
     setPermanent(prev => !prev);
+    setErrorUntilDate('');
   };
 
   const handleCancelDate = () => {
@@ -146,15 +152,40 @@ const FlatLengthAvailableScreen = () => {
   };
 
   const handleContinue = () => {
+    const result = dateLengthSchema.safeParse({
+      fromDate: fromDateSelected ? fromDate : undefined,
+      untilDate: untilDateSelected && !permanent ? untilDate : null,
+      permanent: permanent,
+    });
+
+    if (!result.success) {
+      const errFromDate = result.error?.flatten().fieldErrors.fromDate?.[0];
+      const errUntilDate = result.error?.flatten().fieldErrors.untilDate?.[0];
+
+      if (errFromDate) {
+        setErrorFromDate(errFromDate);
+      }
+
+      if (errUntilDate) {
+        setErrorUntilDate(errUntilDate);
+      }
+
+      return;
+    }
+
     setCurrentScreen(currentScreen + 1);
     const screen = newUserScreens.lessor[currentScreen + 1];
     navigation.navigate(screen);
-
+    console.log('result fromDate', result.data.fromDate);
+    console.log('result untilDate', result.data.untilDate);
     setNewUserDetails({
-      fromDate: fromDate.toISOString(),
-      untilDate: untilDate === null ? null : untilDate?.toISOString(),
-      permanent: permanent,
+      fromDate: fromDate?.toISOString(),
+      untilDate: result.data.permanent ? null : untilDate?.toISOString(),
+      permanent: result.data.permanent,
     });
+
+    setErrorFromDate('');
+    setErrorUntilDate('');
   };
 
   return (
@@ -192,6 +223,9 @@ const FlatLengthAvailableScreen = () => {
                   style={styles.setDateButton}
                 />
               </Animated.View>
+              {errorFromDate && (
+                <ErrorMessage isInputField message={errorFromDate} />
+              )}
             </View>
 
             <View style={styles.datePickerContainer}>
@@ -216,6 +250,9 @@ const FlatLengthAvailableScreen = () => {
                   style={styles.setDateButton}
                 />
               </Animated.View>
+              {errorUntilDate && (
+                <ErrorMessage isInputField message={errorUntilDate} />
+              )}
             </View>
           </View>
           <View style={styles.footerContainer}>
@@ -233,7 +270,7 @@ const FlatLengthAvailableScreen = () => {
         modal
         mode="date"
         open={isModalOpen}
-        date={fromDate}
+        date={fromDate ?? new Date()}
         onConfirm={handleDateChange}
         onCancel={handleCancelDate}
       />
