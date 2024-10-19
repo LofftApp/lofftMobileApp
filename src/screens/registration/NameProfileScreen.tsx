@@ -100,7 +100,6 @@ const NameProfileScreen = () => {
     setErrorLastName('');
     setErrorDate('');
   };
-  console.log('isDateSelected', isDateSelected);
 
   const handleContinue = () => {
     const trimmedFirstName = firstName.trim();
