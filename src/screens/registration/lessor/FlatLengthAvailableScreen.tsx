@@ -1,17 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Animated,
-} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
 // Screen 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -38,16 +29,19 @@ import IconButton from 'components/buttons/IconButton';
 const FlatLengthAvailableScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [selector, setSelector] = useState('');
-  const [fromDate, setFromDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState<Date>(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
-  const [untilDate, setUntilDate] = useState(new Date());
+  const [untilDate, setUntilDate] = useState<Date | null>(new Date());
   const [untilDateSelected, setUntilDateSelected] = useState(false);
   const [today, setToday] = useState(false);
-  const [perminant, setPerminant] = useState(false);
+  const [permanent, setPermanent] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const [errorDate, setErrorDate] = useState('');
-
+  console.log('fromDate', fromDate);
+  console.log('untilDate', untilDate);
+  console.log('fromDateSelected', fromDateSelected);
+  console.log('untilDateSelected', untilDateSelected);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -64,28 +58,68 @@ const FlatLengthAvailableScreen = () => {
     setCurrentScreen(previousScreen);
   };
 
+  const handleFromDate = () => {
+    setSelector('from');
+    setIsModalOpen(true);
+  };
+
+  const handleUntilDate = () => {
+    setSelector('until');
+    setIsModalOpen(true);
+  };
+
+  // const handleDateChange = (input: Date) => {
+  //   setIsModalOpen(false);
+  //   if (selector === 'from') {
+  //     setFromDate(input);
+  //     setFromDateSelected(true);
+  //   } else if (selector === 'until') {
+  //     setUntilDate(input);
+  //     setPermanent(false);
+  //     setUntilDateSelected(true);
+  //   }
+  //   setSelector('');
+  // };
+
+  // const handleToggleToday = () => {
+  //   setFromDateSelected(prev => !prev);
+  //   setFromDate(new Date());
+  //   setToday(prev => !prev);
+  // };
+
   const handleDateChange = (input: Date) => {
     setIsModalOpen(false);
+
+    const todayDate = new Date();
+    const isToday =
+      input.getDate() === todayDate.getDate() &&
+      input.getMonth() === todayDate.getMonth() &&
+      input.getFullYear() === todayDate.getFullYear();
+
     if (selector === 'from') {
       setFromDate(input);
       setFromDateSelected(true);
+      setToday(isToday);
     } else if (selector === 'until') {
       setUntilDate(input);
-      setPerminant(false);
+      setPermanent(false);
       setUntilDateSelected(true);
     }
+
     setSelector('');
   };
 
   const handleToggleToday = () => {
-    setFromDate(new Date());
-    setFromDateSelected(prev => !prev);
+    const isToday = today ? fromDate : new Date(); // Toggle between today and no selection
+    setFromDate(isToday);
+    setFromDateSelected(!today); // Toggle selection state
     setToday(prev => !prev);
   };
 
-  const handleTogglePerminant = () => {
-    setUntilDateSelected(prev => !prev);
-    setPerminant(prev => !prev);
+  const handleTogglePermanent = () => {
+    setUntilDateSelected(!permanent);
+    setUntilDate(null);
+    setPermanent(prev => !prev);
   };
 
   const handleCancelDate = () => {
@@ -110,11 +144,12 @@ const FlatLengthAvailableScreen = () => {
           <Animated.View style={[styles.buttonContainer, {opacity: fadeAnim}]}>
             <DatePickerInput
               date={fromDate}
-              setOpen={setIsModalOpen}
               error={errorDate}
               placeholder="First Day"
               height={60}
               dateSelected={fromDateSelected}
+              disabled={today}
+              handleOnPress={handleFromDate}
             />
 
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
@@ -132,18 +167,19 @@ const FlatLengthAvailableScreen = () => {
           <Animated.View style={[styles.buttonContainer, {opacity: fadeAnim}]}>
             <DatePickerInput
               date={untilDate}
-              setOpen={setIsModalOpen}
               error={errorDate}
               placeholder="Last Day"
               height={60}
-              disabled={perminant}
+              disabled={permanent}
+              handleOnPress={handleUntilDate}
+              dateSelected={untilDateSelected}
             />
 
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
             <IconButton
-              text="Perminant"
-              onPress={handleTogglePerminant}
-              isActive={perminant}
+              text="Permanent"
+              onPress={handleTogglePermanent}
+              isActive={permanent}
               style={styles.setDateButton}
             />
           </Animated.View>
@@ -157,7 +193,7 @@ const FlatLengthAvailableScreen = () => {
           details={{
             fromDate: String(fromDate),
             untilDate: String(untilDate),
-            perminant,
+            permanent,
           }}
         />
         {/* Date Picker */}

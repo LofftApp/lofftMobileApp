@@ -82,6 +82,10 @@ const NameProfileScreen = () => {
     setErrorLastName('');
   };
 
+  const handleOnPressDatePicker = () => {
+    setIsModalOpen(true);
+  };
+
   const handleDateChange = (input: Date) => {
     setDate(input);
     setIsModalOpen(false);
@@ -192,8 +196,9 @@ const NameProfileScreen = () => {
               </Text>
               <DatePickerInput
                 date={date}
-                setOpen={setIsModalOpen}
+                handleOnPress={handleOnPressDatePicker}
                 error={errorDate}
+                dateSelected={isDateSelected}
               />
               {errorDate && <ErrorMessage isInputField message={errorDate} />}
               <DatePicker

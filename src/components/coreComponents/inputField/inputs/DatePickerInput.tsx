@@ -7,7 +7,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 type DatePickerInputProps = {
-  setOpen: (value: boolean) => void;
+  handleOnPress: () => void;
   date: Date | null;
   error?: string;
   placeholder?: string;
@@ -17,32 +17,17 @@ type DatePickerInputProps = {
 };
 
 const DatePickerInput = ({
-  setOpen,
+  handleOnPress,
   date,
   error,
   placeholder = 'Select Date',
   height = 48,
   disabled,
-  dateSelected = true,
+  dateSelected,
 }: DatePickerInputProps) => {
-  const [selected, setSelected] = useState(false);
-  const dateRef = useRef(date);
-
-  useEffect(() => {
-    if (date !== dateRef.current) {
-      setSelected(true);
-    }
-    if (!dateSelected) {
-      setSelected(false);
-    }
-  }, [date, dateSelected]);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
   const dateColor = disabled
     ? Color.Black[10]
-    : selected
+    : dateSelected
     ? Color.Black[100]
     : Color.Black[30];
   const borderColor = disabled
@@ -55,7 +40,7 @@ const DatePickerInput = ({
 
   return (
     <>
-      <Pressable disabled={disabled} onPress={handleOpen}>
+      <Pressable disabled={disabled} onPress={handleOnPress}>
         <View
           style={[
             styles.dateInput,
@@ -69,7 +54,9 @@ const DatePickerInput = ({
               styles.dateText,
               {color: dateColor},
             ]}>
-            {selected && date ? dateFormatConverter({date: date}) : placeholder}
+            {dateSelected && date
+              ? dateFormatConverter({date: date})
+              : placeholder}
           </Text>
         </View>
       </Pressable>
