@@ -139,6 +139,12 @@ const addressSchema = z.object({
   warmRent: z.boolean(),
 });
 
+const dateLengthSchema = z.object({
+  fromDate: z.date({required_error: 'Please enter a date'}),
+  untilDate: z.date().optional(),
+  permanent: z.boolean(),
+});
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
   renter: z.object({

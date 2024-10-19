@@ -97,6 +97,7 @@ export interface NewUserLessorDetails {
   warmRent: boolean;
   fromDate: Date | string;
   untilDate: Date | string | null;
+  permanent: boolean;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -221,6 +222,7 @@ const initialState: UserJourneyState = {
       warmRent: false,
       fromDate: '',
       untilDate: '',
+      permanent: false,
       // userDescription: null,
       // textAboutUser: null,
       // location: null,

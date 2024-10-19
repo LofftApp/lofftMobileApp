@@ -153,6 +153,7 @@ const FlatLengthAvailableScreen = () => {
     setNewUserDetails({
       fromDate: fromDate.toISOString(),
       untilDate: untilDate === null ? null : untilDate?.toISOString(),
+      permanent: permanent,
     });
   };
 
