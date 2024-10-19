@@ -37,7 +37,7 @@ export interface NewUserRenterDetails {
     toggle: boolean;
     emoji: string;
   }[];
-  description: string;
+  selfDescription: string;
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
@@ -85,7 +85,7 @@ export interface NewUserLessorDetails {
     toggle: boolean;
     emoji: string;
   }[];
-  description: string;
+  selfDescription: string;
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
@@ -98,6 +98,7 @@ export interface NewUserLessorDetails {
   fromDate: Date | string;
   untilDate: Date | string | null;
   permanent: boolean;
+  flatDescription: string;
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -182,7 +183,7 @@ const initialState: UserJourneyState = {
         warmRent: false,
       },
       filter: [],
-      description: '',
+      selfDescription: '',
       firstName: '',
       lastName: '',
       dateOfBirth: '',
@@ -210,7 +211,7 @@ const initialState: UserJourneyState = {
       },
       districts: [],
       flatFeatures: [],
-      description: '',
+      selfDescription: '',
       firstName: '',
       lastName: '',
       dateOfBirth: '',
@@ -223,6 +224,7 @@ const initialState: UserJourneyState = {
       fromDate: '',
       untilDate: '',
       permanent: false,
+      flatDescription: '',
       // userDescription: null,
       // textAboutUser: null,
       // location: null,

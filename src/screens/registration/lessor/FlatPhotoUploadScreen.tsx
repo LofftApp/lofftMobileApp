@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Modal} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 
 // Screens 📺
 import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
@@ -19,29 +26,107 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {navigationHelper} from 'helpers/navigationHelper';
 import {useNavigation} from '@react-navigation/native';
 import {size} from 'react-native-responsive-sizes';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import BackButton from 'components/buttons/BackButton';
+import {RegistrationBackground} from 'assets';
+import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
+import Divider from 'components/bars/Divider';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
+import {newUserScreens} from 'components/componentData/newUserScreens';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {flatDescriptionSchema} from 'lib/zodSchema';
 
 const FlatPhotoUploadScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const [text, setText] = useState('');
+  const [textFocus, setTextFocus] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState('');
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const savedDescription =
+    newUserDetails.userType === 'lessor' && newUserDetails.flatDescription;
+
+  useEffect(() => {
+    if (savedDescription) {
+      setText(savedDescription);
+    }
+  }, [savedDescription]);
+
+  const handleOnChange = (input: string) => {
+    setText(input);
+  };
+  const handleOnFocus = () => {
+    setTextFocus(true);
+  };
+
+  const handleOnBlur = () => {
+    setTextFocus(false);
+  };
+
+  const handleBackButton = () => {
+    setCurrentScreen(currentScreen - 1);
+    navigation.goBack();
+    setError('');
+  };
+
+  const handleContinue = () => {
+    const trimmedText = text.trim();
+    const result = flatDescriptionSchema.safeParse(trimmedText);
+    if (!result.success) {
+      setError(result.error.flatten().formErrors?.[0]);
+      return;
+    }
+
+    setNewUserDetails({flatDescription: result.data});
+
+    setCurrentScreen(currentScreen + 1);
+    const screen = newUserScreens.lessor[currentScreen + 1];
+    navigation.navigate(screen);
+    setError('');
+  };
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
-      <HeadlineContainer
-        headlineText="Show us how the flat looks like."
-        subDescription="Describe your flat in a short text. This can be edited later!"
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
       />
-      <ImagePreviewRow />
-      <UploadImageButton onPress={() => setModalVisible(true)} />
-      <TextInput
-        multiline={true}
-        style={styles.textInput}
-        placeholder="Tell us about your lofft."
-      />
-      <FooterNavBarWithPagination
-        onPress={(targetScreen: any) =>
-          navigationHelper(navigation, targetScreen)
-        }
-        buttonValue="Take me to Lofft"
-      />
+      <View style={CoreStyleSheet.screenContainer}>
+        <HeadlineContainer
+          headlineText="Show us how the flat looks like."
+          subDescription="Describe your flat in a short text. This can be edited later!"
+        />
+        <View style={styles.mainContainer}>
+          <CustomTextInput
+            text={text}
+            textFocus={textFocus}
+            error={error}
+            handleOnChange={handleOnChange}
+            handleOnFocus={handleOnFocus}
+            handleOnBlur={handleOnBlur}
+            placeholder="Tell us about your lofft."
+            isFlat
+          />
+          <ImagePreviewRow />
+          <UploadImageButton onPress={() => setModalVisible(true)} />
+
+          <View style={styles.footerContainer}>
+            <Divider />
+            <NewUserPaginationBar />
+            <NewUserJourneyContinueButton
+              value="Continue"
+              disabled={text.length < MIN_DESCRIPTION_CHARS}
+              onPress={handleContinue}
+            />
+          </View>
+        </View>
+      </View>
       <Modal
         animationType="fade"
         transparent={true}
@@ -67,24 +152,16 @@ const FlatPhotoUploadScreen = () => {
           </View>
         </View>
       </Modal>
-    </ScreenBackButton>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  textInput: {
-    marginTop: size(24),
-    borderWidth: size(2),
-    padding: size(16),
-    paddingTop: size(16),
-    height: size(203),
-    borderRadius: size(16),
-  },
-  bottomContainer: {
+  mainContainer: {
     flex: 1,
-    marginVertical: size(45),
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
+
   centeredView: {
     backgroundColor: Color.BlackOpacity[30],
     flex: 1,
@@ -108,6 +185,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: size(4),
     elevation: 5,
+  },
+  footerContainer: {
+    paddingTop: size(20),
+    paddingBottom: size(20),
+    paddingHorizontal: size(16),
+    gap: size(10),
   },
 });
 

@@ -26,7 +26,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
-import {descriptionSchema} from 'lib/zodSchema';
+import {selfDescriptionSchema} from 'lib/zodSchema';
 
 //Constants  📊
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
@@ -46,7 +46,7 @@ const SelfDescribeScreen = () => {
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
-  const savedDescription = newUserDetails.description;
+  const savedDescription = newUserDetails.selfDescription;
 
   useEffect(() => {
     if (savedDescription) {
@@ -72,13 +72,13 @@ const SelfDescribeScreen = () => {
   };
   const handleContinue = () => {
     const trimmedText = text.trim();
-    const result = descriptionSchema.safeParse(trimmedText);
+    const result = selfDescriptionSchema.safeParse(trimmedText);
     if (!result.success) {
       setError(result.error.flatten().formErrors?.[0]);
       return;
     }
 
-    setNewUserDetails({description: result.data});
+    setNewUserDetails({selfDescription: result.data});
 
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor

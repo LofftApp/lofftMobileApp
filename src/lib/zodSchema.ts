@@ -105,7 +105,7 @@ const featuresSchema = z
     message: 'Please select at least one tag',
   });
 
-const descriptionSchema = z
+const selfDescriptionSchema = z
   .string({
     required_error: `We need at least ${MIN_DESCRIPTION_CHARS} words to create your profile`,
   })
@@ -163,6 +163,17 @@ const dateLengthSchema = z
     },
   );
 
+const flatDescriptionSchema = z
+  .string({
+    required_error: `We need at least ${MIN_DESCRIPTION_CHARS} words to create your flat profile`,
+  })
+  .min(MIN_DESCRIPTION_CHARS, {
+    message: 'We are sure you have more to say about your flat',
+  })
+  .max(MAX_DESCRIPTION_CHARS, {
+    message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
+  });
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
   renter: z.object({
@@ -180,8 +191,9 @@ export {
   budgetSchema,
   newUserSchema,
   featuresSchema,
-  descriptionSchema,
+  selfDescriptionSchema,
   nameSchema,
   addressSchema,
   dateLengthSchema,
+  flatDescriptionSchema,
 };
