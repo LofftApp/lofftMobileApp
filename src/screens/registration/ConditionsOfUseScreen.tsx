@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
@@ -12,7 +12,6 @@ import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBa
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
-import UserJourneySaveButton from 'components/buttons/UserJourneySaveButton';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -24,6 +23,12 @@ import {size} from 'react-native-responsive-sizes';
 // Types
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {RegistrationBackground} from 'assets';
+import BackButton from 'components/buttons/BackButton';
+import Divider from 'components/bars/Divider';
+import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 const ConditionsOfUseScreen = () => {
   const dispatch = useAppDispatch();
@@ -38,54 +43,71 @@ const ConditionsOfUseScreen = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
   };
+
+  const handleContinue = () => {
+    console.log('Continue');
+  };
   return (
-    <ScreenBackButton nav={handleBackButton}>
-      <HeadlineContainer
-        headlineText={`Lofft is an ${'\n'}inclusive space`}
-        subDescription={''}
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <BackButton onPress={handleBackButton} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
       />
-      <View style={styles.flexWrapper}>
-        <Text style={[fontStyles.bodyLarge, styles.descriptionText]}>
-          Lofft is an inclusive place for everyone to be. We exist to include
-          and not divide.
-        </Text>
-        <Text>
-          Therefore, we ask our members to agree to the statement below:
-          {'\n'}
-          {'\n'}
-          “I agree to treat others in the Lofft community with respect. I agree
-          to not discriminate, have judgment or bias of others based on their
-          sex, race, religion, disability, language, gender identity, sexual
-          orentation, national origin, age, ethnicity, political or any other
-          opinion.
-        </Text>
-      </View>
-
-      <View style={styles.options}>
-        <UserJourneySaveButton
-          value="Continue"
-          onPress={() => {
-            dispatch(saveUserDetails);
-            navigation.navigate('dashboard');
-          }}
+      <View style={CoreStyleSheet.screenContainer}>
+        <HeadlineContainer
+          headlineText={`Lofft is an ${'\n'}inclusive space`}
+          subDescription="Lofft is an inclusive place for everyone to be. We exist to include
+            and not divide."
         />
+        <View style={styles.mainContainer}>
+          <View style={styles.textContainer}>
+            <Text style={[fontStyles.bodySmall, {color: Color.Black[80]}]}>
+              Therefore, we ask our members to agree to the statement below:
+            </Text>
+            <Text style={fontStyles.bodySmall}>
+              “I agree to treat others in the Lofft community with respect. I
+              agree to not discriminate, have judgment or bias of others based
+              on their sex, race, religion, disability, language, gender
+              identity, sexual orentation, national origin, age, ethnicity,
+              political or any other opinion."
+            </Text>
+          </View>
 
-        <CoreButton
-          value="Decline"
-          style={styles.buttonStyle}
-          textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
-          disabled={false}
-          onPress={handleSignOut}
-        />
+          <View style={styles.footerContainer}>
+            <Divider />
+            <NewUserPaginationBar />
+            <NewUserJourneyContinueButton
+              value="Agree and Continue"
+              onPress={handleContinue}
+            />
+
+            <CoreButton
+              value="Decline"
+              style={styles.buttonStyle}
+              textStyle={[fontStyles.headerSmall, {color: Color.Lavendar[100]}]}
+              disabled={false}
+              onPress={handleSignOut}
+            />
+          </View>
+        </View>
       </View>
-    </ScreenBackButton>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  flexWrapper: {
+  mainContainer: {
     flex: 1,
+    justifyContent: 'space-between',
   },
+  textContainer: {
+    marginTop: size(50),
+    paddingHorizontal: size(10),
+    gap: size(30),
+  },
+
   descriptionText: {
     color: Color.Black[50],
     marginBottom: size(40),
@@ -97,6 +119,12 @@ const styles = StyleSheet.create({
   },
   options: {
     marginBottom: size(55),
+  },
+  footerContainer: {
+    paddingTop: size(20),
+    paddingBottom: size(20),
+    paddingHorizontal: size(16),
+    gap: size(10),
   },
 });
 
