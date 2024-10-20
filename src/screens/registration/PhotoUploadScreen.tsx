@@ -6,23 +6,34 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import {newUserScreens} from 'components/componentData/newUserScreens';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
 import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-
+const MAX_IMAGES = 10;
 const PhotoUploadScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState('');
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails, isLessor} = useNewUserDetails();
+  const {imagesToUpload} = useImagesToUpload();
+  const totalImages = imagesToUpload.length;
+
+  useEffect(() => {
+    if (totalImages > MAX_IMAGES) {
+      setError(`You can only upload ${MAX_IMAGES} images`);
+    }
+  }, [totalImages]);
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
@@ -30,14 +41,25 @@ const PhotoUploadScreen = () => {
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
+    setError('');
   };
 
   const handleContinue = () => {
+    if (totalImages < 1) {
+      setError('Please upload at least one image');
+      return;
+    }
+    if (totalImages > MAX_IMAGES) {
+      setError(`You can only upload ${MAX_IMAGES} images`);
+      return;
+    }
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
+
+    setError('');
   };
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -62,10 +84,11 @@ const PhotoUploadScreen = () => {
           </ScrollView>
           <View style={styles.footerContainer}>
             <Divider />
+            <ErrorMessage message={error} />
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
-              // disabled={text.length < MIN_DESCRIPTION_CHARS}
+              disabled={totalImages < 1 || totalImages > MAX_IMAGES}
               onPress={handleContinue}
             />
           </View>

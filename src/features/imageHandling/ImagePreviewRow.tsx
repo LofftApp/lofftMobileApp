@@ -1,13 +1,5 @@
 import React from 'react';
-import {useAppDispatch} from 'reduxCore/hooks';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Pressable,
-} from 'react-native';
+import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🐰
 
@@ -17,6 +9,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Stylesheets 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from './useImagesToUpload';
+import {size} from 'react-native-responsive-sizes';
 
 const ImagePreviewRow = () => {
   const {imagesToUpload, deleteImageToUpload} = useImagesToUpload();
@@ -53,22 +46,24 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     marginBottom: 10,
+    flexWrap: 'wrap',
+    gap: size(20),
+    marginTop: size(5),
   },
   image: {
-    width: 100,
-    height: 100,
-    marginHorizontal: 5,
+    width: size(120),
+    height: size(120),
     borderRadius: 12,
     zIndex: 1,
   },
   closeButton: {
     position: 'absolute',
-    right: 0,
+    right: -8,
     zIndex: 2,
-    marginTop: -5,
-    width: 15,
-    height: 15,
-    borderRadius: 10,
+    marginTop: -8,
+    width: size(25),
+    height: size(25),
+    borderRadius: 9999,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.Tomato['100'],
