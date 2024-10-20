@@ -1,9 +1,15 @@
 import React from 'react';
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {useAppDispatch} from 'reduxCore/hooks';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 
 // Redux 🐰
-import {deleteImageToUpload} from './userImageUploadSlice';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -13,20 +19,20 @@ import Colors from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from './useImagesToUpload';
 
 const ImagePreviewRow = () => {
-  const dispatch = useAppDispatch();
-  const {imagesToUpload} = useImagesToUpload();
+  const {imagesToUpload, deleteImageToUpload} = useImagesToUpload();
+
   return (
     <View style={styles.imageContainer}>
       {imagesToUpload.length > 0 ? (
-        imagesToUpload.map((image: string) => {
+        imagesToUpload.map(image => {
           console.log('image', image.fileName);
           return (
             <View key={image.fileName}>
-              <TouchableOpacity
+              <Pressable
                 style={styles.closeButton}
-                onPress={() => dispatch(deleteImageToUpload(image))}>
+                onPress={() => deleteImageToUpload(image.fileName)}>
                 <LofftIcon name="x-close" size={12} color={Colors.White[100]} />
-              </TouchableOpacity>
+              </Pressable>
               <Image
                 style={styles.image}
                 source={{
@@ -49,8 +55,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
     marginHorizontal: 5,
     borderRadius: 12,
     zIndex: 1,

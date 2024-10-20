@@ -9,7 +9,7 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
@@ -54,8 +54,12 @@ const PhotoUploadScreen = () => {
           }
         />
         <View style={styles.mainContainer}>
-          <UploadImageButton onPress={toggleModal} />
-          <ImagePreviewRow />
+          <ScrollView>
+            <View style={styles.imageContainer}>
+              <UploadImageButton onPress={toggleModal} />
+              <ImagePreviewRow />
+            </View>
+          </ScrollView>
           <View style={styles.footerContainer}>
             <Divider />
             <NewUserPaginationBar />
@@ -79,6 +83,11 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  imageContainer: {
+    flex: 1,
+    gap: size(20),
+    marginTop: size(20),
   },
   footerContainer: {
     paddingTop: size(20),
