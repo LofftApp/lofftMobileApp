@@ -12,6 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 // Screens 📺
 import {newUserScreens} from 'components/componentData/newUserScreens';
@@ -28,6 +29,7 @@ import DatePicker from 'react-native-date-picker';
 import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
 import UploadImageButton from 'components/imageUpload/UploadImageButton';
+import UploadImageModal from 'components/modals/UploadImageModal';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -40,14 +42,14 @@ import {RegistrationBackground} from 'assets';
 //Validation 🛡 ️
 import {nameSchema} from 'lib/zodSchema';
 
+//Constants 📊
+import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷 ️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import UploadImageModal from 'components/modals/UploadImageModal';
-import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -77,10 +79,6 @@ const NameProfileScreen = () => {
     (isLessor
       ? savedImages.lessor.userImages.length
       : savedImages.renter.userImages.length) + imagesToUpload.length;
-
-  console.log('userDetails in name', newUserDetails);
-  console.log('savedImages in name', savedImages);
-  console.log('imagesToUpload in name', imagesToUpload);
 
   useEffect(() => {
     if (savedFirstName) {
