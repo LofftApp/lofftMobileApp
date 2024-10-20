@@ -52,7 +52,7 @@ const CustomTextInput = ({
       <Text style={[fontStyles.bodySmall, styles.minText]}>
         {text.length < MIN_DESCRIPTION_CHARS &&
           !error &&
-          `*Share your ${isFlat ? "flat's" : ''} story in ${
+          `*Share your ${isFlat ? "flat's " : ''}story in ${
             MIN_DESCRIPTION_CHARS - text.length
           } word${
             MIN_DESCRIPTION_CHARS - text.length === 1 ? '' : 's'
@@ -65,7 +65,7 @@ const CustomTextInput = ({
 
 const styles = StyleSheet.create({
   textContainer: {
-    height: '45%',
+    height: '70%',
     paddingHorizontal: size(10),
     paddingVertical: size(10),
     gap: size(10),

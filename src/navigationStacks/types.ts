@@ -23,11 +23,10 @@ type NewUserScreenNames =
   | 'SelectCityScreen'
   | 'FinderBudgetScreen'
   | 'FlatFeaturesScreen'
-  | 'SelfDescribeScreen'
+  | 'SelfFlatDescribeScreen'
   | 'ConditionsOfUseScreen'
   | 'FinderBudgetScreen'
   | 'NameProfileScreen'
-  | 'FlatDescribeScreen'
   | 'FlatImageUploadScreen';
 
 type NewUserScreens = {
