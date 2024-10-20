@@ -13,7 +13,7 @@ export const newUserScreens: NewUserScreens = {
     9: 'ConditionsOfUseScreen',
   },
   lessor: {
-    // 1: 'LanguageSelectionScreen',
+    1: 'LanguageSelectionScreen',
     2: 'SelectCityScreen',
     3: 'WhereIsFlatScreen',
     4: 'FlatLengthAvailableScreen',
@@ -23,6 +23,6 @@ export const newUserScreens: NewUserScreens = {
     8: 'FlatDescribeScreen',
     9: 'FlatImageUploadScreen',
     10: 'NameProfileScreen',
-    1: 'ConditionsOfUseScreen',
+    11: 'ConditionsOfUseScreen',
   },
 };

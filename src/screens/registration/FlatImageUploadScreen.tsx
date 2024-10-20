@@ -94,7 +94,6 @@ const FlatImageUploadScreen = () => {
 
     if (!result.success) {
       const err = result.error.flatten().formErrors?.[0];
-      console.log('error in flatImage', err);
       setError(err);
       return;
     }
