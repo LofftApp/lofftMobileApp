@@ -24,7 +24,7 @@ import {LessorTabParamsList} from './types';
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const DashboardNavigatorLessor = () => {
   const {data} = useGetUserQuery();
-  const admin = data?.user?.admin;
+  const admin = data?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

@@ -25,8 +25,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // Types 🏷
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
-  const {data} = useGetUserQuery();
-  const currentUser = data?.user;
+  const {data: currentUser} = useGetUserQuery();
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
 
@@ -56,7 +55,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const negativeCharTags = charTags.negativeTags;
 
   const featuresTags = tagSorter(
-    currentUser?.filter ?? [],
+    currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
 

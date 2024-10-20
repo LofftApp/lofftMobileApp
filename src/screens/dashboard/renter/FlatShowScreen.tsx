@@ -54,8 +54,7 @@ const outOfTokens = {
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
-  const {data} = useGetUserQuery();
-  const user = data?.user;
+  const {data: currentUser} = useGetUserQuery();
 
   const {data: advert, error, isLoading} = useGetAdvertByIdQuery(advertId);
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -65,8 +64,8 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
 
-  const completeProfile = user?.userType !== 'newuser';
-  const hasTokens = user?.credits && user?.credits > 0;
+  const completeProfile = currentUser?.userType !== 'newuser';
+  const hasTokens = currentUser?.credits && currentUser?.credits > 0;
 
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);

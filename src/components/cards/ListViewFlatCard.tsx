@@ -29,8 +29,7 @@ import {SearchScreenNavigationProp} from '../../navigationStacks/types';
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
-  const {data} = useGetUserQuery();
-  const currentUser = data?.user;
+  const {data: currentUser} = useGetUserQuery();
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
@@ -39,7 +38,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
     advert.flat.characteristics ?? [],
   );
   const featuresTags = tagSorter(
-    currentUser?.filter ?? [],
+    currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
   const positiveFeatures = featuresTags.positiveTags;
