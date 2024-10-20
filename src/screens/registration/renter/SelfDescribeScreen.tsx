@@ -1,5 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TextInput, Text, SafeAreaView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  SafeAreaView,
+  Animated,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -65,6 +72,16 @@ const SelfDescribeScreen = () => {
     setTextFocus(false);
   };
 
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
@@ -105,7 +122,7 @@ const SelfDescribeScreen = () => {
           }
         />
         <View style={styles.mainContainer}>
-          <View style={styles.textContainer}>
+          <Animated.View style={[styles.textContainer, {opacity: fadeAnim}]}>
             <TextInput
               keyboardType="default"
               placeholder="Who are you? What do you like?"
@@ -138,7 +155,7 @@ const SelfDescribeScreen = () => {
                 } or more`}
               {error && <ErrorMessage isInputField message={error} />}
             </Text>
-          </View>
+          </Animated.View>
 
           <View style={styles.footerContainer}>
             <Divider />

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -31,6 +31,8 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 import {genderIdentitySchema} from 'lib/zodSchema';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {MAX_GENDERS} from 'components/componentData/constants';
+import {fontStyles} from 'styleSheets/fontStyles';
 interface SelectButton {
   id: number;
   value: string;
@@ -97,6 +99,8 @@ const GenderIdentityScreen = () => {
     const updatedGender = intitalGenders.map(el => {
       return el.id === id
         ? {...el, toggle: !el.toggle}
+        : isLessor
+        ? el
         : {...el, toggle: false};
     });
 
@@ -163,11 +167,21 @@ const GenderIdentityScreen = () => {
         <Divider />
 
         <View style={styles.footerContainer}>
+          {isLessor && (
+            <View style={styles.tagInfoContainer}>
+              <Text
+                style={
+                  fontStyles.bodySmall
+                }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
+            </View>
+          )}
           {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            disabled={selectedGender.length === 0}
+            disabled={
+              selectedGender.length === 0 || selectedGender.length > MAX_GENDERS
+            }
             onPress={handleContinue}
           />
         </View>

@@ -15,8 +15,12 @@ const MIN_SELECTED_CHARS = 3;
 //flat features screen
 const MIN_SELECTED_FEATURES = 3;
 
+//characteristics screen
 const MIN_DESCRIPTION_CHARS = 20;
 const MAX_DESCRIPTION_CHARS = 1000;
+
+//gender identity screen
+const MAX_GENDERS = 3;
 
 //upload images
 const MAX_FLAT_IMAGES = 10;
@@ -33,5 +37,6 @@ export {
   MIN_DESCRIPTION_CHARS,
   MAX_DESCRIPTION_CHARS,
   MAX_FLAT_IMAGES,
+  MAX_GENDERS,
   MAX_USER_IMAGES,
 };

@@ -1,4 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {newUserScreens} from 'components/componentData/newUserScreens';
+import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
 
 export interface NewUserRenterDetails {
@@ -147,25 +149,8 @@ const initialState: UserJourneyState = {
   currentScreen: 1,
   userJourney: '',
   userType: '',
-  renterJourney: {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-  },
-  lessorJourney: {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-  },
-
+  renterJourney: createNewUserJourney(newUserScreens.renter),
+  lessorJourney: createNewUserJourney(newUserScreens.lessor),
   newUserDetails: {
     renter: {
       userType: 'renter',

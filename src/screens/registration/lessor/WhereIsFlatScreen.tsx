@@ -178,6 +178,8 @@ const WhereIsFlatScreen = () => {
       warmRent: result.data.warmRent,
     });
 
+    setCurrentScreen(currentScreen + 1);
+
     navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
 
     setErrorAddress('');

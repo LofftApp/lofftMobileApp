@@ -3,6 +3,7 @@ import {
   initialMinPrice,
   MAX_DESCRIPTION_CHARS,
   MAX_FLAT_IMAGES,
+  MAX_GENDERS,
   MAX_LANGUAGES,
   MAX_SELECTED_CHARS,
   MAX_USER_IMAGES,
@@ -50,8 +51,8 @@ const genderIdentitySchema = z
   .nonempty({
     message: 'Please select at least one option',
   })
-  .max(MIN_SELECTED_FEATURES, {
-    message: 'You can select up to 3 options only',
+  .max(MAX_GENDERS, {
+    message: `You can select up to ${MAX_GENDERS} options only`,
   });
 
 const cityDistrictsSchema = z.object({
@@ -103,8 +104,8 @@ const featuresSchema = z
       emoji: z.string(),
     }),
   )
-  .nonempty({
-    message: 'Please select at least one tag',
+  .min(MIN_SELECTED_FEATURES, {
+    message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
   });
 
 const selfDescriptionSchema = z

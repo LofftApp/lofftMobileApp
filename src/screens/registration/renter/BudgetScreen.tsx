@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Text, View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {useNavigation} from '@react-navigation/native';
 
@@ -73,6 +73,16 @@ const BudgetScreen = () => {
       setWarmRent(savedBudget?.warmRent);
     }
   }, [savedBudget?.minPrice, savedBudget?.maxPrice, savedBudget?.warmRent]);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
 
   const handleMin = (num: string | number) => {
     if (+num <= +initialMaxPrice) {
@@ -156,7 +166,8 @@ const BudgetScreen = () => {
           subDescription={'Define the range for your monthly rental budget'}
         />
 
-        <View style={styles.priceRangeContainer}>
+        <Animated.View
+          style={[styles.priceRangeContainer, {opacity: fadeAnim}]}>
           <View style={styles.inputContainer}>
             <View style={styles.formContainer}>
               <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
@@ -210,11 +221,11 @@ const BudgetScreen = () => {
               {onlyNumber(maxPrice)} €
             </Text>
           </View>
-        </View>
-        <View style={styles.switchContainer}>
+        </Animated.View>
+        <Animated.View style={[styles.switchContainer, {opacity: fadeAnim}]}>
           <Text style={fontStyles.bodySmall}>Warm Rent</Text>
           <CustomSwitch value={warmRent} onValueChange={handleSwitch} />
-        </View>
+        </Animated.View>
       </View>
       <View style={styles.footerContainer}>
         <Divider />

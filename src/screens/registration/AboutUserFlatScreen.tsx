@@ -47,7 +47,7 @@ interface SelectedTracks {
   toggle: boolean;
 }
 
-const AboutUserScreen = () => {
+const AboutUserFlatScreen = () => {
   // initial state
   const characteristics = userPreferences;
 
@@ -148,8 +148,16 @@ const AboutUserScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText="Tell us a bit about yourself"
-          subDescription={`Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`}
+          headlineText={
+            isLessor
+              ? 'Tell us a bit about your flat'
+              : 'Tell us a bit about yourself'
+          }
+          subDescription={
+            isLessor
+              ? `Select at least ${MIN_SELECTED_CHARS} tags that describe your Lofft lifestyles. More tags selected, more likelihood you'll find the right crowd!`
+              : `Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`
+          }
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>{charsButtons}</View>
@@ -199,4 +207,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AboutUserScreen;
+export default AboutUserFlatScreen;
