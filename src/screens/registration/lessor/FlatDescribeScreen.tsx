@@ -1,52 +1,50 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Modal,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+//Redux 📦
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
-import {CoreButton} from 'components/buttons/CoreButton';
-// import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
-import ImagePreviewRow from 'components/statusbar/ImagePreviewRow';
-import UploadImageButton from 'components/statusbar/UploadImageButton';
-
-// Styles 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-
-// Helpers 🤝
-import {navigationHelper} from 'helpers/navigationHelper';
-import {useNavigation} from '@react-navigation/native';
-import {size} from 'react-native-responsive-sizes';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import BackButton from 'components/buttons/BackButton';
 import {RegistrationBackground} from 'assets';
-import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
-import {newUserScreens} from 'components/componentData/newUserScreens';
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {flatDescriptionSchema} from 'lib/zodSchema';
+import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
 import UploadImageModal from 'components/modals/UploadImageModal';
 
+// Styles 🖼️
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Validation 🛡️
+import {flatDescriptionSchema} from 'lib/zodSchema';
+
+//Constants 📊
+import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
+
+// Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
+
+//Types 🏷️
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+
 const FlatDescribeScreen = () => {
+  //navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  //Local State
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState('');
+
+  //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();
   const savedDescription =
@@ -57,10 +55,6 @@ const FlatDescribeScreen = () => {
       setText(savedDescription);
     }
   }, [savedDescription]);
-
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-  };
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -146,30 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  centeredView: {
-    backgroundColor: Color.BlackOpacity[30],
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  modalView: {
-    minHeight: size(250),
-    justifyContent: 'space-evenly',
-    width: '100%',
-    backgroundColor: Color.White[100],
-    borderTopLeftRadius: size(16),
-    borderTopRightRadius: size(16),
-    paddingHorizontal: size(35),
-    paddingBottom: size(35),
-    shadowColor: '#000',
-    shadowOffset: {
-      width: size(2),
-      height: size(2),
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: size(4),
-    elevation: 5,
-  },
   footerContainer: {
     paddingTop: size(20),
     paddingBottom: size(20),
