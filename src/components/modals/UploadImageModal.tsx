@@ -3,6 +3,7 @@ import React, {Dispatch, SetStateAction} from 'react';
 import {Modal, StyleSheet, View} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {size} from 'react-native-responsive-sizes';
+import {ImageToUpload} from 'reduxFeatures/imageHandling/types';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import Color from 'styleSheets/lofftColorPallet.json';
 
@@ -26,9 +27,7 @@ const UploadImageModal = ({
       mediaType: 'photo',
       includeBase64: false,
     });
-    if (result.didCancel) {
-      toggleModal();
-    }
+    toggleModal();
     console.log('Photo taken', result);
   };
 
@@ -37,10 +36,8 @@ const UploadImageModal = ({
       mediaType: 'photo',
       includeBase64: false,
     });
-    if (result.didCancel) {
-      toggleModal();
-    }
-    setImagesToUpload(result.assets);
+    toggleModal();
+    setImagesToUpload(result.assets as ImageToUpload[]);
     console.log('photo uploaded', result);
   };
   return (

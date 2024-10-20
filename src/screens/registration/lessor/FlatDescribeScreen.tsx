@@ -16,8 +16,8 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import FooterNavBarWithPagination from 'components/bars/FooterNavBarWithPagination';
 import {CoreButton} from 'components/buttons/CoreButton';
 // import ImageUploadButton from 'reduxFeatures/imageHandling/ImageUploadButton';
-import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
-import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
+import ImagePreviewRow from 'components/statusbar/ImagePreviewRow';
+import UploadImageButton from 'components/statusbar/UploadImageButton';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -105,7 +105,7 @@ const FlatDescribeScreen = () => {
         />
         <View style={CoreStyleSheet.screenContainer}>
           <HeadlineContainer
-            headlineText="Show us how the flat looks like."
+            headlineText="Tell us how the flat looks like."
             subDescription="Describe your flat in a short text. This can be edited later!"
           />
           <View style={styles.mainContainer}>
@@ -119,8 +119,6 @@ const FlatDescribeScreen = () => {
               placeholder="Tell us about your lofft."
               isFlat
             />
-            {/* <ImagePreviewRow />
-            <UploadImageButton onPress={toggleModal} /> */}
 
             <View style={styles.footerContainer}>
               <Divider />

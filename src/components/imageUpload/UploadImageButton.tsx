@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {useAppSelector} from 'reduxCore/hooks';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -8,12 +7,13 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // StyleSheets
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+import {size} from 'react-native-responsive-sizes';
 
 const UploadImageButton = ({onPress}: any) => {
-  const userImages = useAppSelector(
-    (state: any) => state.imageUpload.imagesToUpload,
-  );
-  const disable = userImages.length >= 5;
+  const {imagesToUpload} = useImagesToUpload();
+  const disable = imagesToUpload.length >= MAX_FLAT_IMAGES;
   return (
     <View>
       <TouchableOpacity
@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 12,
     borderColor: Colors.Black[50],
-    paddingVertical: 16,
+    paddingVertical: size(16),
     alignItems: 'center',
   },
   uploadText: {
     color: Colors.Lavendar[100],
-    marginTop: 12,
+    marginTop: size(12),
   },
   disabled: {
     borderColor: Colors.Black[30],

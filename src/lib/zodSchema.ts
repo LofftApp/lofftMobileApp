@@ -124,6 +124,23 @@ const nameSchema = z.object({
     .string({required_error: 'Please enter your last name'})
     .min(1, 'Please enter your last name'),
   dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
+  images: z
+    .array(
+      z.object({
+        fileName: z.string(),
+        fileSize: z.number(),
+        height: z.number(),
+        type: z.string(),
+        uri: z.string(),
+        width: z.number(),
+      }),
+    )
+    .nonempty({
+      message: 'Please upload at least one image',
+    })
+    .max(5, {
+      message: 'You can upload up to 5 images only',
+    }),
 });
 
 const addressSchema = z.object({

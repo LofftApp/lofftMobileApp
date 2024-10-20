@@ -8,10 +8,15 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Stylesheets 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
-import {useImagesToUpload} from './useImagesToUpload';
+import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload';
 import {size} from 'react-native-responsive-sizes';
+import {fontStyles} from 'styleSheets/fontStyles';
+import {
+  MAX_FLAT_IMAGES,
+  MAX_USER_IMAGES,
+} from 'components/componentData/constants';
 
-const ImagePreviewRow = () => {
+const ImagePreviewRow = ({user = false}: {user: boolean}) => {
   const {imagesToUpload, deleteImageToUpload} = useImagesToUpload();
 
   return (
@@ -36,7 +41,9 @@ const ImagePreviewRow = () => {
           );
         })
       ) : (
-        <Text>0 Images to upload add up to 5 images</Text>
+        <Text style={fontStyles.headerExtraSmall}>
+          Add up to {user ? MAX_USER_IMAGES : MAX_FLAT_IMAGES} images
+        </Text>
       )}
     </View>
   );
@@ -45,10 +52,8 @@ const ImagePreviewRow = () => {
 const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
     flexWrap: 'wrap',
     gap: size(20),
-    marginTop: size(5),
   },
   image: {
     width: size(120),
@@ -68,6 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.Tomato['100'],
   },
+  textStyle: {},
 });
 
 export default ImagePreviewRow;

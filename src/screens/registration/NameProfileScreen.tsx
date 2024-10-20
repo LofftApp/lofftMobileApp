@@ -18,9 +18,9 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import DatePicker from 'react-native-date-picker';
-import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
+import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
-import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
+import UploadImageButton from 'components/imageUpload/UploadImageButton';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -38,6 +38,9 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷 ️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import UploadImageModal from 'components/modals/UploadImageModal';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {MAX_USER_IMAGES} from 'components/componentData/constants';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -49,12 +52,16 @@ const NameProfileScreen = () => {
   const [date, setDate] = useState(new Date());
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [errorFirstName, setErrorFirstName] = useState('');
   const [errorLastName, setErrorLastName] = useState('');
   const [errorDate, setErrorDate] = useState('');
+  const [errorImage, setErrorImage] = useState('');
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
+  const {imagesToUpload} = useImagesToUpload();
+  const totalImages = imagesToUpload.length;
   const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
@@ -84,18 +91,23 @@ const NameProfileScreen = () => {
   };
 
   const handleOnPressDatePicker = () => {
-    setIsModalOpen(true);
+    setIsDatePickerOpen(true);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(prev => !prev);
+    setErrorImage('');
   };
 
   const handleDateChange = (input: Date) => {
     setDate(input);
-    setIsModalOpen(false);
+    setIsDatePickerOpen(false);
     setIsDateSelected(true);
     setErrorDate('');
   };
 
   const handleCancelDate = () => {
-    setIsModalOpen(false);
+    setIsDatePickerOpen(false);
   };
 
   const handleBackButton = () => {
@@ -104,6 +116,7 @@ const NameProfileScreen = () => {
     setErrorFirstName('');
     setErrorLastName('');
     setErrorDate('');
+    setErrorImage('');
   };
 
   const handleContinue = () => {
@@ -129,6 +142,9 @@ const NameProfileScreen = () => {
       if (dateError) {
         setErrorDate(dateError);
       }
+      if (totalImages < MAX_USER_IMAGES) {
+        setErrorImage('Please upload at least one image');
+      }
       return;
     }
 
@@ -147,6 +163,7 @@ const NameProfileScreen = () => {
     setErrorFirstName('');
     setErrorLastName('');
     setErrorDate('');
+    setErrorImage('');
   };
 
   return (
@@ -165,52 +182,67 @@ const NameProfileScreen = () => {
         />
         <View style={styles.mainContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.textContainer}>
-              <Text style={[fontStyles.bodySmall, styles.minText]}>
-                First Name
-              </Text>
-              <InputFieldText
-                placeholder="Which name do you go by?"
-                value={firstName}
-                onChangeText={handleFirstName}
-                errorMessage={errorFirstName}
-              />
-              {errorFirstName && (
-                <ErrorMessage isInputField message={errorFirstName} />
-              )}
-              <Text style={[fontStyles.bodySmall, styles.minText]}>
-                Last Name
-              </Text>
-              <InputFieldText
-                placeholder="To be more authentic"
-                value={lastName}
-                onChangeText={handleLastName}
-                errorMessage={errorLastName}
-              />
-              {errorLastName && (
-                <ErrorMessage isInputField message={errorLastName} />
-              )}
-
-              <Text style={[fontStyles.bodySmall, styles.minText]}>
-                Date of Birth
-              </Text>
-              <DatePickerInput
-                date={date}
-                handleOnPress={handleOnPressDatePicker}
-                error={errorDate}
-                dateSelected={isDateSelected}
-              />
-              {errorDate && <ErrorMessage isInputField message={errorDate} />}
+            <View style={styles.centerContainer}>
+              <View style={styles.inputContainer}>
+                <Text style={[fontStyles.headerSmall, styles.minText]}>
+                  First Name
+                </Text>
+                <InputFieldText
+                  placeholder="Which name do you go by?"
+                  value={firstName}
+                  onChangeText={handleFirstName}
+                  errorMessage={errorFirstName}
+                />
+                {errorFirstName && (
+                  <ErrorMessage isInputField message={errorFirstName} />
+                )}
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={[fontStyles.headerSmall, styles.minText]}>
+                  Last Name
+                </Text>
+                <InputFieldText
+                  placeholder="To be more authentic"
+                  value={lastName}
+                  onChangeText={handleLastName}
+                  errorMessage={errorLastName}
+                />
+                {errorLastName && (
+                  <ErrorMessage isInputField message={errorLastName} />
+                )}
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={[fontStyles.headerSmall, styles.minText]}>
+                  Date of Birth
+                </Text>
+                <DatePickerInput
+                  date={date}
+                  handleOnPress={handleOnPressDatePicker}
+                  error={errorDate}
+                  dateSelected={isDateSelected}
+                />
+                {errorDate && <ErrorMessage isInputField message={errorDate} />}
+              </View>
               <DatePicker
                 modal
                 mode="date"
-                open={isModalOpen}
+                open={isDatePickerOpen}
                 date={date}
                 onConfirm={handleDateChange}
                 onCancel={handleCancelDate}
               />
-              <ImagePreviewRow />
-              <UploadImageButton />
+              <View style={styles.imagesContainer}>
+                <UploadImageButton onPress={toggleModal} />
+
+                {errorImage && (
+                  <ErrorMessage isInputField message={errorImage} />
+                )}
+                <ImagePreviewRow user />
+                <UploadImageModal
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                />
+              </View>
             </View>
           </ScrollView>
 
@@ -233,9 +265,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  textContainer: {
+  centerContainer: {
     paddingHorizontal: size(10),
     paddingVertical: size(10),
+    gap: size(20),
+  },
+  inputContainer: {
     gap: size(10),
   },
 
@@ -243,8 +278,12 @@ const styles = StyleSheet.create({
     color: Color.Black[80],
   },
 
+  imagesContainer: {
+    gap: size(20),
+    marginTop: size(10),
+  },
+
   footerContainer: {
-    paddingTop: size(20),
     paddingBottom: size(20),
     paddingHorizontal: size(16),
     gap: size(10),

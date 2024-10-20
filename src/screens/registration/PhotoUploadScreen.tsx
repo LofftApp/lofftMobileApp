@@ -13,13 +13,14 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import ImagePreviewRow from 'reduxFeatures/imageHandling/ImagePreviewRow';
-import UploadImageButton from 'reduxFeatures/imageHandling/UploadImageButton';
+import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
+import UploadImageButton from 'components/imageUpload/UploadImageButton';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-const MAX_IMAGES = 10;
+import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+
 const PhotoUploadScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,8 +31,8 @@ const PhotoUploadScreen = () => {
   const totalImages = imagesToUpload.length;
 
   useEffect(() => {
-    if (totalImages > MAX_IMAGES) {
-      setError(`You can only upload ${MAX_IMAGES} images`);
+    if (totalImages > MAX_FLAT_IMAGES) {
+      setError(`You can only upload ${MAX_FLAT_IMAGES} images`);
     }
   }, [totalImages]);
 
@@ -49,8 +50,8 @@ const PhotoUploadScreen = () => {
       setError('Please upload at least one image');
       return;
     }
-    if (totalImages > MAX_IMAGES) {
-      setError(`You can only upload ${MAX_IMAGES} images`);
+    if (totalImages > MAX_FLAT_IMAGES) {
+      setError(`You can only upload ${MAX_FLAT_IMAGES} images`);
       return;
     }
     setCurrentScreen(currentScreen + 1);
@@ -72,7 +73,12 @@ const PhotoUploadScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
           headlineText={
-            isLessor ? 'Upload Flat Photos' : 'Upload Profile Photo'
+            isLessor ? 'Upload images of your flat' : 'Upload pictures of you'
+          }
+          subDescription={
+            isLessor
+              ? 'Time to show off your space! The more images, more chances of getting a match!'
+              : 'Show off your best self! The more images, more chances of getting a match!'
           }
         />
         <View style={styles.mainContainer}>
@@ -88,7 +94,7 @@ const PhotoUploadScreen = () => {
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
-              disabled={totalImages < 1 || totalImages > MAX_IMAGES}
+              disabled={totalImages < 1 || totalImages > MAX_FLAT_IMAGES}
               onPress={handleContinue}
             />
           </View>
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     gap: size(20),
-    marginTop: size(20),
+    marginTop: size(10),
   },
   footerContainer: {
     paddingTop: size(20),
