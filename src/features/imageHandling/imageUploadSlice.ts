@@ -31,7 +31,7 @@ export const imageUploadSlice = createSlice({
 
     deleteImageToUpload: (state, action: PayloadAction<string>) => {
       state.imagesToUpload = state.imagesToUpload.filter(
-        (image: ImageToUpload) => image.fileName !== action.payload,
+        image => image.fileName !== action.payload,
       );
     },
 
