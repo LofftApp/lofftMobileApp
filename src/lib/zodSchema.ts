@@ -2,8 +2,10 @@ import {
   initialMaxPrice,
   initialMinPrice,
   MAX_DESCRIPTION_CHARS,
+  MAX_FLAT_IMAGES,
   MAX_LANGUAGES,
   MAX_SELECTED_CHARS,
+  MAX_USER_IMAGES,
   MIN_DESCRIPTION_CHARS,
   MIN_SELECTED_CHARS,
   MIN_SELECTED_FEATURES,
@@ -138,8 +140,8 @@ const nameSchema = z.object({
     .nonempty({
       message: 'Please upload at least one image',
     })
-    .max(5, {
-      message: 'You can upload up to 5 images only',
+    .max(MAX_USER_IMAGES, {
+      message: `You can upload up to ${MAX_USER_IMAGES} images only`,
     }),
 });
 
@@ -191,6 +193,24 @@ const flatDescriptionSchema = z
     message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
   });
 
+const flatImagesSchema = z
+  .array(
+    z.object({
+      fileName: z.string(),
+      fileSize: z.number(),
+      height: z.number(),
+      type: z.string(),
+      uri: z.string(),
+      width: z.number(),
+    }),
+  )
+  .nonempty({
+    message: 'Please upload at least one image',
+  })
+  .max(MAX_FLAT_IMAGES, {
+    message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
+  });
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
   renter: z.object({
@@ -213,4 +233,5 @@ export {
   addressSchema,
   dateLengthSchema,
   flatDescriptionSchema,
+  flatImagesSchema,
 };

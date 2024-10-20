@@ -21,7 +21,7 @@ export const newUserScreens: NewUserScreens = {
     6: 'GenderIdentityScreen',
     7: 'FlatFeaturesScreen',
     9: 'FlatDescribeScreen',
-    1: 'PhotoUploadScreen',
+    1: 'FlatImageUploadScreen',
     10: 'NameProfileScreen',
     11: 'ConditionsOfUseScreen',
   },

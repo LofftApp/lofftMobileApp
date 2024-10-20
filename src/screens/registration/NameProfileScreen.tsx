@@ -40,6 +40,7 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -65,6 +66,10 @@ const NameProfileScreen = () => {
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
+  const totalImages =
+    (isLessor
+      ? savedImages.lessor.userImages.length
+      : savedImages.renter.userImages.length) + imagesToUpload.length;
 
   console.log('userDetails in name', newUserDetails);
   console.log('savedImages in name', savedImages);
@@ -81,7 +86,10 @@ const NameProfileScreen = () => {
       setDate(new Date(savedDate));
       setIsDateSelected(true);
     }
-    if (savedImages) {
+    if (
+      savedImages.lessor.userImages.length > 0 ||
+      savedImages.renter.userImages.length > 0
+    ) {
       setSavedImages({
         userType: isLessor ? 'lessor' : 'renter',
         imageType: 'user',
@@ -95,7 +103,8 @@ const NameProfileScreen = () => {
     savedLastName,
     savedDate,
     isLessor,
-    savedImages,
+    savedImages.renter.userImages,
+    savedImages.lessor.userImages,
     setSavedImages,
   ]);
 
@@ -136,6 +145,7 @@ const NameProfileScreen = () => {
     setErrorLastName('');
     setErrorDate('');
     setErrorImage('');
+    clearImagesToUpload();
   };
 
   const handleContinue = () => {
@@ -285,6 +295,13 @@ const NameProfileScreen = () => {
             <NewUserJourneyContinueButton
               value="Continue"
               onPress={handleContinue}
+              disabled={
+                totalImages < 1 ||
+                totalImages > MAX_FLAT_IMAGES ||
+                !isDateSelected ||
+                !firstName ||
+                !lastName
+              }
             />
           </View>
         </View>

@@ -6,7 +6,6 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import {newUserScreens} from 'components/componentData/newUserScreens';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import React, {useEffect, useState} from 'react';
@@ -20,40 +19,57 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+import {flatImagesSchema} from 'lib/zodSchema';
 
-const PhotoUploadScreen = () => {
+const FlatImageUploadScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {newUserDetails, setNewUserDetails, isLessor} = useNewUserDetails();
-  const {imagesToUpload} = useImagesToUpload();
-  const totalImages = imagesToUpload.length;
+  const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
+    useImagesToUpload();
+  const {isLessor} = useNewUserDetails();
+  const totalImages =
+    imagesToUpload.length + savedImages.lessor.flatImages.length;
 
   useEffect(() => {
-    if (totalImages > MAX_FLAT_IMAGES) {
-      setError(`You can only upload ${MAX_FLAT_IMAGES} images`);
+    if (savedImages.lessor.flatImages.length > 0) {
+      setSavedImages({
+        userType: 'lessor',
+        imageType: 'flat',
+        images: savedImages.lessor.flatImages,
+      });
     }
-  }, [totalImages]);
+  }, [savedImages.lessor.flatImages, setSavedImages]);
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
+    setError('');
   };
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
     setError('');
+    clearImagesToUpload();
   };
 
   const handleContinue = () => {
-    if (totalImages < 1) {
-      setError('Please upload at least one image');
+    const concatImages = [...imagesToUpload, ...savedImages.lessor.flatImages];
+    const result = flatImagesSchema.safeParse(concatImages);
+
+    if (!result.success) {
+      const err = result.error.flatten().formErrors?.[0];
+      console.log('error in flatImage', err);
+      setError(err);
       return;
     }
-    if (totalImages > MAX_FLAT_IMAGES) {
-      setError(`You can only upload ${MAX_FLAT_IMAGES} images`);
-      return;
-    }
+
+    setSavedImages({
+      userType: 'lessor',
+      imageType: 'flat',
+      images: result.data,
+    });
+
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
@@ -61,6 +77,7 @@ const PhotoUploadScreen = () => {
     navigation.navigate(screen);
 
     setError('');
+    clearImagesToUpload();
   };
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -84,13 +101,12 @@ const PhotoUploadScreen = () => {
         <View style={styles.mainContainer}>
           <ScrollView>
             <View style={styles.imageContainer}>
-              <UploadImageButton onPress={toggleModal} />
-              <ImagePreviewRow />
+              <UploadImageButton onPress={toggleModal} error={error} />
+              <ImagePreviewRow imageType="flat" />
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>
             <Divider />
-            <ErrorMessage message={error} />
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
@@ -126,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PhotoUploadScreen;
+export default FlatImageUploadScreen;
