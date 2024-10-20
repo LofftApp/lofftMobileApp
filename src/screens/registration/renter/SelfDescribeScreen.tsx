@@ -52,7 +52,7 @@ const SelfDescribeScreen = () => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const {setNewUserDetails, newUserDetails} = useNewUserDetails();
   const savedDescription =
     newUserDetails.userType === 'renter' && newUserDetails.selfDescription;
 
@@ -99,9 +99,7 @@ const SelfDescribeScreen = () => {
     setNewUserDetails({selfDescription: result.data});
 
     setCurrentScreen(currentScreen + 1);
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+    const screen = newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
     setError('');
   };
