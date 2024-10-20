@@ -13,7 +13,7 @@ export const imageUploadSlice = createSlice({
   name: 'imageUpload',
   initialState,
   reducers: {
-    setImageToUpload: (state: any, action: any) => {
+    setImagesToUpload: (state: any, action: any) => {
       const photos = state.imagesToUpload;
       state.imagesToUpload = photos.concat(action.payload);
     },
@@ -27,5 +27,5 @@ export const imageUploadSlice = createSlice({
   },
 });
 
-export const {setImageToUpload, deleteImageToUpload} = imageUploadSlice.actions;
+export const {setImagesToUpload, deleteImageToUpload} = imageUploadSlice.actions;
 export default imageUploadSlice.reducer;

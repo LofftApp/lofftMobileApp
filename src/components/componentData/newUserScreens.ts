@@ -20,8 +20,9 @@ export const newUserScreens: NewUserScreens = {
     5: 'AboutUserScreen',
     6: 'GenderIdentityScreen',
     7: 'FlatFeaturesScreen',
-    1: 'FlatPhotoUploadScreen',
-    9: 'NameProfileScreen',
-    10: 'ConditionsOfUseScreen',
+    9: 'FlatDescribeScreen',
+    1: 'PhotoUploadScreen',
+    10: 'NameProfileScreen',
+    11: 'ConditionsOfUseScreen',
   },
 };

@@ -1,9 +1,9 @@
 import {CoreButton} from 'components/buttons/CoreButton';
 import React, {Dispatch, SetStateAction} from 'react';
-import {Modal, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Modal, StyleSheet, View} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {size} from 'react-native-responsive-sizes';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 type UploadImageModalProps = {
@@ -18,6 +18,8 @@ const UploadImageModal = ({
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
+
+  const {setImagesToUpload} = useImagesToUpload();
 
   const handleTakePhoto = async () => {
     const result = await launchCamera({
@@ -38,6 +40,7 @@ const UploadImageModal = ({
     if (result.didCancel) {
       toggleModal();
     }
+    setImagesToUpload(result.assets);
     console.log('photo uploaded', result);
   };
   return (

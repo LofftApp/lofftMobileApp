@@ -16,8 +16,9 @@ import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScree
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAvailableScreen';
-import FlatPhotoUploadScreen from 'screens/registration/lessor/FlatPhotoUploadScreen';
 import NameProfileScreen from 'screens/registration/NameProfileScreen';
+import FlatDescribeScreen from 'screens/registration/lessor/FlatDescribeScreen';
+import PhotoUploadScreen from 'screens/registration/PhotoUploadScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -25,7 +26,7 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-         {/* Intial screen after sign up */}
+        {/* Intial screen after sign up */}
         <NewUserNavigatorFlow.Screen
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
@@ -62,8 +63,8 @@ const NewUserNavigator = () => {
           component={FlatLengthAvailableScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="FlatPhotoUploadScreen"
-          component={FlatPhotoUploadScreen}
+          name="FlatDescribeScreen"
+          component={FlatDescribeScreen}
         />
         {/* Shared screens */}
 
@@ -83,9 +84,13 @@ const NewUserNavigator = () => {
           name="ConditionsOfUseScreen"
           component={ConditionsOfUseScreen}
         />
-           <NewUserNavigatorFlow.Screen
+        <NewUserNavigatorFlow.Screen
           name="NameProfileScreen"
           component={NameProfileScreen}
+        />
+        <NewUserNavigatorFlow.Screen
+          name="PhotoUploadScreen"
+          component={PhotoUploadScreen}
         />
       </NewUserNavigatorFlow.Group>
     </NewUserNavigatorFlow.Navigator>

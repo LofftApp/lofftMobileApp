@@ -41,7 +41,7 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {flatDescriptionSchema} from 'lib/zodSchema';
 import UploadImageModal from 'components/modals/UploadImageModal';
 
-const FlatPhotoUploadScreen = () => {
+const FlatDescribeScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [text, setText] = useState('');
   const [textFocus, setTextFocus] = useState(false);
@@ -57,6 +57,10 @@ const FlatPhotoUploadScreen = () => {
       setText(savedDescription);
     }
   }, [savedDescription]);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -115,8 +119,8 @@ const FlatPhotoUploadScreen = () => {
               placeholder="Tell us about your lofft."
               isFlat
             />
-            <ImagePreviewRow />
-            <UploadImageButton onPress={() => setModalVisible(true)} />
+            {/* <ImagePreviewRow />
+            <UploadImageButton onPress={toggleModal} /> */}
 
             <View style={styles.footerContainer}>
               <Divider />
@@ -176,4 +180,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatPhotoUploadScreen;
+export default FlatDescribeScreen;

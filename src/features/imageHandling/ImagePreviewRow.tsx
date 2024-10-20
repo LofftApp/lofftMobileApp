@@ -10,18 +10,18 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Stylesheets 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
+import {useImagesToUpload} from './useImagesToUpload';
 
 const ImagePreviewRow = () => {
   const dispatch = useAppDispatch();
-  const userImages = useAppSelector(
-    (state: any) => state.imageUpload.imagesToUpload,
-  );
+  const {imagesToUpload} = useImagesToUpload();
   return (
     <View style={styles.imageContainer}>
-      {userImages.length > 0 ? (
-        userImages.map((image: string) => {
+      {imagesToUpload.length > 0 ? (
+        imagesToUpload.map((image: string) => {
+          console.log('image', image.fileName);
           return (
-            <View key={image}>
+            <View key={image.fileName}>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => dispatch(deleteImageToUpload(image))}>
@@ -30,7 +30,7 @@ const ImagePreviewRow = () => {
               <Image
                 style={styles.image}
                 source={{
-                  uri: image,
+                  uri: image.uri,
                 }}
               />
             </View>
