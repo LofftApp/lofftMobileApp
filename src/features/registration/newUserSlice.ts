@@ -1,6 +1,5 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {PURGE} from 'redux-persist';
-import {ImageToUpload} from 'reduxFeatures/imageHandling/types';
 
 export interface NewUserRenterDetails {
   userType: 'renter';
@@ -42,7 +41,6 @@ export interface NewUserRenterDetails {
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
-  userImages: ImageToUpload[];
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -101,8 +99,6 @@ export interface NewUserLessorDetails {
   untilDate: Date | string | null;
   permanent: boolean;
   flatDescription: string;
-  userImages: ImageToUpload[];
-  flatImages: ImageToUpload[];
 
   // userDescription: string | null;
   // textAboutUser: string | null;
@@ -191,7 +187,7 @@ const initialState: UserJourneyState = {
       firstName: '',
       lastName: '',
       dateOfBirth: '',
-      userImages: [],
+
       // userDescription: null,
       // textAboutUser: null,
       // cost: null,
@@ -230,8 +226,7 @@ const initialState: UserJourneyState = {
       untilDate: '',
       permanent: false,
       flatDescription: '',
-      userImages: [],
-      flatImages: [],
+
       // userDescription: null,
       // textAboutUser: null,
       // location: null,

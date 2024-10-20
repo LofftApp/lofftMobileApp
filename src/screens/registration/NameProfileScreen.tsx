@@ -40,7 +40,6 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {MAX_USER_IMAGES} from 'components/componentData/constants';
 
 const NameProfileScreen = () => {
   //Navigation
@@ -60,12 +59,16 @@ const NameProfileScreen = () => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {imagesToUpload} = useImagesToUpload();
-  const totalImages = imagesToUpload.length;
+  const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
+    useImagesToUpload();
   const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
+
+  console.log('userDetails in name', newUserDetails);
+  console.log('savedImages in name', savedImages);
+  console.log('imagesToUpload in name', imagesToUpload);
 
   useEffect(() => {
     if (savedFirstName) {
@@ -78,7 +81,23 @@ const NameProfileScreen = () => {
       setDate(new Date(savedDate));
       setIsDateSelected(true);
     }
-  }, [savedFirstName, savedLastName, savedDate]);
+    if (savedImages) {
+      setSavedImages({
+        userType: isLessor ? 'lessor' : 'renter',
+        imageType: 'user',
+        images: isLessor
+          ? savedImages.lessor.userImages
+          : savedImages.renter.userImages,
+      });
+    }
+  }, [
+    savedFirstName,
+    savedLastName,
+    savedDate,
+    isLessor,
+    savedImages,
+    setSavedImages,
+  ]);
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -122,16 +141,22 @@ const NameProfileScreen = () => {
   const handleContinue = () => {
     const trimmedFirstName = firstName.trim();
     const trimmedLastName = lastName.trim();
+    const concatImages = isLessor
+      ? [...imagesToUpload, ...savedImages.lessor.userImages]
+      : [...imagesToUpload, ...savedImages.renter.userImages];
+
     const result = nameSchema.safeParse({
       firstName: trimmedFirstName,
       lastName: trimmedLastName,
       dateOfBirth: isDateSelected ? date : undefined,
+      images: concatImages,
     });
 
     if (!result.success) {
       const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
       const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
       const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];
+      const imageError = result.error.flatten().fieldErrors?.images?.[0];
 
       if (firstError) {
         setErrorFirstName(firstError);
@@ -142,8 +167,8 @@ const NameProfileScreen = () => {
       if (dateError) {
         setErrorDate(dateError);
       }
-      if (totalImages < MAX_USER_IMAGES) {
-        setErrorImage('Please upload at least one image');
+      if (imageError) {
+        setErrorImage(imageError);
       }
       return;
     }
@@ -152,6 +177,12 @@ const NameProfileScreen = () => {
       firstName: result.data.firstName,
       lastName: result.data.lastName,
       dateOfBirth: result.data.dateOfBirth.toISOString(),
+    });
+
+    setSavedImages({
+      userType: isLessor ? 'lessor' : 'renter',
+      imageType: 'user',
+      images: result.data.images,
     });
 
     setCurrentScreen(currentScreen + 1);
@@ -164,6 +195,7 @@ const NameProfileScreen = () => {
     setErrorLastName('');
     setErrorDate('');
     setErrorImage('');
+    clearImagesToUpload();
   };
 
   return (
@@ -232,12 +264,13 @@ const NameProfileScreen = () => {
                 onCancel={handleCancelDate}
               />
               <View style={styles.imagesContainer}>
-                <UploadImageButton onPress={toggleModal} />
+                <UploadImageButton
+                  onPress={toggleModal}
+                  error={errorImage}
+                  user
+                />
 
-                {errorImage && (
-                  <ErrorMessage isInputField message={errorImage} />
-                )}
-                <ImagePreviewRow user />
+                <ImagePreviewRow imageType="user" />
                 <UploadImageModal
                   isModalOpen={isModalOpen}
                   setIsModalOpen={setIsModalOpen}
@@ -275,12 +308,11 @@ const styles = StyleSheet.create({
   },
 
   minText: {
-    color: Color.Black[80],
+    color: Color.Black[100],
   },
 
   imagesContainer: {
     gap: size(20),
-    marginTop: size(10),
   },
 
   footerContainer: {

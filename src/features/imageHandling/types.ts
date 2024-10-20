@@ -9,5 +9,31 @@ interface ImageToUpload {
 
 interface ImageUploadState {
   imagesToUpload: ImageToUpload[];
+  savedImages: {
+    renter: {
+      userImages: ImageToUpload[];
+    };
+    lessor: {
+      userImages: ImageToUpload[];
+      flatImages: ImageToUpload[];
+    };
+  };
 }
-export type {ImageUploadState, ImageToUpload};
+
+interface SetSavedImagesPayload {
+  userType: 'renter' | 'lessor';
+  imageType: 'user' | 'flat';
+  images: ImageToUpload[];
+}
+
+interface DeleteSavedImagePayload {
+  userType: 'renter' | 'lessor';
+  imageType: 'user' | 'flat';
+  fileName: string;
+}
+export type {
+  ImageUploadState,
+  ImageToUpload,
+  SetSavedImagesPayload,
+  DeleteSavedImagePayload,
+};

@@ -38,6 +38,7 @@ const UploadImageModal = ({
     });
     toggleModal();
     setImagesToUpload(result.assets as ImageToUpload[]);
+
     console.log('photo uploaded', result);
   };
   return (

@@ -10,18 +10,9 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload';
 import {size} from 'react-native-responsive-sizes';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
-const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
-  const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
-    useImagesToUpload();
-  const {isLessor} = useNewUserDetails();
-
-  const savedImagesDisplay = isLessor
-    ? imageType === 'user'
-      ? savedImages.lessor.userImages
-      : savedImages.lessor.flatImages
-    : savedImages.renter.userImages;
+const SavedImageDisplay = () => {
+  const {imagesToUpload, deleteImageToUpload} = useImagesToUpload();
 
   return (
     <View style={styles.imageContainer}>
@@ -32,30 +23,6 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               <Pressable
                 style={styles.closeButton}
                 onPress={() => deleteImageToUpload(image.fileName)}>
-                <LofftIcon name="x-close" size={12} color={Colors.White[100]} />
-              </Pressable>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: image.uri,
-                }}
-              />
-            </View>
-          );
-        })}
-      {savedImagesDisplay.length > 0 &&
-        savedImagesDisplay.map(image => {
-          return (
-            <View key={image.fileName}>
-              <Pressable
-                style={styles.closeButton}
-                onPress={() =>
-                  deleteSavedImage({
-                    userType: isLessor ? 'lessor' : 'renter',
-                    imageType,
-                    fileName: image.fileName,
-                  })
-                }>
                 <LofftIcon name="x-close" size={12} color={Colors.White[100]} />
               </Pressable>
               <Image
@@ -98,4 +65,4 @@ const styles = StyleSheet.create({
   textStyle: {},
 });
 
-export default ImagePreviewRow;
+export default SavedImageDisplay;

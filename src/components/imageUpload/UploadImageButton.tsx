@@ -8,16 +8,32 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+import {
+  MAX_FLAT_IMAGES,
+  MAX_USER_IMAGES,
+} from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
-const UploadImageButton = ({onPress}: any) => {
+type UploadImageButtonProps = {
+  onPress: () => void;
+  error: string;
+  user?: boolean;
+};
+const UploadImageButton = ({onPress, error, user}: UploadImageButtonProps) => {
   const {imagesToUpload} = useImagesToUpload();
   const disable = imagesToUpload.length >= MAX_FLAT_IMAGES;
   return (
-    <View>
+    <View style={styles.mainContainer}>
+      <Text style={fontStyles.headerSmall}>
+        Add up to {user ? MAX_USER_IMAGES : MAX_FLAT_IMAGES} images
+      </Text>
       <TouchableOpacity
-        style={[styles.imageUploadButton, disable ? styles.disabled : null]}
+        style={[
+          styles.imageUploadButton,
+          disable && styles.disabled,
+          error && styles.error,
+        ]}
         onPress={() => onPress()}
         disabled={disable}>
         <LofftIcon
@@ -29,30 +45,37 @@ const UploadImageButton = ({onPress}: any) => {
           style={[
             fontStyles.headerSmall,
             styles.uploadText,
-            disable ? styles.disabled : null,
+            disable && styles.disabled,
           ]}>
           Upload Pictures
         </Text>
       </TouchableOpacity>
+      {error && <ErrorMessage isInputField message={error} />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    gap: size(10),
+  },
   imageUploadButton: {
     borderWidth: 2,
     borderRadius: 12,
     borderColor: Colors.Black[50],
     paddingVertical: size(16),
     alignItems: 'center',
+    gap: size(12),
   },
   uploadText: {
     color: Colors.Lavendar[100],
-    marginTop: size(12),
   },
   disabled: {
     borderColor: Colors.Black[30],
     color: Colors.Black[30],
+  },
+  error: {
+    borderColor: Colors.Tomato[100],
   },
 });
 
