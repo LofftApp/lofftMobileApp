@@ -8,8 +8,8 @@ import {newUserScreens} from 'components/componentData/newUserScreens';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, ScrollView, StyleSheet, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
@@ -41,6 +41,15 @@ const FlatImageUploadScreen = () => {
       });
     }
   }, [savedImages.lessor.flatImages, setSavedImages]);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  });
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
@@ -100,10 +109,10 @@ const FlatImageUploadScreen = () => {
         />
         <View style={styles.mainContainer}>
           <ScrollView>
-            <View style={styles.imageContainer}>
+            <Animated.View style={[styles.imageContainer, {opacity: fadeAnim}]}>
               <UploadImageButton onPress={toggleModal} error={error} />
               <ImagePreviewRow imageType="flat" />
-            </View>
+            </Animated.View>
           </ScrollView>
           <View style={styles.footerContainer}>
             <Divider />

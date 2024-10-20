@@ -1,5 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, Text, SafeAreaView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  SafeAreaView,
+  Animated,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -107,6 +114,15 @@ const NameProfileScreen = () => {
     savedImages.lessor.userImages,
     setSavedImages,
   ]);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  });
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -225,7 +241,8 @@ const NameProfileScreen = () => {
         <View style={styles.mainContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.centerContainer}>
-              <View style={styles.inputContainer}>
+              <Animated.View
+                style={[styles.inputContainer, {opacity: fadeAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   First Name
                 </Text>
@@ -238,8 +255,9 @@ const NameProfileScreen = () => {
                 {errorFirstName && (
                   <ErrorMessage isInputField message={errorFirstName} />
                 )}
-              </View>
-              <View style={styles.inputContainer}>
+              </Animated.View>
+              <Animated.View
+                style={[styles.inputContainer, {opacity: fadeAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   Last Name
                 </Text>
@@ -252,8 +270,9 @@ const NameProfileScreen = () => {
                 {errorLastName && (
                   <ErrorMessage isInputField message={errorLastName} />
                 )}
-              </View>
-              <View style={styles.inputContainer}>
+              </Animated.View>
+              <Animated.View
+                style={[styles.inputContainer, {opacity: fadeAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   Date of Birth
                 </Text>
@@ -264,7 +283,7 @@ const NameProfileScreen = () => {
                   dateSelected={isDateSelected}
                 />
                 {errorDate && <ErrorMessage isInputField message={errorDate} />}
-              </View>
+              </Animated.View>
               <DatePicker
                 modal
                 mode="date"
@@ -273,7 +292,8 @@ const NameProfileScreen = () => {
                 onConfirm={handleDateChange}
                 onCancel={handleCancelDate}
               />
-              <View style={styles.imagesContainer}>
+              <Animated.View
+                style={[styles.imagesContainer, {opacity: fadeAnim}]}>
                 <UploadImageButton
                   onPress={toggleModal}
                   error={errorImage}
@@ -285,7 +305,7 @@ const NameProfileScreen = () => {
                   isModalOpen={isModalOpen}
                   setIsModalOpen={setIsModalOpen}
                 />
-              </View>
+              </Animated.View>
             </View>
           </ScrollView>
 
