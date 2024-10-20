@@ -28,7 +28,7 @@ const UploadImageModal = ({
       includeBase64: false,
     });
     toggleModal();
-    console.log('Photo taken', result);
+    setImagesToUpload(result.assets as ImageToUpload[]);
   };
 
   const handleImageUpload = async () => {
@@ -38,8 +38,6 @@ const UploadImageModal = ({
     });
     toggleModal();
     setImagesToUpload(result.assets as ImageToUpload[]);
-
-    console.log('photo uploaded', result);
   };
   return (
     <Modal

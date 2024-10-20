@@ -167,9 +167,10 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: size(20),
     marginTop: size(10),
+    paddingHorizontal: size(10),
+
   },
   footerContainer: {
-    paddingTop: size(20),
     paddingBottom: size(20),
     paddingHorizontal: size(16),
     gap: size(10),

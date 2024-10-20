@@ -53,7 +53,8 @@ const SelfDescribeScreen = () => {
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
-  const savedDescription = newUserDetails.selfDescription;
+  const savedDescription =
+    newUserDetails.userType === 'renter' && newUserDetails.selfDescription;
 
   useEffect(() => {
     if (savedDescription) {

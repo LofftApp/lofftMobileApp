@@ -75,7 +75,6 @@ export interface NewUserLessorDetails {
     toggle: boolean;
     emoji: string;
   }[];
-  selfDescription: string;
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
@@ -142,7 +141,6 @@ const initialState: UserJourneyState = {
       },
       districts: [],
       flatFeatures: [],
-      selfDescription: '',
       firstName: '',
       lastName: '',
       dateOfBirth: '',

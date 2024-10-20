@@ -18,7 +18,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {newUserScreens} from 'components/componentData/newUserScreens';
 
 // API Hook 🪝
-import {useFindAddress} from 'hooks/useFindAdress';
+import {useFindAddress} from 'hooks/useFindAddress';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
@@ -66,7 +66,7 @@ const WhereIsFlatScreen = () => {
   // API Hook
   const {
     addresses,
-    query,
+    addressesWithDistrict,
     isLoading,
     error: errorSearch,
     setError: setErrorSearch,
@@ -134,7 +134,7 @@ const WhereIsFlatScreen = () => {
   const handleDropdownPress = (value: string) => {
     const addressIndex = addresses.indexOf(value);
     setLocation(value);
-    setAddressDetails(query[addressIndex]);
+    setAddressDetails(addressesWithDistrict[addressIndex]);
     setIsSearching(false);
     setErrorAddress('');
   };

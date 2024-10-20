@@ -28,15 +28,21 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
   //Redux
   const [signOut] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
+  const {isLessor, newUserDetails} = useNewUserDetails();
+  const {savedImages} = useImagesToUpload();
 
   const handleSignOut = () => {
     signOut();
@@ -52,7 +58,14 @@ const ConditionsOfUseScreen = () => {
   };
 
   const handleContinue = () => {
-    console.log('Continue and do something');
+    setMessage(
+      "Next step is to handle user's details and images. Take a look at the console.",
+    );
+    console.log(
+      isLessor ? 'Lessor object 👽:' : 'Renter object 🧑‍🚀:',
+      newUserDetails,
+    );
+    console.log('Images to upload 📸:', savedImages);
   };
   return (
     <>
@@ -86,6 +99,7 @@ const ConditionsOfUseScreen = () => {
 
             <View style={styles.footerContainer}>
               <Divider />
+              {message && <ErrorMessage message={message} />}
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
                 value="Agree and Continue"

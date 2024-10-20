@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: size(20),
+    justifyContent: 'space-between',
+    rowGap: size(12),
   },
   image: {
     width: size(120),
