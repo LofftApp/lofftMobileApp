@@ -46,7 +46,7 @@ const outOfTokens = {
   description:
     "We're passionate about fair flat searches! Each user can have up to 10 active applications at a time, but withdrawing one is easy. Relax and wait for the post owner to notify you of the result within 48 hours. Let's make finding your dream flat an equal opportunity for all!",
   buttonText: {
-    first: 'Get more tocurrentUser',
+    first: 'Get more tokens',
     second: 'Back to search',
   },
 };
