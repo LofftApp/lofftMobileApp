@@ -48,6 +48,9 @@ interface SelectedTracks {
 }
 
 const AboutUserFlatScreen = () => {
+  //Navigation
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
   // initial state
   const characteristics = userPreferences;
 
@@ -55,8 +58,6 @@ const AboutUserFlatScreen = () => {
   const [charsState, setCharsState] = useState(characteristics);
   const [selectedChars, setSelectedChars] = useState<SelectedTracks[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();

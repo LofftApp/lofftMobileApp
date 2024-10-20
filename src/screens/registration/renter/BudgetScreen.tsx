@@ -44,6 +44,7 @@ import {
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+
 const BudgetScreen = () => {
   //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();

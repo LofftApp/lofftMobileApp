@@ -1,30 +1,56 @@
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Animated,
+  ScrollView,
+  StyleSheet,
+  View,
+  SafeAreaView,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+
+//Redux 📦
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+
+//Screens 📺
+import {newUserScreens} from 'components/componentData/newUserScreens';
+
+//Components 🪢
 import {RegistrationBackground} from 'assets';
 import Divider from 'components/bars/Divider';
 import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import {newUserScreens} from 'components/componentData/newUserScreens';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import React, {useEffect, useRef, useState} from 'react';
-import {Animated, ScrollView, StyleSheet, View} from 'react-native';
-import {size} from 'react-native-responsive-sizes';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
 import UploadImageButton from 'components/imageUpload/UploadImageButton';
-import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
+
+//Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
+
+//Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Constants 📊
 import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+
+//Validation 🛡 ️
 import {flatImagesSchema} from 'lib/zodSchema';
 
+//Types 🏷️
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+
 const FlatImageUploadScreen = () => {
+  //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  //Local State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
+
+  //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
