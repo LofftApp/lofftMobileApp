@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screens 📺
-import {newUserScreens} from '../../../components/componentData/newUserScreens';
+import {newUserScreens} from '../../../navigationStacks/newUserScreens';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 //Styles 🎨

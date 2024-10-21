@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
@@ -8,7 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screen 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Assets 🎨
 import {RegistrationBackground} from 'assets';

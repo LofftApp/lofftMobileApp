@@ -1,5 +1,5 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
 

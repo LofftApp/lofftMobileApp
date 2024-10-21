@@ -14,7 +14,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 //Screens 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 //Components 🪢
 import {RegistrationBackground} from 'assets';

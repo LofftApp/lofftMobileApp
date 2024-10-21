@@ -1,4 +1,4 @@
-import {NewUserScreens} from '../../navigationStacks/types';
+import {NewUserScreens} from './types';
 
 export const newUserScreens: NewUserScreens = {
   renter: {

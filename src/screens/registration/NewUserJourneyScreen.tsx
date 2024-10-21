@@ -21,7 +21,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {RegistrationBackground} from 'assets';
 
 //Screens
-import {newUserScreens} from '../../components/componentData/newUserScreens';
+import {newUserScreens} from '../../navigationStacks/newUserScreens';
 
 // Helper
 import {size} from 'react-native-responsive-sizes';

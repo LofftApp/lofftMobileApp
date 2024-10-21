@@ -25,7 +25,7 @@ import {RegistrationBackground} from 'assets';
 
 // Data 💿
 import userPreferences from 'components/componentData/userPreferences.json';
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Validation 🛡  ️
 import {characteristicsSchema} from 'lib/zodSchema';

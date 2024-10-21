@@ -15,7 +15,7 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 // Screens 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
