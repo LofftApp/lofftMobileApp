@@ -50,8 +50,6 @@ const ConditionsOfUseScreen = () => {
   const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
-  console.log(newUserDetails);
-
   const handleSignOut = () => {
     signOut();
   };
@@ -71,31 +69,30 @@ const ConditionsOfUseScreen = () => {
     if (newUserDetails.userType === 'tenant'){
     try {
       const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
-      console.log('Update successful:', result);
+      console.log('Tenent successfully completed', result);
     } catch (error) {
-      console.error('Failed to update user:', error);
+      console.error('Failed to create tenant:', error);
     }
   } else {
      try {
       const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
-      console.log('Update successful:', result);
+      console.log('Advert and lessor successfully created:', result);
     } catch (error) {
-      console.error('Failed to update user:', error);
+      console.error('Failed to create lessor & advert:', error);
     }
     }
   };
 
-
-  const handleContinue = () => {
-    setMessage(
-      "Next step is to handle user's details and images. Take a look at the console.",
-    );
-    console.log(
-      isLessor ? 'Lessor object 👽:' : 'tenant object 🧑‍🚀:',
-      newUserDetails,
-    );
-    console.log('Images to upload 📸:', savedImages);
-  };
+  // const handleContinue = () => {
+  //   setMessage(
+  //     "Next step is to handle user's details and images. Take a look at the console.",
+  //   );
+  //   console.log(
+  //     isLessor ? 'Lessor object 👽:' : 'tenant object 🧑‍🚀:',
+  //     newUserDetails,
+  //   );
+  //   console.log('Images to upload 📸:', savedImages);
+  // };
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}
