@@ -48,6 +48,8 @@ const ConditionsOfUseScreen = () => {
   const [updateUser] = useUpdateUserMutation();
   const {data} = useGetUserQuery();
 
+  console.log(newUserDetails)
+
   const handleSignOut = () => {
     signOut();
   };
@@ -119,7 +121,7 @@ const ConditionsOfUseScreen = () => {
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
                 value="Agree and Continue"
-                onPress={handleContinue}
+                onPress={handleUserUpdate}
               />
 
               <CoreButton value="Decline" invert onPress={toggleModal} />
