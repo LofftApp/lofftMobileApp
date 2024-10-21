@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, StyleSheet, Pressable} from 'react-native';
+import {View, Image, StyleSheet, Pressable, Text} from 'react-native';
 
 // Redux 🐰
 
@@ -11,6 +11,9 @@ import Colors from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload';
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
+import Divider from 'components/bars/Divider';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
@@ -24,59 +27,91 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
     : savedImages.renter.userImages;
 
   return (
-    <View style={styles.imageContainer}>
-      {imagesToUpload.length > 0 &&
-        imagesToUpload.map(image => {
-          return (
-            <View key={image.fileName}>
-              <Pressable
-                style={styles.closeButton}
-                onPress={() => deleteImageToUpload(image.fileName)}>
-                <LofftIcon name="x-close" size={12} color={Colors.White[100]} />
-              </Pressable>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: image.uri,
-                }}
-              />
+    <>
+      {imagesToUpload.length > 0 && (
+        <>
+          <View style={styles.textAndImageContainer}>
+            <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
+              Images to upload
+            </Text>
+
+            <View style={styles.imageContainer}>
+              {imagesToUpload.map(image => (
+                <View key={image.fileName}>
+                  <Pressable
+                    style={styles.closeButton}
+                    onPress={() => deleteImageToUpload(image.fileName)}>
+                    <LofftIcon
+                      name="x-close"
+                      size={12}
+                      color={Colors.White[100]}
+                    />
+                  </Pressable>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: image.uri,
+                    }}
+                  />
+                </View>
+              ))}
             </View>
-          );
-        })}
-      {savedImagesDisplay.length > 0 &&
-        savedImagesDisplay.map(image => {
-          return (
-            <View key={image.fileName}>
-              <Pressable
-                style={styles.closeButton}
-                onPress={() =>
-                  deleteSavedImage({
-                    userType: isLessor ? 'lessor' : 'renter',
-                    imageType,
-                    fileName: image.fileName,
-                  })
-                }>
-                <LofftIcon name="x-close" size={12} color={Colors.White[100]} />
-              </Pressable>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: image.uri,
-                }}
-              />
+          </View>
+          <Divider />
+        </>
+      )}
+      {savedImagesDisplay.length > 0 && (
+        <>
+          <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
+            Saved Images
+          </Text>
+          <View style={styles.textAndImageContainer}>
+            <View style={styles.imageContainer}>
+              {savedImagesDisplay.length > 0 &&
+                savedImagesDisplay.map(image => {
+                  return (
+                    <View key={image.fileName}>
+                      <Pressable
+                        style={styles.closeButton}
+                        onPress={() =>
+                          deleteSavedImage({
+                            userType: isLessor ? 'lessor' : 'renter',
+                            imageType,
+                            fileName: image.fileName,
+                          })
+                        }>
+                        <LofftIcon
+                          name="x-close"
+                          size={12}
+                          color={Colors.White[100]}
+                        />
+                      </Pressable>
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: image.uri,
+                        }}
+                      />
+                    </View>
+                  );
+                })}
             </View>
-          );
-        })}
-    </View>
+          </View>
+        </>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  textAndImageContainer: {
+    flexDirection: 'column',
+    gap: size(10),
+  },
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    rowGap: size(12),
+    gap: size(12),
   },
   image: {
     width: size(120),

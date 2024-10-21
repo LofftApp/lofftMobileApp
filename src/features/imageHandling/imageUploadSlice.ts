@@ -25,8 +25,8 @@ export const imageUploadSlice = createSlice({
   name: 'imageUpload',
   initialState,
   reducers: {
-    setImagesToUpload: (state, action: PayloadAction<ImageToUpload>) => {
-      state.imagesToUpload = [...state.imagesToUpload, action.payload];
+    setImagesToUpload: (state, action: PayloadAction<ImageToUpload[]>) => {
+      state.imagesToUpload = [...state.imagesToUpload, ...action.payload];
     },
 
     deleteImageToUpload: (state, action: PayloadAction<string>) => {

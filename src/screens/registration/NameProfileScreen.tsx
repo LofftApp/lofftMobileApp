@@ -203,12 +203,6 @@ const NameProfileScreen = () => {
       dateOfBirth: result.data.dateOfBirth.toISOString(),
     });
 
-    setSavedImages({
-      userType: isLessor ? 'lessor' : 'renter',
-      imageType: 'user',
-      images: result.data.images,
-    });
-
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
@@ -219,7 +213,14 @@ const NameProfileScreen = () => {
     setErrorLastName('');
     setErrorDate('');
     setErrorImage('');
-    clearImagesToUpload();
+    setTimeout(() => {
+      setSavedImages({
+        userType: isLessor ? 'lessor' : 'renter',
+        imageType: 'user',
+        images: result.data.images,
+      });
+      clearImagesToUpload();
+    }, 1000);
   };
 
   return (
@@ -295,7 +296,7 @@ const NameProfileScreen = () => {
                 <UploadImageButton
                   onPress={toggleModal}
                   error={errorImage}
-                  user
+                  imageType="user"
                 />
 
                 <ImagePreviewRow imageType="user" />

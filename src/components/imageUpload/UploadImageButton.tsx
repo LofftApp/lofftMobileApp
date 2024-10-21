@@ -18,15 +18,20 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 type UploadImageButtonProps = {
   onPress: () => void;
   error: string;
-  user?: boolean;
+  imageType: 'user' | 'flat';
 };
-const UploadImageButton = ({onPress, error, user}: UploadImageButtonProps) => {
+const UploadImageButton = ({
+  onPress,
+  error,
+  imageType,
+}: UploadImageButtonProps) => {
   const {imagesToUpload} = useImagesToUpload();
   const disable = imagesToUpload.length >= MAX_FLAT_IMAGES;
   return (
     <View style={styles.mainContainer}>
       <Text style={fontStyles.headerSmall}>
-        Add up to {user ? MAX_USER_IMAGES : MAX_FLAT_IMAGES} images
+        Add up to {imageType === 'user' ? MAX_USER_IMAGES : MAX_FLAT_IMAGES}{' '}
+        images
       </Text>
       <TouchableOpacity
         style={[

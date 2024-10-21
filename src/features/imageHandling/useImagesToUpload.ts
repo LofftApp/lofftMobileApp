@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
   setImagesToUpload as _setImagesToUpload,
@@ -6,7 +7,6 @@ import {
   setSavedImages as _setSavedImages,
   deleteSavedImage as _deleteSavedImage,
 } from './imageUploadSlice';
-import {useCallback} from 'react';
 import {DeleteSavedImagePayload, ImageToUpload} from './types';
 import {SetSavedImagesPayload} from './types';
 
@@ -19,9 +19,7 @@ export const useImagesToUpload = () => {
 
   const setImagesToUpload = useCallback(
     (images: ImageToUpload[]) => {
-      images.forEach(image => {
-        dispatch(_setImagesToUpload(image));
-      });
+      dispatch(_setImagesToUpload(images));
     },
     [dispatch],
   );

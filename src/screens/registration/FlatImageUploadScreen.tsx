@@ -98,12 +98,6 @@ const FlatImageUploadScreen = () => {
       return;
     }
 
-    setSavedImages({
-      userType: 'lessor',
-      imageType: 'flat',
-      images: result.data,
-    });
-
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
@@ -111,7 +105,14 @@ const FlatImageUploadScreen = () => {
     navigation.navigate(screen);
 
     setError('');
-    clearImagesToUpload();
+    setTimeout(() => {
+      setSavedImages({
+        userType: 'lessor',
+        imageType: 'flat',
+        images: result.data,
+      });
+      clearImagesToUpload();
+    }, 1000);
   };
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -135,7 +136,11 @@ const FlatImageUploadScreen = () => {
         <View style={styles.mainContainer}>
           <ScrollView>
             <Animated.View style={[styles.imageContainer, {opacity: fadeAnim}]}>
-              <UploadImageButton onPress={toggleModal} error={error} />
+              <UploadImageButton
+                onPress={toggleModal}
+                error={error}
+                imageType="flat"
+              />
               <ImagePreviewRow imageType="flat" />
             </Animated.View>
           </ScrollView>
@@ -168,7 +173,6 @@ const styles = StyleSheet.create({
     gap: size(20),
     marginTop: size(10),
     paddingHorizontal: size(10),
-
   },
   footerContainer: {
     paddingBottom: size(20),
