@@ -95,11 +95,7 @@ const SignInForm = () => {
             errorMessage={errorEmail || signInError}
           />
 
-          <ErrorMessage
-            style={styles.errorContainer}
-            isInputField
-            message={errorEmail}
-          />
+          <ErrorMessage isInputField message={errorEmail} />
         </View>
         <View style={styles.inputContainer}>
           <InputFieldText
@@ -110,11 +106,7 @@ const SignInForm = () => {
             errorMessage={errorPassword || signInError}
           />
 
-          <ErrorMessage
-            style={styles.errorContainer}
-            isInputField
-            message={errorPassword}
-          />
+          <ErrorMessage isInputField message={errorPassword} />
           <Pressable onPress={handleForgotPassword}>
             <Text style={[fontStyles.bodyMedium, styles.forgotPassText]}>
               Forgot password?
@@ -129,10 +121,7 @@ const SignInForm = () => {
           onPress={handleSignIn}
           disabled={isLoading}
         />
-        <ErrorMessage
-          style={styles.errorContainer}
-          message={signInError || devMessage}
-        />
+        <ErrorMessage message={signInError || devMessage} />
       </View>
     </View>
   );
@@ -150,10 +139,6 @@ const styles = StyleSheet.create({
   inputsContainer: {
     width: '100%',
     gap: size(5),
-  },
-
-  errorContainer: {
-    height: size(22),
   },
 
   inputContainer: {
