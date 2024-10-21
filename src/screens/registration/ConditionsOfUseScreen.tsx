@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useUpdateUserMutation} from 'reduxFeatures/user/userApi';
+import {useCompleteUserAndCreateTennantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
@@ -46,7 +46,7 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails} = useNewUserDetails();
   const {savedImages} = useImagesToUpload();
-  const [updateUser] = useUpdateUserMutation();
+  const [completeUserAndCreateTennant] = useCompleteUserAndCreateTennantMutation();
   const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
@@ -69,15 +69,13 @@ const ConditionsOfUseScreen = () => {
 
   const handlnewJourneyCheckout =  async () => {
     if (newUserDetails.userType === 'tenant'){
-      console.log("I am here")
     try {
-      const result = await updateUser({ id: data?.id, userChoices: newUserDetails }).unwrap();
+      const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
       console.log('Update successful:', result);
     } catch (error) {
       console.error('Failed to update user:', error);
     }
   } else {
-      console.log("I am lessor")
      try {
       const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
       console.log('Update successful:', result);

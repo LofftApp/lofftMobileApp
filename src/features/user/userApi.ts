@@ -19,10 +19,10 @@ export const userApi = lofftApi.injectEndpoints({
         return toCamelCaseKeys(response as unknown as SpecificUser);
       },
     }),
-    updateUser: builder.mutation({
+    completeUserAndCreateTennant: builder.mutation({
       query: ({id, userChoices}) => {
         return {
-        url: `/api/users/${id}/complete_user_sign_up`,
+        url: `/api/users/${id}/complete_tennant_sign_up`,
         method: 'POST',
         body: userChoices,
         };
@@ -32,4 +32,4 @@ export const userApi = lofftApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const {useGetUserQuery, useGetSpecificUserQuery, useUpdateUserMutation} = userApi;
+export const {useGetUserQuery, useGetSpecificUserQuery, useCompleteUserAndCreateTennantMutation} = userApi;
