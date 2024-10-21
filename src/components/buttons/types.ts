@@ -74,13 +74,13 @@ type NewUserJourneyButtonProps = {
   icon: string;
   style?: StyleProp<ViewStyle>;
   onPress: () => void;
-  type: 'lessor' | 'renter';
+  type: 'lessor' | 'tenant';
   isActive: boolean;
 };
 
 type IconButtonProps = {
   text: string;
-  icon: string;
+  icon?: string;
   iconSize?: number;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;

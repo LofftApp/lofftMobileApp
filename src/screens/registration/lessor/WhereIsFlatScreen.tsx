@@ -15,10 +15,10 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screen 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // API Hook 🪝
-import {useFindAddress} from 'hooks/useFindAdress';
+import {useFindAddress} from 'hooks/useFindAddress';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
@@ -66,7 +66,7 @@ const WhereIsFlatScreen = () => {
   // API Hook
   const {
     addresses,
-    query,
+    addressesWithDistrict,
     isLoading,
     error: errorSearch,
     setError: setErrorSearch,
@@ -134,7 +134,7 @@ const WhereIsFlatScreen = () => {
   const handleDropdownPress = (value: string) => {
     const addressIndex = addresses.indexOf(value);
     setLocation(value);
-    setAddressDetails(query[addressIndex]);
+    setAddressDetails(addressesWithDistrict[addressIndex]);
     setIsSearching(false);
     setErrorAddress('');
   };
@@ -177,6 +177,8 @@ const WhereIsFlatScreen = () => {
       price: result.data.price,
       warmRent: result.data.warmRent,
     });
+
+    setCurrentScreen(currentScreen + 1);
 
     navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
 

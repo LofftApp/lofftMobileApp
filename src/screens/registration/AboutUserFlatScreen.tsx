@@ -25,7 +25,7 @@ import {RegistrationBackground} from 'assets';
 
 // Data 💿
 import userPreferences from 'components/componentData/userPreferences.json';
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Validation 🛡  ️
 import {characteristicsSchema} from 'lib/zodSchema';
@@ -47,7 +47,10 @@ interface SelectedTracks {
   toggle: boolean;
 }
 
-const AboutUserScreen = () => {
+const AboutUserFlatScreen = () => {
+  //Navigation
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
   // initial state
   const characteristics = userPreferences;
 
@@ -55,8 +58,6 @@ const AboutUserScreen = () => {
   const [charsState, setCharsState] = useState(characteristics);
   const [selectedChars, setSelectedChars] = useState<SelectedTracks[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
@@ -97,7 +98,7 @@ const AboutUserScreen = () => {
     setNewUserDetails({characteristics: selectedChars});
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
@@ -148,8 +149,16 @@ const AboutUserScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText="Tell us a bit about yourself"
-          subDescription={`Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`}
+          headlineText={
+            isLessor
+              ? 'Tell us a bit about your flat'
+              : 'Tell us a bit about yourself'
+          }
+          subDescription={
+            isLessor
+              ? `Select at least ${MIN_SELECTED_CHARS} tags that describe your Lofft lifestyles. More tags selected, more likelihood you'll find the right crowd!`
+              : `Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`
+          }
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>{charsButtons}</View>
@@ -199,4 +208,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AboutUserScreen;
+export default AboutUserFlatScreen;

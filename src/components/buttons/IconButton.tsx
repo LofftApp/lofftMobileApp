@@ -69,23 +69,22 @@ const IconButton = ({
   const backgroundColor = isActive ? Color.Lavendar[100] : Color.White[100];
   const textColor = isActive ? Color.White[100] : Color.Black[100];
   const borderColor = isActive ? Color.Lavendar[100] : Color.Black[100];
-
   return (
     <Pressable onPress={animation ? handleOnPress : onPress}>
       {animation ? (
         <Animated.View
           style={[
-            style,
-            styles.buttonContainer,
-            styles.content,
+            style ? style : styles.buttonContainer,
             {backgroundColor: animatedBackgroundColor},
             {borderColor: animatedBorderColor},
           ]}>
-          <LofftIcon
-            name={icon}
-            size={iconSize}
-            color={isActive ? Color.White[100] : Color.Black[100]}
-          />
+          {icon && (
+            <LofftIcon
+              name={icon}
+              size={iconSize}
+              color={isActive ? Color.White[100] : Color.Black[100]}
+            />
+          )}
           <Animated.Text
             style={[fontStyles.headerSmall, {color: animatedTextColor}]}>
             {text}
@@ -94,16 +93,16 @@ const IconButton = ({
       ) : (
         <View
           style={[
-            style,
-            styles.buttonContainer,
-            styles.content,
+            style ? style : styles.buttonContainer,
             {backgroundColor, borderColor},
           ]}>
-          <LofftIcon
-            name={icon}
-            size={iconSize}
-            color={isActive ? Color.White[100] : Color.Black[100]}
-          />
+          {icon && (
+            <LofftIcon
+              name={icon}
+              size={iconSize}
+              color={isActive ? Color.White[100] : Color.Black[100]}
+            />
+          )}
           <Text style={[fontStyles.headerSmall, {color: textColor}]}>
             {text}
           </Text>
@@ -119,8 +118,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 12,
     marginVertical: size(0),
-  },
-  content: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: size(15),

@@ -1,14 +1,14 @@
-import {NewUserScreens} from '../../navigationStacks/types';
+import {NewUserScreens} from './types';
 
 export const newUserScreens: NewUserScreens = {
-  renter: {
+  tenant: {
     1: 'LanguageSelectionScreen',
-    2: 'AboutUserScreen',
+    2: 'AboutUserFlatScreen',
     3: 'GenderIdentityScreen',
     4: 'SelectCityScreen',
     5: 'FinderBudgetScreen',
     6: 'FlatFeaturesScreen',
-    7: 'SelfDescribeScreen',
+    7: 'SelfFlatDescribeScreen',
     8: 'NameProfileScreen',
     9: 'ConditionsOfUseScreen',
   },
@@ -17,11 +17,12 @@ export const newUserScreens: NewUserScreens = {
     2: 'SelectCityScreen',
     3: 'WhereIsFlatScreen',
     4: 'FlatLengthAvailableScreen',
-    5: 'AboutUserScreen',
+    5: 'AboutUserFlatScreen',
     6: 'GenderIdentityScreen',
     7: 'FlatFeaturesScreen',
-    8: 'FlatPhotoUploadScreen',
-    9: 'NameProfileScreen',
-    10: 'ConditionsOfUseScreen',
+    8: 'SelfFlatDescribeScreen',
+    9: 'FlatImageUploadScreen',
+    10: 'NameProfileScreen',
+    11: 'ConditionsOfUseScreen',
   },
 };

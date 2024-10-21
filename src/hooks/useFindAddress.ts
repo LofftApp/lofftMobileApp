@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {findAddress} from 'api/mapbox/findAddress';
 
 const useFindAddress = (address: string) => {
-  const [query, setQuery] = useState([]);
+  const [addressesWithDistrict, setAddressesWithDistrict] = useState([]);
   const [addresses, setAddresses] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
@@ -19,7 +19,7 @@ const useFindAddress = (address: string) => {
 
       try {
         const result = await findAddress(address);
-        setQuery(result);
+        setAddressesWithDistrict(result);
         const addressList = result.map((data: {address: string}) => {
           return data.address;
         });
@@ -38,7 +38,7 @@ const useFindAddress = (address: string) => {
     return () => clearTimeout(debounce);
   }, [address]);
 
-  return {addresses, query, isLoading, error, setError};
+  return {addresses, addressesWithDistrict, isLoading, error, setError};
 };
 
 export {useFindAddress};

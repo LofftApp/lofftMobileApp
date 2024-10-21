@@ -2,12 +2,16 @@ import {
   initialMaxPrice,
   initialMinPrice,
   MAX_DESCRIPTION_CHARS,
+  MAX_FLAT_IMAGES,
+  MAX_GENDERS,
   MAX_LANGUAGES,
   MAX_SELECTED_CHARS,
+  MAX_USER_IMAGES,
   MIN_DESCRIPTION_CHARS,
   MIN_SELECTED_CHARS,
   MIN_SELECTED_FEATURES,
 } from 'components/componentData/constants';
+import dayjs from 'dayjs';
 import {z} from 'zod';
 
 const languagesSchema = z
@@ -47,8 +51,8 @@ const genderIdentitySchema = z
   .nonempty({
     message: 'Please select at least one option',
   })
-  .max(MIN_SELECTED_FEATURES, {
-    message: 'You can select up to 3 options only',
+  .max(MAX_GENDERS, {
+    message: `You can select up to ${MAX_GENDERS} options only`,
   });
 
 const cityDistrictsSchema = z.object({
@@ -100,11 +104,11 @@ const featuresSchema = z
       emoji: z.string(),
     }),
   )
-  .nonempty({
-    message: 'Please select at least one tag',
+  .min(MIN_SELECTED_FEATURES, {
+    message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
   });
 
-const descriptionSchema = z
+const selfDescriptionSchema = z
   .string({
     required_error: `We need at least ${MIN_DESCRIPTION_CHARS} words to create your profile`,
   })
@@ -123,6 +127,23 @@ const nameSchema = z.object({
     .string({required_error: 'Please enter your last name'})
     .min(1, 'Please enter your last name'),
   dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
+  images: z
+    .array(
+      z.object({
+        fileName: z.string(),
+        fileSize: z.number(),
+        height: z.number(),
+        type: z.string(),
+        uri: z.string(),
+        width: z.number(),
+      }),
+    )
+    .nonempty({
+      message: 'Please upload at least one image',
+    })
+    .max(MAX_USER_IMAGES, {
+      message: `You can upload up to ${MAX_USER_IMAGES} images only`,
+    }),
 });
 
 const addressSchema = z.object({
@@ -139,9 +160,61 @@ const addressSchema = z.object({
   warmRent: z.boolean(),
 });
 
+const dateLengthSchema = z
+  .object({
+    fromDate: z
+      .date({required_error: 'Please enter a start date'})
+      .refine(val => dayjs(val).isAfter(dayjs().subtract(1, 'day')), {
+        message: 'Start date cannot be in the past',
+      }),
+    untilDate: z.union([z.date(), z.null()]).optional(),
+    permanent: z.boolean(),
+  })
+  .refine(data => data.permanent || data.untilDate !== null, {
+    message: 'Please select an end date or mark as permanent',
+    path: ['untilDate'],
+  })
+  .refine(
+    data =>
+      !data.untilDate || dayjs(data.untilDate).isAfter(dayjs(data.fromDate)),
+    {
+      message: 'End date must be after the start date',
+      path: ['untilDate'],
+    },
+  );
+
+const flatDescriptionSchema = z
+  .string({
+    required_error: `We need at least ${MIN_DESCRIPTION_CHARS} words to create your flat profile`,
+  })
+  .min(MIN_DESCRIPTION_CHARS, {
+    message: 'We are sure you have more to say about your flat',
+  })
+  .max(MAX_DESCRIPTION_CHARS, {
+    message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
+  });
+
+const flatImagesSchema = z
+  .array(
+    z.object({
+      fileName: z.string(),
+      fileSize: z.number(),
+      height: z.number(),
+      type: z.string(),
+      uri: z.string(),
+      width: z.number(),
+    }),
+  )
+  .nonempty({
+    message: 'Please upload at least one image',
+  })
+  .max(MAX_FLAT_IMAGES, {
+    message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
+  });
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
-  renter: z.object({
+  tenant: z.object({
     languages: languagesSchema,
     characteristics: characteristicsSchema,
     genderIdentity: genderIdentitySchema,
@@ -156,7 +229,10 @@ export {
   budgetSchema,
   newUserSchema,
   featuresSchema,
-  descriptionSchema,
+  selfDescriptionSchema,
   nameSchema,
   addressSchema,
+  dateLengthSchema,
+  flatDescriptionSchema,
+  flatImagesSchema,
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 
 // Screens 📺
-import ListFlatApplicationComponent from '../renter/SubScreens/ListFlatApplicationComponent';
+import ListFlatApplicationComponent from '../tenant/SubScreens/ListFlatApplicationComponent';
 
 // Helpers 🧰
 import {size} from 'react-native-responsive-sizes';

@@ -2,7 +2,7 @@ import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 
-// Renter Navigator Stack
+// tenant Navigator Stack
 
 type RootTabParamsList = {
   search: undefined;
@@ -16,21 +16,21 @@ type RootTabParamsList = {
 type NewUserScreenNames =
   | 'NewUserJourney'
   | 'LanguageSelectionScreen'
-  | 'AboutUserScreen'
+  | 'AboutUserFlatScreen'
   | 'GenderIdentityScreen'
   | 'WhereIsFlatScreen'
   | 'FlatLengthAvailableScreen'
   | 'SelectCityScreen'
   | 'FinderBudgetScreen'
   | 'FlatFeaturesScreen'
-  | 'SelfDescribeScreen'
+  | 'SelfFlatDescribeScreen'
   | 'ConditionsOfUseScreen'
-  | 'FlatPhotoUploadScreen'
   | 'FinderBudgetScreen'
-  | 'NameProfileScreen';
+  | 'NameProfileScreen'
+  | 'FlatImageUploadScreen';
 
 type NewUserScreens = {
-  renter: Record<number, NewUserScreenNames>;
+  tenant: Record<number, NewUserScreenNames>;
   lessor: Record<number, NewUserScreenNames>;
 };
 

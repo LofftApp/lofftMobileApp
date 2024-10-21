@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screens 📺
-import {newUserScreens} from '../../../components/componentData/newUserScreens';
+import {newUserScreens} from '../../../navigationStacks/newUserScreens';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 //Styles 🎨
@@ -31,6 +31,8 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 import {genderIdentitySchema} from 'lib/zodSchema';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {MAX_GENDERS} from 'components/componentData/constants';
+import {fontStyles} from 'styleSheets/fontStyles';
 interface SelectButton {
   id: number;
   value: string;
@@ -38,7 +40,7 @@ interface SelectButton {
   emoji: string;
 }
 
-const gendersRenter = [
+const gendersTenant = [
   {value: 'Male', id: 1, toggle: false, emoji: '👨'},
   {value: 'Female', id: 2, toggle: false, emoji: '👩'},
   {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
@@ -72,7 +74,7 @@ const GenderIdentityScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const genders = isLessor ? gendersLessor : gendersRenter;
+  const genders = isLessor ? gendersLessor : gendersTenant;
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
@@ -97,6 +99,8 @@ const GenderIdentityScreen = () => {
     const updatedGender = intitalGenders.map(el => {
       return el.id === id
         ? {...el, toggle: !el.toggle}
+        : isLessor
+        ? el
         : {...el, toggle: false};
     });
 
@@ -122,7 +126,7 @@ const GenderIdentityScreen = () => {
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
@@ -163,11 +167,21 @@ const GenderIdentityScreen = () => {
         <Divider />
 
         <View style={styles.footerContainer}>
+          {isLessor && (
+            <View style={styles.tagInfoContainer}>
+              <Text
+                style={
+                  fontStyles.bodySmall
+                }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
+            </View>
+          )}
           {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            disabled={selectedGender.length === 0}
+            disabled={
+              selectedGender.length === 0 || selectedGender.length > MAX_GENDERS
+            }
             onPress={handleContinue}
           />
         </View>

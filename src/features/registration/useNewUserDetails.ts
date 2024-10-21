@@ -3,15 +3,15 @@ import {
   setUserType as _setUserType,
   setNewUserDetails as _setNewUserDetails,
   NewUserLessorDetails,
-  NewUserRenterDetails,
+  NewUserTenantDetails,
 } from './newUserSlice';
 
 export const useNewUserDetails = () => {
   const dispatch = useAppDispatch();
   const userType = useAppSelector(state => state.newUser.userType);
   const isLessor = userType === 'lessor';
-  const isRenter = userType === 'renter';
-  const setUserType = (type: 'lessor' | 'renter' | '') => {
+  const isTenant = userType === 'tenant';
+  const setUserType = (type: 'lessor' | 'tenant' | '') => {
     dispatch(_setUserType(type));
   };
   const userJourney = useAppSelector(state =>
@@ -21,11 +21,11 @@ export const useNewUserDetails = () => {
   const newUserDetails = useAppSelector(state =>
     isLessor
       ? state.newUser.newUserDetails.lessor
-      : state.newUser.newUserDetails.renter,
+      : state.newUser.newUserDetails.tenant,
   );
 
   const setNewUserDetails = (
-    details: Partial<NewUserLessorDetails> | Partial<NewUserRenterDetails>,
+    details: Partial<NewUserLessorDetails> | Partial<NewUserTenantDetails>,
   ) => {
     dispatch(_setNewUserDetails(details));
   };
@@ -34,7 +34,7 @@ export const useNewUserDetails = () => {
     userType,
     setUserType,
     isLessor,
-    isRenter,
+    isTenant,
     userJourney,
     newUserDetails,
     setNewUserDetails,
