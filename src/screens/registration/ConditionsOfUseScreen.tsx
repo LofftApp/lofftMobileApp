@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useUpdateUserMutation} from 'reduxFeatures/user/userApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Screens 📺
 
@@ -38,13 +39,14 @@ const ConditionsOfUseScreen = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [updateUser] = useUpdateUserMutation();
 
   //Redux
   const [signOut] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails} = useNewUserDetails();
   const {savedImages} = useImagesToUpload();
+  const [updateUser] = useUpdateUserMutation();
+  const {data} = useGetUserQuery();
 
   const handleSignOut = () => {
     signOut();
