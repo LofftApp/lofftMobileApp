@@ -4,20 +4,20 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // Find Lofft Journey
 import ConfirmEmailScreen from 'screens/registration/ConfirmEmailScreen';
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
-import AboutUserScreen from 'screens/registration/AboutUserScreen';
-import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
-import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
-import BudgetScreen from 'screens/registration/renter/BudgetScreen';
-import FlatFeaturesScreen from 'screens/registration/renter/FlatFeaturesScreen';
-import SelfDescribeScreen from 'screens/registration/renter/SelfDescribeScreen';
+import AboutUserFlatScreen from 'screens/registration/AboutUserFlatScreen';
+import GenderIdentityScreen from 'screens/registration/tenant/GenderIdentityScreen';
+import SelectCityScreen from 'screens/registration/tenant/SelectCityScreen';
+import BudgetScreen from 'screens/registration/tenant/BudgetScreen';
+import FlatFeaturesScreen from 'screens/registration/tenant/FlatFeaturesScreen';
 import ConditionsOfUseScreen from 'screens/registration/ConditionsOfUseScreen';
 import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAvailableScreen';
-import FlatPhotoUploadScreen from 'screens/registration/lessor/FlatPhotoUploadScreen';
 import NameProfileScreen from 'screens/registration/NameProfileScreen';
+import FlatImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
+import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -25,7 +25,7 @@ const NewUserNavigator = () => {
   return (
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
-         {/* Intial screen after sign up */}
+        {/* Intial screen after sign up */}
         <NewUserNavigatorFlow.Screen
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
@@ -35,7 +35,7 @@ const NewUserNavigator = () => {
           name="NewUserJourney"
           component={NewUserJourney}
         />
-        {/* Renter Screens */}
+        {/* tenant Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
           component={GenderIdentityScreen}
@@ -48,10 +48,6 @@ const NewUserNavigator = () => {
           name="FinderBudgetScreen"
           component={BudgetScreen}
         />
-        <NewUserNavigatorFlow.Screen
-          name="SelfDescribeScreen"
-          component={SelfDescribeScreen}
-        />
         {/* Lessor Screens */}
         <NewUserNavigatorFlow.Screen
           name="WhereIsFlatScreen"
@@ -62,9 +58,10 @@ const NewUserNavigator = () => {
           component={FlatLengthAvailableScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="FlatPhotoUploadScreen"
-          component={FlatPhotoUploadScreen}
+          name="FlatImageUploadScreen"
+          component={FlatImageUploadScreen}
         />
+
         {/* Shared screens */}
 
         <NewUserNavigatorFlow.Screen
@@ -76,16 +73,20 @@ const NewUserNavigator = () => {
           component={FlatFeaturesScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="AboutUserScreen"
-          component={AboutUserScreen}
+          name="AboutUserFlatScreen"
+          component={AboutUserFlatScreen}
+        />
+        <NewUserNavigatorFlow.Screen
+          name="SelfFlatDescribeScreen"
+          component={SelfFlatDescribeScreen}
+        />
+        <NewUserNavigatorFlow.Screen
+          name="NameProfileScreen"
+          component={NameProfileScreen}
         />
         <NewUserNavigatorFlow.Screen
           name="ConditionsOfUseScreen"
           component={ConditionsOfUseScreen}
-        />
-           <NewUserNavigatorFlow.Screen
-          name="NameProfileScreen"
-          component={NameProfileScreen}
         />
       </NewUserNavigatorFlow.Group>
     </NewUserNavigatorFlow.Navigator>

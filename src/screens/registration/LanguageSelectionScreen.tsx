@@ -11,7 +11,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Screens  📺
-import {newUserScreens} from '../../components/componentData/newUserScreens';
+import {newUserScreens} from '../../navigationStacks/newUserScreens';
 
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';
@@ -111,7 +111,7 @@ const LanguageSelectionScreen = () => {
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);

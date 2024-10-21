@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Text, View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {useNavigation} from '@react-navigation/native';
 
@@ -8,7 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -44,6 +44,7 @@ import {
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+
 const BudgetScreen = () => {
   //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -60,7 +61,7 @@ const BudgetScreen = () => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();
   const savedBudget =
-    newUserDetails.userType === 'renter' ? newUserDetails.budget : undefined;
+    newUserDetails.userType === 'tenant' ? newUserDetails.budget : undefined;
 
   useEffect(() => {
     if (
@@ -73,6 +74,16 @@ const BudgetScreen = () => {
       setWarmRent(savedBudget?.warmRent);
     }
   }, [savedBudget?.minPrice, savedBudget?.maxPrice, savedBudget?.warmRent]);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
 
   const handleMin = (num: string | number) => {
     if (+num <= +initialMaxPrice) {
@@ -137,7 +148,7 @@ const BudgetScreen = () => {
 
     setNewUserDetails({budget: result.data});
 
-    navigation.navigate(newUserScreens.renter[currentScreen + 1]);
+    navigation.navigate(newUserScreens.tenant[currentScreen + 1]);
     setCurrentScreen(currentScreen + 1);
     setError('');
   };
@@ -156,7 +167,8 @@ const BudgetScreen = () => {
           subDescription={'Define the range for your monthly rental budget'}
         />
 
-        <View style={styles.priceRangeContainer}>
+        <Animated.View
+          style={[styles.priceRangeContainer, {opacity: fadeAnim}]}>
           <View style={styles.inputContainer}>
             <View style={styles.formContainer}>
               <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
@@ -210,11 +222,11 @@ const BudgetScreen = () => {
               {onlyNumber(maxPrice)} €
             </Text>
           </View>
-        </View>
-        <View style={styles.switchContainer}>
+        </Animated.View>
+        <Animated.View style={[styles.switchContainer, {opacity: fadeAnim}]}>
           <Text style={fontStyles.bodySmall}>Warm Rent</Text>
           <CustomSwitch value={warmRent} onValueChange={handleSwitch} />
-        </View>
+        </Animated.View>
       </View>
       <View style={styles.footerContainer}>
         <Divider />

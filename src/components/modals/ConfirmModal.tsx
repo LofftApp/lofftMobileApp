@@ -30,7 +30,11 @@ const ConfirmModal = ({
     setIsModalOpen(prev => !prev);
   };
   return (
-    <Modal visible={openModal} animationType="slide" transparent={true}>
+    <Modal
+      visible={openModal}
+      onRequestClose={toggleModal}
+      animationType="slide"
+      transparent={true}>
       <SafeAreaView
         style={
           fullScreen

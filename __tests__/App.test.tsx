@@ -22,7 +22,7 @@ jest.mock('../src/features/api/lofftApi', () => ({
 // Mock RTK Query hooks from userApi
 jest.mock('../src/features/user/userApi', () => ({
   useGetUserQuery: jest.fn(() => ({
-    data: {user: {userType: 'renter', admin: false}},
+    data: {user: {userType: 'tenant', admin: false}},
     isLoading: false,
     isError: false,
     error: null,

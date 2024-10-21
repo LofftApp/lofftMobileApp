@@ -8,7 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -240,7 +240,7 @@ const SelectCityScreen = () => {
     navigation.navigate(
       isLessor
         ? newUserScreens.lessor[currentScreen + 1]
-        : newUserScreens.renter[currentScreen + 1],
+        : newUserScreens.tenant[currentScreen + 1],
     );
     setCurrentScreen(currentScreen + 1);
     setError('');

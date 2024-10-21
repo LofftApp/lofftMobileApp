@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, TextInput, Text, SafeAreaView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -7,7 +7,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Screens 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -15,26 +15,27 @@ import BackButton from 'components/buttons/BackButton';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
-import {descriptionSchema} from 'lib/zodSchema';
+import {flatDescriptionSchema, selfDescriptionSchema} from 'lib/zodSchema';
 
 //Constants  📊
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+
+//Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
-const SelfDescribeScreen = () => {
+const SelfFlatDescribeScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -45,8 +46,11 @@ const SelfDescribeScreen = () => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
-  const savedDescription = newUserDetails.description;
+  const {setNewUserDetails, newUserDetails, isLessor} = useNewUserDetails();
+  const savedDescription =
+    newUserDetails.userType === 'lessor'
+      ? newUserDetails.flatDescription
+      : newUserDetails.selfDescription;
 
   useEffect(() => {
     if (savedDescription) {
@@ -65,6 +69,16 @@ const SelfDescribeScreen = () => {
     setTextFocus(false);
   };
 
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
   const handleBackButton = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
@@ -72,19 +86,27 @@ const SelfDescribeScreen = () => {
   };
   const handleContinue = () => {
     const trimmedText = text.trim();
-    const result = descriptionSchema.safeParse(trimmedText);
+    const result = isLessor
+      ? flatDescriptionSchema.safeParse(trimmedText)
+      : selfDescriptionSchema.safeParse(trimmedText);
     if (!result.success) {
       setError(result.error.flatten().formErrors?.[0]);
       return;
     }
 
-    setNewUserDetails({description: result.data});
+    setNewUserDetails(
+      isLessor
+        ? {flatDescription: result.data}
+        : {selfDescription: result.data},
+    );
 
     setCurrentScreen(currentScreen + 1);
+
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
+
     setError('');
   };
 
@@ -101,44 +123,28 @@ const SelfDescribeScreen = () => {
         <HeadlineContainer
           headlineText={`In your own ${'\n'}words!`}
           subDescription={
-            'Describe yourself in a short text. Dont worry, this can be edited in your profile later!'
+            isLessor
+              ? 'Describe your flat in a short text. This can be edited later!'
+              : 'Describe yourself in a short text. Dont worry, this can be edited in your profile later!'
           }
         />
         <View style={styles.mainContainer}>
-          <View style={styles.textContainer}>
-            <TextInput
-              keyboardType="default"
-              placeholder="Who are you? What do you like?"
-              placeholderTextColor={Color.Black[50]}
-              value={text}
-              style={[
-                styles.inputText,
-                fontStyles.bodySmall,
-                {
-                  borderColor: textFocus
-                    ? error
-                      ? Color.Tomato[100]
-                      : Color.Lavendar[100]
-                    : Color.Black[50],
-                },
-              ]}
-              onChangeText={handleOnChange}
-              onFocus={handleOnFocus}
-              onBlur={handleOnBlur}
-              multiline={true}
+          <Animated.View style={{opacity: fadeAnim}}>
+            <CustomTextInput
+              text={text}
+              textFocus={textFocus}
+              error={error}
+              handleOnChange={handleOnChange}
+              handleOnFocus={handleOnFocus}
+              handleOnBlur={handleOnBlur}
+              placeholder={
+                isLessor
+                  ? 'Tell us about your lofft.'
+                  : 'Who are you? What do you like?'
+              }
+              isFlat={isLessor}
             />
-
-            <Text style={[fontStyles.bodySmall, styles.minText]}>
-              {text.length < MIN_DESCRIPTION_CHARS &&
-                !error &&
-                `*Share your story in ${
-                  MIN_DESCRIPTION_CHARS - text.length
-                } word${
-                  MIN_DESCRIPTION_CHARS - text.length === 1 ? '' : 's'
-                } or more`}
-              {error && <ErrorMessage isInputField message={error} />}
-            </Text>
-          </View>
+          </Animated.View>
 
           <View style={styles.footerContainer}>
             <Divider />
@@ -160,12 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  textContainer: {
-    height: '45%',
-    paddingHorizontal: size(10),
-    paddingVertical: size(10),
-    gap: size(10),
-  },
+
   minText: {
     color: Color.Black[80],
   },
@@ -185,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelfDescribeScreen;
+export default SelfFlatDescribeScreen;

@@ -7,7 +7,7 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 // Screens 📺
-import {newUserScreens} from 'components/componentData/newUserScreens';
+import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -125,7 +125,7 @@ const FlatFeaturesScreen = () => {
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
