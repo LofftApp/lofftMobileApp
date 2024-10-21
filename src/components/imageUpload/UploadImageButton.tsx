@@ -13,7 +13,7 @@ import {
   MAX_USER_IMAGES,
 } from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+// import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 type UploadImageButtonProps = {
   onPress: () => void;
@@ -55,7 +55,7 @@ const UploadImageButton = ({
           Upload Pictures
         </Text>
       </TouchableOpacity>
-      {error && <ErrorMessage isInputField message={error} />}
+      {/* {error && <ErrorMessage isInputField message={error} />} */}
     </View>
   );
 };

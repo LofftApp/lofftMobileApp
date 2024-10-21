@@ -113,6 +113,14 @@ const NameProfileScreen = () => {
     setSavedImages,
   ]);
 
+  useEffect(() => {
+    if (totalImages > MAX_USER_IMAGES) {
+      setErrorImage(`You can only upload ${MAX_USER_IMAGES} images`);
+    } else {
+      setErrorImage('');
+    }
+  }, [totalImages]);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -310,6 +318,7 @@ const NameProfileScreen = () => {
 
           <View style={styles.footerContainer}>
             <Divider />
+            {errorImage && <ErrorMessage message={errorImage} />}
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"

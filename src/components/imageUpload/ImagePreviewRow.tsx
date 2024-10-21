@@ -56,8 +56,10 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               ))}
             </View>
           </View>
-          <Divider />
         </>
+      )}
+      {imagesToUpload.length > 0 && savedImagesDisplay.length > 0 && (
+        <Divider />
       )}
       {savedImagesDisplay.length > 0 && (
         <>

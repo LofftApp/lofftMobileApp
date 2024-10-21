@@ -103,7 +103,7 @@ const SelfFlatDescribeScreen = () => {
     setCurrentScreen(currentScreen + 1);
 
     const screen = isLessor
-      ? newUserScreens.renter[currentScreen + 1]
+      ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 

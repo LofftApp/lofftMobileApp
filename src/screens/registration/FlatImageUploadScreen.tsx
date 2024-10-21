@@ -41,6 +41,7 @@ import {flatImagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const FlatImageUploadScreen = () => {
   //Navigation
@@ -67,6 +68,14 @@ const FlatImageUploadScreen = () => {
       });
     }
   }, [savedImages.lessor.flatImages, setSavedImages]);
+
+  useEffect(() => {
+    if (totalImages > MAX_FLAT_IMAGES) {
+      setError(`You can only upload ${MAX_FLAT_IMAGES} images`);
+    } else {
+      setError('');
+    }
+  }, [totalImages]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -146,6 +155,7 @@ const FlatImageUploadScreen = () => {
           </ScrollView>
           <View style={styles.footerContainer}>
             <Divider />
+            {error && <ErrorMessage message={error} />}
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
