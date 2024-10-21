@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useUpdateUserMutation} from 'reduxFeatures/user/userApi';
 
 // Screens 📺
 
@@ -37,6 +38,7 @@ const ConditionsOfUseScreen = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [updateUser] = useUpdateUserMutation();
 
   //Redux
   const [signOut] = useSignOutMutation();
