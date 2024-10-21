@@ -11,14 +11,19 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Assets 🛠️
 import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const SignInScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
+      <SignInBackground
+        height="200%"
+        width="100%"
+        style={styles.backgroundImage}
+      />
       <View style={styles.imageWrap}>
         <HiFive style={styles.image} />
       </View>
-      <SignInBackground style={styles.backgroundImage} />
       <View style={styles.formWrap}>
         <View style={styles.signInForm}>
           <SignInForm />
@@ -42,7 +47,7 @@ const SignInScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.Lavendar['5'],
+    backgroundColor: Color.Lavendar['10'],
   },
   image: {
     height: '70%',
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'absolute',
-    top: -10,
+    top: '-46%',
     zIndex: 1,
   },
   formWrap: {
