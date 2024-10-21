@@ -25,6 +25,7 @@ const {height, width} = Dimensions.get('window');
 const SignInScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
+  const imageMarginTop = height < 700 ? size(10) : size(70);
   const handleSignUp = () => {
     navigation.navigate('SignUpScreen');
   };
@@ -37,7 +38,7 @@ const SignInScreen = () => {
       />
 
       <View style={styles.imageContainer}>
-        <HiFive style={styles.image} />
+        <HiFive style={{marginTop: imageMarginTop}} />
       </View>
 
       <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar['10'],
   },
   image: {
-    marginTop: size(height / 16),
+    marginTop: height / 12,
   },
   imageContainer: {
     zIndex: 3,
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     gap: size(width / 30),
     alignItems: 'center',
     marginBottom: size(20),
-
   },
 });
 

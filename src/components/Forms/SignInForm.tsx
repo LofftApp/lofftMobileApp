@@ -90,7 +90,7 @@ const SignInForm = () => {
     <View style={styles.mainContainer}>
       <Text style={fontStyles.headerMedium}>Hello again!</Text>
       <View style={styles.inputsContainer}>
-        <View>
+        <View style={styles.inputContainer}>
           <InputFieldText
             value={email}
             onChangeText={handleEmailChange}
@@ -102,7 +102,7 @@ const SignInForm = () => {
 
           <ErrorMessage isInputField message={errorEmail} />
         </View>
-        <View>
+        <View style={styles.inputContainer}>
           <InputFieldText
             value={password}
             onChangeText={handlePasswordChange}
@@ -146,6 +146,10 @@ const styles = StyleSheet.create({
     gap: size(10),
   },
 
+  inputContainer: {
+    gap: size(3),
+  },
+
   forgotPassText: {
     alignSelf: 'flex-end',
     color: Color.Blue['100'],
@@ -154,9 +158,7 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: size(5),
   },
-  inputContainer: {
-    flexWrap: 'wrap',
-  },
+
 });
 
 export default SignInForm;

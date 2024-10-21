@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 
 // RTK 🌎
 import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
@@ -21,7 +21,11 @@ import {fontStyles} from 'styleSheets/fontStyles';
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 
+const {height} = Dimensions.get('window');
+
 const SignUpForm = () => {
+  const checkboxPadding = height < 700 ? size(0) : size(10);
+
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -145,7 +149,8 @@ const SignUpForm = () => {
           <ErrorMessage isInputField message={errorRepeatPassword} />
         </View>
       </View>
-      <View style={styles.checkBoxContainer}>
+      <View
+        style={[styles.checkBoxContainer, {paddingVertical: checkboxPadding}]}>
         <CheckBox
           value={checkbox}
           onPress={toggleCheckBox}
@@ -174,7 +179,6 @@ const styles = StyleSheet.create({
     paddingTop: size(35),
     alignItems: 'center',
     flex: 1,
-    gap: size(0),
   },
 
   titleContainer: {
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: size(10),
   },
-  inputContainer: {},
+  inputContainer: {gap: size(3)},
 
   checkBoxContainer: {
     width: '90%',
@@ -193,6 +197,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: size(20),
     marginTop: size(0),
+    marginBottom: size(0),
   },
 
   signUpContainer: {

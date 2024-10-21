@@ -26,9 +26,13 @@ const {height} = Dimensions.get('window');
 const SignUpScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
   const insets = useSafeAreaInsets();
+  const imageHeight = height * 0.3;
+  const imageMarginTop = height < 700 ? size(10) : size(20);
+
   const handleSignIn = () => {
     navigation.navigate('SignInScreen');
   };
+
   return (
     <View style={styles.behindContainer}>
       <SignUpBackground
@@ -37,7 +41,7 @@ const SignUpScreen = () => {
         style={styles.backgroundImage}
       />
       <View style={styles.imageContainer}>
-        <Search style={styles.image} />
+        <Search height={imageHeight} style={{marginTop: imageMarginTop}} />
       </View>
 
       <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
@@ -92,9 +96,7 @@ const styles = StyleSheet.create({
     marginTop: size(150),
   },
 
-  image: {
-    marginTop: size(height / 500),
-  },
+  image: {},
   signInContainer: {
     flexDirection: 'row',
     gap: size(30),

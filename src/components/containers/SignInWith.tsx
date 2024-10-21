@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     gap: size(16),
   },
   logInWithButton: {
-    width: size(64),
-    height: size(48),
+    width: size(74),
+    height: size(58),
     borderWidth: 2,
     borderRadius: 12,
     borderColor: Colors.Lavendar[100],
