@@ -177,6 +177,15 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
+    completeLessorAndCreateAdvert: builder.mutation({
+      query: ({id, userChoices}) => {
+        return {
+        url: `/api/users/${id}/create_tenant_or_lessor`,
+        method: 'POST',
+        body: userChoices,
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -188,4 +197,5 @@ export const {
   useToggleFavoriteMutation,
   useApplyForFlatMutation,
   useConfirmApplicationsMutation,
+  useCompleteLessorAndCreateAdvertMutation,
 } = advertApi;

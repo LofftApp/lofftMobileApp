@@ -7,6 +7,7 @@ import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useUpdateUserMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
 // Screens 📺
 
@@ -46,15 +47,16 @@ const ConditionsOfUseScreen = () => {
   const {isLessor, newUserDetails} = useNewUserDetails();
   const {savedImages} = useImagesToUpload();
   const [updateUser] = useUpdateUserMutation();
+  const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
-  console.log(newUserDetails)
+  console.log(newUserDetails);
 
   const handleSignOut = () => {
     signOut();
   };
 
-  console.log("hey data", data)
+  console.log('hey data', data);
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
@@ -65,12 +67,21 @@ const ConditionsOfUseScreen = () => {
     navigation.goBack();
   };
 
-  const handleUserUpdate =  async () => {
+  const handlnewJourneyCheckout =  async () => {
+    if(data.userType === 'tenant'){
     try {
       const result = await updateUser({ id: data?.id, userChoices: newUserDetails }).unwrap();
       console.log('Update successful:', result);
     } catch (error) {
       console.error('Failed to update user:', error);
+    }
+  } else {
+     try {
+      const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
+      console.log('Update successful:', result);
+    } catch (error) {
+      console.error('Failed to update user:', error);
+    }
     }
   };
 
@@ -121,7 +132,7 @@ const ConditionsOfUseScreen = () => {
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
                 value="Agree and Continue"
-                onPress={handleUserUpdate}
+                onPress={handlnewJourneyCheckout}
               />
 
               <CoreButton value="Decline" invert onPress={toggleModal} />
