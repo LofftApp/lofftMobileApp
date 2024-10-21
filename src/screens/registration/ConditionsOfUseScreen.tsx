@@ -39,12 +39,15 @@ const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [message, setMessage] = useState('');
 
   //Redux
   const [signOut] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {isLessor, newUserDetails} = useNewUserDetails();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {savedImages} = useImagesToUpload();
   const [completeUserAndCreateTennant] = useCompleteUserAndCreateTennantMutation();
   const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
