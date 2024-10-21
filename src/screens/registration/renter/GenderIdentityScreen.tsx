@@ -92,19 +92,12 @@ const GenderIdentityScreen = () => {
       setSelectedGender([]);
     }
   }, [savedGender, genders]);
+
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
-      if (el.id === id) {
-        return {
-          ...el,
-          toggle: !el.toggle,
-        };
-      } else {
-        return {
-          ...el,
-          toggle: false,
-        };
-      }
+      return el.id === id
+        ? {...el, toggle: !el.toggle}
+        : {...el, toggle: false};
     });
 
     const genderSelected = updatedGender.filter(el => el.toggle);
@@ -128,8 +121,8 @@ const GenderIdentityScreen = () => {
     setNewUserDetails({genderIdentity: selectedGender});
 
     const screen = isLessor
-      ? newUserScreens.lessor[6]
-      : newUserScreens.renter[4];
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
@@ -146,8 +139,12 @@ const GenderIdentityScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={'What is your gender identity?'}
-          subDescription={'To create a safe place for... '}
+          headlineText={
+            isLessor
+              ? 'Your flat is a safe place for...'
+              : 'What is your gender identity?'
+          }
+          subDescription={isLessor ? '' : 'To create a safe place for... '}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>

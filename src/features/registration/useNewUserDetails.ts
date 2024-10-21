@@ -11,7 +11,7 @@ export const useNewUserDetails = () => {
   const userType = useAppSelector(state => state.newUser.userType);
   const isLessor = userType === 'lessor';
   const isRenter = userType === 'renter';
-  const setUserType = (type: 'lessor' | 'renter') => {
+  const setUserType = (type: 'lessor' | 'renter' | '') => {
     dispatch(_setUserType(type));
   };
   const userJourney = useAppSelector(state =>

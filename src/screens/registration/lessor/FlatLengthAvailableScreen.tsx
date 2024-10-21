@@ -21,9 +21,13 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🤝
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
-import {navigationHelper} from 'helpers/navigationHelper';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {newUserScreens} from 'components/componentData/newUserScreens';
+import {useNavigation} from '@react-navigation/native';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
-const FlatLengthAvailableScreen = ({navigation}: any) => {
+const FlatLengthAvailableScreen = () => {
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const [selector, setSelector] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateSelected, setFromDateSelected] = useState(false);
@@ -32,9 +36,16 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
   const [today, setToday] = useState(false);
   const [perminant, setPerminant] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+
+  const handleBackButton = () => {
+    const previousScreen = currentScreen - 1;
+    navigation.goBack();
+    setCurrentScreen(previousScreen);
+  };
 
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <ScreenBackButton nav={handleBackButton}>
       <View style={styles.bodyContainer}>
         <Text style={fontStyles.headerDisplay}>
           How long is the flat available for rent?
@@ -60,8 +71,8 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                 {today
                   ? 'Today'
                   : fromDateSelected
-                    ? dateFormatConverter({date: fromDate})
-                    : 'Choose date'}
+                  ? dateFormatConverter({date: fromDate})
+                  : 'Choose date'}
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
@@ -102,8 +113,8 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
                 {perminant
                   ? 'Choose date'
                   : untilDateSelected
-                    ? dateFormatConverter({date: untilDate})
-                    : 'Last day'}
+                  ? dateFormatConverter({date: untilDate})
+                  : 'Last day'}
               </Text>
             </Pressable>
             <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
@@ -128,9 +139,10 @@ const FlatLengthAvailableScreen = ({navigation}: any) => {
         </View>
         <FooterNavBarWithPagination
           disabled={!(fromDateSelected && untilDateSelected)}
-          onPress={(targetScreen: any) =>
-            navigationHelper(navigation, targetScreen)
-          }
+          onPress={() => {
+            navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
+            setCurrentScreen(currentScreen + 1);
+          }}
           details={{
             fromDate: String(fromDate),
             untilDate: String(untilDate),

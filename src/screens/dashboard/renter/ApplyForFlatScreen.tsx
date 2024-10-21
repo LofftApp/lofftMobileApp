@@ -30,7 +30,7 @@ const ApplyForFlatScreen = () => {
     ApplicationScreenNavigationProp & SearchScreenNavigationProp
   >();
   const {data, isLoading, isError} = useGetUserQuery();
-  const credits = data?.user.credits;
+  const credits = data?.credits;
 
   if (isLoading) {
     <LoadingComponent />;

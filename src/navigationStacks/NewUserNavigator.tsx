@@ -17,6 +17,7 @@ import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScree
 import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAvailableScreen';
 import FlatPhotoUploadScreen from 'screens/registration/lessor/FlatPhotoUploadScreen';
+import NameProfileScreen from 'screens/registration/NameProfileScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -81,6 +82,10 @@ const NewUserNavigator = () => {
         <NewUserNavigatorFlow.Screen
           name="ConditionsOfUseScreen"
           component={ConditionsOfUseScreen}
+        />
+           <NewUserNavigatorFlow.Screen
+          name="NameProfileScreen"
+          component={NameProfileScreen}
         />
       </NewUserNavigatorFlow.Group>
     </NewUserNavigatorFlow.Navigator>

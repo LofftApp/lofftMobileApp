@@ -33,7 +33,7 @@ const ListFlatApplicationCard = ({
   _advert,
 }: ListFlatApplicationCardProps) => {
   const {data} = useGetUserQuery();
-  const isLessor = data?.user?.userType === 'lessor';
+  const isLessor = data?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
   const [toggleFavorite] = useToggleFavoriteMutation();

@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useAppDispatch} from 'reduxCore/hooks';
-import {saveUserDetails} from 'reduxFeatures/registration/newUserSlice';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Screens 📺
@@ -24,16 +23,23 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 
 const ConditionsOfUseScreen = () => {
   const dispatch = useAppDispatch();
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const handleSignOut = () => {
     signOut();
   };
+
+  const handleBackButton = () => {
+    setCurrentScreen(currentScreen - 1);
+    navigation.goBack();
+  };
   return (
-    <ScreenBackButton nav={() => navigation.goBack()}>
+    <ScreenBackButton nav={handleBackButton}>
       <HeadlineContainer
         headlineText={`Lofft is an ${'\n'}inclusive space`}
         subDescription={''}

@@ -29,7 +29,7 @@ import { size } from 'react-native-responsive-sizes';
 const ConfirmEmailScreen = () => {
   const { data, error, isLoading, refetch } = useGetUserQuery();
 
-  const emailConfirmed = data?.user?.confirmedEmail;
+  const emailConfirmed = data?.confirmedEmail;
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 

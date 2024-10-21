@@ -52,7 +52,6 @@ const LanguageSelectionScreen = () => {
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
-  console.log('newUserdetaiils in languages', newUserDetails);
 
   // Safe Area
   const insets = useSafeAreaInsets();
@@ -111,10 +110,8 @@ const LanguageSelectionScreen = () => {
     setNewUserDetails({languages: result.data});
 
     const screen = isLessor
-      ? // ? newUserScreens.lessor[2]
-        //test
-        newUserScreens.lessor[6]
-      : newUserScreens.renter[2];
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.renter[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
