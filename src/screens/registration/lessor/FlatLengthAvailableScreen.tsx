@@ -215,9 +215,8 @@ const FlatLengthAvailableScreen = () => {
                   style={styles.setDateButton}
                 />
               </Animated.View>
-              {errorFromDate && (
-                <ErrorMessage isInputField message={errorFromDate} />
-              )}
+
+              <ErrorMessage isInputField message={errorFromDate} />
             </View>
 
             <View style={styles.datePickerContainer}>
@@ -242,9 +241,12 @@ const FlatLengthAvailableScreen = () => {
                   style={styles.setDateButton}
                 />
               </Animated.View>
-              {errorUntilDate && (
-                <ErrorMessage isInputField message={errorUntilDate} />
-              )}
+
+              <ErrorMessage
+                style={styles.errorMessage}
+                isInputField
+                message={errorUntilDate}
+              />
             </View>
           </View>
           <View style={styles.footerContainer}>
@@ -300,6 +302,10 @@ const styles = StyleSheet.create({
     paddingBottom: size(20),
     paddingHorizontal: size(16),
     gap: size(10),
+  },
+  errorMessage: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   },
 });
 
