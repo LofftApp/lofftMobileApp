@@ -23,6 +23,9 @@ import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
 const SignInScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
+  const handleSignUp = () => {
+    navigation.navigate('SignUpScreen');
+  };
   return (
     <View style={styles.behindContainer}>
       <SignInBackground
@@ -30,6 +33,7 @@ const SignInScreen = () => {
         width="100%"
         style={styles.backgroundImage}
       />
+
       <View style={styles.imageContainer}>
         <HiFive style={styles.image} />
       </View>
@@ -46,7 +50,7 @@ const SignInScreen = () => {
             </Text>
             <Text
               style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
-              onPress={() => navigation.navigate('SignUpScreen')}>
+              onPress={handleSignUp}>
               Sign Up
             </Text>
           </View>
@@ -87,12 +91,14 @@ const styles = StyleSheet.create({
   signInWithContainer: {
     flex: 1,
     alignItems: 'center',
-    marginBottom: size(40),
+    marginTop: size(120),
+
   },
   signUpContainer: {
     flexDirection: 'row',
     gap: size(30),
     alignItems: 'center',
+    marginBottom: size(20),
   },
 });
 

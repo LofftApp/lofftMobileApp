@@ -11,27 +11,43 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Assets 🛠️
 import {Search} from '../../assets';
 import {SignUpBackground} from '../../assets';
+import {size} from 'react-native-responsive-sizes';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {fontStyles} from 'styleSheets/fontStyles';
+import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+import {useNavigation} from '@react-navigation/native';
 
-const SignUpScreen = ({navigation}: any) => {
+const SignUpScreen = () => {
+  const navigation = useNavigation<GuestStackScreenNavigationProp>();
+  const insets = useSafeAreaInsets();
+  const handleSignIn = () => {
+    navigation.navigate('SignInScreen');
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.imageWrap}>
+    <View style={styles.behindContainer}>
+      <SignUpBackground
+        height="200%"
+        width="100%"
+        style={styles.backgroundImage}
+      />
+      <View style={styles.imageContainer}>
         <Search style={styles.image} />
       </View>
-      <SignUpBackground style={styles.backgroundImage} />
-      <View style={styles.formWrap}>
+
+      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signUpForm}>
           <SignUpForm />
         </View>
-        <View style={styles.signInWith}>
+        <View style={styles.signInWithContainer}>
           <SignInWith />
-          <Text style={styles.text}>
-            Already have an account?{'     '}
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SignInScreen')}>
-              <Text style={styles.link}>Sign in</Text>
-            </TouchableOpacity>
-          </Text>
+          <View style={styles.signInContainer}>
+            <Text style={fontStyles.bodyMedium}>Already have an account ?</Text>
+            <Text
+              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
+              onPress={handleSignIn}>
+              Sign In
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -39,14 +55,50 @@ const SignUpScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
+  behindContainer: {
+    flex: 1,
+    backgroundColor: Color.Lavendar['10'],
+  },
+
+  backgroundImage: {
+    position: 'absolute',
+    top: '-46%',
+    zIndex: 1,
+  },
+
+  imageContainer: {
+    zIndex: 3,
+    flex: 1,
+    alignItems: 'center',
+    marginTop: size(0),
+  },
+  formContainer: {
+    flex: 3,
+    paddingHorizontal: size(16),
+    backgroundColor: Color.White['100'],
+    borderRadius: 30,
+    zIndex: 2,
+  },
+
+  signInWithContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: size(120),
+  },
+
+  image: {
+    marginTop: size(-60),
+  },
+  signInContainer: {
+    flexDirection: 'row',
+    gap: size(30),
+    alignItems: 'center',
+    marginBottom: size(20),
+  },
+
   container: {
     flex: 1,
     backgroundColor: Color.Lavendar['5'],
-  },
-  image: {
-    height: '70%',
-    overflow: 'visible',
-    // marginTop: -60,
   },
   imageWrap: {
     // paddingTop: 130,
@@ -54,11 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  backgroundImage: {
-    position: 'absolute',
-    top: -20,
-    zIndex: 1,
-  },
+
   formWrap: {
     flex: 3,
     zIndex: 2,

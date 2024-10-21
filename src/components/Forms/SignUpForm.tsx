@@ -11,6 +11,12 @@ import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {size} from 'react-native-responsive-sizes';
+import {fontStyles} from 'styleSheets/fontStyles';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {CoreButton} from 'components/buttons/CoreButton';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {signUpSchema} from 'lib/zodSchema';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
@@ -19,133 +25,156 @@ const SignUpForm = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [message] = useState({target: null, message: null});
 
-  // const pageValidation = (
-  //   checkbox: boolean,
-  //   password: string,
-  //   repeatPassword: string,
-  // ) => {
-  //   if (checkbox === false) {
-  //     return {
-  //       error: true,
-  //       target: 'checkBox',
-  //       message: 'Please agree to our terms & conditions and privacy policy',
-  //     };
-  //   } else if (password === '') {
-  //     return {
-  //       error: true,
-  //       target: 'password',
-  //       message: 'Please enter a valid password',
-  //     };
-  //   } else if (password !== repeatPassword) {
-  //     return {
-  //       error: true,
-  //       target: 'password',
-  //       message: 'Your passwords do not match!',
-  //     };
-  //   }
-  //   return {error: false};
-  // };
+  const [errorEmail, setErrorEmail] = useState('');
+  const [errorPassword, setErrorPassword] = useState('');
+  const [errorRepeatPassword, setErrorRepeatPassword] = useState('');
+  const [errorTerms, setErrorTerms] = useState('');
+  const [errorSignUp, setErrorSignUp] = useState('');
 
-  // const submitValidation = async ({email, password}: any) => {
-  //   let validation: any = null;
-  //   validation = pageValidation(checkbox, password, repeatPassword);
-  //   setMessage(validation);
-  //   if (!validation.error) {
-  //     // validation = await handleSignUp({email, password});
-  //     if (validation?.error) {
-  //       setMessage(validation);
-  //     }
-  //   }
-  // };
-  const [signUp, {isSuccess}] = useSignUpMutation();
+  const [signUp, {isLoading}] = useSignUpMutation();
 
-  useEffect(() => {
-    if (isSuccess) {
+  const handleSignUp = async () => {
+    const validation = signUpSchema.safeParse({
+      email,
+      password,
+      repeatPassword,
+      terms: checkbox,
+    });
+
+    if (!validation.success) {
+      const errEmail = validation.error.flatten().fieldErrors.email?.[0];
+      const errPassword = validation.error.flatten().fieldErrors.password?.[0];
+      const errRepeatPassword =
+        validation.error.flatten().fieldErrors.repeatPassword?.[0];
+      const errCheckBox = validation.error.flatten().fieldErrors.terms?.[0];
+      if (errEmail) {
+        setErrorEmail(errEmail);
+      }
+      if (errPassword) {
+        setErrorPassword(errPassword);
+      }
+      if (errRepeatPassword) {
+        setErrorRepeatPassword(errRepeatPassword);
+      }
+      if (errCheckBox) {
+        setErrorTerms(errCheckBox);
+      }
+
+      return;
+    }
+    try {
+      await signUp({
+        email: validation.data.email,
+        password: validation.data.password,
+      }).unwrap();
+
       setEmail('');
       setPassword('');
       setRepeatPassword('');
+      setCheckBox(false);
+    } catch (error) {
+      if (error instanceof Error && 'status' in error && error.status === 422) {
+        setErrorSignUp('Email already exists');
+      } else {
+        setErrorSignUp('An unexpected error occurred. Please try again.');
+      }
     }
-  }, [isSuccess]);
-  const handleSignUp = async () => {
-    await signUp({email, password});
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create account</Text>
-      <View style={styles.textInputWrap}>
-        <InputFieldText
-          value={email}
-          onChangeText={(text: string) => setEmail(text)}
-          placeholder="Email"
-          type="email"
-          keyboardType="email-address"
-          errorMessage={message.target === 'email' ? message.message : null}
-        />
-        <InputFieldText
-          value={password}
-          onChangeText={(text: string) => setPassword(text)}
-          placeholder="Create password"
-          type="password"
-        />
-        <InputFieldText
-          value={repeatPassword}
-          onChangeText={(text: string) => setRepeatPassword(text)}
-          placeholder="Repeat password"
-          type="password"
-          errorMessage={message.target === 'password' ? message.message : null}
-        />
-        <View style={styles.checkBoxWrap}>
-          <CheckBox
-            value={checkbox}
-            onPress={() => setCheckBox(!checkbox)}
-            style={message.target === 'checkBox' ? styles.alertBox : null}
+    <View style={styles.mainContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={fontStyles.headerMedium}>Create account</Text>
+      </View>
+      <View style={styles.inputsContainer}>
+        <View style={styles.inputContainer}>
+          <InputFieldText
+            value={email}
+            onChangeText={(text: string) => setEmail(text)}
+            placeholder="Email"
+            type="email"
+            keyboardType="email-address"
+            errorMessage={message.target === 'email' ? message.message : null}
           />
-          <Text style={styles.text}>
-            I agree to <Text style={styles.link}>terms & conditions</Text> and
-            Lofft’s <Text style={styles.link}>privacy policy</Text>.
-          </Text>
+          <ErrorMessage isInputField message={errorEmail} />
+        </View>
+        <View style={styles.inputContainer}>
+          <InputFieldText
+            value={password}
+            onChangeText={(text: string) => setPassword(text)}
+            placeholder="Create password"
+            type="password"
+          />
+          <ErrorMessage isInputField message={errorPassword} />
+        </View>
+        <View style={styles.inputContainer}>
+          <InputFieldText
+            value={repeatPassword}
+            onChangeText={(text: string) => setRepeatPassword(text)}
+            placeholder="Repeat password"
+            type="password"
+            errorMessage={
+              message.target === 'password' ? message.message : null
+            }
+          />
+          <ErrorMessage isInputField message={errorRepeatPassword} />
         </View>
       </View>
-      <View style={styles.signUpButtonView}>
-        <SignUpButton title="Sign up" onPress={handleSignUp} />
+      <View style={styles.checkBoxContainer}>
+        <CheckBox
+          value={checkbox}
+          onPress={() => setCheckBox(!checkbox)}
+          style={errorTerms ? styles.alertBox : {}}
+        />
+        <Text style={fontStyles.bodySmall}>
+          I agree to <Text style={styles.link}>terms & conditions</Text> and
+          Lofft’s <Text style={styles.link}>privacy policy</Text>.
+        </Text>
+      </View>
+      <View style={styles.signUpContainer}>
+        <CoreButton
+          value={isLoading ? '' : 'Sign Up'}
+          icon={isLoading ? <LoadingButtonIcon /> : undefined}
+          onPress={handleSignUp}
+          disabled={isLoading}
+        />
+        <ErrorMessage message={errorSignUp || errorTerms} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
+  mainContainer: {
+    paddingTop: size(35),
     alignItems: 'center',
     flex: 1,
+    gap: size(0),
   },
-  title: {
-    fontSize: 22,
-    fontWeight: '600',
-    lineHeight: 28,
-    paddingBottom: 20,
+
+  titleContainer: {
+    marginBottom: size(10),
   },
-  textInputWrap: {
+
+  inputsContainer: {
     width: '100%',
-    borderColor: 'black',
+    gap: size(5),
   },
-  text: {
-    paddingLeft: 20,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  checkBoxWrap: {
+  inputContainer: {},
+
+  checkBoxContainer: {
     width: '90%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 15,
-    paddingHorizontal: 10,
+    gap: size(20),
+    marginTop: size(0),
   },
-  signUpButtonView: {
+
+  signUpContainer: {
     width: '100%',
-    position: 'absolute',
-    bottom: 0,
+    gap: size(0),
+    marginTop: size(10),
+    zIndex: 10,
   },
   link: {
     color: Color.Blue['100'],

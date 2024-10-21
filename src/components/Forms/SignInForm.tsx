@@ -67,17 +67,25 @@ const SignInForm = () => {
       }
       return;
     }
-
-    await signIn({
-      email: validation.data.email,
-      password: validation.data.password,
-    });
-
-    if (isSuccess) {
-      setPassword('');
+    try {
+      await signIn({
+        email: validation.data.email,
+        password: validation.data.password,
+      }).unwrap();
       setEmail('');
-    } else {
-      setSignInError('Email or password is incorrect');
+      setPassword('');
+    } catch (error) {
+      const typedError = error as {
+        data?: {error?: string; error_description?: string};
+        status?: number;
+      };
+      if (typedError.status === 400) {
+        console.log('hit here');
+        setSignInError('Invalid email or password');
+      } else {
+        console.log('error in line', error);
+        setSignInError('An unexpected error occurred. Please try again.');
+      }
     }
   };
 

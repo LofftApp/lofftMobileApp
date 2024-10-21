@@ -42,9 +42,8 @@ const SignInWith = () => {
   return (
     <>
       {message && (
-        <ErrorMessage style={styles.messageContainer} message={message} />
+        <ErrorMessage message={message} style={styles.messageContainer} />
       )}
-
       <View style={styles.mainContainer}>
         <Text style={styles.signInWithText}>
           ────────{'   '}Or sign in with {'   '}────────
@@ -69,31 +68,31 @@ const SignInWith = () => {
 const styles = StyleSheet.create({
   messageContainer: {
     position: 'absolute',
-    top: size(5),
+    top: size(30),
     backgroundColor: Colors.Tomato[10],
     padding: size(5),
-    zIndex: 3,
+    zIndex: 1,
   },
   mainContainer: {
     alignItems: 'center',
     flex: 1,
+    gap: size(20),
   },
   signInWithText: {
     color: Colors.Black[50],
-    paddingVertical: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
+    gap: size(16),
   },
   logInWithButton: {
-    width: 64,
-    height: 48,
+    width: size(64),
+    height: size(48),
     borderWidth: 2,
     borderRadius: 12,
     borderColor: Colors.Lavendar[100],
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 16,
   },
 });
 

@@ -212,9 +212,34 @@ const flatImagesSchema = z
     message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
   });
 
-  const signInSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
+const signInSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+const signUpSchema = z
+  .object({
+    email: z.string().email({message: 'Invalid email address'}),
+    password: z
+      .string()
+      .min(6, {message: 'Password must be at least 6 characters long'})
+      .regex(/[A-Z]/, {
+        message: 'Password must contain at least one uppercase letter',
+      })
+      .regex(/[0-9]/, {message: 'Password must contain at least one number'})
+      .regex(/[^A-Za-z0-9]/, {
+        message: 'Password must contain at least one special character',
+      }),
+    repeatPassword: z.string(),
+    terms: z
+      .boolean()
+      .refine(value => value === true, {
+        message: 'You must accept the terms and conditions',
+      }),
+  })
+  .refine(data => data.password === data.repeatPassword, {
+    message: 'Passwords must match',
+    path: ['repeatPassword'],
   });
 
 // Main schema (combining the individual schemas if needed)
@@ -241,4 +266,5 @@ export {
   flatDescriptionSchema,
   flatImagesSchema,
   signInSchema,
+  signUpSchema,
 };
