@@ -10,7 +10,7 @@ interface ImageToUpload {
 interface ImageUploadState {
   imagesToUpload: ImageToUpload[];
   savedImages: {
-    renter: {
+    tenant: {
       userImages: ImageToUpload[];
     };
     lessor: {
@@ -21,13 +21,13 @@ interface ImageUploadState {
 }
 
 interface SetSavedImagesPayload {
-  userType: 'renter' | 'lessor';
+  userType: 'tenant' | 'lessor';
   imageType: 'user' | 'flat';
   images: ImageToUpload[];
 }
 
 interface DeleteSavedImagePayload {
-  userType: 'renter' | 'lessor';
+  userType: 'tenant' | 'lessor';
   imageType: 'user' | 'flat';
   fileName: string;
 }

@@ -8,7 +8,7 @@ import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {size} from 'react-native-responsive-sizes';
 
 // Screens 📺
-import FlatListSubScreen from '../renter/SubScreens/FlatListSubScreen';
+import FlatListSubScreen from './SubScreens/FlatListSubScreen';
 
 // Components 🪢
 import FilterButton from 'components/buttons/FilterButton';

@@ -74,7 +74,7 @@ type NewUserJourneyButtonProps = {
   icon: string;
   style?: StyleProp<ViewStyle>;
   onPress: () => void;
-  type: 'lessor' | 'renter';
+  type: 'lessor' | 'tenant';
   isActive: boolean;
 };
 

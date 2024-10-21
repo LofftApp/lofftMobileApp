@@ -44,7 +44,7 @@ const NewUserJourneyScreen = () => {
       const screen =
         userType === 'lessor'
           ? newUserScreens.lessor[1]
-          : newUserScreens.renter[1];
+          : newUserScreens.tenant[1];
 
       setTimeout(() => {
         navigation.navigate(screen);
@@ -58,7 +58,7 @@ const NewUserJourneyScreen = () => {
     signOut();
   };
 
-  const handleSelected = (type: 'lessor' | 'renter') => {
+  const handleSelected = (type: 'lessor' | 'tenant') => {
     setUserType(type);
     setTypeSelected(true);
     setCurrentScreen(1);
@@ -86,9 +86,9 @@ const NewUserJourneyScreen = () => {
             <NewUserJourneyButton
               text="I'm looking for a flat"
               icon="search-sm"
-              onPress={() => handleSelected('renter')}
-              type="renter"
-              isActive={userType === 'renter'}
+              onPress={() => handleSelected('tenant')}
+              type="tenant"
+              isActive={userType === 'tenant'}
             />
             <NewUserJourneyButton
               text="I have a room to rent"

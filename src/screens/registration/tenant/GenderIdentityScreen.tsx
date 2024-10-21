@@ -40,7 +40,7 @@ interface SelectButton {
   emoji: string;
 }
 
-const gendersRenter = [
+const gendersTenant = [
   {value: 'Male', id: 1, toggle: false, emoji: '👨'},
   {value: 'Female', id: 2, toggle: false, emoji: '👩'},
   {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
@@ -74,7 +74,7 @@ const GenderIdentityScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const genders = isLessor ? gendersLessor : gendersRenter;
+  const genders = isLessor ? gendersLessor : gendersTenant;
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
@@ -126,7 +126,7 @@ const GenderIdentityScreen = () => {
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);

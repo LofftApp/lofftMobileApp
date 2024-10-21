@@ -47,7 +47,7 @@ const StatusBarComponent = ({
 
   const screenheight = Dimensions.get('window').height;
 
-  const iconsCreated = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
+  const iconsCreated = statusBarText[advert?.lessor ? 'lessor' : 'tenant'].map(
     (key, index: number) => {
       return (
         <LofftIcon
@@ -87,7 +87,7 @@ const StatusBarComponent = ({
     },
   );
 
-  const statusText = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
+  const statusText = statusBarText[advert?.lessor ? 'lessor' : 'tenant'].map(
     (key, index: number) => {
       return (
         <View key={key.icon}>

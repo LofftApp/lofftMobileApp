@@ -23,7 +23,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
     ? imageType === 'user'
       ? savedImages.lessor.userImages
       : savedImages.lessor.flatImages
-    : savedImages.renter.userImages;
+    : savedImages.tenant.userImages;
 
   return (
     <>
@@ -76,7 +76,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                         style={styles.closeButton}
                         onPress={() =>
                           deleteSavedImage({
-                            userType: isLessor ? 'lessor' : 'renter',
+                            userType: isLessor ? 'lessor' : 'tenant',
                             imageType,
                             fileName: image.fileName,
                           })

@@ -11,7 +11,7 @@ import {PURGE} from 'redux-persist';
 const initialState: ImageUploadState = {
   imagesToUpload: [],
   savedImages: {
-    renter: {
+    tenant: {
       userImages: [],
     },
     lessor: {
@@ -41,8 +41,8 @@ export const imageUploadSlice = createSlice({
 
     setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
       const {userType, imageType, images} = action.payload;
-      if (userType === 'renter') {
-        state.savedImages.renter.userImages = images;
+      if (userType === 'tenant') {
+        state.savedImages.tenant.userImages = images;
       } else if (userType === 'lessor') {
         if (imageType === 'user') {
           state.savedImages.lessor.userImages = images;
@@ -58,9 +58,9 @@ export const imageUploadSlice = createSlice({
     ) => {
       const {userType, imageType, fileName} = action.payload;
 
-      if (userType === 'renter') {
-        state.savedImages.renter.userImages =
-          state.savedImages.renter.userImages.filter(
+      if (userType === 'tenant') {
+        state.savedImages.tenant.userImages =
+          state.savedImages.tenant.userImages.filter(
             image => image.fileName !== fileName,
           );
       } else if (userType === 'lessor') {

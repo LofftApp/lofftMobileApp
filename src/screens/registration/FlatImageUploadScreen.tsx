@@ -110,7 +110,7 @@ const FlatImageUploadScreen = () => {
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setError('');

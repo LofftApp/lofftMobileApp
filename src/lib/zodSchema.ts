@@ -214,7 +214,7 @@ const flatImagesSchema = z
 
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
-  renter: z.object({
+  tenant: z.object({
     languages: languagesSchema,
     characteristics: characteristicsSchema,
     genderIdentity: genderIdentitySchema,

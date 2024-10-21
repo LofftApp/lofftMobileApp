@@ -1,7 +1,7 @@
 import {NewUserScreens} from './types';
 
 export const newUserScreens: NewUserScreens = {
-  renter: {
+  tenant: {
     1: 'LanguageSelectionScreen',
     2: 'AboutUserFlatScreen',
     3: 'GenderIdentityScreen',

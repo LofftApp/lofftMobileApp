@@ -3,8 +3,8 @@ import {newUserScreens} from 'navigationStacks/newUserScreens';
 import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
 
-export interface NewUserRenterDetails {
-  userType: 'renter';
+export interface NewUserTenantDetails {
+  userType: 'tenant';
   languages: string[];
   characteristics: {
     id: number;
@@ -90,11 +90,11 @@ export interface NewUserLessorDetails {
   flatDescription: string;
 }
 export type NewUserDetails = {
-  renter: NewUserRenterDetails;
+  tenant: NewUserTenantDetails;
   lessor: NewUserLessorDetails;
 };
 interface UserJourneyState {
-  userType: 'lessor' | 'renter' | '';
+  userType: 'lessor' | 'tenant' | '';
   renterJourney: {[key: number]: boolean};
   lessorJourney: {[key: number]: boolean};
   currentScreen: number;
@@ -106,11 +106,11 @@ const initialState: UserJourneyState = {
   currentScreen: 1,
   userJourney: '',
   userType: '',
-  renterJourney: createNewUserJourney(newUserScreens.renter),
+  renterJourney: createNewUserJourney(newUserScreens.tenant),
   lessorJourney: createNewUserJourney(newUserScreens.lessor),
   newUserDetails: {
-    renter: {
-      userType: 'renter',
+    tenant: {
+      userType: 'tenant',
       languages: [],
       characteristics: [],
       genderIdentity: [],
@@ -162,11 +162,11 @@ export const newUserSlice = createSlice({
   name: 'newUser',
   initialState,
   reducers: {
-    setUserType: (state, action: PayloadAction<'lessor' | 'renter' | ''>) => {
+    setUserType: (state, action: PayloadAction<'lessor' | 'tenant' | ''>) => {
       state.userType = action.payload;
       action.payload === 'lessor'
         ? (state.userJourney = 'lessor')
-        : (state.userJourney = 'renter');
+        : (state.userJourney = 'tenant');
     },
 
     setCurrentScreen: (state, action: PayloadAction<number>) => {
@@ -176,7 +176,7 @@ export const newUserSlice = createSlice({
     setNewUserDetails: (
       state,
       action: PayloadAction<
-        Partial<NewUserLessorDetails> | Partial<NewUserRenterDetails>
+        Partial<NewUserLessorDetails> | Partial<NewUserTenantDetails>
       >,
     ) => {
       if (state.userType === 'lessor') {
@@ -185,9 +185,9 @@ export const newUserSlice = createSlice({
           ...(action.payload as Partial<NewUserLessorDetails>),
         };
       } else {
-        state.newUserDetails.renter = {
-          ...state.newUserDetails.renter,
-          ...(action.payload as Partial<NewUserRenterDetails>),
+        state.newUserDetails.tenant = {
+          ...state.newUserDetails.tenant,
+          ...(action.payload as Partial<NewUserTenantDetails>),
         };
       }
     },

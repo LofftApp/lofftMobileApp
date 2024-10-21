@@ -14,7 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import UserScreen from 'screens/dashboard/renter/UserScreen';
+import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
 // import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';

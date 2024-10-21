@@ -29,7 +29,7 @@
       "icon": "rocket"
     }
   ],
-  "renter": [
+  "tenant": [
     {
       "header": "Applied",
       "subText": "The landlord has up to 48 hrs after the ad has expired to review your application",

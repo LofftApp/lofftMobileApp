@@ -2,7 +2,7 @@ import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 
-// Renter Navigator Stack
+// tenant Navigator Stack
 
 type RootTabParamsList = {
   search: undefined;
@@ -30,7 +30,7 @@ type NewUserScreenNames =
   | 'FlatImageUploadScreen';
 
 type NewUserScreens = {
-  renter: Record<number, NewUserScreenNames>;
+  tenant: Record<number, NewUserScreenNames>;
   lessor: Record<number, NewUserScreenNames>;
 };
 

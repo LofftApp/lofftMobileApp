@@ -5,10 +5,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ConfirmEmailScreen from 'screens/registration/ConfirmEmailScreen';
 import NewUserJourney from 'screens/registration/NewUserJourneyScreen';
 import AboutUserFlatScreen from 'screens/registration/AboutUserFlatScreen';
-import GenderIdentityScreen from 'screens/registration/renter/GenderIdentityScreen';
-import SelectCityScreen from 'screens/registration/renter/SelectCityScreen';
-import BudgetScreen from 'screens/registration/renter/BudgetScreen';
-import FlatFeaturesScreen from 'screens/registration/renter/FlatFeaturesScreen';
+import GenderIdentityScreen from 'screens/registration/tenant/GenderIdentityScreen';
+import SelectCityScreen from 'screens/registration/tenant/SelectCityScreen';
+import BudgetScreen from 'screens/registration/tenant/BudgetScreen';
+import FlatFeaturesScreen from 'screens/registration/tenant/FlatFeaturesScreen';
 import ConditionsOfUseScreen from 'screens/registration/ConditionsOfUseScreen';
 import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScreen';
 
@@ -17,7 +17,7 @@ import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAvailableScreen';
 import NameProfileScreen from 'screens/registration/NameProfileScreen';
 import FlatImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
-import SelfFlatDescribeScreen from 'screens/registration/renter/SelfFlatDescribeScreen';
+import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -35,7 +35,7 @@ const NewUserNavigator = () => {
           name="NewUserJourney"
           component={NewUserJourney}
         />
-        {/* Renter Screens */}
+        {/* tenant Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
           component={GenderIdentityScreen}

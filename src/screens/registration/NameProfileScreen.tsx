@@ -78,7 +78,7 @@ const NameProfileScreen = () => {
   const totalImages =
     (isLessor
       ? savedImages.lessor.userImages.length
-      : savedImages.renter.userImages.length) + imagesToUpload.length;
+      : savedImages.tenant.userImages.length) + imagesToUpload.length;
 
   useEffect(() => {
     if (savedFirstName) {
@@ -93,14 +93,14 @@ const NameProfileScreen = () => {
     }
     if (
       savedImages.lessor.userImages.length > 0 ||
-      savedImages.renter.userImages.length > 0
+      savedImages.tenant.userImages.length > 0
     ) {
       setSavedImages({
-        userType: isLessor ? 'lessor' : 'renter',
+        userType: isLessor ? 'lessor' : 'tenant',
         imageType: 'user',
         images: isLessor
           ? savedImages.lessor.userImages
-          : savedImages.renter.userImages,
+          : savedImages.tenant.userImages,
       });
     }
   }, [
@@ -108,7 +108,7 @@ const NameProfileScreen = () => {
     savedLastName,
     savedDate,
     isLessor,
-    savedImages.renter.userImages,
+    savedImages.tenant.userImages,
     savedImages.lessor.userImages,
     setSavedImages,
   ]);
@@ -175,7 +175,7 @@ const NameProfileScreen = () => {
     const trimmedLastName = lastName.trim();
     const concatImages = isLessor
       ? [...imagesToUpload, ...savedImages.lessor.userImages]
-      : [...imagesToUpload, ...savedImages.renter.userImages];
+      : [...imagesToUpload, ...savedImages.tenant.userImages];
 
     const result = nameSchema.safeParse({
       firstName: trimmedFirstName,
@@ -214,7 +214,7 @@ const NameProfileScreen = () => {
     setCurrentScreen(currentScreen + 1);
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.renter[currentScreen + 1];
+      : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
 
     setErrorFirstName('');
@@ -223,7 +223,7 @@ const NameProfileScreen = () => {
     setErrorImage('');
     setTimeout(() => {
       setSavedImages({
-        userType: isLessor ? 'lessor' : 'renter',
+        userType: isLessor ? 'lessor' : 'tenant',
         imageType: 'user',
         images: result.data.images,
       });

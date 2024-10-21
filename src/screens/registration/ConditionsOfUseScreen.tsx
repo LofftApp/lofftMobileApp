@@ -62,7 +62,7 @@ const ConditionsOfUseScreen = () => {
       "Next step is to handle user's details and images. Take a look at the console.",
     );
     console.log(
-      isLessor ? 'Lessor object 👽:' : 'Renter object 🧑‍🚀:',
+      isLessor ? 'Lessor object 👽:' : 'tenant object 🧑‍🚀:',
       newUserDetails,
     );
     console.log('Images to upload 📸:', savedImages);

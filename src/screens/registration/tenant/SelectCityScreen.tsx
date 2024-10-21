@@ -240,7 +240,7 @@ const SelectCityScreen = () => {
     navigation.navigate(
       isLessor
         ? newUserScreens.lessor[currentScreen + 1]
-        : newUserScreens.renter[currentScreen + 1],
+        : newUserScreens.tenant[currentScreen + 1],
     );
     setCurrentScreen(currentScreen + 1);
     setError('');

@@ -61,7 +61,7 @@ const BudgetScreen = () => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails();
   const savedBudget =
-    newUserDetails.userType === 'renter' ? newUserDetails.budget : undefined;
+    newUserDetails.userType === 'tenant' ? newUserDetails.budget : undefined;
 
   useEffect(() => {
     if (
@@ -148,7 +148,7 @@ const BudgetScreen = () => {
 
     setNewUserDetails({budget: result.data});
 
-    navigation.navigate(newUserScreens.renter[currentScreen + 1]);
+    navigation.navigate(newUserScreens.tenant[currentScreen + 1]);
     setCurrentScreen(currentScreen + 1);
     setError('');
   };
