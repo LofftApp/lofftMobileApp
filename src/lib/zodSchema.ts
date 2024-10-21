@@ -214,7 +214,7 @@ const flatImagesSchema = z
 
 const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(6, {message: 'Must be at least 6 digits'}),
 });
 
 const signUpSchema = z
@@ -222,20 +222,18 @@ const signUpSchema = z
     email: z.string().email({message: 'Invalid email address'}),
     password: z
       .string()
-      .min(6, {message: 'Password must be at least 6 characters long'})
+      .min(6, {message: 'Must be at least 6 digits'})
       .regex(/[A-Z]/, {
-        message: 'Password must contain at least one uppercase letter',
+        message: 'Must have a uppercase letter',
       })
-      .regex(/[0-9]/, {message: 'Password must contain at least one number'})
+      .regex(/[0-9]/, {message: 'Must have a number'})
       .regex(/[^A-Za-z0-9]/, {
-        message: 'Password must contain at least one special character',
+        message: 'Must have a special character',
       }),
     repeatPassword: z.string(),
-    terms: z
-      .boolean()
-      .refine(value => value === true, {
-        message: 'You must accept the terms and conditions',
-      }),
+    terms: z.boolean().refine(value => value === true, {
+      message: 'You must accept the terms and conditions',
+    }),
   })
   .refine(data => data.password === data.repeatPassword, {
     message: 'Passwords must match',

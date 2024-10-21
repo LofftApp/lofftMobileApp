@@ -1,29 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-// API 🌎
+// RTK 🌎
 import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
-import SignUpButton from 'components/buttons/SignUpButton';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {CoreButton} from 'components/buttons/CoreButton';
+
+//Validation 🛡️
+import {signUpSchema} from 'lib/zodSchema';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {size} from 'react-native-responsive-sizes';
 import {fontStyles} from 'styleSheets/fontStyles';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import {CoreButton} from 'components/buttons/CoreButton';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import {signUpSchema} from 'lib/zodSchema';
+
+//Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [message] = useState({target: null, message: null});
 
   const [errorEmail, setErrorEmail] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
@@ -32,6 +34,30 @@ const SignUpForm = () => {
   const [errorSignUp, setErrorSignUp] = useState('');
 
   const [signUp, {isLoading}] = useSignUpMutation();
+
+  const handleEmailChange = (input: string) => {
+    setEmail(input);
+    setErrorEmail('');
+    setErrorSignUp('');
+  };
+
+  const handlePasswordChange = (input: string) => {
+    setPassword(input);
+    setErrorPassword('');
+    setErrorRepeatPassword('');
+    setErrorSignUp('');
+  };
+
+  const handleRepeatPasswordChange = (input: string) => {
+    setRepeatPassword(input);
+    setErrorRepeatPassword('');
+    setErrorSignUp('');
+  };
+
+  const toggleCheckBox = () => {
+    setCheckBox(prev => !prev);
+    setErrorTerms('');
+  };
 
   const handleSignUp = async () => {
     const validation = signUpSchema.safeParse({
@@ -90,32 +116,31 @@ const SignUpForm = () => {
         <View style={styles.inputContainer}>
           <InputFieldText
             value={email}
-            onChangeText={(text: string) => setEmail(text)}
+            onChangeText={handleEmailChange}
             placeholder="Email"
             type="email"
             keyboardType="email-address"
-            errorMessage={message.target === 'email' ? message.message : null}
+            errorMessage={errorEmail || errorSignUp}
           />
           <ErrorMessage isInputField message={errorEmail} />
         </View>
         <View style={styles.inputContainer}>
           <InputFieldText
             value={password}
-            onChangeText={(text: string) => setPassword(text)}
+            onChangeText={handlePasswordChange}
             placeholder="Create password"
             type="password"
+            errorMessage={errorPassword || errorSignUp}
           />
           <ErrorMessage isInputField message={errorPassword} />
         </View>
         <View style={styles.inputContainer}>
           <InputFieldText
             value={repeatPassword}
-            onChangeText={(text: string) => setRepeatPassword(text)}
+            onChangeText={handleRepeatPasswordChange}
             placeholder="Repeat password"
             type="password"
-            errorMessage={
-              message.target === 'password' ? message.message : null
-            }
+            errorMessage={errorRepeatPassword || errorSignUp}
           />
           <ErrorMessage isInputField message={errorRepeatPassword} />
         </View>
@@ -123,7 +148,7 @@ const SignUpForm = () => {
       <View style={styles.checkBoxContainer}>
         <CheckBox
           value={checkbox}
-          onPress={() => setCheckBox(!checkbox)}
+          onPress={toggleCheckBox}
           style={errorTerms ? styles.alertBox : {}}
         />
         <Text style={fontStyles.bodySmall}>
@@ -158,7 +183,7 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     width: '100%',
-    gap: size(5),
+    gap: size(10),
   },
   inputContainer: {},
 

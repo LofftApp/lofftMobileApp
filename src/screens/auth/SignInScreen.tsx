@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -17,8 +17,10 @@ import {HiFive} from '../../assets';
 
 // Helpers 🥷  🏻
 import {size} from 'react-native-responsive-sizes';
+
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+const {height, width} = Dimensions.get('window');
 
 const SignInScreen = () => {
   const insets = useSafeAreaInsets();
@@ -29,7 +31,7 @@ const SignInScreen = () => {
   return (
     <View style={styles.behindContainer}>
       <SignInBackground
-        height="200%"
+        height={height * 1.9}
         width="100%"
         style={styles.backgroundImage}
       />
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar['10'],
   },
   image: {
-    marginTop: size(20),
+    marginTop: size(height / 16),
   },
   imageContainer: {
     zIndex: 3,
@@ -92,13 +94,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: size(120),
-
   },
   signUpContainer: {
     flexDirection: 'row',
-    gap: size(30),
+    gap: size(width / 30),
     alignItems: 'center',
     marginBottom: size(20),
+
   },
 });
 

@@ -30,17 +30,17 @@ const SignInForm = () => {
 
   const [devMessage, setDevMessage] = useState('');
 
-  const [signIn, {isSuccess, isLoading}] = useSignInMutation();
+  const [signIn, {isLoading}] = useSignInMutation();
 
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
+  const handleEmailChange = (input: string) => {
+    setEmail(input);
     setErrorEmail('');
     setSignInError('');
     setDevMessage('');
   };
 
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
+  const handlePasswordChange = (input: string) => {
+    setPassword(input);
     setErrorPassword('');
     setSignInError('');
     setDevMessage('');
@@ -76,14 +76,11 @@ const SignInForm = () => {
       setPassword('');
     } catch (error) {
       const typedError = error as {
-        data?: {error?: string; error_description?: string};
         status?: number;
       };
       if (typedError.status === 400) {
-        console.log('hit here');
         setSignInError('Invalid email or password');
       } else {
-        console.log('error in line', error);
         setSignInError('An unexpected error occurred. Please try again.');
       }
     }
@@ -93,7 +90,7 @@ const SignInForm = () => {
     <View style={styles.mainContainer}>
       <Text style={fontStyles.headerMedium}>Hello again!</Text>
       <View style={styles.inputsContainer}>
-        <View style={styles.inputContainer}>
+        <View>
           <InputFieldText
             value={email}
             onChangeText={handleEmailChange}
@@ -105,7 +102,7 @@ const SignInForm = () => {
 
           <ErrorMessage isInputField message={errorEmail} />
         </View>
-        <View style={styles.inputContainer}>
+        <View>
           <InputFieldText
             value={password}
             onChangeText={handlePasswordChange}
@@ -115,12 +112,12 @@ const SignInForm = () => {
           />
 
           <ErrorMessage isInputField message={errorPassword} />
-          <Pressable onPress={handleForgotPassword}>
-            <Text style={[fontStyles.bodyMedium, styles.forgotPassText]}>
-              Forgot password?
-            </Text>
-          </Pressable>
         </View>
+        <Pressable onPress={handleForgotPassword}>
+          <Text style={[fontStyles.bodyMedium, styles.forgotPassText]}>
+            Forgot password?
+          </Text>
+        </Pressable>
       </View>
       <View style={styles.signInContainer}>
         <CoreButton
@@ -146,12 +143,9 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     width: '100%',
-    gap: size(5),
+    gap: size(10),
   },
 
-  inputContainer: {
-    gap: size(5),
-  },
   forgotPassText: {
     alignSelf: 'flex-end',
     color: Color.Blue['100'],
@@ -159,6 +153,9 @@ const styles = StyleSheet.create({
   signInContainer: {
     width: '100%',
     gap: size(5),
+  },
+  inputContainer: {
+    flexWrap: 'wrap',
   },
 });
 

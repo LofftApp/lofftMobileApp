@@ -45,12 +45,13 @@ const styles = StyleSheet.create({
     marginTop: size(0),
     marginBottom: size(0),
     marginLeft: size(10),
-    height: size(22),
+    height: size(23),
+ 
   },
   container: {
     marginTop: size(5),
     marginBottom: size(10),
-    height: size(22),
+    height: size(23),
   },
 });
 

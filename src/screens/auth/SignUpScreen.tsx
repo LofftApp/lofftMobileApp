@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Components 🪢
 import SignUpForm from 'components/Forms/SignUpForm';
@@ -7,15 +9,19 @@ import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🛠️
 import {Search} from '../../assets';
 import {SignUpBackground} from '../../assets';
+
+//Helpers
 import {size} from 'react-native-responsive-sizes';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {fontStyles} from 'styleSheets/fontStyles';
+
+//Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
-import {useNavigation} from '@react-navigation/native';
+
+const {height} = Dimensions.get('window');
 
 const SignUpScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
@@ -26,7 +32,7 @@ const SignUpScreen = () => {
   return (
     <View style={styles.behindContainer}>
       <SignUpBackground
-        height="200%"
+        height={height * 1.9}
         width="100%"
         style={styles.backgroundImage}
       />
@@ -83,11 +89,11 @@ const styles = StyleSheet.create({
   signInWithContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: size(120),
+    marginTop: size(150),
   },
 
   image: {
-    marginTop: size(-60),
+    marginTop: size(height / 500),
   },
   signInContainer: {
     flexDirection: 'row',
@@ -96,38 +102,8 @@ const styles = StyleSheet.create({
     marginBottom: size(20),
   },
 
-  container: {
-    flex: 1,
-    backgroundColor: Color.Lavendar['5'],
-  },
-  imageWrap: {
-    // paddingTop: 130,
-    zIndex: 3,
-    flex: 1,
-    alignItems: 'center',
-  },
-
-  formWrap: {
-    flex: 3,
-    zIndex: 2,
-    paddingHorizontal: 10,
-    backgroundColor: Color.White['100'],
-    borderRadius: 30,
-  },
   signUpForm: {
     flex: 2,
-  },
-  signInWith: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  text: {
-    paddingBottom: 40,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  link: {
-    color: Color.Blue['100'],
   },
 });
 
