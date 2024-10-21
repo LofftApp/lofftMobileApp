@@ -14,11 +14,12 @@ import {HiFive} from '../../assets';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {size} from 'react-native-responsive-sizes';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 const SignInScreen = ({navigation}: any) => {
   const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
+    <View style={styles.behindContainer}>
       <SignInBackground
         height="200%"
         width="100%"
@@ -28,20 +29,22 @@ const SignInScreen = ({navigation}: any) => {
         <HiFive style={styles.image} />
       </View>
 
-      <View style={[styles.formWrap, {paddingBottom: insets.bottom}]}>
+      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
           <SignInForm />
         </View>
-        <View style={styles.signInWith}>
-          <SignInWith navigation={navigation} />
-          <Text style={styles.text}>
-            Don't have an account yet?{'     '}
+        <View style={styles.signInWithContainer}>
+          <SignInWith />
+          <View style={styles.signUpContainer}>
+            <Text style={fontStyles.bodyMedium}>
+              Don't have an account yet?
+            </Text>
             <Text
-              style={styles.link}
+              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
               onPress={() => navigation.navigate('SignUpScreen')}>
               Sign Up
             </Text>
-          </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
     top: '-46%',
     zIndex: 1,
   },
-  container: {
+  behindContainer: {
     flex: 1,
     backgroundColor: Color.Lavendar['10'],
   },
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  formWrap: {
+  formContainer: {
     flex: 3,
     paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
@@ -76,17 +79,15 @@ const styles = StyleSheet.create({
   signInForm: {
     flex: 2,
   },
-  signInWith: {
+  signInWithContainer: {
     flex: 1,
     alignItems: 'center',
     marginBottom: size(40),
   },
-  text: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  link: {
-    color: Color.Blue['100'],
+  signUpContainer: {
+    flexDirection: 'row',
+    gap: size(30),
+    alignItems: 'center',
   },
 });
 
