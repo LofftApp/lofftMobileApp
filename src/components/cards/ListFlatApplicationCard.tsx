@@ -47,7 +47,7 @@ const ListFlatApplicationCard = ({
     : ['active'].includes(application?.status ?? '') &&
       !['closed'].includes(advert?.status ?? '');
 
-  const renterActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
+  const tenantActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
   const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
 
   const [currentStatusBar, setCurrentStatusBar] = useState('');
@@ -81,7 +81,7 @@ const ListFlatApplicationCard = ({
     calculateStatusBar(index);
   }, [advert?.status, application?.status, active]);
 
-  const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
+  const textForStatusBar = isLessor ? lessorActiveStatus : tenantActiveStatus;
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);

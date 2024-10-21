@@ -75,18 +75,15 @@ const InputFieldText = ({
             value={value}
             placeholder={placeholder || 'Search Field'}
             keyboardType={keyboardType}
-            dropdown={dropdown}
           />
         ) : type === 'currency' ? (
           <CurrencyInput
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
-            onClear={onClear}
             value={value}
             placeholder={placeholder || 'Currency Field'}
             keyboardType={keyboardType}
-            dropdown={dropdown}
           />
         ) : (
           <DefaultInput

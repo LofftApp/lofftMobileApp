@@ -323,13 +323,7 @@ const NameProfileScreen = () => {
             <NewUserJourneyContinueButton
               value="Continue"
               onPress={handleContinue}
-              disabled={
-                totalImages < 1 ||
-                totalImages > MAX_USER_IMAGES ||
-                !isDateSelected ||
-                !firstName ||
-                !lastName
-              }
+              disabled={!isDateSelected || !firstName || !lastName}
             />
           </View>
         </View>

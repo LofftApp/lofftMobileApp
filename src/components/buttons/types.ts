@@ -15,7 +15,7 @@ type HeaderPageContentSwitchProps = {
 };
 
 type CoreButtonProps = {
-  value: string;
+  value: string | JSX.Element;
   invert?: boolean;
   icon?: JSX.Element;
   textSize?: TextStyle;

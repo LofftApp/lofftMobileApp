@@ -2,16 +2,11 @@ import {StyleSheet} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import Color from 'styleSheets/lofftColorPallet.json';
 export const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: size(10),
-  },
   inputContainerWithIcon: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: size(10),
   },
   textContainer: {
     flexDirection: 'row',
@@ -29,7 +24,6 @@ export const styles = StyleSheet.create({
   },
   input: {
     paddingLeft: size(10),
-    flex: 1,
   },
   clearButton: {
     padding: size(0),

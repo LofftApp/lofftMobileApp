@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Components 🪢
 import SignUpForm from 'components/Forms/SignUpForm';
@@ -7,31 +9,55 @@ import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🛠️
 import {Search} from '../../assets';
 import {SignUpBackground} from '../../assets';
 
-const SignUpScreen = ({navigation}: any) => {
+//Helpers
+import {size} from 'react-native-responsive-sizes';
+
+//Types  🧩
+import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+
+const {height} = Dimensions.get('window');
+
+const SignUpScreen = () => {
+  const navigation = useNavigation<GuestStackScreenNavigationProp>();
+  const insets = useSafeAreaInsets();
+  const imageHeight = height * 0.3;
+  const imageMarginTop = height < 700 ? size(10) : size(20);
+
+  const handleSignIn = () => {
+    navigation.navigate('SignInScreen');
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.imageWrap}>
-        <Search style={styles.image} />
+    <View style={styles.behindContainer}>
+      <SignUpBackground
+        height={height * 1.9}
+        width="100%"
+        style={styles.backgroundImage}
+      />
+      <View style={styles.imageContainer}>
+        <Search height={imageHeight} style={{marginTop: imageMarginTop}} />
       </View>
-      <SignUpBackground style={styles.backgroundImage} />
-      <View style={styles.formWrap}>
+
+      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signUpForm}>
           <SignUpForm />
         </View>
-        <View style={styles.signInWith}>
+        <View style={styles.signInWithContainer}>
           <SignInWith />
-          <Text style={styles.text}>
-            Already have an account?{'     '}
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SignInScreen')}>
-              <Text style={styles.link}>Sign in</Text>
-            </TouchableOpacity>
-          </Text>
+          <View style={styles.signInContainer}>
+            <Text style={fontStyles.bodyMedium}>Already have an account ?</Text>
+            <Text
+              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
+              onPress={handleSignIn}>
+              Sign In
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -39,47 +65,47 @@ const SignUpScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  behindContainer: {
     flex: 1,
-    backgroundColor: Color.Lavendar['5'],
+    backgroundColor: Color.Lavendar['10'],
   },
-  image: {
-    height: '70%',
-    overflow: 'visible',
-    // marginTop: -60,
+
+  backgroundImage: {
+    position: 'absolute',
+    top: '-46%',
+    zIndex: 1,
   },
-  imageWrap: {
-    // paddingTop: 130,
+
+  imageContainer: {
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
+    marginTop: size(0),
   },
-  backgroundImage: {
-    position: 'absolute',
-    top: -20,
-    zIndex: 1,
-  },
-  formWrap: {
+  formContainer: {
     flex: 3,
-    zIndex: 2,
-    paddingHorizontal: 10,
+    paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
     borderRadius: 30,
+    zIndex: 2,
   },
-  signUpForm: {
-    flex: 2,
-  },
-  signInWith: {
+
+  signInWithContainer: {
     flex: 1,
     alignItems: 'center',
+    marginTop: size(150),
   },
-  text: {
-    paddingBottom: 40,
-    fontSize: 16,
-    fontWeight: '500',
+
+  image: {},
+  signInContainer: {
+    flexDirection: 'row',
+    gap: size(30),
+    alignItems: 'center',
+    marginBottom: size(20),
   },
-  link: {
-    color: Color.Blue['100'],
+
+  signUpForm: {
+    flex: 2,
   },
 });
 
