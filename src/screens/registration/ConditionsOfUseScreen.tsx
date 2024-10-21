@@ -52,6 +52,8 @@ const ConditionsOfUseScreen = () => {
     signOut();
   };
 
+  console.log("hey data", data)
+
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
@@ -60,6 +62,16 @@ const ConditionsOfUseScreen = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
   };
+
+  const handleUserUpdate =  async () => {
+    try {
+      const result = await updateUser({ id: data?.id, userChoices: newUserDetails }).unwrap();
+      console.log('Update successful:', result);
+    } catch (error) {
+      console.error('Failed to update user:', error);
+    }
+  };
+
 
   const handleContinue = () => {
     setMessage(
