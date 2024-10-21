@@ -68,7 +68,8 @@ const ConditionsOfUseScreen = () => {
   };
 
   const handlnewJourneyCheckout =  async () => {
-    if(data.userType === 'tenant'){
+    if (newUserDetails.userType === 'tenant'){
+      console.log("I am here")
     try {
       const result = await updateUser({ id: data?.id, userChoices: newUserDetails }).unwrap();
       console.log('Update successful:', result);
@@ -76,6 +77,7 @@ const ConditionsOfUseScreen = () => {
       console.error('Failed to update user:', error);
     }
   } else {
+      console.log("I am lessor")
      try {
       const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
       console.log('Update successful:', result);
