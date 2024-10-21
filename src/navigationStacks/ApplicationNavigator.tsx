@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
 import ApplicationIndexScreen from 'screens/dashboard/tenant/ApplicationIndexScreen';
 import ApplicationShowScreen from 'screens/dashboard/tenant/ApplicationShowScreen';
+
 import {ApplicationStackParamsList} from './types';
 
 const Apply = createNativeStackNavigator<ApplicationStackParamsList>();

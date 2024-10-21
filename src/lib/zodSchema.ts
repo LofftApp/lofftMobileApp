@@ -212,6 +212,11 @@ const flatImagesSchema = z
     message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
   });
 
+  const signInSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
+  });
+
 // Main schema (combining the individual schemas if needed)
 const newUserSchema = z.object({
   tenant: z.object({
@@ -235,4 +240,5 @@ export {
   dateLengthSchema,
   flatDescriptionSchema,
   flatImagesSchema,
+  signInSchema,
 };

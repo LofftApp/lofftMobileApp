@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
@@ -7,17 +9,20 @@ import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🛠️
 import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {size} from 'react-native-responsive-sizes';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {fontStyles} from 'styleSheets/fontStyles';
 
-const SignInScreen = ({navigation}: any) => {
+// Helpers 🥷  🏻
+import {size} from 'react-native-responsive-sizes';
+//Types  🧩
+import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+
+const SignInScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<GuestStackScreenNavigationProp>();
   return (
     <View style={styles.behindContainer}>
       <SignInBackground

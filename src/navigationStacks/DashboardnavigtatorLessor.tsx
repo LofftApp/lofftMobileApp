@@ -14,12 +14,12 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
 // import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
 import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
 import LessorNavigator from './LessorNavigator';
 import {LessorTabParamsList} from './types';
+import UserScreen from 'screens/dashboard/tenant/UserScreen';
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const DashboardNavigatorLessor = () => {
