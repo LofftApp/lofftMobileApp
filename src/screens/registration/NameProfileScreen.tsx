@@ -43,7 +43,7 @@ import {RegistrationBackground} from 'assets';
 import {nameSchema} from 'lib/zodSchema';
 
 //Constants 📊
-import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+import {MAX_USER_IMAGES} from 'components/componentData/constants';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -316,7 +316,7 @@ const NameProfileScreen = () => {
               onPress={handleContinue}
               disabled={
                 totalImages < 1 ||
-                totalImages > MAX_FLAT_IMAGES ||
+                totalImages > MAX_USER_IMAGES ||
                 !isDateSelected ||
                 !firstName ||
                 !lastName

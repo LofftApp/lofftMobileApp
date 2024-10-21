@@ -5,15 +5,14 @@ import {View, Image, StyleSheet, Pressable, Text} from 'react-native';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import Divider from 'components/bars/Divider';
 
 // Stylesheets 🖼️
-import Colors from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload';
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
-import Divider from 'components/bars/Divider';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
@@ -44,7 +43,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                     <LofftIcon
                       name="x-close"
                       size={12}
-                      color={Colors.White[100]}
+                      color={Color.White[100]}
                     />
                   </Pressable>
                   <Image
@@ -83,7 +82,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                         <LofftIcon
                           name="x-close"
                           size={12}
-                          color={Colors.White[100]}
+                          color={Color.White[100]}
                         />
                       </Pressable>
                       <Image
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.Tomato['100'],
+    backgroundColor: Color.Tomato['100'],
   },
   textStyle: {},
 });
