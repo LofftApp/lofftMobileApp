@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
@@ -12,8 +12,11 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {size} from 'react-native-responsive-sizes';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const SignInScreen = ({navigation}: any) => {
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.container}>
       <SignInBackground
@@ -21,10 +24,11 @@ const SignInScreen = ({navigation}: any) => {
         width="100%"
         style={styles.backgroundImage}
       />
-      <View style={styles.imageWrap}>
+      <View style={styles.imageContainer}>
         <HiFive style={styles.image} />
       </View>
-      <View style={styles.formWrap}>
+
+      <View style={[styles.formWrap, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
           <SignInForm />
         </View>
@@ -45,31 +49,29 @@ const SignInScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.Lavendar['10'],
-  },
-  image: {
-    height: '70%',
-    overflow: 'visible',
-    marginTop: 50,
-  },
-  imageWrap: {
-    zIndex: 3,
-    flex: 1,
-    alignItems: 'center',
-  },
   backgroundImage: {
     position: 'absolute',
     top: '-46%',
     zIndex: 1,
   },
+  container: {
+    flex: 1,
+    backgroundColor: Color.Lavendar['10'],
+  },
+  image: {
+    marginTop: size(20),
+  },
+  imageContainer: {
+    zIndex: 3,
+    flex: 1,
+    alignItems: 'center',
+  },
   formWrap: {
-    zIndex: 2,
     flex: 3,
-    paddingHorizontal: 10,
+    paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
     borderRadius: 30,
+    zIndex: 2,
   },
   signInForm: {
     flex: 2,
@@ -77,9 +79,9 @@ const styles = StyleSheet.create({
   signInWith: {
     flex: 1,
     alignItems: 'center',
+    marginBottom: size(40),
   },
   text: {
-    paddingBottom: 40,
     fontSize: 16,
     fontWeight: '500',
   },
