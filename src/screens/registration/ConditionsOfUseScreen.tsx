@@ -57,8 +57,6 @@ const ConditionsOfUseScreen = () => {
     signOut();
   };
 
-  console.log('hey data', data);
-
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
@@ -69,20 +67,20 @@ const ConditionsOfUseScreen = () => {
   };
 
   const handlnewJourneyCheckout =  async () => {
-    if (newUserDetails.userType === 'tenant'){
-    try {
-      const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
-      console.log('Tenent successfully completed', result);
-    } catch (error) {
-      console.error('Failed to create tenant:', error);
-    }
+    if (isLessor){
+      try {
+        const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
+        console.log('Advert and lessor successfully created:', result);
+      } catch (error) {
+        console.error('Failed to create lessor & advert:', error);
+      }
   } else {
      try {
-      const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
-      console.log('Advert and lessor successfully created:', result);
-    } catch (error) {
-      console.error('Failed to create lessor & advert:', error);
-    }
+        const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
+        console.log('Tenent successfully completed', result);
+      } catch (error) {
+        console.error('Failed to create tenant:', error);
+      }
     }
   };
 
