@@ -36,6 +36,13 @@ type NewUserScreens = {
 
 type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
 
+type GuestStackParamsList = {
+  SignInScreen: undefined;
+  SignUpScreen: undefined;
+};
+
+type GuestStackScreenNavigationProp = StackNavigationProp<GuestStackParamsList>;
+
 type ApplicationStackParamsList = {
   application: undefined;
   applicationsList: undefined;
@@ -126,4 +133,6 @@ export type {
   NewUserStackParamsList,
   NewUserScreenNames,
   NewUserScreens,
+  GuestStackParamsList,
+  GuestStackScreenNavigationProp,
 };

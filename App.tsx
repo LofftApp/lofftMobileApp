@@ -44,6 +44,7 @@ const App = () => {
 
   const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
     skip: !isAuth,
+    refetchOnMountOrArgChange: true,
   });
 
   const userType = data?.userType;

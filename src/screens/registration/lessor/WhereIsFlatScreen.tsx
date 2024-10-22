@@ -216,12 +216,10 @@ const WhereIsFlatScreen = () => {
                   style={styles.inputContainer}
                 />
               </Animated.View>
-              {errorAddress && !errorSearch && !isSearching && (
-                <ErrorMessage isInputField message={errorAddress} />
-              )}
-              {errorSearch && !errorAddress && (
-                <ErrorMessage message={errorSearch} />
-              )}
+              <ErrorMessage isInputField message={errorAddress} />
+
+              <ErrorMessage message={errorSearch || ''} />
+
               {isLoading && isSearching && (
                 <ActivityIndicator
                   size="large"
@@ -244,9 +242,9 @@ const WhereIsFlatScreen = () => {
                     type="currency"
                     style={styles.inputContainer}
                   />
-                  {errorPrice && (
-                    <ErrorMessage isInputField message={errorPrice} />
-                  )}
+
+                  <ErrorMessage isInputField message={errorPrice} />
+
                   <View style={styles.toggleContainer}>
                     <CustomSwitch
                       value={warmRent}
@@ -277,7 +275,7 @@ const WhereIsFlatScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    gap: size(100),
+    gap: size(70),
   },
   inputContainer: {
     marginTop: size(10),

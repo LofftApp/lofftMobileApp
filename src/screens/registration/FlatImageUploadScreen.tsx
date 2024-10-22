@@ -159,7 +159,7 @@ const FlatImageUploadScreen = () => {
             <NewUserPaginationBar />
             <NewUserJourneyContinueButton
               value="Continue"
-              disabled={totalImages < 1 || totalImages > MAX_FLAT_IMAGES}
+              disabled={totalImages > MAX_FLAT_IMAGES}
               onPress={handleContinue}
             />
           </View>

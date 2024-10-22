@@ -95,7 +95,7 @@ export type NewUserDetails = {
 };
 interface UserJourneyState {
   userType: 'lessor' | 'tenant' | '';
-  renterJourney: {[key: number]: boolean};
+  tenantJourney: {[key: number]: boolean};
   lessorJourney: {[key: number]: boolean};
   currentScreen: number;
   userJourney: string;
@@ -106,7 +106,7 @@ const initialState: UserJourneyState = {
   currentScreen: 1,
   userJourney: '',
   userType: '',
-  renterJourney: createNewUserJourney(newUserScreens.tenant),
+  tenantJourney: createNewUserJourney(newUserScreens.tenant),
   lessorJourney: createNewUserJourney(newUserScreens.lessor),
   newUserDetails: {
     tenant: {

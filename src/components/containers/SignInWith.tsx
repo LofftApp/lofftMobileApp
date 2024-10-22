@@ -1,58 +1,98 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+
+//Assets 🎨
+import {AppleIcon, GoogleIcon} from 'assets';
+
+//Components 🧰
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+
+//Helpers 🥷  🏻
+import {size} from 'react-native-responsive-sizes';
 
 // API 🧠
 
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 
-// navigation removed from SignInWith component to remove error.
 const SignInWith = () => {
+  const [message, setMessage] = useState('');
+
+  const messageText =
+    "Our amazing team is working on this feature. It's coming soon!";
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage('');
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message]);
+
+  const handleSignInWithApple = () => {
+    console.log('sign in with apple');
+    setMessage(messageText);
+  };
+
+  const handleSignInWithGoogle = () => {
+    console.log('sign in with google');
+    setMessage(messageText);
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.text1}>
-        ────────{'    '}Or sign in with {'    '}────────
-      </Text>
-      <View style={styles.buttonWrap}>
-        {/* <TouchableOpacity
-          onPress={() => onAppleButtonPress()}
-          style={styles.logInWithButton}>
-          <AppleIcon />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => onGoogleButtonPress()}
-          style={styles.logInWithButton}>
-          <GoogleIcon />
-        </TouchableOpacity> */}
+    <>
+      {message && (
+        <ErrorMessage message={message} style={styles.messageContainer} />
+      )}
+      <View style={styles.mainContainer}>
+        <Text style={styles.signInWithText}>
+          ────────{'   '}Or sign in with {'   '}────────
+        </Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={handleSignInWithApple}
+            style={styles.logInWithButton}>
+            <AppleIcon />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleSignInWithGoogle}
+            style={styles.logInWithButton}>
+            <GoogleIcon />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  messageContainer: {
+    position: 'absolute',
+    top: size(30),
+    backgroundColor: Colors.Tomato[10],
+    padding: size(5),
+    zIndex: 1,
+  },
+  mainContainer: {
     alignItems: 'center',
     flex: 1,
+    gap: size(20),
   },
-  text1: {
+  signInWithText: {
     color: Colors.Black[50],
-    paddingVertical: 20,
   },
-  buttonWrap: {
+  buttonContainer: {
     flexDirection: 'row',
+    gap: size(16),
   },
   logInWithButton: {
-    width: 64,
-    height: 48,
+    width: size(74),
+    height: size(58),
     borderWidth: 2,
     borderRadius: 12,
     borderColor: Colors.Lavendar[100],
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 16,
-  },
-  syncButton: {
-    borderColor: Colors.Tomato[100],
   },
 });
 

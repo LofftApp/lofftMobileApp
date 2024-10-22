@@ -15,10 +15,10 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import FlatSearchNavigator from './FlatSearchNavigator';
 
 // Screens
-import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import AdminScreen from 'screens/admin/adminScreen';
-import TempScreen from 'screens/dashboard/tenant/TempScreen';
 import ApplicationNavigator from './ApplicationNavigator';
+import UserScreen from 'screens/dashboard/tenant/UserScreen';
+import TempScreen from 'screens/dashboard/tenant/TempScreen';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 

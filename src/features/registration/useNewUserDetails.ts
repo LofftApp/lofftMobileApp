@@ -15,7 +15,7 @@ export const useNewUserDetails = () => {
     dispatch(_setUserType(type));
   };
   const userJourney = useAppSelector(state =>
-    isLessor ? state.newUser.lessorJourney : state.newUser.renterJourney,
+    isLessor ? state.newUser.lessorJourney : state.newUser.tenantJourney,
   );
 
   const newUserDetails = useAppSelector(state =>
