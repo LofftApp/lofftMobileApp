@@ -27,7 +27,8 @@ type NewUserScreenNames =
   | 'ConditionsOfUseScreen'
   | 'FinderBudgetScreen'
   | 'NameProfileScreen'
-  | 'FlatImageUploadScreen';
+  | 'FlatImageUploadScreen'
+  | 'FlatDetailsScreen';
 
 type NewUserScreens = {
   tenant: Record<number, NewUserScreenNames>;

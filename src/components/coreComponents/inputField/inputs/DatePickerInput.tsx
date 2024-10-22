@@ -66,14 +66,14 @@ const DatePickerInput = ({
 
 const styles = StyleSheet.create({
   dateInput: {
-    minWidth: size(200),
+    minWidth: size(168),
     borderWidth: 2,
     borderRadius: 12,
     paddingHorizontal: size(8),
     alignItems: 'center',
     flexDirection: 'row',
     gap: size(10),
-    paddingLeft: size(15),
+    paddingLeft: size(10),
   },
   disabledStyle: {
     backgroundColor: Color.Black[10],

@@ -83,10 +83,14 @@ export interface NewUserLessorDetails {
     district?: string;
   };
   price: number;
+  currency: '€' | '$' | '£' | '';
   warmRent: boolean;
   fromDate: Date | string;
   untilDate: Date | string | null;
   permanent: boolean;
+  tagLine: string;
+  size: number;
+  measurementUnit: 'm²' | 'ft²';
   flatDescription: string;
 }
 export type NewUserDetails = {
@@ -149,10 +153,14 @@ const initialState: UserJourneyState = {
         district: '',
       },
       price: 0,
+      currency: '',
       warmRent: false,
       fromDate: '',
       untilDate: '',
       permanent: false,
+      tagLine: '',
+      size: 0,
+      measurementUnit: 'm²',
       flatDescription: '',
     },
   },

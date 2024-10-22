@@ -6,6 +6,7 @@ import {
   MAX_GENDERS,
   MAX_LANGUAGES,
   MAX_SELECTED_CHARS,
+  MAX_TAGLINE,
   MAX_USER_IMAGES,
   MIN_DESCRIPTION_CHARS,
   MIN_SELECTED_CHARS,
@@ -183,6 +184,21 @@ const dateLengthSchema = z
     },
   );
 
+const flatDetailsSchema = z.object({
+  tagLine: z
+    .string({required_error: 'Please enter a headline'})
+    .min(1, {message: 'Please enter a headline'})
+    .max(MAX_TAGLINE, {
+      message: `Headline must be less than ${MAX_TAGLINE} characters`,
+    }),
+  size: z
+    .number({
+      required_error: 'Please enter the size of your flat',
+      invalid_type_error: 'Size must be a number',
+    })
+    .positive('Please enter a valid size'),
+});
+
 const flatDescriptionSchema = z
   .string({
     required_error: `We need at least ${MIN_DESCRIPTION_CHARS} words to create your flat profile`,
@@ -262,6 +278,7 @@ export {
   addressSchema,
   dateLengthSchema,
   flatDescriptionSchema,
+  flatDetailsSchema,
   flatImagesSchema,
   signInSchema,
   signUpSchema,

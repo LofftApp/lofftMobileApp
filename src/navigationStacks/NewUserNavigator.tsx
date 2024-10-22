@@ -18,6 +18,7 @@ import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAva
 import NameProfileScreen from 'screens/registration/NameProfileScreen';
 import FlatImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
 import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
+import FlatDetailsScreen from 'screens/registration/lessor/FlatDetailsScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -60,6 +61,10 @@ const NewUserNavigator = () => {
         <NewUserNavigatorFlow.Screen
           name="FlatImageUploadScreen"
           component={FlatImageUploadScreen}
+        />
+        <NewUserNavigatorFlow.Screen
+          name="FlatDetailsScreen"
+          component={FlatDetailsScreen}
         />
 
         {/* Shared screens */}

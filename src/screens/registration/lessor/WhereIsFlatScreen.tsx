@@ -129,6 +129,7 @@ const WhereIsFlatScreen = () => {
 
   const handleOnChangePrice = (value: string) => {
     setPrice(value);
+    setIsSearching(false);
   };
 
   const handleDropdownPress = (value: string) => {
@@ -149,10 +150,11 @@ const WhereIsFlatScreen = () => {
   };
 
   const handleContinue = () => {
+    const trimmedPrice = price.trim();
     const result = addressSchema.safeParse({
       address: addressDetails.address,
       district: addressDetails.district,
-      price: Number(price),
+      price: Number(trimmedPrice),
       warmRent,
     });
 
@@ -275,7 +277,7 @@ const WhereIsFlatScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    gap: size(70),
+    gap: size(40),
   },
   inputContainer: {
     marginTop: size(10),
