@@ -25,6 +25,7 @@ const {height} = Dimensions.get('window');
 
 const SignUpScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
+
   const insets = useSafeAreaInsets();
   const imageHeight = height * 0.3;
   const imageMarginTop = height < 700 ? size(10) : size(20);
@@ -48,7 +49,7 @@ const SignUpScreen = () => {
         <View style={styles.signUpForm}>
           <SignUpForm />
         </View>
-        <View style={styles.signInWithContainer}>
+        <View style={styles.footer}>
           <SignInWith />
           <View style={styles.signInContainer}>
             <Text style={fontStyles.bodyMedium}>Already have an account ?</Text>
@@ -80,7 +81,6 @@ const styles = StyleSheet.create({
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
-    marginTop: size(0),
   },
   formContainer: {
     flex: 3,
@@ -90,22 +90,22 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
 
-  signInWithContainer: {
+  signUpForm: {
+    flex: 2,
+  },
+  footer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: size(150),
+
+    justifyContent: 'space-between',
+    marginTop: size(190),
   },
 
-  image: {},
   signInContainer: {
     flexDirection: 'row',
     gap: size(30),
     alignItems: 'center',
-    marginBottom: size(20),
-  },
-
-  signUpForm: {
-    flex: 2,
+    marginBottom: size(10),
   },
 });
 

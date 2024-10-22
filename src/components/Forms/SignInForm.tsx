@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
   signInContainer: {
     width: '100%',
     gap: size(5),
+    flexWrap: 'wrap',
   },
 
 });

@@ -178,13 +178,11 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
     }),
     completeLessorAndCreateAdvert: builder.mutation({
-      query: ({id, userChoices}) => {
-        return {
+      query: ({id, userChoices}) => ({
         url: `/api/adverts/${id}/complete_lessor_sign_up`,
         method: 'POST',
         body: userChoices,
-        };
-      },
+      }),
     }),
   }),
   overrideExisting: false,

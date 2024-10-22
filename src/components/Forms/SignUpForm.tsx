@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // RTK 🌎
 import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
@@ -21,11 +21,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 
-const {height} = Dimensions.get('window');
-
 const SignUpForm = () => {
-  const checkboxPadding = height < 700 ? size(0) : size(10);
-
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -148,18 +144,17 @@ const SignUpForm = () => {
           />
           <ErrorMessage isInputField message={errorRepeatPassword} />
         </View>
-      </View>
-      <View
-        style={[styles.checkBoxContainer, {paddingVertical: checkboxPadding}]}>
-        <CheckBox
-          value={checkbox}
-          onPress={toggleCheckBox}
-          style={errorTerms ? styles.alertBox : {}}
-        />
-        <Text style={fontStyles.bodySmall}>
-          I agree to <Text style={styles.link}>terms & conditions</Text> and
-          Lofft’s <Text style={styles.link}>privacy policy</Text>.
-        </Text>
+        <View style={styles.checkBoxContainer}>
+          <CheckBox
+            value={checkbox}
+            onPress={toggleCheckBox}
+            style={errorTerms ? styles.alertBox : {}}
+          />
+          <Text style={fontStyles.bodySmall}>
+            I agree to <Text style={styles.link}>terms & conditions</Text> and
+            Lofft’s <Text style={styles.link}>privacy policy</Text>.
+          </Text>
+        </View>
       </View>
       <View style={styles.signUpContainer}>
         <CoreButton
@@ -187,7 +182,7 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     width: '100%',
-    gap: size(10),
+    gap: size(5),
   },
   inputContainer: {gap: size(3)},
 
@@ -195,15 +190,16 @@ const styles = StyleSheet.create({
     width: '90%',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: size(20),
-    marginTop: size(0),
-    marginBottom: size(0),
+    gap: size(16),
+    marginTop: size(-5),
+    marginBottom: size(10),
+    paddingHorizontal: size(5),
   },
 
   signUpContainer: {
     width: '100%',
     gap: size(0),
-    marginTop: size(10),
+    marginTop: size(0),
     zIndex: 10,
   },
   link: {
