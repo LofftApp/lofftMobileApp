@@ -26,6 +26,7 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
+import {NoFlatImage} from 'assets';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -86,6 +87,7 @@ const ListFlatApplicationCard = ({
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
   };
+  console.log('noFlatImage', NoFlatImage);
 
   return (
     <View style={styles.advertCardContainer}>
@@ -101,7 +103,7 @@ const ListFlatApplicationCard = ({
       <View style={styles.advertCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert?.flat.photos ?? []}
+          images={advert?.flat.photos || [NoFlatImage]}
         />
       </View>
 

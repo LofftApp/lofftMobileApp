@@ -40,7 +40,7 @@ interface SelectButton {
   emoji: string;
 }
 
-const gendersTenant = [
+const genders = [
   {value: 'Male', id: 1, toggle: false, emoji: '👨'},
   {value: 'Female', id: 2, toggle: false, emoji: '👩'},
   {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
@@ -54,31 +54,20 @@ const gendersTenant = [
   {value: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
 ];
 
-const gendersLessor = [
-  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
-  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
-  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
-  {
-    value: 'Another gender identity not listed',
-    id: 4,
-    toggle: false,
-    emoji: '🙆',
-  },
-  {value: 'Women only', id: 5, toggle: false, emoji: '🙋‍♀️'},
-  {value: 'Queer space', id: 6, toggle: false, emoji: '⚧️'},
-  {value: 'Trans & non-binary safe space', id: 7, toggle: false, emoji: '🏳️‍⚧️'},
-  {value: 'Prefer not to say', id: 8, toggle: false, emoji: '🤐'},
-];
-
 const GenderIdentityScreen = () => {
+  // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const genders = isLessor ? gendersLessor : gendersTenant;
+
+  const savedGender = newUserDetails.genderIdentity;
+
+  // Local State
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  const savedGender = newUserDetails.genderIdentity;
 
   useEffect(() => {
     if (savedGender && savedGender.length > 0) {
@@ -93,14 +82,12 @@ const GenderIdentityScreen = () => {
     } else {
       setSelectedGender([]);
     }
-  }, [savedGender, genders]);
+  }, [savedGender]);
 
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
       return el.id === id
         ? {...el, toggle: !el.toggle}
-        : isLessor
-        ? el
         : {...el, toggle: false};
     });
 
@@ -143,12 +130,8 @@ const GenderIdentityScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={
-            isLessor
-              ? 'Your flat is a safe place for...'
-              : 'What is your gender identity?'
-          }
-          subDescription={isLessor ? '' : 'To create a safe place for... '}
+          headlineText={'What is your gender identity?'}
+          subDescription={'To help you find the right match'}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>
@@ -167,14 +150,6 @@ const GenderIdentityScreen = () => {
         <Divider />
 
         <View style={styles.footerContainer}>
-          {isLessor && (
-            <View style={styles.tagInfoContainer}>
-              <Text
-                style={
-                  fontStyles.bodySmall
-                }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
-            </View>
-          )}
           {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton

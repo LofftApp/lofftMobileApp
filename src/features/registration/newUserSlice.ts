@@ -46,6 +46,12 @@ export interface NewUserLessorDetails {
     value: string;
     emoji: string;
   }[];
+  safePlaceFor: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
   city: {
     name: string;
     flag: string;
@@ -121,6 +127,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
+      safePlaceFor: [],
       city: {
         name: '',
         flag: '',

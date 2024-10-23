@@ -40,21 +40,7 @@ interface SelectButton {
   emoji: string;
 }
 
-const gendersTenant = [
-  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
-  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
-  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
-  {
-    value: 'Another gender identity not listed',
-    id: 4,
-    toggle: false,
-    emoji: '🙆',
-  },
-
-  {value: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
-];
-
-const gendersLessor = [
+const genders = [
   {value: 'Male', id: 1, toggle: false, emoji: '👨'},
   {value: 'Female', id: 2, toggle: false, emoji: '👩'},
   {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
@@ -70,38 +56,38 @@ const gendersLessor = [
   {value: 'Prefer not to say', id: 8, toggle: false, emoji: '🤐'},
 ];
 
-const GenderIdentityScreen = () => {
+const SafePlaceForScreen = () => {
+  //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-  const genders = isLessor ? gendersLessor : gendersTenant;
+
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  const savedGender = newUserDetails.genderIdentity;
+  const savedSafePlaceFor =
+    newUserDetails.userType === 'lessor' && newUserDetails.safePlaceFor;
 
   useEffect(() => {
-    if (savedGender && savedGender.length > 0) {
-      setSelectedGender(savedGender);
+    if (savedSafePlaceFor && savedSafePlaceFor.length > 0) {
+      setSelectedGender(savedSafePlaceFor);
 
       const updatedGenderState = genders.map(gender => ({
         ...gender,
-        toggle: savedGender.some(g => g.id === gender.id),
+        toggle: savedSafePlaceFor.some(g => g.id === gender.id),
       }));
 
       setIntitalGenders(updatedGenderState);
     } else {
       setSelectedGender([]);
     }
-  }, [savedGender, genders]);
+  }, [savedSafePlaceFor]);
 
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
-      return el.id === id
-        ? {...el, toggle: !el.toggle}
-        : isLessor
-        ? el
-        : {...el, toggle: false};
+      return el.id === id ? {...el, toggle: !el.toggle} : el;
     });
 
     const genderSelected = updatedGender.filter(el => el.toggle);
@@ -122,11 +108,10 @@ const GenderIdentityScreen = () => {
       return;
     }
 
-    setNewUserDetails({genderIdentity: selectedGender});
+    setNewUserDetails({safePlaceFor: selectedGender});
 
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
+    const screen = newUserScreens.lessor[currentScreen + 1];
+
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
@@ -197,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenderIdentityScreen;
+export default SafePlaceForScreen;

@@ -63,10 +63,12 @@ const FlatDetailsScreen = () => {
 
   const handleTagLineChange = (input: string) => {
     setTagLine(input);
+    setErrorTagLine('');
   };
 
   const handleSizeChange = (input: string) => {
     setSize(input);
+    setErrorSize('');
   };
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
