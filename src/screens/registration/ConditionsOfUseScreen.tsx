@@ -5,8 +5,9 @@ import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-
-// Screens 📺
+import {useCompleteUserAndCreateTennantMutation} from 'reduxFeatures/user/userApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -36,13 +37,17 @@ const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message] = useState('');
 
   //Redux
   const [signOut] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails} = useNewUserDetails();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {savedImages} = useImagesToUpload();
+  const [completeUserAndCreateTennant] = useCompleteUserAndCreateTennantMutation();
+  const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
+  const {data} = useGetUserQuery();
 
   const handleSignOut = () => {
     signOut();
@@ -57,16 +62,24 @@ const ConditionsOfUseScreen = () => {
     navigation.goBack();
   };
 
-  const handleContinue = () => {
-    setMessage(
-      "Next step is to handle user's details and images. Take a look at the console.",
-    );
-    console.log(
-      isLessor ? 'Lessor object 👽:' : 'tenant object 🧑‍🚀:',
-      newUserDetails,
-    );
-    console.log('Images to upload 📸:', savedImages);
+  const handlnewJourneyCheckout =  async () => {
+    if (isLessor){
+      try {
+        const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
+        console.log('Advert and lessor successfully created:', result);
+      } catch (error) {
+        console.error('Failed to create lessor & advert:', error);
+      }
+  } else {
+     try {
+        const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
+        console.log('Tenent successfully completed', result);
+      } catch (error) {
+        console.error('Failed to create tenant:', error);
+      }
+    }
   };
+
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}
@@ -103,7 +116,7 @@ const ConditionsOfUseScreen = () => {
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
                 value="Agree and Continue"
-                onPress={handleContinue}
+                onPress={handlnewJourneyCheckout}
               />
 
               <CoreButton value="Decline" invert onPress={toggleModal} />
