@@ -2,12 +2,12 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
-import {Characteristics} from './types';
+import {Characteristic, Feature} from './types';
 
 export interface NewUserTenantDetails {
   userType: 'tenant';
   languages: string[];
-  characteristics: Characteristics[];
+  characteristics: Characteristic[];
   genderIdentity: {
     id: number;
     toggle: boolean;
@@ -29,12 +29,7 @@ export interface NewUserTenantDetails {
     maxPrice: number;
     warmRent: boolean;
   };
-  filter: {
-    id: number;
-    value: string;
-    toggle: boolean;
-    emoji: string;
-  }[];
+  filter: Feature[];
   selfDescription: string;
   firstName: string;
   lastName: string;
@@ -43,7 +38,7 @@ export interface NewUserTenantDetails {
 export interface NewUserLessorDetails {
   userType: 'lessor';
   languages: string[];
-  characteristics: Characteristics[];
+  characteristics: Characteristic[];
 
   genderIdentity: {
     id: number;
@@ -61,12 +56,7 @@ export interface NewUserLessorDetails {
     toggle: boolean;
     emoji?: string;
   }[];
-  flatFeatures: {
-    id: number;
-    value: string;
-    toggle: boolean;
-    emoji: string;
-  }[];
+  flatFeatures: Feature[];
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;

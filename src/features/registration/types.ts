@@ -1,20 +1,8 @@
-interface Characteristics {
-  id: number;
-  emoji: string;
-  name: string;
-  toggle: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import {characteristicSchema, featureSchema} from 'lib/zodSchema';
+import {z} from 'zod';
 
-interface Features {
-  id: number;
-  emoji: string;
-  name: string;
-  toggle: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+type Characteristic = z.infer<typeof characteristicSchema>;
+type Feature = z.infer<typeof featureSchema>;
 
 interface District {
   id: number;
@@ -43,19 +31,11 @@ interface Language {
 }
 
 interface Assets {
-  characteristics: Characteristics[];
+  characteristics: Characteristic[];
   cities: City[];
-  features: Features[];
+  features: Feature[];
   genders: Gender[];
   languages: Language[];
 }
 
-export type {
-  Characteristics,
-  Features,
-  District,
-  City,
-  Gender,
-  Language,
-  Assets,
-};
+export type {Characteristic, Feature, District, City, Gender, Language, Assets};

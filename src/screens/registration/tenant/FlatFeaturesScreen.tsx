@@ -5,6 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux 📦
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -25,9 +26,6 @@ import {RegistrationBackground} from 'assets';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-// Data 💿
-import flatPreferences from 'components/componentData/flatPreferences.json';
-
 // Helper 🤝
 import {useNavigation} from '@react-navigation/native';
 import {size} from 'react-native-responsive-sizes';
@@ -39,17 +37,20 @@ import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
 import {featuresSchema} from 'lib/zodSchema';
 
 // Types 🧩
-import {FlatFeature} from './types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {Feature} from 'reduxFeatures/registration/types';
 
 const FlatFeaturesScreen = () => {
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
+  //initial State
+  const {data} = useGetAssetsQuery();
+  const features = data?.features;
+  console.log('features', features);
   //Local State
-  const features = flatPreferences;
   const [featuresState, setFeaturesState] = useState(features);
-  const [selectedFeatures, setSelectedFeatures] = useState<FlatFeature[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<Feature[]>([]);
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
@@ -66,7 +67,7 @@ const FlatFeaturesScreen = () => {
     if (savedFeatures && savedFeatures.length > 0) {
       setSelectedFeatures(savedFeatures);
 
-      const updatedCharsState = features.map(feat => ({
+      const updatedCharsState = features?.map(feat => ({
         ...feat,
         toggle: savedFeatures.some(savedFeat => savedFeat.id === feat.id),
       }));
@@ -78,25 +79,28 @@ const FlatFeaturesScreen = () => {
   }, [savedFeatures, features]);
 
   const selectFeatures = (id: number) => {
-    const updatedFeatures = featuresState.map(element => {
+    if (!featuresState) {
+      return;
+    }
+    const updatedFeatures = featuresState?.map(element => {
       return element.id === id
         ? {...element, toggle: !element.toggle}
         : element;
     });
 
-    const featuresSelected = updatedFeatures.filter(el => el.toggle);
+    const featuresSelected = updatedFeatures?.filter(el => el.toggle);
 
     setSelectedFeatures(featuresSelected);
     setFeaturesState(updatedFeatures);
   };
 
-  const featuresButtons = featuresState.map(feature => {
+  const featuresButtons = featuresState?.map(feature => {
     return (
       <SelectionButton
         key={feature.id}
         id={feature.id}
         emojiIcon={feature.emoji}
-        value={feature.value}
+        value={feature.name}
         toggle={feature.toggle}
         selectFn={selectFeatures}
       />

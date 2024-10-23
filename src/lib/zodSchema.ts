@@ -24,15 +24,17 @@ const languagesSchema = z
     message: `You can select up to ${MAX_LANGUAGES} languages only`,
   });
 
+const characteristicSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  emoji: z.string(),
+  toggle: z.boolean(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 const characteristicsSchema = z
-  .array(
-    z.object({
-      id: z.number(),
-      toggle: z.boolean(),
-      value: z.string(),
-      emoji: z.string(),
-    }),
-  )
+  .array(characteristicSchema)
   .min(MIN_SELECTED_CHARS, {
     message: `Please select at least ${MIN_SELECTED_CHARS} tags`,
   })
@@ -96,18 +98,17 @@ const budgetSchema = z
     path: ['maxPrice'],
   });
 
-const featuresSchema = z
-  .array(
-    z.object({
-      id: z.number(),
-      toggle: z.boolean(),
-      value: z.string(),
-      emoji: z.string(),
-    }),
-  )
-  .min(MIN_SELECTED_FEATURES, {
-    message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
-  });
+const featureSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  toggle: z.boolean(),
+  emoji: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+const featuresSchema = z.array(featureSchema).min(MIN_SELECTED_FEATURES, {
+  message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
+});
 
 const selfDescriptionSchema = z
   .string({
@@ -267,11 +268,13 @@ const newUserSchema = z.object({
 
 export {
   languagesSchema,
+  characteristicSchema,
   characteristicsSchema,
   genderIdentitySchema,
   cityDistrictsSchema,
   budgetSchema,
   newUserSchema,
+  featureSchema,
   featuresSchema,
   selfDescriptionSchema,
   nameSchema,

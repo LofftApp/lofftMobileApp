@@ -40,20 +40,19 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
-import {Characteristics} from 'reduxFeatures/registration/types';
+import {Characteristic} from 'reduxFeatures/registration/types';
 
 const AboutUserFlatScreen = () => {
-  const {data} = useGetAssetsQuery();
-  console.log('data:', data?.characteristics);
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // initial state
+  const {data} = useGetAssetsQuery();
   const characteristics = data?.characteristics;
 
   // Local State
   const [charsState, setCharsState] = useState(characteristics);
-  const [selectedChars, setSelectedChars] = useState<Characteristics[]>([]);
+  const [selectedChars, setSelectedChars] = useState<Characteristic[]>([]);
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
