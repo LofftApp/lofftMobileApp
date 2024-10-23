@@ -8,7 +8,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
-import {ApplyForFlatScreenBackground, HiFive} from 'assets';
+import {ConfirmBackground, HiFive} from 'assets';
 import BackButton from 'components/buttons/BackButton';
 
 //Helpers
@@ -32,7 +32,7 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <ApplyForFlatScreenBackground
+      <ConfirmBackground
         height="100%"
         width="100%"
         style={CoreStyleSheet.backgroundImage}

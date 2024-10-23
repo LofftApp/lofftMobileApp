@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Modal, SafeAreaView} from 'react-native';
 // Components
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
-import {ApplyForFlatScreenBackground} from 'assets';
+import {ConfirmBackground} from 'assets';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🥷🏻
@@ -42,7 +42,7 @@ const ConfirmModal = ({
             : CoreStyleSheet.modalContainer
         }>
         <BackButton onPress={toggleModal} close />
-        <ApplyForFlatScreenBackground
+        <ConfirmBackground
           height="100%"
           width="100%"
           style={CoreStyleSheet.backgroundImage}

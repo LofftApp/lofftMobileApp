@@ -1,9 +1,13 @@
-import {characteristicSchema, featureSchema} from 'lib/zodSchema';
+import {
+  addressSchema,
+  characteristicSchema,
+  featureSchema,
+} from 'lib/zodSchema';
 import {z} from 'zod';
 
 type Characteristic = z.infer<typeof characteristicSchema>;
 type Feature = z.infer<typeof featureSchema>;
-
+type Currency = z.infer<typeof addressSchema.shape.currency>;
 interface District {
   id: number;
   name: string;
@@ -38,4 +42,13 @@ interface Assets {
   languages: Language[];
 }
 
-export type {Characteristic, Feature, District, City, Gender, Language, Assets};
+export type {
+  Characteristic,
+  Feature,
+  District,
+  City,
+  Gender,
+  Language,
+  Currency,
+  Assets,
+};

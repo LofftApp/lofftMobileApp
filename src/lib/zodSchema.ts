@@ -160,6 +160,7 @@ const addressSchema = z.object({
     })
     .positive('Please enter a valid price'),
   warmRent: z.boolean(),
+  currency: z.enum(['€', '£', '$']),
 });
 
 const dateLengthSchema = z

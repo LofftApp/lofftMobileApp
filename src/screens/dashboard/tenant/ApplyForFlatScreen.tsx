@@ -12,7 +12,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
-import {ApplyForFlatScreenBackground, HiFive} from 'assets';
+import {ConfirmBackground, HiFive} from 'assets';
 import BackButton from 'components/buttons/BackButton';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
@@ -37,7 +37,7 @@ const ApplyForFlatScreen = () => {
   }
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <ApplyForFlatScreenBackground
+      <ConfirmBackground
         height="100%"
         width="100%"
         style={CoreStyleSheet.backgroundImage}

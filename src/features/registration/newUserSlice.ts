@@ -2,7 +2,7 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
-import {Characteristic, Feature} from './types';
+import {Characteristic, Currency, Feature} from './types';
 
 export interface NewUserTenantDetails {
   userType: 'tenant';
@@ -65,7 +65,7 @@ export interface NewUserLessorDetails {
     district?: string;
   };
   price: number;
-  currency: '€' | '$' | '£' | '';
+  currency: Currency;
   warmRent: boolean;
   fromDate: Date | string;
   untilDate: Date | string | null;

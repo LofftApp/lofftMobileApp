@@ -79,8 +79,9 @@ type NewUserJourneyButtonProps = {
 };
 
 type IconButtonProps = {
-  text: string;
+  text?: string;
   icon?: string;
+
   iconSize?: number;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
