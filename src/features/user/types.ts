@@ -7,6 +7,15 @@ interface Characteristics {
   updatedAt: string;
 }
 
+interface Features {
+  id: number;
+  emoji: string;
+  value: string;
+  toggle: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface District {
   id: number;
   name: string;
@@ -15,16 +24,30 @@ interface District {
 }
 
 interface City {
-  id: number;
-  name: string;
-  country: string;
-  toggle: boolean;
-  createdAt: string;
-  updatedAt: string;
+  districts: District[];
+  flag: string;
 }
+
+interface Gender {
+  id: number;
+  emoji: string;
+  value: string;
+  toggle: boolean;
+}
+
+interface Language {
+  [key: string]: {
+    name: string;
+    nativeName: string;
+  };
+}
+
 interface Assets {
   characteristics: Characteristics[];
   cities: City[];
+  features: Features[];
+  genders: Gender[];
+  languages: Language[];
 }
 
 interface UserCharacteristics {
@@ -100,4 +123,5 @@ export type {
   IncomingUser,
   IncomingSpecificUser,
   SpecificUser,
+  Assets,
 };

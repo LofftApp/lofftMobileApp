@@ -1,22 +1,22 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {IncomingSpecificUser, IncomingUser, SpecificUser, User} from './types';
+import {Assets, SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
     getUser: builder.query<User, void>({
       query: () => 'api/users/profile',
-      transformResponse: (response: IncomingUser) => {
+      transformResponse: response => {
         console.log('getUser called 👾');
         console.log('response USER:', response);
-        return toCamelCaseKeys(response as unknown as User);
+        return toCamelCaseKeys(response as User);
       },
       providesTags: [{type: 'User', id: 'PROFILE'}],
     }),
     getSpecificUser: builder.query<SpecificUser, number>({
       query: id => `api/users/${id}/specific_user`,
-      transformResponse: (response: IncomingSpecificUser) => {
-        return toCamelCaseKeys(response as unknown as SpecificUser);
+      transformResponse: response => {
+        return toCamelCaseKeys(response as SpecificUser);
       },
     }),
     completeUserAndCreateTennant: builder.mutation({
@@ -29,11 +29,11 @@ export const userApi = lofftApi.injectEndpoints({
       },
     }),
 
-    getAssets: builder.query<void, void>({
+    getAssets: builder.query<Assets, void>({
       query: () => '/api/assets',
       transformResponse: response => {
         console.log('get Assets called 🎨');
-        return toCamelCaseKeys(response as unknown as void);
+        return toCamelCaseKeys(response as Assets);
       },
     }),
   }),
