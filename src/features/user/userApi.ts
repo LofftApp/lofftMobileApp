@@ -1,6 +1,7 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {Assets, SpecificUser, User} from './types';
+import {SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
+import {Assets} from 'reduxFeatures/registration/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -16,6 +17,8 @@ export const userApi = lofftApi.injectEndpoints({
     getSpecificUser: builder.query<SpecificUser, number>({
       query: id => `api/users/${id}/specific_user`,
       transformResponse: response => {
+        console.log('specific user called 🎉');
+        console.log('response SPECIFIC USER:', response);
         return toCamelCaseKeys(response as SpecificUser);
       },
     }),

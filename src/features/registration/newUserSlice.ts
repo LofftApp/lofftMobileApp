@@ -2,16 +2,12 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
+import {Characteristics} from './types';
 
 export interface NewUserTenantDetails {
   userType: 'tenant';
   languages: string[];
-  characteristics: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
+  characteristics: Characteristics[];
   genderIdentity: {
     id: number;
     toggle: boolean;
@@ -47,12 +43,8 @@ export interface NewUserTenantDetails {
 export interface NewUserLessorDetails {
   userType: 'lessor';
   languages: string[];
-  characteristics: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
+  characteristics: Characteristics[];
+
   genderIdentity: {
     id: number;
     toggle: boolean;

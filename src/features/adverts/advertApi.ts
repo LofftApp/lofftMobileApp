@@ -11,7 +11,10 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
 import {applicationApi} from 'reduxFeatures/applications/applicationApi';
-import { initialMaxPrice, initialMinPrice } from 'components/componentData/constants';
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/componentData/constants';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -47,6 +50,7 @@ export const advertApi = lofftApi.injectEndpoints({
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
         console.log('getAdverts called 🚨');
+        console.log('response GET ADVERTS', response);
         return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
       },
       providesTags: result =>
@@ -67,13 +71,17 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
       transformResponse: (response: IncomingAdvert) => {
         console.log('getAdvertById called 🌈');
+        console.log('response GET ADVERT BY ID:', response);
         return toCamelCaseKeys(response as unknown as Advert);
       },
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
-      transformResponse: (response: IncomingAdvertWithApplications) =>
-        toCamelCaseKeys(response as unknown as AdvertWithApplications),
+      transformResponse: (response: IncomingAdvertWithApplications) => {
+        console.log('seeApplicationsByAdvertId called 🎉');
+        console.log('response SEE APPLICATIONS BY ADVERT ID:', response);
+        return toCamelCaseKeys(response as unknown as AdvertWithApplications);
+      },
     }),
     toggleFavorite: builder.mutation<
       {action: 'created' | 'deleted'; status: string},
