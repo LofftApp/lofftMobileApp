@@ -9,8 +9,6 @@ import {useCompleteUserAndCreateTennantMutation} from 'reduxFeatures/user/userAp
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
-// Screens 📺
-
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -39,13 +37,11 @@ const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [message, setMessage] = useState('');
+  const [message] = useState('');
 
   //Redux
   const [signOut] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {isLessor, newUserDetails} = useNewUserDetails();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {savedImages} = useImagesToUpload();
@@ -84,16 +80,6 @@ const ConditionsOfUseScreen = () => {
     }
   };
 
-  // const handleContinue = () => {
-  //   setMessage(
-  //     "Next step is to handle user's details and images. Take a look at the console.",
-  //   );
-  //   console.log(
-  //     isLessor ? 'Lessor object 👽:' : 'tenant object 🧑‍🚀:',
-  //     newUserDetails,
-  //   );
-  //   console.log('Images to upload 📸:', savedImages);
-  // };
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}
