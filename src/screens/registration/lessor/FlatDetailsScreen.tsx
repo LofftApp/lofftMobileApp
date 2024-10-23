@@ -15,10 +15,13 @@ import BackButton from 'components/buttons/BackButton';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -31,9 +34,6 @@ import {size as _size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import {fontStyles} from 'styleSheets/fontStyles';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const FlatDetailsScreen = () => {
   //Navigation

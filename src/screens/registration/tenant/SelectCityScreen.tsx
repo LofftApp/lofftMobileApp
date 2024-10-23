@@ -42,14 +42,17 @@ import {capitalize} from 'helpers/capitalize';
 // Types
 import {SingleCity, District, Cities} from './types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 const SelectCityScreen = () => {
+  const {data} = useGetAssetsQuery();
+
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Local State
   const [city, setCity] = useState('');
-  const [elementArray, setElementArray] = useState<SingleCity[]>([]);
+  const [dropdownContent, setDropdownContent] = useState<SingleCity[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [isAllDistricts, setIsAllDistricts] = useState(false);
   const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
@@ -127,7 +130,7 @@ const SelectCityScreen = () => {
 
   const handleOnChangeSearch = (userInput: string) => {
     if (userInput === '' && city !== '') {
-      setElementArray([]);
+      setDropdownContent([]);
       setDistricts([]);
     }
 
@@ -139,7 +142,7 @@ const SelectCityScreen = () => {
         inputObject.name = key;
         inputObject.flag = value.flag;
         creationArray.push(inputObject);
-        setElementArray(creationArray);
+        setDropdownContent(creationArray);
       }
     }
 
@@ -149,7 +152,7 @@ const SelectCityScreen = () => {
 
   const activateDistrictDisplay = (cityInput: string) => {
     setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
-    setElementArray([]);
+    setDropdownContent([]);
   };
 
   const selectFn = (id: number) => {
@@ -187,10 +190,10 @@ const SelectCityScreen = () => {
     );
   });
 
-  const dropDownContent = (data: SingleCity[]) => {
-    return data.map((cityData: {name: string; flag: string}) => {
-      return `${cityData.flag} ${capitalize(cityData.name)} `;
-    });
+  const dropDownContent = (citiesArr: SingleCity[]) => {
+    return citiesArr.map(
+      cityData => `${cityData.flag} ${capitalize(cityData.name)} `,
+    );
   };
 
   const handleDropDownPress = (value: string) => {
@@ -202,7 +205,7 @@ const SelectCityScreen = () => {
   const handleClearSearch = () => {
     setCity('');
     setDistricts([]);
-    setElementArray([]);
+    setDropdownContent([]);
     setError('');
   };
 
@@ -214,7 +217,7 @@ const SelectCityScreen = () => {
 
   const handleContinue = () => {
     const formattedCity = {
-      name: city.split(' ')[1].toLowerCase(),
+      name: city.split(' ')[1]?.toLowerCase(),
       flag: city.split(' ')[0],
     };
     const result = cityDistrictsSchema.safeParse({
@@ -276,7 +279,7 @@ const SelectCityScreen = () => {
             onClear={handleClearSearch}
             value={city}
             dropdown={isQuery}
-            dropDownContent={dropDownContent(elementArray)}
+            dropDownContent={dropDownContent(dropdownContent)}
             dropDownPressAction={handleDropDownPress}
           />
         </View>
@@ -321,7 +324,6 @@ const SelectCityScreen = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   mainContainer: {

@@ -40,6 +40,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import { useGetAssetsQuery } from 'reduxFeatures/user/userApi';
 interface SelectedTracks {
   id: number;
   value: string;
@@ -48,11 +49,14 @@ interface SelectedTracks {
 }
 
 const AboutUserFlatScreen = () => {
+
+  const {data} = useGetAssetsQuery();
+  console.log('data:', data.characteristics);
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // initial state
-  const characteristics = userPreferences;
+  const characteristics = data.characteristics
 
   // Local State
   const [charsState, setCharsState] = useState(characteristics);

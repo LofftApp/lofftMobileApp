@@ -1,3 +1,32 @@
+interface Characteristics {
+  id: number;
+  emoji: string;
+  value: string;
+  toggle: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface District {
+  id: number;
+  name: string;
+  toggle: boolean;
+  emoji?: string;
+}
+
+interface City {
+  id: number;
+  name: string;
+  country: string;
+  toggle: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+interface Assets {
+  characteristics: Characteristics[];
+  cities: City[];
+}
+
 interface UserCharacteristics {
   emoji: string;
   name: string;

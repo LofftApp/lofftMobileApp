@@ -22,14 +22,27 @@ export const userApi = lofftApi.injectEndpoints({
     completeUserAndCreateTennant: builder.mutation({
       query: ({id, userChoices}) => {
         return {
-        url: `/api/users/${id}/complete_tennant_sign_up`,
-        method: 'POST',
-        body: userChoices,
+          url: `/api/users/${id}/complete_tennant_sign_up`,
+          method: 'POST',
+          body: userChoices,
         };
+      },
+    }),
+
+    getAssets: builder.query<void, void>({
+      query: () => '/api/assets',
+      transformResponse: response => {
+        console.log('get Assets called 🎨');
+        return toCamelCaseKeys(response as unknown as void);
       },
     }),
   }),
   overrideExisting: false,
 });
 
-export const {useGetUserQuery, useGetSpecificUserQuery, useCompleteUserAndCreateTennantMutation} = userApi;
+export const {
+  useGetUserQuery,
+  useGetSpecificUserQuery,
+  useCompleteUserAndCreateTennantMutation,
+  useGetAssetsQuery,
+} = userApi;
