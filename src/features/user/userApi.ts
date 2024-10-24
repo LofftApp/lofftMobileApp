@@ -30,9 +30,11 @@ export const userApi = lofftApi.injectEndpoints({
     >({
       query: ({id, userChoices}) => {
         return {
+
           url: `/api/users/${id}/complete_tenant_sign_up`,
           method: 'POST',
           body: userChoices,
+
         };
       },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],

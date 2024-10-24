@@ -9,8 +9,6 @@ import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
-// Screens 📺
-
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -39,7 +37,9 @@ const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState('');
+
 
   //Redux
   const [signOut, {isLoading}] = useSignOutMutation();
