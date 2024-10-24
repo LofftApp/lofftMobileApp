@@ -75,6 +75,7 @@ const SignInForm = () => {
       setEmail('');
       setPassword('');
     } catch (error) {
+      console.log('error', error);
       const typedError = error as {
         status?: number;
       };
@@ -157,9 +158,7 @@ const styles = StyleSheet.create({
   signInContainer: {
     width: '100%',
     gap: size(5),
-    flexWrap: 'wrap',
   },
-
 });
 
 export default SignInForm;

@@ -68,7 +68,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
       {message && (
         <View style={styles.messageContainer}>
           <View style={styles.messageTextContainer}>
-            {authMessage === "You're signed out" && (
+            {authMessage && (
               <LofftIcon
                 name={'log-out'}
                 size={size(20)}

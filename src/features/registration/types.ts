@@ -43,6 +43,103 @@ interface Assets {
   languages: Language[];
 }
 
+// newUserSlice
+interface NewUserTenantDetails {
+  userType: 'tenant';
+  languages: string[];
+  characteristics: Characteristic[];
+  genderIdentity: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+  flatIdentities: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+  city: {
+    name: string;
+    flag: string;
+  };
+  districts: {
+    id: number;
+    name: string;
+    toggle: boolean;
+    emoji?: string;
+  }[];
+  budget: {
+    minPrice: number;
+    maxPrice: number;
+    warmRent: boolean;
+  };
+  filter: Feature[];
+  selfDescription: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date | string;
+}
+interface NewUserLessorDetails {
+  userType: 'lessor';
+  languages: string[];
+  characteristics: Characteristic[];
+
+  genderIdentity: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+  flatIdentities: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
+  city: {
+    name: string;
+    flag: string;
+  };
+  districts: {
+    id: number;
+    name: string;
+    toggle: boolean;
+    emoji?: string;
+  }[];
+  flatFeatures: Feature[];
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date | string;
+  address: {
+    address: string;
+    district?: string;
+  };
+  price: number;
+  currency: Currency;
+  warmRent: boolean;
+  fromDate: Date | string;
+  untilDate: Date | string | null;
+  permanent: boolean;
+  tagLine: string;
+  size: number;
+  measurementUnit: 'm²' | 'ft²';
+  flatDescription: string;
+}
+type NewUserDetails = {
+  tenant: NewUserTenantDetails;
+  lessor: NewUserLessorDetails;
+};
+interface UserJourneyState {
+  userType: 'lessor' | 'tenant' | '';
+  tenantJourney: {[key: number]: boolean};
+  lessorJourney: {[key: number]: boolean};
+  currentScreen: number;
+  userJourney: string;
+  newUserDetails: NewUserDetails;
+}
+
 export type {
   Characteristic,
   Feature,
@@ -52,4 +149,8 @@ export type {
   Language,
   Currency,
   Assets,
+  UserJourneyState,
+  NewUserTenantDetails,
+  NewUserLessorDetails,
+  NewUserDetails,
 };

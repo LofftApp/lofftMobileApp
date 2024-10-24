@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {baseUrl} from 'helpers/baseUrl';
 import {clearPersister} from 'persistance/persister';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {logout} from 'reduxFeatures/auth/authSlice';
+import {logout, setAuthMessage} from 'reduxFeatures/auth/authSlice';
 
 export const lofftApi = createApi({
   reducerPath: 'lofftApi',
@@ -28,6 +28,7 @@ export const lofftApi = createApi({
     if (result.error) {
       if (result.error.status === 401) {
         api.dispatch(logout());
+        api.dispatch(setAuthMessage('Session expired. Please log in again.'));
         clearPersister();
       }
       console.error('API error:', result.error);

@@ -2,9 +2,8 @@ import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {
   setUserType as _setUserType,
   setNewUserDetails as _setNewUserDetails,
-  NewUserLessorDetails,
-  NewUserTenantDetails,
 } from './newUserSlice';
+import {NewUserLessorDetails, NewUserTenantDetails} from './types';
 
 export const useNewUserDetails = () => {
   const dispatch = useAppDispatch();
