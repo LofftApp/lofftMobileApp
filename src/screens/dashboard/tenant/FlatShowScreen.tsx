@@ -13,7 +13,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
-import {Search} from 'assets';
+import {Looking} from 'assets';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import ConfirmModal from 'components/modals/ConfirmModal';
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -152,7 +152,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
                 ? outOfTokens
                 : profileNotDone
             }
-            image={<Search />}
+            image={<Looking />}
             onPressFirstButton={() => {}}
           />
         </View>

@@ -42,11 +42,8 @@ import {capitalize} from 'helpers/capitalize';
 // Types
 import {SingleCity, District, Cities} from './types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 const SelectCityScreen = () => {
-  const {data} = useGetAssetsQuery();
-
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 

@@ -16,6 +16,36 @@ const Chips = ({
   whiteBg,
   open,
 }: ChipsProps) => {
+  // Check if there are tags to display
+  if (!tags || tags.length === 0) {
+    return (
+      <View style={styles.chipContainer}>
+        <View style={styles.chipsWrap}>
+          <View
+            style={[
+              styles.chip,
+              whiteBg
+                ? styles.whiteBackground
+                : features
+                ? styles.featureTag
+                : styles.characteristicTag,
+              whiteBg && features && styles.featureBorder,
+              whiteBg && !features && styles.characteristicBorder,
+            ]}>
+            {emoji && <Text>😓</Text>}
+            <Text
+              style={[
+                xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
+                features ? styles.featureTagFont : styles.characteristicTagFont,
+              ]}>
+              No matches found
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.chipContainer}>
       <View style={styles.chipsWrap}>
@@ -68,37 +98,11 @@ const Chips = ({
           </View>
         )}
 
-        {tags.slice(2).map((tag, index) => {
-          return open ? (
-            <View
-              key={tag?.emoji + index.toString()}
-              style={[
-                styles.chip,
-                whiteBg
-                  ? styles.whiteBackground
-                  : features
-                  ? styles.featureTag
-                  : styles.characteristicTag,
-                whiteBg && features && styles.featureBorder,
-                whiteBg && !features && styles.characteristicBorder,
-              ]}>
-              {emoji && <Text>{tag?.emoji}</Text>}
-              <Text
-                style={[
-                  xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
-                  features
-                    ? styles.featureTagFont
-                    : styles.characteristicTagFont,
-                ]}>
-                {tag?.name}
-              </Text>
-            </View>
-          ) : (
-            <Collapsible
-              key={tag?.emoji + index.toString()}
-              collapsed={!expand}
-              duration={300}>
+        {tags &&
+          tags.slice(2).map((tag, index) => {
+            return open ? (
               <View
+                key={tag?.emoji + index.toString()}
                 style={[
                   styles.chip,
                   whiteBg
@@ -120,9 +124,36 @@ const Chips = ({
                   {tag?.name}
                 </Text>
               </View>
-            </Collapsible>
-          );
-        })}
+            ) : (
+              <Collapsible
+                key={tag?.emoji + index.toString()}
+                collapsed={!expand}
+                duration={300}>
+                <View
+                  style={[
+                    styles.chip,
+                    whiteBg
+                      ? styles.whiteBackground
+                      : features
+                      ? styles.featureTag
+                      : styles.characteristicTag,
+                    whiteBg && features && styles.featureBorder,
+                    whiteBg && !features && styles.characteristicBorder,
+                  ]}>
+                  {emoji && <Text>{tag?.emoji}</Text>}
+                  <Text
+                    style={[
+                      xs ? fontStyles.bodyExtraSmall : fontStyles.bodySmall,
+                      features
+                        ? styles.featureTagFont
+                        : styles.characteristicTagFont,
+                    ]}>
+                    {tag?.name}
+                  </Text>
+                </View>
+              </Collapsible>
+            );
+          })}
       </View>
     </View>
   );

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -23,16 +23,19 @@ import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import Divider from 'components/bars/Divider';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+
+//Validation 🛡  ️
+import {genderIdentitySchema} from 'lib/zodSchema';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
 
+//Constants 📊
+import {MAX_GENDERS} from 'components/componentData/constants';
+
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
-import {genderIdentitySchema} from 'lib/zodSchema';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import {MAX_GENDERS} from 'components/componentData/constants';
-import {fontStyles} from 'styleSheets/fontStyles';
 interface SelectButton {
   id: number;
   value: string;

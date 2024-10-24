@@ -90,7 +90,7 @@ type IconButtonProps = {
 };
 type NewUserJourneyContinueButtonProps = {
   onPress: () => void;
-  value: string;
+  value: string | JSX.Element;
   textStyle?: TextStyle;
   disabled?: boolean;
 };

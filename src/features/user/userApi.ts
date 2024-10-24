@@ -25,7 +25,7 @@ export const userApi = lofftApi.injectEndpoints({
     completeUserAndCreateTennant: builder.mutation({
       query: ({id, userChoices}) => {
         return {
-          url: `/api/users/${id}/complete_tennant_sign_up`,
+          url: `/api/users/${id}/complete_tenant_sign_up`,
           method: 'POST',
           body: userChoices,
         };

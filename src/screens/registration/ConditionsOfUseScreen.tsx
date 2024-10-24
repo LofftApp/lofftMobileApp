@@ -15,7 +15,7 @@ import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/ad
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
 import BackButton from 'components/buttons/BackButton';
-import {RegistrationBackground, Search} from 'assets';
+import {Looking, RegistrationBackground} from 'assets';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
@@ -31,26 +31,26 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [message, setMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   //Redux
-  const [signOut] = useSignOutMutation();
+  const [signOut, {isLoading}] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const {isLessor, newUserDetails} = useNewUserDetails();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {savedImages} = useImagesToUpload();
-  const [completeUserAndCreateTennant] = useCompleteUserAndCreateTennantMutation();
-  const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
+
+  const [completeUserAndCreateTennant] =
+    useCompleteUserAndCreateTennantMutation();
+  const [completeLessorAndCreateAdvert] =
+    useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
   const handleSignOut = () => {
@@ -66,24 +66,31 @@ const ConditionsOfUseScreen = () => {
     navigation.goBack();
   };
 
-  const handlnewJourneyCheckout =  async () => {
-    if (isLessor){
+  const handleNewUserJourneyCheckout = async () => {
+    if (isLessor) {
       try {
-        const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
-        console.log('Advert and lessor successfully created:', result);
+        const result = await completeLessorAndCreateAdvert({
+          id: data?.id,
+          userChoices: newUserDetails,
+        }).unwrap();
+        setErrorMessage('');
+        console.log('Lessor successfully completed', result);
       } catch (error) {
-        console.error('Failed to create lessor & advert:', error);
+        setErrorMessage('An error occurred, please try again');
       }
-  } else {
-     try {
-        const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
+    } else {
+      try {
+        const result = await completeUserAndCreateTennant({
+          id: data?.id,
+          userChoices: newUserDetails,
+        }).unwrap();
+        setErrorMessage('');
         console.log('Tenent successfully completed', result);
       } catch (error) {
-        console.error('Failed to create tenant:', error);
+        setErrorMessage('An error occurred, please try again');
       }
     }
   };
-
 
   return (
     <>
@@ -117,14 +124,20 @@ const ConditionsOfUseScreen = () => {
 
             <View style={styles.footerContainer}>
               <Divider />
-              {message && <ErrorMessage message={message} />}
+              <ErrorMessage message={errorMessage} />
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
-                value="Agree and Continue"
-                onPress={handlnewJourneyCheckout}
+                value={isLoading ? <LoadingButtonIcon /> : 'Agree and Continue'}
+                onPress={handleNewUserJourneyCheckout}
+                disabled={isLoading}
               />
 
-              <CoreButton value="Decline" invert onPress={toggleModal} />
+              <CoreButton
+                value="Decline"
+                invert
+                onPress={toggleModal}
+                disabled={isLoading}
+              />
             </View>
           </View>
           <ConfirmModal
@@ -139,7 +152,7 @@ const ConditionsOfUseScreen = () => {
                 second: 'Take me back',
               },
             }}
-            image={<Search />}
+            image={<Looking />}
             onPressFirstButton={handleSignOut}
           />
         </View>
@@ -154,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textContainer: {
-    marginTop: size(50),
+    marginTop: size(10),
     paddingHorizontal: size(10),
     gap: size(30),
   },
