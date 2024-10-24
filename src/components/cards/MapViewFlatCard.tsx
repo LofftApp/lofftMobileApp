@@ -104,11 +104,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
           </View>
         </View>
         <View style={styles.chipsContainer}>
-          <Chips
-            tags={featuresTags.positiveTags || [{id: 0, name: 'No tags'}]}
-            features={true}
-            xs
-          />
+          <Chips tags={featuresTags.positiveTags} features={true} xs />
           <Chips tags={characteristicsTags.positiveTags} features={false} xs />
         </View>
       </View>
