@@ -30,13 +30,13 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {size} from 'react-native-responsive-sizes';
 
 // Types
-import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {RootStackNavigationProp} from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const ConditionsOfUseScreen = () => {
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -74,9 +74,17 @@ const ConditionsOfUseScreen = () => {
           userChoices: newUserDetails,
         }).unwrap();
         setErrorMessage('');
+
         console.log('Lessor successfully completed', result);
       } catch (error) {
-        setErrorMessage('An error occurred, please try again');
+        const typedError = error as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setErrorMessage('Please fill out all the required fields');
+        } else {
+          setErrorMessage('An error occurred, please try again');
+        }
       }
     } else {
       try {
@@ -85,9 +93,20 @@ const ConditionsOfUseScreen = () => {
           userChoices: newUserDetails,
         }).unwrap();
         setErrorMessage('');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'dashboard'}],
+        });
         console.log('Tenent successfully completed', result);
       } catch (error) {
-        setErrorMessage('An error occurred, please try again');
+        const typedError = error as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setErrorMessage('Please fill out all the required fields');
+        } else {
+          setErrorMessage('An error occurred, please try again');
+        }
       }
     }
   };

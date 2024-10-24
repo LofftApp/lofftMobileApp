@@ -75,7 +75,6 @@ const SignInForm = () => {
       setEmail('');
       setPassword('');
     } catch (error) {
-      console.log('error', error);
       const typedError = error as {
         status?: number;
       };

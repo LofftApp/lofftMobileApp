@@ -24,7 +24,7 @@ import ConfirmModal from 'components/modals/ConfirmModal';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 
 //Assets
-import {Search} from 'assets';
+import {Looking} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -199,7 +199,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         openModal={modalVisible}
         setIsModalOpen={setModalVisible}
         modalAsset={confirmApplicationsModalAsset}
-        image={<Search />}
+        image={<Looking />}
         onPressFirstButton={handleConfirmApplications}
         fullScreen
         disabled={isConfirming}

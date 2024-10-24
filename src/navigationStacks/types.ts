@@ -1,5 +1,6 @@
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {CompositeNavigationProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {StackNavigationProp} from '@react-navigation/stack';
 
 // tenant Navigator Stack
@@ -12,6 +13,16 @@ type RootTabParamsList = {
   admin: undefined;
   language: undefined;
 };
+
+type RootStackParamsList = {
+  admin: undefined;
+  newuser: undefined;
+  profileFlow: undefined;
+  dashboardLessor: undefined;
+  dashboard: undefined;
+};
+
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamsList>;
 
 type NewUserScreenNames =
   | 'NewUserJourney'
@@ -137,4 +148,5 @@ export type {
   NewUserScreens,
   GuestStackParamsList,
   GuestStackScreenNavigationProp,
+  RootStackNavigationProp
 };
