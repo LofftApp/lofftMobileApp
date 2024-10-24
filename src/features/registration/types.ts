@@ -28,10 +28,11 @@ interface Gender {
 }
 
 interface Language {
-  [key: string]: {
-    name: string;
-    nativeName: string;
-  };
+  id: number;
+  name: string;
+  toggle: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Assets {

@@ -25,7 +25,7 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 //Assets 🎨
-import languagesData from 'Assets/coreText/languagesText.json';
+// import languagesData from 'Assets/coreText/languagesText.json';
 import {RegistrationBackground} from 'assets';
 
 // Helpers 🥷🏻
@@ -36,6 +36,7 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -49,6 +50,8 @@ const LanguageSelectionScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // Redux
+  const {data} = useGetAssetsQuery();
+  const languagesData = data?.languages;
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
@@ -65,15 +68,17 @@ const LanguageSelectionScreen = () => {
   //gets all languages from languagesText.json and filters them based on the searchValue and selectedLanguages state
   useEffect(() => {
     setIsLoading(true);
-    const languageList = Object.values(languagesData);
-    const filteredLanguages = languageList.filter(
-      language =>
-        language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
-        !selectedLanguages.includes(language.name),
-    );
-    setLanguages(filteredLanguages.map(language => language.name));
+    if (languagesData) {
+      const languageList = Object.values(languagesData);
+      const filteredLanguages = languageList.filter(
+        language =>
+          language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
+          !selectedLanguages.includes(language.name),
+      );
+      setLanguages(filteredLanguages.map(language => language.name));
+    }
     setIsLoading(false);
-  }, [searchValue, selectedLanguages]);
+  }, [searchValue, selectedLanguages, languagesData]);
 
   const handleSelectedLanguages = (l: string) => {
     const updatedLanguages = selectedLanguages.includes(l)

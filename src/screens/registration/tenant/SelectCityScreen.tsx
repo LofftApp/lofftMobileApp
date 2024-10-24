@@ -42,7 +42,6 @@ import {capitalize} from 'helpers/capitalize';
 // Types
 import {SingleCity, District, Cities} from './types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-
 const SelectCityScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -124,11 +123,15 @@ const SelectCityScreen = () => {
       obj[key] = cities[key];
       return obj;
     }, {});
-
   const handleOnChangeSearch = (userInput: string) => {
     if (userInput === '' && city !== '') {
       setDropdownContent([]);
       setDistricts([]);
+    }
+
+    if (userInput !== '' && city === '') {
+      setDistricts([]);
+      setDropdownContent([{name: 'Lofft is not available in this city', flag: ''}]);
     }
 
     const creationArray: {name: string; flag: string}[] = [];
@@ -139,6 +142,7 @@ const SelectCityScreen = () => {
         inputObject.name = key;
         inputObject.flag = value.flag;
         creationArray.push(inputObject);
+        console.log('creatioinArray,', creationArray);
         setDropdownContent(creationArray);
       }
     }
