@@ -14,6 +14,12 @@ export interface NewUserTenantDetails {
     value: string;
     emoji: string;
   }[];
+  flatIdentities: {
+    id: number;
+    toggle: boolean;
+    value: string;
+    emoji: string;
+  }[];
   city: {
     name: string;
     flag: string;
@@ -46,7 +52,7 @@ export interface NewUserLessorDetails {
     value: string;
     emoji: string;
   }[];
-  flatIdentity: {
+  flatIdentities: {
     id: number;
     toggle: boolean;
     value: string;
@@ -106,6 +112,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
+      flatIdentities: [],
       city: {
         name: '',
         flag: '',
@@ -127,7 +134,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      flatIdentity: [],
+      flatIdentities: [],
       city: {
         name: '',
         flag: '',

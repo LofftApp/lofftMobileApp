@@ -41,19 +41,15 @@ interface SelectButton {
 }
 
 const genders = [
-  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
-  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
-  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
-  {
-    value: 'Another gender identity not listed',
-    id: 4,
-    toggle: false,
-    emoji: '🙆',
-  },
-  {value: 'Women only', id: 5, toggle: false, emoji: '🙋‍♀️'},
-  {value: 'Queer space', id: 6, toggle: false, emoji: '⚧️'},
-  {value: 'Trans & non-binary safe space', id: 7, toggle: false, emoji: '🏳️‍⚧️'},
-  {value: 'Prefer not to say', id: 8, toggle: false, emoji: '🤐'},
+  {value: 'Women only', id: 1, toggle: false, emoji: '🙋‍♀️'},
+  {value: 'Men only', id: 2, toggle: false, emoji: '🙋‍♂️'},
+  {value: 'Queer space', id: 3, toggle: false, emoji: '⚧️'},
+  {value: 'Trans & non-binary safe space', id: 4, toggle: false, emoji: '🏳️‍⚧️'},
+  {value: 'LGBTQ+ friendly', id: 5, toggle: false, emoji: '🏳️‍🌈'},
+  {value: 'Gender-neutral space', id: 6, toggle: false, emoji: '⚧️'},
+  {value: 'All genders welcome', id: 7, toggle: false, emoji: '🌍'},
+  {value: 'Non-binary inclusive', id: 8, toggle: false, emoji: '💛🤍💜🖤'},
+  {value: 'Prefer not to say', id: 9, toggle: false, emoji: '🤐'},
 ];
 
 const SafePlaceForScreen = () => {
@@ -67,8 +63,7 @@ const SafePlaceForScreen = () => {
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  const flatIdentity =
-    newUserDetails.userType === 'lessor' && newUserDetails.flatIdentity;
+  const flatIdentity = newUserDetails.flatIdentities;
 
   useEffect(() => {
     if (flatIdentity && flatIdentity.length > 0) {
@@ -108,9 +103,11 @@ const SafePlaceForScreen = () => {
       return;
     }
 
-    setNewUserDetails({flatIdentity: selectedGender});
+    setNewUserDetails({flatIdentities: selectedGender});
 
-    const screen = newUserScreens.lessor[currentScreen + 1];
+    const screen = isLessor
+      ? newUserScreens.lessor[currentScreen + 1]
+      : newUserScreens.tenant[currentScreen + 1];
 
     navigation.navigate(screen);
 
@@ -127,7 +124,13 @@ const SafePlaceForScreen = () => {
         style={CoreStyleSheet.backgroundImage}
       />
       <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer headlineText={'Your flat is a safe place for...'} />
+        <HeadlineContainer
+          headlineText={
+            isLessor
+              ? 'Your flat is a safe place for...'
+              : 'What is a safe place for you?'
+          }
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>
             {intitalGenders.map((el, index) => (
@@ -145,14 +148,13 @@ const SafePlaceForScreen = () => {
         <Divider />
 
         <View style={styles.footerContainer}>
-          {isLessor && (
-            <View style={styles.tagInfoContainer}>
-              <Text
-                style={
-                  fontStyles.bodySmall
-                }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
-            </View>
-          )}
+          <View style={styles.tagInfoContainer}>
+            <Text
+              style={
+                fontStyles.bodySmall
+              }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
+          </View>
+
           {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
