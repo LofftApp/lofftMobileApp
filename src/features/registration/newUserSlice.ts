@@ -46,7 +46,7 @@ export interface NewUserLessorDetails {
     value: string;
     emoji: string;
   }[];
-  safePlaceFor: {
+  flatIdentity: {
     id: number;
     toggle: boolean;
     value: string;
@@ -127,7 +127,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      safePlaceFor: [],
+      flatIdentity: [],
       city: {
         name: '',
         flag: '',

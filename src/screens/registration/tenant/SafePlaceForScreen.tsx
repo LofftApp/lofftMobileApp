@@ -67,23 +67,23 @@ const SafePlaceForScreen = () => {
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  const savedSafePlaceFor =
-    newUserDetails.userType === 'lessor' && newUserDetails.safePlaceFor;
+  const flatIdentity =
+    newUserDetails.userType === 'lessor' && newUserDetails.flatIdentity;
 
   useEffect(() => {
-    if (savedSafePlaceFor && savedSafePlaceFor.length > 0) {
-      setSelectedGender(savedSafePlaceFor);
+    if (flatIdentity && flatIdentity.length > 0) {
+      setSelectedGender(flatIdentity);
 
       const updatedGenderState = genders.map(gender => ({
         ...gender,
-        toggle: savedSafePlaceFor.some(g => g.id === gender.id),
+        toggle: flatIdentity.some(g => g.id === gender.id),
       }));
 
       setIntitalGenders(updatedGenderState);
     } else {
       setSelectedGender([]);
     }
-  }, [savedSafePlaceFor]);
+  }, [flatIdentity]);
 
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
@@ -108,7 +108,7 @@ const SafePlaceForScreen = () => {
       return;
     }
 
-    setNewUserDetails({safePlaceFor: selectedGender});
+    setNewUserDetails({flatIdentity: selectedGender});
 
     const screen = newUserScreens.lessor[currentScreen + 1];
 
