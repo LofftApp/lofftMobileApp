@@ -131,7 +131,9 @@ const SelectCityScreen = () => {
 
     if (userInput !== '' && city === '') {
       setDistricts([]);
-      setDropdownContent([{name: 'Lofft is not available in this city', flag: ''}]);
+      setDropdownContent([
+        {name: 'Lofft is not available in this city', flag: ''},
+      ]);
     }
 
     const creationArray: {name: string; flag: string}[] = [];
@@ -142,7 +144,6 @@ const SelectCityScreen = () => {
         inputObject.name = key;
         inputObject.flag = value.flag;
         creationArray.push(inputObject);
-        console.log('creatioinArray,', creationArray);
         setDropdownContent(creationArray);
       }
     }

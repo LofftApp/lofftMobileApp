@@ -50,7 +50,6 @@ export const advertApi = lofftApi.injectEndpoints({
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
         console.log('getAdverts called 🚨');
-        console.log('response GET ADVERTS', response);
         return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
       },
       providesTags: result =>
@@ -71,7 +70,6 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
       transformResponse: (response: IncomingAdvert) => {
         console.log('getAdvertById called 🌈');
-        console.log('response GET ADVERT BY ID:', response);
         return toCamelCaseKeys(response as unknown as Advert);
       },
     }),
@@ -79,7 +77,6 @@ export const advertApi = lofftApi.injectEndpoints({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
       transformResponse: (response: IncomingAdvertWithApplications) => {
         console.log('seeApplicationsByAdvertId called 🎉');
-        console.log('response SEE APPLICATIONS BY ADVERT ID:', response);
         return toCamelCaseKeys(response as unknown as AdvertWithApplications);
       },
     }),

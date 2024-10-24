@@ -40,8 +40,7 @@ const NewUserJourneyScreen = () => {
 
   const [signOut] = useSignOutMutation();
 
-  const {data} = useGetAssetsQuery();
-  console.log('assets: ', data);
+  useGetAssetsQuery();
 
   useEffect(() => {
     if (typeSelected && userType) {

@@ -72,11 +72,6 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   );
   const isTruncated =
     advert.flat.description.length > truncatedDescription.length;
-  console.log(
-    'advert.flat.address',
-    advert.flat.address,
-    typeof advert.flat.address,
-  );
 
   return (
     <>

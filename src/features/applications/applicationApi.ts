@@ -8,7 +8,6 @@ export const applicationApi = lofftApi.injectEndpoints({
       query: () => '/api/advert_applications',
       transformResponse: (response: IncomingApplications) => {
         console.log('getApplications called 🌎');
-        console.log('response getApplications:', response);
         return toCamelCaseKeys(
           response.applications as unknown as Application[],
         );
@@ -29,7 +28,6 @@ export const applicationApi = lofftApi.injectEndpoints({
       query: id => `/api/advert_applications/${id}`,
       transformResponse: (response: IncomingApplication) => {
         console.log('getApplicationById called 🌺');
-        console.log('response getApplicationById:', response);
         return toCamelCaseKeys(response as unknown as Application);
       },
       providesTags: (result, error, id) => [

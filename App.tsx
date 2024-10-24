@@ -40,8 +40,7 @@ import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 const RootStack = createNativeStackNavigator();
 const App = () => {
-  const {isAuth, authMessage} = useAuth();
-  console.log('authMessage', authMessage);
+  const {isAuth} = useAuth();
 
   const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
     skip: !isAuth,

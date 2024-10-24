@@ -90,8 +90,6 @@ const WhereIsFlatScreen = () => {
   const savedCurrency =
     newUserDetails.userType === 'lessor' && newUserDetails.currency;
 
-  console.log('savedAdreess in where is flat', savedAddress);
-
   useEffect(() => {
     if (savedAddress) {
       setLocation(savedAddress.address);

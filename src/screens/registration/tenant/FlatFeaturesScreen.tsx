@@ -47,7 +47,6 @@ const FlatFeaturesScreen = () => {
   //initial State
   const {data} = useGetAssetsQuery();
   const features = data?.features;
-  console.log('features', features);
   //Local State
   const [featuresState, setFeaturesState] = useState(features);
   const [selectedFeatures, setSelectedFeatures] = useState<Feature[]>([]);

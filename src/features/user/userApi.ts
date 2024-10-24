@@ -13,7 +13,6 @@ export const userApi = lofftApi.injectEndpoints({
       query: () => 'api/users/profile',
       transformResponse: response => {
         console.log('getUser called 👾');
-        console.log('response USER:', response);
         return toCamelCaseKeys(response as User);
       },
       providesTags: [{type: 'User', id: 'PROFILE'}],
@@ -22,7 +21,6 @@ export const userApi = lofftApi.injectEndpoints({
       query: id => `api/users/${id}/specific_user`,
       transformResponse: response => {
         console.log('specific user called 🎉');
-        console.log('response SPECIFIC USER:', response);
         return toCamelCaseKeys(response as SpecificUser);
       },
     }),
@@ -43,7 +41,6 @@ export const userApi = lofftApi.injectEndpoints({
     getAssets: builder.query<Assets, void>({
       query: () => '/api/assets',
       transformResponse: response => {
-        console.log('get Assets called 🎨');
         return toCamelCaseKeys(response as Assets);
       },
     }),

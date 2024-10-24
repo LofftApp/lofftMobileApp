@@ -35,8 +35,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
-  console.log('filter', currentUser?.profile.filter);
-  console.log('advert', advert.flat.features);
+
   const featuresTags = tagSorter(
     currentUser?.profile.filter ?? [],
     advert.flat.features,
