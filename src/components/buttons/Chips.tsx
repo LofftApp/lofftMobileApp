@@ -1,11 +1,16 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+
+import Collapsible from 'react-native-collapsible';
+// Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-import type {ChipsProps} from './types';
+//Helpers
 import {size} from 'react-native-responsive-sizes';
-import Collapsible from 'react-native-collapsible';
+
+//Types
+import type {ChipsProps} from './types';
 
 const Chips = ({
   tags,

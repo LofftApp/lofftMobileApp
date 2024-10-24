@@ -48,7 +48,7 @@ const SignInScreen = () => {
           <SignInForm />
         </View>
         <View style={styles.footer}>
-          <SignInWith />
+          <SignInWith isSignInScreen />
           <View style={styles.signUpContainer}>
             <Text style={fontStyles.bodyMedium}>
               Don't have an account yet?
