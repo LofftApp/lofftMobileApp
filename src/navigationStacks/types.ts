@@ -148,5 +148,5 @@ export type {
   NewUserScreens,
   GuestStackParamsList,
   GuestStackScreenNavigationProp,
-  RootStackNavigationProp
+  RootStackNavigationProp,
 };

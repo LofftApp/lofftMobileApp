@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useCompleteUserAndCreateTennantMutation} from 'reduxFeatures/user/userApi';
+import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
@@ -47,8 +47,8 @@ const ConditionsOfUseScreen = () => {
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
-  const [completeUserAndCreateTennant] =
-    useCompleteUserAndCreateTennantMutation();
+  const [completeUserAndCreateTenant] =
+    useCompleteUserAndCreateTenantMutation();
   const [completeLessorAndCreateAdvert] =
     useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
@@ -88,8 +88,8 @@ const ConditionsOfUseScreen = () => {
       }
     } else {
       try {
-        const result = await completeUserAndCreateTennant({
-          id: data?.id,
+        const result = await completeUserAndCreateTenant({
+          id: data?.id || 0,
           userChoices: newUserDetails,
         }).unwrap();
         setErrorMessage('');
