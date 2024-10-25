@@ -22,7 +22,7 @@ import ConfirmModal from 'components/modals/ConfirmModal';
 import ApplicantCardRound2 from 'components/cards/ApplicantCardRound2';
 
 //Assets
-import {Search} from 'assets';
+import {Looking} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -184,7 +184,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
         openModal={modalVisible}
         setIsModalOpen={setModalVisible}
         modalAsset={confirmApplicationsModalAsset}
-        image={<Search />}
+        image={<Looking />}
         onPressFirstButton={handleConfirmApplications}
         fullScreen
         disabled={isConfirming}

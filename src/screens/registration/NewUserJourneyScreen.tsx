@@ -28,6 +28,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -38,6 +39,8 @@ const NewUserJourneyScreen = () => {
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();
+
+  useGetAssetsQuery();
 
   useEffect(() => {
     if (typeSelected && userType) {

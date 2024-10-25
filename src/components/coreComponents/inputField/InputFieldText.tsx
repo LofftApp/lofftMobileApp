@@ -27,6 +27,7 @@ const InputFieldText = ({
   dropDownContent = [],
   dropDownPressAction = () => {},
   style,
+  currency = '€',
 }: InputFieldTextProps) => {
   const [focus, setFocus] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -84,6 +85,7 @@ const InputFieldText = ({
             value={value}
             placeholder={placeholder || 'Currency Field'}
             keyboardType={keyboardType}
+            currency={currency}
           />
         ) : (
           <DefaultInput

@@ -323,11 +323,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: size(16),
     paddingBottom: size(0),
+    alignItems: 'center',
   },
   seeResultButton: {
+    width: '40%',
     paddingHorizontal: size(25),
   },
   clearAllButton: {
+    width: '40%',
     paddingHorizontal: size(25),
   },
 });

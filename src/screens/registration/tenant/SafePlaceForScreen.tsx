@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -23,19 +23,16 @@ import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import Divider from 'components/bars/Divider';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-
-//Validation 🛡  ️
-import {genderIdentitySchema} from 'lib/zodSchema';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
 
-//Constants 📊
-import {MAX_GENDERS} from 'components/componentData/constants';
-
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {genderIdentitySchema} from 'lib/zodSchema';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {MAX_GENDERS} from 'components/componentData/constants';
+import {fontStyles} from 'styleSheets/fontStyles';
 interface SelectButton {
   id: number;
   value: string;
@@ -44,54 +41,48 @@ interface SelectButton {
 }
 
 const genders = [
-  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
-  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
-  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
-  {
-    value: 'Another gender identity not listed',
-    id: 4,
-    toggle: false,
-    emoji: '🙆',
-  },
-
-  {value: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
+  {value: 'Women only', id: 1, toggle: false, emoji: '🙋‍♀️'},
+  {value: 'Men only', id: 2, toggle: false, emoji: '🙋‍♂️'},
+  {value: 'Queer space', id: 3, toggle: false, emoji: '⚧️'},
+  {value: 'Trans & non-binary safe space', id: 4, toggle: false, emoji: '🏳️‍⚧️'},
+  {value: 'LGBTQ+ friendly', id: 5, toggle: false, emoji: '🏳️‍🌈'},
+  {value: 'Gender-neutral space', id: 6, toggle: false, emoji: '⚧️'},
+  {value: 'All genders welcome', id: 7, toggle: false, emoji: '🌍'},
+  {value: 'Non-binary inclusive', id: 8, toggle: false, emoji: '💛🤍💜🖤'},
+  {value: 'Prefer not to say', id: 9, toggle: false, emoji: '🤐'},
 ];
 
-const GenderIdentityScreen = () => {
-  // Navigation
+const SafePlaceForScreen = () => {
+  //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
 
-  const savedGender = newUserDetails.genderIdentity;
-
-  // Local State
   const [intitalGenders, setIntitalGenders] = useState(genders);
   const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
   const [error, setError] = useState<string | undefined>('');
+  const flatIdentity = newUserDetails.flatIdentities;
 
   useEffect(() => {
-    if (savedGender && savedGender.length > 0) {
-      setSelectedGender(savedGender);
+    if (flatIdentity && flatIdentity.length > 0) {
+      setSelectedGender(flatIdentity);
 
       const updatedGenderState = genders.map(gender => ({
         ...gender,
-        toggle: savedGender.some(g => g.id === gender.id),
+        toggle: flatIdentity.some(g => g.id === gender.id),
       }));
 
       setIntitalGenders(updatedGenderState);
     } else {
       setSelectedGender([]);
     }
-  }, [savedGender]);
+  }, [flatIdentity]);
 
   const selectGender = (id: number) => {
     const updatedGender = intitalGenders.map(el => {
-      return el.id === id
-        ? {...el, toggle: !el.toggle}
-        : {...el, toggle: false};
+      return el.id === id ? {...el, toggle: !el.toggle} : el;
     });
 
     const genderSelected = updatedGender.filter(el => el.toggle);
@@ -112,11 +103,12 @@ const GenderIdentityScreen = () => {
       return;
     }
 
-    setNewUserDetails({genderIdentity: selectedGender});
+    setNewUserDetails({flatIdentities: selectedGender});
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.tenant[currentScreen + 1];
+
     navigation.navigate(screen);
 
     setCurrentScreen(currentScreen + 1);
@@ -133,8 +125,11 @@ const GenderIdentityScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={'What is your gender identity?'}
-          subDescription={'To help you find the right match'}
+          headlineText={
+            isLessor
+              ? 'Your flat is a safe place for...'
+              : 'What is a safe place for you?'
+          }
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>
@@ -153,6 +148,13 @@ const GenderIdentityScreen = () => {
         <Divider />
 
         <View style={styles.footerContainer}>
+          <View style={styles.tagInfoContainer}>
+            <Text
+              style={
+                fontStyles.bodySmall
+              }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
+          </View>
+
           {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
@@ -182,4 +184,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenderIdentityScreen;
+export default SafePlaceForScreen;

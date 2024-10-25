@@ -24,7 +24,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {RegistrationBackground} from 'assets';
 
 // Data 💿
-import userPreferences from 'components/componentData/userPreferences.json';
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Validation 🛡  ️
@@ -40,23 +39,20 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-interface SelectedTracks {
-  id: number;
-  value: string;
-  emoji: string;
-  toggle: boolean;
-}
+import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
+import {Characteristic} from 'reduxFeatures/registration/types';
 
 const AboutUserFlatScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // initial state
-  const characteristics = userPreferences;
+  const {data} = useGetAssetsQuery();
+  const characteristics = data?.characteristics;
 
   // Local State
   const [charsState, setCharsState] = useState(characteristics);
-  const [selectedChars, setSelectedChars] = useState<SelectedTracks[]>([]);
+  const [selectedChars, setSelectedChars] = useState<Characteristic[]>([]);
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
@@ -71,7 +67,7 @@ const AboutUserFlatScreen = () => {
     if (savedChars && savedChars.length > 0) {
       setSelectedChars(savedChars);
 
-      const updatedCharsState = characteristics.map(char => ({
+      const updatedCharsState = characteristics?.map(char => ({
         ...char,
         toggle: savedChars.some(savedChar => savedChar.id === char.id),
       }));
@@ -107,6 +103,9 @@ const AboutUserFlatScreen = () => {
   };
 
   const selectChar = (id: number) => {
+    if (!charsState) {
+      return;
+    }
     const updatedChars = charsState.map(el => {
       return el.id === id ? {...el, toggle: !el.toggle} : el;
     });
@@ -117,14 +116,14 @@ const AboutUserFlatScreen = () => {
     setCharsState(updatedChars);
   };
 
-  const charsButtons = charsState.map(char => {
-    const {value, emoji, id, toggle} = char;
+  const charsButtons = charsState?.map(char => {
+    const {name, emoji, id, toggle} = char;
     return (
       <SelectionButton
         key={id}
         id={id}
         emojiIcon={emoji}
-        value={value}
+        value={name}
         toggle={toggle}
         selectFn={selectChar}
         disabled={selectedChars.length === MAX_SELECTED_CHARS && !toggle}

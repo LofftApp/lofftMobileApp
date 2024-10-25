@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: size(5),
   },
-
 });
 
 export default SignInForm;

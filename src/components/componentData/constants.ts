@@ -25,6 +25,9 @@ const MAX_GENDERS = 3;
 //upload images
 const MAX_FLAT_IMAGES = 10;
 const MAX_USER_IMAGES = 5;
+
+//tagline
+const MAX_TAGLINE = 60;
 export {
   MAX_LANGUAGES,
   initialMinPrice,
@@ -39,4 +42,5 @@ export {
   MAX_FLAT_IMAGES,
   MAX_GENDERS,
   MAX_USER_IMAGES,
+  MAX_TAGLINE,
 };

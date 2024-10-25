@@ -20,12 +20,14 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
-const {height, width} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
+
+  const insets = useSafeAreaInsets();
   const imageMarginTop = height < 700 ? size(10) : size(70);
+
   const handleSignUp = () => {
     navigation.navigate('SignUpScreen');
   };
@@ -45,8 +47,8 @@ const SignInScreen = () => {
         <View style={styles.signInForm}>
           <SignInForm />
         </View>
-        <View style={styles.signInWithContainer}>
-          <SignInWith />
+        <View style={styles.footer}>
+          <SignInWith isSignInScreen />
           <View style={styles.signUpContainer}>
             <Text style={fontStyles.bodyMedium}>
               Don't have an account yet?
@@ -64,14 +66,14 @@ const SignInScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  behindContainer: {
+    flex: 1,
+    backgroundColor: Color.Lavendar['10'],
+  },
   backgroundImage: {
     position: 'absolute',
     top: '-46%',
     zIndex: 1,
-  },
-  behindContainer: {
-    flex: 1,
-    backgroundColor: Color.Lavendar['10'],
   },
   image: {
     marginTop: height / 12,
@@ -91,16 +93,17 @@ const styles = StyleSheet.create({
   signInForm: {
     flex: 2,
   },
-  signInWithContainer: {
+  footer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: size(120),
+    justifyContent: 'space-between',
+    marginTop: size(190),
   },
   signUpContainer: {
     flexDirection: 'row',
-    gap: size(width / 30),
+    gap: size(20),
     alignItems: 'center',
-    marginBottom: size(20),
+    marginBottom: size(10),
   },
 });
 

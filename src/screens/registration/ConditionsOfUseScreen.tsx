@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useCompleteUserAndCreateTennantMutation} from 'reduxFeatures/user/userApi';
+import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 
@@ -13,7 +13,7 @@ import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/ad
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {CoreButton} from 'components/buttons/CoreButton';
 import BackButton from 'components/buttons/BackButton';
-import {RegistrationBackground, Search} from 'assets';
+import {Looking, RegistrationBackground} from 'assets';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
@@ -28,25 +28,29 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {size} from 'react-native-responsive-sizes';
 
 // Types
-import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {RootStackNavigationProp} from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const ConditionsOfUseScreen = () => {
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [message] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   //Redux
-  const [signOut] = useSignOutMutation();
+  const [signOut, {isLoading}] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
+
   const {isLessor, newUserDetails} = useNewUserDetails();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {savedImages} = useImagesToUpload();
-  const [completeUserAndCreateTennant] = useCompleteUserAndCreateTennantMutation();
-  const [completeLessorAndCreateAdvert] = useCompleteLessorAndCreateAdvertMutation();
+
+  const [completeUserAndCreateTenant] =
+    useCompleteUserAndCreateTenantMutation();
+  const [completeLessorAndCreateAdvert] =
+    useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
   const handleSignOut = () => {
@@ -62,20 +66,47 @@ const ConditionsOfUseScreen = () => {
     navigation.goBack();
   };
 
-  const handlnewJourneyCheckout =  async () => {
-    if (isLessor){
+  const handleNewUserJourneyCheckout = async () => {
+    if (isLessor) {
       try {
-        const result = await completeLessorAndCreateAdvert({ id: data?.id, userChoices: newUserDetails }).unwrap();
-        console.log('Advert and lessor successfully created:', result);
+        const result = await completeLessorAndCreateAdvert({
+          id: data?.id,
+          userChoices: newUserDetails,
+        }).unwrap();
+        setErrorMessage('');
+
+        console.log('Lessor successfully completed', result);
       } catch (error) {
-        console.error('Failed to create lessor & advert:', error);
+        const typedError = error as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setErrorMessage('Please fill out all the required fields');
+        } else {
+          setErrorMessage('An error occurred, please try again');
+        }
       }
-  } else {
-     try {
-        const result = await completeUserAndCreateTennant({ id: data?.id, userChoices: newUserDetails }).unwrap();
+    } else {
+      try {
+        const result = await completeUserAndCreateTenant({
+          id: data?.id || 0,
+          userChoices: newUserDetails,
+        }).unwrap();
+        setErrorMessage('');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'dashboard'}],
+        });
         console.log('Tenent successfully completed', result);
       } catch (error) {
-        console.error('Failed to create tenant:', error);
+        const typedError = error as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setErrorMessage('Please fill out all the required fields');
+        } else {
+          setErrorMessage('An error occurred, please try again');
+        }
       }
     }
   };
@@ -112,14 +143,20 @@ const ConditionsOfUseScreen = () => {
 
             <View style={styles.footerContainer}>
               <Divider />
-              {message && <ErrorMessage message={message} />}
+              <ErrorMessage message={errorMessage} />
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
-                value="Agree and Continue"
-                onPress={handlnewJourneyCheckout}
+                value={isLoading ? <LoadingButtonIcon /> : 'Agree and Continue'}
+                onPress={handleNewUserJourneyCheckout}
+                disabled={isLoading}
               />
 
-              <CoreButton value="Decline" invert onPress={toggleModal} />
+              <CoreButton
+                value="Decline"
+                invert
+                onPress={toggleModal}
+                disabled={isLoading}
+              />
             </View>
           </View>
           <ConfirmModal
@@ -134,7 +171,7 @@ const ConditionsOfUseScreen = () => {
                 second: 'Take me back',
               },
             }}
-            image={<Search />}
+            image={<Looking />}
             onPressFirstButton={handleSignOut}
           />
         </View>
@@ -149,7 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textContainer: {
-    marginTop: size(50),
+    marginTop: size(10),
     paddingHorizontal: size(10),
     gap: size(30),
   },

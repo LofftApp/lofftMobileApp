@@ -2,105 +2,11 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 import {createNewUserJourney} from 'helpers/createNewUserJourney';
 import {PURGE} from 'redux-persist';
-
-export interface NewUserTenantDetails {
-  userType: 'tenant';
-  languages: string[];
-  characteristics: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  city: {
-    name: string;
-    flag: string;
-  };
-  districts: {
-    id: number;
-    name: string;
-    toggle: boolean;
-    emoji?: string;
-  }[];
-  budget: {
-    minPrice: number;
-    maxPrice: number;
-    warmRent: boolean;
-  };
-  filter: {
-    id: number;
-    value: string;
-    toggle: boolean;
-    emoji: string;
-  }[];
-  selfDescription: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date | string;
-}
-export interface NewUserLessorDetails {
-  userType: 'lessor';
-  languages: string[];
-  characteristics: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  city: {
-    name: string;
-    flag: string;
-  };
-  districts: {
-    id: number;
-    name: string;
-    toggle: boolean;
-    emoji?: string;
-  }[];
-  flatFeatures: {
-    id: number;
-    value: string;
-    toggle: boolean;
-    emoji: string;
-  }[];
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date | string;
-  address: {
-    address: string;
-    district?: string;
-  };
-  price: number;
-  warmRent: boolean;
-  fromDate: Date | string;
-  untilDate: Date | string | null;
-  permanent: boolean;
-  flatDescription: string;
-}
-export type NewUserDetails = {
-  tenant: NewUserTenantDetails;
-  lessor: NewUserLessorDetails;
-};
-interface UserJourneyState {
-  userType: 'lessor' | 'tenant' | '';
-  tenantJourney: {[key: number]: boolean};
-  lessorJourney: {[key: number]: boolean};
-  currentScreen: number;
-  userJourney: string;
-  newUserDetails: NewUserDetails;
-}
+import {
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+  UserJourneyState,
+} from './types';
 
 const initialState: UserJourneyState = {
   currentScreen: 1,
@@ -114,6 +20,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
+      flatIdentities: [],
       city: {
         name: '',
         flag: '',
@@ -135,6 +42,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
+      flatIdentities: [],
       city: {
         name: '',
         flag: '',
@@ -149,10 +57,14 @@ const initialState: UserJourneyState = {
         district: '',
       },
       price: 0,
+      currency: '€',
       warmRent: false,
       fromDate: '',
       untilDate: '',
       permanent: false,
+      tagLine: '',
+      size: 0,
+      measurementUnit: 'm²',
       flatDescription: '',
     },
   },

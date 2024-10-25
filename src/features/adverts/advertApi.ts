@@ -11,7 +11,10 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
 import {applicationApi} from 'reduxFeatures/applications/applicationApi';
-import { initialMaxPrice, initialMinPrice } from 'components/componentData/constants';
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/componentData/constants';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -72,8 +75,10 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
-      transformResponse: (response: IncomingAdvertWithApplications) =>
-        toCamelCaseKeys(response as unknown as AdvertWithApplications),
+      transformResponse: (response: IncomingAdvertWithApplications) => {
+        console.log('seeApplicationsByAdvertId called 🎉');
+        return toCamelCaseKeys(response as unknown as AdvertWithApplications);
+      },
     }),
     toggleFavorite: builder.mutation<
       {action: 'created' | 'deleted'; status: string},
@@ -178,13 +183,11 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
     }),
     completeLessorAndCreateAdvert: builder.mutation({
-      query: ({id, userChoices}) => {
-        return {
+      query: ({id, userChoices}) => ({
         url: `/api/adverts/${id}/complete_lessor_sign_up`,
         method: 'POST',
         body: userChoices,
-        };
-      },
+      }),
     }),
   }),
   overrideExisting: false,

@@ -46,11 +46,16 @@ const styles = StyleSheet.create({
     marginBottom: size(0),
     marginLeft: size(10),
     height: size(23),
+
   },
   container: {
     marginTop: size(5),
     marginBottom: size(10),
     height: size(23),
+    textAlign: 'center',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 

@@ -1,35 +1,58 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {IncomingSpecificUser, IncomingUser, SpecificUser, User} from './types';
+import {SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
+import {
+  Assets,
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+} from 'reduxFeatures/registration/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
     getUser: builder.query<User, void>({
       query: () => 'api/users/profile',
-      transformResponse: (response: IncomingUser) => {
+      transformResponse: response => {
         console.log('getUser called 👾');
-        console.log('response USER:', response);
-        return toCamelCaseKeys(response as unknown as User);
+        return toCamelCaseKeys(response as User);
       },
       providesTags: [{type: 'User', id: 'PROFILE'}],
     }),
     getSpecificUser: builder.query<SpecificUser, number>({
       query: id => `api/users/${id}/specific_user`,
-      transformResponse: (response: IncomingSpecificUser) => {
-        return toCamelCaseKeys(response as unknown as SpecificUser);
+      transformResponse: response => {
+        console.log('specific user called 🎉');
+        return toCamelCaseKeys(response as SpecificUser);
       },
     }),
-    completeUserAndCreateTennant: builder.mutation({
+    completeUserAndCreateTenant: builder.mutation<
+      void,
+      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails}
+    >({
       query: ({id, userChoices}) => {
         return {
-        url: `/api/users/${id}/complete_tenant_sign_up`,
-        method: 'POST',
-        body: userChoices,
+
+          url: `/api/users/${id}/complete_tenant_sign_up`,
+          method: 'POST',
+          body: userChoices,
+
         };
+      },
+      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
+    }),
+
+    getAssets: builder.query<Assets, void>({
+      query: () => '/api/assets',
+      transformResponse: response => {
+        return toCamelCaseKeys(response as Assets);
       },
     }),
   }),
   overrideExisting: false,
 });
 
-export const {useGetUserQuery, useGetSpecificUserQuery, useCompleteUserAndCreateTennantMutation} = userApi;
+export const {
+  useGetUserQuery,
+  useGetSpecificUserQuery,
+  useCompleteUserAndCreateTenantMutation,
+  useGetAssetsQuery,
+} = userApi;

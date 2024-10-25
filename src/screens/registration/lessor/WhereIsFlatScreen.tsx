@@ -29,6 +29,7 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import CurrencyButton from 'components/buttons/CurrencyButton';
 
 //Assets
 import {RegistrationBackground} from 'assets';
@@ -42,7 +43,11 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {addressSchema} from 'lib/zodSchema';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {Currency} from 'reduxFeatures/registration/types';
+
+const currencies = ['€', '£', '$'];
 
 const WhereIsFlatScreen = () => {
   // Navigation
@@ -51,6 +56,7 @@ const WhereIsFlatScreen = () => {
   // Local State
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
+  const [currency, setCurrency] = useState<Currency>('€');
   const [warmRent, setWarmRent] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [addressDetails, setAddressDetails] = useState<{
@@ -81,6 +87,8 @@ const WhereIsFlatScreen = () => {
     newUserDetails.userType === 'lessor' && newUserDetails.price;
   const savedWarmRent =
     newUserDetails.userType === 'lessor' && newUserDetails.warmRent;
+  const savedCurrency =
+    newUserDetails.userType === 'lessor' && newUserDetails.currency;
 
   useEffect(() => {
     if (savedAddress) {
@@ -96,7 +104,10 @@ const WhereIsFlatScreen = () => {
     if (savedWarmRent) {
       setWarmRent(savedWarmRent);
     }
-  }, [savedAddress, savedPrice, savedWarmRent]);
+    if (savedCurrency) {
+      setCurrency(savedCurrency);
+    }
+  }, [savedAddress, savedPrice, savedWarmRent, savedCurrency]);
 
   useEffect(() => {
     if (!location) {
@@ -129,6 +140,7 @@ const WhereIsFlatScreen = () => {
 
   const handleOnChangePrice = (value: string) => {
     setPrice(value);
+    setIsSearching(false);
   };
 
   const handleDropdownPress = (value: string) => {
@@ -148,12 +160,18 @@ const WhereIsFlatScreen = () => {
     setWarmRent(prev => !prev);
   };
 
+  const handleSelectCurrency = (id: Currency) => {
+    setCurrency(id);
+  };
+
   const handleContinue = () => {
+    const trimmedPrice = price.trim();
     const result = addressSchema.safeParse({
       address: addressDetails.address,
       district: addressDetails.district,
-      price: Number(price),
+      price: Number(trimmedPrice),
       warmRent,
+      currency,
     });
 
     if (!result.success) {
@@ -176,6 +194,7 @@ const WhereIsFlatScreen = () => {
       },
       price: result.data.price,
       warmRent: result.data.warmRent,
+      currency: result.data.currency,
     });
 
     setCurrentScreen(currentScreen + 1);
@@ -241,10 +260,21 @@ const WhereIsFlatScreen = () => {
                     keyboardType="numeric"
                     type="currency"
                     style={styles.inputContainer}
+                    currency={currency}
                   />
 
                   <ErrorMessage isInputField message={errorPrice} />
 
+                  <View style={styles.currencyContainer}>
+                    {currencies.map((cur, index) => (
+                      <CurrencyButton
+                        key={currency + index}
+                        currency={cur as Currency}
+                        toggle={currency === cur}
+                        selectFn={handleSelectCurrency}
+                      />
+                    ))}
+                  </View>
                   <View style={styles.toggleContainer}>
                     <CustomSwitch
                       value={warmRent}
@@ -275,7 +305,7 @@ const WhereIsFlatScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    gap: size(70),
+    gap: size(0),
   },
   inputContainer: {
     marginTop: size(10),
@@ -284,13 +314,19 @@ const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: size(16),
+    marginTop: size(10),
   },
   loading: {
     marginTop: size(50),
   },
   warmRentText: {
     marginLeft: size(8),
+  },
+  currencyContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginTop: size(10),
   },
   footerContainer: {
     paddingTop: size(20),

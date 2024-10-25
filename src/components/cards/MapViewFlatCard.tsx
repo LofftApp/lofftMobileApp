@@ -15,7 +15,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from 'Assets/images/no-flat-image.png';
+import {NoFlatImage} from 'assets';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
@@ -35,10 +35,12 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
+
   const featuresTags = tagSorter(
     currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
+  console.log('featuresTags', featuresTags);
 
   const handleFavorite = () => {
     toggleFavorite(advert.id);
@@ -50,13 +52,13 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
         <View style={styles.imageDetailsBlock}>
           <Image
             source={
-              advert.flat.photos
+              advert.flat.photos.length > 0
                 ? {
                     uri: advert.flat.photos[0],
                     width: width(200),
                     height: height(300),
                   }
-                : noFlatImage
+                : NoFlatImage
             }
             style={styles.flatCardImage}
           />
@@ -86,8 +88,8 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
 
               <View style={styles.taglineContainer}>
                 <Text style={fontStyles.bodySmall}>
-                  {truncateTextAtWord(advert.flat.tagLine, maxTaglineLength)}
-                  {advert.flat.tagLine.length > maxTaglineLength && '...'}
+                  {truncateTextAtWord(advert.flat?.tagLine, maxTaglineLength)}
+                  {advert.flat.tagLine?.length > maxTaglineLength && '...'}
                 </Text>
                 <Text
                   style={[

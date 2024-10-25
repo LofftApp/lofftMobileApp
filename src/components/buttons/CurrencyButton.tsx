@@ -1,42 +1,34 @@
-import React, {useEffect, useRef} from 'react';
-import {Text, StyleSheet, Pressable, Animated} from 'react-native';
+import React from 'react';
+import {Text, StyleSheet, Pressable, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import {Currency} from 'reduxFeatures/registration/types';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 //Types
-import {SelectionButtonProps} from './types';
 
-const SelectionButton = ({
-  id,
-  emojiIcon,
-  value,
+type CurrencyButtonProps = {
+  currency: Currency;
+  toggle: boolean;
+  selectFn: (id: Currency) => void;
+  disabled?: boolean;
+};
+
+const CurrencyButton = ({
+  currency,
   toggle,
   selectFn,
   disabled = false,
-}: SelectionButtonProps) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
-
+}: CurrencyButtonProps) => {
   const colorText = {color: toggle ? Color.White[100] : Color.Black[100]};
 
   return (
-    <Animated.View
-      style={{
-        opacity: fadeAnim,
-      }}>
+    <View>
       <Pressable
         onPress={() => {
-          selectFn(id);
+          selectFn(currency);
         }}
         style={[
           styles.buttonStyle,
@@ -44,11 +36,17 @@ const SelectionButton = ({
           disabled && styles.disabled,
         ]}
         disabled={disabled}>
-        <Text style={[fontStyles.bodySmall, colorText]}>
-          {emojiIcon} {value}
-        </Text>
+        {currency === '€' && (
+          <Text style={[fontStyles.bodySmall, colorText]}>EUR</Text>
+        )}
+        {currency === '£' && (
+          <Text style={[fontStyles.bodySmall, colorText]}>GBP</Text>
+        )}
+        {currency === '$' && (
+          <Text style={[fontStyles.bodySmall, colorText]}>USD</Text>
+        )}
       </Pressable>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -75,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectionButton;
+export default CurrencyButton;

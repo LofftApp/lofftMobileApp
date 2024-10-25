@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
+//Redux
+import {useAuth} from 'reduxFeatures/auth/useAuth';
+
 //Assets 🎨
 import {AppleIcon, GoogleIcon} from 'assets';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 //Components 🧰
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 //Helpers 🥷  🏻
 import {size} from 'react-native-responsive-sizes';
@@ -15,20 +19,40 @@ import {size} from 'react-native-responsive-sizes';
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 
-const SignInWith = () => {
+type SignInWithProps = {
+  isSignInScreen: boolean;
+};
+
+const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const [message, setMessage] = useState('');
+  const {authMessage, setAuthMessage} = useAuth();
 
   const messageText =
     "Our amazing team is working on this feature. It's coming soon!";
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage('');
-    }, 3000);
-    return () => {
-      clearTimeout(timer);
-    };
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, [message]);
+
+  useEffect(() => {
+    if (authMessage && isSignInScreen) {
+      setMessage(authMessage);
+      const timer = setTimeout(() => {
+        setMessage('');
+        setAuthMessage('');
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [authMessage, isSignInScreen, setAuthMessage]);
 
   const handleSignInWithApple = () => {
     console.log('sign in with apple');
@@ -42,7 +66,20 @@ const SignInWith = () => {
   return (
     <>
       {message && (
-        <ErrorMessage message={message} style={styles.messageContainer} />
+        <View style={styles.messageContainer}>
+          <View style={styles.messageTextContainer}>
+            {authMessage && (
+              <LofftIcon
+                name={'log-out'}
+                size={size(20)}
+                color={Colors.Black[100]}
+              />
+            )}
+            <Text style={[fontStyles.bodySmall, {color: Colors.Black[100]}]}>
+              {message}
+            </Text>
+          </View>
+        </View>
       )}
       <View style={styles.mainContainer}>
         <Text style={styles.signInWithText}>
@@ -69,10 +106,21 @@ const styles = StyleSheet.create({
   messageContainer: {
     position: 'absolute',
     top: size(30),
-    backgroundColor: Colors.Tomato[10],
-    padding: size(5),
+    backgroundColor: Colors.Mint[20],
+    padding: size(10),
+    borderRadius: 12,
     zIndex: 1,
+    height: size(75),
+    width: '80%',
+    justifyContent: 'center',
   },
+  messageTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
+    justifyContent: 'center',
+  },
+
   mainContainer: {
     alignItems: 'center',
     flex: 1,
