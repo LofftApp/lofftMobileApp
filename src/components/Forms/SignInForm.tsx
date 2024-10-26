@@ -96,6 +96,8 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
         setSignInError('Invalid email or password');
       } else if (typedError.status === 'FETCH_ERROR') {
         setSignInError('Network error. Please check connection or server');
+      } else if (typedError.status === 403) {
+        setSignInError('Wrong tokens. Check environment variables');
       } else {
         setSignInError('An unexpected error occurred. Please try again.');
       }

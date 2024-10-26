@@ -29,18 +29,22 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [typeSelected, setTypeSelected] = useState(false);
+  const [error, setError] = useState('');
 
   const {userType, setUserType} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();
 
-  useGetAssetsQuery();
+  const {data, isLoading, isError} = useGetAssetsQuery();
+  console.log('assets', data);
 
   useEffect(() => {
     if (typeSelected && userType) {
@@ -66,6 +70,20 @@ const NewUserJourneyScreen = () => {
     setTypeSelected(true);
     setCurrentScreen(1);
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="Error getting assets"
+        backButton
+        onPress={handleSignOut}
+      />
+    );
+  }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

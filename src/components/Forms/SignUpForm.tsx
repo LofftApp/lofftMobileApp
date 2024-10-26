@@ -99,8 +99,15 @@ const SignUpForm = () => {
       setRepeatPassword('');
       setCheckBox(false);
     } catch (error) {
-      if (error instanceof Error && 'status' in error && error.status === 422) {
-        setErrorSignUp('Email already exists');
+      const typedError = error as {
+        status?: number | 'FETCH_ERROR';
+      };
+      if (typedError.status === 401) {
+        setErrorSignUp('Invalid email or password');
+      } else if (typedError.status === 'FETCH_ERROR') {
+        setErrorSignUp('Network error. Please check connection or server');
+      } else if (typedError.status === 403) {
+        setErrorSignUp('Wrong tokens. Check environment variables');
       } else {
         setErrorSignUp('An unexpected error occurred. Please try again.');
       }
