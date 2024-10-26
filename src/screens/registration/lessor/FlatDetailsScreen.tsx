@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   centerContainer: {
+    flex: 3,
     paddingHorizontal: _size(10),
     paddingVertical: _size(10),
     gap: _size(20),
@@ -198,9 +199,10 @@ const styles = StyleSheet.create({
 
   inputText: {},
   footerContainer: {
+    flex: 1,
     paddingTop: _size(20),
     paddingBottom: _size(20),
-    paddingHorizontal: _size(16),
+    paddingHorizontal: _size(0),
     gap: _size(10),
   },
 });

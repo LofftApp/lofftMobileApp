@@ -49,23 +49,25 @@ const CustomTextInput = ({
         onBlur={handleOnBlur}
         multiline={true}
       />
-      <Text style={[fontStyles.bodySmall, styles.minText]}>
-        {text.length < MIN_DESCRIPTION_CHARS &&
-          !error &&
-          `*Share your ${isFlat ? "flat's " : ''}story in ${
-            MIN_DESCRIPTION_CHARS - text.length
-          } word${
-            MIN_DESCRIPTION_CHARS - text.length === 1 ? '' : 's'
-          } or more`}
-        {error && <ErrorMessage isInputField message={error} />}
-      </Text>
+      <View style={styles.minTextContainer}>
+        <Text style={[fontStyles.bodySmall, styles.minText]}>
+          {text.length < MIN_DESCRIPTION_CHARS &&
+            !error &&
+            `*Share your ${isFlat ? "flat's " : ''}story in ${
+              MIN_DESCRIPTION_CHARS - text.length
+            } word${MIN_DESCRIPTION_CHARS - text.length === 1 ? '' : 's'} or ${
+              isFlat ? '  ' : ''
+            }more`}
+          {error && <ErrorMessage isInputField message={error} />}
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   textContainer: {
-    height: '70%',
+    minHeight: '90%',
     paddingHorizontal: size(10),
     paddingVertical: size(10),
     gap: size(10),
@@ -76,6 +78,11 @@ const styles = StyleSheet.create({
     paddingVertical: size(5),
     flex: 1,
     borderRadius: 12,
+  },
+  minTextContainer: {
+    flexDirection: 'row',
+    height: size(20),
+    flexWrap: 'wrap',
   },
   minText: {
     color: Color.Black[80],

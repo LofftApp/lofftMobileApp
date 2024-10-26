@@ -145,16 +145,16 @@ const SelfFlatDescribeScreen = () => {
               isFlat={isLessor}
             />
           </Animated.View>
+        </View>
 
-          <View style={styles.footerContainer}>
-            <Divider />
-            <NewUserPaginationBar />
-            <NewUserJourneyContinueButton
-              value="Continue"
-              disabled={text.length < MIN_DESCRIPTION_CHARS}
-              onPress={handleContinue}
-            />
-          </View>
+        <View style={styles.footerContainer}>
+          <Divider />
+          <NewUserPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            disabled={text.length < MIN_DESCRIPTION_CHARS}
+            onPress={handleContinue}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -163,8 +163,7 @@ const SelfFlatDescribeScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
+    flex: 4,
   },
 
   minText: {
@@ -175,13 +174,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingLeft: size(10),
     paddingVertical: size(5),
-    flex: 1,
     borderRadius: 12,
+    height: size(10),
   },
   footerContainer: {
+    flex: 1,
     paddingTop: size(20),
     paddingBottom: size(20),
-    paddingHorizontal: size(16),
+    paddingHorizontal: size(0),
     gap: size(10),
   },
 });

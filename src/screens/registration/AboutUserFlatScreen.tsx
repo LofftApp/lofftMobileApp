@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(10),
+    paddingBottom: size(0),
   },
 });
 

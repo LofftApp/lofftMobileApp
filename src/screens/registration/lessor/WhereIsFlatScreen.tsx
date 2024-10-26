@@ -306,6 +306,7 @@ const WhereIsFlatScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     gap: size(0),
+    flex: 1,
   },
   inputContainer: {
     marginTop: size(10),
@@ -330,7 +331,7 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(10),
+    paddingBottom: size(0),
   },
 });
 
