@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🧠
@@ -20,7 +20,12 @@ import {signInSchema} from 'lib/zodSchema';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 
-const SignInForm = () => {
+type SignInFormProps = {
+  clearErrors: boolean;
+  setClearErrors: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -31,6 +36,15 @@ const SignInForm = () => {
   const [devMessage, setDevMessage] = useState('');
 
   const [signIn, {isLoading}] = useSignInMutation();
+
+  useEffect(() => {
+    if (clearErrors) {
+      setErrorEmail('');
+      setErrorPassword('');
+      setSignInError('');
+    }
+    setClearErrors(false);
+  }, [clearErrors, setClearErrors]);
 
   const handleEmailChange = (input: string) => {
     setEmail(input);
