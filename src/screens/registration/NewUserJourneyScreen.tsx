@@ -13,6 +13,7 @@ import NewUserJourneyButton from 'components/buttons/NewUserJourneyButton';
 // Redux 🧠
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import { useGetAssetsQuery } from 'reduxFeatures/assets/assetsApi';
 
 // Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -28,7 +29,6 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
@@ -36,7 +36,6 @@ const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [typeSelected, setTypeSelected] = useState(false);
-  const [error, setError] = useState('');
 
   const {userType, setUserType} = useNewUserDetails();
   const {setCurrentScreen} = useNewUserCurrentScreen();

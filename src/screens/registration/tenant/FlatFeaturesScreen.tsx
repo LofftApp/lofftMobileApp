@@ -5,7 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux 📦
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -38,7 +38,7 @@ import {featuresSchema} from 'lib/zodSchema';
 
 // Types 🧩
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {Feature} from 'reduxFeatures/registration/types';
+import {Feature} from 'reduxFeatures/assets/types';
 
 const FlatFeaturesScreen = () => {
   // Navigation
