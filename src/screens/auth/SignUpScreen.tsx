@@ -50,7 +50,7 @@ const SignUpScreen = () => {
           <SignUpForm />
         </View>
         <View style={styles.footer}>
-          <SignInWith />
+          <SignInWith isSignInScreen={false} />
           <View style={styles.signInContainer}>
             <Text style={fontStyles.bodyMedium}>Already have an account ?</Text>
             <Text

@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -38,10 +39,9 @@ import {capitalize} from 'helpers/capitalize';
 
 // Types
 
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
-import {CityAssets, District} from 'reduxFeatures/assets/types';
 import {CityNewUserSlice} from 'reduxFeatures/registration/types';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {CityAssets, District} from 'reduxFeatures/assets/types';
 
 const SelectCityScreen = () => {
   //Navigation
@@ -70,8 +70,8 @@ const SelectCityScreen = () => {
   //Safe Area
   const insets = useSafeAreaInsets();
 
+  // initial state
   const {data} = useGetAssetsQuery();
-
   const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -139,7 +139,6 @@ const SelectCityScreen = () => {
 
       if (filteredCities.length > 0) {
         setDropdownContent(filteredCities);
-        console.log('filteredCities', filteredCities);
       } else {
         setDropdownContent([
           {
@@ -223,11 +222,7 @@ const SelectCityScreen = () => {
     setCurrentScreen(currentScreen - 1);
     setError('');
   };
-  console.log('city', city);
 
-  console.log('selected cities', selectedCity);
-  console.log('selected districts', selectedDistricts);
-  console.log('saved city', savedCity);
 
   const handleContinue = () => {
     const formattedCity = {

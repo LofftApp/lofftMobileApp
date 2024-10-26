@@ -21,7 +21,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   version: 1,
-  blacklist: [lofftApi.reducerPath, authReducer.name],
+  blacklist: [lofftApi.reducerPath],
 };
 
 const reducers = combineReducers({

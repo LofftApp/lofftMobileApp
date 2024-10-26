@@ -13,7 +13,7 @@ import NewUserJourneyButton from 'components/buttons/NewUserJourneyButton';
 // Redux 🧠
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import { useGetAssetsQuery } from 'reduxFeatures/assets/assetsApi';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -42,8 +42,7 @@ const NewUserJourneyScreen = () => {
 
   const [signOut] = useSignOutMutation();
 
-  const {data, isLoading, isError} = useGetAssetsQuery();
-  console.log('assets', data);
+  const {isLoading, isError} = useGetAssetsQuery();
 
   useEffect(() => {
     if (typeSelected && userType) {

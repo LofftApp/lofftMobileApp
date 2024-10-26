@@ -1,5 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+//Redux
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Find Lofft Journey
 import ConfirmEmailScreen from 'screens/registration/ConfirmEmailScreen';
@@ -20,6 +22,7 @@ import FlatImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
 import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
 import FlatDetailsScreen from 'screens/registration/lessor/FlatDetailsScreen';
 import SafePlaceForScreen from 'screens/registration/tenant/SafePlaceForScreen';
+import {useAuth} from 'reduxFeatures/auth/useAuth';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -28,15 +31,17 @@ const NewUserNavigator = () => {
     <NewUserNavigatorFlow.Navigator>
       <NewUserNavigatorFlow.Group screenOptions={{headerShown: false}}>
         {/* Intial screen after sign up */}
+
         <NewUserNavigatorFlow.Screen
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
         />
-        {/* Which journey screen */}
+
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
         />
+
         {/* tenant Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
@@ -67,7 +72,7 @@ const NewUserNavigator = () => {
           name="FlatDetailsScreen"
           component={FlatDetailsScreen}
         />
-           <NewUserNavigatorFlow.Screen
+        <NewUserNavigatorFlow.Screen
           name="SafePlaceForScreen"
           component={SafePlaceForScreen}
         />

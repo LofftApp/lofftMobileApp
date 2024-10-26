@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {PURGE} from 'redux-persist';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -23,6 +24,11 @@ export const auth = createSlice({
     setAuthMessage: (state, action) => {
       state.authMessage = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => {
+      return initialState;
+    });
   },
 });
 
