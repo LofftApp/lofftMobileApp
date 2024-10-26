@@ -142,7 +142,6 @@ const FlatDetailsScreen = () => {
                 value={tagLine}
                 onChangeText={handleTagLineChange}
                 placeholder={'Awesome flat in Moabit'}
-                style={styles.inputText}
               />
 
               <ErrorMessage isInputField message={errorTagLine} />
@@ -156,7 +155,6 @@ const FlatDetailsScreen = () => {
                 value={size}
                 onChangeText={handleSizeChange}
                 placeholder="68"
-                style={styles.inputText}
               />
 
               <ErrorMessage isInputField message={errorSize} />
@@ -197,7 +195,6 @@ const styles = StyleSheet.create({
     gap: _size(10),
   },
 
-  inputText: {},
   footerContainer: {
     paddingTop: _size(20),
     gap: _size(10),
