@@ -74,13 +74,12 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
           <MatchingScoreButton size="Big" score={advert.matchScore ?? 5} />
         </View>
         <View style={styles.taglineDistrictContainer}>
-
-        <Text style={[fontStyles.headerExtraSmall, {color: Color.Black[80]}]}>
-          {advert.flat.tagLine}
-        </Text>
-        <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-          {advert.flat.district}, {advert.flat.city}
-        </Text>
+          <Text style={[fontStyles.headerExtraSmall, {color: Color.Black[80]}]}>
+            {advert.flat.tagLine}
+          </Text>
+          <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
+            {advert.flat.district}, {advert.flat.city}
+          </Text>
         </View>
 
         <View style={styles.chipContainer}>
