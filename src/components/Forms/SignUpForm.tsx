@@ -102,8 +102,8 @@ const SignUpForm = () => {
       const typedError = error as {
         status?: number | 'FETCH_ERROR';
       };
-      if (typedError.status === 401) {
-        setErrorSignUp('Invalid email or password');
+      if (typedError.status === 422) {
+        setErrorSignUp('User already exists. Please sign in');
       } else if (typedError.status === 'FETCH_ERROR') {
         setErrorSignUp('Network error. Please check connection or server');
       } else if (typedError.status === 403) {

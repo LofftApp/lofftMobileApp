@@ -92,7 +92,7 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
       const typedError = error as {
         status?: number | 'FETCH_ERROR';
       };
-      if (typedError.status === 401) {
+      if (typedError.status === 400 || typedError.status === 401) {
         setSignInError('Invalid email or password');
       } else if (typedError.status === 'FETCH_ERROR') {
         setSignInError('Network error. Please check connection or server');

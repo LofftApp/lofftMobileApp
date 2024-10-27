@@ -223,7 +223,6 @@ const SelectCityScreen = () => {
     setError('');
   };
 
-
   const handleContinue = () => {
     const formattedCity = {
       id: selectedCity?.id,
