@@ -154,7 +154,7 @@ const ListFlatApplicationCard = ({
             style={[
               styles.actualProgress,
               {
-                width: `${currentStatusBar}%` as DimensionValue,
+                width: `${Number(currentStatusBar)}%` as DimensionValue,
                 backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
               },
             ]}

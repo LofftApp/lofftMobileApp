@@ -273,7 +273,7 @@ const StatusBarComponent = ({
               style={[
                 styles.progressBar,
                 {
-                  height: `${statusBar}%` as DimensionValue,
+                  height: `${Number(statusBar)}%` as DimensionValue,
                   backgroundColor: active
                     ? advert?.lessor
                       ? Color.Lavendar[100]
