@@ -53,7 +53,7 @@ const SelectCityScreen = () => {
     CityNewUserSlice | undefined
   >(undefined);
   const [dropdownContent, setDropdownContent] = useState<
-    CityAssets[] | {name: string}[]
+    CityAssets[] | Partial<CityAssets>[]
   >([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [isAllDistricts, setIsAllDistricts] = useState(false);
@@ -143,6 +143,7 @@ const SelectCityScreen = () => {
         setDropdownContent([
           {
             name: 'No results found',
+            flag: '',
           },
         ]);
       }
