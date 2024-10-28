@@ -1,2 +1,4 @@
-import {LOFFT_BASE_URL} from '@env';
-export const baseUrl = LOFFT_BASE_URL;
+import {LOFFT_BASE_URL, LOFFT_BASE_URL_ANDROID} from '@env';
+import {Platform} from 'react-native';
+export const baseUrl =
+  Platform.OS === 'ios' ? LOFFT_BASE_URL : LOFFT_BASE_URL_ANDROID
