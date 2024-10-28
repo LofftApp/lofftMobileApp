@@ -27,6 +27,7 @@ const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
         const advertsWithCoordinates = await Promise.all(
           adverts.map(async (el: Advert, i: number) => {
             const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.flat.address}.json?access_token=${MAPBOX_API_KEY}`;
+            console.log('Mapbox endpoint:', endpoint);
             const response = await fetch(endpoint);
             if (!response.ok) {
               throw new Error(`Failed to fetch data for advert at index ${i}`);
