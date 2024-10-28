@@ -6,7 +6,6 @@
  */
 
 import React, {useEffect} from 'react';
-import {Platform} from 'react-native';
 
 //Mapbox 🗺️
 import MapboxGL from '@rnmapbox/maps';

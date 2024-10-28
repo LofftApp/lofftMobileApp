@@ -4,7 +4,7 @@ import {clearPersister} from 'persistance/persister';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {RootState} from 'reduxCore/store';
 import {logout, setAuthMessage} from 'reduxFeatures/auth/authSlice';
-console.log('baseUrl:', baseUrl);
+
 export const lofftApi = createApi({
   reducerPath: 'lofftApi',
   baseQuery: async (args, api, extraOptions) => {
