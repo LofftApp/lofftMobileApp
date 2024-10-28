@@ -39,8 +39,8 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import { useGetAssetsQuery } from 'reduxFeatures/assets/assetsApi';
-import { Characteristic } from 'reduxFeatures/assets/types';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import {Characteristic} from 'reduxFeatures/assets/types';
 
 const AboutUserFlatScreen = () => {
   //Navigation
@@ -203,7 +203,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(0),
   },
 });
 
