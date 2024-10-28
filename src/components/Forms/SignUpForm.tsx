@@ -205,8 +205,6 @@ const styles = StyleSheet.create({
 
   signUpContainer: {
     width: '100%',
-    gap: size(0),
-    marginTop: size(0),
     zIndex: 10,
   },
   link: {

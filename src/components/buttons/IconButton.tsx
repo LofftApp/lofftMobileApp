@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     borderColor: Color.Black[100],
     borderWidth: 2,
     borderRadius: 12,
-    marginVertical: size(0),
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: size(15),

@@ -6,7 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import { useGetAssetsQuery } from 'reduxFeatures/assets/assetsApi';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -240,7 +240,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingHorizontal: size(16),
-    paddingTop: size(0),
     paddingBottom: size(20),
     alignItems: 'center',
     width: '100%',

@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
   maincontainer: {
     width: '100%',
     alignItems: 'center',
-    paddingVertical: size(0),
     justifyContent: 'space-between',
   },
   infoBlockHeader: {

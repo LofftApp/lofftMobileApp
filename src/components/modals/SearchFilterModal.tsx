@@ -322,7 +322,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: size(16),
-    paddingBottom: size(0),
     alignItems: 'center',
   },
   seeResultButton: {

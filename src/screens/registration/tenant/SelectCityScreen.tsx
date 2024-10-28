@@ -371,7 +371,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingHorizontal: size(16),
-    paddingTop: size(0),
     paddingBottom: size(20),
     width: '100%',
   },

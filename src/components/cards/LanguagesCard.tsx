@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(20),
   },
   notSelected: {
-    paddingVertical: size(0),
-    paddingHorizontal: size(0),
+    paddingVertical: 0,
+    paddingHorizontal: 0,
   },
 
   selected: {
