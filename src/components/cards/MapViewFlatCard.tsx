@@ -40,7 +40,6 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
-  console.log('featuresTags', featuresTags);
 
   const handleFavorite = () => {
     toggleFavorite(advert.id);
