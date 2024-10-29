@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux 📦
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Components 🪢
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
@@ -39,8 +40,6 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
-import {Characteristic} from 'reduxFeatures/assets/types';
 
 const AboutUserFlatScreen = () => {
   //Navigation
@@ -51,32 +50,23 @@ const AboutUserFlatScreen = () => {
   const characteristics = data?.characteristics;
 
   // Local State
-  const [charsState, setCharsState] = useState(characteristics);
-  const [selectedChars, setSelectedChars] = useState<Characteristic[]>([]);
+  const [selectedCharsIds, setSelectedCharsIds] = useState<number[]>([]);
+
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {newUserDetails, setNewUserDetails, isLessor} = useNewUserDetails();
-  const savedChars = newUserDetails.characteristics;
+  const savedCharsIds = newUserDetails.characteristics;
 
   //Safe Area
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    if (savedChars && savedChars.length > 0) {
-      setSelectedChars(savedChars);
-
-      const updatedCharsState = characteristics?.map(char => ({
-        ...char,
-        toggle: savedChars.some(savedChar => savedChar.id === char.id),
-      }));
-
-      setCharsState(updatedCharsState);
-    } else {
-      setSelectedChars([]);
+    if (savedCharsIds.length) {
+      setSelectedCharsIds(savedCharsIds);
     }
-  }, [savedChars, characteristics]);
+  }, [savedCharsIds]);
 
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;
@@ -85,13 +75,24 @@ const AboutUserFlatScreen = () => {
     setError('');
   };
 
+  const handleSelectChars = (id: number) => {
+    setSelectedCharsIds(prevIds =>
+      prevIds.includes(id)
+        ? prevIds.filter(charId => charId !== id)
+        : [...prevIds, id],
+    );
+  };
+
   const handleContinue = () => {
+    const selectedChars = characteristics?.filter(sp =>
+      selectedCharsIds.includes(sp.id),
+    );
     const result = characteristicsSchema.safeParse(selectedChars);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
-    setNewUserDetails({characteristics: selectedChars});
+    setNewUserDetails({characteristics: selectedCharsIds});
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.tenant[currentScreen + 1];
@@ -102,31 +103,19 @@ const AboutUserFlatScreen = () => {
     setError('');
   };
 
-  const selectChar = (id: number) => {
-    if (!charsState) {
-      return;
-    }
-    const updatedChars = charsState.map(el => {
-      return el.id === id ? {...el, toggle: !el.toggle} : el;
-    });
-
-    const charsSelected = updatedChars.filter(el => el.toggle);
-
-    setSelectedChars(charsSelected);
-    setCharsState(updatedChars);
-  };
-
-  const charsButtons = charsState?.map(char => {
-    const {name, emoji, id, toggle} = char;
+  const charsButtons = characteristics?.map(char => {
     return (
       <SelectionButton
-        key={id}
-        id={id}
-        emojiIcon={emoji}
-        value={name}
-        toggle={toggle}
-        selectFn={selectChar}
-        disabled={selectedChars.length === MAX_SELECTED_CHARS && !toggle}
+        key={char.id}
+        id={char.id}
+        emojiIcon={char.emoji}
+        value={char.name}
+        toggle={selectedCharsIds.includes(char.id)}
+        selectFn={handleSelectChars}
+        disabled={
+          selectedCharsIds.length === MAX_SELECTED_CHARS &&
+          !selectedCharsIds.includes(char.id)
+        }
       />
     );
   });
@@ -171,7 +160,7 @@ const AboutUserFlatScreen = () => {
               }>{`* Select at least ${MIN_SELECTED_CHARS} tags`}</Text>
           </View>
           {error ||
-            (selectedChars.length === MAX_SELECTED_CHARS && (
+            (selectedCharsIds.length === MAX_SELECTED_CHARS && (
               <ErrorMessage
                 message={
                   error ||
@@ -182,7 +171,7 @@ const AboutUserFlatScreen = () => {
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            disabled={selectedChars.length < MIN_SELECTED_CHARS}
+            disabled={selectedCharsIds.length < MIN_SELECTED_CHARS}
             onPress={handleContinue}
           />
         </View>

@@ -62,7 +62,7 @@ const SafePlaceForScreen = () => {
   const selectSafeSpace = (id: number) => {
     setSelectedSafeSpaceIds(prevIds =>
       prevIds.includes(id)
-        ? prevIds.filter(prevId => prevId !== id)
+        ? prevIds.filter(safeSpId => safeSpId !== id)
         : [...prevIds, id],
     );
   };
@@ -116,9 +116,9 @@ const SafePlaceForScreen = () => {
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>
-            {safeSpaces?.map((el, index) => (
+            {safeSpaces?.map(el => (
               <SelectionButton
-                key={index + 1}
+                key={el.id}
                 value={el.name}
                 toggle={selectedSafeSpaceIds.includes(el.id)}
                 id={el.id}
