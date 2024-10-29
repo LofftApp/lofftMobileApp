@@ -11,7 +11,7 @@ type CityNewUserSlice = City;
 // newUserSlice
 interface NewUserTenantDetails {
   userType: 'tenant';
-  languages: string[];
+  languages: number[];
   characteristics: Characteristic[];
   genderIdentity: {
     id: number;
@@ -40,7 +40,7 @@ interface NewUserTenantDetails {
 }
 interface NewUserLessorDetails {
   userType: 'lessor';
-  languages: string[];
+  languages: number[];
   characteristics: Characteristic[];
 
   genderIdentity: {

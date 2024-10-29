@@ -43,6 +43,7 @@ const LanguageSelectionScreen = () => {
   const [searchValue, setSearchValue] = useState('');
   const [languages, setLanguages] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [languagesIds, setLanguagesIds] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>('');
 
@@ -61,20 +62,24 @@ const LanguageSelectionScreen = () => {
 
   useEffect(() => {
     if (savedLanguages && savedLanguages.length > 0) {
-      setSelectedLanguages(savedLanguages);
+      const savedLanguagesNames = languagesData?.filter(language =>
+        savedLanguages.includes(language.id),
+      );
+      setSelectedLanguages(
+        savedLanguagesNames?.map(language => language.name) ?? [],
+      );
     }
-  }, [savedLanguages]);
+  }, [savedLanguages, languagesData]);
 
-  //gets all languages from languagesText.json and filters them based on the searchValue and selectedLanguages state
   useEffect(() => {
     setIsLoading(true);
     if (languagesData) {
-      const languageList = Object.values(languagesData);
-      const filteredLanguages = languageList.filter(
+      const filteredLanguages = languagesData.filter(
         language =>
           language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
           !selectedLanguages.includes(language.name),
       );
+      console.log('filteredLanguages', filteredLanguages);
       setLanguages(filteredLanguages.map(language => language.name));
     }
     setIsLoading(false);
@@ -85,6 +90,10 @@ const LanguageSelectionScreen = () => {
       ? selectedLanguages.filter(selectedLanguage => selectedLanguage !== l)
       : [...selectedLanguages, l];
     setSelectedLanguages(updatedLanguages);
+    const ids = languagesData
+      ?.filter(language => updatedLanguages.includes(language.name))
+      .map(language => language.id);
+    setLanguagesIds(ids ?? []);
 
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
@@ -105,9 +114,10 @@ const LanguageSelectionScreen = () => {
     handleClearSearch();
     setError('');
   };
+  console.log('newUseedetails', newUserDetails);
 
   const handleContinue = () => {
-    const result = languagesSchema.safeParse(selectedLanguages);
+    const result = languagesSchema.safeParse(languagesIds);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));
       return;

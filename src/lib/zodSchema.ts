@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import {z} from 'zod';
 
 const languagesSchema = z
-  .array(z.string())
+  .array(z.number())
   .nonempty({
     message: 'Please select at least one language',
   })
