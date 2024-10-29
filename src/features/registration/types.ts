@@ -1,47 +1,12 @@
 import {
-  addressSchema,
-  characteristicSchema,
-  featureSchema,
-} from 'lib/zodSchema';
-import {z} from 'zod';
+  Characteristic,
+  City,
+  Currency,
+  District,
+  Feature,
+} from 'reduxFeatures/assets/types';
 
-type Characteristic = z.infer<typeof characteristicSchema>;
-type Feature = z.infer<typeof featureSchema>;
-type Currency = z.infer<typeof addressSchema.shape.currency>;
-interface District {
-  id: number;
-  name: string;
-  toggle: boolean;
-  emoji?: string;
-}
-
-interface City {
-  districts: District[];
-  flag: string;
-}
-
-interface Gender {
-  id: number;
-  emoji: string;
-  name: string;
-  toggle: boolean;
-}
-
-interface Language {
-  id: number;
-  name: string;
-  toggle: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Assets {
-  characteristics: Characteristic[];
-  cities: City[];
-  features: Feature[];
-  genders: Gender[];
-  languages: Language[];
-}
+type CityNewUserSlice = City;
 
 // newUserSlice
 interface NewUserTenantDetails {
@@ -60,16 +25,8 @@ interface NewUserTenantDetails {
     value: string;
     emoji: string;
   }[];
-  city: {
-    name: string;
-    flag: string;
-  };
-  districts: {
-    id: number;
-    name: string;
-    toggle: boolean;
-    emoji?: string;
-  }[];
+  city: CityNewUserSlice;
+  districts: District[];
   budget: {
     minPrice: number;
     maxPrice: number;
@@ -98,16 +55,8 @@ interface NewUserLessorDetails {
     value: string;
     emoji: string;
   }[];
-  city: {
-    name: string;
-    flag: string;
-  };
-  districts: {
-    id: number;
-    name: string;
-    toggle: boolean;
-    emoji?: string;
-  }[];
+  city: CityNewUserSlice;
+  districts: District[];
   flatFeatures: Feature[];
   firstName: string;
   lastName: string;
@@ -141,16 +90,9 @@ interface UserJourneyState {
 }
 
 export type {
-  Characteristic,
-  Feature,
-  District,
-  City,
-  Gender,
-  Language,
-  Currency,
-  Assets,
   UserJourneyState,
   NewUserTenantDetails,
   NewUserLessorDetails,
   NewUserDetails,
+  CityNewUserSlice,
 };

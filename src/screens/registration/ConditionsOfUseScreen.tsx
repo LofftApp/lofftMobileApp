@@ -142,8 +142,8 @@ const ConditionsOfUseScreen = () => {
             </View>
 
             <View style={styles.footerContainer}>
-              <Divider />
               <ErrorMessage message={errorMessage} />
+              <Divider />
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
                 value={isLoading ? <LoadingButtonIcon /> : 'Agree and Continue'}
@@ -159,6 +159,7 @@ const ConditionsOfUseScreen = () => {
               />
             </View>
           </View>
+        </View>
           <ConfirmModal
             openModal={isModalOpen}
             setIsModalOpen={setIsModalOpen}
@@ -174,7 +175,6 @@ const ConditionsOfUseScreen = () => {
             image={<Looking />}
             onPressFirstButton={handleSignOut}
           />
-        </View>
       </SafeAreaView>
     </>
   );
@@ -201,8 +201,7 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(20),
-    paddingHorizontal: size(16),
+    paddingBottom: size(10),
     gap: size(10),
   },
 });

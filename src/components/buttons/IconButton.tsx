@@ -14,6 +14,7 @@ const IconButton = ({
   style,
   animation,
   isActive,
+  color = Color.Lavendar[100],
 }: IconButtonProps) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -53,7 +54,7 @@ const IconButton = ({
 
   const animatedBackgroundColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [Color.White[100], Color.Lavendar[100]],
+    outputRange: [Color.White[100], color],
   });
 
   const animatedTextColor = animatedValue.interpolate({
@@ -63,12 +64,12 @@ const IconButton = ({
 
   const animatedBorderColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [Color.Black[100], Color.Lavendar[100]],
+    outputRange: [Color.Black[100], color],
   });
 
-  const backgroundColor = isActive ? Color.Lavendar[100] : Color.White[100];
+  const backgroundColor = isActive ? color : Color.White[100];
   const textColor = isActive ? Color.White[100] : Color.Black[100];
-  const borderColor = isActive ? Color.Lavendar[100] : Color.Black[100];
+  const borderColor = isActive ? color : Color.Black[100];
   return (
     <Pressable onPress={animation ? handleOnPress : onPress}>
       {animation ? (
@@ -117,7 +118,6 @@ const styles = StyleSheet.create({
     borderColor: Color.Black[100],
     borderWidth: 2,
     borderRadius: 12,
-    marginVertical: size(0),
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: size(15),

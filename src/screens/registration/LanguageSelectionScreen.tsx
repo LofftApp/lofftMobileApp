@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -36,7 +37,6 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 const LanguageSelectionScreen = () => {
   // Local State
@@ -240,7 +240,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingHorizontal: size(16),
-    paddingTop: size(0),
     paddingBottom: size(20),
     alignItems: 'center',
     width: '100%',

@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     paddingLeft: size(10),
   },
   clearButton: {
-    padding: size(0),
+    padding: 0,
   },
 
   dropDownContainer: {

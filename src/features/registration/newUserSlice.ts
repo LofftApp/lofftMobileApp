@@ -22,8 +22,10 @@ const initialState: UserJourneyState = {
       genderIdentity: [],
       flatIdentities: [],
       city: {
+        id: 0,
         name: '',
         flag: '',
+        country: '',
       },
       districts: [],
       budget: {
@@ -44,8 +46,10 @@ const initialState: UserJourneyState = {
       genderIdentity: [],
       flatIdentities: [],
       city: {
+        id: 0,
         name: '',
         flag: '',
+        country: '',
       },
       districts: [],
       flatFeatures: [],

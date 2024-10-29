@@ -87,6 +87,7 @@ type IconButtonProps = {
   style?: StyleProp<ViewStyle>;
   animation?: boolean;
   isActive?: boolean;
+  color?: string;
 };
 type NewUserJourneyContinueButtonProps = {
   onPress: () => void;

@@ -32,11 +32,12 @@ const NewUserNavigator = () => {
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
         />
-        {/* Which journey screen */}
+
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
         />
+
         {/* tenant Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
@@ -67,7 +68,7 @@ const NewUserNavigator = () => {
           name="FlatDetailsScreen"
           component={FlatDetailsScreen}
         />
-           <NewUserNavigatorFlow.Screen
+        <NewUserNavigatorFlow.Screen
           name="SafePlaceForScreen"
           component={SafePlaceForScreen}
         />

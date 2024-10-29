@@ -2,7 +2,6 @@ import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
-  Assets,
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
@@ -39,13 +38,6 @@ export const userApi = lofftApi.injectEndpoints({
       },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
-
-    getAssets: builder.query<Assets, void>({
-      query: () => '/api/assets',
-      transformResponse: response => {
-        return toCamelCaseKeys(response as Assets);
-      },
-    }),
   }),
   overrideExisting: false,
 });
@@ -54,5 +46,4 @@ export const {
   useGetUserQuery,
   useGetSpecificUserQuery,
   useCompleteUserAndCreateTenantMutation,
-  useGetAssetsQuery,
 } = userApi;

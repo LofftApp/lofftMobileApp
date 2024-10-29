@@ -1,11 +1,12 @@
 // Needs refactoring to work with TypeScript
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -28,9 +29,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 //Assets
 import {RegistrationBackground} from 'assets';
 
-// Data 💿
-import CityDistricts from 'components/componentData/cityDistricts.json';
-
 //Validation 🛡 ️
 import {cityDistrictsSchema} from 'lib/zodSchema';
 
@@ -40,15 +38,23 @@ import {useNavigation} from '@react-navigation/native';
 import {capitalize} from 'helpers/capitalize';
 
 // Types
-import {SingleCity, District, Cities} from './types';
+
+import {CityNewUserSlice} from 'reduxFeatures/registration/types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {CityAssets, District} from 'reduxFeatures/assets/types';
+
 const SelectCityScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Local State
   const [city, setCity] = useState('');
-  const [dropdownContent, setDropdownContent] = useState<SingleCity[]>([]);
+  const [selectedCity, setSelectedCity] = useState<
+    CityNewUserSlice | undefined
+  >(undefined);
+  const [dropdownContent, setDropdownContent] = useState<
+    CityAssets[] | Partial<CityAssets>[]
+  >([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [isAllDistricts, setIsAllDistricts] = useState(false);
   const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
@@ -64,7 +70,9 @@ const SelectCityScreen = () => {
   //Safe Area
   const insets = useSafeAreaInsets();
 
-  const cities: Cities = CityDistricts;
+  // initial state
+  const {data} = useGetAssetsQuery();
+  const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -86,23 +94,23 @@ const SelectCityScreen = () => {
   useEffect(() => {
     if (savedCity.name && savedCity.name !== '') {
       setCity(`${savedCity.flag} ${capitalize(savedCity.name)}`);
-      const updatedDistricts = cities[savedCity.name].districts.map(
-        district => {
-          return {
+      const matchedCity = cities.find(
+        c => c.name.toLowerCase() === savedCity.name.toLowerCase(),
+      );
+
+      const updatedDistricts: District[] = matchedCity?.districts
+        ? matchedCity.districts.map(district => ({
             ...district,
             toggle: savedDistricts.some(
               savedDistrict => savedDistrict.id === district.id,
             ),
-          };
-        },
-      );
+          }))
+        : [];
+
       setDistricts(updatedDistricts);
-
-      const districtsSelected = updatedDistricts.filter(el => el.toggle);
-      setSelectedDistricts(districtsSelected);
-
-      const allSelected = updatedDistricts.every(district => district.toggle);
-      setIsAllDistricts(allSelected);
+      setSelectedDistricts(updatedDistricts.filter(el => el.toggle));
+      setSelectedCity(matchedCity);
+      setIsAllDistricts(updatedDistricts.every(district => district.toggle));
     }
   }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
 
@@ -117,43 +125,37 @@ const SelectCityScreen = () => {
     setIsAllDistricts(prev => !prev);
   };
 
-  const orderedCities = Object.keys(cities)
-    .sort()
-    .reduce((obj: Cities, key: string) => {
-      obj[key] = cities[key];
-      return obj;
-    }, {});
+  const orderedCities = cities.sort((a, b) => a.name.localeCompare(b.name));
+
   const handleOnChangeSearch = (userInput: string) => {
     if (userInput === '' && city !== '') {
       setDropdownContent([]);
       setDistricts([]);
-    }
+      setIsAllDistricts(false);
+    } else {
+      const filteredCities = orderedCities.filter(c =>
+        c.name.toLowerCase().startsWith(userInput.toLowerCase()),
+      );
 
-    if (userInput !== '' && city === '') {
-      setDistricts([]);
-      setDropdownContent([
-        {name: 'Lofft is not available in this city', flag: ''},
-      ]);
-    }
-
-    const creationArray: {name: string; flag: string}[] = [];
-
-    for (const [key, value] of Object.entries(orderedCities)) {
-      if (key.startsWith(userInput.toLowerCase()) && userInput !== '') {
-        const inputObject = {name: '', flag: ''};
-        inputObject.name = key;
-        inputObject.flag = value.flag;
-        creationArray.push(inputObject);
-        setDropdownContent(creationArray);
+      if (filteredCities.length > 0) {
+        setDropdownContent(filteredCities);
+      } else {
+        setDropdownContent([
+          {
+            name: 'No results found',
+            flag: '',
+          },
+        ]);
       }
     }
-
     setCity(userInput);
     setIsQuery(true);
   };
-
   const activateDistrictDisplay = (cityInput: string) => {
-    setDistricts(cities[cityInput.split(' ')[1].toLowerCase()].districts);
+    const matchedCity = cities.find(
+      c => c.name.toLowerCase() === cityInput.split(' ')[1].toLowerCase(),
+    );
+    setDistricts(matchedCity ? matchedCity.districts : []);
     setDropdownContent([]);
   };
 
@@ -192,15 +194,20 @@ const SelectCityScreen = () => {
     );
   });
 
-  const dropDownContent = (citiesArr: SingleCity[]) => {
+  const formattedDropDownContent = (citiesArr: Partial<CityAssets>[]) => {
     return citiesArr.map(
       cityData => `${cityData.flag} ${capitalize(cityData.name)} `,
     );
   };
 
   const handleDropDownPress = (value: string) => {
+    const matchedCity = cities.find(
+      c => c.name.toLowerCase() === value.split(' ')[1].toLowerCase(),
+    );
     setCity(value);
+    setSelectedCity(matchedCity);
     setIsQuery(false);
+    setIsAllDistricts(false);
     activateDistrictDisplay(value);
   };
 
@@ -219,8 +226,10 @@ const SelectCityScreen = () => {
 
   const handleContinue = () => {
     const formattedCity = {
-      name: city.split(' ')[1]?.toLowerCase(),
-      flag: city.split(' ')[0],
+      id: selectedCity?.id,
+      name: selectedCity?.name,
+      flag: selectedCity?.flag,
+      country: selectedCity?.country,
     };
     const result = cityDistrictsSchema.safeParse({
       city: formattedCity,
@@ -281,7 +290,7 @@ const SelectCityScreen = () => {
             onClear={handleClearSearch}
             value={city}
             dropdown={isQuery}
-            dropDownContent={dropDownContent(dropdownContent)}
+            dropDownContent={formattedDropDownContent(dropdownContent)}
             dropDownPressAction={handleDropDownPress}
           />
         </View>
@@ -363,7 +372,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingHorizontal: size(16),
-    paddingTop: size(0),
     paddingBottom: size(20),
     width: '100%',
   },

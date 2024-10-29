@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -27,10 +27,18 @@ const SignInScreen = () => {
 
   const insets = useSafeAreaInsets();
   const imageMarginTop = height < 700 ? size(10) : size(70);
+  const [clearErrors, setClearErrors] = useState(false);
 
   const handleSignUp = () => {
+    if (clearErrors) {
+      setClearErrors(false);
+      return;
+    }
+
     navigation.navigate('SignUpScreen');
+    setClearErrors(true);
   };
+
   return (
     <View style={styles.behindContainer}>
       <SignInBackground
@@ -45,7 +53,7 @@ const SignInScreen = () => {
 
       <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
-          <SignInForm />
+          <SignInForm clearErrors={clearErrors} setClearErrors={setClearErrors} />
         </View>
         <View style={styles.footer}>
           <SignInWith isSignInScreen />

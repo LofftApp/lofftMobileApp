@@ -6,7 +6,6 @@
  */
 
 import React, {useEffect} from 'react';
-import {Platform} from 'react-native';
 
 //Mapbox 🗺️
 import MapboxGL from '@rnmapbox/maps';
@@ -54,9 +53,6 @@ const App = () => {
   const [signOut] = useSignOutMutation();
 
   // Mapbox
-  MapboxGL.setWellKnownTileServer(
-    Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
-  );
   MapboxGL.setAccessToken(MAPBOX_API_KEY);
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);

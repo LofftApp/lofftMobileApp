@@ -153,16 +153,16 @@ const FlatImageUploadScreen = () => {
               <ImagePreviewRow imageType="flat" />
             </Animated.View>
           </ScrollView>
-          <View style={styles.footerContainer}>
-            <Divider />
-            {error && <ErrorMessage message={error} />}
-            <NewUserPaginationBar />
-            <NewUserJourneyContinueButton
-              value="Continue"
-              disabled={totalImages > MAX_FLAT_IMAGES}
-              onPress={handleContinue}
-            />
-          </View>
+        </View>
+        <View style={styles.footerContainer}>
+          <Divider />
+          {error && <ErrorMessage message={error} />}
+          <NewUserPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            disabled={totalImages > MAX_FLAT_IMAGES}
+            onPress={handleContinue}
+          />
         </View>
       </View>
       <UploadImageModal
@@ -185,8 +185,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(10),
   },
   footerContainer: {
-    paddingBottom: size(20),
-    paddingHorizontal: size(16),
     gap: size(10),
   },
 });

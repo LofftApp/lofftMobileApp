@@ -105,7 +105,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
 const styles = StyleSheet.create({
   messageContainer: {
     position: 'absolute',
-    top: size(30),
+    top: size(24),
     backgroundColor: Colors.Mint[20],
     padding: size(10),
     borderRadius: 12,

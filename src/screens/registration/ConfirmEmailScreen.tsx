@@ -1,56 +1,69 @@
-import React from 'react';
-import { View, SafeAreaView, StyleSheet, Text, Pressable, ActivityIndicator } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, SafeAreaView, StyleSheet, ActivityIndicator} from 'react-native';
 
 // Components 🦾
 import BackButton from 'components/buttons/BackButton';
-import { CoreButton } from 'components/buttons/CoreButton';
-import { RegistrationBackground } from 'assets';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {CoreButton} from 'components/buttons/CoreButton';
+import {RegistrationBackground} from 'assets';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 
 // Stylesheets 🖼️
-import { fontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useNavigation } from '@react-navigation/native';
-import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
+import {useNavigation} from '@react-navigation/native';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Redux 🧠
-import { useSignOutMutation } from 'reduxFeatures/auth/authApi';
-import { useGetUserQuery } from 'reduxFeatures/user/userApi';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Types 🏷 ️
-import { NewUserJourneyStackNavigation } from '../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 
 // Helpers 🥷🏻
-import { size } from 'react-native-responsive-sizes';
-
+import {size} from 'react-native-responsive-sizes';
+import IconButton from 'components/buttons/IconButton';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const ConfirmEmailScreen = () => {
-  const { data, error, isLoading, refetch } = useGetUserQuery();
-
+  const {data, isError, isLoading, refetch} = useGetUserQuery();
   const emailConfirmed = data?.confirmedEmail;
+  const confirmRef = useRef(emailConfirmed);
+
+  const [error, setError] = useState('');
+
   const [signOut] = useSignOutMutation();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError('');
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [error]);
 
   const handleSignOut = () => {
     signOut();
   };
 
+  const handleRefresh = async () => {
+    const result = await refetch();
+    if (confirmRef.current === result.data?.confirmedEmail) {
+      setError('Email was not confirmed yet. Please confirm it and try again');
+    }
+  };
+
+  const handleContinue = () => {
+    navigation.navigate('NewUserJourney');
+  };
+
   if (isLoading) {
-    return (
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        <ActivityIndicator size="large" color={Color.White[100]} />
-      </SafeAreaView>
-    );
+    return <LoadingComponent />;
   }
 
-  if (error) {
-    return (
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        <NotFoundComponent message="Error while getting profile" />
-      </SafeAreaView>
-    );
+  if (isError) {
+    return <NotFoundComponent message="Error while getting profile" />;
   }
 
   return (
@@ -75,38 +88,35 @@ const ConfirmEmailScreen = () => {
             {isLoading ? (
               <ActivityIndicator size="large" color={Color.Black[100]} />
             ) : emailConfirmed ? (
-              <View style={styles.positiveIconContainer}>
-                <LofftIcon
-                  name="check-verified-02"
-                  size={65}
-                  color={Color.Mint[100]}
-                />
-                <Text style={[fontStyles.bodyMedium, styles.iconSubTextPositive]}>
-                  Email Confirmed
-                </Text>
-              </View>
+              <IconButton
+                icon="check-verified-02"
+                iconSize={65}
+                text="Email confirmed"
+                isActive
+                color={Color.Mint[100]}
+                onPress={() => {}}
+              />
             ) : (
-              <Pressable
-                onPress={refetch}
-                style={styles.refreshButtonContainer}
-              >
-                <LofftIcon
-                  name="refresh-ccq-03"
-                  size={33}
-                  color={Color.White[100]}
+              <View>
+                <IconButton
+                  icon="refresh-ccq-03"
+                  iconSize={33}
+                  text="I have confirmed my email"
+                  onPress={handleRefresh}
+                  isActive={true}
                 />
-                <Text style={[fontStyles.bodyMedium, styles.iconSubText]}>
-                  I have confirmed my email
-                </Text>
-              </Pressable>
+                <ErrorMessage message={error} />
+              </View>
             )}
           </View>
         </View>
-        <CoreButton
-          disabled={!emailConfirmed}
-          value={emailConfirmed ? 'Continue' : 'Email not confirmed'}
-          onPress={() => navigation.navigate('NewUserJourney')}
-        />
+        {emailConfirmed && (
+          <CoreButton
+            disabled={!emailConfirmed}
+            value={emailConfirmed ? 'Continue' : 'Email not confirmed'}
+            onPress={handleContinue}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -121,20 +131,13 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     alignItems: 'center',
-    marginTop: size(150),
+    marginTop: size(50),
   },
   iconSubText: {
     marginLeft: size(10),
     color: Color.White[100],
   },
-  refreshButtonContainer: {
-    backgroundColor: Color.Lavendar[100],
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 10,
-    paddingVertical: size(10),
-    paddingHorizontal: size(20),
-  },
+
   positiveIconContainer: {
     textAlign: 'center',
     alignItems: 'center',

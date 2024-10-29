@@ -241,22 +241,22 @@ const FlatLengthAvailableScreen = () => {
                   style={styles.setDateButton}
                 />
               </Animated.View>
-
-              <ErrorMessage
-                style={styles.errorMessage}
-                isInputField
-                message={errorUntilDate}
-              />
             </View>
-          </View>
-          <View style={styles.footerContainer}>
-            <Divider />
-            <NewUserPaginationBar />
-            <NewUserJourneyContinueButton
-              value="Continue"
-              onPress={handleContinue}
+
+            <ErrorMessage
+              style={styles.errorMessage}
+              isInputField
+              message={errorUntilDate}
             />
           </View>
+        </View>
+        <View style={styles.footerContainer}>
+          <Divider />
+          <NewUserPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            onPress={handleContinue}
+          />
         </View>
       </View>
       {/* Date Picker */}
@@ -299,8 +299,6 @@ const styles = StyleSheet.create({
 
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(20),
-    paddingHorizontal: size(16),
     gap: size(10),
   },
   errorMessage: {

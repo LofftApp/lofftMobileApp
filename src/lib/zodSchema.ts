@@ -58,23 +58,26 @@ const genderIdentitySchema = z
     message: `You can select up to ${MAX_GENDERS} options only`,
   });
 
+const districtSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  toggle: z.boolean(),
+  emoji: z.string().optional(),
+});
+
+
+const citySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  flag: z.string(),
+  country: z.string(),
+});
+
 const cityDistrictsSchema = z.object({
-  city: z.object({
-    name: z.string(),
-    flag: z.string(),
+  city: citySchema,
+  districts: z.array(districtSchema).nonempty({
+    message: 'Choose at least one district',
   }),
-  districts: z
-    .array(
-      z.object({
-        id: z.number(),
-        name: z.string(),
-        toggle: z.boolean(),
-        emoji: z.string().optional(),
-      }),
-    )
-    .nonempty({
-      message: 'Choose at least one district',
-    }),
 });
 
 const budgetSchema = z
@@ -272,6 +275,8 @@ export {
   characteristicSchema,
   characteristicsSchema,
   genderIdentitySchema,
+  districtSchema,
+  citySchema,
   cityDistrictsSchema,
   budgetSchema,
   newUserSchema,
