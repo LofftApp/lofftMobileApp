@@ -21,7 +21,7 @@ interface NewUserTenantDetails {
     maxPrice: number;
     warmRent: boolean;
   };
-  filter: Feature[];
+  filter: number[];
   selfDescription: string;
   firstName: string;
   lastName: string;
@@ -41,7 +41,7 @@ interface NewUserLessorDetails {
   safeSpaces: number[];
   city: CityNewUserSlice;
   districts: District[];
-  flatFeatures: Feature[];
+  flatFeatures: number[];
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;

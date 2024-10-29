@@ -51,7 +51,6 @@ const AboutUserFlatScreen = () => {
 
   // Local State
   const [selectedCharsIds, setSelectedCharsIds] = useState<number[]>([]);
-
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
@@ -84,8 +83,8 @@ const AboutUserFlatScreen = () => {
   };
 
   const handleContinue = () => {
-    const selectedChars = characteristics?.filter(sp =>
-      selectedCharsIds.includes(sp.id),
+    const selectedChars = characteristics?.filter(chars =>
+      selectedCharsIds.includes(chars.id),
     );
     const result = characteristicsSchema.safeParse(selectedChars);
     if (!result.success) {
