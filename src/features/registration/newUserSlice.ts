@@ -20,7 +20,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      flatIdentities: [],
+      safeSpaces: [],
       city: {
         id: 0,
         name: '',
@@ -44,7 +44,7 @@ const initialState: UserJourneyState = {
       languages: [],
       characteristics: [],
       genderIdentity: [],
-      flatIdentities: [],
+      safeSpaces: [],
       city: {
         id: 0,
         name: '',

@@ -2,10 +2,10 @@ import {NewUserScreens} from './types';
 
 export const newUserScreens: NewUserScreens = {
   tenant: {
-    1: 'LanguageSelectionScreen',
+    // 1: 'LanguageSelectionScreen',
     2: 'AboutUserFlatScreen',
     3: 'GenderIdentityScreen',
-    4: 'SafePlaceForScreen',
+    1: 'SafePlaceForScreen',
     5: 'SelectCityScreen',
     6: 'FinderBudgetScreen',
     7: 'FlatFeaturesScreen',

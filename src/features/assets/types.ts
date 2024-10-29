@@ -14,11 +14,13 @@ type District = z.infer<typeof districtSchema>;
 type City = z.infer<typeof citySchema>;
 type CityAssets = City & {districts: District[]};
 
-interface Gender {
+interface SafeSpace {
   id: number;
   emoji: string;
   name: string;
   toggle: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Language {
@@ -33,7 +35,7 @@ interface Assets {
   characteristics: Characteristic[];
   cities: CityAssets[];
   features: Feature[];
-  genders: Gender[];
+  safeSpaces: SafeSpace[];
   languages: Language[];
 }
 
@@ -41,6 +43,7 @@ export type {
   Assets,
   Characteristic,
   CityAssets,
+  SafeSpace,
   City,
   Currency,
   District,

@@ -4,6 +4,7 @@ import {
   Currency,
   District,
   Feature,
+  SafeSpace,
 } from 'reduxFeatures/assets/types';
 
 type CityNewUserSlice = City;
@@ -19,12 +20,7 @@ interface NewUserTenantDetails {
     value: string;
     emoji: string;
   }[];
-  flatIdentities: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
+  safeSpaces: number[];
   city: CityNewUserSlice;
   districts: District[];
   budget: {
@@ -49,12 +45,7 @@ interface NewUserLessorDetails {
     value: string;
     emoji: string;
   }[];
-  flatIdentities: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
+  safeSpaces: number[];
   city: CityNewUserSlice;
   districts: District[];
   flatFeatures: Feature[];

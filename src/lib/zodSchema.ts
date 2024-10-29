@@ -47,8 +47,10 @@ const genderIdentitySchema = z
     z.object({
       id: z.number(),
       toggle: z.boolean(),
-      value: z.string(),
+      name: z.string(),
       emoji: z.string(),
+      createdAt: z.string(),
+      updatedAt: z.string(),
     }),
   )
   .nonempty({
@@ -64,7 +66,6 @@ const districtSchema = z.object({
   toggle: z.boolean(),
   emoji: z.string().optional(),
 });
-
 
 const citySchema = z.object({
   id: z.number(),

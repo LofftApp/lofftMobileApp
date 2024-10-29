@@ -8,6 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 // Screens 📺
 import {newUserScreens} from '../../../navigationStacks/newUserScreens';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 //Styles 🎨
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -17,7 +18,6 @@ import {RegistrationBackground} from 'assets';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import SelectButton from 'components/buttons/SelectButton';
 import SelectionButton from 'components/buttons/SelectionButton';
 import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
@@ -33,61 +33,38 @@ import {genderIdentitySchema} from 'lib/zodSchema';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {MAX_GENDERS} from 'components/componentData/constants';
 import {fontStyles} from 'styleSheets/fontStyles';
-interface SelectButton {
-  id: number;
-  value: string;
-  toggle: boolean;
-  emoji: string;
-}
-
-const genders = [
-  {value: 'Women only', id: 1, toggle: false, emoji: '🙋‍♀️'},
-  {value: 'Men only', id: 2, toggle: false, emoji: '🙋‍♂️'},
-  {value: 'Queer space', id: 3, toggle: false, emoji: '⚧️'},
-  {value: 'Trans & non-binary safe space', id: 4, toggle: false, emoji: '🏳️‍⚧️'},
-  {value: 'LGBTQ+ friendly', id: 5, toggle: false, emoji: '🏳️‍🌈'},
-  {value: 'Gender-neutral space', id: 6, toggle: false, emoji: '⚧️'},
-  {value: 'All genders welcome', id: 7, toggle: false, emoji: '🌍'},
-  {value: 'Non-binary inclusive', id: 8, toggle: false, emoji: '💛🤍💜🖤'},
-  {value: 'Prefer not to say', id: 9, toggle: false, emoji: '🤐'},
-];
 
 const SafePlaceForScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
+  // initial state
+  const {data} = useGetAssetsQuery();
+  const safeSpaces = data?.safeSpaces;
+
+  // Local State
+  const [selectedSafeSpaceIds, setSelectedSafeSpaceIds] = useState<number[]>(
+    [],
+  );
+  const [error, setError] = useState<string | undefined>('');
+
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
-
-  const [intitalGenders, setIntitalGenders] = useState(genders);
-  const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
-  const [error, setError] = useState<string | undefined>('');
-  const flatIdentity = newUserDetails.flatIdentities;
+  const savedSafeSpacesIds = newUserDetails.safeSpaces;
 
   useEffect(() => {
-    if (flatIdentity && flatIdentity.length > 0) {
-      setSelectedGender(flatIdentity);
-
-      const updatedGenderState = genders.map(gender => ({
-        ...gender,
-        toggle: flatIdentity.some(g => g.id === gender.id),
-      }));
-
-      setIntitalGenders(updatedGenderState);
-    } else {
-      setSelectedGender([]);
+    if (savedSafeSpacesIds.length) {
+      setSelectedSafeSpaceIds(savedSafeSpacesIds);
     }
-  }, [flatIdentity]);
+  }, [savedSafeSpacesIds]);
 
-  const selectGender = (id: number) => {
-    const updatedGender = intitalGenders.map(el => {
-      return el.id === id ? {...el, toggle: !el.toggle} : el;
-    });
-
-    const genderSelected = updatedGender.filter(el => el.toggle);
-    setSelectedGender(genderSelected);
-    setIntitalGenders(updatedGender);
+  const selectSafeSpace = (id: number) => {
+    setSelectedSafeSpaceIds(prevIds =>
+      prevIds.includes(id)
+        ? prevIds.filter(prevId => prevId !== id)
+        : [...prevIds, id],
+    );
   };
 
   const handleBackButton = () => {
@@ -95,15 +72,21 @@ const SafePlaceForScreen = () => {
     navigation.goBack();
     setError('');
   };
+  console.log('newUserDetails', newUserDetails);
 
   const handleContinue = () => {
-    const result = genderIdentitySchema.safeParse(selectedGender);
+    const selectedSafeSpaces = safeSpaces?.filter(sp =>
+      selectedSafeSpaceIds.includes(sp.id),
+    );
+    console.log('selectedSafeSpaces', selectedSafeSpaces);
+    const result = genderIdentitySchema.safeParse(selectedSafeSpaces);
     if (!result.success) {
+      console.log('result.error', result.error);
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
 
-    setNewUserDetails({flatIdentities: selectedGender});
+    setNewUserDetails({safeSpaces: selectedSafeSpaceIds});
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
@@ -133,14 +116,14 @@ const SafePlaceForScreen = () => {
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>
-            {intitalGenders.map((el, index) => (
+            {safeSpaces?.map((el, index) => (
               <SelectionButton
                 key={index + 1}
-                value={el.value}
-                toggle={el.toggle}
+                value={el.name}
+                toggle={selectedSafeSpaceIds.includes(el.id)}
                 id={el.id}
                 emojiIcon={el.emoji}
-                selectFn={selectGender}
+                selectFn={selectSafeSpace}
               />
             ))}
           </View>
@@ -160,7 +143,8 @@ const SafePlaceForScreen = () => {
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={
-              selectedGender.length === 0 || selectedGender.length > MAX_GENDERS
+              selectedSafeSpaceIds.length === 0 ||
+              selectedSafeSpaceIds.length > MAX_GENDERS
             }
             onPress={handleContinue}
           />
