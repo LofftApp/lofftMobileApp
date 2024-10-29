@@ -40,7 +40,7 @@ type NewUserScreenNames =
   | 'NameProfileScreen'
   | 'FlatImageUploadScreen'
   | 'FlatDetailsScreen'
-  | 'SafePlaceForScreen';
+  | 'SafeSpaceForScreen';
 
 type NewUserScreens = {
   tenant: Record<number, NewUserScreenNames>;

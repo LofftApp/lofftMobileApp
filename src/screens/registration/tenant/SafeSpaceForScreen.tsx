@@ -12,6 +12,7 @@ import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 //Styles 🎨
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 //Assets
 import {RegistrationBackground} from 'assets';
@@ -23,18 +24,21 @@ import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import Divider from 'components/bars/Divider';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
 
+//Validation 🛡   ️
+import {safeSpacesSchema} from 'lib/zodSchema';
+
+//Constants
+import {MAX_GENDERS} from 'components/componentData/constants';
+
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
-import {genderIdentitySchema} from 'lib/zodSchema';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import {MAX_GENDERS} from 'components/componentData/constants';
-import {fontStyles} from 'styleSheets/fontStyles';
 
-const SafePlaceForScreen = () => {
+const SafeSpaceForScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -79,7 +83,7 @@ const SafePlaceForScreen = () => {
       selectedSafeSpaceIds.includes(sp.id),
     );
     console.log('selectedSafeSpaces', selectedSafeSpaces);
-    const result = genderIdentitySchema.safeParse(selectedSafeSpaces);
+    const result = safeSpacesSchema.safeParse(selectedSafeSpaces);
     if (!result.success) {
       console.log('result.error', result.error);
       setError(result.error?.flatten().formErrors.at(0));
@@ -167,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SafePlaceForScreen;
+export default SafeSpaceForScreen;

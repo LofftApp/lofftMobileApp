@@ -1,4 +1,4 @@
-import {City, Currency, District, Feature} from 'reduxFeatures/assets/types';
+import {City, Currency, District} from 'reduxFeatures/assets/types';
 
 type CityNewUserSlice = City;
 
@@ -7,12 +7,7 @@ interface NewUserTenantDetails {
   userType: 'tenant';
   languages: number[];
   characteristics: number[];
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
+  genderIdentity: number[];
   safeSpaces: number[];
   city: CityNewUserSlice;
   districts: District[];
@@ -32,12 +27,7 @@ interface NewUserLessorDetails {
   languages: number[];
   characteristics: number[];
 
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
+  genderIdentity: number[];
   safeSpaces: number[];
   city: CityNewUserSlice;
   districts: District[];

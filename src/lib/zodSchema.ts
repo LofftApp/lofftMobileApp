@@ -42,17 +42,33 @@ const characteristicsSchema = z
     message: `You can select up to ${MAX_SELECTED_CHARS} tags only`,
   });
 
-const genderIdentitySchema = z
-  .array(
-    z.object({
-      id: z.number(),
-      toggle: z.boolean(),
-      name: z.string(),
-      emoji: z.string(),
-      createdAt: z.string(),
-      updatedAt: z.string(),
-    }),
-  )
+const genderIdentitySchema = z.object({
+  id: z.number(),
+  toggle: z.boolean(),
+  name: z.string(),
+  emoji: z.string(),
+});
+
+const genderIdentitiesSchema = z
+  .array(genderIdentitySchema)
+  .nonempty({
+    message: 'Please select at least one option',
+  })
+  .max(MAX_GENDERS, {
+    message: `You can select up to ${MAX_GENDERS} options only`,
+  });
+
+const safeSpaceSchema = z.object({
+  id: z.number(),
+  toggle: z.boolean(),
+  name: z.string(),
+  emoji: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+const safeSpacesSchema = z
+  .array(safeSpaceSchema)
   .nonempty({
     message: 'Please select at least one option',
   })
@@ -262,25 +278,18 @@ const signUpSchema = z
     path: ['repeatPassword'],
   });
 
-// Main schema (combining the individual schemas if needed)
-const newUserSchema = z.object({
-  tenant: z.object({
-    languages: languagesSchema,
-    characteristics: characteristicsSchema,
-    genderIdentity: genderIdentitySchema,
-  }),
-});
-
 export {
   languagesSchema,
   characteristicSchema,
   characteristicsSchema,
   genderIdentitySchema,
+  genderIdentitiesSchema,
+  safeSpaceSchema,
+  safeSpacesSchema,
   districtSchema,
   citySchema,
   cityDistrictsSchema,
   budgetSchema,
-  newUserSchema,
   featureSchema,
   featuresSchema,
   selfDescriptionSchema,
