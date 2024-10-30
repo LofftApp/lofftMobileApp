@@ -169,8 +169,8 @@ if (isLoadingTenant || isLoadingLessor) {
             </View>
 
             <View style={styles.footerContainer}>
-              <Divider />
               <ErrorMessage message={errorMessage} />
+              <Divider />
               <NewUserPaginationBar />
               <NewUserJourneyContinueButton
                 value={isLoading ? <LoadingButtonIcon /> : 'Agree and Continue'}
@@ -186,22 +186,22 @@ if (isLoadingTenant || isLoadingLessor) {
               />
             </View>
           </View>
-          <ConfirmModal
-            openModal={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            modalAsset={{
-              header: 'Are you sure you want to decline?',
-              description:
-                'By declining you will be logged out and your progress will be lost.',
-              buttonText: {
-                first: 'Confirm decline',
-                second: 'Take me back',
-              },
-            }}
-            image={<Looking />}
-            onPressFirstButton={handleSignOut}
-          />
         </View>
+        <ConfirmModal
+          openModal={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          modalAsset={{
+            header: 'Are you sure you want to decline?',
+            description:
+              'By declining you will be logged out and your progress will be lost.',
+            buttonText: {
+              first: 'Confirm decline',
+              second: 'Take me back',
+            },
+          }}
+          image={<Looking />}
+          onPressFirstButton={handleSignOut}
+        />
       </SafeAreaView>
     </>
   );
@@ -228,8 +228,7 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(20),
-    paddingHorizontal: size(16),
+    paddingBottom: size(10),
     gap: size(10),
   },
 });

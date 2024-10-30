@@ -19,7 +19,7 @@ import NameProfileScreen from 'screens/registration/NameProfileScreen';
 import FlatImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
 import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
 import FlatDetailsScreen from 'screens/registration/lessor/FlatDetailsScreen';
-import SafePlaceForScreen from 'screens/registration/tenant/SafePlaceForScreen';
+import SafeSpaceForScreen from 'screens/registration/tenant/SafeSpaceForScreen';
 
 const NewUserNavigatorFlow = createNativeStackNavigator();
 
@@ -32,11 +32,12 @@ const NewUserNavigator = () => {
           name="ConfirmEmail"
           component={ConfirmEmailScreen}
         />
-        {/* Which journey screen */}
+
         <NewUserNavigatorFlow.Screen
           name="NewUserJourney"
           component={NewUserJourney}
         />
+
         {/* tenant Screens */}
         <NewUserNavigatorFlow.Screen
           name="GenderIdentityScreen"
@@ -67,9 +68,9 @@ const NewUserNavigator = () => {
           name="FlatDetailsScreen"
           component={FlatDetailsScreen}
         />
-           <NewUserNavigatorFlow.Screen
-          name="SafePlaceForScreen"
-          component={SafePlaceForScreen}
+        <NewUserNavigatorFlow.Screen
+          name="SafeSpaceForScreen"
+          component={SafeSpaceForScreen}
         />
 
         {/* Shared screens */}

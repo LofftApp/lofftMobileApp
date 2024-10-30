@@ -1,81 +1,20 @@
-import {
-  addressSchema,
-  characteristicSchema,
-  featureSchema,
-} from 'lib/zodSchema';
-import {z} from 'zod';
-
-type Characteristic = z.infer<typeof characteristicSchema>;
-type Feature = z.infer<typeof featureSchema>;
-type Currency = z.infer<typeof addressSchema.shape.currency>;
-interface District {
-  id: number;
-  name: string;
-  toggle: boolean;
-  emoji?: string;
-}
-
-interface City {
-  districts: District[];
-  flag: string;
-}
-
-interface Gender {
-  id: number;
-  emoji: string;
-  name: string;
-  toggle: boolean;
-}
-
-interface Language {
-  id: number;
-  name: string;
-  toggle: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Assets {
-  characteristics: Characteristic[];
-  cities: City[];
-  features: Feature[];
-  genders: Gender[];
-  languages: Language[];
-}
+import {Currency} from 'reduxFeatures/assets/types';
 
 // newUserSlice
 interface NewUserTenantDetails {
   userType: 'tenant';
-  languages: string[];
-  characteristics: Characteristic[];
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  flatIdentities: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  city: {
-    name: string;
-    flag: string;
-  };
-  districts: {
-    id: number;
-    name: string;
-    toggle: boolean;
-    emoji?: string;
-  }[];
+  languages: number[];
+  characteristics: number[];
+  genderIdentity: number[];
+  safeSpaces: number[];
+  city: number;
+  districts: number[];
   budget: {
     minPrice: number;
     maxPrice: number;
     warmRent: boolean;
   };
-  filter: Feature[];
+  filter: number[];
   selfDescription: string;
   firstName: string;
   lastName: string;
@@ -83,32 +22,14 @@ interface NewUserTenantDetails {
 }
 interface NewUserLessorDetails {
   userType: 'lessor';
-  languages: string[];
-  characteristics: Characteristic[];
+  languages: number[];
+  characteristics: number[];
 
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  flatIdentities: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  city: {
-    name: string;
-    flag: string;
-  };
-  districts: {
-    id: number;
-    name: string;
-    toggle: boolean;
-    emoji?: string;
-  }[];
-  flatFeatures: Feature[];
+  genderIdentity: number[];
+  safeSpaces: number[];
+  city: number;
+  districts: number[];
+  flatFeatures: number[];
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
@@ -141,14 +62,6 @@ interface UserJourneyState {
 }
 
 export type {
-  Characteristic,
-  Feature,
-  District,
-  City,
-  Gender,
-  Language,
-  Currency,
-  Assets,
   UserJourneyState,
   NewUserTenantDetails,
   NewUserLessorDetails,

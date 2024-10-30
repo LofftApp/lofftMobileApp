@@ -315,17 +315,17 @@ const NameProfileScreen = () => {
               </Animated.View>
             </View>
           </ScrollView>
+        </View>
 
-          <View style={styles.footerContainer}>
-            <Divider />
-            {errorImage && <ErrorMessage message={errorImage} />}
-            <NewUserPaginationBar />
-            <NewUserJourneyContinueButton
-              value="Continue"
-              onPress={handleContinue}
-              disabled={!isDateSelected || !firstName || !lastName}
-            />
-          </View>
+        <View style={styles.footerContainer}>
+          <Divider />
+          {errorImage && <ErrorMessage message={errorImage} />}
+          <NewUserPaginationBar />
+          <NewUserJourneyContinueButton
+            value="Continue"
+            onPress={handleContinue}
+            disabled={!isDateSelected || !firstName || !lastName}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -335,7 +335,6 @@ const NameProfileScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    justifyContent: 'space-between',
   },
   centerContainer: {
     paddingHorizontal: size(10),
@@ -355,8 +354,6 @@ const styles = StyleSheet.create({
   },
 
   footerContainer: {
-    paddingBottom: size(20),
-    paddingHorizontal: size(16),
     gap: size(10),
   },
 });

@@ -273,7 +273,7 @@ const StatusBarComponent = ({
               style={[
                 styles.progressBar,
                 {
-                  height: `${statusBar}%` as DimensionValue,
+                  height: `${Number(statusBar)}%` as DimensionValue,
                   backgroundColor: active
                     ? advert?.lessor
                       ? Color.Lavendar[100]
@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
   maincontainer: {
     width: '100%',
     alignItems: 'center',
-    paddingVertical: size(0),
     justifyContent: 'space-between',
   },
   infoBlockHeader: {

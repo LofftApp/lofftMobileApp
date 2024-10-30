@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🧠
@@ -20,7 +20,12 @@ import {signInSchema} from 'lib/zodSchema';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 
-const SignInForm = () => {
+type SignInFormProps = {
+  clearErrors: boolean;
+  setClearErrors: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -31,6 +36,15 @@ const SignInForm = () => {
   const [devMessage, setDevMessage] = useState('');
 
   const [signIn, {isLoading}] = useSignInMutation();
+
+  useEffect(() => {
+    if (clearErrors) {
+      setErrorEmail('');
+      setErrorPassword('');
+      setSignInError('');
+    }
+    setClearErrors(false);
+  }, [clearErrors, setClearErrors]);
 
   const handleEmailChange = (input: string) => {
     setEmail(input);
@@ -76,10 +90,14 @@ const SignInForm = () => {
       setPassword('');
     } catch (error) {
       const typedError = error as {
-        status?: number;
+        status?: number | 'FETCH_ERROR';
       };
-      if (typedError.status === 400) {
+      if (typedError.status === 400 || typedError.status === 401) {
         setSignInError('Invalid email or password');
+      } else if (typedError.status === 'FETCH_ERROR') {
+        setSignInError('Network error. Please check connection or server');
+      } else if (typedError.status === 403) {
+        setSignInError('Wrong tokens. Check environment variables');
       } else {
         setSignInError('An unexpected error occurred. Please try again.');
       }

@@ -69,6 +69,14 @@ interface AdvertsAndFeatures {
   allFlatFeaturesFromDb: AdvertFeatures[];
 }
 
+type GetAdvertsParams =
+  | {
+      features?: string;
+      minPrice?: string | number;
+      maxPrice?: string | number;
+    }
+  | undefined;
+
 interface AdvertWithApplications extends Advert {
   applications: Application[];
 }
@@ -155,4 +163,5 @@ export type {
   IncomingAdvertAndFeatures,
   IncomingAdvertApplicant,
   IncomingAdvertWithApplications,
+  GetAdvertsParams,
 };

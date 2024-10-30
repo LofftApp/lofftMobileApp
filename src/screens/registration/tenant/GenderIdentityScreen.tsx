@@ -17,7 +17,6 @@ import {RegistrationBackground} from 'assets';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
-import SelectButton from 'components/buttons/SelectButton';
 import SelectionButton from 'components/buttons/SelectionButton';
 import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
@@ -26,7 +25,7 @@ import Divider from 'components/bars/Divider';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 //Validation 🛡  ️
-import {genderIdentitySchema} from 'lib/zodSchema';
+import {genderIdentitiesSchema} from 'lib/zodSchema';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -36,25 +35,20 @@ import {MAX_GENDERS} from 'components/componentData/constants';
 
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
-interface SelectButton {
-  id: number;
-  value: string;
-  toggle: boolean;
-  emoji: string;
-}
+import {Gender} from 'reduxFeatures/assets/types';
 
-const genders = [
-  {value: 'Male', id: 1, toggle: false, emoji: '👨'},
-  {value: 'Female', id: 2, toggle: false, emoji: '👩'},
-  {value: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
+const genders: Gender[] = [
+  {name: 'Male', id: 1, toggle: false, emoji: '👨'},
+  {name: 'Female', id: 2, toggle: false, emoji: '👩'},
+  {name: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
   {
-    value: 'Another gender identity not listed',
+    name: 'Another gender identity not listed',
     id: 4,
     toggle: false,
     emoji: '🙆',
   },
 
-  {value: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
+  {name: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
 ];
 
 const GenderIdentityScreen = () => {
@@ -65,38 +59,20 @@ const GenderIdentityScreen = () => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
 
-  const savedGender = newUserDetails.genderIdentity;
+  const savedGenderIds = newUserDetails.genderIdentity;
 
   // Local State
-  const [intitalGenders, setIntitalGenders] = useState(genders);
-  const [selectedGender, setSelectedGender] = useState<SelectButton[]>([]);
+  const [selectedGenderIds, setSelectedGenderIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
 
   useEffect(() => {
-    if (savedGender && savedGender.length > 0) {
-      setSelectedGender(savedGender);
-
-      const updatedGenderState = genders.map(gender => ({
-        ...gender,
-        toggle: savedGender.some(g => g.id === gender.id),
-      }));
-
-      setIntitalGenders(updatedGenderState);
-    } else {
-      setSelectedGender([]);
+    if (savedGenderIds.length) {
+      setSelectedGenderIds(savedGenderIds);
     }
-  }, [savedGender]);
+  }, [savedGenderIds]);
 
   const selectGender = (id: number) => {
-    const updatedGender = intitalGenders.map(el => {
-      return el.id === id
-        ? {...el, toggle: !el.toggle}
-        : {...el, toggle: false};
-    });
-
-    const genderSelected = updatedGender.filter(el => el.toggle);
-    setSelectedGender(genderSelected);
-    setIntitalGenders(updatedGender);
+    setSelectedGenderIds(prevIds => (prevIds.includes(id) ? [] : [id]));
   };
 
   const handleBackButton = () => {
@@ -106,13 +82,16 @@ const GenderIdentityScreen = () => {
   };
 
   const handleContinue = () => {
-    const result = genderIdentitySchema.safeParse(selectedGender);
+    const selectedGenders = genders?.filter(g =>
+      selectedGenderIds.includes(g.id),
+    );
+    const result = genderIdentitiesSchema.safeParse(selectedGenders);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
 
-    setNewUserDetails({genderIdentity: selectedGender});
+    setNewUserDetails({genderIdentity: selectedGenderIds});
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
@@ -138,11 +117,11 @@ const GenderIdentityScreen = () => {
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.selectionContainer}>
-            {intitalGenders.map((el, index) => (
+            {genders.map(el => (
               <SelectionButton
-                key={index + 1}
-                value={el.value}
-                toggle={el.toggle}
+                key={el.id}
+                value={el.name}
+                toggle={selectedGenderIds.includes(el.id)}
                 id={el.id}
                 emojiIcon={el.emoji}
                 selectFn={selectGender}
@@ -158,7 +137,8 @@ const GenderIdentityScreen = () => {
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={
-              selectedGender.length === 0 || selectedGender.length > MAX_GENDERS
+              selectedGenderIds.length === 0 ||
+              selectedGenderIds.length > MAX_GENDERS
             }
             onPress={handleContinue}
           />
@@ -178,7 +158,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(10),
   },
 });
 

@@ -5,7 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux 📦
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -38,7 +38,6 @@ import {featuresSchema} from 'lib/zodSchema';
 
 // Types 🧩
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {Feature} from 'reduxFeatures/registration/types';
 
 const FlatFeaturesScreen = () => {
   // Navigation
@@ -48,14 +47,13 @@ const FlatFeaturesScreen = () => {
   const {data} = useGetAssetsQuery();
   const features = data?.features;
   //Local State
-  const [featuresState, setFeaturesState] = useState(features);
-  const [selectedFeatures, setSelectedFeatures] = useState<Feature[]>([]);
+  const [selectedFeaturesIds, setSelectedFeaturesIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const savedFeatures =
+  const savedFeaturesIds =
     newUserDetails.userType === 'lessor'
       ? newUserDetails.flatFeatures
       : newUserDetails.filter;
@@ -63,45 +61,28 @@ const FlatFeaturesScreen = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    if (savedFeatures && savedFeatures.length > 0) {
-      setSelectedFeatures(savedFeatures);
-
-      const updatedCharsState = features?.map(feat => ({
-        ...feat,
-        toggle: savedFeatures.some(savedFeat => savedFeat.id === feat.id),
-      }));
-
-      setFeaturesState(updatedCharsState);
-    } else {
-      setSelectedFeatures([]);
+    if (savedFeaturesIds.length) {
+      setSelectedFeaturesIds(savedFeaturesIds);
     }
-  }, [savedFeatures, features]);
+  }, [savedFeaturesIds]);
 
-  const selectFeatures = (id: number) => {
-    if (!featuresState) {
-      return;
-    }
-    const updatedFeatures = featuresState?.map(element => {
-      return element.id === id
-        ? {...element, toggle: !element.toggle}
-        : element;
-    });
-
-    const featuresSelected = updatedFeatures?.filter(el => el.toggle);
-
-    setSelectedFeatures(featuresSelected);
-    setFeaturesState(updatedFeatures);
+  const handleSelectFeatures = (id: number) => {
+    setSelectedFeaturesIds(prevIds =>
+      prevIds.includes(id)
+        ? prevIds.filter(featId => featId !== id)
+        : [...prevIds, id],
+    );
   };
 
-  const featuresButtons = featuresState?.map(feature => {
+  const featuresButtons = features?.map(feat => {
     return (
       <SelectionButton
-        key={feature.id}
-        id={feature.id}
-        emojiIcon={feature.emoji}
-        value={feature.name}
-        toggle={feature.toggle}
-        selectFn={selectFeatures}
+        key={feat.id}
+        id={feat.id}
+        emojiIcon={feat.emoji}
+        value={feat.name}
+        toggle={selectedFeaturesIds.includes(feat.id)}
+        selectFn={handleSelectFeatures}
       />
     );
   });
@@ -114,6 +95,9 @@ const FlatFeaturesScreen = () => {
   };
 
   const handleContinue = () => {
+    const selectedFeatures = features?.filter(feat =>
+      selectedFeaturesIds.includes(feat.id),
+    );
     const result = featuresSchema.safeParse(selectedFeatures);
     if (!result.success) {
       setError(result.error?.flatten().formErrors[0]);
@@ -121,9 +105,9 @@ const FlatFeaturesScreen = () => {
     }
 
     if (newUserDetails.userType === 'lessor') {
-      setNewUserDetails({flatFeatures: result.data});
+      setNewUserDetails({flatFeatures: selectedFeaturesIds});
     } else {
-      setNewUserDetails({filter: result.data});
+      setNewUserDetails({filter: selectedFeaturesIds});
     }
 
     const screen = isLessor
@@ -180,7 +164,7 @@ const FlatFeaturesScreen = () => {
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            disabled={selectedFeatures.length < MIN_SELECTED_FEATURES}
+            disabled={selectedFeaturesIds.length < MIN_SELECTED_FEATURES}
             onPress={handleContinue}
           />
         </View>
@@ -201,7 +185,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-    paddingBottom: size(10),
   },
 });
 

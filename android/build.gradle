@@ -1,4 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import java.util.Properties
+
+def loadEnvVariables() {
+    def envFile = rootProject.file('.env')
+    def Properties props = new Properties()
+    if (envFile.exists()) {
+        envFile.withInputStream { stream -> props.load(stream) }
+    }
+    return props
+}
+
+def env = loadEnvVariables()
 
 allprojects {
   repositories {
@@ -11,8 +23,8 @@ allprojects {
           // Do not change the username below.
           // This should always be `mapbox` (not your username).
           username = 'mapbox'
-          // Use the secret token you stored in gradle.properties as the password
-          password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+          // Use the secret token from env
+          password = env['MAPBOX_API_KEY'] ?: ""
       }
     }
   }

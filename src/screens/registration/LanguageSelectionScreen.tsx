@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 //Redux
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -36,22 +37,23 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useGetAssetsQuery} from 'reduxFeatures/user/userApi';
 
 const LanguageSelectionScreen = () => {
-  // Local State
-  const [searchValue, setSearchValue] = useState('');
-  const [languages, setLanguages] = useState<string[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | undefined>('');
-
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
-  // Redux
+  // Local State
+  const [searchValue, setSearchValue] = useState('');
+  const [languages, setLanguages] = useState<string[]>([]);
+  const [languagesIds, setLanguagesIds] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>('');
+
+  // initial state
   const {data} = useGetAssetsQuery();
   const languagesData = data?.languages;
+
+  // Redux
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
@@ -61,30 +63,31 @@ const LanguageSelectionScreen = () => {
 
   useEffect(() => {
     if (savedLanguages && savedLanguages.length > 0) {
-      setSelectedLanguages(savedLanguages);
+      setLanguagesIds(savedLanguages);
     }
   }, [savedLanguages]);
 
-  //gets all languages from languagesText.json and filters them based on the searchValue and selectedLanguages state
   useEffect(() => {
-    setIsLoading(true);
     if (languagesData) {
-      const languageList = Object.values(languagesData);
-      const filteredLanguages = languageList.filter(
-        language =>
-          language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
-          !selectedLanguages.includes(language.name),
-      );
-      setLanguages(filteredLanguages.map(language => language.name));
+      setIsLoading(true);
+      const filteredLanguages = languagesData
+        .filter(
+          language =>
+            language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
+            !languagesIds.includes(language.id),
+        )
+        .map(language => language.name);
+      setLanguages(filteredLanguages);
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [searchValue, selectedLanguages, languagesData]);
+  }, [searchValue, languagesIds, languagesData]);
 
-  const handleSelectedLanguages = (l: string) => {
-    const updatedLanguages = selectedLanguages.includes(l)
-      ? selectedLanguages.filter(selectedLanguage => selectedLanguage !== l)
-      : [...selectedLanguages, l];
-    setSelectedLanguages(updatedLanguages);
+  const handleSelectedLanguages = (id: number) => {
+    setLanguagesIds(prevIds =>
+      prevIds.includes(id)
+        ? prevIds.filter(langId => langId !== id)
+        : [...prevIds, id],
+    );
 
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
@@ -107,12 +110,15 @@ const LanguageSelectionScreen = () => {
   };
 
   const handleContinue = () => {
+    const selectedLanguages = languagesData?.filter(lang =>
+      languagesIds.includes(lang.id),
+    );
     const result = languagesSchema.safeParse(selectedLanguages);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
-    setNewUserDetails({languages: result.data});
+    setNewUserDetails({languages: languagesIds});
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
@@ -124,6 +130,10 @@ const LanguageSelectionScreen = () => {
     handleClearSearch();
     setError('');
   };
+
+  const selectedLanguageNames = languagesData
+    ?.filter(language => languagesIds.includes(language.id))
+    .map(language => language.name);
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -164,26 +174,35 @@ const LanguageSelectionScreen = () => {
         </View>
 
         <ScrollView ref={scrollViewRef}>
-          {selectedLanguages.length > 0 && (
+          {selectedLanguageNames && selectedLanguageNames.length > 0 && (
             <>
               <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
                 Your current Selection:
               </Text>
               <View style={styles.languagesContainer}>
-                {selectedLanguages.map(language => (
+                {selectedLanguageNames?.map(language => (
                   <LanguagesCard
                     key={language}
                     language={language}
-                    selected={selectedLanguages.includes(language)}
-                    handleSelectedLanguages={handleSelectedLanguages}
+                    selected={true}
+                    handleSelectedLanguages={() =>
+                      handleSelectedLanguages(
+                        languagesData?.find(l => l.name === language)?.id || 0,
+                      )
+                    }
                   />
                 ))}
               </View>
             </>
           )}
           <Divider />
-          <View style={selectedLanguages.length > 0 && styles.notSelected}>
-            {selectedLanguages.length > 0 && (
+          <View
+            style={
+              selectedLanguageNames &&
+              selectedLanguageNames?.length > 0 &&
+              styles.notSelected
+            }>
+            {selectedLanguageNames && selectedLanguageNames.length > 0 && (
               <Text style={fontStyles.headerSmall}>Other languages</Text>
             )}
             <View style={styles.languagesContainer}>
@@ -191,8 +210,12 @@ const LanguageSelectionScreen = () => {
                 <LanguagesCard
                   key={language}
                   language={language}
-                  selected={selectedLanguages.includes(language)}
-                  handleSelectedLanguages={handleSelectedLanguages}
+                  selected={false}
+                  handleSelectedLanguages={() =>
+                    handleSelectedLanguages(
+                      languagesData?.find(l => l.name === language)?.id || 0,
+                    )
+                  }
                 />
               ))}
             </View>
@@ -206,7 +229,7 @@ const LanguageSelectionScreen = () => {
 
         <NewUserJourneyContinueButton
           value="Continue"
-          disabled={selectedLanguages.length === 0}
+          disabled={languagesIds.length === 0}
           onPress={handleContinue}
         />
       </View>
@@ -221,7 +244,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(16),
   },
   inputContainer: {
-    paddingTop: size(20),
+    paddingTop: size(5),
     paddingBottom: size(10),
   },
 
@@ -240,7 +263,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingHorizontal: size(16),
-    paddingTop: size(0),
     paddingBottom: size(20),
     alignItems: 'center',
     width: '100%',
