@@ -64,7 +64,6 @@ const GenderIdentityScreen = () => {
   // Local State
   const [selectedGenderIds, setSelectedGenderIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  console.log('newUserDetails', newUserDetails);
   useEffect(() => {
     if (savedGenders.length > 0) {
       const savedGenderIds = genders
