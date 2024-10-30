@@ -64,7 +64,6 @@ const ConditionsOfUseScreen = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
   };
-  console.log('new user details in conditions screen', newUserDetails);
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {

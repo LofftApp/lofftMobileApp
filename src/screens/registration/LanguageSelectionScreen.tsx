@@ -108,7 +108,6 @@ const LanguageSelectionScreen = () => {
     handleClearSearch();
     setError('');
   };
-  console.log('newUseedetails', newUserDetails);
 
   const handleContinue = () => {
     const selectedLanguages = languagesData?.filter(lang =>

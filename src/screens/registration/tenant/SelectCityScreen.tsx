@@ -90,12 +90,6 @@ const SelectCityScreen = () => {
     }
   }, [savedCityId, savedDistrictIds, cities]);
 
-  useEffect(() => {
-    setIsAllDistricts(
-      districts.length > 0 && selectedDistrictIds.length === districts.length,
-    );
-  }, [selectedDistrictIds, districts]);
-
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     if (districts.length >= 1 && city !== '') {
@@ -202,7 +196,7 @@ const SelectCityScreen = () => {
     const selectedDistricts = districts.filter(d =>
       selectedDistrictIds.includes(d.id),
     );
-    console.log('selectedDistricts', selectedDistricts);
+
     const result = cityDistrictsSchema.safeParse({
       city: selectedCity,
       districts: selectedDistricts,

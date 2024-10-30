@@ -76,16 +76,13 @@ const SafeSpaceForScreen = () => {
     navigation.goBack();
     setError('');
   };
-  console.log('newUserDetails', newUserDetails);
 
   const handleContinue = () => {
     const selectedSafeSpaces = safeSpaces?.filter(sp =>
       selectedSafeSpaceIds.includes(sp.id),
     );
-    console.log('selectedSafeSpaces', selectedSafeSpaces);
     const result = safeSpacesSchema.safeParse(selectedSafeSpaces);
     if (!result.success) {
-      console.log('result.error', result.error);
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
