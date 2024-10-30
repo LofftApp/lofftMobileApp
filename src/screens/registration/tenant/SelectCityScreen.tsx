@@ -117,7 +117,7 @@ const SelectCityScreen = () => {
     if (isAllDistricts) {
       setSelectedDistrictIds([]);
     } else {
-      setSelectedDistrictIds(districts.map(d => d.id));
+      setSelectedDistrictIds(districts.map(dist => dist.id));
     }
 
     setIsAllDistricts(!isAllDistricts);
@@ -142,10 +142,14 @@ const SelectCityScreen = () => {
   };
 
   const selectFn = (id: number) => {
-    const updatedDistricts = selectedDistrictIds.includes(id)
-      ? selectedDistrictIds.filter(distId => distId !== id)
-      : [...selectedDistrictIds, id];
-
+    let updatedDistricts: number[] = [];
+    if (isLessor) {
+      updatedDistricts = selectedDistrictIds.includes(id) ? [] : [id];
+    } else {
+      updatedDistricts = selectedDistrictIds.includes(id)
+        ? selectedDistrictIds.filter(distId => distId !== id)
+        : [...selectedDistrictIds, id];
+    }
     setSelectedDistrictIds(updatedDistricts);
     setIsAllDistricts(updatedDistricts.length === districts.length);
     setError('');
@@ -298,7 +302,6 @@ const SelectCityScreen = () => {
         <NewUserPaginationBar />
         <NewUserJourneyContinueButton
           value="Continue"
-          disabled={districts.length === 0}
           onPress={handleContinue}
         />
       </View>
