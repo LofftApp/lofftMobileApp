@@ -37,6 +37,7 @@ type ChipsProps = {
 
 type FilterButtonProps = {
   onPress: () => void;
+  isSearching: boolean;
 };
 
 type MatchingScoreButtonProps = {

@@ -40,14 +40,12 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     isLoading: applicationIsLoading,
     error: applicationError,
   } = useGetApplicationByIdQuery(id, {skip: isLessor});
-
   //Lessor Journey
   const {
     data: _advert,
     error: advertError,
     isLoading: advertIsLoading,
   } = useGetAdvertByIdQuery(id, {skip: !isLessor});
-
   const [toggleFavorite] = useToggleFavoriteMutation();
   const dispatch = useAppDispatch();
 
@@ -91,7 +89,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
       <View>
         <HighlightButtons
           favorite={advert?.favorite}
-          heartPresent={!advert?.lessor}
+          heartPresent={!isLessor}
           onPressHeart={handleFavorite}
         />
 
@@ -102,11 +100,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={CoreStyleSheet.screenContainer}>
-          <StatusBarComponent
-            application={application}
-            _advert={advert}
-            isLessor={isLessor}
-          />
+          <StatusBarComponent application={application} _advert={advert} />
 
           <SeeMoreButton collapsed={collapsed} toggleExpand={toggleExpand} />
 

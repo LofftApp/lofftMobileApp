@@ -1,11 +1,6 @@
 import {Dispatch, SetStateAction} from 'react';
-import {AdvertFeatures} from 'reduxFeatures/adverts/types';
+import {AdvertFeatures, GetAdvertsParams} from 'reduxFeatures/adverts/types';
 
-type SearchTermType = {
-  features?: string;
-  minPrice?: string | number;
-  maxPrice?: string | number;
-};
 interface FeaturesState extends AdvertFeatures {
   selected: boolean;
 }
@@ -13,7 +8,7 @@ interface FeaturesState extends AdvertFeatures {
 type SearchFilterModalProps = {
   openModal: boolean;
   toggleModal: () => void;
-  setSearchTerm: Dispatch<SetStateAction<SearchTermType | undefined>>;
+  setSearchTerm: Dispatch<SetStateAction<GetAdvertsParams>>;
   initialFeatures: AdvertFeatures[] | FeaturesState[];
   isSuccess: boolean;
   isError: boolean;
@@ -38,9 +33,4 @@ type ConfirmModalProps = {
   disabled?: boolean;
 };
 
-export type {
-  SearchFilterModalProps,
-  ConfirmModalProps,
-  SearchTermType,
-  FeaturesState,
-};
+export type {SearchFilterModalProps, ConfirmModalProps, FeaturesState};

@@ -35,7 +35,7 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('minPrice', String(minPrice));
           params.append('maxPrice', String(maxPrice));
         }
-
+        console.log('params', params.toString());
         return params.toString()
           ? `${baseEndpoint}?${params.toString()}`
           : baseEndpoint;
@@ -43,6 +43,7 @@ export const advertApi = lofftApi.injectEndpoints({
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
         console.log('getAdverts called 🚨');
+        console.log('response adverts', response.adverts.length);
         return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
       },
       providesTags: result =>
@@ -70,6 +71,7 @@ export const advertApi = lofftApi.injectEndpoints({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
       transformResponse: (response: IncomingAdvertWithApplications) => {
         console.log('seeApplicationsByAdvertId called 🎉');
+
         return toCamelCaseKeys(response as unknown as AdvertWithApplications);
       },
     }),

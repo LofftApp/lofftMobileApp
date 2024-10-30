@@ -21,12 +21,18 @@ import SearchFilterModal from 'components/modals/SearchFilterModal';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
-import {SearchTermType} from 'components/modals/types';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
 
 const FlatFindScreen = () => {
-  const [searchTerm, setSearchTerm] = useState<SearchTermType | undefined>(
-    undefined,
-  );
+  const [searchTerm, setSearchTerm] = useState<GetAdvertsParams>(undefined);
+
+  const {
+    data: assets,
+    isLoading: isLoadingAssets,
+    isError: isErrorAssets,
+  } = useGetAssetsQuery();
+  const features = assets?.features;
 
   const {data, isLoading, isError, isSuccess} = useGetAdvertsQuery(searchTerm, {
     refetchOnMountOrArgChange: true,
@@ -57,7 +63,7 @@ const FlatFindScreen = () => {
           keyboardType="email-address"
           style={styles.inputField}
         />
-        <FilterButton onPress={toggleModal} />
+        <FilterButton onPress={toggleModal} isSearching={!!searchTerm} />
       </View>
       <HeaderPageContentSwitch
         toggleNames={['List View', 'Map View']}
@@ -84,10 +90,10 @@ const FlatFindScreen = () => {
         openModal={openModal}
         toggleModal={toggleModal}
         setSearchTerm={setSearchTerm}
-        initialFeatures={data?.allFlatFeaturesFromDb ?? []}
+        initialFeatures={features ?? []}
         isSuccess={isSuccess}
-        isError={isError}
-        isLoading={isLoading}
+        isError={isError || isErrorAssets}
+        isLoading={isLoading || isLoadingAssets}
       />
     </SafeAreaView>
   );
