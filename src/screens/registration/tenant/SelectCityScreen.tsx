@@ -46,6 +46,10 @@ const SelectCityScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
+  // initial state
+  const {data} = useGetAssetsQuery();
+  const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
+
   //Local State
   const [city, setCity] = useState('');
   const [selectedCityId, setSelectedCityId] = useState<number | undefined>(
@@ -70,9 +74,27 @@ const SelectCityScreen = () => {
   //Safe Area
   const insets = useSafeAreaInsets();
 
-  // initial state
-  const {data} = useGetAssetsQuery();
-  const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
+  useEffect(() => {
+    if (savedCityId) {
+      const matchedCity = cities.find(c => c.id === savedCityId);
+
+      if (matchedCity) {
+        setCity(`${matchedCity.flag} ${capitalize(matchedCity.name)}`);
+        setSelectedCityId(matchedCity.id);
+        setDistricts(matchedCity.districts);
+        setSelectedDistrictIds(savedDistrictIds);
+        setIsAllDistricts(
+          savedDistrictIds.length === matchedCity.districts.length,
+        );
+      }
+    }
+  }, [savedCityId, savedDistrictIds, cities]);
+
+  useEffect(() => {
+    setIsAllDistricts(
+      districts.length > 0 && selectedDistrictIds.length === districts.length,
+    );
+  }, [selectedDistrictIds, districts]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -91,98 +113,15 @@ const SelectCityScreen = () => {
     }
   }, [districts, city, fadeAnim]);
 
-  // useEffect(() => {
-  //   if (savedCity.name && savedCity.name !== '') {
-  //     setCity(${savedCity.flag} ${capitalize(savedCity.name)});
-  //     const matchedCity = cities.find(
-  //       c => c.name.toLowerCase() === savedCity.name.toLowerCase(),
-  //     );
-
-  //     const updatedDistricts: District[] = matchedCity?.districts
-  //       ? matchedCity.districts.map(district => ({
-  //           ...district,
-  //           toggle: savedDistricts.some(
-  //             savedDistrict => savedDistrict.id === district.id,
-  //           ),
-  //         }))
-  //       : [];
-
-  //     setDistricts(updatedDistricts);
-  //     setSelectedDistricts(updatedDistricts.filter(el => el.toggle));
-  //     setSelectedCity(matchedCity);
-  //     setIsAllDistricts(updatedDistricts.every(district => district.toggle));
-  //   }
-  // }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
-
-  useEffect(() => {
-    // Set initial values based on saved IDs
-    if (savedCityId) {
-      const matchedCity = cities.find(c => c.id === savedCityId);
-      if (matchedCity) {
-        setCity(`${matchedCity.flag} ${capitalize(matchedCity.name)}`);
-        setSelectedCityId(matchedCity.id);
-        const updatedDistricts = matchedCity.districts.map(district => ({
-          ...district,
-          toggle: savedDistrictIds.includes(district.id),
-        }));
-        setDistricts(updatedDistricts);
-        setSelectedDistrictIds(savedDistrictIds);
-        setIsAllDistricts(updatedDistricts.every(district => district.toggle));
-      }
-    }
-  }, [savedCityId, savedDistrictIds, cities]);
-
-  useEffect(() => {
-    // Check if all districts are selected
-    setIsAllDistricts(
-      districts.length > 0 && selectedDistrictIds.length === districts.length,
-    );
-  }, [selectedDistrictIds, districts]);
-
-  // const selectAllDistrictsTags = () => {
-  //   const allDistrictTags = districts.map(el => ({
-  //     ...el,
-  //     toggle: !isAllDistricts,
-  //   }));
-
-  //   setDistricts(allDistrictTags);
-  //   setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
-  //   setIsAllDistricts(prev => !prev);
-  // };
-
   const selectAllDistrictsTags = () => {
-    const newDistrictIds = isAllDistricts ? [] : districts.map(d => d.id);
-    setSelectedDistrictIds(newDistrictIds);
-    setDistricts(districts.map(d => ({...d, toggle: !isAllDistricts})));
+    if (isAllDistricts) {
+      setSelectedDistrictIds([]);
+    } else {
+      setSelectedDistrictIds(districts.map(d => d.id));
+    }
+
     setIsAllDistricts(!isAllDistricts);
   };
-
-  // const orderedCities = cities.sort((a, b) => a.name.localeCompare(b.name));
-
-  // const handleOnChangeSearch = (userInput: string) => {
-  //   if (userInput === '' && city !== '') {
-  //     setDropdownContent([]);
-  //     setDistricts([]);
-  //     setIsAllDistricts(false);
-  //   } else {
-  //     const filteredCities = orderedCities.filter(c =>
-  //       c.name.toLowerCase().startsWith(userInput.toLowerCase()),
-  //     );
-
-  //     if (filteredCities.length > 0) {
-  //       setDropdownContent(filteredCities);
-  //     } else {
-  //       setDropdownContent([
-  //         {
-  //           name: 'No results found',
-  //           flag: '',
-  //         },
-  //       ]);
-  //     }
-  //   }
-  //   setCity(userInput);
-  //   setIsQuery(true);
-  // };
 
   const handleOnChangeSearch = (input: string) => {
     setCity(input);
@@ -201,36 +140,6 @@ const SelectCityScreen = () => {
       setDistricts([]);
     }
   };
-
-  // const activateDistrictDisplay = (cityInput: string) => {
-  //   const matchedCity = cities.find(
-  //     c => c.name.toLowerCase() === cityInput.split(' ')[1].toLowerCase(),
-  //   );
-  //   setDistricts(matchedCity ? matchedCity.districts : []);
-  //   setDropdownContent([]);
-  // };
-
-  // const selectFn = (id: number) => {
-  //   const updatedDistricts = districts.map(el => {
-  //     if (isLessor) {
-  //       return el.id === id
-  //         ? {...el, toggle: !el.toggle}
-  //         : {...el, toggle: false};
-  //     } else {
-  //       return el.id === id ? {...el, toggle: !el.toggle} : el;
-  //     }
-  //   });
-
-  //   setDistricts(updatedDistricts);
-
-  //   const districtsSelected = updatedDistricts.filter(el => el.toggle);
-  //   setSelectedDistricts(districtsSelected);
-
-  //   const allSelected = updatedDistricts.every(district => district.toggle);
-  //   setIsAllDistricts(allSelected);
-
-  //   setError('');
-  // };
 
   const selectFn = (id: number) => {
     const updatedDistricts = selectedDistrictIds.includes(id)
@@ -255,24 +164,9 @@ const SelectCityScreen = () => {
     );
   });
 
-  // const formattedDropDownContent = (citiesArr: Partial<CityAssets>[]) => {
-  //   return citiesArr.map(
-  //     cityData => `${cityData.flag} ${capitalize(cityData.name)} `,
-  //   );
-  // };
   const formattedDropDownContent = (citiesArr: CityAssets[]) =>
     citiesArr.map(cityData => `${cityData.flag} ${capitalize(cityData.name)} `);
 
-  // const handleDropDownPress = (value: string) => {
-  //   const matchedCity = cities.find(
-  //     c => c.name.toLowerCase() === value.split(' ')[1].toLowerCase(),
-  //   );
-  //   setCity(value);
-  //   setSelectedCity(matchedCity);
-  //   setIsQuery(false);
-  //   setIsAllDistricts(false);
-  //   activateDistrictDisplay(value);
-  // };
   const handleDropDownPress = (value: string) => {
     const matchedCity = cities.find(
       c => c.name.toLowerCase() === value.split(' ')[1].toLowerCase(),
@@ -300,14 +194,14 @@ const SelectCityScreen = () => {
   };
 
   const handleContinue = () => {
-    const selectedCityVal = cities.find(c => c.id === selectedCityId);
-    const selectedDistrictsVal = districts.filter(d =>
+    const selectedCity = cities.find(c => c.id === selectedCityId);
+    const selectedDistricts = districts.filter(d =>
       selectedDistrictIds.includes(d.id),
     );
-    console.log('selectedDistrictsVal', selectedDistrictsVal);
+    console.log('selectedDistricts', selectedDistricts);
     const result = cityDistrictsSchema.safeParse({
-      city: selectedCityVal,
-      districts: selectedDistrictsVal,
+      city: selectedCity,
+      districts: selectedDistricts,
     });
 
     if (!result.success) {
@@ -364,7 +258,9 @@ const SelectCityScreen = () => {
             onClear={handleClearSearch}
             value={city}
             dropdown={isQuery}
-            dropDownContent={formattedDropDownContent(dropdownContent)}
+            dropDownContent={formattedDropDownContent(
+              dropdownContent as CityAssets[],
+            )}
             dropDownPressAction={handleDropDownPress}
           />
         </View>

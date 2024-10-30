@@ -40,7 +40,6 @@ const ConditionsOfUseScreen = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-
   //Redux
   const [signOut, {isLoading}] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
@@ -65,6 +64,7 @@ const ConditionsOfUseScreen = () => {
     setCurrentScreen(currentScreen - 1);
     navigation.goBack();
   };
+  console.log('new user details in conditions screen', newUserDetails);
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
@@ -160,21 +160,21 @@ const ConditionsOfUseScreen = () => {
             </View>
           </View>
         </View>
-          <ConfirmModal
-            openModal={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            modalAsset={{
-              header: 'Are you sure you want to decline?',
-              description:
-                'By declining you will be logged out and your progress will be lost.',
-              buttonText: {
-                first: 'Confirm decline',
-                second: 'Take me back',
-              },
-            }}
-            image={<Looking />}
-            onPressFirstButton={handleSignOut}
-          />
+        <ConfirmModal
+          openModal={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          modalAsset={{
+            header: 'Are you sure you want to decline?',
+            description:
+              'By declining you will be logged out and your progress will be lost.',
+            buttonText: {
+              first: 'Confirm decline',
+              second: 'Take me back',
+            },
+          }}
+          image={<Looking />}
+          onPressFirstButton={handleSignOut}
+        />
       </SafeAreaView>
     </>
   );
