@@ -34,6 +34,7 @@ export const advertApi = lofftApi.injectEndpoints({
       } = {}) => {
         const baseEndpoint = '/api/adverts';
         const params = new URLSearchParams();
+
         if (features) {
           params.append('features', features);
         }
@@ -183,14 +184,14 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
     }),
     completeLessorAndCreateAdvert: builder.mutation({
-      query: ({id, userChoices}) => ({
+      query: ({ id, formData }) => ({
         url: `/api/adverts/${id}/complete_lessor_sign_up`,
         method: 'POST',
-        body: userChoices,
+        body: formData,
       }),
+      overrideExisting: false,
     }),
   }),
-  overrideExisting: false,
 });
 
 export const {

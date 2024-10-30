@@ -8,6 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -32,26 +33,26 @@ import {RootStackNavigationProp} from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState('');
-
 
   //Redux
   const [signOut, {isLoading}] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {isLessor, newUserDetails} = useNewUserDetails();
+  const {savedImages} = useImagesToUpload()
 
-  const [completeUserAndCreateTenant] =
+  const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();
-  const [completeLessorAndCreateAdvert] =
+  const [completeLessorAndCreateAdvert, {isLoading: isLoadingLessor}] =
     useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
+
 
   const handleSignOut = () => {
     signOut();
@@ -68,13 +69,35 @@ const ConditionsOfUseScreen = () => {
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
+      const flatImagesArray = savedImages.lessor.flatImages
+      const lessorProfileImagesArray =  savedImages.lessor.userImages
+
+      const formData = new FormData();
+
+      formData.append('userChoices', JSON.stringify(newUserDetails));
+
+      flatImagesArray.forEach((image, index) => {
+        formData.append(`flatImages[${index}]`, {
+          uri: image.uri,
+          type: image.type || 'image/jpeg',
+          name: image.name || `flatImage-${index}.jpg`,
+        });
+      });
+
+      lessorProfileImagesArray.forEach((image, index) => {
+        formData.append(`lessorProfileImages[${index}]`, {
+          uri: image.uri,
+          type: image.type || 'image/jpeg',
+          name: image.name || `lessorProfileImage-${index}.jpg`,
+        });
+      });
+
       try {
         const result = await completeLessorAndCreateAdvert({
           id: data?.id,
-          userChoices: newUserDetails,
+          formData,
         }).unwrap();
         setErrorMessage('');
-
         console.log('Lessor successfully completed', result);
       } catch (error) {
         const typedError = error as {
@@ -87,11 +110,13 @@ const ConditionsOfUseScreen = () => {
         }
       }
     } else {
+      const tenantProfileImages = savedImages.tenant.userImages.map(el => el.uri);
       try {
         const result = await completeUserAndCreateTenant({
           id: data?.id || 0,
           userChoices: newUserDetails,
-        }).unwrap();
+          photos: tenantProfileImages,
+          }).unwrap();
         setErrorMessage('');
         navigation.reset({
           index: 0,
@@ -110,7 +135,9 @@ const ConditionsOfUseScreen = () => {
       }
     }
   };
-
+if (isLoadingTenant || isLoadingLessor) {
+  return <LoadingComponent />
+}
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}

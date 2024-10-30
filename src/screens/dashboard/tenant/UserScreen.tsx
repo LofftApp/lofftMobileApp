@@ -15,6 +15,8 @@ const UserScreen = () => {
   const {data} = useGetUserQuery();
   const [signOut] = useSignOutMutation();
 
+  console.log(data)
+
   const userCredits = data?.credits;
 
   const handleSignOut = () => {
