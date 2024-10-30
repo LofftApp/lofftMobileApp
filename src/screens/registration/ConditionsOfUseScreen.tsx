@@ -40,7 +40,6 @@ const ConditionsOfUseScreen = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-
   //Redux
   const [signOut, {isLoading}] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
@@ -160,21 +159,21 @@ const ConditionsOfUseScreen = () => {
             </View>
           </View>
         </View>
-          <ConfirmModal
-            openModal={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            modalAsset={{
-              header: 'Are you sure you want to decline?',
-              description:
-                'By declining you will be logged out and your progress will be lost.',
-              buttonText: {
-                first: 'Confirm decline',
-                second: 'Take me back',
-              },
-            }}
-            image={<Looking />}
-            onPressFirstButton={handleSignOut}
-          />
+        <ConfirmModal
+          openModal={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          modalAsset={{
+            header: 'Are you sure you want to decline?',
+            description:
+              'By declining you will be logged out and your progress will be lost.',
+            buttonText: {
+              first: 'Confirm decline',
+              second: 'Take me back',
+            },
+          }}
+          image={<Looking />}
+          onPressFirstButton={handleSignOut}
+        />
       </SafeAreaView>
     </>
   );

@@ -1,38 +1,20 @@
-import {
-  Characteristic,
-  City,
-  Currency,
-  District,
-  Feature,
-} from 'reduxFeatures/assets/types';
-
-type CityNewUserSlice = City;
+import {Currency} from 'reduxFeatures/assets/types';
 
 // newUserSlice
 interface NewUserTenantDetails {
   userType: 'tenant';
-  languages: string[];
-  characteristics: Characteristic[];
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  flatIdentities: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  city: CityNewUserSlice;
-  districts: District[];
+  languages: number[];
+  characteristics: number[];
+  genderIdentity: number[];
+  safeSpaces: number[];
+  city: number;
+  districts: number[];
   budget: {
     minPrice: number;
     maxPrice: number;
     warmRent: boolean;
   };
-  filter: Feature[];
+  filter: number[];
   selfDescription: string;
   firstName: string;
   lastName: string;
@@ -40,24 +22,14 @@ interface NewUserTenantDetails {
 }
 interface NewUserLessorDetails {
   userType: 'lessor';
-  languages: string[];
-  characteristics: Characteristic[];
+  languages: number[];
+  characteristics: number[];
 
-  genderIdentity: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  flatIdentities: {
-    id: number;
-    toggle: boolean;
-    value: string;
-    emoji: string;
-  }[];
-  city: CityNewUserSlice;
-  districts: District[];
-  flatFeatures: Feature[];
+  genderIdentity: number[];
+  safeSpaces: number[];
+  city: number;
+  districts: number[];
+  flatFeatures: number[];
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
@@ -94,5 +66,4 @@ export type {
   NewUserTenantDetails,
   NewUserLessorDetails,
   NewUserDetails,
-  CityNewUserSlice,
 };

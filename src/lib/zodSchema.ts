@@ -15,8 +15,16 @@ import {
 import dayjs from 'dayjs';
 import {z} from 'zod';
 
+const languageSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  toggle: z.boolean(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 const languagesSchema = z
-  .array(z.string())
+  .array(languageSchema)
   .nonempty({
     message: 'Please select at least one language',
   })
@@ -42,15 +50,33 @@ const characteristicsSchema = z
     message: `You can select up to ${MAX_SELECTED_CHARS} tags only`,
   });
 
-const genderIdentitySchema = z
-  .array(
-    z.object({
-      id: z.number(),
-      toggle: z.boolean(),
-      value: z.string(),
-      emoji: z.string(),
-    }),
-  )
+const genderIdentitySchema = z.object({
+  id: z.number(),
+  toggle: z.boolean(),
+  name: z.string(),
+  emoji: z.string(),
+});
+
+const genderIdentitiesSchema = z
+  .array(genderIdentitySchema)
+  .nonempty({
+    message: 'Please select at least one option',
+  })
+  .max(MAX_GENDERS, {
+    message: `You can select up to ${MAX_GENDERS} options only`,
+  });
+
+const safeSpaceSchema = z.object({
+  id: z.number(),
+  toggle: z.boolean(),
+  name: z.string(),
+  emoji: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+const safeSpacesSchema = z
+  .array(safeSpaceSchema)
   .nonempty({
     message: 'Please select at least one option',
   })
@@ -64,7 +90,6 @@ const districtSchema = z.object({
   toggle: z.boolean(),
   emoji: z.string().optional(),
 });
-
 
 const citySchema = z.object({
   id: z.number(),
@@ -261,25 +286,19 @@ const signUpSchema = z
     path: ['repeatPassword'],
   });
 
-// Main schema (combining the individual schemas if needed)
-const newUserSchema = z.object({
-  tenant: z.object({
-    languages: languagesSchema,
-    characteristics: characteristicsSchema,
-    genderIdentity: genderIdentitySchema,
-  }),
-});
-
 export {
+  languageSchema,
   languagesSchema,
   characteristicSchema,
   characteristicsSchema,
   genderIdentitySchema,
+  genderIdentitiesSchema,
+  safeSpaceSchema,
+  safeSpacesSchema,
   districtSchema,
   citySchema,
   cityDistrictsSchema,
   budgetSchema,
-  newUserSchema,
   featureSchema,
   featuresSchema,
   selfDescriptionSchema,

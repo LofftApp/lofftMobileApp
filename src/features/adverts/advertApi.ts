@@ -3,6 +3,7 @@ import {
   Advert,
   AdvertsAndFeatures,
   AdvertWithApplications,
+  GetAdvertsParams,
   IncomingAdvert,
   IncomingAdvertAndFeatures,
   IncomingAdvertWithApplications,
@@ -18,15 +19,7 @@ import {
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
-    getAdverts: builder.query<
-      AdvertsAndFeatures,
-      | {
-          features?: string;
-          minPrice?: string | number;
-          maxPrice?: string | number;
-        }
-      | undefined
-    >({
+    getAdverts: builder.query<AdvertsAndFeatures, GetAdvertsParams>({
       query: ({
         features = '',
         minPrice = initialMinPrice,
