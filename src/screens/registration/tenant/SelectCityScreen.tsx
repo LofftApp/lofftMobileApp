@@ -39,7 +39,6 @@ import {capitalize} from 'helpers/capitalize';
 
 // Types
 
-import {CityNewUserSlice} from 'reduxFeatures/registration/types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
 
@@ -49,23 +48,24 @@ const SelectCityScreen = () => {
 
   //Local State
   const [city, setCity] = useState('');
-  const [selectedCity, setSelectedCity] = useState<
-    CityNewUserSlice | undefined
-  >(undefined);
+  const [selectedCityId, setSelectedCityId] = useState<number | undefined>(
+    undefined,
+  );
   const [dropdownContent, setDropdownContent] = useState<
     CityAssets[] | Partial<CityAssets>[]
   >([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [isAllDistricts, setIsAllDistricts] = useState(false);
-  const [selectedDistricts, setSelectedDistricts] = useState<District[]>([]);
+  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>([]);
+
   const [isQuery, setIsQuery] = useState(false);
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {setNewUserDetails, newUserDetails, isLessor} = useNewUserDetails();
-  const savedCity = newUserDetails.city;
-  const savedDistricts = newUserDetails.districts;
+  const savedCityId = newUserDetails.city;
+  const savedDistrictIds = newUserDetails.districts;
 
   //Safe Area
   const insets = useSafeAreaInsets();
@@ -91,93 +91,154 @@ const SelectCityScreen = () => {
     }
   }, [districts, city, fadeAnim]);
 
+  // useEffect(() => {
+  //   if (savedCity.name && savedCity.name !== '') {
+  //     setCity(${savedCity.flag} ${capitalize(savedCity.name)});
+  //     const matchedCity = cities.find(
+  //       c => c.name.toLowerCase() === savedCity.name.toLowerCase(),
+  //     );
+
+  //     const updatedDistricts: District[] = matchedCity?.districts
+  //       ? matchedCity.districts.map(district => ({
+  //           ...district,
+  //           toggle: savedDistricts.some(
+  //             savedDistrict => savedDistrict.id === district.id,
+  //           ),
+  //         }))
+  //       : [];
+
+  //     setDistricts(updatedDistricts);
+  //     setSelectedDistricts(updatedDistricts.filter(el => el.toggle));
+  //     setSelectedCity(matchedCity);
+  //     setIsAllDistricts(updatedDistricts.every(district => district.toggle));
+  //   }
+  // }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
+
   useEffect(() => {
-    if (savedCity.name && savedCity.name !== '') {
-      setCity(`${savedCity.flag} ${capitalize(savedCity.name)}`);
-      const matchedCity = cities.find(
-        c => c.name.toLowerCase() === savedCity.name.toLowerCase(),
-      );
-
-      const updatedDistricts: District[] = matchedCity?.districts
-        ? matchedCity.districts.map(district => ({
-            ...district,
-            toggle: savedDistricts.some(
-              savedDistrict => savedDistrict.id === district.id,
-            ),
-          }))
-        : [];
-
-      setDistricts(updatedDistricts);
-      setSelectedDistricts(updatedDistricts.filter(el => el.toggle));
-      setSelectedCity(matchedCity);
-      setIsAllDistricts(updatedDistricts.every(district => district.toggle));
+    // Set initial values based on saved IDs
+    if (savedCityId) {
+      const matchedCity = cities.find(c => c.id === savedCityId);
+      if (matchedCity) {
+        setCity(`${matchedCity.flag} ${capitalize(matchedCity.name)}`);
+        setSelectedCityId(matchedCity.id);
+        const updatedDistricts = matchedCity.districts.map(district => ({
+          ...district,
+          toggle: savedDistrictIds.includes(district.id),
+        }));
+        setDistricts(updatedDistricts);
+        setSelectedDistrictIds(savedDistrictIds);
+        setIsAllDistricts(updatedDistricts.every(district => district.toggle));
+      }
     }
-  }, [savedCity.name, savedCity.flag, cities, savedDistricts]);
+  }, [savedCityId, savedDistrictIds, cities]);
+
+  useEffect(() => {
+    // Check if all districts are selected
+    setIsAllDistricts(
+      districts.length > 0 && selectedDistrictIds.length === districts.length,
+    );
+  }, [selectedDistrictIds, districts]);
+
+  // const selectAllDistrictsTags = () => {
+  //   const allDistrictTags = districts.map(el => ({
+  //     ...el,
+  //     toggle: !isAllDistricts,
+  //   }));
+
+  //   setDistricts(allDistrictTags);
+  //   setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
+  //   setIsAllDistricts(prev => !prev);
+  // };
 
   const selectAllDistrictsTags = () => {
-    const allDistrictTags = districts.map(el => ({
-      ...el,
-      toggle: !isAllDistricts,
-    }));
-
-    setDistricts(allDistrictTags);
-    setSelectedDistricts(allDistrictTags.filter(el => el.toggle));
-    setIsAllDistricts(prev => !prev);
+    const newDistrictIds = isAllDistricts ? [] : districts.map(d => d.id);
+    setSelectedDistrictIds(newDistrictIds);
+    setDistricts(districts.map(d => ({...d, toggle: !isAllDistricts})));
+    setIsAllDistricts(!isAllDistricts);
   };
 
-  const orderedCities = cities.sort((a, b) => a.name.localeCompare(b.name));
+  // const orderedCities = cities.sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleOnChangeSearch = (userInput: string) => {
-    if (userInput === '' && city !== '') {
+  // const handleOnChangeSearch = (userInput: string) => {
+  //   if (userInput === '' && city !== '') {
+  //     setDropdownContent([]);
+  //     setDistricts([]);
+  //     setIsAllDistricts(false);
+  //   } else {
+  //     const filteredCities = orderedCities.filter(c =>
+  //       c.name.toLowerCase().startsWith(userInput.toLowerCase()),
+  //     );
+
+  //     if (filteredCities.length > 0) {
+  //       setDropdownContent(filteredCities);
+  //     } else {
+  //       setDropdownContent([
+  //         {
+  //           name: 'No results found',
+  //           flag: '',
+  //         },
+  //       ]);
+  //     }
+  //   }
+  //   setCity(userInput);
+  //   setIsQuery(true);
+  // };
+
+  const handleOnChangeSearch = (input: string) => {
+    setCity(input);
+    setIsQuery(true);
+    if (input) {
+      const filteredCities = cities.filter(c =>
+        c.name.toLowerCase().startsWith(input.toLowerCase()),
+      );
+      setDropdownContent(
+        filteredCities.length > 0
+          ? filteredCities
+          : [{name: 'No results found', flag: ''}],
+      );
+    } else {
       setDropdownContent([]);
       setDistricts([]);
-      setIsAllDistricts(false);
-    } else {
-      const filteredCities = orderedCities.filter(c =>
-        c.name.toLowerCase().startsWith(userInput.toLowerCase()),
-      );
-
-      if (filteredCities.length > 0) {
-        setDropdownContent(filteredCities);
-      } else {
-        setDropdownContent([
-          {
-            name: 'No results found',
-            flag: '',
-          },
-        ]);
-      }
     }
-    setCity(userInput);
-    setIsQuery(true);
   };
-  const activateDistrictDisplay = (cityInput: string) => {
-    const matchedCity = cities.find(
-      c => c.name.toLowerCase() === cityInput.split(' ')[1].toLowerCase(),
-    );
-    setDistricts(matchedCity ? matchedCity.districts : []);
-    setDropdownContent([]);
-  };
+
+  // const activateDistrictDisplay = (cityInput: string) => {
+  //   const matchedCity = cities.find(
+  //     c => c.name.toLowerCase() === cityInput.split(' ')[1].toLowerCase(),
+  //   );
+  //   setDistricts(matchedCity ? matchedCity.districts : []);
+  //   setDropdownContent([]);
+  // };
+
+  // const selectFn = (id: number) => {
+  //   const updatedDistricts = districts.map(el => {
+  //     if (isLessor) {
+  //       return el.id === id
+  //         ? {...el, toggle: !el.toggle}
+  //         : {...el, toggle: false};
+  //     } else {
+  //       return el.id === id ? {...el, toggle: !el.toggle} : el;
+  //     }
+  //   });
+
+  //   setDistricts(updatedDistricts);
+
+  //   const districtsSelected = updatedDistricts.filter(el => el.toggle);
+  //   setSelectedDistricts(districtsSelected);
+
+  //   const allSelected = updatedDistricts.every(district => district.toggle);
+  //   setIsAllDistricts(allSelected);
+
+  //   setError('');
+  // };
 
   const selectFn = (id: number) => {
-    const updatedDistricts = districts.map(el => {
-      if (isLessor) {
-        return el.id === id
-          ? {...el, toggle: !el.toggle}
-          : {...el, toggle: false};
-      } else {
-        return el.id === id ? {...el, toggle: !el.toggle} : el;
-      }
-    });
+    const updatedDistricts = selectedDistrictIds.includes(id)
+      ? selectedDistrictIds.filter(distId => distId !== id)
+      : [...selectedDistrictIds, id];
 
-    setDistricts(updatedDistricts);
-
-    const districtsSelected = updatedDistricts.filter(el => el.toggle);
-    setSelectedDistricts(districtsSelected);
-
-    const allSelected = updatedDistricts.every(district => district.toggle);
-    setIsAllDistricts(allSelected);
-
+    setSelectedDistrictIds(updatedDistricts);
+    setIsAllDistricts(updatedDistricts.length === districts.length);
     setError('');
   };
 
@@ -188,27 +249,41 @@ const SelectCityScreen = () => {
         id={district.id}
         value={district.name}
         emojiIcon={district.emoji}
-        toggle={district.toggle}
+        toggle={selectedDistrictIds.includes(district.id)}
         selectFn={selectFn}
       />
     );
   });
 
-  const formattedDropDownContent = (citiesArr: Partial<CityAssets>[]) => {
-    return citiesArr.map(
-      cityData => `${cityData.flag} ${capitalize(cityData.name)} `,
-    );
-  };
+  // const formattedDropDownContent = (citiesArr: Partial<CityAssets>[]) => {
+  //   return citiesArr.map(
+  //     cityData => `${cityData.flag} ${capitalize(cityData.name)} `,
+  //   );
+  // };
+  const formattedDropDownContent = (citiesArr: CityAssets[]) =>
+    citiesArr.map(cityData => `${cityData.flag} ${capitalize(cityData.name)} `);
 
+  // const handleDropDownPress = (value: string) => {
+  //   const matchedCity = cities.find(
+  //     c => c.name.toLowerCase() === value.split(' ')[1].toLowerCase(),
+  //   );
+  //   setCity(value);
+  //   setSelectedCity(matchedCity);
+  //   setIsQuery(false);
+  //   setIsAllDistricts(false);
+  //   activateDistrictDisplay(value);
+  // };
   const handleDropDownPress = (value: string) => {
     const matchedCity = cities.find(
       c => c.name.toLowerCase() === value.split(' ')[1].toLowerCase(),
     );
-    setCity(value);
-    setSelectedCity(matchedCity);
-    setIsQuery(false);
-    setIsAllDistricts(false);
-    activateDistrictDisplay(value);
+    if (matchedCity) {
+      setCity(value);
+      setSelectedCityId(matchedCity.id);
+      setDistricts(matchedCity.districts);
+      setIsQuery(false);
+      setIsAllDistricts(false);
+    }
   };
 
   const handleClearSearch = () => {
@@ -225,15 +300,14 @@ const SelectCityScreen = () => {
   };
 
   const handleContinue = () => {
-    const formattedCity = {
-      id: selectedCity?.id,
-      name: selectedCity?.name,
-      flag: selectedCity?.flag,
-      country: selectedCity?.country,
-    };
+    const selectedCityVal = cities.find(c => c.id === selectedCityId);
+    const selectedDistrictsVal = districts.filter(d =>
+      selectedDistrictIds.includes(d.id),
+    );
+    console.log('selectedDistrictsVal', selectedDistrictsVal);
     const result = cityDistrictsSchema.safeParse({
-      city: formattedCity,
-      districts: selectedDistricts,
+      city: selectedCityVal,
+      districts: selectedDistrictsVal,
     });
 
     if (!result.success) {
@@ -247,8 +321,8 @@ const SelectCityScreen = () => {
       return;
     }
     setNewUserDetails({
-      city: result.data.city,
-      districts: result.data.districts,
+      city: selectedCityId,
+      districts: selectedDistrictIds,
     });
 
     navigation.navigate(

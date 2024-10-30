@@ -81,6 +81,7 @@ const districtSchema = z.object({
   name: z.string(),
   toggle: z.boolean(),
   emoji: z.string().optional(),
+
 });
 
 const citySchema = z.object({
