@@ -5,7 +5,7 @@ interface NewUserTenantDetails {
   userType: 'tenant';
   languages: number[];
   characteristics: number[];
-  genderIdentity: number[];
+  genderIdentity: string[];
   safeSpaces: number[];
   city: number;
   districts: number[];
@@ -25,7 +25,7 @@ interface NewUserLessorDetails {
   languages: number[];
   characteristics: number[];
 
-  genderIdentity: number[];
+  genderIdentity: string[];
   safeSpaces: number[];
   city: number;
   districts: number[];

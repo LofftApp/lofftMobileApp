@@ -7,6 +7,7 @@ export const assetsApi = lofftApi.injectEndpoints({
     getAssets: builder.query<Assets, void>({
       query: () => '/api/assets',
       transformResponse: response => {
+        console.log('getAssets called 🎨');
         return toCamelCaseKeys(response as Assets);
       },
     }),

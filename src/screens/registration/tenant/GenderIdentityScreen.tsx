@@ -59,17 +59,20 @@ const GenderIdentityScreen = () => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
 
-  const savedGenderIds = newUserDetails.genderIdentity;
+  const savedGenders = newUserDetails.genderIdentity;
 
   // Local State
   const [selectedGenderIds, setSelectedGenderIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
-
   useEffect(() => {
-    if (savedGenderIds.length) {
+    if (savedGenders.length > 0) {
+      const savedGenderIds = genders
+        .filter(g => savedGenders.includes(g.name))
+        .map(g => g.id);
+
       setSelectedGenderIds(savedGenderIds);
     }
-  }, [savedGenderIds]);
+  }, [savedGenders]);
 
   const selectGender = (id: number) => {
     setSelectedGenderIds(prevIds => (prevIds.includes(id) ? [] : [id]));
@@ -90,8 +93,8 @@ const GenderIdentityScreen = () => {
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
-
-    setNewUserDetails({genderIdentity: selectedGenderIds});
+    const selectedGenderNames = selectedGenders.map(g => g.name);
+    setNewUserDetails({genderIdentity: selectedGenderNames});
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]
