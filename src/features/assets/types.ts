@@ -5,10 +5,12 @@ import {
   districtSchema,
   featureSchema,
   genderIdentitySchema,
+  languageSchema,
   safeSpaceSchema,
 } from 'lib/zodSchema';
 import {z} from 'zod';
 
+type Language = z.infer<typeof languageSchema>;
 type Characteristic = z.infer<typeof characteristicSchema>;
 type Feature = z.infer<typeof featureSchema>;
 type Currency = z.infer<typeof addressSchema.shape.currency>;
@@ -17,14 +19,6 @@ type SafeSpace = z.infer<typeof safeSpaceSchema>;
 type Gender = z.infer<typeof genderIdentitySchema>;
 type City = z.infer<typeof citySchema>;
 type CityAssets = City & {districts: District[]};
-
-interface Language {
-  id: number;
-  name: string;
-  toggle: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
 
 interface Assets {
   characteristics: Characteristic[];

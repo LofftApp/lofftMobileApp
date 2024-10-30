@@ -15,8 +15,16 @@ import {
 import dayjs from 'dayjs';
 import {z} from 'zod';
 
+const languageSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  toggle: z.boolean(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 const languagesSchema = z
-  .array(z.number())
+  .array(languageSchema)
   .nonempty({
     message: 'Please select at least one language',
   })
@@ -81,7 +89,6 @@ const districtSchema = z.object({
   name: z.string(),
   toggle: z.boolean(),
   emoji: z.string().optional(),
-
 });
 
 const citySchema = z.object({
@@ -280,6 +287,7 @@ const signUpSchema = z
   });
 
 export {
+  languageSchema,
   languagesSchema,
   characteristicSchema,
   characteristicsSchema,

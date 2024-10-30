@@ -111,12 +111,15 @@ const LanguageSelectionScreen = () => {
   console.log('newUseedetails', newUserDetails);
 
   const handleContinue = () => {
-    const result = languagesSchema.safeParse(languagesIds);
+    const selectedLanguages = languagesData?.filter(lang =>
+      languagesIds.includes(lang.id),
+    );
+    const result = languagesSchema.safeParse(selectedLanguages);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
-    setNewUserDetails({languages: result.data});
+    setNewUserDetails({languages: languagesIds});
 
     const screen = isLessor
       ? newUserScreens.lessor[currentScreen + 1]

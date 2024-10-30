@@ -21,12 +21,7 @@ const initialState: UserJourneyState = {
       characteristics: [],
       genderIdentity: [],
       safeSpaces: [],
-      city: {
-        id: 0,
-        name: '',
-        flag: '',
-        country: '',
-      },
+      city: 0,
       districts: [],
       budget: {
         minPrice: 0,
@@ -45,12 +40,7 @@ const initialState: UserJourneyState = {
       characteristics: [],
       genderIdentity: [],
       safeSpaces: [],
-      city: {
-        id: 0,
-        name: '',
-        flag: '',
-        country: '',
-      },
+      city: 0,
       districts: [],
       flatFeatures: [],
       firstName: '',
