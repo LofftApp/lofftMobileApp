@@ -50,6 +50,8 @@ const SelectCityScreen = () => {
   const {data} = useGetAssetsQuery();
   const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
 
+
+
   //Local State
   const [city, setCity] = useState('');
   const [selectedCityId, setSelectedCityId] = useState<number | undefined>(
