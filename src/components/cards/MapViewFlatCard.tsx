@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Pressable,
+} from 'react-native';
 
 // Redux 🏪
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
@@ -24,10 +31,13 @@ import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
+import {useNavigation} from '@react-navigation/native';
+import {SearchScreenNavigationProp} from 'navigationStacks/types';
 
 const maxTaglineLength = 35;
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
+  const navigation = useNavigation<SearchScreenNavigationProp>();
   const {data: currentUser} = useGetUserQuery();
   const [toggleFavorite] = useToggleFavoriteMutation();
 
@@ -45,22 +55,28 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     toggleFavorite(advert.id);
   };
 
+  const handleNavigate = () => {
+    navigation.navigate('flatShow', {advertId: advert.id});
+  };
+
   return (
     <View style={styles.boundryContainer}>
       <View style={styles.flatCardContainer}>
         <View style={styles.imageDetailsBlock}>
-          <Image
-            source={
-              advert.flat.photos.length > 0
-                ? {
-                    uri: advert.flat.photos[0],
-                    width: width(200),
-                    height: height(300),
-                  }
-                : NoFlatImage
-            }
-            style={styles.flatCardImage}
-          />
+          <Pressable onPress={handleNavigate}>
+            <Image
+              source={
+                advert.flat.photos.length > 0
+                  ? {
+                      uri: advert.flat.photos[0],
+                      width: width(200),
+                      height: height(300),
+                    }
+                  : NoFlatImage
+              }
+              style={styles.flatCardImage}
+            />
+          </Pressable>
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
               <MatchingScoreButton

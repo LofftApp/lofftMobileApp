@@ -45,7 +45,7 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {isLessor, newUserDetails} = useNewUserDetails();
-  const {savedImages} = useImagesToUpload()
+  const {savedImages} = useImagesToUpload();
 
   const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();
@@ -69,8 +69,8 @@ const ConditionsOfUseScreen = () => {
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
-      const flatImagesArray = savedImages.lessor.flatImages
-      const lessorProfileImagesArray =  savedImages.lessor.userImages
+      const flatImagesArray = savedImages.lessor.flatImages;
+      const lessorProfileImagesArray =  savedImages.lessor.userImages;
 
       const formData = new FormData();
 
@@ -136,7 +136,7 @@ const ConditionsOfUseScreen = () => {
     }
   };
 if (isLoadingTenant || isLoadingLessor) {
-  return <LoadingComponent />
+  return <LoadingComponent />;
 }
   return (
     <>
