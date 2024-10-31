@@ -8,6 +8,8 @@ import {
   IncomingAdvertAndFeatures,
   IncomingAdvertWithApplications,
 } from './types';
+
+import { NewUserLessorDetails } from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
@@ -175,7 +177,7 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
-    completeLessorAndCreateAdvert: builder.mutation({
+    completeLessorAndCreateAdvert: builder.mutation<void, { id: number; userChoices: NewUserLessorDetails; flatImages: File[]; lessorProfileImages: File[] }>({
       query: ({id, userChoices}) => ({
         url: `/api/adverts/${id}/complete_lessor_sign_up`,
         method: 'POST',
