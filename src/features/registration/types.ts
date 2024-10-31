@@ -73,7 +73,7 @@ type LessorImages = {
 };
 
 type TenantImages = {
-  userImages: Image[];
+  userImages: string[];
 };
 
 

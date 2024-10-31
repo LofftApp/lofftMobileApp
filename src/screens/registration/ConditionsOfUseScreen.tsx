@@ -82,10 +82,10 @@ const ConditionsOfUseScreen = () => {
           lessorProfileImages: lessorProfileImagesArray,
         }).unwrap();
         setErrorMessage('');
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'dashboardLessor'}],
-        });
+        // navigation.reset({
+        //   index: 0,
+        //   routes: [{name: 'dashboardLessor'}],
+        // });
 
         console.log('Lessor successfully completed', result);
       } catch (error) {
@@ -99,10 +99,12 @@ const ConditionsOfUseScreen = () => {
         }
       }
     } else {
+      const tenantProfileImages = savedImages.tenant.userImages.map(el => el.uri);
       try {
         const result = await completeUserAndCreateTenant({
           id: data?.id || 0,
           userChoices: newUserDetails,
+          photos: tenantProfileImages,
         }).unwrap();
         setErrorMessage('');
         navigation.reset({

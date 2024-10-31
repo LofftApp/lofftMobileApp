@@ -4,9 +4,11 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
+  TenantImages
 } from 'reduxFeatures/registration/types';
 
 import { Platform } from 'react-native';
+
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -28,7 +30,7 @@ export const userApi = lofftApi.injectEndpoints({
     }),
     completeUserAndCreateTenant: builder.mutation<
       void,
-      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails; photos?: File[]}
+      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails; photos?: TenantImages}
     >({
       query: ({id, userChoices, photos}) => {
       const formData = new FormData();
