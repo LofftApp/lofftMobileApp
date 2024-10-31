@@ -70,6 +70,7 @@ const ConditionsOfUseScreen = () => {
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
+       const formData = new FormData();
       try {
         const result = await completeLessorAndCreateAdvert({
           id: data?.id,
