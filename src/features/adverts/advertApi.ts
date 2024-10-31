@@ -11,7 +11,7 @@ import {
 
 import { Platform } from 'react-native';
 
-import { NewUserLessorDetails } from 'reduxFeatures/registration/types';
+import { NewUserLessorDetails, LessorImages } from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
@@ -180,13 +180,18 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
     }),
      completeLessorAndCreateAdvert: builder.mutation<
-      void,
-      { id: number; userChoices: NewUserLessorDetails; flatImages: File[]; lessorProfileImages: File[] }
+        void,
+        {
+          id: number;
+          userChoices: NewUserLessorDetails;
+          flatImages: LessorImages['flatImages'];
+          lessorProfileImages: LessorImages['userImages'];
+        }
     >({
       query: ({ id, userChoices, flatImages, lessorProfileImages }) => {
         const formData = new FormData();
 
-        formData.append("userChoices", JSON.stringify(userChoices));
+        formData.append('userChoices', JSON.stringify(userChoices));
 
         flatImages.forEach((image, index) => {
           formData.append(`flatImages[${index}]`, {

@@ -61,9 +61,27 @@ interface UserJourneyState {
   newUserDetails: NewUserDetails;
 }
 
+type Image = {
+  uri: string;
+  type: string;
+  name?: string;
+};
+
+type LessorImages = {
+  flatImages: Image[];
+  userImages: Image[];
+};
+
+type TenantImages = {
+  userImages: Image[];
+};
+
+
 export type {
   UserJourneyState,
   NewUserTenantDetails,
   NewUserLessorDetails,
   NewUserDetails,
+  LessorImages,
+  TenantImages,
 };

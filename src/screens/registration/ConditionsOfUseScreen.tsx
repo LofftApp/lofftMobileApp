@@ -33,6 +33,7 @@ import {RootStackNavigationProp} from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import { NewUserLessorDetails, LessorImages } from 'reduxFeatures/registration/types';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -46,6 +47,8 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {savedImages} = useImagesToUpload();
+
+  console.log(savedImages)
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
@@ -71,11 +74,11 @@ const ConditionsOfUseScreen = () => {
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
       const flatImagesArray = savedImages.lessor.flatImages;
-      const lessorProfileImagesArray =  savedImages.lessor.userImage;
+      const lessorProfileImagesArray =  savedImages.lessor.userImages;
       try {
         const result = await completeLessorAndCreateAdvert({
           id: data?.id,
-          userChoices: newUserDetails,
+          userChoices: newUserDetails as NewUserLessorDetails,
           flatImages: flatImagesArray,
           lessorProfileImages: lessorProfileImagesArray,
         }).unwrap();
