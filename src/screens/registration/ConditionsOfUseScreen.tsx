@@ -33,7 +33,8 @@ import {RootStackNavigationProp} from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import { NewUserLessorDetails} from 'reduxFeatures/registration/types';
+import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -122,6 +123,9 @@ const ConditionsOfUseScreen = () => {
     }
   };
 
+  if (isLoadingTenant || isLoadingLessor) {
+    return <LoadingComponent />;
+  }
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}
