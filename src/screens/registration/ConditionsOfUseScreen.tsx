@@ -50,9 +50,9 @@ const ConditionsOfUseScreen = () => {
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
-  const [completeUserAndCreateTenant] =
+  const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();
-  const [completeLessorAndCreateAdvert] =
+  const [completeLessorAndCreateAdvert, {isLoading: isLoadingLessor}] =
     useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
