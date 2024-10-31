@@ -70,13 +70,14 @@ const ConditionsOfUseScreen = () => {
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
+      const flatImagesArray = savedImages.lessor.flatImages;
+      const lessorProfileImagesArray =  savedImages.lessor.userImage;
       try {
-        const formData = new FormData();
-        formData.append('userChoices', JSON.stringify(newUserDetails));
-
         const result = await completeLessorAndCreateAdvert({
           id: data?.id,
           userChoices: newUserDetails,
+          flatImages: flatImagesArray,
+          lessorProfileImages: lessorProfileImagesArray,
         }).unwrap();
         setErrorMessage('');
 
