@@ -9,6 +9,8 @@ import {
   IncomingAdvertWithApplications,
 } from './types';
 
+import { Platform } from 'react-native';
+
 import { NewUserLessorDetails } from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
@@ -177,15 +179,46 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
-    completeLessorAndCreateAdvert: builder.mutation<void, { id: number; userChoices: NewUserLessorDetails; flatImages: File[]; lessorProfileImages: File[] }>({
-      query: ({id, userChoices}) => ({
-        url: `/api/adverts/${id}/complete_lessor_sign_up`,
-        method: 'POST',
-        body: userChoices,
-      }),
+     completeLessorAndCreateAdvert: builder.mutation<
+      void,
+      { id: number; userChoices: NewUserLessorDetails; flatImages: File[]; lessorProfileImages: File[] }
+    >({
+      query: ({ id, userChoices, flatImages, lessorProfileImages }) => {
+        const formData = new FormData();
+
+        formData.append("userChoices", JSON.stringify(userChoices));
+
+        flatImages.forEach((image, index) => {
+          formData.append(`flatImages[${index}]`, {
+            uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
+            type: image.type || 'image/jpeg',
+            name: image.name || `flatImage-${index}.jpg`,
+          });
+        });
+
+        lessorProfileImages.forEach((image, index) => {
+          formData.append(`lessorProfileImages[${index}]`, {
+            uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
+            type: image.type || 'image/jpeg',
+            name: image.name || `lessorProfileImage-${index}.jpg`,
+          });
+        });
+
+        return {
+          url: `/api/adverts/${id}/complete_lessor_sign_up`,
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Adverts', id },
+        { type: 'Applications', id: 'LIST' },
+      ],
     }),
   }),
-  overrideExisting: false,
 });
 
 export const {

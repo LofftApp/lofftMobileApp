@@ -70,7 +70,6 @@ interface AdvertsAndFeatures {
   adverts: Advert[];
 }
 
-
 type GetAdvertsParams =
   | {
       features?: string;
