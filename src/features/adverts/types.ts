@@ -178,5 +178,5 @@ export type {
   IncomingAdvertApplicant,
   IncomingAdvertWithApplications,
   GetAdvertsParams,
-  LessorSignUpParams
+  LessorSignUpParams,
 };

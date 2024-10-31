@@ -6,6 +6,8 @@ import {
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
 
+import { Platform } from 'react-native';
+
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
     getUser: builder.query<User, void>({
@@ -26,15 +28,29 @@ export const userApi = lofftApi.injectEndpoints({
     }),
     completeUserAndCreateTenant: builder.mutation<
       void,
-      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails}
+      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails; photos?: File[]}
     >({
-      query: ({id, userChoices}) => {
-        return {
-          url: `/api/users/${id}/complete_tenant_sign_up`,
-          method: 'POST',
-          body: userChoices,
-        };
-      },
+      query: ({id, userChoices, photos}) => {
+      const formData = new FormData();
+      formData.append('userChoices', JSON.stringify(userChoices));
+      if (photos) {
+       photos.forEach((uri, index) => {
+        formData.append(`photos[${index}]`, {
+        uri: Platform.OS === 'ios' ? uri.toString().replace('file://', '') : uri,
+        name: `photo_${index}.jpg`,
+        type: 'image/jpeg',
+    } as any);
+  });
+    }
+      return {
+        url: `/api/users/${id}/complete_tenant_sign_up`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      };
+    },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
   }),

@@ -198,7 +198,7 @@ export const advertApi = lofftApi.injectEndpoints({
             uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
             type: image.type || 'image/jpeg',
             name: image.name || `flatImage-${index}.jpg`,
-          });
+          } as any);
         });
 
         lessorProfileImages.forEach((image, index) => {
@@ -206,7 +206,7 @@ export const advertApi = lofftApi.injectEndpoints({
             uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
             type: image.type || 'image/jpeg',
             name: image.name || `lessorProfileImage-${index}.jpg`,
-          });
+          } as any);
         });
 
         return {
