@@ -48,7 +48,6 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {savedImages} = useImagesToUpload();
-  console.log(savedImages.tenant.userImages);
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
@@ -83,10 +82,10 @@ const ConditionsOfUseScreen = () => {
           lessorProfileImages: lessorProfileImagesArray,
         }).unwrap();
         setErrorMessage('');
-        // navigation.reset({
-        //   index: 0,
-        //   routes: [{name: 'dashboardLessor'}],
-        // });
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'dashboardLessor'}],
+        });
 
         console.log('Lessor successfully completed', result);
       } catch (error) {

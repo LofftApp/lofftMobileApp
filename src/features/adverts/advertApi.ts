@@ -224,6 +224,7 @@ export const advertApi = lofftApi.injectEndpoints({
       invalidatesTags: (result, error, { id }) => [
         { type: 'Adverts', id },
         { type: 'Applications', id: 'LIST' },
+        {type: 'User', id: 'PROFILE'},
       ],
     }),
   }),
