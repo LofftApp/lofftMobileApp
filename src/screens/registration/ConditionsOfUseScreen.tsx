@@ -48,6 +48,7 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {savedImages} = useImagesToUpload();
+  console.log(savedImages.tenant.userImages);
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
@@ -76,7 +77,7 @@ const ConditionsOfUseScreen = () => {
       const lessorProfileImagesArray =  savedImages.lessor.userImages;
       try {
         const result = await completeLessorAndCreateAdvert({
-          id: data?.id,
+          id: data?.id || 0,
           userChoices: newUserDetails as NewUserLessorDetails,
           flatImages: flatImagesArray,
           lessorProfileImages: lessorProfileImagesArray,
@@ -99,12 +100,11 @@ const ConditionsOfUseScreen = () => {
         }
       }
     } else {
-      const tenantProfileImages = savedImages.tenant.userImages.map(el => el.uri);
       try {
         const result = await completeUserAndCreateTenant({
           id: data?.id || 0,
           userChoices: newUserDetails,
-          photos: tenantProfileImages,
+          photos: savedImages.tenant.userImages,
         }).unwrap();
         setErrorMessage('');
         navigation.reset({

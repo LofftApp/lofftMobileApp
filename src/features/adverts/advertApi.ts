@@ -11,7 +11,7 @@ import {
 
 import { Platform } from 'react-native';
 
-import { NewUserLessorDetails, LessorImages } from 'reduxFeatures/registration/types';
+import { NewUserLessorDetails, ImageFile } from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
@@ -184,30 +184,33 @@ export const advertApi = lofftApi.injectEndpoints({
         {
           id: number;
           userChoices: NewUserLessorDetails;
-          flatImages: LessorImages['flatImages'];
-          lessorProfileImages: LessorImages['userImages'];
+          flatImages: ImageFile[];
+          lessorProfileImages: ImageFile[];
         }
     >({
       query: ({ id, userChoices, flatImages, lessorProfileImages }) => {
         const formData = new FormData();
-
         formData.append('userChoices', JSON.stringify(userChoices));
 
-        flatImages.forEach((image, index) => {
-          formData.append(`flatImages[${index}]`, {
-            uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
-            type: image.type || 'image/jpeg',
-            name: image.name || `flatImage-${index}.jpg`,
-          } as any);
-        });
+        if(flatImages){
+          flatImages.forEach((image, index) => {
+            formData.append(`flatImages[${index}]`, {
+              uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
+              type: image.type,
+              name: `flatImage-${index}.jpg`,
+            });
+          });
+        }
 
+       if(lessorProfileImages){
         lessorProfileImages.forEach((image, index) => {
           formData.append(`lessorProfileImages[${index}]`, {
             uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
-            type: image.type || 'image/jpeg',
-            name: image.name || `lessorProfileImage-${index}.jpg`,
-          } as any);
+            type: image.type,
+            name: `lessorProfileImage-${index}.jpg`,
+          });
         });
+        }
 
         return {
           url: `/api/adverts/${id}/complete_lessor_sign_up`,

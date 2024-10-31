@@ -4,7 +4,7 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
-  TenantImages
+  ImageFile,
 } from 'reduxFeatures/registration/types';
 
 import { Platform } from 'react-native';
@@ -30,18 +30,18 @@ export const userApi = lofftApi.injectEndpoints({
     }),
     completeUserAndCreateTenant: builder.mutation<
       void,
-      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails; photos?: TenantImages}
+      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails; photos?: ImageFile[]}
     >({
       query: ({id, userChoices, photos}) => {
       const formData = new FormData();
       formData.append('userChoices', JSON.stringify(userChoices));
       if (photos) {
-       photos.forEach((uri, index) => {
+       photos.forEach((el, index) => {
         formData.append(`photos[${index}]`, {
-        uri: Platform.OS === 'ios' ? uri.toString().replace('file://', '') : uri,
+        uri: Platform.OS === 'ios' ? el.uri.toString().replace('file://', '') : el.uri,
         name: `photo_${index}.jpg`,
-        type: 'image/jpeg',
-    } as any);
+        type: el.type,
+    });
   });
     }
       return {
