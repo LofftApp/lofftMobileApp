@@ -8,6 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
+import { useImagesToUpload } from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -43,6 +44,8 @@ const ConditionsOfUseScreen = () => {
   //Redux
   const [signOut, {isLoading}] = useSignOutMutation();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
+
+  const {savedImages} = useImagesToUpload();
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
