@@ -62,8 +62,8 @@ interface UserJourneyState {
 }
 
 type Image = {
-  uri: string;
-  type: string;
+  uri?: string;
+  type?: string;
   name?: string;
 };
 

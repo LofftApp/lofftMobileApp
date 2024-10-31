@@ -33,7 +33,7 @@ import {RootStackNavigationProp} from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import { NewUserLessorDetails, LessorImages } from 'reduxFeatures/registration/types';
+import { NewUserLessorDetails} from 'reduxFeatures/registration/types';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -47,8 +47,6 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {savedImages} = useImagesToUpload();
-
-  console.log(savedImages)
 
   const {isLessor, newUserDetails} = useNewUserDetails();
 
@@ -83,6 +81,10 @@ const ConditionsOfUseScreen = () => {
           lessorProfileImages: lessorProfileImagesArray,
         }).unwrap();
         setErrorMessage('');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'dashboardLessor'}],
+        });
 
         console.log('Lessor successfully completed', result);
       } catch (error) {
