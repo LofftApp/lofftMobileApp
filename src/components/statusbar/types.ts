@@ -11,6 +11,5 @@ type StatusBarNavigationProp = LessorNavigatorScreenNavigationProp &
 type StatusBarProps = {
   _advert?: Advert;
   application?: Application;
-  isLessor: boolean;
 };
 export type {StatusBarNavigationProp, StatusBarProps};

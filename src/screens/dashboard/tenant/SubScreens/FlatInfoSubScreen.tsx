@@ -26,6 +26,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const {data: currentUser} = useGetUserQuery();
+  const isLessor = currentUser?.userType === 'lessor';
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
 
@@ -75,7 +76,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
 
   return (
     <>
-      {!advert.lessor && (
+      {!isLessor && (
         <View style={styles.matchContainer}>
           <View>
             <Text style={fontStyles.headerLarge}>🌟</Text>

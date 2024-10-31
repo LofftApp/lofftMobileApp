@@ -53,6 +53,8 @@ const ConditionsOfUseScreen = () => {
     useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
+  console.log(newUserDetails)
+
   const handleSignOut = () => {
     signOut();
   };
