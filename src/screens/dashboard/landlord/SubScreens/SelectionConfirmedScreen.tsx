@@ -8,14 +8,14 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
-import {ApplyForFlatScreenBackground, HiFive} from 'assets';
+import {ConfirmBackground, HiFive} from 'assets';
 import BackButton from 'components/buttons/BackButton';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
-import {LessorNavigatorScreenNavigationProp} from '../../../../../navigationStacks/types';
+import {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 import {SelectionConfirmedScreenProp} from './types';
 
 const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
@@ -32,7 +32,11 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+      <ConfirmBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
       <BackButton style={styles.backButton} onPress={navigation.goBack} />
       <HiFive />
       <View style={CoreStyleSheet.screenContainer}>
@@ -63,12 +67,6 @@ const styles = StyleSheet.create({
   ]),
   backButton: {
     marginLeft: 10,
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: size(50),
-    zIndex: -1,
-    left: size(-20),
   },
   textContainer: {
     textAlign: 'center',

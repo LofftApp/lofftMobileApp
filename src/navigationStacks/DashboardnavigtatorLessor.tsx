@@ -1,0 +1,62 @@
+import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+// Redux 🏪
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+// Components 🪢
+import {tabIcons} from './tabIcons';
+
+// StyleSheets 🖼️
+import Color from 'styleSheets/lofftColorPallet.json';
+
+// Navigator
+// import FlatSearchNavigator from './FlatSearchNavigator';
+
+// Screens
+import AdminScreen from 'screens/admin/adminScreen';
+// import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
+import LessorActionScreen from 'screens/dashboard/landlord/LessorActionScreen';
+import LessorNavigator from './LessorNavigator';
+import {LessorTabParamsList} from './types';
+import UserScreen from 'screens/dashboard/tenant/UserScreen';
+
+const Tab = createBottomTabNavigator<LessorTabParamsList>();
+const DashboardNavigatorLessor = () => {
+  const {data} = useGetUserQuery();
+  const admin = data?.admin;
+  return (
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color}) => tabIcons({route, color}),
+        tabBarActiveTintColor: Color.Lavendar[100],
+        tabBarInActiveTintColor: Color.Black[30],
+        tabBarShowLabel: false,
+      })}>
+      <Tab.Screen
+        name="lessorIndex"
+        component={LessorNavigator}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="lessorAction"
+        component={LessorActionScreen}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="user"
+        component={UserScreen}
+        options={{headerShown: false}}
+      />
+      {admin ? (
+        <Tab.Screen
+          name="admin"
+          component={AdminScreen}
+          options={{headerShown: false}}
+        />
+      ) : null}
+    </Tab.Navigator>
+  );
+};
+
+export default DashboardNavigatorLessor;

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, StyleSheet, Pressable, Animated} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
 // Components 🪢
@@ -27,8 +27,23 @@ const InputFieldText = ({
   dropDownContent = [],
   dropDownPressAction = () => {},
   style,
+  currency = '€',
 }: InputFieldTextProps) => {
   const [focus, setFocus] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (dropdown && dropDownContent.length > 0) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      fadeAnim.setValue(0);
+    }
+  }, [dropdown, dropDownContent, fadeAnim]);
+
   return (
     <>
       <View
@@ -61,18 +76,16 @@ const InputFieldText = ({
             value={value}
             placeholder={placeholder || 'Search Field'}
             keyboardType={keyboardType}
-            dropdown={dropdown}
           />
         ) : type === 'currency' ? (
           <CurrencyInput
             onChangeText={onChangeText}
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
-            onClear={onClear}
             value={value}
             placeholder={placeholder || 'Currency Field'}
             keyboardType={keyboardType}
-            dropdown={dropdown}
+            currency={currency}
           />
         ) : (
           <DefaultInput
@@ -83,12 +96,15 @@ const InputFieldText = ({
             placeholder={placeholder || 'Default Field'}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             keyboardType={keyboardType}
-            dropdown={dropdown}
           />
         )}
       </View>
-      {dropdown && value.length > 0 && (
-        <View style={dropDownContent.length > 0 ? styles.dropDown : null}>
+      {dropdown && dropDownContent.length > 0 && (
+        <Animated.View
+          style={[
+            dropDownContent.length > 0 && styles.dropDown,
+            {opacity: fadeAnim},
+          ]}>
           {dropDownContent.map((val, i) => {
             return (
               <Pressable onPress={() => dropDownPressAction(val)} key={i}>
@@ -103,20 +119,18 @@ const InputFieldText = ({
               </Pressable>
             );
           })}
-        </View>
+        </Animated.View>
       )}
-      {/* {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>} */}
     </>
   );
 };
 
 const styles = StyleSheet.create({
   inputFieldStyle: {
-    marginBottom: size(8),
-    borderWidth: size(2),
-    borderRadius: size(12),
+    borderWidth: 2,
+    borderRadius: 12,
     borderColor: Color.Black[50],
-    paddingHorizontal: size(8),
+    paddingHorizontal: size(4),
     height: size(48),
     justifyContent: 'center',
   },
@@ -130,9 +144,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   dropDown: {
-    borderWidth: size(2),
-    borderTopWidth: size(1),
-    borderTopColor: Color.Lavendar[30],
+    borderWidth: 2,
+    borderTopWidth: 1,
+    borderTopColor: Color.Lavendar[100],
     borderColor: Color.Lavendar[100],
     borderBottomLeftRadius: size(16),
     borderBottomRightRadius: size(16),
@@ -140,17 +154,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dropDownItem: {
-    marginVertical: size(2),
-    borderBottomWidth: size(3),
-    padding: size(3),
+    marginVertical: 2,
+    borderBottomWidth: 3,
+    paddingVertical: size(6),
+    paddingHorizontal: size(8),
     borderBottomColor: Color.Black[100],
   },
-  // oddPlaceList: {
-  // },
-  errorMessage: {
-    margin: size(5),
-    color: Color.Tomato[100],
-  },
+  oddPlaceList: {},
+
   errorActive: {
     borderColor: Color.Tomato[100],
   },

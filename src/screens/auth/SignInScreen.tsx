@@ -1,38 +1,72 @@
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
-import SignInWith from 'components/SignInWith';
+import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🛠️
 import {SignInBackground} from '../../assets';
 import {HiFive} from '../../assets';
 
-const SignInScreen = ({navigation}: any) => {
+// Helpers 🥷  🏻
+import {size} from 'react-native-responsive-sizes';
+
+//Types  🧩
+import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+const {height} = Dimensions.get('window');
+
+const SignInScreen = () => {
+  const navigation = useNavigation<GuestStackScreenNavigationProp>();
+
+  const insets = useSafeAreaInsets();
+  const imageMarginTop = height < 700 ? size(10) : size(70);
+  const [clearErrors, setClearErrors] = useState(false);
+
+  const handleSignUp = () => {
+    if (clearErrors) {
+      setClearErrors(false);
+      return;
+    }
+
+    navigation.navigate('SignUpScreen');
+    setClearErrors(true);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.imageWrap}>
-        <HiFive style={styles.image} />
+    <View style={styles.behindContainer}>
+      <SignInBackground
+        height={height * 1.9}
+        width="100%"
+        style={styles.backgroundImage}
+      />
+
+      <View style={styles.imageContainer}>
+        <HiFive style={{marginTop: imageMarginTop}} />
       </View>
-      <SignInBackground style={styles.backgroundImage} />
-      <View style={styles.formWrap}>
+
+      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
-          <SignInForm />
+          <SignInForm clearErrors={clearErrors} setClearErrors={setClearErrors} />
         </View>
-        <View style={styles.signInWith}>
-          <SignInWith navigation={navigation} />
-          <Text style={styles.text}>
-            Don't have an account yet?{'     '}
+        <View style={styles.footer}>
+          <SignInWith isSignInScreen />
+          <View style={styles.signUpContainer}>
+            <Text style={fontStyles.bodyMedium}>
+              Don't have an account yet?
+            </Text>
             <Text
-              style={styles.link}
-              onPress={() => navigation.navigate('SignUpScreen')}>
+              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
+              onPress={handleSignUp}>
               Sign Up
             </Text>
-          </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -40,46 +74,44 @@ const SignInScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  behindContainer: {
     flex: 1,
-    backgroundColor: Color.Lavendar['5'],
+    backgroundColor: Color.Lavendar['10'],
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: '-46%',
+    zIndex: 1,
   },
   image: {
-    height: '70%',
-    overflow: 'visible',
-    marginTop: 50,
+    marginTop: height / 12,
   },
-  imageWrap: {
+  imageContainer: {
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
   },
-  backgroundImage: {
-    position: 'absolute',
-    top: -10,
-    zIndex: 1,
-  },
-  formWrap: {
-    zIndex: 2,
+  formContainer: {
     flex: 3,
-    paddingHorizontal: 10,
+    paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
     borderRadius: 30,
+    zIndex: 2,
   },
   signInForm: {
     flex: 2,
   },
-  signInWith: {
+  footer: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: size(190),
   },
-  text: {
-    paddingBottom: 40,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  link: {
-    color: Color.Blue['100'],
+  signUpContainer: {
+    flexDirection: 'row',
+    gap: size(20),
+    alignItems: 'center',
+    marginBottom: size(10),
   },
 });
 

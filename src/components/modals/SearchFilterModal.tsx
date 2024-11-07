@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -17,20 +17,28 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import {fontStyles} from 'styleSheets/fontStyles';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import Divider from 'components/bars/Divider';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
+import {isPriceValid} from 'helpers/isPriceValid';
+import {onlyNumber} from 'helpers/onlyNumber';
+
+//Constants
+import {
+  initialMaxPrice,
+  initialMinPrice,
+} from 'components/componentData/constants';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
-import type {SearchFilterModalProps, FeaturesState} from './types';
-import {AdvertFeatures} from 'reduxFeatures/adverts/types';
-
-export const initialMinPrice = '100';
-export const initialMaxPrice = '5000';
+import type {SearchFilterModalProps} from './types';
+import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const SearchFilterModal = ({
   openModal,
@@ -46,41 +54,20 @@ const SearchFilterModal = ({
   const [, setMinFocus] = useState(false);
   const [, setMaxFocus] = useState(false);
 
-  const featuresWithSelected = useCallback(
-    () =>
-      initialFeatures.map(element => ({
-        ...element,
-        selected: false,
-      })),
-    [initialFeatures],
-  );
-
-  const [featuresState, setFeaturesState] = useState<FeaturesState[]>([]);
-
-  const [selectedFeatures, setSelectedFeatures] = useState<AdvertFeatures[]>(
-    [],
-  );
-
-  useEffect(() => {
-    setFeaturesState(featuresWithSelected);
-  }, [featuresWithSelected]);
-
-  const onlyNumber = (value: string) => {
-    return Number(value.replace(/\D/g, ''));
-  };
+  const [selectedFeaturesIds, setSelectedFeaturesIds] = useState<number[]>([]);
 
   const handleSearch = async () => {
-    const featuresIds = selectedFeatures.map(track => track.id).join(',');
     if (
-      (!featuresIds || featuresIds.length === 0) &&
+      !selectedFeaturesIds.length &&
       minPrice === initialMinPrice &&
       maxPrice === initialMaxPrice
     ) {
       toggleModal();
       return;
     }
-    const query = {
-      features: featuresIds,
+
+    const query: GetAdvertsParams = {
+      features: selectedFeaturesIds.join(','),
       minPrice,
       maxPrice,
     };
@@ -88,8 +75,6 @@ const SearchFilterModal = ({
     setSearchTerm(query);
     if (isSuccess) {
       toggleModal();
-      setFeaturesState(featuresWithSelected);
-      setSelectedFeatures([]);
     }
   };
 
@@ -124,53 +109,32 @@ const SearchFilterModal = ({
     handleMax(array[1]);
   };
 
-  const selectFeature = (id: number) => {
-    const updatedFeatures = featuresState.map(element => {
-      if (element.id === id) {
-        return {
-          ...element,
-          selected: !element.selected,
-        };
-      } else {
-        return element;
-      }
-    });
-
-    const featuresSelected = updatedFeatures.filter(el => el.selected);
-
-    setSelectedFeatures(featuresSelected);
-    setFeaturesState(updatedFeatures);
+  const handleSelectFeatures = (id: number) => {
+    setSelectedFeaturesIds(prevIds =>
+      prevIds.includes(id)
+        ? prevIds.filter(featId => featId !== id)
+        : [...prevIds, id],
+    );
   };
 
-  const allFeaturesButtons = featuresState.map(feature => {
+  const allFeaturesButtons = initialFeatures.map(feature => {
     return (
       <SelectionButton
         key={feature.id}
         id={feature.id}
         emojiIcon={feature.emoji}
         value={feature.name}
-        toggle={feature.selected}
-        selectFn={selectFeature}
+        toggle={selectedFeaturesIds.includes(feature.id)}
+        selectFn={handleSelectFeatures}
       />
     );
   });
 
   const handleClearAll = () => {
-    const clearedPreferences = featuresState.map(element => ({
-      ...element,
-      selected: false,
-    }));
-    setFeaturesState(clearedPreferences);
     setMinPrice(initialMinPrice);
     setMaxPrice(initialMaxPrice);
-    setSelectedFeatures([]);
+    setSelectedFeaturesIds([]);
     setSearchTerm(undefined);
-  };
-
-  const isPriceValid = () => {
-    const min = +minPrice;
-    const max = +maxPrice;
-    return min <= max && min >= 0 && max >= 0;
   };
 
   return (
@@ -208,11 +172,10 @@ const SearchFilterModal = ({
 
             <View style={styles.sliderContainer}>
               {+minPrice > +maxPrice && (
-                <View style={styles.errorContainer}>
-                  <Text style={styles.errorMessage}>
-                    The min value must not be more than the max value!
-                  </Text>
-                </View>
+                <ErrorMessage
+                  fontSize={fontStyles.bodyExtraSmall}
+                  message="The min value must not be more than the max value!"
+                />
               )}
               <Slider
                 thumbTintColor={Color.Lavendar[100]}
@@ -253,7 +216,7 @@ const SearchFilterModal = ({
               </View>
             </ScrollView>
           </View>
-          <View style={styles.pageBreak} />
+          <Divider />
           <View style={styles.buttonsContainer}>
             <CoreButton
               value="Clear all"
@@ -263,12 +226,17 @@ const SearchFilterModal = ({
               onPress={handleClearAll}
               textSize={fontStyles.headerExtraSmall}
             />
-            {/* // event handler to send request */}
             <CoreButton
               value={
-                isLoading ? 'Loading...' : isError ? 'Try again' : 'See results'
+                isLoading ? (
+                  <LoadingButtonIcon />
+                ) : isError ? (
+                  'Try again'
+                ) : (
+                  'See results'
+                )
               }
-              disabled={isLoading || !isPriceValid()}
+              disabled={isLoading || !isPriceValid(minPrice, maxPrice)}
               style={styles.seeResultButton}
               onPress={isError ? toggleModal : handleSearch}
               textSize={fontStyles.headerExtraSmall}
@@ -279,16 +247,17 @@ const SearchFilterModal = ({
     </Modal>
   );
 };
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const styles = StyleSheet.create({
   priceRangeContainer: {
     paddingVertical: size(20),
+    paddingHorizontal: size(10),
   },
   featuresContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
+    paddingHorizontal: size(5),
   },
 
   inputContainer: {
@@ -308,17 +277,6 @@ const styles = StyleSheet.create({
     marginTop: size(30),
   },
 
-  errorContainer: {
-    alignItems: 'center',
-  },
-
-  filterHeight: {
-    flex: 1,
-    maxHeight: size(66),
-  },
-  errorMessage: {
-    color: Color.Tomato[100],
-  },
   priceInputContainer: {
     marginVertical: size(10),
   },
@@ -333,19 +291,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: size(16),
-    paddingBottom: size(0),
+    alignItems: 'center',
   },
   seeResultButton: {
-    paddingHorizontal: size(25),
+    width: '40%',
   },
   clearAllButton: {
-    paddingHorizontal: size(25),
+    width: '40%',
   },
-  pageBreak: {
-    borderBottomWidth: size(1),
-    paddingVertical: size(5),
-    borderColor: Color.Black[30],
-  },
+
 });
 
 export default SearchFilterModal;

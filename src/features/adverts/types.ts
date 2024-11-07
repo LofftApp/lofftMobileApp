@@ -4,6 +4,7 @@ import {
   UserProfile,
 } from 'reduxFeatures/user/types';
 import {Application, IncomingApplication} from '../applications/types';
+import { Currency } from 'reduxFeatures/assets/types';
 interface AdvertUser {
   id: number;
   email: string;
@@ -22,6 +23,7 @@ interface AdvertApplicant extends AdvertUser {
 }
 
 interface AdvertCharacteristics {
+  id: number;
   emoji: string;
   name: string;
 }
@@ -49,7 +51,7 @@ interface AdvertFlat {
 interface Advert {
   id: number;
   monthlyRent: number;
-  currency: string;
+  currency: Currency
   warmRent: boolean;
   fromDate: number;
   toDate: number;
@@ -58,16 +60,23 @@ interface Advert {
   matchScore: number;
   favorite: boolean;
   applied: boolean;
-  user: AdvertUser;
-  lessor: boolean;
+  lessor: AdvertUser;
+  currentUserLessor: boolean;
   flat: AdvertFlat;
   applicants?: AdvertApplicant[];
 }
 
 interface AdvertsAndFeatures {
   adverts: Advert[];
-  allFlatFeaturesFromDb: AdvertFeatures[];
 }
+
+type GetAdvertsParams =
+  | {
+      features?: string;
+      minPrice?: string | number;
+      maxPrice?: string | number;
+    }
+  | undefined;
 
 interface AdvertWithApplications extends Advert {
   applications: Application[];
@@ -155,4 +164,5 @@ export type {
   IncomingAdvertAndFeatures,
   IncomingAdvertApplicant,
   IncomingAdvertWithApplications,
+  GetAdvertsParams,
 };

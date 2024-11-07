@@ -1,20 +1,45 @@
 interface UserCharacteristics {
-  emoji: string | null;
-  name: string | null;
+  emoji: string;
+  name: string;
+  id: number;
 }
+
 interface UserProfile {
-  age: number | null;
-  characteristics: UserCharacteristics[] | null;
-  dateOfBirth: string | null;
-  description: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  genderIdentity: string | null;
+  age: number;
+  characteristics: UserCharacteristics[];
+  filter: UserFilter[];
+  dateOfBirth: string;
+  description: string;
+  firstName: string;
+  lastName: string;
+  genderIdentity: string;
+}
+interface User {
+  admin: boolean;
+  credits: number;
+  id: number;
+  email: string;
+  termsAccepted: boolean;
+  userType: 'newuser' | 'tenant' | 'lessor' | 'admin';
+  profile: UserProfile;
+  confirmedEmail: boolean;
+}
+
+interface IncomingUser {
+  admin: boolean;
+  credits: number;
+  id: number;
+  email: string;
+  terms_accepted: boolean;
+  user_type: 'newuser' | 'tenant' | 'lessor' | 'admin';
+  profile: IncomingUserProfile;
+  confirmedEmail: boolean;
 }
 
 interface IncomingUserProfile {
   age: number;
   characteristics: UserCharacteristics[];
+  filter: UserFilter[];
   date_of_birth: string;
   description: string;
   first_name: string;
@@ -23,41 +48,27 @@ interface IncomingUserProfile {
 }
 
 interface UserFilter {
-  id: number | null;
-  emoji: string | null;
-  name: string | null;
-}
-interface UserState {
-  loading: boolean;
-  user: {
-    id: number | null;
-    email: string | null;
-    admin: boolean | null;
-    termsAccepted: boolean | null;
-    userType: 'newuser' | 'tenant' | 'lessor' | 'admin' | null;
-    profile: UserProfile;
-    filter: UserFilter[] | null;
-    credits: number | null;
-  };
+  id: number;
+  emoji: string;
+  name: string;
 }
 
 interface SpecificUser {
   email: string;
-  filter: UserFilter[];
   id: number;
   profile: UserProfile;
 }
 interface IncomingSpecificUser {
   email: string;
-  filter: UserFilter[];
   id: number;
   profile: IncomingUserProfile;
 }
 export type {
-  UserState,
+  User,
   UserProfile,
   UserCharacteristics,
   UserFilter,
+  IncomingUser,
   IncomingSpecificUser,
   SpecificUser,
 };

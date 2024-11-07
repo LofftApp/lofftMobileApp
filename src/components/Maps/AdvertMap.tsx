@@ -1,12 +1,15 @@
-import React, {useEffect, useState, useRef} from 'react';
-
+import React, {useState, useRef} from 'react';
 import {View, StyleSheet, FlatList, StatusBar, ViewToken} from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
-import {MAPBOX_API_KEY} from '@env';
+
+//Hooks 🪝
+import {useAdvertsWithCoordinates} from 'hooks/useAdvertsWithCoordinates';
 
 // Components 🪢
 import MapViewFlatCard from 'components/cards/MapViewFlatCard';
 import MapMarker from 'components/Maps/MapMarker';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // Types 🏷️
 import {Advert} from 'reduxFeatures/adverts/types';
@@ -14,38 +17,8 @@ import {AdvertWithCoordinates} from './types';
 
 const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [mapboxAdverts, setMapboxAdverts] = useState<AdvertWithCoordinates[]>(
-    [],
-  );
 
-  // API
-  useEffect(() => {
-    const geoCoding = async () => {
-      try {
-        const advertsWithCoordinates = await Promise.all(
-          adverts.map(async (el: Advert, i: number) => {
-            const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${el.flat.address}.json?access_token=${MAPBOX_API_KEY}`;
-            const response = await fetch(endpoint);
-            if (!response.ok) {
-              throw new Error(`Failed to fetch data for advert at index ${i}`);
-            }
-            const data = await response.json();
-
-            const flatObject = {
-              ...el,
-              coordinates: data.features[0].geometry.coordinates,
-            };
-
-            return flatObject;
-          }),
-        );
-        setMapboxAdverts(advertsWithCoordinates);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    geoCoding();
-  }, [adverts]);
+  const {mapboxAdverts, isLoading, error} = useAdvertsWithCoordinates(adverts);
 
   const onViewRef = useRef(({viewableItems}: {viewableItems: ViewToken[]}) => {
     setSelectedIndex(Number(viewableItems[0].index));
@@ -57,6 +30,18 @@ const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
     }
     return [0, 0];
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return <NotFoundComponent message={error} />;
+  }
+
+  if (adverts?.length === 0) {
+    return <NotFoundComponent message="No flats found in this area" />;
+  }
 
   return (
     <>

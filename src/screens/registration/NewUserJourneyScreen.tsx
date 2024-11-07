@@ -1,98 +1,139 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🧠
-import {useAppDispatch} from 'reduxCore/hooks';
-import {signOut} from 'reduxFeatures/authentication/authenticationMiddleware';
-
-// Screens 📺
-import ScreenBackButton from 'components/coreComponents/ScreenTemplates/ScreenBackButton';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
+import BackButton from 'components/buttons/BackButton';
+import NewUserJourneyButton from 'components/buttons/NewUserJourneyButton';
 
 // Redux 🧠
-import UserJourneyButton from 'reduxFeatures/registration/UserJourneyButton';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 // Styles 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+
+//Assets
+import {RegistrationBackground} from 'assets';
+
+//Screens
+import {newUserScreens} from '../../navigationStacks/newUserScreens';
 
 // Helper
 import {size} from 'react-native-responsive-sizes';
-import {NewUserNavigatorProp} from '../../../navigationStacks/types';
 
-const StartJourney = () => {
-  const dispatch = useAppDispatch();
-  const navigation = useNavigation<NewUserNavigatorProp>();
+// Types 🏷 ️
+import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
-  const renterText = {
-    headerText: 'What language(s) do you speak?',
+const NewUserJourneyScreen = () => {
+  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  const [typeSelected, setTypeSelected] = useState(false);
+
+  const {userType, setUserType} = useNewUserDetails();
+  const {setCurrentScreen} = useNewUserCurrentScreen();
+
+  const [signOut] = useSignOutMutation();
+
+  const {isLoading, isError} = useGetAssetsQuery();
+
+  useEffect(() => {
+    if (typeSelected && userType) {
+      const screen =
+        userType === 'lessor'
+          ? newUserScreens.lessor[1]
+          : newUserScreens.tenant[1];
+
+      setTimeout(() => {
+        navigation.navigate(screen);
+      }, 400);
+
+      setTypeSelected(false);
+    }
+  }, [userType, navigation, typeSelected]);
+
+  const handleSignOut = () => {
+    signOut();
   };
 
-  const lessorText = {
-    headerText: 'What are the common languages in your Lofft?',
+  const handleSelected = (type: 'lessor' | 'tenant') => {
+    setUserType(type);
+    setTypeSelected(true);
+    setCurrentScreen(1);
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="Error getting assets"
+        backButton
+        onPress={handleSignOut}
+      />
+    );
+  }
 
   return (
-    <ScreenBackButton nav={() => dispatch(signOut())}>
-      <HeadlineContainer
-        headlineText={'What brings you here?'}
-        subDescription={
-          'Tell us what you want to do on Lofft and we will create the matching experience!'
-        }
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <BackButton onPress={handleSignOut} />
+
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
       />
-      <UserJourneyButton
-        text="I'm looking for a flat"
-        icon="search-sm"
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate('LanguageSelectionScreen', [
-            renterText.headerText,
-            'renter',
-          ]);
-        }}
-        type="renter"
-      />
-      <UserJourneyButton
-        text="I have a room to rent"
-        icon="home-door"
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate('LanguageSelectionScreen', [
-            lessorText.headerText,
-            'lessor',
-          ]);
-        }}
-        type="lesser"
-      />
-    </ScreenBackButton>
+
+      <View style={CoreStyleSheet.screenContainer}>
+        <View style={styles.mainContainer}>
+          <HeadlineContainer
+            headlineText={'What brings you here?'}
+            subDescription={
+              'Tell us what you want to do on Lofft and we will create the matching experience!'
+            }
+          />
+          <View style={styles.buttonsContainer}>
+            <NewUserJourneyButton
+              text="I'm looking for a flat"
+              icon="search-sm"
+              onPress={() => handleSelected('tenant')}
+              type="tenant"
+              isActive={userType === 'tenant'}
+            />
+            <NewUserJourneyButton
+              text="I have a room to rent"
+              icon="home-door"
+              onPress={() => handleSelected('lessor')}
+              type="lessor"
+              isActive={userType === 'lessor'}
+            />
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    borderRadius: size(12),
-    borderWidth: size(2),
-    borderColor: Color.Black[100],
-    marginBottom: size(16),
-    flexDirection: 'row',
-    alignItems: 'center',
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    paddingTop: size(100),
+    gap: size(20),
   },
-  buttonActive: {
-    borderRadius: size(12),
-    borderWidth: size(2),
-    borderColor: Color.Lavendar[100],
-    marginBottom: size(16),
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Color.Lavendar[10],
-  },
-  icon: {
-    width: size(40),
-    height: size(40),
-    marginRight: size(8),
+  buttonsContainer: {
+    paddingHorizontal: size(10),
+    gap: size(20),
   },
 });
 
-export default StartJourney;
+export default NewUserJourneyScreen;

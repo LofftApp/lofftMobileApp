@@ -4,88 +4,89 @@ import {
   Text,
   StyleSheet,
   Image,
-  Pressable,
   Dimensions,
+  Pressable,
 } from 'react-native';
 
 // Redux 🏪
-import {useAppSelector} from 'reduxCore/hooks';
+import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import Chips from 'components/buttons/Chips';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
+import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🪴
-import noFlatImage from 'Assets/images/no-flat-image.png';
+import {NoFlatImage} from 'assets';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
 import {width, height, size} from 'react-native-responsive-sizes';
+import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
-import type {UserState} from 'reduxFeatures/user/types';
-import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
-import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useNavigation} from '@react-navigation/native';
+import {SearchScreenNavigationProp} from 'navigationStacks/types';
+
+const maxTaglineLength = 35;
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const {data: currentUser} = useGetUserQuery();
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
+
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
-  const maxTaglineLength = 35;
 
   const handleFavorite = () => {
     toggleFavorite(advert.id);
+  };
+
+  const handleNavigate = () => {
+    navigation.navigate('flatShow', {advertId: advert.id});
   };
 
   return (
     <View style={styles.boundryContainer}>
       <View style={styles.flatCardContainer}>
         <View style={styles.imageDetailsBlock}>
-          <Image
-            source={
-              advert.flat.photos
-                ? {
-                    uri: advert.flat.photos[0],
-                    width: width(200),
-                    height: height(300),
-                  }
-                : noFlatImage
-            }
-            style={styles.flatCardImage}
-          />
+          <Pressable onPress={handleNavigate}>
+            <Image
+              source={
+                advert.flat.photos.length > 0
+                  ? {
+                      uri: advert.flat.photos[0],
+                      width: width(200),
+                      height: height(300),
+                    }
+                  : NoFlatImage
+              }
+              style={styles.flatCardImage}
+            />
+          </Pressable>
           <View style={styles.details}>
             <View style={styles.flatCardbuttonsWrap}>
               <MatchingScoreButton
                 size="Small"
                 score={advert.matchScore ?? 5}
               />
-              <Pressable onPress={handleFavorite}>
-                {advert.favorite ? (
-                  <LofftIcon
-                    name="heart-filled"
-                    size={26}
-                    color={Color.Tomato[100]}
-                  />
-                ) : (
-                  <LofftIcon name="heart" size={26} color={Color.Tomato[100]} />
-                )}
-              </Pressable>
+              <HeartButton
+                favorite={advert.favorite}
+                onPress={handleFavorite}
+              />
             </View>
 
             <View style={styles.flatCardMetadataWrap}>
@@ -102,8 +103,8 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
 
               <View style={styles.taglineContainer}>
                 <Text style={fontStyles.bodySmall}>
-                  {truncateTextAtWord(advert.flat.tagLine, maxTaglineLength)}
-                  {advert.flat.tagLine.length > maxTaglineLength && '...'}
+                  {truncateTextAtWord(advert.flat?.tagLine, maxTaglineLength)}
+                  {advert.flat.tagLine?.length > maxTaglineLength && '...'}
                 </Text>
                 <Text
                   style={[
@@ -134,7 +135,8 @@ const styles = StyleSheet.create({
   flatCardContainer: {
     height: size(280),
     width: width(95),
-    padding: size(8),
+    paddingVertical: size(6),
+    paddingHorizontal: size(8),
     borderRadius: 12,
     backgroundColor: Color.White[100],
   },
@@ -167,6 +169,8 @@ const styles = StyleSheet.create({
   flatCardbuttonsWrap: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingTop: size(3),
+    paddingRight: size(1),
   },
 
   flatCardMatchingScoreButton: {

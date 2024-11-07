@@ -13,8 +13,8 @@ const CustomSwitch = ({
     <Switch
       value={value}
       onValueChange={onValueChange}
-      trackColor={{false: Color.Black[30], true: Color.Lavendar[50]}}
-      thumbColor={Color.Lavendar[100]}
+      trackColor={{false: Color.Black[30], true: Color.Lavendar[30]}}
+      thumbColor={value ? Color.Lavendar[100] : Color.Black[50]}
     />
   );
 };

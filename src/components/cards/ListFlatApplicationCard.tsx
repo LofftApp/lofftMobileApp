@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Pressable, DimensionValue} from 'react-native';
+import {Text, View, StyleSheet, DimensionValue} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {CoreButton} from 'components/buttons/CoreButton';
+import HeartButton from 'components/buttons/HeartButton';
 
 // Redux 🐙
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -23,14 +25,15 @@ import type {ListFlatApplicationCardProps} from './types';
 import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
-} from '../../../navigationStacks/types';
+} from '../../navigationStacks/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
   application,
   _advert,
-  isLessor,
 }: ListFlatApplicationCardProps) => {
+  const {data} = useGetUserQuery();
+  const isLessor = data?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -44,7 +47,7 @@ const ListFlatApplicationCard = ({
     : ['active'].includes(application?.status ?? '') &&
       !['closed'].includes(advert?.status ?? '');
 
-  const renterActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
+  const tenantActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
   const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
 
   const [currentStatusBar, setCurrentStatusBar] = useState('');
@@ -78,7 +81,7 @@ const ListFlatApplicationCard = ({
     calculateStatusBar(index);
   }, [advert?.status, application?.status, active]);
 
-  const textForStatusBar = isLessor ? lessorActiveStatus : renterActiveStatus;
+  const textForStatusBar = isLessor ? lessorActiveStatus : tenantActiveStatus;
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
@@ -89,17 +92,7 @@ const ListFlatApplicationCard = ({
       <View style={styles.advertCardButtonsOverlay}>
         <View style={styles.advertCardbuttonsWrap}>
           {!isLessor && (
-            <Pressable onPress={handleFavorite}>
-              {advert?.favorite ? (
-                <LofftIcon
-                  name="heart-filled"
-                  size={25}
-                  color={Color.Tomato[100]}
-                />
-              ) : (
-                <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
-              )}
-            </Pressable>
+            <HeartButton favorite={advert?.favorite} onPress={handleFavorite} />
           )}
         </View>
       </View>
@@ -161,7 +154,7 @@ const ListFlatApplicationCard = ({
             style={[
               styles.actualProgress,
               {
-                width: `${currentStatusBar}%` as DimensionValue,
+                width: `${Number(currentStatusBar)}%` as DimensionValue,
                 backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
               },
             ]}

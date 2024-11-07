@@ -3,28 +3,23 @@ import {
   Advert,
   AdvertsAndFeatures,
   AdvertWithApplications,
+  GetAdvertsParams,
   IncomingAdvert,
   IncomingAdvertAndFeatures,
   IncomingAdvertWithApplications,
 } from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
+
+import {applicationApi} from 'reduxFeatures/applications/applicationApi';
 import {
   initialMaxPrice,
   initialMinPrice,
-} from 'components/modals/SearchFilterModal';
+} from 'components/componentData/constants';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
-    getAdverts: builder.query<
-      AdvertsAndFeatures,
-      | {
-          features?: string;
-          minPrice?: string | number;
-          maxPrice?: string | number;
-        }
-      | undefined
-    >({
+    getAdverts: builder.query<AdvertsAndFeatures, GetAdvertsParams>({
       query: ({
         features = '',
         minPrice = initialMinPrice,
@@ -40,8 +35,9 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('minPrice', String(minPrice));
           params.append('maxPrice', String(maxPrice));
         }
-
-        return params.toString() ? `${baseEndpoint}?${params.toString()}` : baseEndpoint;
+        return params.toString()
+          ? `${baseEndpoint}?${params.toString()}`
+          : baseEndpoint;
       },
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
@@ -58,7 +54,12 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     getAdvertById: builder.query<Advert, number>({
       query: id => `/api/adverts/${id}`,
-      providesTags: (result, error, id) => [{type: 'Adverts', id}],
+      providesTags: (result, error, id) => [
+        {type: 'Adverts', id},
+        {type: 'Applications', id},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+      ],
       transformResponse: (response: IncomingAdvert) => {
         console.log('getAdvertById called 🌈');
         return toCamelCaseKeys(response as unknown as Advert);
@@ -66,8 +67,11 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
-      transformResponse: (response: IncomingAdvertWithApplications) =>
-        toCamelCaseKeys(response as unknown as AdvertWithApplications),
+      transformResponse: (response: IncomingAdvertWithApplications) => {
+        console.log('seeApplicationsByAdvertId called 🎉');
+
+        return toCamelCaseKeys(response as unknown as AdvertWithApplications);
+      },
     }),
     toggleFavorite: builder.mutation<
       {action: 'created' | 'deleted'; status: string},
@@ -78,22 +82,65 @@ export const advertApi = lofftApi.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
-        const patchResult = dispatch(
+        const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
               draft.favorite = !draft.favorite;
             }
           }),
         );
+
+        const patchAdvertList = dispatch(
+          advertApi.util.updateQueryData('getAdverts', undefined, draft => {
+            draft.adverts.forEach(advert => {
+              if (advert.id === id) {
+                advert.favorite = !advert.favorite;
+              }
+            });
+          }),
+        );
+
+        const patchApplicationById = dispatch(
+          applicationApi.util.updateQueryData(
+            'getApplicationById',
+            id,
+            draft => {
+              if (draft && draft.advert) {
+                draft.advert.favorite = !draft.advert?.favorite;
+              }
+            },
+          ),
+        );
+
+        const patchApplicationList = dispatch(
+          applicationApi.util.updateQueryData(
+            'getApplications',
+            undefined,
+            draft => {
+              draft.forEach(application => {
+                if (application.advert?.id === id) {
+                  application.advert.favorite = !application.advert.favorite;
+                }
+              });
+            },
+          ),
+        );
+
         try {
           await queryFulfilled;
         } catch {
-          patchResult.undo();
+          patchAdvertById.undo();
+          patchAdvertList.undo();
+          patchApplicationById.undo();
+          patchApplicationList.undo();
         }
       },
+
       invalidatesTags: (result, error, id) => [
+        {type: 'Adverts', id: 'LIST'},
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id},
       ],
     }),
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
@@ -104,6 +151,7 @@ export const advertApi = lofftApi.injectEndpoints({
       invalidatesTags: (result, error, id) => [
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
+        {type: 'User', id: 'PROFILE'},
       ],
     }),
     confirmApplications: builder.mutation<
@@ -127,6 +175,13 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
+    completeLessorAndCreateAdvert: builder.mutation({
+      query: ({id, userChoices}) => ({
+        url: `/api/adverts/${id}/complete_lessor_sign_up`,
+        method: 'POST',
+        body: userChoices,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -138,4 +193,5 @@ export const {
   useToggleFavoriteMutation,
   useApplyForFlatMutation,
   useConfirmApplicationsMutation,
+  useCompleteLessorAndCreateAdvertMutation,
 } = advertApi;

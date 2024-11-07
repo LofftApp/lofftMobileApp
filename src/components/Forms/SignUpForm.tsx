@@ -1,144 +1,211 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-// API 🌎
-import {useAppDispatch} from 'reduxCore/hooks';
-import {signUp} from 'reduxFeatures/authentication/authenticationMiddleware';
+// RTK 🌎
+import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
-import SignUpButton from 'components/buttons/SignUpButton';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {CoreButton} from 'components/buttons/CoreButton';
+
+//Validation 🛡️
+import {signUpSchema} from 'lib/zodSchema';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
+import {fontStyles} from 'styleSheets/fontStyles';
+
+//Helpers 🤝
+import {size} from 'react-native-responsive-sizes';
 
 const SignUpForm = () => {
-  const dispatch = useAppDispatch();
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [message] = useState({target: null, message: null});
 
-  // const pageValidation = (
-  //   checkbox: boolean,
-  //   password: string,
-  //   repeatPassword: string,
-  // ) => {
-  //   if (checkbox === false) {
-  //     return {
-  //       error: true,
-  //       target: 'checkBox',
-  //       message: 'Please agree to our terms & conditions and privacy policy',
-  //     };
-  //   } else if (password === '') {
-  //     return {
-  //       error: true,
-  //       target: 'password',
-  //       message: 'Please enter a valid password',
-  //     };
-  //   } else if (password !== repeatPassword) {
-  //     return {
-  //       error: true,
-  //       target: 'password',
-  //       message: 'Your passwords do not match!',
-  //     };
-  //   }
-  //   return {error: false};
-  // };
+  const [errorEmail, setErrorEmail] = useState('');
+  const [errorPassword, setErrorPassword] = useState('');
+  const [errorRepeatPassword, setErrorRepeatPassword] = useState('');
+  const [errorTerms, setErrorTerms] = useState('');
+  const [errorSignUp, setErrorSignUp] = useState('');
 
-  // const submitValidation = async ({email, password}: any) => {
-  //   let validation: any = null;
-  //   validation = pageValidation(checkbox, password, repeatPassword);
-  //   setMessage(validation);
-  //   if (!validation.error) {
-  //     // validation = await handleSignUp({email, password});
-  //     if (validation?.error) {
-  //       setMessage(validation);
-  //     }
-  //   }
-  // };
+  const [signUp, {isLoading}] = useSignUpMutation();
+
+  const handleEmailChange = (input: string) => {
+    setEmail(input);
+    setErrorEmail('');
+    setErrorSignUp('');
+  };
+
+  const handlePasswordChange = (input: string) => {
+    setPassword(input);
+    setErrorPassword('');
+    setErrorRepeatPassword('');
+    setErrorSignUp('');
+  };
+
+  const handleRepeatPasswordChange = (input: string) => {
+    setRepeatPassword(input);
+    setErrorRepeatPassword('');
+    setErrorSignUp('');
+  };
+
+  const toggleCheckBox = () => {
+    setCheckBox(prev => !prev);
+    setErrorTerms('');
+  };
+
+  const handleSignUp = async () => {
+    const validation = signUpSchema.safeParse({
+      email,
+      password,
+      repeatPassword,
+      terms: checkbox,
+    });
+
+    if (!validation.success) {
+      const errEmail = validation.error.flatten().fieldErrors.email?.[0];
+      const errPassword = validation.error.flatten().fieldErrors.password?.[0];
+      const errRepeatPassword =
+        validation.error.flatten().fieldErrors.repeatPassword?.[0];
+      const errCheckBox = validation.error.flatten().fieldErrors.terms?.[0];
+      if (errEmail) {
+        setErrorEmail(errEmail);
+      }
+      if (errPassword) {
+        setErrorPassword(errPassword);
+      }
+      if (errRepeatPassword) {
+        setErrorRepeatPassword(errRepeatPassword);
+      }
+      if (errCheckBox) {
+        setErrorTerms(errCheckBox);
+      }
+
+      return;
+    }
+    try {
+      await signUp({
+        email: validation.data.email,
+        password: validation.data.password,
+      }).unwrap();
+
+      setEmail('');
+      setPassword('');
+      setRepeatPassword('');
+      setCheckBox(false);
+    } catch (error) {
+      const typedError = error as {
+        status?: number | 'FETCH_ERROR';
+      };
+      if (typedError.status === 422) {
+        setErrorSignUp('User already exists. Please sign in');
+      } else if (typedError.status === 'FETCH_ERROR') {
+        setErrorSignUp('Network error. Please check connection or server');
+      } else if (typedError.status === 403) {
+        setErrorSignUp('Wrong tokens. Check environment variables');
+      } else {
+        setErrorSignUp('An unexpected error occurred. Please try again.');
+      }
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create account</Text>
-      <View style={styles.textInputWrap}>
-        <InputFieldText
-          value={email}
-          onChangeText={(text: string) => setEmail(text)}
-          placeholder="Email"
-          type="email"
-          keyboardType="email-address"
-          errorMessage={message.target === 'email' ? message.message : null}
-        />
-        <InputFieldText
-          value={password}
-          onChangeText={(text: string) => setPassword(text)}
-          placeholder="Create password"
-          type="password"
-        />
-        <InputFieldText
-          value={repeatPassword}
-          onChangeText={(text: string) => setRepeatPassword(text)}
-          placeholder="Repeat password"
-          type="password"
-          errorMessage={message.target === 'password' ? message.message : null}
-        />
-        <View style={styles.checkBoxWrap}>
+    <View style={styles.mainContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={fontStyles.headerMedium}>Create account</Text>
+      </View>
+      <View style={styles.inputsContainer}>
+        <View style={styles.inputContainer}>
+          <InputFieldText
+            value={email}
+            onChangeText={handleEmailChange}
+            placeholder="Email"
+            type="email"
+            keyboardType="email-address"
+            errorMessage={errorEmail || errorSignUp}
+          />
+          <ErrorMessage isInputField message={errorEmail} />
+        </View>
+        <View style={styles.inputContainer}>
+          <InputFieldText
+            value={password}
+            onChangeText={handlePasswordChange}
+            placeholder="Create password"
+            type="password"
+            errorMessage={errorPassword || errorSignUp}
+          />
+          <ErrorMessage isInputField message={errorPassword} />
+        </View>
+        <View style={styles.inputContainer}>
+          <InputFieldText
+            value={repeatPassword}
+            onChangeText={handleRepeatPasswordChange}
+            placeholder="Repeat password"
+            type="password"
+            errorMessage={errorRepeatPassword || errorSignUp}
+          />
+          <ErrorMessage isInputField message={errorRepeatPassword} />
+        </View>
+        <View style={styles.checkBoxContainer}>
           <CheckBox
             value={checkbox}
-            onPress={() => setCheckBox(!checkbox)}
-            style={message.target === 'checkBox' ? styles.alertBox : null}
+            onPress={toggleCheckBox}
+            style={errorTerms ? styles.alertBox : {}}
           />
-          <Text style={styles.text}>
+          <Text style={fontStyles.bodySmall}>
             I agree to <Text style={styles.link}>terms & conditions</Text> and
             Lofft’s <Text style={styles.link}>privacy policy</Text>.
           </Text>
         </View>
       </View>
-      <View style={styles.signUpButtonView}>
-        <SignUpButton
-          title="Sign up"
-          onPress={() => dispatch(signUp({email, password}))}
+      <View style={styles.signUpContainer}>
+        <CoreButton
+          value={isLoading ? '' : 'Sign Up'}
+          icon={isLoading ? <LoadingButtonIcon /> : undefined}
+          onPress={handleSignUp}
+          disabled={isLoading}
         />
+        <ErrorMessage message={errorSignUp || errorTerms} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
+  mainContainer: {
+    paddingTop: size(35),
     alignItems: 'center',
     flex: 1,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: '600',
-    lineHeight: 28,
-    paddingBottom: 20,
+
+  titleContainer: {
+    marginBottom: size(10),
   },
-  textInputWrap: {
+
+  inputsContainer: {
     width: '100%',
-    borderColor: 'black',
+    gap: size(5),
   },
-  text: {
-    paddingLeft: 20,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  checkBoxWrap: {
+  inputContainer: {gap: size(3)},
+
+  checkBoxContainer: {
     width: '90%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 15,
-    paddingHorizontal: 10,
+    gap: size(16),
+    marginTop: size(-5),
+    marginBottom: size(10),
+    paddingHorizontal: size(5),
   },
-  signUpButtonView: {
+
+  signUpContainer: {
     width: '100%',
-    position: 'absolute',
-    bottom: 0,
+    zIndex: 10,
   },
   link: {
     color: Color.Blue['100'],

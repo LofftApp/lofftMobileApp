@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Modal, SafeAreaView} from 'react-native';
 // Components
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
-import {ApplyForFlatScreenBackground} from 'assets';
+import {ConfirmBackground} from 'assets';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🥷🏻
@@ -30,7 +30,11 @@ const ConfirmModal = ({
     setIsModalOpen(prev => !prev);
   };
   return (
-    <Modal visible={openModal} animationType="slide" transparent={true}>
+    <Modal
+      visible={openModal}
+      onRequestClose={toggleModal}
+      animationType="slide"
+      transparent={true}>
       <SafeAreaView
         style={
           fullScreen
@@ -38,7 +42,11 @@ const ConfirmModal = ({
             : CoreStyleSheet.modalContainer
         }>
         <BackButton onPress={toggleModal} close />
-        <ApplyForFlatScreenBackground style={styles.backgroundImage} />
+        <ConfirmBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
+        />
         {fullScreen ? (
           <>
             <View style={styles.fullScreenModalContainer}>
@@ -88,13 +96,11 @@ const ConfirmModal = ({
               <View style={[styles.buttonsWrap, {marginTop: marginTop}]}>
                 <CoreButton
                   value={modalAsset.buttonText.first}
-                  style={styles.coreButtonStyle}
                   onPress={onPressFirstButton}
                   disabled={disabled}
                 />
                 <CoreButton
                   value={modalAsset.buttonText.second}
-                  style={styles.coreButtonStyle}
                   invert={true}
                   disabled={disabled}
                   onPress={toggleModal}
@@ -111,7 +117,7 @@ const ConfirmModal = ({
 const styles = StyleSheet.create({
   modalContainer: {
     width: '100%',
-    flex: 1,
+
     paddingHorizontal: size(16),
     alignItems: 'center',
   },
@@ -136,19 +142,9 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    marginTop: size(-50),
+    marginTop: size(-25),
   },
 
-  coreButtonStyle: {
-    width: '100%',
-  },
-
-  backgroundImage: {
-    position: 'absolute',
-    top: 50,
-    zIndex: -1,
-    left: -20,
-  },
   textContainer: {
     textAlign: 'center',
     marginTop: size(24),
@@ -156,7 +152,7 @@ const styles = StyleSheet.create({
   buttonsWrap: {
     width: '100%',
     gap: size(10),
-    marginTop: size(24),
+    flex: 1,
   },
   textRed: {
     color: Color.Tomato[100],

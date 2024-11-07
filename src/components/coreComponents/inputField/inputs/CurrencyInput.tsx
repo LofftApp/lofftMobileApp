@@ -8,25 +8,59 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {Dollar, Pound} from 'assets';
 
+type CurrencyInputProps = {
+  placeholder?: string;
+  onChangeText: (text: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  value: string;
+  currency: '€' | '£' | '$';
+  keyboardType?:
+    | 'default'
+    | 'email-address'
+    | 'numeric'
+    | 'phone-pad'
+    | 'ascii-capable'
+    | 'numbers-and-punctuation'
+    | 'url'
+    | 'number-pad'
+    | 'name-phone-pad'
+    | 'decimal-pad'
+    | 'twitter'
+    | 'web-search'
+    | 'visible-password';
+};
 const CurrencyInput = ({
   placeholder = 'Text',
   onChangeText,
-  onFocus = null,
-  onBlur = null,
+  onFocus,
+  onBlur,
   value,
-}: any) => {
+  keyboardType,
+  currency = '€',
+}: CurrencyInputProps) => {
   return (
-    <View style={styles.inputContainer}>
+    <View style={styles.inputContainerWithIcon}>
       <TextInput
         value={value}
         onChangeText={onChangeText}
-        style={[styles.inputFieldTextStyle, fontStyles.bodyMedium]}
+        style={fontStyles.bodyMedium}
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
+        keyboardType={keyboardType}
       />
-      <LofftIcon name={'currency-euro'} size={20} color={Color.Black[30]} />
+      {currency === '€' && (
+        <LofftIcon name={'currency-euro'} size={22} color={Color.Black[30]} />
+      )}
+      {currency === '£' && (
+        <Pound height={30} width={30} color={Color.Black[30]} />
+      )}
+      {currency === '$' && (
+        <Dollar height={30} width={30} color={Color.Black[30]} />
+      )}
     </View>
   );
 };

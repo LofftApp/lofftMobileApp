@@ -1,16 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
-import {useAppSelector} from 'reduxCore/hooks';
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import {CoreButton} from 'components/buttons/CoreButton';
 import Chips from 'components/buttons/Chips';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
+import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -23,25 +23,22 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {tagSorter} from 'helpers/tagSorter';
 
 // Types 🏷️
-import type {UserState} from 'reduxFeatures/user/types';
 import type {Advert} from 'reduxFeatures/adverts/types';
-import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import {SearchScreenNavigationProp} from '../../navigationStacks/types';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
-  const currentUser = useAppSelector(
-    (state: {user: UserState}) => state.user.user,
-  );
+  const {data: currentUser} = useGetUserQuery();
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const characteristicsTags = tagSorter(
-    currentUser.profile.characteristics ?? [],
+    currentUser?.profile.characteristics ?? [],
     advert.flat.characteristics ?? [],
   );
   const featuresTags = tagSorter(
-    currentUser.filter ?? [],
+    currentUser?.profile.filter ?? [],
     advert.flat.features,
   );
   const positiveFeatures = featuresTags.positiveTags;
@@ -50,23 +47,12 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const handleFavorite = () => {
     toggleFavorite(advert.id ?? 0);
   };
-
   return (
     <View style={styles.flatCardContainer}>
-      {/* favorite button /> */}
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
-          <Pressable onPress={handleFavorite}>
-            {advert.favorite ? (
-              <LofftIcon
-                name="heart-filled"
-                size={25}
-                color={Color.Tomato[100]}
-              />
-            ) : (
-              <LofftIcon name="heart" size={25} color={Color.Tomato[100]} />
-            )}
-          </Pressable>
+          {/* favorite button /> */}
+          <HeartButton favorite={advert.favorite} onPress={handleFavorite} />
         </View>
       </View>
       {/* flat image */}
@@ -87,11 +73,14 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
 
           <MatchingScoreButton size="Big" score={advert.matchScore ?? 5} />
         </View>
-        {advert.flat.district && (
+        <View style={styles.taglineDistrictContainer}>
+          <Text style={[fontStyles.headerExtraSmall, {color: Color.Black[80]}]}>
+            {advert.flat.tagLine}
+          </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
             {advert.flat.district}, {advert.flat.city}
           </Text>
-        )}
+        </View>
 
         <View style={styles.chipContainer}>
           <Chips tags={positiveFeatures} features={true} />
@@ -139,6 +128,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(20),
+  },
+
+  taglineDistrictContainer: {
+    gap: size(2),
+    marginTop: size(-2),
   },
   flatLocation: {
     color: Color.Black[50],

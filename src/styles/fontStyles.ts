@@ -14,7 +14,7 @@ export const fontStyles = StyleSheet.create({
     color: color.Black[100],
     letterSpacing: 0.2,
     fontSize: fontSize(32),
-    // lineHeight: 48,
+    lineHeight: size(54),
   },
   headerLarge: {
     fontFamily: InterBold,
@@ -33,13 +33,13 @@ export const fontStyles = StyleSheet.create({
     fontFamily: InterSemiBold,
     color: color.Black[100],
     fontSize: fontSize(18),
-    lineHeight: size(28),
+    lineHeight: size(32),
   },
   headerExtraSmall: {
     fontFamily: InterSemiBold,
     color: color.Black[100],
     fontSize: fontSize(16),
-    // lineHeight: 20,
+    // lineHeight: size(20),
   },
   bodyLarge: {
     fontFamily: InterMedium,

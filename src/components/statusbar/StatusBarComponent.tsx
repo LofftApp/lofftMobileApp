@@ -1,6 +1,9 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Text, View, StyleSheet, Dimensions, DimensionValue} from 'react-native';
 
+//Redux 🏗️
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -20,13 +23,11 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
-import {LessorNavigatorScreenNavigationProp} from '../../../navigationStacks/types';
+import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
 
-const StatusBarComponent = ({
-  application,
-  _advert,
-  isLessor,
-}: StatusBarProps) => {
+const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
+  const {data: currentUser} = useGetUserQuery();
+  const isLessor = currentUser?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
   const [statusBar, setStatusBar] = useState('');
@@ -47,7 +48,7 @@ const StatusBarComponent = ({
 
   const screenheight = Dimensions.get('window').height;
 
-  const iconsCreated = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
+  const iconsCreated = statusBarText[isLessor ? 'lessor' : 'tenant'].map(
     (key, index: number) => {
       return (
         <LofftIcon
@@ -87,7 +88,7 @@ const StatusBarComponent = ({
     },
   );
 
-  const statusText = statusBarText[advert?.lessor ? 'lessor' : 'renter'].map(
+  const statusText = statusBarText[isLessor ? 'lessor' : 'tenant'].map(
     (key, index: number) => {
       return (
         <View key={key.icon}>
@@ -252,9 +253,7 @@ const StatusBarComponent = ({
           style={[
             styles.progressContainer,
             {
-              maxHeight: advert?.lessor
-                ? screenheight / 1.2
-                : screenheight / 1.6,
+              maxHeight: isLessor ? screenheight / 1.2 : screenheight / 1.6,
             },
           ]}>
           <View
@@ -262,7 +261,7 @@ const StatusBarComponent = ({
               styles.progressBarOutline,
               {
                 backgroundColor: active
-                  ? advert?.lessor
+                  ? isLessor
                     ? Color.Lavendar[10]
                     : Color.Mint[10]
                   : Color.Tomato[10],
@@ -273,9 +272,9 @@ const StatusBarComponent = ({
               style={[
                 styles.progressBar,
                 {
-                  height: `${statusBar}%` as DimensionValue,
+                  height: `${Number(statusBar)}%` as DimensionValue,
                   backgroundColor: active
-                    ? advert?.lessor
+                    ? isLessor
                       ? Color.Lavendar[100]
                       : Color.Mint[100]
                     : Color.Tomato[100],
@@ -286,7 +285,7 @@ const StatusBarComponent = ({
           <View
             style={[
               styles.progressTextContainer,
-              advert?.lessor ? styles.height95 : styles.height98,
+              isLessor ? styles.height95 : styles.height98,
             ]}>
             {statusText}
           </View>
@@ -300,7 +299,6 @@ const styles = StyleSheet.create({
   maincontainer: {
     width: '100%',
     alignItems: 'center',
-    paddingVertical: size(0),
     justifyContent: 'space-between',
   },
   infoBlockHeader: {

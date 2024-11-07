@@ -30,9 +30,9 @@ const SelectionButton = ({
   const colorText = {color: toggle ? Color.White[100] : Color.Black[100]};
 
   return (
-    <Animated.View // Special animatable View
+    <Animated.View
       style={{
-        opacity: fadeAnim, // Bind opacity to animated value
+        opacity: fadeAnim,
       }}>
       <Pressable
         onPress={() => {
@@ -44,7 +44,7 @@ const SelectionButton = ({
           disabled && styles.disabled,
         ]}
         disabled={disabled}>
-        <Text style={[fontStyles.bodyMedium, colorText]}>
+        <Text style={[fontStyles.bodySmall, colorText]}>
           {emojiIcon} {value}
         </Text>
       </Pressable>

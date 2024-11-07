@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 
 // Screens 📺
-import ListFlatApplicationComponent from '../renter/SubScreens/ListFlatApplicationComponent';
+import ListFlatApplicationComponent from '../tenant/SubScreens/ListFlatApplicationComponent';
 
 // Helpers 🧰
 import {size} from 'react-native-responsive-sizes';
@@ -22,6 +22,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 const LessorIndexScreen = () => {
   const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
+
   const adverts = data?.adverts;
 
   return (
@@ -45,7 +46,6 @@ const LessorIndexScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <ListFlatApplicationComponent
           adverts={adverts}
-          isLessor={true}
           isLoading={isLoading}
           isError={isError}
         />

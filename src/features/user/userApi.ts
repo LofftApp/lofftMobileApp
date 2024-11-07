@@ -1,17 +1,48 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {IncomingSpecificUser, SpecificUser} from './types';
+import {SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
+import {
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+} from 'reduxFeatures/registration/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
+    getUser: builder.query<User, void>({
+      query: () => 'api/users/profile',
+      transformResponse: response => {
+        console.log('getUser called 👾');
+        return toCamelCaseKeys(response as User);
+      },
+      providesTags: [{type: 'User', id: 'PROFILE'}],
+    }),
     getSpecificUser: builder.query<SpecificUser, number>({
       query: id => `api/users/${id}/specific_user`,
-      transformResponse: (response: IncomingSpecificUser) => {
-        return toCamelCaseKeys(response as unknown as SpecificUser);
+      transformResponse: response => {
+        console.log('specific user called 🎉');
+        console.log('response specific user', response);
+        return toCamelCaseKeys(response as SpecificUser);
       },
+    }),
+    completeUserAndCreateTenant: builder.mutation<
+      void,
+      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails}
+    >({
+      query: ({id, userChoices}) => {
+        return {
+          url: `/api/users/${id}/complete_tenant_sign_up`,
+          method: 'POST',
+          body: userChoices,
+        };
+      },
+      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
   }),
   overrideExisting: false,
 });
 
-export const {useGetSpecificUserQuery} = userApi;
+export const {
+  useGetUserQuery,
+  useGetSpecificUserQuery,
+  useCompleteUserAndCreateTenantMutation,
+} = userApi;

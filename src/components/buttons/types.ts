@@ -15,7 +15,7 @@ type HeaderPageContentSwitchProps = {
 };
 
 type CoreButtonProps = {
-  value: string;
+  value: string | JSX.Element;
   invert?: boolean;
   icon?: JSX.Element;
   textSize?: TextStyle;
@@ -37,6 +37,7 @@ type ChipsProps = {
 
 type FilterButtonProps = {
   onPress: () => void;
+  isSearching: boolean;
 };
 
 type MatchingScoreButtonProps = {
@@ -56,6 +57,8 @@ type BackButtonProps = {
 type SeeMoreButtonProps = {
   collapsed: boolean;
   toggleExpand: () => void;
+  noText?: boolean;
+  iconSize?: number;
 };
 
 type SelectionButtonProps = {
@@ -65,7 +68,34 @@ type SelectionButtonProps = {
   toggle: boolean;
   selectFn: (id: number) => void;
   disabled?: boolean;
-}
+};
+
+type NewUserJourneyButtonProps = {
+  text: string;
+  icon: string;
+  style?: StyleProp<ViewStyle>;
+  onPress: () => void;
+  type: 'lessor' | 'tenant';
+  isActive: boolean;
+};
+
+type IconButtonProps = {
+  text?: string;
+  icon?: string;
+
+  iconSize?: number;
+  onPress: () => void;
+  style?: StyleProp<ViewStyle>;
+  animation?: boolean;
+  isActive?: boolean;
+  color?: string;
+};
+type NewUserJourneyContinueButtonProps = {
+  onPress: () => void;
+  value: string | JSX.Element;
+  textStyle?: TextStyle;
+  disabled?: boolean;
+};
 
 export type {
   HeaderPageContentSwitchProps,
@@ -76,4 +106,7 @@ export type {
   BackButtonProps,
   SeeMoreButtonProps,
   SelectionButtonProps,
+  NewUserJourneyButtonProps,
+  IconButtonProps,
+  NewUserJourneyContinueButtonProps,
 };

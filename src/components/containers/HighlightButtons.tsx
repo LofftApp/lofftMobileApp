@@ -11,6 +11,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import type {HighlightButtonsProps} from './types';
+import HeartButton from 'components/buttons/HeartButton';
 
 const HighlightButtons = ({
   goBack = true,
@@ -37,17 +38,11 @@ const HighlightButtons = ({
       )}
 
       {heartPresent && (
-        <Pressable style={styles.iconContainer} onPress={onPressHeart}>
-          {favorite ? (
-            <LofftIcon
-              name="heart-filled"
-              size={35}
-              color={Color.Tomato[100]}
-            />
-          ) : (
-            <LofftIcon name="heart" size={35} color={Color.Tomato[100]} />
-          )}
-        </Pressable>
+        <HeartButton
+          favorite={favorite}
+          onPress={onPressHeart}
+          style={styles.iconContainer}
+        />
       )}
     </View>
   );

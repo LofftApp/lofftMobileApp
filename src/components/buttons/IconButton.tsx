@@ -1,37 +1,128 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, Text, Pressable, Animated, StyleSheet} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-
-// StyleSheet🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {size} from 'react-native-responsive-sizes';
+import {IconButtonProps} from './types';
 
-const IconButton = ({text, icon, iconSize = 20, onPress, style}: any) => {
+const IconButton = ({
+  text,
+  icon,
+  iconSize = size(30),
+  onPress,
+  style,
+  animation,
+  isActive,
+  color = Color.Lavendar[100],
+}: IconButtonProps) => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: isActive ? 1 : 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  }, [isActive, animatedValue]);
+
+  const handleOnPress = () => {
+    if (animation) {
+      Animated.sequence([
+        Animated.timing(animatedValue, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animatedValue, {
+          toValue: 0,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animatedValue, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        onPress();
+      });
+    } else {
+      onPress();
+    }
+  };
+
+  const animatedBackgroundColor = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [Color.White[100], color],
+  });
+
+  const animatedTextColor = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [Color.Black[100], Color.White[100]],
+  });
+
+  const animatedBorderColor = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [Color.Black[100], color],
+  });
+
+  const backgroundColor = isActive ? color : Color.White[100];
+  const textColor = isActive ? Color.White[100] : Color.Black[100];
+  const borderColor = isActive ? color : Color.Black[100];
   return (
-    <TouchableOpacity style={[styles.buttonBorder, style]} onPress={onPress}>
-      <View style={styles.content}>
-        <LofftIcon name={icon} size={iconSize} />
-        <Text style={[fontStyles.headerSmall, styles.text]}>{text}</Text>
-      </View>
-    </TouchableOpacity>
+    <Pressable onPress={animation ? handleOnPress : onPress}>
+      {animation ? (
+        <Animated.View
+          style={[
+            style ? style : styles.buttonContainer,
+            {backgroundColor: animatedBackgroundColor},
+            {borderColor: animatedBorderColor},
+          ]}>
+          {icon && (
+            <LofftIcon
+              name={icon}
+              size={iconSize}
+              color={isActive ? Color.White[100] : Color.Black[100]}
+            />
+          )}
+          <Animated.Text
+            style={[fontStyles.headerSmall, {color: animatedTextColor}]}>
+            {text}
+          </Animated.Text>
+        </Animated.View>
+      ) : (
+        <View
+          style={[
+            style ? style : styles.buttonContainer,
+            {backgroundColor, borderColor},
+          ]}>
+          {icon && (
+            <LofftIcon
+              name={icon}
+              size={iconSize}
+              color={isActive ? Color.White[100] : Color.Black[100]}
+            />
+          )}
+          <Text style={[fontStyles.headerSmall, {color: textColor}]}>
+            {text}
+          </Text>
+        </View>
+      )}
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonBorder: {
+  buttonContainer: {
     borderColor: Color.Black[100],
     borderWidth: 2,
     borderRadius: 12,
-    marginVertical: 8,
-  },
-  content: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 25,
-  },
-  text: {
-    marginLeft: 15,
+    paddingHorizontal: size(15),
+    paddingVertical: size(30),
+    gap: size(20),
   },
 });
 

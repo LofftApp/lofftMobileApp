@@ -5,7 +5,6 @@ import {Application} from 'reduxFeatures/applications/types';
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
   application?: Application;
-  isLessor: boolean;
 };
 
 type LofftHeaderPhotoProps = {

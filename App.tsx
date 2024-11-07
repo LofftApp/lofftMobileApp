@@ -5,76 +5,54 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
-import {Platform} from 'react-native';
+import React, {useEffect} from 'react';
+
+//Mapbox 🗺️
 import MapboxGL from '@rnmapbox/maps';
 import {MAPBOX_API_KEY} from '@env';
 
 // Redux 🏗️
-import {useAppSelector, useAppDispatch} from 'reduxCore/hooks';
-import {checkToken} from 'reduxFeatures/authentication/authenticationMiddleware';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useAuth} from 'reduxFeatures/auth/useAuth';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
+// Navigation 🚀
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
-import {getProfile} from 'reduxFeatures/user/usersMiddleware';
 
 // Navigators 🧭
-import GuestStackNavigator from './navigationStacks/GuestNavigator';
-import NewUserNavigator from './navigationStacks/NewUserNavigator';
-import DashboardNavigator from './navigationStacks/DashboardNavigator';
-// import LessorNavigator from './navigationStacks/LessorNavigator';
-import DashboardNavigatorLessor from './navigationStacks/DashboardnavigtatorLessor';
+import GuestStackNavigator from 'navigationStacks/GuestNavigator';
+import NewUserNavigator from 'navigationStacks/NewUserNavigator';
+import DashboardNavigator from 'navigationStacks/DashboardNavigator';
+import DashboardNavigatorLessor from 'navigationStacks/DashboardnavigtatorLessor';
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
-import {createSelector} from '@reduxjs/toolkit';
 
-const RootStack = createNativeStackNavigator();
+//Components 🪢
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Remove ErrorBoundary in production
-// import ErrorBoundary from './src/ErrorBoundary';
 
+const RootStack = createNativeStackNavigator();
 const App = () => {
-  // Define selectors
-  const getAuthenticated = (state: any) => state.authentication?.authenticated;
-  const getUserType = (state: any) => state.user?.user?.userType;
-  const getAdmin = (state: any) => state.user?.user?.admin;
+  const {isAuth} = useAuth();
 
-  // Create memoized selectors
-  const selectAuthenticated = createSelector(
-    [getAuthenticated],
-    authenticated => authenticated,
-  );
-  const selectUserTypeAndAdmin = createSelector(
-    [getUserType, getAdmin],
-    (userType, admin) => [userType, admin],
-  );
-  const authenticated = useAppSelector(selectAuthenticated);
-  console.log('authenticated', authenticated);
-  const [userType, admin] = useAppSelector(selectUserTypeAndAdmin);
+  const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
+    skip: !isAuth,
+    refetchOnMountOrArgChange: true,
+  });
 
-  const dispatch = useAppDispatch();
-  const [initializing, setInitializing] = useState(true);
-
-  useEffect(() => {
-    dispatch(checkToken());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (initializing) {
-      setInitializing(false);
-    }
-    if (authenticated && !userType) {
-      dispatch(getProfile());
-    }
-  }, [authenticated, dispatch, initializing, userType]);
+  const userType = data?.userType;
+  const admin = data?.admin;
+  const connectionError =
+    error && 'status' in error && error.status === 'FETCH_ERROR';
+  const [signOut] = useSignOutMutation();
 
   // Mapbox
-  MapboxGL.setWellKnownTileServer(
-    Platform.OS === 'android' ? 'Mapbox' : 'mapbox',
-  );
   MapboxGL.setAccessToken(MAPBOX_API_KEY);
   // This is needed to use Mapbox in offline mode and with android emulator
   MapboxGL.setTelemetryEnabled(false);
@@ -92,16 +70,39 @@ const App = () => {
       );
     }
   }, []);
+
+  const handleBackButton = () => {
+    signOut();
+  };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        backButton
+        onPress={handleBackButton}
+        message={
+          connectionError
+            ? 'Network Error. Please check server or connection'
+            : 'Error loading user data and profile. Please try again'
+        }
+      />
+    );
+  }
+
   return (
     <>
-      {!authenticated ? (
+      {!isAuth ? (
         <GuestStackNavigator />
       ) : (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
             <RootStack.Screen name="admin" component={AdminScreen} />
           ) : null}
-          {!userType ? (
+          {userType === 'newuser' ? (
             <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
           ) : null}
           {userType === 'lessor' ? (
@@ -123,9 +124,7 @@ export default () => {
     <NavigationContainer
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
-      {/* <ErrorBoundary> */}
       <App />
-      {/* </ErrorBoundary> */}
     </NavigationContainer>
   );
 };
