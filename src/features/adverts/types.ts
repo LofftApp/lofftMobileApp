@@ -5,6 +5,7 @@ import {
 } from 'reduxFeatures/user/types';
 import {Application, IncomingApplication} from '../applications/types';
 import { Currency } from 'reduxFeatures/assets/types';
+import { NewUserLessorDetails } from 'reduxFeatures/registration/types';
 interface AdvertUser {
   id: number;
   email: string;
@@ -147,6 +148,18 @@ interface IncomingAdverts {
   adverts: IncomingAdvert[];
 }
 
+type Image = {
+  uri: string;
+  type: string;
+  name: string;
+};
+
+interface LessorSignUpParams {
+  userChoices: NewUserLessorDetails
+  flatImages: Image[];
+  userImages: Image[];
+}
+
 export type {
   Advert,
   AdvertState,
@@ -165,4 +178,5 @@ export type {
   IncomingAdvertApplicant,
   IncomingAdvertWithApplications,
   GetAdvertsParams,
+  LessorSignUpParams,
 };
