@@ -44,6 +44,15 @@ export const userApi = lofftApi.injectEndpoints({
     });
   });
     }
+      // Console log the body before returning
+    console.log('Request Body:', {
+      url: `/api/users/${id}/complete_tenant_sign_up`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    });
       return {
         url: `/api/users/${id}/complete_tenant_sign_up`,
         method: 'POST',

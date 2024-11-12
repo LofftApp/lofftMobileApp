@@ -16,6 +16,9 @@ export const tabIcons = ({
     case 'search':
       iconName = 'search-sm';
       break;
+  case 'notifications':
+      iconName = 'star';
+      break;
     case 'application':
       iconName = 'list';
       break;
