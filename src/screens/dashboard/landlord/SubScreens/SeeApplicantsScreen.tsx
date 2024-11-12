@@ -22,6 +22,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //Assets
 import {Looking} from 'assets';
@@ -37,6 +38,7 @@ import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationSt
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advertId} = route.params;
+  const [cleanError, setCleanError] = useState(false);
 
   const {
     applicationsStateRound1: applicationsState,
@@ -80,22 +82,30 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     ...selectedApplications,
     ...notSelectedApplications,
   ];
+  console.log('applicationToBeSent', applicationToBeSent);
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);
+    setCleanError(true);
   };
 
-  const handleConfirmApplications = () => {
-    confirmApplications({
-      id: advertId,
-      applicationType: 'Round-1',
-      applications: applicationToBeSent,
-    });
-    navigation.navigate('selectionConfirmed', {
-      advertId: advertId,
-      round1: true,
-    });
-    toggleModal();
+  const handleConfirmApplications = async () => {
+    try {
+      await confirmApplications({
+        id: advertId,
+        applicationType: 'Round-1',
+        applications: applicationToBeSent,
+      }).unwrap();
+
+      navigation.navigate('selectionConfirmed', {
+        advertId: advertId,
+        round1: true,
+      });
+      toggleModal();
+    } catch (err) {
+      setCleanError(false);
+      console.log('error', err);
+    }
   };
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
@@ -115,13 +125,17 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
           }`
         : '',
     buttonText: {
-      first: isConfirming
-        ? 'Confirming'
-        : errorConfirming
-        ? 'There was an error. Try Again'
-        : `Confirm selection (${totalSelected})`,
+      first: isConfirming ? (
+        <LoadingButtonIcon />
+      ) : errorConfirming && !cleanError ? (
+        'Try Again'
+      ) : (
+        `Confirm selection (${totalSelected})`
+      ),
       second: 'Back to applicants list',
     },
+    errorMessage:
+      errorConfirming && !cleanError ? 'Error confirming the applicants' : '',
   };
 
   if (isLoading) {
