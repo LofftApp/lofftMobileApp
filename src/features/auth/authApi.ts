@@ -94,6 +94,10 @@ export const authApi = lofftApi.injectEndpoints({
           console.log('Error during sign UP:', error);
         }
       },
+      invalidatesTags: [
+        {type: 'User', id: 'PROFILE'},
+        {type: 'Adverts', id: 'LIST'},
+      ],
     }),
   }),
   overrideExisting: false,

@@ -47,7 +47,7 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Currency} from 'reduxFeatures/assets/types';
 
-const currencies = ['€', '£', '$'];
+const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
 const WhereIsFlatScreen = () => {
   // Navigation
@@ -56,7 +56,7 @@ const WhereIsFlatScreen = () => {
   // Local State
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
-  const [currency, setCurrency] = useState<Currency>('€');
+  const [currency, setCurrency] = useState<Currency>('eur');
   const [warmRent, setWarmRent] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [addressDetails, setAddressDetails] = useState<{
@@ -68,7 +68,7 @@ const WhereIsFlatScreen = () => {
   });
   const [errorAddress, setErrorAddress] = useState('');
   const [errorPrice, setErrorPrice] = useState('');
-
+  console.log('currency', currency);
   // API Hook
   const {
     addresses,
@@ -89,7 +89,7 @@ const WhereIsFlatScreen = () => {
     newUserDetails.userType === 'lessor' && newUserDetails.warmRent;
   const savedCurrency =
     newUserDetails.userType === 'lessor' && newUserDetails.currency;
-
+  console.log('newUserDetails', newUserDetails);
   useEffect(() => {
     if (savedAddress) {
       setLocation(savedAddress.address);
