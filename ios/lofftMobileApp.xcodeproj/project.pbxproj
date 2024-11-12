@@ -57,7 +57,7 @@
 		463CE714B8F8790C8BCF0B3D /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lofftMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		905E16E36B578A2DCBCAE89A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = lofftMobileApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		905E16E36B578A2DCBCAE89A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = lofftMobileApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		971FE7CCBF6F2C690D0D78C3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A9B2A04444A2644D2D4E9C3D /* Pods-lofftMobileApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp/Pods-lofftMobileApp.debug.xcconfig"; sourceTree = "<group>"; };
 		B377205D266A75F612E9283A /* libPods-lofftMobileApp-lofftMobileAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp-lofftMobileAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -516,7 +516,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = lofftMobileApp/lofftMobileApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5346KDVNS8;
+				DEVELOPMENT_TEAM = U94YA4WU47;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = lofftMobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -545,7 +545,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = lofftMobileApp/lofftMobileApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5346KDVNS8;
+				DEVELOPMENT_TEAM = U94YA4WU47;
 				INFOPLIST_FILE = lofftMobileApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -51,6 +51,8 @@ const FlatFindScreen = () => {
     setOpenModal(prev => !prev);
   };
 
+
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
       <View style={styles.searchContainer}>
@@ -83,7 +85,7 @@ const FlatFindScreen = () => {
         </View>
       ) : (
         <View style={styles.mapContainer}>
-          <AdvertMap adverts={adverts ?? []}/>
+          <AdvertMap adverts={adverts ?? []} />
         </View>
       )}
       <SearchFilterModal

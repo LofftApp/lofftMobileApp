@@ -35,6 +35,7 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('minPrice', String(minPrice));
           params.append('maxPrice', String(maxPrice));
         }
+        console.log('params', params);
         return params.toString()
           ? `${baseEndpoint}?${params.toString()}`
           : baseEndpoint;
@@ -42,6 +43,7 @@ export const advertApi = lofftApi.injectEndpoints({
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
         console.log('getAdverts called 🚨');
+
         return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
       },
       providesTags: result =>
@@ -78,10 +80,11 @@ export const advertApi = lofftApi.injectEndpoints({
       number
     >({
       query: id => ({
-        url: `/api/adverts/${id}/favorite`,
+        url: `/api/adverts/${id}/favorites`,
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
+        console.log('response', queryFulfilled);
         const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
@@ -145,7 +148,7 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
       query: id => ({
-        url: `/api/adverts/${id}/apply`,
+        url: `/api/adverts/${id}/advert_applications`,
         method: 'POST',
       }),
       invalidatesTags: (result, error, id) => [
