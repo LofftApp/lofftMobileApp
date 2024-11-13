@@ -7,8 +7,7 @@ import {
   ImageFile,
 } from 'reduxFeatures/registration/types';
 
-import { Platform } from 'react-native';
-
+import {Platform} from 'react-native';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -30,29 +29,34 @@ export const userApi = lofftApi.injectEndpoints({
     }),
     completeUserAndCreateTenant: builder.mutation<
       void,
-      {id: number; userChoices: NewUserLessorDetails | NewUserTenantDetails; photos?: ImageFile[]}
+      {
+        id: number;
+        userChoices: NewUserLessorDetails | NewUserTenantDetails;
+        photos?: ImageFile[];
+      }
     >({
       query: ({id, userChoices, photos}) => {
-      const formData = new FormData();
-      formData.append('userChoices', JSON.stringify(userChoices));
-      if (photos) {
-       photos.forEach((el, index) => {
-        formData.append(`photos[${index}]`, {
-        uri: Platform.OS === 'ios' ? el.uri.toString().replace('file://', '') : el.uri,
-        name: `photo_${index}.jpg`,
-        type: el.type,
-    });
-  });
-    }
-      return {
-        url: `/api/users/${id}/complete_tenant_sign_up`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        body: formData,
-      };
-    },
+        const formData = new FormData();
+        formData.append('userChoices', JSON.stringify(userChoices));
+        if (photos) {
+          photos.forEach((el, index) => {
+            formData.append(`photos[${index}]`, {
+              uri:
+                Platform.OS === 'ios' ? el.uri.replace('file://', '') : el.uri,
+              name: `photo_${index}.jpg`,
+              type: el.type,
+            });
+          });
+        }
+        return {
+          url: `/api/users/${id}/complete_tenant_sign_up`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          body: formData,
+        };
+      },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
   }),

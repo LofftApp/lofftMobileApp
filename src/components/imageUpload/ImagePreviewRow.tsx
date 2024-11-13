@@ -18,6 +18,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
     useImagesToUpload();
   const {isLessor} = useNewUserDetails();
+  console.log('savedImages', savedImages);
 
   const savedImagesDisplay = isLessor
     ? imageType === 'user'
