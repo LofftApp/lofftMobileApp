@@ -6,13 +6,13 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 // assets 🛠️
-import {Looking} from '../../../../assets';
+import {Looking} from '../../../assets';
 
-const SavedListingsScreen = () => {
+const FavoritesScreen = () => {
   return (
     <View style={styles.pageContainer}>
       <View style={styles.headerText}>
-        <Text style={fontStyles.headerLarge}>Saved Listings</Text>
+        <Text style={fontStyles.headerLarge}>Saved Listings - hardcoded</Text>
       </View>
       <View style={styles.bodyContainer}>
         <Looking style={styles.image} />
@@ -20,7 +20,7 @@ const SavedListingsScreen = () => {
           You don't have any saved listings
         </Text>
         <Text style={[fontStyles.bodyMedium, styles.subText]}>
-          Find the saved listings that you've applied to in the saved listings
+          Find the saved listings that you've applied to in the applications
           tab.
         </Text>
       </View>
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SavedListingsScreen;
+export default FavoritesScreen;

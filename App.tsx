@@ -24,8 +24,8 @@ import {navigationRef} from './src/navigation/RootNavigation';
 // Navigators 🧭
 import GuestStackNavigator from 'navigationStacks/GuestNavigator';
 import NewUserNavigator from 'navigationStacks/NewUserNavigator';
-import DashboardNavigator from 'navigationStacks/DashboardNavigator';
-import DashboardNavigatorLessor from 'navigationStacks/DashboardnavigtatorLessor';
+import TenantNavigator from 'navigationStacks/TenantNavigator';
+import LessorNavigator from 'navigationStacks/LessorNavigator';
 
 // Dev Screesn 🛠️
 import AdminScreen from 'screens/admin/adminScreen';
@@ -108,10 +108,10 @@ const App = () => {
           {userType === 'lessor' ? (
             <RootStack.Screen
               name="dashboardLessor"
-              component={DashboardNavigatorLessor}
+              component={LessorNavigator}
             />
           ) : (
-            <RootStack.Screen name="dashboard" component={DashboardNavigator} />
+            <RootStack.Screen name="dashboard" component={TenantNavigator} />
           )}
         </RootStack.Navigator>
       )}

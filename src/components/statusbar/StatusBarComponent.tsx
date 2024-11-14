@@ -165,7 +165,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   value="See Applicants"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('seeApplicants', {
+                    navigation.navigate('SeeApplicantsScreen', {
                       advertId: advert?.id ?? 0,
                     })
                   }
@@ -176,7 +176,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   value="See Profiles"
                   style={styles.button}
                   onPress={() =>
-                    navigation.navigate('seeProfiles', {
+                    navigation.navigate('SeeProfilesScreen', {
                       advertId: advert?.id ?? 0,
                     })
                   }
@@ -186,7 +186,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                 <CoreButton
                   value="Go to chat"
                   style={styles.button}
-                  onPress={() => navigation.navigate('chat')}
+                  onPress={() => navigation.navigate('LessorChatScreen')}
                   icon={
                     <LofftIcon name="send" size={20} color={Color.White[100]} />
                   }
@@ -201,7 +201,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
               <CoreButton
                 value="Go to chat"
                 style={[styles.button, styles.greenButton]}
-                onPress={() => navigation.navigate('chat')}
+                onPress={() => navigation.navigate('LessorChatScreen')}
                 icon={
                   <LofftIcon name="send" size={20} color={Color.White[100]} />
                 }

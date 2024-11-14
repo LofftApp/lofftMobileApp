@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {RootTabParamList} from './types';
+import {TenantTabParamsList} from './types';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -18,11 +18,12 @@ import FlatSearchNavigator from './FlatSearchNavigator';
 import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
-import TempScreen from 'screens/dashboard/tenant/TempScreen';
+import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
+import AlertsScreen from 'screens/dashboard/tenant/AlertsScreen';
 
-const Tab = createBottomTabNavigator<RootTabParamList>();
+const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
-const DashboardNavigator = () => {
+const TenantNavigator = () => {
   const {data} = useGetUserQuery();
   const admin = data?.admin;
   return (
@@ -34,28 +35,34 @@ const DashboardNavigator = () => {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen
-        name="search"
+        name="searchTab"
         component={FlatSearchNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="application"
+        name="applicationTab"
         component={ApplicationNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="user"
-        component={UserScreen}
+        name="favoritesTab"
+        component={FavoritesScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="Ello"
-        component={TempScreen}
+        name="alertsTab"
+        component={AlertsScreen}
         options={{headerShown: false}}
       />
+      <Tab.Screen
+        name="userTab"
+        component={UserScreen}
+        options={{headerShown: false}}
+      />
+
       {admin ? (
         <Tab.Screen
-          name="admin"
+          name="adminTab"
           component={AdminScreen}
           options={{headerShown: false}}
         />
@@ -64,4 +71,4 @@ const DashboardNavigator = () => {
   );
 };
 
-export default DashboardNavigator;
+export default TenantNavigator;

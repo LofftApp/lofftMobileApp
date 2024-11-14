@@ -67,7 +67,9 @@ const ApplyForFlatScreen = () => {
           <CoreButton
             value={'See all applications'}
             onPress={() =>
-              navigation.navigate('applications', {screen: 'applicationsList'})
+              navigation.navigate('applications', {
+                screen: 'ApplicationsIndexScreen',
+              })
             }
           />
           <CoreButton

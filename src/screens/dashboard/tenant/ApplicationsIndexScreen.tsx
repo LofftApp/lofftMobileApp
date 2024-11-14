@@ -18,7 +18,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // helpers 🧰
 import {applicationPartition} from 'helpers/applicationsPartition';
 
-const ApplicationIndexScreen = () => {
+const ApplicationsIndexScreen = () => {
   const {data: applications, isError, isLoading} = useGetApplicationsQuery();
 
   const [screen, setScreen] = useState('thumbs-up');
@@ -58,4 +58,4 @@ const ApplicationIndexScreen = () => {
   );
 };
 
-export default ApplicationIndexScreen;
+export default ApplicationsIndexScreen;

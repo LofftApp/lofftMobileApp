@@ -89,7 +89,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       applicationType: 'Round-2',
       applications: applicationToBeSent,
     });
-    navigation.navigate('selectionConfirmed', {
+    navigation.navigate('SelectionConfirmedScreen', {
       advertId: advertId,
       round2: true,
     });

@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-const LessorActionScreen = () => {
+const LessorNotificationScreen = () => {
   return (
     <View style={styles.lessorActionContainer}>
-      <Text>Hello from Lessor Action Screen 🥷🏻</Text>
+      <Text>Hello from Lessor Notification Screen 🥷🏻</Text>
     </View>
   );
 };
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LessorActionScreen;
+export default LessorNotificationScreen;

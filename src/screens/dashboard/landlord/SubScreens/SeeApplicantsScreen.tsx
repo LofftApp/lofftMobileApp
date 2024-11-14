@@ -97,7 +97,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         applications: applicationToBeSent,
       }).unwrap();
 
-      navigation.navigate('selectionConfirmed', {
+      navigation.navigate('SelectionConfirmedScreen', {
         advertId: advertId,
         round1: true,
       });

@@ -14,15 +14,7 @@ PODS:
     - MapboxCommon (= 23.11.0)
     - MapboxCoreMaps (= 10.19.1)
     - MapboxMobileEvents (= 2.0.0)
-  - MapboxCommon (23.11.0)
-  - MapboxCoreMaps (10.19.1):
-    - MapboxCommon (~> 23.11)
-  - MapboxMaps (10.19.0):
-    - MapboxCommon (= 23.11.0)
-    - MapboxCoreMaps (= 10.19.1)
-    - MapboxMobileEvents (= 2.0.0)
     - Turf (= 2.8.0)
-  - MapboxMobileEvents (2.0.0)
   - MapboxMobileEvents (2.0.0)
   - RCT-Folly (2024.01.01.00):
     - boost
@@ -1546,7 +1538,6 @@ PODS:
   - RNCAsyncStorage (1.24.0):
     - React-Core
   - RNGestureHandler (2.20.2):
-  - RNGestureHandler (2.20.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1569,21 +1560,15 @@ PODS:
     - Yoga
   - rnmapbox-maps (10.1.33):
     - MapboxMaps (~> 10.19.0)
-  - rnmapbox-maps (10.1.33):
-    - MapboxMaps (~> 10.19.0)
     - React
     - React-Core
     - rnmapbox-maps/DynamicLibrary (= 10.1.33)
-    - rnmapbox-maps/DynamicLibrary (= 10.1.33)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.1.33):
-    - MapboxMaps (~> 10.19.0)
   - rnmapbox-maps/DynamicLibrary (10.1.33):
     - MapboxMaps (~> 10.19.0)
     - React
     - React-Core
     - Turf
-  - RNScreens (3.35.0):
   - RNScreens (3.35.0):
     - DoubleConversion
     - glog
@@ -1879,10 +1864,6 @@ SPEC CHECKSUMS:
   MapboxCoreMaps: ca17f67baced23f8c952166ac6314c35bad3f66c
   MapboxMaps: b7f29ec7c33f7dc6d2947c1148edce6db81db9a7
   MapboxMobileEvents: d044b9edbe0ec7df60f6c2c9634fe9a7f449266b
-  MapboxCommon: 119f3759f7dc9457f0695848108ab323eb643cb4
-  MapboxCoreMaps: ca17f67baced23f8c952166ac6314c35bad3f66c
-  MapboxMaps: b7f29ec7c33f7dc6d2947c1148edce6db81db9a7
-  MapboxMobileEvents: d044b9edbe0ec7df60f6c2c9634fe9a7f449266b
   RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
   RCTDeprecation: 4191f6e64b72d9743f6fe1a8a16e89e868f5e9e7
   RCTRequired: 9bb589570f2bb3abc6518761e3fd1ad9b7f7f06c
@@ -1947,9 +1928,6 @@ SPEC CHECKSUMS:
   RNGestureHandler: 511250b190a284388f9dd0d2e56c1df76f14cfb8
   rnmapbox-maps: 334654168efcdc29584a9af1519d890a07a4a28e
   RNScreens: c7ceced6a8384cb9be5e7a5e88e9e714401fd958
-  RNGestureHandler: 511250b190a284388f9dd0d2e56c1df76f14cfb8
-  rnmapbox-maps: 334654168efcdc29584a9af1519d890a07a4a28e
-  RNScreens: c7ceced6a8384cb9be5e7a5e88e9e714401fd958
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
   RNVectorIcons: 6382277afab3c54658e9d555ee0faa7a37827136
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
@@ -1958,4 +1936,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 168de355cac62c0a967d060b7e60d51456cdb178
 
-COCOAPODS: 1.14.0
+COCOAPODS: 1.15.2
