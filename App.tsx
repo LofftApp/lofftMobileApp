@@ -14,31 +14,23 @@ import {MAPBOX_API_KEY} from '@env';
 // Redux 🏗️
 import {useAuth} from 'reduxFeatures/auth/useAuth';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 // Navigation 🚀
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './src/navigation/RootNavigation';
 
 // Navigators 🧭
 import GuestStackNavigator from 'navigationStacks/GuestNavigator';
-import NewUserNavigator from 'navigationStacks/NewUserNavigator';
-import TenantNavigator from 'navigationStacks/TenantNavigator';
-import LessorNavigator from 'navigationStacks/LessorNavigator';
-
-// Dev Screesn 🛠️
-import AdminScreen from 'screens/admin/adminScreen';
+import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
-import {RootStackParamsList} from 'navigationStacks/types';
 
 // Remove ErrorBoundary in production
 
-const RootStack = createNativeStackNavigator<RootStackParamsList>();
 const App = () => {
   const {isAuth} = useAuth();
 
@@ -99,28 +91,7 @@ const App = () => {
       {!isAuth ? (
         <GuestStackNavigator />
       ) : (
-        <RootStack.Navigator screenOptions={{headerShown: false}}>
-          {admin ? (
-            <RootStack.Screen name="AdminStack" component={AdminScreen} />
-          ) : null}
-          {userType === 'newuser' ? (
-            <RootStack.Screen
-              name="NewUserStack"
-              component={NewUserNavigator}
-            />
-          ) : null}
-          {userType === 'lessor' ? (
-            <RootStack.Screen
-              name="LessorDashboardStack"
-              component={LessorNavigator}
-            />
-          ) : (
-            <RootStack.Screen
-              name="TenantDashboardStack"
-              component={TenantNavigator}
-            />
-          )}
-        </RootStack.Navigator>
+        <AuthenticatedNavigator userType={userType} admin={admin} />
       )}
     </>
   );
