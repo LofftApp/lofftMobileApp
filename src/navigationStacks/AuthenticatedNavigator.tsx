@@ -1,5 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 // Navigators 🧭
 import NewUserNavigator from 'navigationStacks/NewUserNavigator';
 import TenantNavigator from 'navigationStacks/TenantNavigator';

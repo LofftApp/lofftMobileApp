@@ -2,7 +2,6 @@ import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
-  NewUserLessorDetails,
   NewUserTenantDetails,
   ImageFile,
 } from 'reduxFeatures/registration/types';
@@ -31,7 +30,7 @@ export const userApi = lofftApi.injectEndpoints({
       void,
       {
         id: number;
-        userChoices: NewUserLessorDetails | NewUserTenantDetails;
+        userChoices: NewUserTenantDetails;
         photos?: ImageFile[];
       }
     >({
