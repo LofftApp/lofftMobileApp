@@ -34,10 +34,11 @@ import AdminScreen from 'screens/admin/adminScreen';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
+import {RootStackParamsList} from 'navigationStacks/types';
 
 // Remove ErrorBoundary in production
 
-const RootStack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator<RootStackParamsList>();
 const App = () => {
   const {isAuth} = useAuth();
 
@@ -100,18 +101,24 @@ const App = () => {
       ) : (
         <RootStack.Navigator screenOptions={{headerShown: false}}>
           {admin ? (
-            <RootStack.Screen name="admin" component={AdminScreen} />
+            <RootStack.Screen name="AdminStack" component={AdminScreen} />
           ) : null}
           {userType === 'newuser' ? (
-            <RootStack.Screen name="profileFlow" component={NewUserNavigator} />
+            <RootStack.Screen
+              name="NewUserStack"
+              component={NewUserNavigator}
+            />
           ) : null}
           {userType === 'lessor' ? (
             <RootStack.Screen
-              name="dashboardLessor"
+              name="LessorDashboardStack"
               component={LessorNavigator}
             />
           ) : (
-            <RootStack.Screen name="dashboard" component={TenantNavigator} />
+            <RootStack.Screen
+              name="TenantDashboardStack"
+              component={TenantNavigator}
+            />
           )}
         </RootStack.Navigator>
       )}

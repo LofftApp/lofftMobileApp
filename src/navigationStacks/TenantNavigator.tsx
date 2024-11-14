@@ -35,34 +35,34 @@ const TenantNavigator = () => {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen
-        name="searchTab"
+        name="SearchTab"
         component={FlatSearchNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="applicationTab"
+        name="ApplicationsTab"
         component={ApplicationNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="favoritesTab"
+        name="FavoritesTab"
         component={FavoritesScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="alertsTab"
+        name="AlertsTab"
         component={AlertsScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="userTab"
+        name="UserTab"
         component={UserScreen}
         options={{headerShown: false}}
       />
 
       {admin ? (
         <Tab.Screen
-          name="adminTab"
+          name="AdminTab"
           component={AdminScreen}
           options={{headerShown: false}}
         />

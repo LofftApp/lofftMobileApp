@@ -51,8 +51,6 @@ const FlatFindScreen = () => {
     setOpenModal(prev => !prev);
   };
 
-
-
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
       <View style={styles.searchContainer}>

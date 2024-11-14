@@ -6,7 +6,7 @@ import type {RouteProp} from '@react-navigation/native';
 
 type FlatShowScreenProp = {
   navigation: SearchScreenNavigationProp;
-  route: RouteProp<SearchStackParamsList, 'flatShow'>;
+  route: RouteProp<SearchStackParamsList, 'FlatShowScreen'>;
 };
 
 type ApplicationShowScreenProp = {

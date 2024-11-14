@@ -3,60 +3,33 @@ import type {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {StackNavigationProp} from '@react-navigation/stack';
 
-// tenant Navigator Stack
-
-type TenantTabParamsList = {
-  searchTab: undefined;
-  applicationTab: undefined;
-  userTab: undefined;
-  adminTab: undefined;
-  alertsTab: undefined;
-  tempTab: undefined;
-  favoritesTab: undefined;
-};
-
+// Root Navigator
 type RootStackParamsList = {
-  admin: undefined;
-  newuser: undefined;
-  profileFlow: undefined;
-  dashboardLessor: undefined;
-  dashboard: undefined;
+  AdminStack: undefined;
+  NewUserStack: undefined;
+  LessorDashboardStack: undefined;
+  TenantDashboardStack: undefined;
 };
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamsList>;
 
-type NewUserScreenNames =
-  | 'NewUserJourney'
-  | 'LanguageSelectionScreen'
-  | 'AboutUserFlatScreen'
-  | 'GenderIdentityScreen'
-  | 'WhereIsFlatScreen'
-  | 'FlatLengthAvailableScreen'
-  | 'SelectCityScreen'
-  | 'FinderBudgetScreen'
-  | 'FlatFeaturesScreen'
-  | 'SelfFlatDescribeScreen'
-  | 'ConditionsOfUseScreen'
-  | 'FinderBudgetScreen'
-  | 'NameProfileScreen'
-  | 'FlatImageUploadScreen'
-  | 'FlatDetailsScreen'
-  | 'SafeSpaceForScreen';
-
-type NewUserScreens = {
-  tenant: Record<number, NewUserScreenNames>;
-  lessor: Record<number, NewUserScreenNames>;
-};
-
-type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
-
+// Guest Navigator
 type GuestStackParamsList = {
   SignInScreen: undefined;
   SignUpScreen: undefined;
 };
-
 type GuestStackScreenNavigationProp = StackNavigationProp<GuestStackParamsList>;
 
+// Tenant Navigator
+type TenantTabParamsList = {
+  SearchTab: undefined;
+  ApplicationsTab: undefined;
+  UserTab: undefined;
+  AdminTab: undefined;
+  AlertsTab: undefined;
+  tempTab: undefined;
+  FavoritesTab: undefined;
+};
 type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
   ApplicationShowScreen: {id: number};
@@ -64,27 +37,29 @@ type ApplicationStackParamsList = {
 };
 
 type SearchStackParamsList = {
-  flatOverview: undefined;
-  flatShow: {advertId: number};
-  applyforflat: undefined;
-  applications: {screen: 'ApplicationsIndexScreen'};
+  FlatFindScreen: undefined;
+  FlatShowScreen: {advertId: number};
+  ApplyForFlatScreen: undefined;
+  ApplicationNavigator: {screen: 'ApplicationsIndexScreen'};
 };
 
 type ApplicationScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<TenantTabParamsList, 'applicationTab'>,
+  BottomTabNavigationProp<TenantTabParamsList, 'ApplicationsTab'>,
   StackNavigationProp<ApplicationStackParamsList>
 >;
 
 type SearchScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<TenantTabParamsList, 'searchTab'>,
+  BottomTabNavigationProp<TenantTabParamsList, 'SearchTab'>,
   StackNavigationProp<SearchStackParamsList>
 >;
 
+// Lessor Navigator
+
 type LessorTabParamsList = {
-  lessorIndex: undefined;
-  lessorAction: undefined;
-  user: undefined;
-  admin: undefined;
+  LessorIndexNavigator: undefined;
+  AlertsTab: undefined;
+  UserTab: undefined;
+  AdminTab: undefined;
 };
 
 type LessorNavigatorStackParamsList = {
@@ -109,9 +84,36 @@ type LessorNavigatorStackParamsList = {
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<LessorTabParamsList, 'lessorIndex'>,
+  BottomTabNavigationProp<LessorTabParamsList, 'LessorIndexNavigator'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
 >;
+
+//NewUser Navigator
+type NewUserScreenNames =
+  | 'NewUserJourney'
+  | 'LanguageSelectionScreen'
+  | 'AboutUserFlatScreen'
+  | 'GenderIdentityScreen'
+  | 'WhereIsFlatScreen'
+  | 'FlatLengthAvailableScreen'
+  | 'SelectCityScreen'
+  | 'FinderBudgetScreen'
+  | 'FlatFeaturesScreen'
+  | 'SelfFlatDescribeScreen'
+  | 'ConditionsOfUseScreen'
+  | 'FinderBudgetScreen'
+  | 'NameProfileScreen'
+  | 'FlatImageUploadScreen'
+  | 'FlatDetailsScreen'
+  | 'SafeSpaceForScreen'
+  | 'ConfirmEmail';
+
+type NewUserScreens = {
+  tenant: Record<number, NewUserScreenNames>;
+  lessor: Record<number, NewUserScreenNames>;
+};
+
+type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
 
 type NewUserJourneyStackNavigation =
   StackNavigationProp<NewUserStackParamsList>;
@@ -132,4 +134,5 @@ export type {
   GuestStackParamsList,
   GuestStackScreenNavigationProp,
   RootStackNavigationProp,
+  RootStackParamsList,
 };

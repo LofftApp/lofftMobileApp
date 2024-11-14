@@ -13,32 +13,29 @@ export const tabIcons = ({
 }) => {
   let iconName = '';
   switch (route.name) {
-    case 'searchTab':
+    case 'SearchTab':
       iconName = 'search-sm';
       break;
-    case 'applicationTab':
+    case 'ApplicationsTab':
       iconName = 'list';
       break;
-    case 'alertsTab':
+    case 'AlertsTab':
       iconName = 'bell';
       break;
-    case 'userTab':
+    case 'UserTab':
       iconName = 'user';
       break;
     case 'tempTab':
       iconName = 'user';
       break;
-    case 'favoritesTab':
+    case 'FavoritesTab':
       iconName = 'heart';
       break;
-    case 'adminTab':
+    case 'AdminTab':
       iconName = 'gaming-pad';
       break;
-    case 'lessorIndex':
+    case 'LessorIndexNavigator':
       iconName = 'list';
-      break;
-    case 'lessorAction':
-      iconName = 'bell';
       break;
     default:
       iconName = 'settings';

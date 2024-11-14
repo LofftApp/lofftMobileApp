@@ -8,7 +8,7 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
-import { useImagesToUpload } from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -73,7 +73,7 @@ const ConditionsOfUseScreen = () => {
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
       const flatImagesArray = savedImages.lessor.flatImages;
-      const lessorProfileImagesArray =  savedImages.lessor.userImages;
+      const lessorProfileImagesArray = savedImages.lessor.userImages;
       try {
         const result = await completeLessorAndCreateAdvert({
           id: data?.id || 0,
@@ -84,7 +84,7 @@ const ConditionsOfUseScreen = () => {
         setErrorMessage('');
         navigation.reset({
           index: 0,
-          routes: [{name: 'dashboardLessor'}],
+          routes: [{name: 'LessorDashboardStack'}],
         });
 
         console.log('Lessor successfully completed', result);
@@ -108,7 +108,7 @@ const ConditionsOfUseScreen = () => {
         setErrorMessage('');
         navigation.reset({
           index: 0,
-          routes: [{name: 'dashboard'}],
+          routes: [{name: 'TenantDashboardStack'}],
         });
         console.log('Tenent successfully completed', result);
       } catch (error) {

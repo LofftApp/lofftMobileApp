@@ -56,7 +56,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
   };
 
   const handleNavigate = () => {
-    navigation.navigate('flatShow', {advertId: advert.id});
+    navigation.navigate('FlatShowScreen', {advertId: advert.id});
   };
 
   return (

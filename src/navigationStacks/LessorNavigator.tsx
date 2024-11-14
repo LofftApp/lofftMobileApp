@@ -10,16 +10,14 @@ import {tabIcons} from './tabIcons';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-// Navigator
-// import FlatSearchNavigator from './FlatSearchNavigator';
-
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
-// import LessorIndexScreen from 'screens/dashboard/landlord/LessorIndexScreen';
-import LessorNotificationScreen from 'screens/dashboard/landlord/LessorNotificationScreen';
-import {LessorTabParamsList} from './types';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
+import AlertsScreen from 'screens/dashboard/tenant/AlertsScreen';
+
+// Types
+import {LessorTabParamsList} from './types';
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
@@ -34,23 +32,23 @@ const LessorNavigator = () => {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen
-        name="lessorIndex"
+        name="LessorIndexNavigator"
         component={LessorIndexNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="lessorAction"
-        component={LessorNotificationScreen}
+        name="AlertsTab"
+        component={AlertsScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="user"
+        name="UserTab"
         component={UserScreen}
         options={{headerShown: false}}
       />
       {admin ? (
         <Tab.Screen
-          name="admin"
+          name="AdminTab"
           component={AdminScreen}
           options={{headerShown: false}}
         />
