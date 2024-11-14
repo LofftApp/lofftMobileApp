@@ -12,6 +12,7 @@ import {
   useConfirmApplicationsMutation,
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
+import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -20,6 +21,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import BackButton from 'components/buttons/BackButton';
 import ConfirmModal from 'components/modals/ConfirmModal';
 import ApplicantCardRound2 from 'components/cards/ApplicantCardRound2';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //Assets
 import {Looking} from 'assets';
@@ -33,10 +35,10 @@ import {MAX_SELECT_ROUND2} from 'components/componentData/constants';
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
-import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   const {advertId} = route.params;
+  const [cleanError, setCleanError] = useState(false);
 
   const {
     applicationsStateRound2: applicationsState,
@@ -81,19 +83,24 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);
+    setCleanError(true);
   };
 
-  const handleConfirmApplications = () => {
-    confirmApplications({
-      id: advertId,
-      applicationType: 'Round-2',
-      applications: applicationToBeSent,
-    });
-    navigation.navigate('SelectionConfirmedScreen', {
-      advertId: advertId,
-      round2: true,
-    });
-    toggleModal();
+  const handleConfirmApplications = async () => {
+    try {
+      await confirmApplications({
+        id: advertId,
+        applicationType: 'Round-2',
+        applications: applicationToBeSent,
+      });
+      navigation.navigate('SelectionConfirmedScreen', {
+        advertId: advertId,
+        round2: true,
+      });
+      toggleModal();
+    } catch (err) {
+      setCleanError(false);
+    }
   };
   const totalApplications = applicationsState.length;
   const totalSelected = selectedApplications.length;
@@ -114,13 +121,17 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
           }`
         : '',
     buttonText: {
-      first: isConfirming
-        ? 'Confirming'
-        : errorConfirming
-        ? 'There was an error. Try Again'
-        : `Confirm selection (${totalSelected})`,
-      second: 'Back to applicants profiles',
+      first: isConfirming ? (
+        <LoadingButtonIcon />
+      ) : errorConfirming && !cleanError ? (
+        'Try Again'
+      ) : (
+        `Confirm selection (${totalSelected})`
+      ),
+      second: 'Back to applicants list',
     },
+    errorMessage:
+      errorConfirming && !cleanError ? 'Error confirming the applicants' : '',
   };
 
   if (isLoading) {

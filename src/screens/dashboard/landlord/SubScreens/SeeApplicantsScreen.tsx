@@ -104,7 +104,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       toggleModal();
     } catch (err) {
       setCleanError(false);
-      console.log('error', err);
     }
   };
   const totalApplications = applicationsState.length;
