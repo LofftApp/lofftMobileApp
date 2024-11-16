@@ -57,6 +57,8 @@ const ConditionsOfUseScreen = () => {
     useCompleteLessorAndCreateAdvertMutation();
   const {data} = useGetUserQuery();
 
+  console.log(newUserDetails)
+
   const handleSignOut = () => {
     signOut();
   };
@@ -105,6 +107,8 @@ const ConditionsOfUseScreen = () => {
           userChoices: newUserDetails,
           photos: savedImages.tenant.userImages,
         }).unwrap();
+
+         console.log("Ahhhhhhhhhhhhh", result)
         setErrorMessage('');
         navigation.reset({
           index: 0,

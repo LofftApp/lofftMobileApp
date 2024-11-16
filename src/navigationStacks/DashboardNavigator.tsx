@@ -19,6 +19,7 @@ import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import TempScreen from 'screens/dashboard/tenant/TempScreen';
+import NotificationsScreen from 'screens/dashboard/tenant/NotificationsScreen';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -36,6 +37,11 @@ const DashboardNavigator = () => {
       <Tab.Screen
         name="search"
         component={FlatSearchNavigator}
+        options={{headerShown: false}}
+      />
+       <Tab.Screen
+        name="notifications"
+        component={NotificationsScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen
