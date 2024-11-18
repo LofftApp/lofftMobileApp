@@ -9,28 +9,17 @@ import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 
 // Mock lofftApi and injectEndpoints
 jest.mock('../src/features/api/lofftApi', () => ({
-  lofftApi: {
-    injectEndpoints: jest.fn(() => ({
-      useGetApplicationsQuery: jest.fn(),
-      useGetAdvertByIdQuery: jest.fn(),
-    })),
-  },
+  lofftApi: {},
 }));
 
 // Mock RTK Query hooks from userApi
 jest.mock('../src/features/user/userApi', () => ({
-  useGetUserQuery: jest.fn(() => ({
-    data: {user: {userType: 'tenant', admin: false}},
-    isLoading: false,
-    isError: false,
-    error: null,
-  })),
+  useGetUserQuery: jest.fn(() => ({})),
 }));
 
 // Mock RTK Query hooks from authApi
 jest.mock('../src/features/auth/authApi', () => ({
-  useSignInMutation: jest.fn(() => [jest.fn(), {isLoading: false}]),
-  useSignOutMutation: jest.fn(() => [jest.fn(), {isLoading: false}]),
+  useSignOutMutation: jest.fn(() => [jest.fn(), {}]),
 }));
 
 // Mock the authSlice hook
@@ -41,7 +30,7 @@ jest.mock('../src/features/auth/authSlice', () => ({
 // Mock Navigators
 jest.mock('../src/navigationStacks/GuestNavigator', () => {
   const {Text} = require('react-native');
-  return () => <Text testID="guest-navigator">Guest Navigator</Text>;
+  return () => <Text testID="guest-navigator" />;
 });
 
 jest.mock('../src/navigationStacks/AuthenticatedNavigator', () => {
@@ -49,9 +38,8 @@ jest.mock('../src/navigationStacks/AuthenticatedNavigator', () => {
   return ({userType, admin}: {userType: string; admin: string}) => {
     return (
       <Text
-        testID={`auth-navigator-${userType}-${admin ? 'admin' : 'not-admin'}`}>
-        Authenticated Navigator - {userType} - admin: {admin ? 'Yes' : 'No'}
-      </Text>
+        testID={`auth-navigator-${userType}-${admin ? 'admin' : 'not-admin'}`}
+      />
     );
   };
 });
