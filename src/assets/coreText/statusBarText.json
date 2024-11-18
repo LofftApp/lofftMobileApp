@@ -4,21 +4,21 @@
       "header": "Recived applications",
       "subText": "You can decide within 48 hours to narrow down to up to 100 applicants. To ensure a fair selection, here you can only see essential information about the applicants.",
       "buttonText": "See applicants",
-      "route": "seeApplicants",
+      "route": "SeeApplicantsScreen",
       "icon": "file-check"
     },
     {
       "header": "Shortlist",
       "subText": "Here you have full access to selected applicants’ profile. You have 48 hours to select up to 20 applicants to chat with, schedule an interview, and/or flat viewing.",
       "buttonText": "See profiles",
-      "route": "seeProfiles",
+      "route": "SeeProfilesScreen",
       "icon": "eye"
     },
     {
       "header": "Schedule flat viewing",
       "subText": "You can now message the selected applicants and organise an interview/flat viewing. You have up to 14 days to make the final offer.",
       "buttonText": "Go to chat 💭",
-      "route": "chat",
+      "route": "LessorChatScreen",
       "icon": "user-check"
     },
     {

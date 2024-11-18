@@ -67,13 +67,15 @@ const ApplyForFlatScreen = () => {
           <CoreButton
             value={'See all applications'}
             onPress={() =>
-              navigation.navigate('applications', {screen: 'applicationsList'})
+              navigation.navigate('ApplicationNavigator', {
+                screen: 'ApplicationsIndexScreen',
+              })
             }
           />
           <CoreButton
             invert={true}
             value={'Back to search'}
-            onPress={() => navigation.navigate('flatOverview')}
+            onPress={() => navigation.navigate('FlatFindScreen')}
           />
         </View>
       </View>

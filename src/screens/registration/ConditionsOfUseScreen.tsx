@@ -8,7 +8,8 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useCompleteUserAndCreateTenantMutation} from 'reduxFeatures/user/userApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
-import { useImagesToUpload } from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -28,20 +29,24 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 
-// Types
-import {RootStackNavigationProp} from '../../navigationStacks/types';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+//Components
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+
+// Types
+import {RootStackNavigationProp} from '../../navigationStacks/types';
+import {
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+} from 'reduxFeatures/registration/types';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState('');
+  const [isNavigating, setIsNavigating] = useState(false);
 
   //Redux
   const [signOut, {isLoading}] = useSignOutMutation();
@@ -55,7 +60,7 @@ const ConditionsOfUseScreen = () => {
     useCompleteUserAndCreateTenantMutation();
   const [completeLessorAndCreateAdvert, {isLoading: isLoadingLessor}] =
     useCompleteLessorAndCreateAdvertMutation();
-  const {data} = useGetUserQuery();
+  const {data: currentUser, isLoading: isLoadingUser} = useGetUserQuery();
 
   const handleSignOut = () => {
     signOut();
@@ -73,22 +78,26 @@ const ConditionsOfUseScreen = () => {
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
       const flatImagesArray = savedImages.lessor.flatImages;
-      const lessorProfileImagesArray =  savedImages.lessor.userImages;
+      const lessorProfileImagesArray = savedImages.lessor.userImages;
       try {
         const result = await completeLessorAndCreateAdvert({
-          id: data?.id || 0,
+          id: currentUser?.id || 0,
           userChoices: newUserDetails as NewUserLessorDetails,
           flatImages: flatImagesArray,
           lessorProfileImages: lessorProfileImagesArray,
         }).unwrap();
         setErrorMessage('');
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'dashboardLessor'}],
-        });
+        setIsNavigating(true);
+        if (currentUser?.userType === 'lessor') {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'LessorDashboardStack'}],
+          });
+        }
 
         console.log('Lessor successfully completed', result);
       } catch (error) {
+        setIsNavigating(false);
         const typedError = error as {
           status?: number;
         };
@@ -101,17 +110,21 @@ const ConditionsOfUseScreen = () => {
     } else {
       try {
         const result = await completeUserAndCreateTenant({
-          id: data?.id || 0,
-          userChoices: newUserDetails,
+          id: currentUser?.id || 0,
+          userChoices: newUserDetails as NewUserTenantDetails,
           photos: savedImages.tenant.userImages,
         }).unwrap();
         setErrorMessage('');
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'dashboard'}],
-        });
+        setIsNavigating(true);
+        if (currentUser?.userType === 'tenant') {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'TenantDashboardStack'}],
+          });
+        }
         console.log('Tenent successfully completed', result);
       } catch (error) {
+        setIsNavigating(false);
         const typedError = error as {
           status?: number;
         };
@@ -124,9 +137,10 @@ const ConditionsOfUseScreen = () => {
     }
   };
 
-  if (isLoadingTenant || isLoadingLessor) {
+  if (isNavigating || isLoadingTenant || isLoadingLessor || isLoadingUser) {
     return <LoadingComponent />;
   }
+
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}

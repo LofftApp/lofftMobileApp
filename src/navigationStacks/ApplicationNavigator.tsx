@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
-import ApplicationIndexScreen from 'screens/dashboard/tenant/ApplicationIndexScreen';
+import ApplicationsIndexScreen from 'screens/dashboard/tenant/ApplicationsIndexScreen';
 import ApplicationShowScreen from 'screens/dashboard/tenant/ApplicationShowScreen';
 
 import {ApplicationStackParamsList} from './types';
@@ -11,11 +11,14 @@ const ApplicationNavigator = () => {
   return (
     <Apply.Navigator screenOptions={{headerShown: false}}>
       <Apply.Screen
-        name="applicationsList"
-        component={ApplicationIndexScreen}
+        name="ApplicationsIndexScreen"
+        component={ApplicationsIndexScreen}
       />
-      <Apply.Screen name="applicationshow" component={ApplicationShowScreen} />
-      <Apply.Screen name="chat" component={LessorChatScreen} />
+      <Apply.Screen
+        name="ApplicationShowScreen"
+        component={ApplicationShowScreen}
+      />
+      <Apply.Screen name="LessorChatScreen" component={LessorChatScreen} />
     </Apply.Navigator>
   );
 };

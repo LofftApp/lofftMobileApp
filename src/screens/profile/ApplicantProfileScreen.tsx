@@ -33,7 +33,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types
 import type {ApplicantProfileScreenProps} from './types';
 
-const images = [
+const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
@@ -50,18 +50,22 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const application = useAppSelector(state =>
     state.applications.applicationsRound2.find(app => app.id === applicationId),
   );
-  const {data: user, isLoading, error} = useGetSpecificUserQuery(applicantId);
+  const {
+    data: applicant,
+    isLoading,
+    error,
+  } = useGetSpecificUserQuery(applicantId);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [matchExpand, setMatchExpand] = useState(false);
   const [otherExpand, setOtherExpand] = useState(false);
 
-  if (!advert || !user) {
+  if (!advert || !applicant) {
     return null;
   }
 
   const featuresTags = tagSorter(
-    user.profile.filter ?? [],
+    applicant.profile.filter ?? [],
     advert?.flat.features ?? [],
   );
 
@@ -69,7 +73,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const negativeFeaturesTags = featuresTags.negativeTags;
 
   const charTags = tagSorter(
-    user.profile.characteristics ?? [],
+    applicant.profile.characteristics ?? [],
     advert.flat.characteristics,
   );
   const positiveCharTags = charTags.positiveTags;
@@ -92,15 +96,15 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
 
   const maxDescriptionLength = 250;
   const truncatedDescription = truncateTextAtWord(
-    user.profile.description ?? '',
+    applicant.profile.description ?? '',
     maxDescriptionLength,
   );
-  const hiddenDescription = user.profile.description?.slice(
+  const hiddenDescription = applicant.profile.description?.slice(
     truncatedDescription.length,
   );
   const isTruncated =
-    user.profile.description &&
-    user.profile.description?.length > truncatedDescription.length;
+    applicant.profile.description &&
+    applicant.profile.description?.length > truncatedDescription.length;
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -115,18 +119,21 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   return (
     <View style={CoreStyleSheet.showContainer}>
       <View>
-        <LofftHeaderPhoto images={images} imageContainerHeight={size(350)} />
+        <LofftHeaderPhoto
+          images={applicant.profile.userPhotos || hardcodedImages}
+          imageContainerHeight={size(350)}
+        />
         <HighlightButtons heartPresent={false} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={CoreStyleSheet.screenContainer}>
           <View style={styles.nameAgeContainer}>
             <Text style={fontStyles.headerMedium}>
-              {capitalize(user.profile.firstName ?? '')}{' '}
-              {capitalize(user.profile.lastName ?? '')}
+              {capitalize(applicant.profile.firstName ?? '')}{' '}
+              {capitalize(applicant.profile.lastName ?? '')}
             </Text>
             <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[80]}]}>
-              {user.profile.age} years old
+              {applicant.profile.age} years old
             </Text>
           </View>
 
@@ -158,8 +165,8 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
               </Collapsible>
             )}
 
-            {user.profile?.description &&
-              user.profile?.description.length > maxDescriptionLength && (
+            {applicant.profile?.description &&
+              applicant.profile?.description.length > maxDescriptionLength && (
                 <CoreButton
                   value={descriptionExpanded ? 'Read Less' : 'Read More'}
                   style={styles.readMoreButton}

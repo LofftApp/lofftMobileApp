@@ -73,7 +73,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   //navigate to the next screen if applyForFlat is successful
   useEffect(() => {
     if (applyIsSuccess) {
-      navigation.navigate('applyforflat');
+      navigation.navigate('ApplyForFlatScreen');
     }
   }, [applyIsSuccess, navigation]);
 

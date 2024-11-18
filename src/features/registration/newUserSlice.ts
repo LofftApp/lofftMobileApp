@@ -51,7 +51,7 @@ const initialState: UserJourneyState = {
         district: '',
       },
       price: 0,
-      currency: '€',
+      currency: 'eur',
       warmRent: false,
       fromDate: '',
       untilDate: '',

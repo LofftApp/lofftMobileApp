@@ -9,6 +9,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {Dollar, Pound} from 'assets';
+import {Currency} from 'reduxFeatures/assets/types';
 
 type CurrencyInputProps = {
   placeholder?: string;
@@ -16,7 +17,7 @@ type CurrencyInputProps = {
   onFocus?: () => void;
   onBlur?: () => void;
   value: string;
-  currency: '€' | '£' | '$';
+  currency: Currency;
   keyboardType?:
     | 'default'
     | 'email-address'
@@ -39,7 +40,7 @@ const CurrencyInput = ({
   onBlur,
   value,
   keyboardType,
-  currency = '€',
+  currency = 'eur',
 }: CurrencyInputProps) => {
   return (
     <View style={styles.inputContainerWithIcon}>
@@ -52,13 +53,13 @@ const CurrencyInput = ({
         placeholder={placeholder}
         keyboardType={keyboardType}
       />
-      {currency === '€' && (
+      {currency === 'eur' && (
         <LofftIcon name={'currency-euro'} size={22} color={Color.Black[30]} />
       )}
-      {currency === '£' && (
+      {currency === 'gbp' && (
         <Pound height={30} width={30} color={Color.Black[30]} />
       )}
-      {currency === '$' && (
+      {currency === 'usd' && (
         <Dollar height={30} width={30} color={Color.Black[30]} />
       )}
     </View>

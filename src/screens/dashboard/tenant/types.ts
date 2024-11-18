@@ -4,17 +4,13 @@ import type {
 } from '../../../navigationStacks/types';
 import type {RouteProp} from '@react-navigation/native';
 
-type FlatFindScreenProp = {
-  navigation: SearchScreenNavigationProp;
-};
-
 type FlatShowScreenProp = {
   navigation: SearchScreenNavigationProp;
-  route: RouteProp<SearchStackParamsList, 'flatShow'>;
+  route: RouteProp<SearchStackParamsList, 'FlatShowScreen'>;
 };
 
 type ApplicationShowScreenProp = {
   route: {params: {id: number}};
 };
 
-export type {ApplicationShowScreenProp, FlatFindScreenProp, FlatShowScreenProp};
+export type {ApplicationShowScreenProp, FlatShowScreenProp};

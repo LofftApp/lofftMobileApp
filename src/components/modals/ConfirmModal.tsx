@@ -14,6 +14,7 @@ import {size} from 'react-native-responsive-sizes';
 import type {ConfirmModalProps} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const ConfirmModal = ({
   openModal,
@@ -68,6 +69,9 @@ const ConfirmModal = ({
                 </Text>
               )}
               <View style={[styles.buttonsWrap, {marginTop: marginTop}]}>
+                {modalAsset.errorMessage && (
+                  <ErrorMessage message={modalAsset.errorMessage || ''} />
+                )}
                 <CoreButton
                   value={modalAsset.buttonText.first}
                   onPress={onPressFirstButton}

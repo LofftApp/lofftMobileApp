@@ -9,9 +9,12 @@ import {
   IncomingAdvertWithApplications,
 } from './types';
 
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
-import { NewUserLessorDetails, ImageFile } from 'reduxFeatures/registration/types';
+import {
+  NewUserLessorDetails,
+  ImageFile,
+} from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
@@ -46,6 +49,7 @@ export const advertApi = lofftApi.injectEndpoints({
 
       transformResponse: (response: IncomingAdvertAndFeatures) => {
         console.log('getAdverts called 🚨');
+
         return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
       },
       providesTags: result =>
@@ -82,10 +86,11 @@ export const advertApi = lofftApi.injectEndpoints({
       number
     >({
       query: id => ({
-        url: `/api/adverts/${id}/favorite`,
+        url: `/api/adverts/${id}/favorites`,
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
+        console.log('response', queryFulfilled);
         const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
@@ -149,7 +154,7 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
       query: id => ({
-        url: `/api/adverts/${id}/apply`,
+        url: `/api/adverts/${id}/advert_applications`,
         method: 'POST',
       }),
       invalidatesTags: (result, error, id) => [
@@ -179,37 +184,43 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: 'LIST'},
       ],
     }),
-     completeLessorAndCreateAdvert: builder.mutation<
-        void,
-        {
-          id: number;
-          userChoices: NewUserLessorDetails;
-          flatImages: ImageFile[];
-          lessorProfileImages: ImageFile[];
-        }
+    completeLessorAndCreateAdvert: builder.mutation<
+      void,
+      {
+        id: number;
+        userChoices: NewUserLessorDetails;
+        flatImages: ImageFile[];
+        lessorProfileImages: ImageFile[];
+      }
     >({
-      query: ({ id, userChoices, flatImages, lessorProfileImages }) => {
+      query: ({id, userChoices, flatImages, lessorProfileImages}) => {
         const formData = new FormData();
         formData.append('userChoices', JSON.stringify(userChoices));
 
-        if(flatImages){
+        if (flatImages) {
           flatImages.forEach((image, index) => {
             formData.append(`flatImages[${index}]`, {
-              uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
+              uri:
+                Platform.OS === 'ios'
+                  ? image.uri.replace('file://', '')
+                  : image.uri,
               type: image.type,
               name: `flatImage-${index}.jpg`,
             });
           });
         }
 
-       if(lessorProfileImages){
-        lessorProfileImages.forEach((image, index) => {
-          formData.append(`lessorProfileImages[${index}]`, {
-            uri: Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri,
-            type: image.type,
-            name: `lessorProfileImage-${index}.jpg`,
+        if (lessorProfileImages) {
+          lessorProfileImages.forEach((image, index) => {
+            formData.append(`lessorProfileImages[${index}]`, {
+              uri:
+                Platform.OS === 'ios'
+                  ? image.uri.replace('file://', '')
+                  : image.uri,
+              type: image.type,
+              name: `lessorProfileImage-${index}.jpg`,
+            });
           });
-        });
         }
 
         return {
@@ -221,10 +232,10 @@ export const advertApi = lofftApi.injectEndpoints({
           },
         };
       },
-      invalidatesTags: (result, error, { id }) => [
-        { type: 'Adverts', id },
-        { type: 'Applications', id: 'LIST' },
-        { type: 'User', id: 'PROFILE' },
+      invalidatesTags: (result, error, {id}) => [
+        {type: 'Adverts', id},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'User', id: 'PROFILE'},
       ],
     }),
   }),

@@ -22,9 +22,10 @@ type ConfirmModalProps = {
     header: string;
     description: string;
     middleText?: string;
+    errorMessage?: string;
     buttonText: {
-      first: string;
-      second: string;
+      first: string | JSX.Element;
+      second: string | JSX.Element;
     };
   };
   image: JSX.Element;

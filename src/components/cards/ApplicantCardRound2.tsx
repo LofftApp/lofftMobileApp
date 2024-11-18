@@ -56,7 +56,7 @@ const ApplicantCardRound2 = ({
   };
 
   const handleNavigate = () => {
-    navigation.navigate('ApplicantProfile', {
+    navigation.navigate('ApplicantProfileScreen', {
       advertId: application.advertId,
       applicantId: application.applicantId,
       applicationId: application.id,

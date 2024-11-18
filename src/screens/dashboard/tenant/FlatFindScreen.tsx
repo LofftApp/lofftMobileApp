@@ -83,7 +83,7 @@ const FlatFindScreen = () => {
         </View>
       ) : (
         <View style={styles.mapContainer}>
-          <AdvertMap adverts={adverts ?? []}/>
+          <AdvertMap adverts={adverts ?? []} />
         </View>
       )}
       <SearchFilterModal

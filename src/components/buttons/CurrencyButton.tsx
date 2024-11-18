@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, StyleSheet, Pressable, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {Currency} from 'reduxFeatures/registration/types';
+import {Currency} from 'reduxFeatures/assets/types';
 
 // Styles
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -36,13 +36,13 @@ const CurrencyButton = ({
           disabled && styles.disabled,
         ]}
         disabled={disabled}>
-        {currency === '€' && (
+        {currency === 'eur' && (
           <Text style={[fontStyles.bodySmall, colorText]}>EUR</Text>
         )}
-        {currency === '£' && (
+        {currency === 'gbp' && (
           <Text style={[fontStyles.bodySmall, colorText]}>GBP</Text>
         )}
-        {currency === '$' && (
+        {currency === 'usd' && (
           <Text style={[fontStyles.bodySmall, colorText]}>USD</Text>
         )}
       </Pressable>

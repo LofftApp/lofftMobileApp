@@ -1,8 +1,8 @@
 import React from 'react';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {RouteProp} from '@react-navigation/native';
-import {LessorTabParamsList, RootTabParamList} from './types';
-type CombinedParams = RootTabParamList & LessorTabParamsList;
+import {LessorTabParamsList, TenantTabParamsList} from './types';
+type CombinedParams = TenantTabParamsList & LessorTabParamsList;
 
 export const tabIcons = ({
   route,
@@ -11,22 +11,34 @@ export const tabIcons = ({
   route: RouteProp<CombinedParams, keyof CombinedParams>;
   color: string;
 }) => {
-  let iconName = 'settings';
+  let iconName = '';
   switch (route.name) {
-    case 'search':
+    case 'SearchTab':
       iconName = 'search-sm';
       break;
-    case 'application':
+    case 'ApplicationsTab':
       iconName = 'list';
       break;
-    case 'alerts':
-      iconName = 'heart';
+    case 'AlertsTab':
+      iconName = 'bell';
       break;
-    case 'user':
+    case 'UserTab':
       iconName = 'user';
       break;
-    case 'admin':
+    case 'tempTab':
+      iconName = 'user';
+      break;
+    case 'FavoritesTab':
+      iconName = 'heart';
+      break;
+    case 'AdminTab':
       iconName = 'gaming-pad';
+      break;
+    case 'LessorIndexNavigator':
+      iconName = 'list';
+      break;
+    default:
+      iconName = 'settings';
       break;
   }
   return <LofftIcon name={iconName} size={25} color={color} />;

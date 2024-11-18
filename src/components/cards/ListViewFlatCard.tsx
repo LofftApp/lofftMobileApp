@@ -89,7 +89,9 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
       </View>
       <CoreButton
         value="View flat"
-        onPress={() => navigation.navigate('flatShow', {advertId: advert.id})}
+        onPress={() =>
+          navigation.navigate('FlatShowScreen', {advertId: advert.id})
+        }
       />
     </View>
   );

@@ -20,8 +20,10 @@ import FlatImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
 import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
 import FlatDetailsScreen from 'screens/registration/lessor/FlatDetailsScreen';
 import SafeSpaceForScreen from 'screens/registration/tenant/SafeSpaceForScreen';
+import {NewUserStackParamsList} from './types';
 
-const NewUserNavigatorFlow = createNativeStackNavigator();
+const NewUserNavigatorFlow =
+  createNativeStackNavigator<NewUserStackParamsList>();
 
 const NewUserNavigator = () => {
   return (

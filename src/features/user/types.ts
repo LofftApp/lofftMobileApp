@@ -13,6 +13,7 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   genderIdentity: string;
+  userPhotos: string[];
 }
 interface User {
   admin: boolean;
@@ -45,6 +46,7 @@ interface IncomingUserProfile {
   first_name: string;
   last_name: string;
   gender_identity: string;
+  user_photos: string[];
 }
 
 interface UserFilter {

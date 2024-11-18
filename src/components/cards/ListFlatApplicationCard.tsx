@@ -190,7 +190,7 @@ const ListFlatApplicationCard = ({
             textSize={fontStyles.headerExtraSmall}
             style={styles.button}
             onPress={() =>
-              navigation.navigate('applicationshow', {
+              navigation.navigate('ApplicationShowScreen', {
                 id: advert?.id ?? 0,
               })
             }
@@ -202,7 +202,9 @@ const ListFlatApplicationCard = ({
             invert
             value="View Application"
             onPress={() =>
-              navigation.navigate('applicationshow', {id: application?.id ?? 0})
+              navigation.navigate('ApplicationShowScreen', {
+                id: application?.id ?? 0,
+              })
             }
           />
         </View>

@@ -60,7 +60,7 @@ const ApplicantsCardAdvanced = ({
         name={'chevron-right'}
         size={28}
         color={Color.Blue[100]}
-        onPress={() => navigation.navigate('ApplicantProfile')}
+        onPress={() => navigation.navigate('ApplicantProfileScreen')}
       />
     </View>
   );
