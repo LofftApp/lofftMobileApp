@@ -33,12 +33,12 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types
 import type {ApplicantProfileScreenProps} from './types';
 
-// const images = [
-//   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
-//   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
-//   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
-//   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
-// ];
+const hardcodedImages = [
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
+  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
+];
 
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {advertId, applicantId, applicationId} = route.params;
@@ -50,8 +50,11 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const application = useAppSelector(state =>
     state.applications.applicationsRound2.find(app => app.id === applicationId),
   );
-  const {data: applicant, isLoading, error} = useGetSpecificUserQuery(applicantId);
-  console.log('applicant in specific user', applicant);
+  const {
+    data: applicant,
+    isLoading,
+    error,
+  } = useGetSpecificUserQuery(applicantId);
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [matchExpand, setMatchExpand] = useState(false);
@@ -116,7 +119,10 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   return (
     <View style={CoreStyleSheet.showContainer}>
       <View>
-        <LofftHeaderPhoto images={applicant.profile.userPhotos} imageContainerHeight={size(350)} />
+        <LofftHeaderPhoto
+          images={applicant.profile.userPhotos || hardcodedImages}
+          imageContainerHeight={size(350)}
+        />
         <HighlightButtons heartPresent={false} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>

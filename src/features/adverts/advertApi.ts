@@ -42,7 +42,6 @@ export const advertApi = lofftApi.injectEndpoints({
           params.append('minPrice', String(minPrice));
           params.append('maxPrice', String(maxPrice));
         }
-        console.log('params', params);
         return params.toString()
           ? `${baseEndpoint}?${params.toString()}`
           : baseEndpoint;

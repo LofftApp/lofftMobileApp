@@ -82,7 +82,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     ...selectedApplications,
     ...notSelectedApplications,
   ];
-  console.log('applicationToBeSent', applicationToBeSent);
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);

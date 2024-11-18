@@ -68,7 +68,6 @@ const WhereIsFlatScreen = () => {
   });
   const [errorAddress, setErrorAddress] = useState('');
   const [errorPrice, setErrorPrice] = useState('');
-  console.log('currency', currency);
   // API Hook
   const {
     addresses,
@@ -89,7 +88,7 @@ const WhereIsFlatScreen = () => {
     newUserDetails.userType === 'lessor' && newUserDetails.warmRent;
   const savedCurrency =
     newUserDetails.userType === 'lessor' && newUserDetails.currency;
-  console.log('newUserDetails', newUserDetails);
+
   useEffect(() => {
     if (savedAddress) {
       setLocation(savedAddress.address);

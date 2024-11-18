@@ -36,7 +36,6 @@ const ApplicantCardRound2 = ({
   application,
 }: ApplicantCardRound2Props) => {
   const applicant = application.applicant;
-  console.log('applicant', applicant);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
