@@ -1,13 +1,10 @@
-/**
- * @format
- */
-
 import 'react-native';
 import React from 'react';
 import App from '../App';
 import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
-import {createMockStore, defaultMockState} from '../__mocks__/reduxMock';
+import {createMockStore} from '../__mocks__/reduxMock';
+import { Store } from 'redux';
 
 // Mock lofftApi and injectEndpoints
 jest.mock('../src/features/api/lofftApi', () => ({
@@ -22,7 +19,7 @@ jest.mock('../src/features/api/lofftApi', () => ({
 // Mock RTK Query hooks from userApi
 jest.mock('../src/features/user/userApi', () => ({
   useGetUserQuery: jest.fn(() => ({
-    data: {user: {userType: 'tenant', admin: false}},
+    data: { user: { userType: 'tenant', admin: false } },
     isLoading: false,
     isError: false,
     error: null,
@@ -31,40 +28,104 @@ jest.mock('../src/features/user/userApi', () => ({
 
 // Mock RTK Query hooks from authApi
 jest.mock('../src/features/auth/authApi', () => ({
-  useSignInMutation: jest.fn(() => [jest.fn(), {isLoading: false}]),
-  useSignOutMutation: jest.fn(() => [jest.fn(), {isLoading: false}]),
+  useSignInMutation: jest.fn(() => [jest.fn(), { isLoading: false }]),
+  useSignOutMutation: jest.fn(() => [jest.fn(), { isLoading: false }]),
 }));
 
-// Mock the useAuth hook
+// Mock the authSlice hook
 jest.mock('../src/features/auth/authSlice', () => ({
-  useAuth: jest.fn(),
+  authSlice: jest.fn(),
 }));
-
-// Create mock store
-const store = createMockStore(defaultMockState);
 
 describe('App Component', () => {
-  test('renders correctly when authenticated', () => {
-    const mockAuth = require('../src/features/auth/authSlice').useAuth;
-    mockAuth.mockReturnValue({isAuthenticated: true});
+  let store: Store
 
-    const {toJSON} = render(
+  beforeEach(() => {
+    // Create store before each test and configure its initial state
+    store = createMockStore({
+      auth: { isAuthenticated: false }, // Default state; modify as needed in each test
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('renders correctly when authenticated', () => {
+    const mockAuth = require('../src/features/auth/authSlice').authSlice;
+    mockAuth.mockReturnValue({ isAuthenticated: true });
+    store = createMockStore({
+      auth: { isAuthenticated: true },
+    });
+
+    const { toJSON } = render(
       <Provider store={store}>
         <App />
-      </Provider>,
+      </Provider>
     );
     expect(toJSON()).toMatchSnapshot();
   });
 
   test('renders correctly when not authenticated', () => {
-    const mockAuth = require('../src/features/auth/authSlice').useAuth;
-    mockAuth.mockReturnValue({isAuthenticated: false});
+    const mockAuth = require('../src/features/auth/authSlice').authSlice;
+    mockAuth.mockReturnValue({ isAuthenticated: false });
 
-    const {toJSON} = render(
+    const { toJSON } = render(
       <Provider store={store}>
         <App />
-      </Provider>,
+      </Provider>
     );
     expect(toJSON()).toMatchSnapshot();
+  });
+
+  test('useGetUserQuery is called with correct arguments when not authenticated', () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    const useGetUserQuery = require('../src/features/user/userApi').useGetUserQuery;
+    expect(useGetUserQuery).toHaveBeenCalledWith(undefined, {
+      skip: true,
+      refetchOnMountOrArgChange: true,
+    });
+  });
+
+  test('useGetUserQuery is called when authenticated', () => {
+    const mockAuth = require('../src/features/auth/authSlice').authSlice;
+    mockAuth.mockReturnValue({ isAuthenticated: true });
+    store = createMockStore({
+      auth: { isAuthenticated: true },
+    });
+
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    const useGetUserQuery = require('../src/features/user/userApi').useGetUserQuery;
+    expect(useGetUserQuery).toHaveBeenCalledWith(undefined, {
+      skip: false,
+      refetchOnMountOrArgChange: true,
+    });
+  });
+
+  test('useGetUserQuery is NOT called when not authenticated', () => {
+    const mockAuth = require('../src/features/auth/authSlice').authSlice;
+    mockAuth.mockReturnValue({ isAuthenticated: false });
+
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    const useGetUserQuery = require('../src/features/user/userApi').useGetUserQuery;
+    expect(useGetUserQuery).toHaveBeenCalledWith(undefined, {
+      skip: true,
+      refetchOnMountOrArgChange: true,
+    });
   });
 });
