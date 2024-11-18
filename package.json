@@ -96,5 +96,5 @@
     "ws": "^7.5.10",
     "got": "^11.8.5"
   },
-  "packageManager": "yarn@4.5.0"
+  "packageManager": "yarn@4.5.1"
 }
