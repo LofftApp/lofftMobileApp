@@ -63,7 +63,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
-  console.log('advert in flat show screen', advert);
 
   const completeProfile = currentUser?.userType !== 'newuser';
   const hasTokens = currentUser?.credits && currentUser?.credits > 0;
