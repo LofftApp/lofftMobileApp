@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App Component renders correctly when authenticated 1`] = `null`;
+exports[`App Component renders correctly when authenticated 1`] = `
+<Text
+  testID="auth-navigator-undefined-not-admin"
+>
+  Authenticated Navigator - 
+   - admin: 
+  No
+</Text>
+`;
 
-exports[`App Component renders correctly when not authenticated 1`] = `null`;
+exports[`App Component renders correctly when not authenticated 1`] = `
+<Text
+  testID="guest-navigator"
+>
+  Guest Navigator
+</Text>
+`;

@@ -5,6 +5,7 @@ import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
 import {createMockStore} from '../__mocks__/reduxMock';
 import {Store} from 'redux';
+import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 
 // Mock lofftApi and injectEndpoints
 jest.mock('../src/features/api/lofftApi', () => ({
@@ -36,6 +37,24 @@ jest.mock('../src/features/auth/authApi', () => ({
 jest.mock('../src/features/auth/authSlice', () => ({
   authSlice: jest.fn(),
 }));
+
+// Mock Navigators
+jest.mock('../src/navigationStacks/GuestNavigator', () => {
+  const {Text} = require('react-native');
+  return () => <Text testID="guest-navigator">Guest Navigator</Text>;
+});
+
+jest.mock('../src/navigationStacks/AuthenticatedNavigator', () => {
+  const {Text} = require('react-native');
+  return ({userType, admin}: {userType: string; admin: string}) => {
+    return (
+      <Text
+        testID={`auth-navigator-${userType}-${admin ? 'admin' : 'not-admin'}`}>
+        Authenticated Navigator - {userType} - admin: {admin ? 'Yes' : 'No'}
+      </Text>
+    );
+  };
+});
 
 describe('App Component', () => {
   let store: Store;
@@ -141,5 +160,31 @@ describe('App Component', () => {
     const useSignOutMutation =
       require('../src/features/auth/authApi').useSignOutMutation;
     expect(useSignOutMutation).toHaveBeenCalled();
+  });
+
+  test('renders GuestStackNavigator when not authenticated', () => {
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
+
+    expect(getByTestId('guest-navigator')).toBeTruthy(); // Check if GuestNavigator is rendered
+  });
+
+  test('renders AuthenticatedNavigator with tenant userType', () => {
+    const {getByTestId} = render(
+      <AuthenticatedNavigator userType="tenant" admin={false} />,
+    );
+
+    expect(getByTestId('auth-navigator-tenant-not-admin')).toBeTruthy();
+  });
+
+  test('renders AuthenticatedNavigator with admin userType', () => {
+    const {getByTestId} = render(
+      <AuthenticatedNavigator userType="admin" admin={true} />,
+    );
+
+    expect(getByTestId('auth-navigator-admin-admin')).toBeTruthy();
   });
 });

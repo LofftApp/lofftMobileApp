@@ -38,6 +38,8 @@ const App = () => {
     skip: !isAuth,
     refetchOnMountOrArgChange: true,
   });
+  console.log('Fetched data:', data);
+
 
   const userType = data?.userType;
   const admin = data?.admin;
