@@ -5,7 +5,6 @@ import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
 import {createMockStore} from '../__mocks__/reduxMock';
 import {Store} from 'redux';
-import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 
 // Mock lofftApi and injectEndpoints
 jest.mock('../src/features/api/lofftApi', () => ({
@@ -33,15 +32,11 @@ jest.mock('../src/navigationStacks/GuestNavigator', () => {
   return () => <Text testID="guest-navigator" />;
 });
 
-jest.mock('../src/navigationStacks/AuthenticatedNavigator', () => {
+jest.mock('../src/navigationStacks/AuthenticatedNavigator', () => {});
+
+jest.mock('../src/components/LoadingAndNotFound/NotFoundComponent', () => {
   const {Text} = require('react-native');
-  return ({userType, admin}: {userType: string; admin: string}) => {
-    return (
-      <Text
-        testID={`auth-navigator-${userType}-${admin ? 'admin' : 'not-admin'}`}
-      />
-    );
-  };
+  return ({message}) => <Text testID="not-found-component">{message}</Text>;
 });
 
 describe('App Component', () => {
@@ -160,40 +155,22 @@ describe('App Component', () => {
     expect(getByTestId('guest-navigator')).toBeTruthy();
   });
 
-  test('renders Guest Navigator when authenticated but no userType is provided', () => {
+  test('renders NotFoundComponent when authenticated but no userType is provided', () => {
     const mockAuth = require('../src/features/auth/authSlice').authSlice;
     mockAuth.mockReturnValue({isAuthenticated: true});
     store = createMockStore({
       auth: {isAuthenticated: true},
     });
+
     const {getByTestId} = render(
       <Provider store={store}>
         <App />
       </Provider>,
     );
 
-    expect(getByTestId('guest-navigator')).toBeTruthy();
-  });
-
-  test('renders AuthenticatedNavigator with tenant userType', () => {
-    const {getByTestId} = render(
-      <AuthenticatedNavigator userType="tenant" admin={false} />,
+    expect(getByTestId('not-found-component')).toBeTruthy();
+    expect(getByTestId('not-found-component').props.children).toBe(
+      'Error loading user type. Please try again',
     );
-
-    expect(getByTestId('auth-navigator-tenant-not-admin')).toBeTruthy();
-  });
-
-  test('renders AuthenticatedNavigator with admin userType', () => {
-    const {getByTestId} = render(
-      <AuthenticatedNavigator userType="tenant" admin={true} />,
-    );
-
-    expect(getByTestId('auth-navigator-tenant-admin')).toBeTruthy();
-  });
-
-  test('renders AuthenticatedNavigator with admin and userType undefined', () => {
-    const {getByTestId} = render(<AuthenticatedNavigator admin={true} />);
-
-    expect(getByTestId('auth-navigator-undefined-admin')).toBeTruthy();
   });
 });

@@ -88,10 +88,16 @@ const App = () => {
 
   return (
     <>
-      {!isAuth || !userType ? (
+      {!isAuth ? (
         <GuestStackNavigator />
-      ) : (
+      ) : userType ? (
         <AuthenticatedNavigator userType={userType} admin={admin} />
+      ) : (
+        <NotFoundComponent
+          backButton
+          onPress={handleBackButton}
+          message="Error loading user type. Please try again"
+        />
       )}
     </>
   );

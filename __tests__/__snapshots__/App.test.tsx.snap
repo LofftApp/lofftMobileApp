@@ -2,8 +2,10 @@
 
 exports[`App Component renders correctly when authenticated 1`] = `
 <Text
-  testID="guest-navigator"
-/>
+  testID="not-found-component"
+>
+  Error loading user type. Please try again
+</Text>
 `;
 
 exports[`App Component renders correctly when not authenticated 1`] = `
