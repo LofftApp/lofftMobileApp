@@ -36,7 +36,9 @@ jest.mock('../src/navigationStacks/AuthenticatedNavigator', () => {});
 
 jest.mock('../src/components/LoadingAndNotFound/NotFoundComponent', () => {
   const {Text} = require('react-native');
-  return ({message}) => <Text testID="not-found-component">{message}</Text>;
+  return ({message}: {message: string}) => (
+    <Text testID="not-found-component">{message}</Text>
+  );
 });
 
 describe('App Component', () => {
