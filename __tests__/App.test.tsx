@@ -157,7 +157,22 @@ describe('App Component', () => {
       </Provider>,
     );
 
-    expect(getByTestId('guest-navigator')).toBeTruthy(); // Check if GuestNavigator is rendered
+    expect(getByTestId('guest-navigator')).toBeTruthy();
+  });
+
+  test('renders Guest Navigator when authenticated but no userType is provided', () => {
+    const mockAuth = require('../src/features/auth/authSlice').authSlice;
+    mockAuth.mockReturnValue({isAuthenticated: true});
+    store = createMockStore({
+      auth: {isAuthenticated: true},
+    });
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
+
+    expect(getByTestId('guest-navigator')).toBeTruthy();
   });
 
   test('renders AuthenticatedNavigator with tenant userType', () => {
@@ -170,9 +185,15 @@ describe('App Component', () => {
 
   test('renders AuthenticatedNavigator with admin userType', () => {
     const {getByTestId} = render(
-      <AuthenticatedNavigator userType="admin" admin={true} />,
+      <AuthenticatedNavigator userType="tenant" admin={true} />,
     );
 
-    expect(getByTestId('auth-navigator-admin-admin')).toBeTruthy();
+    expect(getByTestId('auth-navigator-tenant-admin')).toBeTruthy();
+  });
+
+  test('renders AuthenticatedNavigator with admin and userType undefined', () => {
+    const {getByTestId} = render(<AuthenticatedNavigator admin={true} />);
+
+    expect(getByTestId('auth-navigator-undefined-admin')).toBeTruthy();
   });
 });

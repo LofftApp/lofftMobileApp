@@ -88,7 +88,7 @@ const App = () => {
 
   return (
     <>
-      {!isAuth ? (
+      {!isAuth || !userType ? (
         <GuestStackNavigator />
       ) : (
         <AuthenticatedNavigator userType={userType} admin={admin} />

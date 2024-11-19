@@ -2,7 +2,7 @@
 
 exports[`App Component renders correctly when authenticated 1`] = `
 <Text
-  testID="auth-navigator-undefined-not-admin"
+  testID="guest-navigator"
 />
 `;
 
