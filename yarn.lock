@@ -3440,7 +3440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react-native@npm:^12.7.2":
+"@testing-library/react-native@npm:^12.8.1":
   version: 12.8.1
   resolution: "@testing-library/react-native@npm:12.8.1"
   dependencies:
@@ -8767,7 +8767,7 @@ __metadata:
     "@react-navigation/stack": "npm:^6.3.16"
     "@reduxjs/toolkit": "npm:^1.9.3"
     "@rnmapbox/maps": "npm:^10.0.15"
-    "@testing-library/react-native": "npm:^12.7.2"
+    "@testing-library/react-native": "npm:^12.8.1"
     "@tsconfig/react-native": "npm:^3.0.0"
     "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^20.8.8"
