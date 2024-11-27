@@ -112,7 +112,7 @@ describe('App Component', () => {
     const useGetUserQuery =
       require('../src/features/user/userApi').useGetUserQuery;
     expect(useGetUserQuery).toHaveBeenCalledWith(undefined, {
-      skip: true,
+      skip: false,
       refetchOnMountOrArgChange: true,
     });
   });

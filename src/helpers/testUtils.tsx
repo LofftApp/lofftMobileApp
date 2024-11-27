@@ -1,19 +1,23 @@
 import React, {PropsWithChildren} from 'react';
 import {render} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
-import {setupStore, AppStore, RootState} from '../../src/app/store';
+import {
+  RootState,
+  setupStoreForTesting,
+  AppStoreForTesting,
+} from '../app/store';
 import {RenderOptions} from '@testing-library/react-native';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;
-  store?: AppStore;
+  store?: AppStoreForTesting;
 }
 
 export function renderWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},
-    store = setupStore(preloadedState),
+    store = setupStoreForTesting(preloadedState),
     ...renderOptions
   }: ExtendedRenderOptions = {},
 ) {

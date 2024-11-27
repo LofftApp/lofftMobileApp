@@ -34,7 +34,9 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const setupStore = (preloadedState?: Partial<ReturnType<typeof rootReducer>>) =>
+export const setupStore = (
+  preloadedState?: Partial<ReturnType<typeof rootReducer>>,
+) =>
   configureStore({
     reducer: persistedReducer,
     preloadedState,
@@ -46,6 +48,17 @@ export const setupStore = (preloadedState?: Partial<ReturnType<typeof rootReduce
       }).concat(lofftApi.middleware),
   });
 
+export const setupStoreForTesting = (
+  preloadedState?: Partial<ReturnType<typeof rootReducer>>,
+) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(lofftApi.middleware),
+  });
+
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;
+export type AppStoreForTesting = ReturnType<typeof setupStoreForTesting>;
 export type AppDispatch = AppStore['dispatch'];
