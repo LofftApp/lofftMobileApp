@@ -2,10 +2,13 @@ import {useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import {useRegisterTokenMutation} from 'reduxFeatures/firebaseNotifications/fcmApi';
 
-const useFCMToken = () => {
+const useFCMToken = (isAuth: boolean) => {
   const [registerToken] = useRegisterTokenMutation();
 
   useEffect(() => {
+    if (!isAuth) {
+      return;
+    }
     const registerDeviceToken = async () => {
       try {
         // Register the device with FCM
@@ -42,7 +45,7 @@ const useFCMToken = () => {
     const unsubscribe = messaging().onTokenRefresh(handleTokenRefresh);
 
     return () => unsubscribe(); // Cleanup
-  }, [registerToken]);
+  }, [registerToken, isAuth]);
 };
 
 export default useFCMToken;

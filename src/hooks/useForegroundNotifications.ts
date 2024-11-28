@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
 
-const useForegroundNotifications = () => {
+const useForegroundNotifications = (isAuth: boolean) => {
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    if (!isAuth) {
+      return;
+    }
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('Foreground message received:', remoteMessage);
 
       const body = remoteMessage.notification?.body;
@@ -21,7 +24,7 @@ const useForegroundNotifications = () => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [isAuth]);
 };
 
 export default useForegroundNotifications;

@@ -36,6 +36,7 @@ import useForegroundNotifications from 'hooks/useForegroundNotifications';
 
 const App = () => {
   const {isAuth} = useAuth();
+  console.log('isAuth:', isAuth);
 
   const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
     skip: !isAuth,
@@ -71,10 +72,10 @@ const App = () => {
   useRequestUserPermission();
 
   //FCM Token
-  useFCMToken();
+  useFCMToken(isAuth);
 
   //Foreground Notifications
-  useForegroundNotifications();
+  useForegroundNotifications(isAuth);
 
   const handleBackButton = () => {
     signOut();
