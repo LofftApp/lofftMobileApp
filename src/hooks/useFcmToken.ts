@@ -1,6 +1,8 @@
 import {useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import {useRegisterTokenMutation} from 'reduxFeatures/firebaseNotifications/fcmApi';
+import {registerDeviceToken} from 'reduxFeatures/firebaseNotifications/registerDeviceToken';
+import {handleTokenRefresh} from 'reduxFeatures/firebaseNotifications/handleTokenRefresh';
 
 const useFCMToken = (isAuth: boolean) => {
   const [registerToken] = useRegisterTokenMutation();
@@ -9,43 +11,15 @@ const useFCMToken = (isAuth: boolean) => {
     if (!isAuth) {
       return;
     }
-    const registerDeviceToken = async () => {
-      try {
-        // Register the device with FCM
-        await messaging().registerDeviceForRemoteMessages();
-
-        // Get the FCM token
-        const token = await messaging().getToken();
-        console.log('FCM Token:', token);
-
-        // Register the token using RTK Query
-        const response = await registerToken(token).unwrap();
-        console.log('response from registerToken', response);
-        console.log('Token FCM successfully registered');
-      } catch (error) {
-        console.error('Error registering FCM token:', error);
-      }
-    };
-
-    const handleTokenRefresh = async (newToken: string) => {
-      try {
-        console.log('FCM Token refreshed:', newToken);
-
-        // Update the backend with the new token using RTK Query
-        await registerToken(newToken).unwrap();
-        console.log('Token FCM successfully updated');
-      } catch (error) {
-        console.error('Error refreshing FCM token:', error);
-      }
-    };
-
     // Register token on app start
-    registerDeviceToken();
+    registerDeviceToken(registerToken);
 
     // Listen for token refreshes
-    const unsubscribe = messaging().onTokenRefresh(handleTokenRefresh);
+    const unsubscribe = messaging().onTokenRefresh((newToken) => {
+      handleTokenRefresh(newToken, registerToken);
+    });
 
-    return () => unsubscribe(); // Cleanup
+    return () => unsubscribe();
   }, [registerToken, isAuth]);
 };
 
