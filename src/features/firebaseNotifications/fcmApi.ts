@@ -1,18 +1,14 @@
-import { lofftApi } from 'reduxFeatures/api/lofftApi';
+import {lofftApi} from 'reduxFeatures/api/lofftApi';
 
 export const fcmApi = lofftApi.injectEndpoints({
-  endpoints: (builder) => ({
-    registerToken: builder.mutation({
-      query: (token) => {
-        const payload = JSON.stringify({ token }); // Prepare the payload
-        console.log('FCM Token Payload:', payload); // Log the payload
+  endpoints: builder => ({
+    registerToken: builder.mutation<{message: string}, string>({
+      query: token => {
+        console.log('registerToken called 💍');
         return {
           url: '/api/notifications/register',
           method: 'POST',
-          body: payload,
-          headers: {
-            'Content-Type': 'application/json', // Ensure proper headers
-          },
+          body: {token},
         };
       },
     }),
@@ -20,4 +16,4 @@ export const fcmApi = lofftApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useRegisterTokenMutation } = fcmApi;
+export const {useRegisterTokenMutation} = fcmApi;

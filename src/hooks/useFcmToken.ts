@@ -19,7 +19,8 @@ const useFCMToken = (isAuth: boolean) => {
         console.log('FCM Token:', token);
 
         // Register the token using RTK Query
-        await registerToken(token).unwrap();
+        const response = await registerToken(token).unwrap();
+        console.log('response from registerToken', response);
         console.log('Token FCM successfully registered');
       } catch (error) {
         console.error('Error registering FCM token:', error);
