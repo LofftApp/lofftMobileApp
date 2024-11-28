@@ -29,6 +29,7 @@ import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useRequestUserPermission} from 'hooks/useRequestUserPermission';
+import useFCMToken from 'hooks/useFcmToken';
 
 // Remove ErrorBoundary in production
 
@@ -67,6 +68,9 @@ const App = () => {
 
   // Request for user permission
   useRequestUserPermission();
+
+  //FCM Token
+  useFCMToken();
 
   const handleBackButton = () => {
     signOut();
