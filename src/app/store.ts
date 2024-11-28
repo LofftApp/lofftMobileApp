@@ -24,7 +24,7 @@ const persistConfig = {
   blacklist: [lofftApi.reducerPath],
 };
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
   auth: authReducer,
   newUser: newUserReducer,
   imageUpload: imageUploadReducer,
@@ -32,18 +32,33 @@ const reducers = combineReducers({
   [lofftApi.reducerPath]: lofftApi.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware => {
-    return getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(lofftApi.middleware);
-  },
-});
+export const setupStore = (
+  preloadedState?: Partial<ReturnType<typeof rootReducer>>,
+) =>
+  configureStore({
+    reducer: persistedReducer,
+    preloadedState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(lofftApi.middleware),
+  });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const setupStoreForTesting = (
+  preloadedState?: Partial<ReturnType<typeof rootReducer>>,
+) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(lofftApi.middleware),
+  });
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppStoreForTesting = ReturnType<typeof setupStoreForTesting>;
+export type AppDispatch = AppStore['dispatch'];

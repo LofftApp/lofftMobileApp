@@ -51,7 +51,7 @@ const SignInScreen = () => {
         <HiFive style={{marginTop: imageMarginTop}} />
       </View>
 
-      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
+      <View testID="sign-in" style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
           <SignInForm clearErrors={clearErrors} setClearErrors={setClearErrors} />
         </View>

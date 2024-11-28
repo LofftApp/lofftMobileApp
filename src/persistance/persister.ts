@@ -1,8 +1,8 @@
 import {persistStore} from 'redux-persist';
-import {store} from 'reduxCore/store';
+import {setupStore} from 'reduxCore/store';
 
 export const persister: any =
-  process.env.NODE_ENV === 'test' ? null : persistStore(store);
+  process.env.NODE_ENV === 'test' ? null : persistStore(setupStore());
 
 export const clearPersister = () => {
   console.log('clearPersister called');

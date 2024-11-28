@@ -118,6 +118,11 @@ type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
 type NewUserJourneyStackNavigation =
   StackNavigationProp<NewUserStackParamsList>;
 
+//Admin Navigator
+type AdminStackParamsList = {
+  AdminScreen: undefined;
+};
+
 export type {
   TenantTabParamsList,
   ApplicationStackParamsList,
@@ -135,4 +140,5 @@ export type {
   GuestStackScreenNavigationProp,
   RootStackNavigationProp,
   RootStackParamsList,
+  AdminStackParamsList,
 };
