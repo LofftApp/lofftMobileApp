@@ -21,6 +21,7 @@
 		1AA3A5532BEBD72400B85D7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		1AA3A5542BEBD72400B85D7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		31224D21A181FCA983B74C89 /* libPods-lofftMobileApp-lofftMobileAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B377205D266A75F612E9283A /* libPods-lofftMobileApp-lofftMobileAppTests.a */; };
+		5810F6D02CF886FC0002EA74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5810F6CF2CF886FC0002EA74 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		94F983575B8912C2512C66DF /* libPods-lofftMobileApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		1A9F9146293D637E00738116 /* lofftMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lofftMobileApp.entitlements; path = lofftMobileApp/lofftMobileApp.entitlements; sourceTree = "<group>"; };
 		463CE714B8F8790C8BCF0B3D /* Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		56B1072599398902A38F10E8 /* libPods-lofftMobileApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lofftMobileApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5810F6CF2CF886FC0002EA74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lofftMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		905E16E36B578A2DCBCAE89A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = lofftMobileApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		971FE7CCBF6F2C690D0D78C3 /* Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-lofftMobileApp-lofftMobileAppTests/Pods-lofftMobileApp-lofftMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				5810F6CF2CF886FC0002EA74 /* GoogleService-Info.plist */,
 				1A01BF5E290055B100529A35 /* Resources */,
 				13B07FAE1A68108700A75B9A /* lofftMobileApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -286,6 +289,7 @@
 				1A3477CF295676DE00CF61F4 /* Inter-SemiBold.otf in Resources */,
 				1A3477D0295676DE00CF61F4 /* InterV.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				5810F6D02CF886FC0002EA74 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				0FA6737CA007FCCFF3A9F62D /* PrivacyInfo.xcprivacy in Resources */,
 			);

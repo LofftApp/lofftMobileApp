@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.25055797109-13te2c0d3acitt9dvjs212ujgt4odr9q</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>25055797109-1c0rce9ej8q9cjv5v86tql2vuamcdm94.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDzhAefz_GZLxwznCNB2SCQJfeTMJgXvQQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>25055797109</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.lofft.lofft</string>
+	<key>PROJECT_ID</key>
+	<string>lofft-26eb1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>lofft-26eb1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:25055797109:ios:bc8744dcb111a84d22fd3c</string>
+	<key>DATABASE_URL</key>
+	<string>https://lofft-26eb1-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
