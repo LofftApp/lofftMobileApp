@@ -1,7 +1,6 @@
 import {useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import {useRegisterTokenMutation} from 'reduxFeatures/firebaseNotifications/fcmApi';
-import { Platform } from 'react-native';
 
 const useFCMToken = () => {
   const [registerToken] = useRegisterTokenMutation();
@@ -10,10 +9,7 @@ const useFCMToken = () => {
     const registerDeviceToken = async () => {
       try {
         // Register the device with FCM
-        if (Platform.OS === 'android') {
-          await messaging().registerDeviceForRemoteMessages();
-          console.log('Registered for remote messages on Android');
-        }
+        await messaging().registerDeviceForRemoteMessages();
 
         // Get the FCM token
         const token = await messaging().getToken();

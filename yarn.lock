@@ -2650,6 +2650,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@notifee/react-native@npm:^9.1.3":
+  version: 9.1.3
+  resolution: "@notifee/react-native@npm:9.1.3"
+  peerDependencies:
+    react-native: "*"
+  checksum: 10/57c609e096053cb70a418fe8c00606048fa9855f4f10fc138d7724e0015c8967ffeaf4bbc7cb687411bcfbc1eb99b820237f1abcd17056c168fc2cf52015acdd
+  languageName: node
+  linkType: hard
+
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.2
   resolution: "@npmcli/agent@npm:2.2.2"
@@ -9484,6 +9493,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.20.0"
     "@babel/runtime": "npm:^7.20.0"
     "@miblanchard/react-native-slider": "npm:^2.3.1"
+    "@notifee/react-native": "npm:^9.1.3"
     "@react-native-async-storage/async-storage": "npm:^1.18.1"
     "@react-native-firebase/app": "npm:^21.6.1"
     "@react-native-firebase/messaging": "npm:^21.6.1"
