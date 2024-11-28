@@ -28,9 +28,11 @@ import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+
+// Hooks 🪝
 import {useRequestUserPermission} from 'hooks/useRequestUserPermission';
-import useFCMToken from 'hooks/useFcmToken';
-import { useForegroundNotifications } from 'hooks/useForegroundNotifications';
+import {useFCMToken} from 'hooks/useFcmToken';
+import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
 
 // Remove ErrorBoundary in production
 

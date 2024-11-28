@@ -4,7 +4,7 @@ import {useRegisterTokenMutation} from 'reduxFeatures/firebaseNotifications/fcmA
 import {registerDeviceToken} from 'reduxFeatures/firebaseNotifications/registerDeviceToken';
 import {handleTokenRefresh} from 'reduxFeatures/firebaseNotifications/handleTokenRefresh';
 
-const useFCMToken = (isAuth: boolean) => {
+export const useFCMToken = (isAuth: boolean) => {
   const [registerToken] = useRegisterTokenMutation();
 
   useEffect(() => {
@@ -15,12 +15,10 @@ const useFCMToken = (isAuth: boolean) => {
     registerDeviceToken(registerToken);
 
     // Listen for token refreshes
-    const unsubscribe = messaging().onTokenRefresh((newToken) => {
+    const unsubscribe = messaging().onTokenRefresh(newToken => {
       handleTokenRefresh(newToken, registerToken);
     });
 
     return () => unsubscribe();
   }, [registerToken, isAuth]);
 };
-
-export default useFCMToken;
