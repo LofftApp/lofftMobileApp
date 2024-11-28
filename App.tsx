@@ -36,7 +36,6 @@ import useForegroundNotifications from 'hooks/useForegroundNotifications';
 
 const App = () => {
   const {isAuth} = useAuth();
-  console.log('isAuth:', isAuth);
 
   const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
     skip: !isAuth,
@@ -68,7 +67,7 @@ const App = () => {
     }
   }, []);
 
-  // Request for user permission
+  // Request for user permission for notifications
   useRequestUserPermission();
 
   //FCM Token

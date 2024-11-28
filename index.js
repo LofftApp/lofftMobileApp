@@ -10,39 +10,15 @@ import {persister} from 'persistance/persister';
 import {setupStore} from 'reduxCore/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
-import messaging from '@react-native-firebase/messaging';
-import notifee, {AndroidImportance} from '@notifee/react-native';
 
-async function setupNotificationChannel() {
-  try {
-    await notifee.createChannel({
-      id: 'default', // Channel ID
-      name: 'Default Channel', // Channel name visible to users
-      importance: AndroidImportance.HIGH, // Set importance
-    });
-    console.log('Android notification channel created');
-  } catch (error) {
-    console.error('Error creating notification channel:', error);
-  }
-}
+import {handleBackgroundNotifications} from 'reduxFeatures/firebaseNotifications/handleBackgroundNotifications';
+import {setupAndroidNotificationChannel} from 'reduxFeatures/firebaseNotifications/setupAndroidNotificationChannel';
+
+// Setup Android notification channel
+setupAndroidNotificationChannel();
 
 // Background notification handler
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Background message received:', remoteMessage);
-
-  const body = remoteMessage.notification?.body;
-  const title = remoteMessage.notification?.title;
-
-  await notifee.displayNotification({
-    title,
-    body,
-    android: {
-      channelId: 'default', // Ensure this matches the channel ID
-    },
-  });
-});
-
-setupNotificationChannel();
+handleBackgroundNotifications();
 
 export default function Main() {
   return (
