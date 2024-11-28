@@ -1,30 +1,17 @@
 import {useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
+import {handleForegroundNotifications} from 'reduxFeatures/firebaseNotifications/handleForegroundNotifications';
 
-const useForegroundNotifications = (isAuth: boolean) => {
+export const useForegroundNotifications = (isAuth: boolean) => {
   useEffect(() => {
     if (!isAuth) {
       return;
     }
+
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('Foreground message received:', remoteMessage);
-
-      const body = remoteMessage.notification?.body;
-      const title = remoteMessage.notification?.title;
-
-      await notifee.displayNotification({
-        title,
-        body,
-        android: {
-          channelId: 'default', // Ensure this matches the channel ID
-        },
-      });
+      await handleForegroundNotifications(remoteMessage);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [isAuth]);
 };
-
-export default useForegroundNotifications;

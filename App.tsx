@@ -30,7 +30,7 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useRequestUserPermission} from 'hooks/useRequestUserPermission';
 import useFCMToken from 'hooks/useFcmToken';
-import useForegroundNotifications from 'hooks/useForegroundNotifications';
+import { useForegroundNotifications } from 'hooks/useForegroundNotifications';
 
 // Remove ErrorBoundary in production
 

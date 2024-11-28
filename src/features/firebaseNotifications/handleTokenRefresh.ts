@@ -6,8 +6,6 @@ export const handleTokenRefresh = async (
 ) => {
   try {
     console.log('FCM Token refreshed:', newToken);
-
-    // Update the backend with the new token using RTK Query
     await registerToken(newToken).unwrap();
     console.log('Token FCM successfully updated');
   } catch (error) {
