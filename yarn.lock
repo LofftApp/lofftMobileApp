@@ -3122,6 +3122,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-firebase/messaging@npm:^21.6.1":
+  version: 21.6.1
+  resolution: "@react-native-firebase/messaging@npm:21.6.1"
+  peerDependencies:
+    "@react-native-firebase/app": 21.6.1
+    expo: ">=47.0.0"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 10/f8aaf726bf4cb5db37dc06a232593e6c4f5fc7a1c0d11f77c36632f8ba283669758c971ba84106a880633309877fce8205ed10e7fcbdcd8b87c40b39556020ba
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.73.1":
   version: 0.73.1
   resolution: "@react-native/assets-registry@npm:0.73.1"
@@ -9473,6 +9486,7 @@ __metadata:
     "@miblanchard/react-native-slider": "npm:^2.3.1"
     "@react-native-async-storage/async-storage": "npm:^1.18.1"
     "@react-native-firebase/app": "npm:^21.6.1"
+    "@react-native-firebase/messaging": "npm:^21.6.1"
     "@react-native/babel-preset": "npm:0.75.3"
     "@react-native/eslint-config": "npm:0.75.3"
     "@react-native/metro-config": "npm:0.75.3"

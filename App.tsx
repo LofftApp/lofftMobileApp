@@ -28,6 +28,7 @@ import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
 //Components 🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useRequestUserPermission} from 'hooks/useRequestUserPermission';
 
 // Remove ErrorBoundary in production
 
@@ -63,6 +64,9 @@ const App = () => {
       );
     }
   }, []);
+
+  // Request for user permission
+  useRequestUserPermission();
 
   const handleBackButton = () => {
     signOut();
