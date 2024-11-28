@@ -5,7 +5,7 @@ import {renderWithProviders} from 'helpers/testUtils';
 jest.mock('../src/features/api/lofftApi', () => ({
   lofftApi: {
     reducerPath: 'lofftApi',
-    reducer: jest.fn((state = {queries: {}, mutations: {}}) => state), // Provide initial state
+    reducer: jest.fn((state = {queries: {}, mutations: {}}) => state),
     middleware: jest.fn(() => (next: any) => (action: any) => next(action)),
     injectEndpoints: jest.fn(() => ({
       useGetSomeDataQuery: jest.fn(() => ({

@@ -30,7 +30,7 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Hooks 🪝
-import {useRequestUserPermission} from 'hooks/useRequestUserPermission';
+import {useRequestUserPermissionForNotifications} from 'hooks/useRequestUserPermission';
 import {useFCMToken} from 'hooks/useFcmToken';
 import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
 
@@ -70,7 +70,7 @@ const App = () => {
   }, []);
 
   // Request for user permission for notifications
-  useRequestUserPermission();
+  useRequestUserPermissionForNotifications();
 
   //FCM Token
   useFCMToken(isAuth);
