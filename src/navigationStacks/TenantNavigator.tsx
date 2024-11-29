@@ -52,7 +52,11 @@ const TenantNavigator = () => {
       <Tab.Screen
         name="AlertsTab"
         component={AlertsScreen}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          tabBarBadge: '',
+        }}
       />
       <Tab.Screen
         name="UserTab"

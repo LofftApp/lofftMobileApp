@@ -33,6 +33,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useRequestUserPermissionForNotifications} from 'hooks/useRequestUserPermission';
 import {useFCMToken} from 'hooks/useFcmToken';
 import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Remove ErrorBoundary in production
 
@@ -77,6 +78,10 @@ const App = () => {
 
   //Foreground Notifications
   useForegroundNotifications(isAuth);
+
+  AsyncStorage.getItem('token').then(token => {
+    console.log('Stored token in app:', token);
+  });
 
   const handleBackButton = () => {
     signOut();

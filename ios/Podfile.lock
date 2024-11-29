@@ -1637,6 +1637,11 @@ PODS:
     - React
     - React-Core
     - Turf
+  - RNNotifee (9.1.3):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 9.1.3)
+  - RNNotifee/NotifeeCore (9.1.3):
+    - React-Core
   - RNScreens (3.35.0):
     - DoubleConversion
     - glog
@@ -1760,6 +1765,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "rnmapbox-maps (from `../node_modules/@rnmapbox/maps`)"
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -1928,6 +1934,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   rnmapbox-maps:
     :path: "../node_modules/@rnmapbox/maps"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -2023,6 +2031,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: dd213f66f36b249f9ab035efe24dc2a3ede8f8c5
   RNGestureHandler: f5dfe0116db2fabd525fa2d3c00f7e0ec91758f4
   rnmapbox-maps: 4523a49f44df8c03ac9ea4000d9495e775b1bd85
+  RNNotifee: 522276e0be010e98173175fb838514b69f18cbe0
   RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
   RNVectorIcons: 7b81882e9c9369031aede0016dee0fe415cf2f43

@@ -22,7 +22,7 @@ handleBackgroundNotifications();
 
 export default function Main() {
   return (
-    <Provider store={setupStore()}>
+    <Provider store={setupStore}>
       <PersistGate loading={null} persistor={persister}>
         <App />
       </PersistGate>
