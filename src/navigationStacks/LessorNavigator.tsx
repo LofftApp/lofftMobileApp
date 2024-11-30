@@ -18,10 +18,17 @@ import AlertsScreen from 'screens/dashboard/tenant/AlertsScreen';
 
 // Types
 import {LessorTabParamsList} from './types';
+import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
   const {data} = useGetUserQuery();
+  const {data: notifications} = useGetNotificationsQuery();
+  const unreadNotifications = notifications?.filter(
+    notification => !notification.read,
+  ).length;
+  console.log('unreadNotifications', unreadNotifications);
+  console.log('notifications', notifications);
   const admin = data?.admin;
   return (
     <Tab.Navigator
@@ -39,7 +46,11 @@ const LessorNavigator = () => {
       <Tab.Screen
         name="AlertsTab"
         component={AlertsScreen}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          tabBarBadge: unreadNotifications && unreadNotifications,
+        }}
       />
       <Tab.Screen
         name="UserTab"
