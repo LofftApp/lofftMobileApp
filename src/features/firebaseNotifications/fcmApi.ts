@@ -1,3 +1,4 @@
+import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 
 export const fcmApi = lofftApi.injectEndpoints({
@@ -12,9 +13,15 @@ export const fcmApi = lofftApi.injectEndpoints({
         };
       },
     }),
-
+    getNotifications: builder.query<{notifications: []}, void>({
+      query: () => '/api/notifications',
+      transformResponse: response => {
+        console.log('getNotifications called 📩');
+        return toCamelCaseKeys(response);
+      },
+    }),
   }),
   overrideExisting: false,
 });
 
-export const {useRegisterTokenMutation} = fcmApi;
+export const {useRegisterTokenMutation, useGetNotificationsQuery} = fcmApi;

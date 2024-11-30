@@ -1,11 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
+import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
 
 //Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 const AlertsScreen = () => {
+  const {data} = useGetNotificationsQuery(undefined);
+  console.log('alerts data', data);
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <View style={CoreStyleSheet.screenContainer}>
