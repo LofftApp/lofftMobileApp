@@ -7,7 +7,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 const AlertsScreen = () => {
-  const {data} = useGetNotificationsQuery(undefined);
+  const {data} = useGetNotificationsQuery();
   console.log('alerts data', data);
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
