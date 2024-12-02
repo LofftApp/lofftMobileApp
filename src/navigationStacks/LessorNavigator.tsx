@@ -14,7 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import AdminScreen from 'screens/admin/adminScreen';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
-import AlertsScreen from 'screens/dashboard/tenant/AlertsScreen';
+import AlertsScreen from 'screens/dashboard/AlertsScreen';
 
 // Types
 import {LessorTabParamsList} from './types';
@@ -22,14 +22,14 @@ import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmA
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
-  const {data} = useGetUserQuery();
-  const {data: notifications} = useGetNotificationsQuery();
-  const unreadNotifications = notifications?.filter(
+  const {data: currentUser} = useGetUserQuery();
+  const {data} = useGetNotificationsQuery();
+  const unreadNotifications = data?.notifications?.filter(
     notification => !notification.read,
   ).length;
   console.log('unreadNotifications', unreadNotifications);
-  console.log('notifications', notifications);
-  const admin = data?.admin;
+  console.log('notifications', data?.notifications);
+  const admin = currentUser?.admin;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

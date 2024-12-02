@@ -19,7 +19,7 @@ import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
-import AlertsScreen from 'screens/dashboard/tenant/AlertsScreen';
+import AlertsScreen from 'screens/dashboard/AlertsScreen';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
