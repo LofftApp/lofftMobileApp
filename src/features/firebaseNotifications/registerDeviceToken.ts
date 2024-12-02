@@ -9,9 +9,8 @@ export type RegisterTokenType = MutationTrigger<
 export const registerDeviceToken = async (registerToken: RegisterTokenType) => {
   try {
     // Register the device with FCM (Android only)
-    if (Platform.OS === 'android') {
-      await messaging().registerDeviceForRemoteMessages();
-    }
+
+    await messaging().registerDeviceForRemoteMessages();
 
     // Get the FCM token
     const token = await messaging().getToken();

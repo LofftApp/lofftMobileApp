@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 // Redux 🏗️
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
@@ -54,7 +55,7 @@ const ConditionsOfUseScreen = () => {
 
   const {savedImages} = useImagesToUpload();
 
-  const {isLessor, newUserDetails} = useNewUserDetails();
+  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
 
   const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();
@@ -75,10 +76,19 @@ const ConditionsOfUseScreen = () => {
     navigation.goBack();
   };
 
+  const handleGetDeviceToken = async () => {
+    const token = await messaging().getToken();
+    console.log('Token in conditionsScreen', token);
+    setNewUserDetails({...newUserDetails, deviceToken: token});
+  };
+
+  console.log('newUserDetails', newUserDetails.deviceToken);
+
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {
       const flatImagesArray = savedImages.lessor.flatImages;
       const lessorProfileImagesArray = savedImages.lessor.userImages;
+      handleGetDeviceToken();
       try {
         const result = await completeLessorAndCreateAdvert({
           id: currentUser?.id || 0,
@@ -108,6 +118,7 @@ const ConditionsOfUseScreen = () => {
         }
       }
     } else {
+      handleGetDeviceToken();
       try {
         const result = await completeUserAndCreateTenant({
           id: currentUser?.id || 0,

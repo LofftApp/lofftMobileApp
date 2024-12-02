@@ -79,10 +79,6 @@ const App = () => {
   //Foreground Notifications
   useForegroundNotifications(isAuth);
 
-  AsyncStorage.getItem('token').then(token => {
-    console.log('Stored token in app:', token);
-  });
-
   const handleBackButton = () => {
     signOut();
   };

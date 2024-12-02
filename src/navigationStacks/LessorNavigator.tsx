@@ -24,11 +24,11 @@ const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
   const {data} = useGetNotificationsQuery();
-  const unreadNotifications = data?.notifications?.filter(
-    notification => !notification.read,
-  ).length;
-  console.log('unreadNotifications', unreadNotifications);
-  console.log('notifications', data?.notifications);
+  // const unreadNotifications = data?.notifications?.filter(
+  //   notification => !notification.read,
+  // ).length;
+  // console.log('unreadNotifications', unreadNotifications);
+  // console.log('notifications', data?.notifications);
   const admin = currentUser?.admin;
   return (
     <Tab.Navigator
@@ -48,8 +48,8 @@ const LessorNavigator = () => {
         component={NotificationsScreen}
         options={{
           headerShown: false,
-          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
-          tabBarBadge: unreadNotifications && unreadNotifications,
+          // tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          // tabBarBadge: unreadNotifications && unreadNotifications,
         }}
       />
       <Tab.Screen
