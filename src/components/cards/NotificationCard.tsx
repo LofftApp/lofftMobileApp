@@ -8,6 +8,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 const NotificationCard = () => {
   const {width} = useWindowDimensions();
+
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
@@ -26,7 +27,7 @@ const NotificationCard = () => {
           <Text style={[fontStyles.bodySmall, {color: Color.Black[100]}]}>
             Someone has just applied for{' '}
             <Text style={[fontStyles.bodySmall, {color: Color.Blue[100]}]}>
-              Awesome 2 Bedroom Flat
+              Awesome 2 Bedroom Flat.
             </Text>
           </Text>
           <Text

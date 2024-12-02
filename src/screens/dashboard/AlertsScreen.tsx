@@ -3,7 +3,14 @@ import BackButton from 'components/buttons/BackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 import NotificationCard from 'components/cards/NotificationCard';
 import React from 'react';
-import {View, StyleSheet, Text, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
 
@@ -11,22 +18,60 @@ import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmA
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-
+const dummyData = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 3,
+  },
+  {
+    id: 4,
+  },
+  {
+    id: 5,
+  },
+  {
+    id: 6,
+  },
+  {
+    id: 7,
+  },
+  {
+    id: 8,
+  },
+  {
+    id: 9,
+  },
+  {
+    id: 10,
+  },
+  {
+    id: 11,
+  },
+  {
+    id: 12,
+  },
+];
 const AlertsScreen = () => {
   const navigation = useNavigation();
   const {data} = useGetNotificationsQuery();
-  console.log('alerts data', data);
+  console.log('alerts data in alerts screen', data);
+
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Notifications</Text>
       </View>
-
       <View style={styles.screenContainer}>
-        <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
-          <NotificationCard />
-          <NotificationCard />
-        </ScrollView>
+        <FlatList
+          data={dummyData}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({item}) => <NotificationCard />}
+        />
       </View>
     </SafeAreaView>
   );
