@@ -44,6 +44,7 @@ const App = () => {
     skip: !isAuth,
     refetchOnMountOrArgChange: true,
   });
+  console.log('user data>>>>>>>>>', data)
 
   const userType = data?.userType;
   const admin = data?.admin;

@@ -82,7 +82,7 @@ const ConditionsOfUseScreen = () => {
     setNewUserDetails({...newUserDetails, deviceToken: token});
   };
 
-  console.log('newUserDetails', newUserDetails.deviceToken);
+  console.log('newUserDetails token', newUserDetails.deviceToken);
 
   const handleNewUserJourneyCheckout = async () => {
     if (isLessor) {

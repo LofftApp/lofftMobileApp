@@ -47,13 +47,9 @@ export const userApi = lofftApi.injectEndpoints({
             });
           });
         }
-        console.log('completeUserAndCreateTenant called 🎉');
         return {
           url: `/api/users/${id}/complete_tenant_sign_up`,
           method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
           body: formData,
         };
       },
