@@ -1,3 +1,5 @@
+import {CoreButton} from 'components/buttons/CoreButton';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
@@ -8,20 +10,38 @@ const NotificationCard = () => {
   const {width} = useWindowDimensions();
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.advertImage}
-          source={{
-            uri: 'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp',
-          }}
-        />
-      </View>
       <View style={[styles.innerContainer]}>
+        <View style={styles.iconImageContainer}>
+          <LofftIcon name="calendar" size={30} color={Color.Black[100]} />
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.advertImage}
+              source={{
+                uri: 'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp',
+              }}
+            />
+          </View>
+        </View>
         <View style={styles.details}>
-          <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>Text 1</Text>
-          <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
-            Text 2
+          <Text style={[fontStyles.bodySmall, {color: Color.Black[100]}]}>
+            Someone has just applied for{' '}
+            <Text style={[fontStyles.bodySmall, {color: Color.Blue[100]}]}>
+              Awesome 2 Bedroom Flat
+            </Text>
           </Text>
+          <Text
+            style={[
+              fontStyles.bodyExtraSmall,
+              {color: Color.BlackOpacity[50]},
+            ]}>
+            just now
+          </Text>
+          <CoreButton
+            textSize={fontStyles.headerExtraSmall}
+            value="See applicants"
+            onPress={() => console.log('see applicants')}
+            icon={<LofftIcon name="send" size={20} color={Color.White[100]} />}
+          />
         </View>
       </View>
     </View>
@@ -33,21 +53,25 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Lavendar[10],
     borderRadius: 10,
     marginBottom: size(20),
-    padding: size(15),
+    paddingVertical: size(20),
+    paddingHorizontal: size(12),
     height: 'auto',
   },
   innerContainer: {
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: size(10),
+  },
+
+  iconImageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignContent: 'center',
-    padding: size(15),
+    gap: size(5),
   },
 
   imageContainer: {
     width: 100,
     aspectRatio: 1,
-
     overflow: 'hidden',
   },
 
@@ -58,22 +82,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   details: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  matcher: {
-    color: Color.Mint[100],
-  },
-  collapsedExpand: {
-    marginTop: size(10),
-    gap: size(10),
-    height: 'auto',
+    alignItems: 'flex-start',
+    flex: 1,
+    gap: size(3),
   },
 
-  nameMargin: {
-    marginRight: size(20),
-  },
   chipsContainer: {
     flexWrap: 'wrap',
   },
