@@ -1,6 +1,6 @@
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {LessorNotification} from './types';
+import {Notifications} from './types';
 
 export const fcmApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -14,15 +14,37 @@ export const fcmApi = lofftApi.injectEndpoints({
         };
       },
     }),
-    getNotifications: builder.query<LessorNotification[], void>({
+    getNotifications: builder.query<Notifications, void>({
       query: () => '/api/notifications',
       transformResponse: response => {
         console.log('getNotifications called 📩');
-        return toCamelCaseKeys(response as LessorNotification[]);
+        return toCamelCaseKeys(response as Notifications);
       },
+      providesTags: result =>
+        result
+          ? [
+              ...result.notifications.map(
+                ({id}) => ({type: 'Notifications', id} as const),
+              ),
+              {type: 'Notifications', id: 'LIST'},
+            ]
+          : [{type: 'Notifications', id: 'LIST'}],
+    }),
+
+    markAsRead: builder.mutation<void, number[]>({
+      query: ids => ({
+        url: '/api/notifications/update_read_notifications',
+        method: 'PATCH',
+        body: {ids},
+      }),
+      invalidatesTags: [{type: 'Notifications', id: 'LIST'}],
     }),
   }),
   overrideExisting: false,
 });
 
-export const {useRegisterTokenMutation, useGetNotificationsQuery} = fcmApi;
+export const {
+  useRegisterTokenMutation,
+  useGetNotificationsQuery,
+  useMarkAsReadMutation,
+} = fcmApi;

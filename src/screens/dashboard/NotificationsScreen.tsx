@@ -1,18 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
-import BackButton from 'components/buttons/BackButton';
-import {CoreButton} from 'components/buttons/CoreButton';
 import NotificationCard from 'components/cards/NotificationCard';
-import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  FlatList,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Text, SafeAreaView, FlatList} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
+import {
+  useGetNotificationsQuery,
+  useMarkAsReadMutation,
+} from 'reduxFeatures/firebaseNotifications/fcmApi';
 
 //Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -56,11 +50,19 @@ const dummyData = [
     id: 12,
   },
 ];
-const AlertsScreen = () => {
+const NotificationsScreen = () => {
   const navigation = useNavigation();
   const {data} = useGetNotificationsQuery();
-  console.log('alerts data in alerts screen', data);
+  const notifications = data?.notifications;
+  const [markAsRead] = useMarkAsReadMutation();
 
+  useEffect(() => {
+    const unreadIds = notifications?.filter(n => !n.read).map(n => n.id);
+    console.log('unreadIds', unreadIds);
+    if (unreadIds && unreadIds.length > 0) {
+      markAsRead(unreadIds ?? []);
+    }
+  }, [notifications, markAsRead]);
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <View style={CoreStyleSheet.headerContainer}>
@@ -70,7 +72,7 @@ const AlertsScreen = () => {
         <FlatList
           data={dummyData}
           keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => <NotificationCard />}
+          renderItem={() => <NotificationCard />}
         />
       </View>
     </SafeAreaView>
@@ -105,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlertsScreen;
+export default NotificationsScreen;

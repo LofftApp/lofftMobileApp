@@ -8,4 +8,8 @@ interface LessorNotification {
   advert: Partial<Advert>;
 }
 
-export type {LessorNotification};
+interface Notifications {
+  notifications: LessorNotification[];
+}
+
+export type {LessorNotification, Notifications};

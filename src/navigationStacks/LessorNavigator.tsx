@@ -14,7 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import AdminScreen from 'screens/admin/adminScreen';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
-import AlertsScreen from 'screens/dashboard/AlertsScreen';
+import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 
 // Types
 import {LessorTabParamsList} from './types';
@@ -44,8 +44,8 @@ const LessorNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="AlertsTab"
-        component={AlertsScreen}
+        name="NotificationsTab"
+        component={NotificationsScreen}
         options={{
           headerShown: false,
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},

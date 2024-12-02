@@ -19,7 +19,7 @@ import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
-import AlertsScreen from 'screens/dashboard/AlertsScreen';
+import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
@@ -50,8 +50,8 @@ const TenantNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="AlertsTab"
-        component={AlertsScreen}
+        name="NotificationsTab"
+        component={NotificationsScreen}
         options={{
           headerShown: false,
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},

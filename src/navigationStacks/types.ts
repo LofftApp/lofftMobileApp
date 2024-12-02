@@ -26,7 +26,7 @@ type TenantTabParamsList = {
   ApplicationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
-  AlertsTab: undefined;
+  NotificationsTab: undefined;
   tempTab: undefined;
   FavoritesTab: undefined;
 };
@@ -57,7 +57,7 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
 
 type LessorTabParamsList = {
   LessorIndexNavigator: undefined;
-  AlertsTab: undefined;
+  NotificationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
 };
