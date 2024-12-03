@@ -16,6 +16,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {Notification} from 'reduxFeatures/firebaseNotifications/types';
 
 const dummyData = [
   {
@@ -60,6 +61,10 @@ const NotificationsScreen = () => {
   const notifications = data?.notifications;
   // console.log('notifications in notificationsScreen', notifications);
   const [markAsRead] = useMarkAsReadMutation();
+  const validNotifications = notifications?.filter(
+    n => n.title !== null && n.body !== null,
+  );
+  console.log('validNotifications in tenant', validNotifications);
 
   useEffect(() => {
     const unreadIds = notifications?.filter(n => !n.read).map(n => n.id);
@@ -92,9 +97,9 @@ const NotificationsScreen = () => {
       </View>
       <View style={styles.screenContainer}>
         <FlatList
-          data={dummyData}
+          data={validNotifications}
           keyExtractor={item => item.id.toString()}
-          renderItem={() => <NotificationCard />}
+          renderItem={({item}) => <NotificationCard notification={item} />}
         />
       </View>
     </SafeAreaView>

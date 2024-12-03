@@ -1,25 +1,30 @@
+import {NoFlatImage} from 'assets';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
+import {Notification} from 'reduxFeatures/firebaseNotifications/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
-const NotificationCard = () => {
+const NotificationCard = ({notification}: {notification: Notification}) => {
   const {width} = useWindowDimensions();
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
-  const {data} = useGetNotificationsQuery();
-  const notifications = data?.notifications;
-  const isRead = notifications?.map(n => n.read);
+
+  const isRead = notification.read;
   const backgroundColor = isRead
     ? Color.White[100]
     : isLessor
     ? Color.Lavendar[20]
     : Color.Mint[20];
+  const [beforeTagLine, afterTagLine] = notification.body.split(
+    notification.advert.flat.tagLine,
+  );
+
   return (
     <View
       style={[
@@ -32,18 +37,21 @@ const NotificationCard = () => {
           <View style={styles.imageContainer}>
             <Image
               style={styles.advertImage}
-              source={{
-                uri: 'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp',
-              }}
+              source={
+                notification.advert.flat.url
+                  ? {uri: notification.advert.flat.url}
+                  : NoFlatImage
+              }
             />
           </View>
         </View>
         <View style={styles.details}>
           <Text style={[fontStyles.bodySmall, {color: Color.Black[100]}]}>
-            Someone has just applied for{' '}
+            {beforeTagLine}
             <Text style={[fontStyles.bodySmall, {color: Color.Blue[100]}]}>
-              Awesome 2 Bedroom Flat.
+              {notification.advert.flat.tagLine}
             </Text>
+            {afterTagLine}.
           </Text>
           <Text
             style={[

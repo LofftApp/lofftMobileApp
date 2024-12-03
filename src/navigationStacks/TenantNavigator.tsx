@@ -34,8 +34,9 @@ const TenantNavigator = () => {
     refetchOnMountOrArgChange: true,
   });
   const notifications = data?.notifications;
-  console.log(' total notifications in tenant', notifications?.length);
+  // console.log(' total notifications in tenant', notifications?.length);
   // console.log('notifications in tenant', notifications);
+
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(() => {
@@ -44,9 +45,7 @@ const TenantNavigator = () => {
     return () => unsubscribe();
   }, [refetch]);
 
-  const unreadNotifications = notifications?.filter(
-    notification => !notification.read,
-  ).length;
+  const unreadNotifications = notifications?.filter(n => !n.read).length;
   console.log('unreadNotifications in tenant', unreadNotifications);
   return (
     <Tab.Navigator
