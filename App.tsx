@@ -33,7 +33,6 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useRequestUserPermissionForNotifications} from 'hooks/useRequestUserPermission';
 import {useFCMToken} from 'hooks/useFcmToken';
 import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Remove ErrorBoundary in production
 
@@ -44,7 +43,7 @@ const App = () => {
     skip: !isAuth,
     refetchOnMountOrArgChange: true,
   });
-  console.log('user data>>>>>>>>>', data)
+
 
   const userType = data?.userType;
   const admin = data?.admin;

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import messaging from '@react-native-firebase/messaging';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -23,12 +24,26 @@ import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmA
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
-  const {data} = useGetNotificationsQuery();
-  // const unreadNotifications = data?.notifications?.filter(
-  //   notification => !notification.read,
-  // ).length;
-  // console.log('unreadNotifications', unreadNotifications);
-  // console.log('notifications', data?.notifications);
+
+  const {data, refetch} = useGetNotificationsQuery();
+  const notifications = data?.notifications;
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(() => {
+      console.log(
+        'Foreground notification received in Lessor navigator, refetching...',
+      );
+      refetch();
+    });
+    return () => unsubscribe();
+  }, [refetch]);
+
+  const unreadNotifications = notifications?.filter(
+    notification => !notification.read,
+  ).length;
+
+  console.log('unreadNotifications', unreadNotifications);
+  console.log('notifications', data?.notifications);
   const admin = currentUser?.admin;
   return (
     <Tab.Navigator
@@ -48,8 +63,8 @@ const LessorNavigator = () => {
         component={NotificationsScreen}
         options={{
           headerShown: false,
-          // tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
-          // tabBarBadge: unreadNotifications && unreadNotifications,
+          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
         }}
       />
       <Tab.Screen

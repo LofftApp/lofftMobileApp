@@ -1,17 +1,22 @@
-import {useNavigation} from '@react-navigation/native';
-import NotificationCard from 'components/cards/NotificationCard';
 import React, {useEffect} from 'react';
 import {View, StyleSheet, Text, SafeAreaView, FlatList} from 'react-native';
-import {size} from 'react-native-responsive-sizes';
+//Redux
 import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
 } from 'reduxFeatures/firebaseNotifications/fcmApi';
 
+//Components
+import NotificationCard from 'components/cards/NotificationCard';
+import {size} from 'react-native-responsive-sizes';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+
 //Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+
 const dummyData = [
   {
     id: 1,
@@ -51,8 +56,7 @@ const dummyData = [
   },
 ];
 const NotificationsScreen = () => {
-  const navigation = useNavigation();
-  const {data} = useGetNotificationsQuery();
+  const {data, isLoading, isError, refetch} = useGetNotificationsQuery();
   const notifications = data?.notifications;
   const [markAsRead] = useMarkAsReadMutation();
 
@@ -63,6 +67,23 @@ const NotificationsScreen = () => {
       markAsRead(unreadIds ?? []);
     }
   }, [notifications, markAsRead]);
+
+  const handleTryAgain = () => {
+    refetch();
+  };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="Error loading notifications"
+        buttonValue="Try again"
+        onPress={handleTryAgain}
+      />
+    );
+  }
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <View style={CoreStyleSheet.headerContainer}>
