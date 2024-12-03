@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {TenantTabParamsList} from './types';
+import messaging from '@react-native-firebase/messaging';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -21,11 +21,28 @@ import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
 import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 
+//Types
+import {TenantTabParamsList} from './types';
+import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
+
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
 const TenantNavigator = () => {
-  const {data} = useGetUserQuery();
-  const admin = data?.admin;
+  const {data: currentUser} = useGetUserQuery();
+  const admin = currentUser?.admin;
+  const {data, refetch} = useGetNotificationsQuery();
+  const notifications = data?.notifications;
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(() => {
+      refetch();
+    });
+    return () => unsubscribe();
+  }, [refetch]);
+
+  const unreadNotifications = notifications?.filter(
+    notification => !notification.read,
+  ).length;
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -55,7 +72,7 @@ const TenantNavigator = () => {
         options={{
           headerShown: false,
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
-          tabBarBadge: '',
+          tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
         }}
       />
       <Tab.Screen

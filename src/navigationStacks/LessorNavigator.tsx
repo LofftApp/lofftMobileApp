@@ -30,9 +30,6 @@ const LessorNavigator = () => {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(() => {
-      console.log(
-        'Foreground notification received in Lessor navigator, refetching...',
-      );
       refetch();
     });
     return () => unsubscribe();
@@ -42,8 +39,6 @@ const LessorNavigator = () => {
     notification => !notification.read,
   ).length;
 
-  console.log('unreadNotifications', unreadNotifications);
-  console.log('notifications', data?.notifications);
   const admin = currentUser?.admin;
   return (
     <Tab.Navigator
