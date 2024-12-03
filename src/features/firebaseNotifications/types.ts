@@ -1,4 +1,3 @@
-import {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
 interface Notification {

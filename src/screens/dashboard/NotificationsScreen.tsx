@@ -18,6 +18,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {Notification} from 'reduxFeatures/firebaseNotifications/types';
 
+
 const dummyData = [
   {
     id: 1,

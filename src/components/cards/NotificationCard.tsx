@@ -1,16 +1,21 @@
+import {useNavigation} from '@react-navigation/native';
 import {NoFlatImage} from 'assets';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import {SearchScreenNavigationProp} from 'navigationStacks/types';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
 import {Notification} from 'reduxFeatures/firebaseNotifications/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 const NotificationCard = ({notification}: {notification: Notification}) => {
+  const navigation = useNavigation<SearchScreenNavigationProp>();
   const {width} = useWindowDimensions();
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
@@ -24,6 +29,12 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
   const [beforeTagLine, afterTagLine] = notification.body.split(
     notification.advert.flat.tagLine,
   );
+
+  const handleAdvertNavigation = () => {
+    navigation.navigate('FlatShowScreen', {
+      advertId: notification.advert.id,
+    });
+  };
 
   return (
     <View
@@ -48,7 +59,9 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
         <View style={styles.details}>
           <Text style={[fontStyles.bodySmall, {color: Color.Black[100]}]}>
             {beforeTagLine}
-            <Text style={[fontStyles.bodySmall, {color: Color.Blue[100]}]}>
+            <Text
+              onPress={handleAdvertNavigation}
+              style={[fontStyles.bodySmall, {color: Color.Blue[100]}]}>
               {notification.advert.flat.tagLine}
             </Text>
             {afterTagLine}.
@@ -58,7 +71,7 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
               fontStyles.bodyExtraSmall,
               {color: Color.BlackOpacity[50]},
             ]}>
-            just now
+            {dayjs(notification.createdAt).fromNow()}
           </Text>
           <CoreButton
             textSize={fontStyles.headerExtraSmall}
