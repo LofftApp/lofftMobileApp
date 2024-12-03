@@ -11,6 +11,7 @@ export const useFCMToken = (isAuth: boolean) => {
     if (!isAuth) {
       return;
     }
+
     // Register token on app start
     registerDeviceToken(registerToken);
 

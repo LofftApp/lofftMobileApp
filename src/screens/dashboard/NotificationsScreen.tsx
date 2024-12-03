@@ -58,6 +58,7 @@ const dummyData = [
 const NotificationsScreen = () => {
   const {data, isLoading, isError, refetch} = useGetNotificationsQuery();
   const notifications = data?.notifications;
+  // console.log('notifications in notificationsScreen', notifications);
   const [markAsRead] = useMarkAsReadMutation();
 
   useEffect(() => {

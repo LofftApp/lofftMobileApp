@@ -3,14 +3,29 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 const NotificationCard = () => {
   const {width} = useWindowDimensions();
-
+  const {data: currentUser} = useGetUserQuery();
+  const isLessor = currentUser?.userType === 'lessor';
+  const {data} = useGetNotificationsQuery();
+  const notifications = data?.notifications;
+  const isRead = notifications?.map(n => n.read);
+  const backgroundColor = isRead
+    ? Color.White[100]
+    : isLessor
+    ? Color.Lavendar[20]
+    : Color.Mint[20];
   return (
-    <View style={[styles.outterContainer, {width: width - 30}]}>
+    <View
+      style={[
+        styles.outterContainer,
+        {width: width - 30, backgroundColor: backgroundColor},
+      ]}>
       <View style={[styles.innerContainer]}>
         <View style={styles.iconImageContainer}>
           <LofftIcon name="calendar" size={30} color={Color.Black[100]} />
@@ -51,7 +66,6 @@ const NotificationCard = () => {
 
 const styles = StyleSheet.create({
   outterContainer: {
-    backgroundColor: Color.Lavendar[10],
     borderRadius: 10,
     marginBottom: size(20),
     paddingVertical: size(20),

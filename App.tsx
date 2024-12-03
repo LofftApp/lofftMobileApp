@@ -39,14 +39,18 @@ import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
 const App = () => {
   const {isAuth} = useAuth();
 
-  const {data, isLoading, isError, error} = useGetUserQuery(undefined, {
+  const {
+    data: currentUser,
+    isLoading,
+    isError,
+    error,
+  } = useGetUserQuery(undefined, {
     skip: !isAuth,
     refetchOnMountOrArgChange: true,
   });
 
-
-  const userType = data?.userType;
-  const admin = data?.admin;
+  const userType = currentUser?.userType;
+  const admin = currentUser?.admin;
   const connectionError =
     error && 'status' in error && error.status === 'FETCH_ERROR';
   const [signOut] = useSignOutMutation();
@@ -100,6 +104,16 @@ const App = () => {
       />
     );
   }
+
+  // if (isErrorNot) {
+  //   return (
+  //     <NotFoundComponent
+  //       backButton
+  //       onPress={handleBackButton}
+  //       message="Error loading notifications. Please try again"
+  //     />
+  //   );
+  // }
 
   return (
     <>

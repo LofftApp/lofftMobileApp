@@ -25,8 +25,14 @@ const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
 
-  const {data, refetch} = useGetNotificationsQuery();
+  const {data, refetch} = useGetNotificationsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+
   const notifications = data?.notifications;
+  console.log(' total notifications in lessor', notifications?.length);
+  console.log('notifications in lessor', notifications);
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(() => {
@@ -38,6 +44,7 @@ const LessorNavigator = () => {
   const unreadNotifications = notifications?.filter(
     notification => !notification.read,
   ).length;
+  console.log('unreadNotifications in lessor', unreadNotifications);
 
   const admin = currentUser?.admin;
   return (

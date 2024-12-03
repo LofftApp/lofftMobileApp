@@ -30,8 +30,12 @@ const Tab = createBottomTabNavigator<TenantTabParamsList>();
 const TenantNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
   const admin = currentUser?.admin;
-  const {data, refetch} = useGetNotificationsQuery();
+  const {data, refetch} = useGetNotificationsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const notifications = data?.notifications;
+  console.log(' total notifications in tenant', notifications?.length);
+  // console.log('notifications in tenant', notifications);
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(() => {
@@ -43,6 +47,7 @@ const TenantNavigator = () => {
   const unreadNotifications = notifications?.filter(
     notification => !notification.read,
   ).length;
+  console.log('unreadNotifications in tenant', unreadNotifications);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
