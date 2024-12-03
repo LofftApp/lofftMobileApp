@@ -26,7 +26,8 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
     : isLessor
     ? Color.Lavendar[20]
     : Color.Mint[20];
-  const [beforeTagLine, afterTagLine] = notification.body.split(
+  const body = notification.body || '';
+  const [beforeTagLine, afterTagLine] = body.split(
     notification.advert.flat.tagLine,
   );
 
