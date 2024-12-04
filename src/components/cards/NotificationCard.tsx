@@ -21,15 +21,30 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
   const isLessor = currentUser?.userType === 'lessor';
 
   const isRead = notification.read;
-  const backgroundColor = isRead
+
+  const backgroundLessor = isRead ? Color.White[100] : Color.Lavendar[20];
+
+  const positive =
+    (!isLessor && notification.application.status === 'active') ||
+    notification.application.status === 'offered';
+  // const negative =
+  //   (!isLessor && notification.application.status === 'closed') ||
+  //   notification.application.status === 'deleted';
+
+  const backgroundTenant = isRead
     ? Color.White[100]
-    : isLessor
-    ? Color.Lavendar[20]
-    : Color.Mint[20];
+    : positive
+    ? Color.Mint[20]
+    : Color.Tomato[20];
+
+  const LessorNotificationIcon = 'calendar';
+  const tenantNotificationIcon = positive ? 'thumbs-up' : 'thumbs-down';
+
   const body = notification.body || '';
   const [beforeTagLine, afterTagLine] = body.split(
     notification.advert.flat.tagLine,
   );
+  const timeFromNow = dayjs(notification.createdAt).fromNow();
 
   const handleAdvertNavigation = () => {
     navigation.navigate('FlatShowScreen', {
@@ -41,11 +56,18 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
     <View
       style={[
         styles.outterContainer,
-        {width: width - 30, backgroundColor: backgroundColor},
+        {
+          width: width - 30,
+          backgroundColor: isLessor ? backgroundLessor : backgroundTenant,
+        },
       ]}>
       <View style={[styles.innerContainer]}>
         <View style={styles.iconImageContainer}>
-          <LofftIcon name="calendar" size={30} color={Color.Black[100]} />
+          <LofftIcon
+            name={isLessor ? LessorNotificationIcon : tenantNotificationIcon}
+            size={30}
+            color={Color.Black[100]}
+          />
           <View style={styles.imageContainer}>
             <Image
               style={styles.advertImage}
@@ -72,7 +94,7 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
               fontStyles.bodyExtraSmall,
               {color: Color.BlackOpacity[50]},
             ]}>
-            {dayjs(notification.createdAt).fromNow()}
+            {timeFromNow.charAt(0).toUpperCase() + timeFromNow.slice(1)}
           </Text>
           <CoreButton
             textSize={fontStyles.headerExtraSmall}
