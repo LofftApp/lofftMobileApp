@@ -7,6 +7,9 @@ import ApplicationShowScreen from 'screens/dashboard/tenant/ApplicationShowScree
 import type {NotificationsStackParamsList} from './types';
 import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 import FlatShowScreen from 'screens/dashboard/tenant/FlatShowScreen';
+import ApplicationNavigator from './ApplicationNavigator';
+import LessorNavigator from './LessorNavigator';
+import LessorIndexNavigator from './LessorIndexNavigator';
 
 const Notification = createNativeStackNavigator<NotificationsStackParamsList>();
 const NotificationsNavigator = () => {
@@ -17,10 +20,10 @@ const NotificationsNavigator = () => {
         component={NotificationsScreen}
       />
       <Notification.Screen
-        name="ApplicationShowScreen"
-        component={ApplicationShowScreen}
+        name="LessorIndexNavigator"
+        component={LessorIndexNavigator}
+        options={{headerShown: false}}
       />
-      <Notification.Screen name="FlatShowScreen" component={FlatShowScreen} />
     </Notification.Navigator>
   );
 };

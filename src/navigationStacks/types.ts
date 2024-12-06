@@ -81,7 +81,6 @@ type LessorNavigatorStackParamsList = {
     applicationId: number;
   };
   LessorChatScreen: undefined;
-  NotificationsScreen: undefined;
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
@@ -97,6 +96,8 @@ type NotificationsStackParamsList = {
   NotificationsScreen: undefined;
   ApplicationShowScreen: {id: number};
   FlatShowScreen: {advertId: number};
+  SeeApplicantsScreen: {advertId: number};
+  LessorIndexNavigator: {screen: 'ApplicationShowScreen'; params: {id: number}};
 };
 
 type NotificationsScreenNavigationProp = CompositeNavigationProp<

@@ -52,13 +52,10 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
   const timeFromNow = dayjs(notification.createdAt).fromNow();
 
   const handleAdvertNavigation = () => {
-    isLessor
-      ? navigation.navigate('ApplicationShowScreen', {
-          id: notification.advert.id,
-        })
-      : navigation.navigate('FlatShowScreen', {
-          advertId: notification.advert.id,
-        });
+    navigation.navigate('LessorIndexNavigator', {
+      screen: 'ApplicationShowScreen',
+      params: {id: notification.advert.id},
+    });
   };
 
   return (
@@ -108,7 +105,11 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
           <CoreButton
             textSize={fontStyles.headerExtraSmall}
             value="See applicants"
-            onPress={() => console.log('see applicants')}
+            onPress={() =>
+              navigation.navigate('SeeApplicantsScreen', {
+                advertId: notification.advert.id,
+              })
+            }
             icon={<LofftIcon name="send" size={20} color={Color.White[100]} />}
           />
         </View>
