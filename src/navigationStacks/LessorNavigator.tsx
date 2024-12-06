@@ -15,11 +15,11 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import AdminScreen from 'screens/admin/adminScreen';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
-import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 
 // Types
 import {LessorTabParamsList} from './types';
 import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
+import NotificationsNavigator from './NotificationsNavigator';
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
@@ -28,7 +28,6 @@ const LessorNavigator = () => {
   const {data, refetch} = useGetNotificationsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-
 
   const notifications = data?.notifications;
   console.log(' total notifications in lessor', notifications?.length);
@@ -62,7 +61,7 @@ const LessorNavigator = () => {
       />
       <Tab.Screen
         name="NotificationsTab"
-        component={NotificationsScreen}
+        component={NotificationsNavigator}
         options={{
           headerShown: false,
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},

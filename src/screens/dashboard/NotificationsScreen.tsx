@@ -62,7 +62,7 @@ const NotificationsScreen = () => {
       </View>
       <View style={styles.screenContainer}>
         <FlatList
-          data={validNotifications}
+          data={notifications}
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => <NotificationCard notification={item} />}
         />

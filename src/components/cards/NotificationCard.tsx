@@ -2,7 +2,11 @@ import {useNavigation} from '@react-navigation/native';
 import {NoFlatImage} from 'assets';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {SearchScreenNavigationProp} from 'navigationStacks/types';
+import {
+  LessorNavigatorScreenNavigationProp,
+  NotificationsScreenNavigationProp,
+  SearchScreenNavigationProp,
+} from 'navigationStacks/types';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
@@ -15,7 +19,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 const NotificationCard = ({notification}: {notification: Notification}) => {
-  const navigation = useNavigation<SearchScreenNavigationProp>();
+  const navigation = useNavigation<NotificationsScreenNavigationProp>();
   const {width} = useWindowDimensions();
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
@@ -25,8 +29,9 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
   const backgroundLessor = isRead ? Color.White[100] : Color.Lavendar[20];
 
   const positive =
-    (!isLessor && notification.application.status === 'active') ||
-    notification.application.status === 'offered';
+    !isLessor &&
+    (notification.application.status === 'active' ||
+      notification?.application.status === 'offered');
   // const negative =
   //   (!isLessor && notification.application.status === 'closed') ||
   //   notification.application.status === 'deleted';
@@ -47,9 +52,13 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
   const timeFromNow = dayjs(notification.createdAt).fromNow();
 
   const handleAdvertNavigation = () => {
-    navigation.navigate('FlatShowScreen', {
-      advertId: notification.advert.id,
-    });
+    isLessor
+      ? navigation.navigate('ApplicationShowScreen', {
+          id: notification.advert.id,
+        })
+      : navigation.navigate('FlatShowScreen', {
+          advertId: notification.advert.id,
+        });
   };
 
   return (

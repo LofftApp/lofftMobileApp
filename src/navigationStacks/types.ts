@@ -81,11 +81,27 @@ type LessorNavigatorStackParamsList = {
     applicationId: number;
   };
   LessorChatScreen: undefined;
+  NotificationsScreen: undefined;
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<LessorTabParamsList, 'LessorIndexNavigator'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
+>;
+
+//Notifications Navigator
+type NotificationsTabParamsList = {
+  NotificationsTab: undefined;
+};
+type NotificationsStackParamsList = {
+  NotificationsScreen: undefined;
+  ApplicationShowScreen: {id: number};
+  FlatShowScreen: {advertId: number};
+};
+
+type NotificationsScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<NotificationsTabParamsList, 'NotificationsTab'>,
+  StackNavigationProp<NotificationsStackParamsList>
 >;
 
 //NewUser Navigator
@@ -141,4 +157,7 @@ export type {
   RootStackNavigationProp,
   RootStackParamsList,
   AdminStackParamsList,
+  NotificationsTabParamsList,
+  NotificationsStackParamsList,
+  NotificationsScreenNavigationProp,
 };
