@@ -31,7 +31,7 @@ const NotificationsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const notifications = data?.notifications;
-  // console.log('notifications in notificationsScreen', notifications);
+  console.log('notifications in notificationsScreen', notifications);
   const [markAsRead] = useMarkAsReadMutation();
 
   const unreadIds = notifications?.filter(n => !n.read).map(n => n.id);

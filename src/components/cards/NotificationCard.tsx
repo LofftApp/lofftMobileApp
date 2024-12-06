@@ -39,6 +39,7 @@ const NotificationCard = ({
   const isRead = notification.read;
 
   const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
+  const advertStatus = notification.advert.status;
 
   const lessorNotificationHelper = useMemo(
     () => (notificationType: LessorNotificationType) => {
@@ -48,7 +49,7 @@ const NotificationCard = ({
             icon: 'calendar',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: 'See applicants',
+            value: advertStatus === 'open' ? 'See applicants' : undefined,
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -61,7 +62,7 @@ const NotificationCard = ({
             icon: 'calendar',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: 'See applicants',
+            value: advertStatus === 'review' ? 'See applicants' : undefined,
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -74,7 +75,7 @@ const NotificationCard = ({
             icon: 'hourglass',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: 'Go to chat',
+            value: advertStatus === 'viewing' ? 'Go to chat' : undefined,
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -86,7 +87,7 @@ const NotificationCard = ({
             icon: 'home-smile',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: 'Make an offer',
+            value: advertStatus === 'offered' ? 'Go to chat' : undefined,
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -108,7 +109,7 @@ const NotificationCard = ({
             icon: 'face-wink',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: 'See applicants',
+            value: advertStatus === 'open' ? 'See applicants' : undefined,
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -127,11 +128,14 @@ const NotificationCard = ({
           };
       }
     },
-    [navigation, notification.advert.id, lessorBgColor],
+    [navigation, notification.advert.id, lessorBgColor, advertStatus],
   );
 
   const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
   const tenantNegativeBgColor = isRead ? Color.White[100] : Color.Tomato[20];
+  const applicationStatus = !isLessorNotification
+    ? notification.application.status
+    : undefined;
 
   const tenantNotificationHelper = useMemo(
     () => (notificationType: TenantNotificationType) => {
@@ -150,17 +154,20 @@ const NotificationCard = ({
             icon: 'thumbs-up',
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
-            value: undefined,
-            buttonIcon: undefined,
-            buttonNavigation: undefined,
+            value: applicationStatus === 'active' ? 'Go to chat' : undefined,
+            buttonIcon: 'send',
+            buttonNavigation: () =>
+              navigation.navigate('ApplicationNavigator', {
+                screen: 'LessorChatScreen',
+              }),
           };
         case 'round_3':
           return {
             icon: 'thumbs-up',
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
-            value: 'Go to chat',
-            buttonIcon: undefined,
+            value: applicationStatus === 'active' ? 'Go to chat' : undefined,
+            buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('ApplicationNavigator', {
                 screen: 'LessorChatScreen',
@@ -171,7 +178,7 @@ const NotificationCard = ({
             icon: 'thumbs-up',
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
-            value: 'Accept',
+            value: applicationStatus === 'offered' ? 'Accept' : undefined,
             buttonIcon: 'home-smile',
             buttonNavigation: () =>
               navigation.navigate('ApplicationNavigator', {
@@ -198,7 +205,12 @@ const NotificationCard = ({
           };
       }
     },
-    [tenantNegativeBgColor, tenantPositiveBgColor, navigation],
+    [
+      tenantNegativeBgColor,
+      tenantPositiveBgColor,
+      navigation,
+      applicationStatus,
+    ],
   );
 
   const notificationAssets = isLessorNotification
