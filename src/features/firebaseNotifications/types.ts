@@ -23,7 +23,8 @@ type LessorNotificationType =
   | 'review'
   | 'viewing'
   | 'offered'
-  | 'closed';
+  | 'closed'
+  | 'new_applicant';
 
 interface LessorNotification extends Notification {
   notificationType: LessorNotificationType;

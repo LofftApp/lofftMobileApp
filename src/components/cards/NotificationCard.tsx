@@ -45,7 +45,7 @@ const NotificationCard = ({
       switch (notificationType) {
         case 'open':
           return {
-            icon: 'user',
+            icon: 'calendar',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: 'See applicants',
@@ -103,6 +103,20 @@ const NotificationCard = ({
             value: undefined,
             buttonIcon: undefined,
             buttonNavigation: undefined,
+          };
+
+        case 'new_applicant':
+          return {
+            icon: 'face-wink',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: 'See applicants',
+            buttonIcon: undefined,
+            buttonNavigation: () =>
+              navigation.navigate('LessorIndexNavigator', {
+                screen: 'SeeApplicantsScreen',
+                params: {advertId: notification.advert.id},
+              }),
           };
         default:
           return {
@@ -190,6 +204,7 @@ const NotificationCard = ({
   const [beforeTagLine, afterTagLine] = notification.body.split(
     notification.advert.flat.tagLine,
   );
+
   const timeFromNow = dayjs(notification.createdAt).fromNow();
 
   const handleAdvertNavigation = () => {

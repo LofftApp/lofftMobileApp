@@ -149,7 +149,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     );
   }
 
-  if (applicationsState.length === 0) {
+  if (applications?.length === 0) {
     return (
       <NotFoundComponent
         backButton
