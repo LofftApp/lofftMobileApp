@@ -16,11 +16,26 @@ interface Notification {
       tagLine: string;
     };
   };
+}
+
+interface LessorNotification extends Notification {
+  notificationType: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
+  userType: 'lessor';
+}
+
+interface TenantNotification extends Notification {
+  notificationType: 'round1' | 'round2' | 'round_3' | 'offered' | 'closed';
+  userType: 'tenant';
   application: Application;
 }
 
 interface Notifications {
-  notifications: Notification[];
+  notifications: LessorNotification[] | TenantNotification[];
 }
 
-export type {Notification, Notifications};
+export type {
+  Notification,
+  LessorNotification,
+  TenantNotification,
+  Notifications,
+};

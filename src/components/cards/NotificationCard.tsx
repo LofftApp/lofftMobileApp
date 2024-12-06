@@ -2,11 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NoFlatImage} from 'assets';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {
-  LessorNavigatorScreenNavigationProp,
-  NotificationsScreenNavigationProp,
-  SearchScreenNavigationProp,
-} from 'navigationStacks/types';
+import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
