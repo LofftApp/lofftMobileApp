@@ -95,7 +95,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       });
       navigation.navigate('SelectionConfirmedScreen', {
         advertId: advertId,
-        round2: true,
       });
       toggleModal();
     } catch (err) {

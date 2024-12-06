@@ -98,7 +98,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
       navigation.navigate('SelectionConfirmedScreen', {
         advertId: advertId,
-        round1: true,
       });
       toggleModal();
     } catch (err) {

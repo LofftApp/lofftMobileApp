@@ -72,8 +72,6 @@ type LessorNavigatorStackParamsList = {
   };
   SelectionConfirmedScreen: {
     advertId: number;
-    round1?: boolean;
-    round2?: boolean;
   };
   ApplicantProfileScreen: {
     advertId: number;
