@@ -24,6 +24,11 @@ const NotificationsNavigator = () => {
         component={LessorIndexNavigator}
         options={{headerShown: false}}
       />
+        <Notification.Screen
+        name="ApplicationNavigator"
+        component={ApplicationNavigator}
+        options={{headerShown: false}}
+      />
     </Notification.Navigator>
   );
 };

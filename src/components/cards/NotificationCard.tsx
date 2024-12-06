@@ -1,23 +1,32 @@
-import {useNavigation} from '@react-navigation/native';
-import {NoFlatImage} from 'assets';
-import {CoreButton} from 'components/buttons/CoreButton';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
-import {size} from 'react-native-responsive-sizes';
-import {
-  LessorNotification,
-  LessorNotificationType,
-  Notification,
-  TenantNotification,
-} from 'reduxFeatures/firebaseNotifications/types';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useNavigation} from '@react-navigation/native';
+
+//Components
+import {CoreButton} from 'components/buttons/CoreButton';
+
+//Styles
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+
+//Assets
+import {NoFlatImage} from 'assets';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+
+//Helpers
+import {size} from 'react-native-responsive-sizes';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
+
+//Types
+import {
+  LessorNotification,
+  LessorNotificationType,
+  TenantNotification,
+  TenantNotificationType,
+} from 'reduxFeatures/firebaseNotifications/types';
+import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
 
 const NotificationCard = ({
   notification,
@@ -26,84 +35,173 @@ const NotificationCard = ({
 }) => {
   const navigation = useNavigation<NotificationsScreenNavigationProp>();
   const {width} = useWindowDimensions();
-  const {data: currentUser} = useGetUserQuery();
-  const isLessor = currentUser?.userType === 'lessor';
   const isLessorNotification = notification.userType === 'lessor';
-
   const isRead = notification.read;
 
-  const lessorIconHelper = (notificationType: LessorNotificationType) => {
-    switch (notificationType) {
-      case 'open':
-        return 'user';
-      case 'review':
-        return 'calendar';
-      case 'viewing':
-        return 'hourglass';
-      case 'offered':
-        return 'home-smile';
-      case 'closed':
-        return 'thumbs-down';
-      default:
-        return 'calendar';
-    }
-  };
+  const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
 
-  const lessorButtonIcon = () => {
-    if (notification.notificationType === 'viewing') {
-      return 'send';
-    }
-    if (notification.notificationType === 'offered') {
-      return 'send';
-    }
-    return '';
-  };
+  const lessorNotificationHelper = useMemo(
+    () => (notificationType: LessorNotificationType) => {
+      switch (notificationType) {
+        case 'open':
+          return {
+            icon: 'user',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: 'See applicants',
+            buttonIcon: undefined,
+            buttonNavigation: () =>
+              navigation.navigate('LessorIndexNavigator', {
+                screen: 'SeeApplicantsScreen',
+                params: {advertId: notification.advert.id},
+              }),
+          };
+        case 'review':
+          return {
+            icon: 'calendar',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: 'See applicants',
+            buttonIcon: undefined,
+            buttonNavigation: () =>
+              navigation.navigate('LessorIndexNavigator', {
+                screen: 'SeeApplicantsScreen',
+                params: {advertId: notification.advert.id},
+              }),
+          };
+        case 'viewing':
+          return {
+            icon: 'hourglass',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: 'Go to chat',
+            buttonIcon: 'send',
+            buttonNavigation: () =>
+              navigation.navigate('LessorIndexNavigator', {
+                screen: 'LessorChatScreen',
+                params: {advertId: notification.advert.id},
+              }),
+          };
+        case 'offered':
+          return {
+            icon: 'home-smile',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: 'Make an offer',
+            buttonIcon: 'send',
+            buttonNavigation: () =>
+              navigation.navigate('LessorIndexNavigator', {
+                screen: 'LessorChatScreen',
+                params: {advertId: notification.advert.id},
+              }),
+          };
+        case 'closed':
+          return {
+            icon: 'calendar',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: undefined,
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+        default:
+          return {
+            icon: 'calendar',
+            iconColor: Color.Black[100],
+            bgColor: lessorBgColor,
+            value: undefined,
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+      }
+    },
+    [navigation, notification.advert.id, lessorBgColor],
+  );
 
-  const tenantIconHelper = (notificationType: string) => {
-    switch (notificationType) {
-      case 'round1':
-        return 'thumbs-up';
-      case 'round2':
-        return 'thumbs-up';
-      case 'round3':
-        return 'thumbs-up';
-      case 'offered':
-        return 'thumbs-up';
-      case 'closed':
-        return 'thumbs-down';
-      default:
-        return 'calendar';
-    }
-  };
+  const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
+  const tenantNegativeBgColor = isRead ? Color.White[100] : Color.Tomato[20];
 
-  const backgroundLessor = isLessorNotification
-    ? isRead
-      ? Color.White[100]
-      : Color.Lavendar[20]
-    : undefined;
+  const tenantNotificationHelper = useMemo(
+    () => (notificationType: TenantNotificationType) => {
+      switch (notificationType) {
+        case 'round_1':
+          return {
+            icon: 'thumbs-up',
+            iconColor: Color.Mint[100],
+            bgColor: tenantPositiveBgColor,
+            value: undefined,
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+        case 'round_2':
+          return {
+            icon: 'thumbs-up',
+            iconColor: Color.Mint[100],
+            bgColor: tenantPositiveBgColor,
+            value: undefined,
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+        case 'round_3':
+          return {
+            icon: 'thumbs-up',
+            iconColor: Color.Mint[100],
+            bgColor: tenantPositiveBgColor,
+            value: 'Go to chat',
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+        case 'offered':
+          return {
+            icon: 'thumbs-up',
+            iconColor: Color.Mint[100],
+            bgColor: tenantPositiveBgColor,
+            value: 'Accept',
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+        case 'closed':
+          return {
+            icon: 'thumbs-down',
+            iconColor: Color.Tomato[100],
+            bgColor: tenantNegativeBgColor,
+            value: undefined,
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+        default:
+          return {
+            icon: 'thumbs-up',
+            iconColor: Color.Tomato[100],
+            bgColor: tenantPositiveBgColor,
+            value: undefined,
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
+          };
+      }
+    },
+    [tenantNegativeBgColor, tenantPositiveBgColor],
+  );
 
-  const tenantPositiveNotification =
-    tenantIconHelper(notification.notificationType) === 'thumbs-up';
+  const notificationAssets = isLessorNotification
+    ? lessorNotificationHelper(notification.notificationType)
+    : tenantNotificationHelper(notification.notificationType);
 
-  const backgroundTenant = !isLessorNotification
-    ? isRead
-      ? Color.White[100]
-      : tenantPositiveNotification
-      ? Color.Mint[20]
-      : Color.Tomato[20]
-    : undefined;
-
-  const body = notification.body || '';
-  const [beforeTagLine, afterTagLine] = body.split(
+  const [beforeTagLine, afterTagLine] = notification.body.split(
     notification.advert.flat.tagLine,
   );
   const timeFromNow = dayjs(notification.createdAt).fromNow();
 
   const handleAdvertNavigation = () => {
-    navigation.navigate('LessorIndexNavigator', {
-      screen: 'ApplicationShowScreen',
-      params: {id: notification.advert.id},
-    });
+    isLessorNotification
+      ? navigation.navigate('LessorIndexNavigator', {
+          screen: 'ApplicationShowScreen',
+          params: {id: notification.advert.id},
+        })
+      : navigation.navigate('ApplicationNavigator', {
+          screen: 'ApplicationShowScreen',
+          params: {id: notification.application.id},
+        });
   };
 
   return (
@@ -112,21 +210,15 @@ const NotificationCard = ({
         styles.outterContainer,
         {
           width: width - 30,
-          backgroundColor: isLessorNotification
-            ? backgroundLessor
-            : backgroundTenant,
+          backgroundColor: notificationAssets.bgColor,
         },
       ]}>
       <View style={[styles.innerContainer]}>
         <View style={styles.iconImageContainer}>
           <LofftIcon
-            name={
-              isLessorNotification
-                ? lessorIconHelper(notification.notificationType)
-                : tenantIconHelper(notification.notificationType)
-            }
+            name={notificationAssets.icon}
             size={30}
-            color={Color.Black[100]}
+            color={notificationAssets.iconColor}
           />
           <View style={styles.imageContainer}>
             <Image
@@ -156,23 +248,25 @@ const NotificationCard = ({
             ]}>
             {timeFromNow.charAt(0).toUpperCase() + timeFromNow.slice(1)}
           </Text>
-          <CoreButton
-            textSize={fontStyles.headerExtraSmall}
-            value="See applicants"
-            onPress={() =>
-              navigation.navigate('LessorIndexNavigator', {
-                screen: 'SeeApplicantsScreen',
-                params: {advertId: notification.advert.id},
-              })
-            }
-            icon={
-              <LofftIcon
-                name={lessorButtonIcon()}
-                size={20}
-                color={Color.White[100]}
-              />
-            }
-          />
+          {notificationAssets.value && (
+            <CoreButton
+              textSize={fontStyles.headerExtraSmall}
+              value={notificationAssets.value}
+              onPress={() =>
+                notificationAssets.buttonNavigation &&
+                notificationAssets.buttonNavigation()
+              }
+              icon={
+                notificationAssets.buttonIcon ? (
+                  <LofftIcon
+                    name={notificationAssets.buttonIcon}
+                    size={20}
+                    color={Color.White[100]}
+                  />
+                ) : undefined
+              }
+            />
+          )}
         </View>
       </View>
     </View>

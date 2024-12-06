@@ -31,9 +31,9 @@ interface LessorNotification extends Notification {
 }
 
 type TenantNotificationType =
-  | 'round1'
-  | 'round2'
-  | 'round3'
+  | 'round_1'
+  | 'round_2'
+  | 'round_3'
   | 'offered'
   | 'closed';
 
