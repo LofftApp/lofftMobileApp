@@ -133,9 +133,8 @@ const NotificationCard = ({
 
   const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
   const tenantNegativeBgColor = isRead ? Color.White[100] : Color.Tomato[20];
-  const applicationStatus = !isLessorNotification
-    ? notification.application.status
-    : undefined;
+  const applicationStatus =
+    !isLessorNotification && notification.application.status;
 
   const tenantNotificationHelper = useMemo(
     () => (notificationType: TenantNotificationType) => {
