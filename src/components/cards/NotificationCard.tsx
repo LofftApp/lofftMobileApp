@@ -79,7 +79,6 @@ const NotificationCard = ({
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
                 screen: 'LessorChatScreen',
-                params: {advertId: notification.advert.id},
               }),
           };
         case 'offered':
@@ -92,7 +91,6 @@ const NotificationCard = ({
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
                 screen: 'LessorChatScreen',
-                params: {advertId: notification.advert.id},
               }),
           };
         case 'closed':
@@ -163,7 +161,10 @@ const NotificationCard = ({
             bgColor: tenantPositiveBgColor,
             value: 'Go to chat',
             buttonIcon: undefined,
-            buttonNavigation: undefined,
+            buttonNavigation: () =>
+              navigation.navigate('ApplicationNavigator', {
+                screen: 'LessorChatScreen',
+              }),
           };
         case 'offered':
           return {
@@ -171,8 +172,11 @@ const NotificationCard = ({
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: 'Accept',
-            buttonIcon: undefined,
-            buttonNavigation: undefined,
+            buttonIcon: 'home-smile',
+            buttonNavigation: () =>
+              navigation.navigate('ApplicationNavigator', {
+                screen: 'LessorChatScreen',
+              }),
           };
         case 'closed':
           return {
@@ -194,7 +198,7 @@ const NotificationCard = ({
           };
       }
     },
-    [tenantNegativeBgColor, tenantPositiveBgColor],
+    [tenantNegativeBgColor, tenantPositiveBgColor, navigation],
   );
 
   const notificationAssets = isLessorNotification

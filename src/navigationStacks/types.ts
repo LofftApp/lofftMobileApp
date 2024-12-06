@@ -100,9 +100,12 @@ type NotificationsStackParamsList = {
       | 'ApplicationShowScreen'
       | 'SeeApplicantsScreen'
       | 'LessorChatScreen';
-    params: {id?: number; advertId?: number};
+    params?: {id?: number; advertId?: number};
   };
-  ApplicationNavigator: {screen: 'ApplicationShowScreen'; params: {id: number}};
+  ApplicationNavigator: {
+    screen: 'ApplicationShowScreen' | 'LessorChatScreen';
+    params?: {id: number};
+  };
 };
 
 type NotificationsScreenNavigationProp = CompositeNavigationProp<
