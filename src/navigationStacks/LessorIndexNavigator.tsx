@@ -39,10 +39,6 @@ const LessorIndexNavigator = () => {
         name="ApplicantProfileScreen"
         component={ApplicantProfileScreen}
       />
-      <Lessor.Screen
-        name="NotificationsScreen"
-        component={NotificationsScreen}
-      />
     </Lessor.Navigator>
   );
 };

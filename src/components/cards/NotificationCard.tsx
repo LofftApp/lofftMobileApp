@@ -106,8 +106,9 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
             textSize={fontStyles.headerExtraSmall}
             value="See applicants"
             onPress={() =>
-              navigation.navigate('SeeApplicantsScreen', {
-                advertId: notification.advert.id,
+              navigation.navigate('LessorIndexNavigator', {
+                screen: 'SeeApplicantsScreen',
+                params: {advertId: notification.advert.id},
               })
             }
             icon={<LofftIcon name="send" size={20} color={Color.White[100]} />}
