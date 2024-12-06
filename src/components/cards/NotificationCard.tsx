@@ -186,7 +186,7 @@ const NotificationCard = ({
         default:
           return {
             icon: 'thumbs-up',
-            iconColor: Color.Tomato[100],
+            iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: undefined,
             buttonIcon: undefined,

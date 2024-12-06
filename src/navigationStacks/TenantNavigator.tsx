@@ -19,7 +19,7 @@ import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
-import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
+import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
@@ -36,7 +36,6 @@ const TenantNavigator = () => {
   const notifications = data?.notifications;
   // console.log(' total notifications in tenant', notifications?.length);
   // console.log('notifications in tenant', notifications);
-
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(() => {
@@ -72,7 +71,7 @@ const TenantNavigator = () => {
       />
       <Tab.Screen
         name="NotificationsTab"
-        component={NotificationsScreen}
+        component={NotificationsNavigator}
         options={{
           headerShown: false,
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
