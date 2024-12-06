@@ -67,6 +67,9 @@ const NotificationsScreen = () => {
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Notifications</Text>
       </View>
+      {notifications?.length === 0 && (
+        <NotFoundComponent message="No notifications yet" />
+      )}
       <View style={styles.screenContainer}>
         {isLessor ? (
           <FlatList
