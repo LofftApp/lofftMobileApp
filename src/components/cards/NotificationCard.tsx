@@ -6,7 +6,12 @@ import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
 import React from 'react';
 import {Image, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {Notification} from 'reduxFeatures/firebaseNotifications/types';
+import {
+  LessorNotification,
+  LessorNotificationType,
+  Notification,
+  TenantNotification,
+} from 'reduxFeatures/firebaseNotifications/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -14,32 +19,79 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-const NotificationCard = ({notification}: {notification: Notification}) => {
+const NotificationCard = ({
+  notification,
+}: {
+  notification: LessorNotification | TenantNotification;
+}) => {
   const navigation = useNavigation<NotificationsScreenNavigationProp>();
   const {width} = useWindowDimensions();
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
+  const isLessorNotification = notification.userType === 'lessor';
 
   const isRead = notification.read;
 
-  const backgroundLessor = isRead ? Color.White[100] : Color.Lavendar[20];
+  const lessorIconHelper = (notificationType: LessorNotificationType) => {
+    switch (notificationType) {
+      case 'open':
+        return 'user';
+      case 'review':
+        return 'calendar';
+      case 'viewing':
+        return 'hourglass';
+      case 'offered':
+        return 'home-smile';
+      case 'closed':
+        return 'thumbs-down';
+      default:
+        return 'calendar';
+    }
+  };
 
-  const positive =
-    !isLessor &&
-    (notification.application.status === 'active' ||
-      notification?.application.status === 'offered');
-  // const negative =
-  //   (!isLessor && notification.application.status === 'closed') ||
-  //   notification.application.status === 'deleted';
+  const lessorButtonIcon = () => {
+    if (notification.notificationType === 'viewing') {
+      return 'send';
+    }
+    if (notification.notificationType === 'offered') {
+      return 'send';
+    }
+    return '';
+  };
 
-  const backgroundTenant = isRead
-    ? Color.White[100]
-    : positive
-    ? Color.Mint[20]
-    : Color.Tomato[20];
+  const tenantIconHelper = (notificationType: string) => {
+    switch (notificationType) {
+      case 'round1':
+        return 'thumbs-up';
+      case 'round2':
+        return 'thumbs-up';
+      case 'round3':
+        return 'thumbs-up';
+      case 'offered':
+        return 'thumbs-up';
+      case 'closed':
+        return 'thumbs-down';
+      default:
+        return 'calendar';
+    }
+  };
 
-  const LessorNotificationIcon = 'calendar';
-  const tenantNotificationIcon = positive ? 'thumbs-up' : 'thumbs-down';
+  const backgroundLessor = isLessorNotification
+    ? isRead
+      ? Color.White[100]
+      : Color.Lavendar[20]
+    : undefined;
+
+  const tenantPositiveNotification =
+    tenantIconHelper(notification.notificationType) === 'thumbs-up';
+
+  const backgroundTenant = !isLessorNotification
+    ? isRead
+      ? Color.White[100]
+      : tenantPositiveNotification
+      ? Color.Mint[20]
+      : Color.Tomato[20]
+    : undefined;
 
   const body = notification.body || '';
   const [beforeTagLine, afterTagLine] = body.split(
@@ -60,13 +112,19 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
         styles.outterContainer,
         {
           width: width - 30,
-          backgroundColor: isLessor ? backgroundLessor : backgroundTenant,
+          backgroundColor: isLessorNotification
+            ? backgroundLessor
+            : backgroundTenant,
         },
       ]}>
       <View style={[styles.innerContainer]}>
         <View style={styles.iconImageContainer}>
           <LofftIcon
-            name={isLessor ? LessorNotificationIcon : tenantNotificationIcon}
+            name={
+              isLessorNotification
+                ? lessorIconHelper(notification.notificationType)
+                : tenantIconHelper(notification.notificationType)
+            }
             size={30}
             color={Color.Black[100]}
           />
@@ -107,7 +165,13 @@ const NotificationCard = ({notification}: {notification: Notification}) => {
                 params: {advertId: notification.advert.id},
               })
             }
-            icon={<LofftIcon name="send" size={20} color={Color.White[100]} />}
+            icon={
+              <LofftIcon
+                name={lessorButtonIcon()}
+                size={20}
+                color={Color.White[100]}
+              />
+            }
           />
         </View>
       </View>

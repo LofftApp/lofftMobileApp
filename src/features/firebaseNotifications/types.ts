@@ -18,13 +18,27 @@ interface Notification {
   };
 }
 
+type LessorNotificationType =
+  | 'open'
+  | 'review'
+  | 'viewing'
+  | 'offered'
+  | 'closed';
+
 interface LessorNotification extends Notification {
-  notificationType: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
+  notificationType: LessorNotificationType;
   userType: 'lessor';
 }
 
+type TenantNotificationType =
+  | 'round1'
+  | 'round2'
+  | 'round3'
+  | 'offered'
+  | 'closed';
+
 interface TenantNotification extends Notification {
-  notificationType: 'round1' | 'round2' | 'round_3' | 'offered' | 'closed';
+  notificationType: TenantNotificationType;
   userType: 'tenant';
   application: Application;
 }
@@ -38,4 +52,6 @@ export type {
   LessorNotification,
   TenantNotification,
   Notifications,
+  LessorNotificationType,
+  TenantNotificationType,
 };
