@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet, Text, SafeAreaView, FlatList} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 //Redux
 import {
   useGetNotificationsQuery,
@@ -8,7 +9,6 @@ import {
 
 //Components
 import NotificationCard from 'components/cards/NotificationCard';
-import {size} from 'react-native-responsive-sizes';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
@@ -16,16 +16,23 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import {useNavigation} from '@react-navigation/native';
+
+//Helpers
+import {size} from 'react-native-responsive-sizes';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {
+  LessorNotification,
+  TenantNotification,
+} from 'reduxFeatures/firebaseNotifications/types';
 
 const NotificationsScreen = () => {
   const navigation = useNavigation();
   const {data, isLoading, isError, refetch} = useGetNotificationsQuery();
+  const {data: currentUser} = useGetUserQuery();
+  const isLessor = currentUser?.userType === 'lessor';
   const notifications = data?.notifications;
   // console.log('notifications in notificationsScreen', notifications);
   const [markAsRead] = useMarkAsReadMutation();
-  const validNotifications = notifications?.filter(n => n.title && n.body);
-  console.log('validNotifications in notifications screen', validNotifications);
 
   const unreadIds = notifications?.filter(n => !n.read).map(n => n.id);
 
@@ -61,11 +68,19 @@ const NotificationsScreen = () => {
         <Text style={fontStyles.headerLarge}>Notifications</Text>
       </View>
       <View style={styles.screenContainer}>
-        <FlatList
-          data={notifications}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => <NotificationCard notification={item} />}
-        />
+        {isLessor ? (
+          <FlatList
+            data={notifications as LessorNotification[]}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => <NotificationCard notification={item} />}
+          />
+        ) : (
+          <FlatList
+            data={notifications as TenantNotification[]}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => <NotificationCard notification={item} />}
+          />
+        )}
       </View>
     </SafeAreaView>
   );

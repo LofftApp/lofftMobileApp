@@ -2,14 +2,12 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //Screens
-import ApplicationShowScreen from 'screens/dashboard/tenant/ApplicationShowScreen';
-
-import type {NotificationsStackParamsList} from './types';
 import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
-import FlatShowScreen from 'screens/dashboard/tenant/FlatShowScreen';
 import ApplicationNavigator from './ApplicationNavigator';
-import LessorNavigator from './LessorNavigator';
 import LessorIndexNavigator from './LessorIndexNavigator';
+
+//Types
+import type {NotificationsStackParamsList} from './types';
 
 const Notification = createNativeStackNavigator<NotificationsStackParamsList>();
 const NotificationsNavigator = () => {
@@ -24,7 +22,7 @@ const NotificationsNavigator = () => {
         component={LessorIndexNavigator}
         options={{headerShown: false}}
       />
-        <Notification.Screen
+      <Notification.Screen
         name="ApplicationNavigator"
         component={ApplicationNavigator}
         options={{headerShown: false}}
