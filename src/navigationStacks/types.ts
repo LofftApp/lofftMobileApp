@@ -99,7 +99,8 @@ type NotificationsStackParamsList = {
     screen:
       | 'ApplicationShowScreen'
       | 'SeeApplicantsScreen'
-      | 'LessorChatScreen';
+      | 'LessorChatScreen'
+      | 'SeeProfilesScreen';
     params?: {id?: number; advertId?: number};
   };
   ApplicationNavigator: {

@@ -66,7 +66,7 @@ const NotificationCard = ({
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
-                screen: 'SeeApplicantsScreen',
+                screen: 'SeeProfilesScreen',
                 params: {advertId: notification.advert.id},
               }),
           };
