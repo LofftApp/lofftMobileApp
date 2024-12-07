@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import messaging from '@react-native-firebase/messaging';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+// Hooks 🪝
+import useRefetchNotifications from 'hooks/useRefetchNotifications';
 
 // Components 🪢
 import {tabIcons} from './tabIcons';
@@ -23,26 +25,14 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
-import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
 const TenantNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
   const admin = currentUser?.admin;
-  const {data, refetch} = useGetNotificationsQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const {data} = useRefetchNotifications();
   const notifications = data?.notifications;
-  // console.log(' total notifications in tenant', notifications?.length);
-  // console.log('notifications in tenant', notifications);
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(() => {
-      refetch();
-    });
-    return () => unsubscribe();
-  }, [refetch]);
 
   const unreadNotifications = notifications?.filter(n => !n.read).length;
   console.log('unreadNotifications in tenant', unreadNotifications);

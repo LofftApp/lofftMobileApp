@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import messaging from '@react-native-firebase/messaging';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+// Hooks 🪝
+import useRefetchNotifications from 'hooks/useRefetchNotifications';
 
 // Components 🪢
 import {tabIcons} from './tabIcons';
@@ -15,30 +17,17 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import AdminScreen from 'screens/admin/adminScreen';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
+import NotificationsNavigator from './NotificationsNavigator';
 
 // Types
 import {LessorTabParamsList} from './types';
-import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
-import NotificationsNavigator from './NotificationsNavigator';
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
 
-  const {data, refetch} = useGetNotificationsQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-
+  const {data} = useRefetchNotifications();
   const notifications = data?.notifications;
-  console.log(' total notifications in lessor', notifications?.length);
-  console.log('notifications in lessor', notifications);
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(() => {
-      refetch();
-    });
-    return () => unsubscribe();
-  }, [refetch]);
 
   const unreadNotifications = notifications?.filter(
     notification => !notification.read,
