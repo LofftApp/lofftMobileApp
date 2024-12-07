@@ -4,8 +4,8 @@ import {
   UserProfile,
 } from 'reduxFeatures/user/types';
 import {Application, IncomingApplication} from '../applications/types';
-import { Currency } from 'reduxFeatures/assets/types';
-import { NewUserLessorDetails } from 'reduxFeatures/registration/types';
+import {Currency} from 'reduxFeatures/assets/types';
+import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 interface AdvertUser {
   id: number;
   email: string;
@@ -52,12 +52,12 @@ interface AdvertFlat {
 interface Advert {
   id: number;
   monthlyRent: number;
-  currency: Currency
+  currency: Currency;
   warmRent: boolean;
   fromDate: number;
   toDate: number;
   createdAt: string;
-  status: string;
+  status: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
   matchScore: number;
   favorite: boolean;
   applied: boolean;
@@ -124,7 +124,7 @@ interface IncomingAdvert {
   from_date: number;
   to_date: number;
   created_at: string;
-  status: string;
+  status: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
   match_score: number;
   favorite: boolean;
   applied: boolean;
@@ -155,7 +155,7 @@ type Image = {
 };
 
 interface LessorSignUpParams {
-  userChoices: NewUserLessorDetails
+  userChoices: NewUserLessorDetails;
   flatImages: Image[];
   userImages: Image[];
 }

@@ -76,3 +76,7 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Google Services
+android/app/google-services.json
+ios/GoogleService-Info.plist

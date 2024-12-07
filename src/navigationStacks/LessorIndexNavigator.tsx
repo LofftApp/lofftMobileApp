@@ -11,6 +11,7 @@ import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 import SelectionConfirmedScreen from 'screens/dashboard/landlord/SubScreens/SelectionConfirmedScreen';
 
 import type {LessorNavigatorStackParamsList} from './types';
+import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 
 const Lessor = createNativeStackNavigator<LessorNavigatorStackParamsList>();
 const LessorIndexNavigator = () => {

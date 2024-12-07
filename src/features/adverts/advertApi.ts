@@ -207,6 +207,7 @@ export const advertApi = lofftApi.injectEndpoints({
               type: image.type,
               name: `flatImage-${index}.jpg`,
             });
+            console.log('uri images >>>>>>>>>>>>', image.uri);
           });
         }
 
@@ -220,6 +221,7 @@ export const advertApi = lofftApi.injectEndpoints({
               type: image.type,
               name: `lessorProfileImage-${index}.jpg`,
             });
+            console.log('uri images >>>>>>>>>>>>', image.uri);
           });
         }
 
@@ -227,9 +229,6 @@ export const advertApi = lofftApi.injectEndpoints({
           url: `/api/adverts/${id}/complete_lessor_sign_up`,
           method: 'POST',
           body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
         };
       },
       invalidatesTags: (result, error, {id}) => [

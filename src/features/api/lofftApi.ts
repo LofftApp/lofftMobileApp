@@ -16,7 +16,11 @@ export const lofftApi = createApi({
           if (token) {
             headers.set('Authorization', `Bearer ${token}`);
           }
-          headers.set('Content-Type', 'application/json');
+          // headers.set('Content-Type', 'application/json');
+          // Set Content-Type only for non-FormData requests
+          if (!(args.body instanceof FormData)) {
+            headers.set('Content-Type', 'application/json');
+          }
         } catch (error) {
           console.error('Error retrieving token:', error);
         }
@@ -38,6 +42,6 @@ export const lofftApi = createApi({
 
     return result;
   },
-  tagTypes: ['Adverts', 'Applications', 'User'],
+  tagTypes: ['Adverts', 'Applications', 'User', 'Notifications'],
   endpoints: () => ({}),
 });

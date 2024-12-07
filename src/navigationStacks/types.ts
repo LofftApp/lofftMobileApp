@@ -26,7 +26,7 @@ type TenantTabParamsList = {
   ApplicationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
-  AlertsTab: undefined;
+  NotificationsTab: undefined;
   tempTab: undefined;
   FavoritesTab: undefined;
 };
@@ -57,7 +57,7 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
 
 type LessorTabParamsList = {
   LessorIndexNavigator: undefined;
-  AlertsTab: undefined;
+  NotificationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
 };
@@ -72,8 +72,6 @@ type LessorNavigatorStackParamsList = {
   };
   SelectionConfirmedScreen: {
     advertId: number;
-    round1?: boolean;
-    round2?: boolean;
   };
   ApplicantProfileScreen: {
     advertId: number;
@@ -86,6 +84,34 @@ type LessorNavigatorStackParamsList = {
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<LessorTabParamsList, 'LessorIndexNavigator'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
+>;
+
+//Notifications Navigator
+type NotificationsTabParamsList = {
+  NotificationsTab: undefined;
+};
+type NotificationsStackParamsList = {
+  NotificationsScreen: undefined;
+  ApplicationShowScreen: {id: number};
+  FlatShowScreen: {advertId: number};
+  SeeApplicantsScreen: {advertId: number};
+  LessorIndexNavigator: {
+    screen:
+      | 'ApplicationShowScreen'
+      | 'SeeApplicantsScreen'
+      | 'LessorChatScreen'
+      | 'SeeProfilesScreen';
+    params?: {id?: number; advertId?: number};
+  };
+  ApplicationNavigator: {
+    screen: 'ApplicationShowScreen' | 'LessorChatScreen';
+    params?: {id: number};
+  };
+};
+
+type NotificationsScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<NotificationsTabParamsList, 'NotificationsTab'>,
+  StackNavigationProp<NotificationsStackParamsList>
 >;
 
 //NewUser Navigator
@@ -141,4 +167,7 @@ export type {
   RootStackNavigationProp,
   RootStackParamsList,
   AdminStackParamsList,
+  NotificationsTabParamsList,
+  NotificationsStackParamsList,
+  NotificationsScreenNavigationProp,
 };

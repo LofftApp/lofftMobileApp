@@ -33,6 +33,7 @@ const initialState: UserJourneyState = {
       firstName: '',
       lastName: '',
       dateOfBirth: '',
+      deviceToken: '',
     },
     lessor: {
       userType: 'lessor',
@@ -60,6 +61,7 @@ const initialState: UserJourneyState = {
       size: 0,
       measurementUnit: 'm²',
       flatDescription: '',
+      deviceToken: '',
     },
   },
 };
