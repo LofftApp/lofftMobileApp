@@ -23,6 +23,9 @@ target 'lofftMobileApp' do
     $RNMapboxMaps.pre_install(installer)
   end
 
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
+
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.

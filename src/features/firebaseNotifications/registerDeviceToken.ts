@@ -1,0 +1,28 @@
+import messaging from '@react-native-firebase/messaging';
+import {MutationTrigger} from '@reduxjs/toolkit/dist/query/react/buildHooks';
+import {MutationDefinition} from '@reduxjs/toolkit/query';
+
+export type RegisterTokenType = MutationTrigger<
+  MutationDefinition<string, any, any, {message: string}, 'lofftApi'>
+>;
+export const registerDeviceToken = async (registerToken: RegisterTokenType) => {
+  try {
+    // Register the device with FCM (Android only)
+    await messaging().registerDeviceForRemoteMessages();
+    console.log('Device registered for remote messages');
+
+    // Delete the current token
+    await messaging().deleteToken();
+    console.log('FCM Token deleted');
+
+    // Get the FCM token
+    const token = await messaging().getToken();
+    console.log('FCM Token:', token);
+
+    // Register the token using RTK Query
+    await registerToken(token).unwrap();
+    console.log('Token FCM successfully registered');
+  } catch (error) {
+    console.error('Error registering FCM token:', error);
+  }
+};

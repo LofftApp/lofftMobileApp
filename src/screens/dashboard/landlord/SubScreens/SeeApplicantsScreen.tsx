@@ -98,7 +98,6 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
       navigation.navigate('SelectionConfirmedScreen', {
         advertId: advertId,
-        round1: true,
       });
       toggleModal();
     } catch (err) {
@@ -150,7 +149,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     );
   }
 
-  if (applicationsState.length === 0) {
+  if (applications?.length === 0) {
     return (
       <NotFoundComponent
         backButton

@@ -59,6 +59,7 @@ export const authApi = lofftApi.injectEndpoints({
 
           dispatch(logout());
           dispatch(setAuthMessage("You're signed out"));
+          dispatch(lofftApi.util.resetApiState());
           clearPersister();
           await EncryptedStorage.removeItem('token');
           console.log('Token removed and user signed out successfully');

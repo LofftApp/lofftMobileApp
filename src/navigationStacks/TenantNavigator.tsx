@@ -1,9 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {TenantTabParamsList} from './types';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+// Hooks 🪝
+import useRefetchNotifications from 'hooks/useRefetchNotifications';
 
 // Components 🪢
 import {tabIcons} from './tabIcons';
@@ -19,13 +21,21 @@ import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
-import AlertsScreen from 'screens/dashboard/tenant/AlertsScreen';
+import NotificationsNavigator from './NotificationsNavigator';
+
+//Types
+import {TenantTabParamsList} from './types';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
 const TenantNavigator = () => {
-  const {data} = useGetUserQuery();
-  const admin = data?.admin;
+  const {data: currentUser} = useGetUserQuery();
+  const admin = currentUser?.admin;
+  const {data} = useRefetchNotifications();
+  const notifications = data?.notifications;
+
+  const unreadNotifications = notifications?.filter(n => !n.read).length;
+  console.log('unreadNotifications in tenant', unreadNotifications);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -50,9 +60,13 @@ const TenantNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="AlertsTab"
-        component={AlertsScreen}
-        options={{headerShown: false}}
+        name="NotificationsTab"
+        component={NotificationsNavigator}
+        options={{
+          headerShown: false,
+          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
+        }}
       />
       <Tab.Screen
         name="UserTab"

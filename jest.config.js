@@ -19,5 +19,8 @@ module.exports = {
     '^react-native-responsive-sizes$':
       '<rootDir>/__mocks__/react-native-responsive-sizes.ts',
     '^react-native-slider$': '<rootDir>/__mocks__/react-native-slider.ts',
+    '^@react-native-firebase/messaging$':
+      '<rootDir>/__mocks__/@react-native-firebase/messaging.ts',
+    '^@notifee/react-native$': '<rootDir>/__mocks__/notifee.ts',
   },
 };

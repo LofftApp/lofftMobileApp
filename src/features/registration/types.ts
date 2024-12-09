@@ -19,6 +19,7 @@ interface NewUserTenantDetails {
   firstName: string;
   lastName: string;
   dateOfBirth: Date | string;
+  deviceToken: string;
 }
 interface NewUserLessorDetails {
   userType: 'lessor';
@@ -47,6 +48,7 @@ interface NewUserLessorDetails {
   size: number;
   measurementUnit: 'm²' | 'ft²';
   flatDescription: string;
+  deviceToken: string;
 }
 type NewUserDetails = {
   tenant: NewUserTenantDetails;
