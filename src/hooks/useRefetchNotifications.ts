@@ -5,7 +5,7 @@ import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmA
 
 const useRefetchNotifications = () => {
   const {refetch, data} = useGetNotificationsQuery(undefined, {
-    refetchOnMountOrArgChange: false,
+    refetchOnMountOrArgChange: true,
   });
 
   useEffect(() => {

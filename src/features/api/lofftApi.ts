@@ -36,6 +36,7 @@ export const lofftApi = createApi({
         api.dispatch(logout());
         api.dispatch(setAuthMessage('Session expired. Please log in again.'));
         clearPersister();
+        api.dispatch(lofftApi.util.resetApiState());
       }
       console.error('API error:', result.error);
     }
