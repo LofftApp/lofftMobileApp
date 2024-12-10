@@ -3,6 +3,7 @@ import notifee from '@notifee/react-native';
 
 export const handleBackgroundNotifications = async () => {
   messaging().setBackgroundMessageHandler(async remoteMessage => {
+    await notifee.requestPermission();
     console.log('Background message received:', remoteMessage);
 
     const body = remoteMessage.notification?.body;

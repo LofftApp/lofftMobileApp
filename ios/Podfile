@@ -17,14 +17,15 @@ if linkage != nil
 end
 
 target 'lofftMobileApp' do
+
   config = use_native_modules!
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
   # Add Mapbox to pre install
   pre_install do |installer|
     $RNMapboxMaps.pre_install(installer)
   end
 
-  use_frameworks! :linkage => :static
-  $RNFirebaseAsStaticFramework = true
 
   use_react_native!(
     :path => config[:reactNativePath],
