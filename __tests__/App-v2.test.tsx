@@ -2,19 +2,7 @@ import React from 'react';
 import App from '../App';
 import {renderWithProviders} from 'helpers/testUtils';
 
-jest.mock('../src/features/api/lofftApi', () => ({
-  lofftApi: {
-    reducerPath: 'lofftApi',
-    reducer: jest.fn((state = {queries: {}, mutations: {}}) => state),
-    middleware: jest.fn(() => (next: any) => (action: any) => next(action)),
-    injectEndpoints: jest.fn(() => ({
-      useGetSomeDataQuery: jest.fn(() => ({
-        data: {key: 'mockedValue'},
-        isLoading: false,
-      })),
-    })),
-  },
-}));
+
 
 // Mock RTK Query hooks from userApi
 jest.mock('../src/features/user/userApi', () => ({

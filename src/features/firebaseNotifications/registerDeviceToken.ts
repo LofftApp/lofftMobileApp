@@ -9,9 +9,10 @@ export type RegisterTokenType = MutationTrigger<
 export const registerDeviceToken = async (registerToken: RegisterTokenType) => {
   try {
     // Register the device with FCM (Android only)
-
-    await messaging().registerDeviceForRemoteMessages();
-    console.log('Device registered for remote messages');
+    if (Platform.OS === 'android') {
+      await messaging().registerDeviceForRemoteMessages();
+      console.log('Device registered for remote messages');
+    }
 
     messaging()
       .getAPNSToken()

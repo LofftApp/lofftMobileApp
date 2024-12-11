@@ -5,6 +5,8 @@ const messaging = jest.fn(() => ({
   setBackgroundMessageHandler: jest.fn(),
   onTokenRefresh: jest.fn(() => jest.fn()),
   registerDeviceForRemoteMessages: jest.fn(() => Promise.resolve()),
+  deleteToken: jest.fn(() => Promise.resolve()),
+  getAPNSToken: jest.fn(() => Promise.resolve('mock-apns-token')),
 })) as any;
 
 messaging.AuthorizationStatus = {
