@@ -26,5 +26,11 @@ module.exports = {
     '^.+/features/user/userApi$': '<rootDir>/__mocks__/RTKQ/userApi.ts',
     '^.+/features/firebaseNotifications/fcmApi$': '<rootDir>/__mocks__/RTKQ/fcmApi.ts',
     '^.+/features/auth/authApi$': '<rootDir>/__mocks__/RTKQ/authApi.ts',
+    '^.+/app/hooks$': '<rootDir>/__mocks__/redux/hooks.ts',
+    '^react-native-safe-area-context$': '<rootDir>/__mocks__/react-native-safe-area-context.tsx',
+    '\\.svg$': '<rootDir>/__mocks__/svgMock.tsx',
+
+
+
   },
 };

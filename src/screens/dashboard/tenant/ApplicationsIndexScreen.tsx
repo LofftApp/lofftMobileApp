@@ -19,7 +19,13 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {applicationPartition} from 'helpers/applicationsPartition';
 
 const ApplicationsIndexScreen = () => {
-  const {data: applications, isError, isLoading} = useGetApplicationsQuery();
+  const {data: applications, isError, isLoading} = useGetApplicationsQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: true,
+
+    },
+  );
 
   const [screen, setScreen] = useState('thumbs-up');
 

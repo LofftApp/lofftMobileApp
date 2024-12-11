@@ -7,10 +7,12 @@ import {
   AppStoreForTesting,
 } from '../app/store';
 import {RenderOptions} from '@testing-library/react-native';
+import {NavigationContainer} from '@react-navigation/native';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;
   store?: AppStoreForTesting;
+  navigation?: boolean;
 }
 
 export function renderWithProviders(
@@ -18,11 +20,17 @@ export function renderWithProviders(
   {
     preloadedState = {},
     store = setupStoreForTesting(preloadedState),
+    navigation = false,
     ...renderOptions
   }: ExtendedRenderOptions = {},
 ) {
   function Wrapper({children}: PropsWithChildren<{}>): JSX.Element {
-    return <Provider store={store}>{children}</Provider>;
+    const content = <Provider store={store}>{children}</Provider>;
+    return navigation ? (
+      <NavigationContainer>{content}</NavigationContainer>
+    ) : (
+      content
+    );
   }
 
   return {store, ...render(ui, {wrapper: Wrapper, ...renderOptions})};

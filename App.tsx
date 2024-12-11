@@ -105,20 +105,10 @@ const App = () => {
     );
   }
 
-  // if (isErrorNot) {
-  //   return (
-  //     <NotFoundComponent
-  //       backButton
-  //       onPress={handleBackButton}
-  //       message="Error loading notifications. Please try again"
-  //     />
-  //   );
-  // }
-
   return (
     <>
       {!isAuth ? (
-        <GuestStackNavigator />
+        <GuestStackNavigator  />
       ) : userType ? (
         <AuthenticatedNavigator userType={userType} admin={admin} />
       ) : (

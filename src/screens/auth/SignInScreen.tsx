@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 // Components 🪢
 import SignInForm from 'components/Forms/SignInForm';
@@ -20,13 +23,13 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
-const {height} = Dimensions.get('window');
+// const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {
-  const navigation = useNavigation<GuestStackScreenNavigationProp>();
+  // const navigation = useNavigation<GuestStackScreenNavigationProp>();
 
-  const insets = useSafeAreaInsets();
-  const imageMarginTop = height < 700 ? size(10) : size(70);
+  // const insets = useSafeAreaInsets();
+  // const imageMarginTop = height < 700 ? size(10) : size(70);
   const [clearErrors, setClearErrors] = useState(false);
 
   const handleSignUp = () => {
@@ -35,28 +38,34 @@ const SignInScreen = () => {
       return;
     }
 
-    navigation.navigate('SignUpScreen');
+    // navigation.navigate('SignUpScreen');
     setClearErrors(true);
   };
+  console.log(
+    'Sign In Screen >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+  );
 
   return (
-    <View style={styles.behindContainer}>
+    <View testID="sign-in" style={styles.behindContainer}>
       <SignInBackground
-        height={height * 1.9}
+        // height={height * 1.9}
         width="100%"
         style={styles.backgroundImage}
       />
 
       <View style={styles.imageContainer}>
-        <HiFive style={{marginTop: imageMarginTop}} />
+        <HiFive  />
       </View>
 
-      <View testID="sign-in" style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
+      <View style={[styles.formContainer]}>
         <View style={styles.signInForm}>
-          <SignInForm clearErrors={clearErrors} setClearErrors={setClearErrors} />
+          <SignInForm
+            clearErrors={clearErrors}
+            setClearErrors={setClearErrors}
+          />
         </View>
         <View style={styles.footer}>
-          <SignInWith isSignInScreen />
+          {/* <SignInWith isSignInScreen /> */}
           <View style={styles.signUpContainer}>
             <Text style={fontStyles.bodyMedium}>
               Don't have an account yet?
@@ -73,6 +82,13 @@ const SignInScreen = () => {
   );
 };
 
+
+// const SignInScreen = () => (
+//   <View testID="sign-in">
+//     <Text>Sign In</Text>
+//   </View>
+// );
+
 const styles = StyleSheet.create({
   behindContainer: {
     flex: 1,
@@ -84,7 +100,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   image: {
-    marginTop: height / 12,
+    // marginTop: height / 12,
   },
   imageContainer: {
     zIndex: 3,
@@ -93,7 +109,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 3,
-    paddingHorizontal: size(16),
+    // paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
     borderRadius: 30,
     zIndex: 2,
@@ -105,13 +121,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: size(190),
+    // marginTop: size(190),
   },
   signUpContainer: {
     flexDirection: 'row',
-    gap: size(20),
+    // gap: size(20),
     alignItems: 'center',
-    marginBottom: size(10),
+    // marginBottom: size(10),
   },
 });
 
