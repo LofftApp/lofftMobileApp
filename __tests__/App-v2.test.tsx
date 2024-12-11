@@ -5,18 +5,7 @@ import { useGetUserQuery } from '../__mocks__/RTKQ/userApi';
 
 
 
-// // Mock RTK Query hooks from userApi
-//
 
-
-// jest.mock('../src/features/firebaseNotifications/fcmApi', () => ({
-//   useRegisterTokenMutation: jest.fn(() => [
-//     jest.fn(() => ({
-//       unwrap: jest.fn(() => Promise.resolve('Mocked response')),
-//     })),
-//     {isLoading: false, isError: false},
-//   ]),
-// }));
 
 // Mock RTK Query hooks from authApi
 jest.mock('../src/features/auth/authApi', () => ({
