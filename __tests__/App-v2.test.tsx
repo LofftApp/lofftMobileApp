@@ -1,13 +1,13 @@
 import React from 'react';
 import App from '../App';
 import {renderWithProviders} from 'helpers/testUtils';
+import { useGetUserQuery } from '../__mocks__/RTKQ/userApi';
 
 
 
-// Mock RTK Query hooks from userApi
-jest.mock('../src/features/user/userApi', () => ({
-  useGetUserQuery: jest.fn(() => ({})),
-}));
+// // Mock RTK Query hooks from userApi
+//
+
 
 jest.mock('../src/features/firebaseNotifications/fcmApi', () => ({
   useRegisterTokenMutation: jest.fn(() => [
@@ -57,4 +57,11 @@ test('renders App correctly with authenticated state', () => {
   const {getByText} = renderWithProviders(<App />);
 
   expect(getByText('Error loading user type. Please try again')).toBeTruthy();
+});
+
+
+test('userApi mock works', () => {
+  const result = useGetUserQuery();
+  expect(result.data.name).toBe('Mocked User');
+  expect(result.isLoading).toBe(false);
 });

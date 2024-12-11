@@ -22,6 +22,7 @@ module.exports = {
     '^@react-native-firebase/messaging$':
       '<rootDir>/__mocks__/@react-native-firebase/messaging.ts',
     '^@notifee/react-native$': '<rootDir>/__mocks__/notifee.ts',
-    '^.+/features/api$': '<rootDir>/__mocks__/RTKQ/index.ts',
+    '^.+/features/api/lofftApi$': '<rootDir>/__mocks__/RTKQ/lofftApi.ts',
+    '^.+/features/user/userApi$': '<rootDir>/__mocks__/RTKQ/userApi.ts',
   },
 };
