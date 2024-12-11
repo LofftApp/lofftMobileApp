@@ -108,8 +108,6 @@ const App = () => {
 
   return (
     <>
-      {console.log('isAuth:', isAuth, 'userType:', userType)}
-
       {!isAuth ? (
         <>
           <GuestStackNavigator />
