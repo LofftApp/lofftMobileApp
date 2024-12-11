@@ -4,8 +4,6 @@ import {renderWithProviders} from 'helpers/testUtils';
 import {screen} from '@testing-library/react-native';
 import {useAuth} from 'reduxFeatures/auth/useAuth';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
-import SignInScreen from 'screens/auth/SignInScreen';
 
 describe('App.tsx tests', () => {
   afterEach(() => {
