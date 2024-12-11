@@ -4,7 +4,7 @@ import {renderWithProviders} from 'helpers/testUtils';
 import SignInScreen from 'screens/auth/SignInScreen';
 
 describe('SignInScreen', () => {
-  test('renders correctly with minimal setup', () => {
+  test('renders correctly', () => {
     renderWithProviders(<SignInScreen />, {navigation: true});
     expect(screen.getByTestId('sign-in')).toBeTruthy();
   });

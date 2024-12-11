@@ -11,3 +11,10 @@ export const useSignInMutation = jest.fn(() => [
   })),
   {isLoading: false, isError: false},
 ]);
+
+export const useSignUpMutation = jest.fn(() => [
+  jest.fn(() => ({
+    unwrap: jest.fn(() => Promise.resolve('Mocked response')),
+  })),
+  {isLoading: false, isError: false},
+]);
