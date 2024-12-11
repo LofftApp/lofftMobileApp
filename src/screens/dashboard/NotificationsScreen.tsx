@@ -63,7 +63,9 @@ const NotificationsScreen = () => {
     );
   }
   return (
-    <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
+    <SafeAreaView
+      testID="notifications"
+      style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Notifications</Text>
       </View>
@@ -76,12 +78,14 @@ const NotificationsScreen = () => {
             data={notifications as LessorNotification[]}
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <NotificationCard notification={item} />}
+            testID="lessor-flatlist"
           />
         ) : (
           <FlatList
             data={notifications as TenantNotification[]}
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <NotificationCard notification={item} />}
+            testID="tenant-flatlist"
           />
         )}
       </View>
