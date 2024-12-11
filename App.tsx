@@ -33,6 +33,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useRequestUserPermissionForNotifications} from 'hooks/useRequestUserPermission';
 import {useFCMToken} from 'hooks/useFcmToken';
 import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
+import {View} from 'react-native';
 
 // Remove ErrorBoundary in production
 
@@ -107,16 +108,27 @@ const App = () => {
 
   return (
     <>
+      {console.log('isAuth:', isAuth, 'userType:', userType)}
+
       {!isAuth ? (
-        <GuestStackNavigator  />
+        <>
+          <GuestStackNavigator />
+          <View testID="guest-navigator" />
+        </>
       ) : userType ? (
-        <AuthenticatedNavigator userType={userType} admin={admin} />
+        <>
+          <AuthenticatedNavigator userType={userType} admin={admin} />
+          <View testID="authenticated-navigator" />
+        </>
       ) : (
-        <NotFoundComponent
-          backButton
-          onPress={handleBackButton}
-          message="Error loading user type. Please try again"
-        />
+        <>
+          <NotFoundComponent
+            backButton
+            onPress={handleBackButton}
+            message="Error loading user type. Please try again"
+          />
+          <View testID="userType-not-found" />
+        </>
       )}
     </>
   );
