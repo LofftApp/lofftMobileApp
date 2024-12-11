@@ -24,5 +24,6 @@ module.exports = {
     '^@notifee/react-native$': '<rootDir>/__mocks__/notifee.ts',
     '^.+/features/api/lofftApi$': '<rootDir>/__mocks__/RTKQ/lofftApi.ts',
     '^.+/features/user/userApi$': '<rootDir>/__mocks__/RTKQ/userApi.ts',
+    '^.+/features/firebaseNotifications/fcmApi$': '<rootDir>/__mocks__/RTKQ/fcmApi.ts',
   },
 };
