@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {render, screen} from '@testing-library/react-native';
+import {screen} from '@testing-library/react-native';
 import AuthenticatedNavigator from 'navigationStacks/AuthenticatedNavigator';
+import {renderWithProviders} from '../../__utils__/testUtils';
 
 describe('AuthenticatedNavigator', () => {
   afterEach(() => {
@@ -9,31 +10,39 @@ describe('AuthenticatedNavigator', () => {
   });
 
   test('renders NewUserNavigator when userType is "newuser"', () => {
-    render(<AuthenticatedNavigator userType="newuser" admin={false} />);
+    renderWithProviders(
+      <AuthenticatedNavigator userType="newuser" admin={false} />,
+    );
 
     expect(screen.getByTestId('NewUserStack')).toBeTruthy();
   });
 
   test('renders AdminNavigator when admin is true', () => {
-    render(<AuthenticatedNavigator userType="newuser" admin={true} />);
+    renderWithProviders(
+      <AuthenticatedNavigator userType="newuser" admin={true} />,
+    );
 
     expect(screen.getByTestId('AdminStack')).toBeTruthy();
   });
 
   test('renders LessorNavigator when userType is "lessor"', () => {
-    render(<AuthenticatedNavigator userType="lessor" admin={false} />);
+    renderWithProviders(
+      <AuthenticatedNavigator userType="lessor" admin={false} />,
+    );
 
     expect(screen.getByTestId('LessorDashboardStack')).toBeTruthy();
   });
 
   test('renders TenantNavigator when userType is "tenant"', () => {
-    render(<AuthenticatedNavigator userType="tenant" admin={false} />);
+    renderWithProviders(
+      <AuthenticatedNavigator userType="tenant" admin={false} />,
+    );
 
     expect(screen.getByTestId('TenantDashboardStack')).toBeTruthy();
   });
 
   test('renders nothing when userType is not provided', () => {
-    render(<AuthenticatedNavigator admin={false} />);
+    renderWithProviders(<AuthenticatedNavigator admin={false} />);
 
     expect(screen.queryByTestId('NewUserStack')).toBeNull();
     expect(screen.queryByTestId('AdminStack')).toBeNull();

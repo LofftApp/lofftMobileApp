@@ -4,6 +4,10 @@ import {renderWithProviders} from '../../__utils__/testUtils';
 import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';
+import {
+  lessorNotificationMock,
+  tenantNotificationMock,
+} from '../../__mocks__/notification';
 
 describe('NotificationsScreen', () => {
   test('renders correctly when lessor ', () => {
@@ -11,25 +15,7 @@ describe('NotificationsScreen', () => {
       data: {userType: 'lessor'},
     });
     (useGetNotificationsQuery as jest.Mock).mockReturnValue({
-      data: {
-        notifications: [
-          {
-            id: 1,
-            read: false,
-            userType: 'lessor',
-            notificationType: 'round_1',
-            createdAt: '2021-09-01T00:00:00.000Z',
-            title: 'New Application',
-            body: 'You have a new application',
-            advert: {
-              status: 'active',
-              flat: {
-                tagLine: 'A nice flat',
-              },
-            },
-          },
-        ],
-      },
+      data: lessorNotificationMock,
     });
     renderWithProviders(<NotificationsScreen />, {navigation: true});
     expect(screen.getByTestId('notifications-screen')).toBeTruthy();
@@ -41,28 +27,7 @@ describe('NotificationsScreen', () => {
       data: {userType: 'tenant'},
     });
     (useGetNotificationsQuery as jest.Mock).mockReturnValue({
-      data: {
-        notifications: [
-          {
-            id: 1,
-            read: false,
-            userType: 'tenant',
-            notificationType: 'round_1',
-            createdAt: '2021-09-01T00:00:00.000Z',
-            title: 'New Application',
-            body: 'You have a new application',
-            advert: {
-              status: 'open',
-              flat: {
-                tagLine: 'A nice flat',
-              },
-            },
-            application: {
-              status: 'active',
-            },
-          },
-        ],
-      },
+      data: tenantNotificationMock,
     });
     renderWithProviders(<NotificationsScreen />, {navigation: true});
     expect(screen.getByTestId('notifications-screen')).toBeTruthy();
