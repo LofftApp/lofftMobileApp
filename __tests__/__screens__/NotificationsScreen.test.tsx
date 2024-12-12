@@ -1,6 +1,6 @@
 import React from 'react';
 import {screen} from '@testing-library/react-native';
-import {renderWithProviders} from 'helpers/testUtils';
+import {renderWithProviders} from '../../__utils__/testUtils';
 import NotificationsScreen from 'screens/dashboard/NotificationsScreen';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useGetNotificationsQuery} from 'reduxFeatures/firebaseNotifications/fcmApi';

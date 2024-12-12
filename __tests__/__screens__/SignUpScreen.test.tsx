@@ -1,6 +1,6 @@
 import React from 'react';
 import {screen} from '@testing-library/react-native';
-import {renderWithProviders} from 'helpers/testUtils';
+import {renderWithProviders} from '../../__utils__/testUtils';
 import SignUpScreen from 'screens/auth/SignUpScreen';
 
 describe('SignUpScreen', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import App from '../App';
-import {renderWithProviders} from 'helpers/testUtils';
+import {renderWithProviders} from '../__utils__/testUtils';
 import {screen} from '@testing-library/react-native';
 import {useAuth} from 'reduxFeatures/auth/useAuth';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';

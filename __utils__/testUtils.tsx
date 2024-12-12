@@ -5,7 +5,7 @@ import {
   RootState,
   setupStoreForTesting,
   AppStoreForTesting,
-} from '../app/store';
+} from '../src/app/store';
 import {RenderOptions} from '@testing-library/react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -35,3 +35,11 @@ export function renderWithProviders(
 
   return {store, ...render(ui, {wrapper: Wrapper, ...renderOptions})};
 }
+
+
+export const findStyleInArray = (styles: any[], styleName: string) => {
+  const styleObject = styles.find((style: any) =>
+    style.hasOwnProperty(styleName),
+  );
+  return styleObject ? styleObject[styleName] : null;
+};

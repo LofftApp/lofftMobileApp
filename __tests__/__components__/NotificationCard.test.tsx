@@ -5,18 +5,12 @@ import {
   lessorNotificationMock,
   tenantNotificationMock,
 } from '../../__mocks__/notification';
-import {renderWithProviders} from 'helpers/testUtils';
-import {findStyleInArray} from '../__utils__/findStyleInArray';
+import {renderWithProviders, findStyleInArray} from '../../__utils__/testUtils';
 import {
   LessorNotificationType,
   TenantNotificationType,
 } from 'reduxFeatures/firebaseNotifications/types';
 import {mockedNavigation} from '../../__mocks__/@react-navigation/native';
-
-// Mock navigation
-// jest.mock('@react-navigation/native', () => ({
-//   useNavigation: jest.fn(),
-// }));
 
 // lessor tests
 describe('NotificationCard', () => {
