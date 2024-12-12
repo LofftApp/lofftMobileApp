@@ -10,24 +10,24 @@ describe('App.tsx tests', () => {
     jest.clearAllMocks();
   });
 
-  test('renders App with unauthenticated state', () => {
+  test('renders App correctly when not authenticated', () => {
     (useAuth as jest.Mock).mockReturnValue({isAuth: false});
     (useGetUserQuery as jest.Mock).mockReturnValue({
       data: {userType: undefined},
     });
 
     renderWithProviders(<App />);
-    expect(screen.getByTestId('guest-navigator')).toBeTruthy();
+    expect(screen.getByTestId('SignInScreen')).toBeTruthy();
   });
 
-  test('renders App with authenticated state', () => {
+  test('renders App correctly when authenticated', () => {
     (useAuth as jest.Mock).mockReturnValue({isAuth: true});
     (useGetUserQuery as jest.Mock).mockReturnValue({
       data: {userType: 'admin'},
     });
 
     renderWithProviders(<App />);
-    expect(screen.getByTestId('authenticated-navigator')).toBeTruthy();
+    expect(screen.getByTestId('authenticated-navigatoruuuu')).toBeTruthy();
   });
 
   test('renders App with authenticated state but userType is undefined', () => {

@@ -234,6 +234,11 @@ const NotificationCard = ({
         });
   };
 
+  const handleButtonNavigation = () => {
+    notificationAssets.buttonNavigation &&
+      notificationAssets.buttonNavigation();
+  };
+
   return (
     <View
       style={[
@@ -242,7 +247,8 @@ const NotificationCard = ({
           width: width - 30,
           backgroundColor: notificationAssets.bgColor,
         },
-      ]}>
+      ]}
+      testID="NotificationCardContainer">
       <View style={[styles.innerContainer]}>
         <View style={styles.iconImageContainer}>
           <LofftIcon
@@ -282,10 +288,7 @@ const NotificationCard = ({
             <CoreButton
               textSize={fontStyles.headerExtraSmall}
               value={notificationAssets.value}
-              onPress={() =>
-                notificationAssets.buttonNavigation &&
-                notificationAssets.buttonNavigation()
-              }
+              onPress={handleButtonNavigation}
               icon={
                 notificationAssets.buttonIcon ? (
                   <LofftIcon

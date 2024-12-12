@@ -35,7 +35,7 @@ const TenantNavigator = () => {
   const notifications = data?.notifications;
 
   const unreadNotifications = notifications?.filter(n => !n.read).length;
-  console.log('unreadNotifications in tenant', unreadNotifications);
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

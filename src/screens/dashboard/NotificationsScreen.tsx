@@ -64,7 +64,7 @@ const NotificationsScreen = () => {
   }
   return (
     <SafeAreaView
-      testID="notifications"
+      testID="notifications-screen"
       style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Notifications</Text>

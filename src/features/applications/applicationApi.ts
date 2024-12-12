@@ -23,6 +23,7 @@ export const applicationApi = lofftApi.injectEndpoints({
               {type: 'Applications', id: 'LIST'},
               {type: 'Adverts', id: 'LIST'},
             ],
+
     }),
     getApplicationById: builder.query<Application, number>({
       query: id => `/api/advert_applications/${id}`,

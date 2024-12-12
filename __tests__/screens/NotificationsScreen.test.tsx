@@ -32,7 +32,7 @@ describe('NotificationsScreen', () => {
       },
     });
     renderWithProviders(<NotificationsScreen />, {navigation: true});
-    expect(screen.getByTestId('notifications')).toBeTruthy();
+    expect(screen.getByTestId('notifications-screen')).toBeTruthy();
     expect(screen.getByTestId('lessor-flatlist')).toBeTruthy();
   });
 
@@ -65,7 +65,7 @@ describe('NotificationsScreen', () => {
       },
     });
     renderWithProviders(<NotificationsScreen />, {navigation: true});
-    expect(screen.getByTestId('notifications')).toBeTruthy();
+    expect(screen.getByTestId('notifications-screen')).toBeTruthy();
     expect(screen.getByTestId('tenant-flatlist')).toBeTruthy();
   });
 });

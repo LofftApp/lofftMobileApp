@@ -32,7 +32,6 @@ const LessorNavigator = () => {
   const unreadNotifications = notifications?.filter(
     notification => !notification.read,
   ).length;
-  console.log('unreadNotifications in lessor', unreadNotifications);
 
   const admin = currentUser?.admin;
   return (
