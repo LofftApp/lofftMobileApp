@@ -1,6 +1,6 @@
 import React from 'react';
 import App from '../App';
-import {renderWithProviders} from '../__utils__/testUtils';
+import { renderWithProviders } from '../__utils__/testUtils';
 import {screen} from '@testing-library/react-native';
 import {useAuth} from 'reduxFeatures/auth/useAuth';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -27,7 +27,7 @@ describe('App.tsx tests', () => {
     });
 
     renderWithProviders(<App />);
-    expect(screen.getByTestId('authenticated-navigatoruuuu')).toBeTruthy();
+    expect(screen.getByTestId('authenticated-navigator')).toBeTruthy();
   });
 
   test('renders App with authenticated state but userType is undefined', () => {

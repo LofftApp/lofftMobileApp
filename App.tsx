@@ -111,12 +111,12 @@ const App = () => {
       {!isAuth ? (
         <>
           <GuestStackNavigator />
-          {/* <View testID="guest-navigator" /> */}
+          <View testID="guest-navigator" />
         </>
       ) : userType ? (
         <>
           <AuthenticatedNavigator userType={userType} admin={admin} />
-          {/* <View testID="authenticated-navigator" /> */}
+          <View testID="authenticated-navigator" />
         </>
       ) : (
         <>

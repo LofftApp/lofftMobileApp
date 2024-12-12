@@ -10,11 +10,21 @@ import {
   LessorNotificationType,
   TenantNotificationType,
 } from 'reduxFeatures/firebaseNotifications/types';
-import {mockedNavigation} from '../../__mocks__/@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: jest.fn(),
+}));
 
 // lessor tests
 describe('NotificationCard', () => {
+  let navigateMock: jest.Mock;
   beforeEach(() => {
+    navigateMock = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({navigate: navigateMock});
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -97,13 +107,10 @@ describe('NotificationCard', () => {
     const button = screen.getByText('See applicants');
     fireEvent.press(button);
 
-    expect(mockedNavigation.navigate).toHaveBeenCalledWith(
-      'LessorIndexNavigator',
-      {
-        screen: 'SeeApplicantsScreen',
-        params: {advertId: 42},
-      },
-    );
+    expect(navigateMock).toHaveBeenCalledWith('LessorIndexNavigator', {
+      screen: 'SeeApplicantsScreen',
+      params: {advertId: 42},
+    });
   });
 
   test('Navigates to the correct application when clicking tagLine', () => {
@@ -114,19 +121,22 @@ describe('NotificationCard', () => {
     const tagLine = screen.getByText('Beautiful Apartment');
     fireEvent.press(tagLine);
 
-    expect(mockedNavigation.navigate).toHaveBeenCalledWith(
-      'LessorIndexNavigator',
-      {
-        screen: 'ApplicationShowScreen',
-        params: {id: 42},
-      },
-    );
+    expect(navigateMock).toHaveBeenCalledWith('LessorIndexNavigator', {
+      screen: 'ApplicationShowScreen',
+      params: {id: 42},
+    });
   });
 });
 
 // tenant tests
 describe('NotificationCard as tenant', () => {
+  let navigateMock: jest.Mock;
   beforeEach(() => {
+    navigateMock = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({navigate: navigateMock});
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -202,12 +212,9 @@ describe('NotificationCard as tenant', () => {
     const button = screen.getByText('Go to chat');
     fireEvent.press(button);
 
-    expect(mockedNavigation.navigate).toHaveBeenCalledWith(
-      'ApplicationNavigator',
-      {
-        screen: 'LessorChatScreen',
-      },
-    );
+    expect(navigateMock).toHaveBeenCalledWith('ApplicationNavigator', {
+      screen: 'LessorChatScreen',
+    });
   });
 
   test('Navigates to the correct application when clicking tagLine', () => {
@@ -218,12 +225,9 @@ describe('NotificationCard as tenant', () => {
     const tagLine = screen.getByText('Beautiful Apartment');
     fireEvent.press(tagLine);
 
-    expect(mockedNavigation.navigate).toHaveBeenCalledWith(
-      'ApplicationNavigator',
-      {
-        screen: 'ApplicationShowScreenn',
-        params: {id: 1},
-      },
-    );
+    expect(navigateMock).toHaveBeenCalledWith('ApplicationNavigator', {
+      screen: 'ApplicationShowScreen',
+      params: {id: 1},
+    });
   });
 });
