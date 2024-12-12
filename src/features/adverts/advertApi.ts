@@ -90,7 +90,6 @@ export const advertApi = lofftApi.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
-        console.log('response', queryFulfilled);
         const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
@@ -227,9 +226,6 @@ export const advertApi = lofftApi.injectEndpoints({
           url: `/api/adverts/${id}/complete_lessor_sign_up`,
           method: 'POST',
           body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
         };
       },
       invalidatesTags: (result, error, {id}) => [

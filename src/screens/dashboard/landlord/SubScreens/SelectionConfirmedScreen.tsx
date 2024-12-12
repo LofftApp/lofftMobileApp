@@ -19,15 +19,11 @@ import {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/
 import {SelectionConfirmedScreenProp} from './types';
 
 const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
-  const {advertId, round1, round2} = route.params;
+  const {advertId} = route.params;
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
   const handleNavigate = () => {
-    if (round1) {
-      navigation.navigate('ApplicationShowScreen', {id: advertId});
-    } else if (round2) {
-      navigation.navigate('ApplicationShowScreen', {id: advertId});
-    }
+    navigation.navigate('ApplicationShowScreen', {id: advertId});
   };
 
   return (
@@ -37,7 +33,7 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
         width="100%"
         style={CoreStyleSheet.backgroundImage}
       />
-      <BackButton style={styles.backButton} onPress={navigation.goBack} />
+      <BackButton style={styles.backButton} onPress={handleNavigate} />
       <HiFive />
       <View style={CoreStyleSheet.screenContainer}>
         <Text style={[fontStyles.headerSmall, styles.textContainer]}>

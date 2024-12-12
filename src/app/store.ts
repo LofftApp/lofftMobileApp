@@ -34,19 +34,16 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const setupStore = (
-  preloadedState?: Partial<ReturnType<typeof rootReducer>>,
-) =>
-  configureStore({
-    reducer: persistedReducer,
-    preloadedState,
-    middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(lofftApi.middleware),
-  });
+export const setupStore = configureStore({
+  reducer: persistedReducer,
+
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(lofftApi.middleware),
+});
 
 export const setupStoreForTesting = (
   preloadedState?: Partial<ReturnType<typeof rootReducer>>,
@@ -59,6 +56,6 @@ export const setupStoreForTesting = (
   });
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
+export type AppStore = typeof setupStore;
 export type AppStoreForTesting = ReturnType<typeof setupStoreForTesting>;
 export type AppDispatch = AppStore['dispatch'];

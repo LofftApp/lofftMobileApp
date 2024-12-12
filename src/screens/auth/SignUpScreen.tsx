@@ -35,7 +35,7 @@ const SignUpScreen = () => {
   };
 
   return (
-    <View style={styles.behindContainer}>
+    <View testID="sign-up" style={styles.behindContainer}>
       <SignUpBackground
         height={height * 1.9}
         width="100%"

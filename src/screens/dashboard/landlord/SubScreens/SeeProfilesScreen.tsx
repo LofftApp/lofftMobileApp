@@ -95,7 +95,6 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       });
       navigation.navigate('SelectionConfirmedScreen', {
         advertId: advertId,
-        round2: true,
       });
       toggleModal();
     } catch (err) {
@@ -147,7 +146,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     );
   }
 
-  if (applicationsState.length === 0) {
+  if (applications?.length === 0) {
     return (
       <NotFoundComponent
         backButton

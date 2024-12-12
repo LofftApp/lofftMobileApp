@@ -40,7 +40,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.behindContainer}>
+    <View testID="sign-in" style={styles.behindContainer}>
       <SignInBackground
         height={height * 1.9}
         width="100%"
@@ -51,9 +51,12 @@ const SignInScreen = () => {
         <HiFive style={{marginTop: imageMarginTop}} />
       </View>
 
-      <View testID="sign-in" style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
+      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
-          <SignInForm clearErrors={clearErrors} setClearErrors={setClearErrors} />
+          <SignInForm
+            clearErrors={clearErrors}
+            setClearErrors={setClearErrors}
+          />
         </View>
         <View style={styles.footer}>
           <SignInWith isSignInScreen />

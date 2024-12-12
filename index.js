@@ -11,11 +11,23 @@ import {setupStore} from 'reduxCore/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 
+import {handleBackgroundNotifications} from 'reduxFeatures/firebaseNotifications/handleBackgroundNotifications';
+import {setupAndroidNotificationChannel} from 'reduxFeatures/firebaseNotifications/setupAndroidNotificationChannel';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+
+// Setup Android notification channel
+setupAndroidNotificationChannel();
+
+// Background notification handler
+handleBackgroundNotifications();
+
 export default function Main() {
   return (
-    <Provider store={setupStore()}>
+    <Provider store={setupStore}>
       <PersistGate loading={null} persistor={persister}>
-        <App />
+        <SafeAreaProvider>
+          <App />
+        </SafeAreaProvider>
       </PersistGate>
     </Provider>
   );

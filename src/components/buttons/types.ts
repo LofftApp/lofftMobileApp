@@ -20,7 +20,7 @@ type CoreButtonProps = {
   icon?: JSX.Element;
   textSize?: TextStyle;
   style?: StyleProp<ViewStyle>;
-  textStyle?: TextStyle | TextStyle[] | null;
+  textStyle?: TextStyle | TextStyle[];
   onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;
 };
