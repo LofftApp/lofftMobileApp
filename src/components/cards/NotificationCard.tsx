@@ -50,6 +50,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'open' ? 'See applicants' : undefined,
+            buttonColor: Color.Lavendar[100],
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -63,6 +64,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'review' ? 'See applicants' : undefined,
+            buttonColor: Color.Lavendar[100],
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -76,6 +78,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'viewing' ? 'Go to chat' : undefined,
+            buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -88,6 +91,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'offered' ? 'Go to chat' : undefined,
+            buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -100,6 +104,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: undefined,
+            buttonColor: undefined,
             buttonIcon: undefined,
             buttonNavigation: undefined,
           };
@@ -110,6 +115,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'open' ? 'See applicants' : undefined,
+            buttonColor: Color.Lavendar[100],
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -123,6 +129,7 @@ const NotificationCard = ({
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
             value: undefined,
+            buttonColor: undefined,
             buttonIcon: undefined,
             buttonNavigation: undefined,
           };
@@ -145,6 +152,7 @@ const NotificationCard = ({
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: undefined,
+            buttonColor: undefined,
             buttonIcon: undefined,
             buttonNavigation: undefined,
           };
@@ -153,12 +161,10 @@ const NotificationCard = ({
             icon: 'thumbs-up',
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
-            value: applicationStatus === 'active' ? 'Go to chat' : undefined,
-            buttonIcon: 'send',
-            buttonNavigation: () =>
-              navigation.navigate('ApplicationNavigator', {
-                screen: 'LessorChatScreen',
-              }),
+            value: undefined,
+            buttonColor: Color.Mint[100],
+            buttonIcon: undefined,
+            buttonNavigation: undefined,
           };
         case 'round_3':
           return {
@@ -166,6 +172,7 @@ const NotificationCard = ({
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: applicationStatus === 'active' ? 'Go to chat' : undefined,
+            buttonColor: Color.Mint[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('ApplicationNavigator', {
@@ -178,6 +185,7 @@ const NotificationCard = ({
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: applicationStatus === 'offered' ? 'Accept' : undefined,
+            buttonColor: Color.Mint[100],
             buttonIcon: 'home-smile',
             buttonNavigation: () =>
               navigation.navigate('ApplicationNavigator', {
@@ -190,6 +198,7 @@ const NotificationCard = ({
             iconColor: Color.Tomato[100],
             bgColor: tenantNegativeBgColor,
             value: undefined,
+            buttonColor: undefined,
             buttonIcon: undefined,
             buttonNavigation: undefined,
           };
@@ -199,6 +208,7 @@ const NotificationCard = ({
             iconColor: Color.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: undefined,
+            buttonColor: undefined,
             buttonIcon: undefined,
             buttonNavigation: undefined,
           };
@@ -248,13 +258,14 @@ const NotificationCard = ({
           backgroundColor: notificationAssets.bgColor,
         },
       ]}
-      testID="NotificationCardContainer">
+      testID="notification-card-container">
       <View style={[styles.innerContainer]}>
         <View style={styles.iconImageContainer}>
           <LofftIcon
             name={notificationAssets.icon}
             size={30}
             color={notificationAssets.iconColor}
+            testID={notificationAssets.icon}
           />
           <View style={styles.imageContainer}>
             <Image
@@ -264,6 +275,7 @@ const NotificationCard = ({
                   ? {uri: notification.advert.flat.url}
                   : NoFlatImage
               }
+              testID={notification.advert.flat.url ? 'flat-image' : 'no-flat'}
             />
           </View>
         </View>
@@ -289,11 +301,18 @@ const NotificationCard = ({
               textSize={fontStyles.headerExtraSmall}
               value={notificationAssets.value}
               onPress={handleButtonNavigation}
+              style={[
+                styles.buttonStyle,
+                {
+                  backgroundColor: notificationAssets.buttonColor,
+                  borderColor: notificationAssets.buttonColor,
+                },
+              ]}
               icon={
                 notificationAssets.buttonIcon ? (
                   <LofftIcon
                     name={notificationAssets.buttonIcon}
-                    size={20}
+                    size={size(25)}
                     color={Color.White[100]}
                   />
                 ) : undefined
@@ -344,8 +363,9 @@ const styles = StyleSheet.create({
     gap: size(3),
   },
 
-  chipsContainer: {
-    flexWrap: 'wrap',
+  buttonStyle: {
+    width: '96%',
+    height: size(50),
   },
 });
 

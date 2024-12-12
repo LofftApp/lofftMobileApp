@@ -19,7 +19,7 @@ export const lessorNotificationMock: LessorNotification = {
   },
 };
 
-const tenantNotificationMock: TenantNotification = {
+export const tenantNotificationMock: TenantNotification = {
   id: 2,
   read: false,
   userType: 'tenant',
@@ -31,7 +31,7 @@ const tenantNotificationMock: TenantNotification = {
     id: 42,
     status: 'open',
     createdAt: '2023-12-01T00:00:00.000Z',
-    flat: {id: 1, tagLine: 'Beautiful Apartment', url: 'https://example.com'},
+    flat: {id: 1, tagLine: 'Beautiful Apartment', url: ''},
   },
   application: {
     id: 1,
