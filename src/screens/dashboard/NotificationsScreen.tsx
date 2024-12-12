@@ -27,13 +27,14 @@ import {
 
 const NotificationsScreen = () => {
   const navigation = useNavigation();
-  const {data, isLoading, isError, refetch} = useGetNotificationsQuery();
+
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
-  const notifications = data?.notifications;
-  console.log('notifications in notificationsScreen', notifications);
-  const [markAsRead] = useMarkAsReadMutation();
 
+  const {data, isLoading, isError, refetch} = useGetNotificationsQuery();
+  const notifications = data?.notifications;
+
+  const [markAsRead] = useMarkAsReadMutation();
   const unreadIds = notifications?.filter(n => !n.read).map(n => n.id);
 
   useEffect(() => {

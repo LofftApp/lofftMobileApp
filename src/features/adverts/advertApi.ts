@@ -90,7 +90,6 @@ export const advertApi = lofftApi.injectEndpoints({
         method: 'POST',
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
-        console.log('response', queryFulfilled);
         const patchAdvertById = dispatch(
           advertApi.util.updateQueryData('getAdvertById', id, draft => {
             if (draft) {
@@ -207,7 +206,6 @@ export const advertApi = lofftApi.injectEndpoints({
               type: image.type,
               name: `flatImage-${index}.jpg`,
             });
-            console.log('uri images >>>>>>>>>>>>', image.uri);
           });
         }
 
@@ -221,7 +219,6 @@ export const advertApi = lofftApi.injectEndpoints({
               type: image.type,
               name: `lessorProfileImage-${index}.jpg`,
             });
-            console.log('uri images >>>>>>>>>>>>', image.uri);
           });
         }
 

@@ -38,9 +38,6 @@ const SignInScreen = () => {
     navigation.navigate('SignUpScreen');
     setClearErrors(true);
   };
-  console.log(
-    'Sign In Screen >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-  );
 
   return (
     <View testID="sign-in" style={styles.behindContainer}>

@@ -14,12 +14,6 @@ export const registerDeviceToken = async (registerToken: RegisterTokenType) => {
       console.log('Device registered for remote messages');
     }
 
-    messaging()
-      .getAPNSToken()
-      .then(token => {
-        console.log('APNS Token:', token);
-      });
-
     // Delete the current token
     await messaging().deleteToken();
     console.log('FCM Token deleted');
