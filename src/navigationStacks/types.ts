@@ -60,6 +60,7 @@ type LessorTabParamsList = {
   NotificationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
+  LessorChatIndex: undefined;
 };
 
 type LessorNavigatorStackParamsList = {
