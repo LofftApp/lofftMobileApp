@@ -48,7 +48,6 @@ const LessorChatIndexScreen = () => {
 };
 
 const styles = StyleSheet.create({
-
   containerNoChatrooms: {
     flex: 1,
     backgroundColor: Color.White[100],
