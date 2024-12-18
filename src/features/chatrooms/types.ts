@@ -1,17 +1,19 @@
 interface Message {
   id: number;
   chatroom_id: number;
-  user_id: number;
+  userId: number;
   content: string;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   read: boolean;
 }
 
 interface Chatroom {
   id: number;
   name: string;
-  message: Message
+  message: Message;
+  userPhoto: string;
+  matchScore: number;
 }
 
 interface ChatroomsState {

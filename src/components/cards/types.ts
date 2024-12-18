@@ -4,8 +4,12 @@ import {Application} from 'reduxFeatures/applications/types';
 
 
 type ChatCardProps = {
-  name: string,
-  read: boolean
+  name: string;
+  read: boolean;
+  photo: string;
+  match: number;
+  content: string;
+  createdAt: string;
 }
 
 type ListFlatApplicationCardProps = {
