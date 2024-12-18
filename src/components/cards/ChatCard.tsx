@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: size(10),
     borderRadius: 12,
+    marginTop: 10,
   },
   boxA: {
     width: '30%',
