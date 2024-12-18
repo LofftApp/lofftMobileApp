@@ -2,6 +2,12 @@ import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
+
+type ChatCardProps = {
+  name: string,
+  read: boolean
+}
+
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
   application?: Application;
@@ -44,4 +50,5 @@ export type {
   ApplicantCardRound1Props,
   ApplicantCardRound2Props,
   LanguagesCardProps,
+  ChatCardProps,
 };
