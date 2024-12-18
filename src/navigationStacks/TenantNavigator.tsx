@@ -25,6 +25,7 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
+import ChatIndexScreen from 'screens/dashboard/ChatIndexScreen';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
@@ -67,6 +68,11 @@ const TenantNavigator = () => {
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
           tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
         }}
+      />
+      <Tab.Screen
+        name="ChatIndex"
+        component={ChatIndexScreen}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="UserTab"

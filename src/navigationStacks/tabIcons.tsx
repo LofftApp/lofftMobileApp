@@ -37,7 +37,7 @@ export const tabIcons = ({
     case 'LessorIndexNavigator':
       iconName = 'list';
       break;
-    case 'LessorChatIndex':
+    case 'ChatIndex':
       iconName = 'announcement';
       break;
     default:

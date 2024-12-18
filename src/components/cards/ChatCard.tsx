@@ -17,10 +17,19 @@ const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
 ];
 
-const ChatCard = ({match, name, read, photo, content, createdAt}:ChatCardProps) => {
+const ChatCard = ({match, name, read, photo, content, createdAt, isLessor}:ChatCardProps) => {
 
   return(
-    <View style={[styles.container, {backgroundColor: read ? Color.White[100] : Color.Lavendar[10] }]}>
+ <View
+      style={[
+        styles.container,
+        isLessor
+          ? read
+            ? styles.lessorContainerBgWhite
+            : styles.lessorContainerBg
+          : styles.tenantContainerBg,
+      ]}
+    >
         <View style={styles.boxA}>
           <Image style={styles.image} source={{uri: photo || hardcodedImages[0] }} />
         </View>
@@ -28,7 +37,7 @@ const ChatCard = ({match, name, read, photo, content, createdAt}:ChatCardProps) 
           <View style={styles.innerBoxBup}>
             <View>
                <Text style={fontStyles.headerSmall}>
-                {read ? null : <Text style={styles.unreadDot}>●</Text>} {name}
+                {read ? null : <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>●</Text>} {name}
               </Text>
               <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>🌟 {match}% match</Text>
             </View>
@@ -48,7 +57,6 @@ const styles = StyleSheet.create({
   container: {
     width: '90%',
     height: size(117),
-    backgroundColor: 'pink',
     flexDirection: 'row',
     padding: size(10),
     borderRadius: 12,
@@ -83,6 +91,21 @@ const styles = StyleSheet.create({
   },
   innerBoxBdown:{
     justifyContent: 'flex-end',
+  },
+   lessorContainerBg: {
+    backgroundColor: Color.Lavendar[10],
+  },
+  lessorContainerBgWhite: {
+    backgroundColor: Color.White[100],
+  },
+  tenantContainerBg: {
+    backgroundColor: Color.Mint[10],
+  },
+  lessorDot: {
+    color: Color.Lavendar[100]
+  },
+  tenantDot: {
+    color: Color.Mint[100]
   },
 });
 

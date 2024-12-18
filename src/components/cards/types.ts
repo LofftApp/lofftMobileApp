@@ -10,6 +10,7 @@ type ChatCardProps = {
   match: number;
   content: string;
   createdAt: string;
+  isLessor: boolean;
 }
 
 type ListFlatApplicationCardProps = {

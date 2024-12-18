@@ -29,6 +29,7 @@ type TenantTabParamsList = {
   NotificationsTab: undefined;
   tempTab: undefined;
   FavoritesTab: undefined;
+  ChatIndex: undefined;
 };
 type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
@@ -60,7 +61,7 @@ type LessorTabParamsList = {
   NotificationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
-  LessorChatIndex: undefined;
+  ChatIndex: undefined;
 };
 
 type LessorNavigatorStackParamsList = {

@@ -18,8 +18,12 @@ import BackButton from 'components/buttons/BackButton';
 
 // Types 🦄
 import { Chatroom } from 'reduxFeatures/chatrooms/types';
+import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 
-const LessorChatIndexScreen = () => {
+const ChatIndexScreen = () => {
+  const {data: currentUser} = useGetUserQuery();
+  const isLessor = currentUser?.userType === 'lessor';
+
   const {data, isLoading} = useGetChatroomsQuery();
   const navigation = useNavigation();
 
@@ -39,7 +43,7 @@ const LessorChatIndexScreen = () => {
         </View>
           :
         <View style={styles.container}>
-          {data.chatrooms.map((el: Chatroom) => <ChatCard key={el.id} match={el.matchScore} name={el.name} read={el.message.read} photo={el.userPhoto} content={el.message.content} createdAt={el.message.createdAt} />)}
+          {data.chatrooms.map((el: Chatroom) => <ChatCard isLessor={isLessor} key={el.id} match={el.matchScore} name={el.name} read={el.message.read} photo={el.userPhoto} content={el.message.content} createdAt={el.message.createdAt} />)}
         </View>
         }
       </ScrollView>
@@ -66,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LessorChatIndexScreen;
+export default ChatIndexScreen;
