@@ -10,6 +10,7 @@ interface Message {
 
 interface Chatroom {
   id: number;
+  name: string;
   message: Message
 }
 
@@ -19,4 +20,5 @@ interface ChatroomsState {
 
 export type {
   ChatroomsState,
+  Chatroom,
 };
