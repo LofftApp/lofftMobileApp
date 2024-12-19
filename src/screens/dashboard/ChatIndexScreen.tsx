@@ -48,7 +48,7 @@ const ChatIndexScreen = () => {
         </View>
           :
         <View style={styles.container}>
-          {data.chatrooms.map((el: Chatroom) => <ChatCard isLessor={isLessor} key={el.id} match={el.matchScore} name={el.name} read={el.message.read} photo={el.userPhoto} content={el.message.content} createdAt={el.message.createdAt} />)}
+          {data.chatrooms.map((chatroom: Chatroom) => <ChatCard key={chatroom.id} chatroomData={chatroom} isLessor={isLessor} />)}
         </View>
         }
       </ScrollView>

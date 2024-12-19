@@ -2,15 +2,27 @@ import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
-
-type ChatCardProps = {
-  name: string;
-  read: boolean;
-  photo: string;
-  match: number;
+type Message = {
+  chatroomId: number;
   content: string;
   createdAt: string;
-  isLessor: boolean;
+  id: number;
+  read: boolean;
+  updatedAt: string;
+  userId: number;
+};
+
+type ChatRoomData = {
+  id: number;
+  matchScore: number;
+  message: Message;
+  name: string;
+  userPhoto: string | null;
+};
+
+type ChatCardProps = {
+  chatroomData: ChatRoomData,
+  isLessor: boolean
 }
 
 type ListFlatApplicationCardProps = {

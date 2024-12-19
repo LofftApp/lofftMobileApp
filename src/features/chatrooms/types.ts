@@ -1,6 +1,6 @@
 interface Message {
   id: number;
-  chatroom_id: number;
+  chatroomId: number;
   userId: number;
   content: string;
   createdAt: string;
