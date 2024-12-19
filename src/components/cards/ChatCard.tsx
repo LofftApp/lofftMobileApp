@@ -23,6 +23,7 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
     name,
     message: {read, content, createdAt},
     userPhoto,
+    advertTagLine,
   } = chatroomData;
 
   return (
@@ -53,7 +54,7 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
               {name}
             </Text>
             <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>
-              🌟 {matchScore}% match
+              {isLessor ? `🌟 ${matchScore}% match` : `${truncateTextAtWord(advertTagLine, 20)}` }
             </Text>
           </View>
           <View>

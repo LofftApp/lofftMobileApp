@@ -14,6 +14,7 @@ interface Chatroom {
   message: Message;
   userPhoto: string;
   matchScore: number;
+  advertTagLine: string;
 }
 
 interface ChatroomsState {

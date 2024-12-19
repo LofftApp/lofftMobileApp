@@ -18,6 +18,7 @@ type ChatRoomData = {
   message: Message;
   name: string;
   userPhoto: string | null;
+  advertTagLine: string;
 };
 
 type ChatCardProps = {
