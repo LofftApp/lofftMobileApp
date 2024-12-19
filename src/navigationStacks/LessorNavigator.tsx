@@ -18,7 +18,7 @@ import AdminScreen from 'screens/admin/adminScreen';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
 import NotificationsNavigator from './NotificationsNavigator';
-import ChatIndexScreen from 'screens/dashboard/ChatIndexScreen';
+import ChatroomsNavigator from './ChatroomsNavigator';
 
 // Types
 import {LessorTabParamsList} from './types';
@@ -58,8 +58,8 @@ const LessorNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="ChatIndex"
-        component={ChatIndexScreen}
+        name="ChatroomsTab"
+        component={ChatroomsNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen

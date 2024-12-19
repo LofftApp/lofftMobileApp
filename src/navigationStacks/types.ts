@@ -29,7 +29,7 @@ type TenantTabParamsList = {
   NotificationsTab: undefined;
   tempTab: undefined;
   FavoritesTab: undefined;
-  ChatIndex: undefined;
+  ChatroomsTab: undefined;
 };
 type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
@@ -61,7 +61,7 @@ type LessorTabParamsList = {
   NotificationsTab: undefined;
   UserTab: undefined;
   AdminTab: undefined;
-  ChatIndex: undefined;
+  ChatroomsTab: undefined;
 };
 
 type LessorNavigatorStackParamsList = {
@@ -115,6 +115,16 @@ type NotificationsScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<NotificationsTabParamsList, 'NotificationsTab'>,
   StackNavigationProp<NotificationsStackParamsList>
 >;
+
+//Chatroom Navigator
+type ChatroomsTabParamsList = {
+  ChatroomsTab: undefined;
+};
+
+type ChatroomsStackParamsList = {
+  ChatIndex: undefined
+}
+
 
 //NewUser Navigator
 type NewUserScreenNames =
@@ -172,4 +182,6 @@ export type {
   NotificationsTabParamsList,
   NotificationsStackParamsList,
   NotificationsScreenNavigationProp,
+  ChatroomsTabParamsList,
+  ChatroomsStackParamsList,
 };
