@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LessorChatScreen from 'screens/dashboard/landlord/LessorChatScreen';
 import ApplicationsIndexScreen from 'screens/dashboard/tenant/ApplicationsIndexScreen';
 import ApplicationShowScreen from 'screens/dashboard/tenant/ApplicationShowScreen';
+import ChatroomsNavigator from './ChatroomsNavigator';
 
 import {ApplicationStackParamsList} from './types';
 
@@ -17,6 +18,11 @@ const ApplicationNavigator = () => {
       <Apply.Screen
         name="ApplicationShowScreen"
         component={ApplicationShowScreen}
+      />
+      <Apply.Screen
+        name="ChatroomsNavigator"
+        component={ChatroomsNavigator}
+        options={{headerShown: false}}
       />
       <Apply.Screen name="LessorChatScreen" component={LessorChatScreen} />
     </Apply.Navigator>

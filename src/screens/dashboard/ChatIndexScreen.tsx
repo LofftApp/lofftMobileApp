@@ -39,7 +39,12 @@ const ChatIndexScreen = () => {
         <View style={styles.containerNoChatrooms}>
           <Looking />
           <Text style={[fontStyles.headerMedium, styles.centerText]}>You'dont have any active chats</Text>
-          <Text style={[fontStyles.bodyMedium, styles.centerText]}>Chats are only available after you’ve created a short-list of people you’d like to invite for interviews or flat viewing.</Text>
+          <Text style={[fontStyles.bodyMedium, styles.centerText]}>
+            {isLessor ?
+            'Chats are only available after you’ve created a short-list of people you’d like to invite for interviews or flat viewing.'
+            :
+            'Chats are only available if the landlord has invited youChats are only available after you’ve been invited by landlords.'
+            }</Text>
         </View>
           :
         <View style={styles.container}>

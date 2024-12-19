@@ -5,17 +5,19 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ChatIndexScreen from 'screens/dashboard/ChatIndexScreen';
 
 // Types 🦄
-import { ChatroomsStackParamsList } from './types';
+import type { ChatroomsStackParamsList } from './types';
+
 const Chatroom = createNativeStackNavigator<ChatroomsStackParamsList>();
 
 const ChatroomsNavigator = () => {
   return(
-     <Chatroom.Navigator screenOptions={{headerShown: false}}>
+     <Chatroom.Navigator screenOptions={{ headerShown: false }}>
       <Chatroom.Screen
         name="ChatIndex"
         component={ChatIndexScreen}
       />
-      </Chatroom.Navigator>
+
+    </Chatroom.Navigator>
   );
 };
 

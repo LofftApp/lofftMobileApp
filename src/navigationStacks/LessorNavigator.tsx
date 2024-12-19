@@ -18,7 +18,6 @@ import AdminScreen from 'screens/admin/adminScreen';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
 import NotificationsNavigator from './NotificationsNavigator';
-import ChatroomsNavigator from './ChatroomsNavigator';
 
 // Types
 import {LessorTabParamsList} from './types';
@@ -56,11 +55,6 @@ const LessorNavigator = () => {
           tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
           tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
         }}
-      />
-      <Tab.Screen
-        name="ChatroomsTab"
-        component={ChatroomsNavigator}
-        options={{headerShown: false}}
       />
       <Tab.Screen
         name="UserTab"

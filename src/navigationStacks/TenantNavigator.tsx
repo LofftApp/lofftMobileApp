@@ -22,7 +22,6 @@ import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
 import NotificationsNavigator from './NotificationsNavigator';
-import ChatroomsNavigator from './ChatroomsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
@@ -70,16 +69,10 @@ const TenantNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="ChatroomsTab"
-        component={ChatroomsNavigator}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
         name="UserTab"
         component={UserScreen}
         options={{headerShown: false}}
       />
-
       {admin ? (
         <Tab.Screen
           name="AdminTab"

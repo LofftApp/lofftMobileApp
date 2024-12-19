@@ -17,12 +17,17 @@ import * as Color from 'styleSheets/lofftColorPallet.json';
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import { useNavigation } from '@react-navigation/native';
 
-// Types
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamsList } from 'navigationStacks/types';
+
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamsList>;
 
 const LessorIndexScreen = () => {
   const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
-
+  const navigation = useNavigation<NavigationProp>();
   const adverts = data?.adverts;
 
   return (
@@ -30,7 +35,7 @@ const LessorIndexScreen = () => {
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>My Listings</Text>
         <View style={styles.actionContainer}>
-          <Pressable style={styles.addButton}>
+          <Pressable onPress={() => navigation.navigate('ChatroomsNavigator', { screen: 'ChatIndex' })} style={styles.addButton}>
             <LofftIcon
               name={'annotation-heart'}
               size={33}
