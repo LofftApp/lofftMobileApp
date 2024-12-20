@@ -27,7 +27,6 @@ type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsLis
 const ChatIndexScreen = () => {
   const { data: currentUser } = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
-
   const { data, isLoading } = useGetChatroomsQuery();
   const navigation = useNavigation<ChatroomNavigationProps>();
 
@@ -59,6 +58,8 @@ const ChatIndexScreen = () => {
                 onPress={() =>
                   navigation.navigate('ChatShow', {
                     chatroomId: chatroom.id,
+                    currentUser: currentUser?.id,
+                    isLessor: isLessor,
                   })
                 }
               >

@@ -28,5 +28,6 @@ interface MessagesState {
 export type {
   ChatroomsState,
   Chatroom,
+  Message,
   MessagesState,
 };

@@ -92,7 +92,11 @@ type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
 // Chatrooms Navigator
 type ChatroomsStackParamsList = {
   ChatIndex: undefined;
-  ChatShow: { chatroomId: number };
+  ChatShow: {
+    chatroomId: number,
+    currentUser: number | undefined,
+    isLessor: boolean,
+   };
 };
 
 //Notifications Navigator
