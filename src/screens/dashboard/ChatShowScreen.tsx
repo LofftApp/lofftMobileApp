@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -34,32 +34,44 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   const [newMessage, setNewMessage] = useState('');
   const navigation = useNavigation();
 
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
+  const flatListRef = useRef<FlatList>(null);
+
+  // Scroll to bottom when data changes
+  useEffect(() => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToEnd({ animated: true });
+    }
+  }, [data?.messages]);
+
 
   const handleSendMessage = () => {
 
   };
 
-  const renderMessage = ({ item }: { item: Message }) => {
+
+    if (isLoading) {
+      return <LoadingComponent />;
+    }
+
+  const renderMessage = ({ item, index }: { item: Message, index: number }) => {
     const isUserMessage = currentUser === item.userId;
+    const isLastItem = index === data.messages.length - 1;
     return (
       <View
-        style={[
-          styles.messageContainer,
-          isLessor ?
-          (isUserMessage ? styles.userMessageContainerLessor : styles.otherMessageContainer)
-          :
-          (isUserMessage ? styles.userMessageContainerTenant : styles.otherMessageContainer),
-        ]}
+      style={[
+        styles.messageContainer,isLastItem &&  styles.lastMessage,
+        isLessor ?
+        (isUserMessage ? styles.userMessageContainerLessor : styles.otherMessageContainer)
+        :
+        (isUserMessage ? styles.userMessageContainerTenant : styles.otherMessageContainer),
+      ]}
       >
         {item.content !== '' && (
           <Text
-            style={[
-              styles.messageText, fontStyles.bodyMedium,
-              isUserMessage ? styles.userMessageText : null,
-            ]}
+          style={[
+            styles.messageText, fontStyles.bodyMedium,
+            isUserMessage ? styles.userMessageText : null,
+          ]}
           >
             {item.content} {item.userId}
           </Text>
@@ -82,12 +94,14 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
         style={styles.chatContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <FlatList
-          data={data.messages}
-          renderItem={renderMessage}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.flatListStyle}
-        />
+      <FlatList
+      ref={flatListRef}
+      data={data.messages}
+      renderItem={renderMessage}
+      keyExtractor={(item) => item.id.toString()}
+      contentContainerStyle={styles.flatListStyle}
+
+    />
 
         <View style={styles.inputContainer}>
             <TextInput style={styles.textInput} value={newMessage} onChangeText={setNewMessage} placeholder="Type your message" multiline={true} />
@@ -103,7 +117,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Color.White[100],
   },
   chatContainer: {
     flex:1,
@@ -117,8 +131,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
-  flatListStyle:{
-    padding: size(10),
+  flatListStyle: {
+    paddingVertical:size(10),
+  },
+  lastMessage: {
+    marginBottom: size(100),
   },
   textInput: {
     flex: 1,
@@ -177,12 +194,12 @@ const styles = StyleSheet.create({
   },
   userMessageTimeStamp: {
     color: '#E8E8E8',
-    marginTop: size(5),
+    marginTop: size(2),
     textAlign: 'right',
   },
   otherMessageTimeStamp: {
     color: '#8E8E8E',
-    marginTop: size(5),
+    marginTop: size(2),
     textAlign: 'right',
   },
 });
