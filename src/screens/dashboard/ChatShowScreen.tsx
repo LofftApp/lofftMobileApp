@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { ChatShowProp } from './types';
 
-const ChatShowScreen = () => {
+const ChatShowScreen = ({route}: ChatShowProp) => {
+  const chatroomId = route.params.chatroomId;
   return(
     <View>
-      <Text>Hello from ChatShowScreen</Text>
+      <Text>Hello from Chatroom {chatroomId} </Text>
     </View>
   );
 };

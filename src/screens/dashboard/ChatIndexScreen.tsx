@@ -22,48 +22,51 @@ import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChatroomsStackParamsList } from 'navigationStacks/types';
 
-type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList>;
-
+type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList, 'ChatShow'>;
 
 const ChatIndexScreen = () => {
-  const {data: currentUser} = useGetUserQuery();
+  const { data: currentUser } = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
 
-  const {data, isLoading} = useGetChatroomsQuery();
+  const { data, isLoading } = useGetChatroomsQuery();
   const navigation = useNavigation<ChatroomNavigationProps>();
 
-  if(isLoading) {
-    return <LoadingComponent/>;
+  if (isLoading) {
+    return <LoadingComponent />;
   }
 
-  return(
-     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+  return (
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton title="Chats" onPress={() => navigation.goBack()} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-        {data.chatrooms.length === 0 ?
-        <View style={styles.containerNoChatrooms}>
-          <Looking />
-          <Text style={[fontStyles.headerMedium, styles.centerText]}>You'dont have any active chats</Text>
-          <Text style={[fontStyles.bodyMedium, styles.centerText]}>
-            {isLessor ?
-            'Chats are only available after you’ve created a short-list of people you’d like to invite for interviews or flat viewing.'
-            :
-            'Chats are only available if the landlord has invited youChats are only available after you’ve been invited by landlords.'
-            }</Text>
-        </View>
-          :
-        <View style={styles.container}>
-          {
-            data.chatrooms.map((chatroom: Chatroom) => (
-              <Pressable key={chatroom.id} onPress={() => navigation.navigate('ChatShow', {
-                chatroomId: chatroom.id,
-                })}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {data.chatrooms.length === 0 ? (
+          <View style={styles.containerNoChatrooms}>
+            <Looking />
+            <Text style={[fontStyles.headerMedium, styles.centerText]}>
+              You don't have any active chats
+            </Text>
+            <Text style={[fontStyles.bodyMedium, styles.centerText]}>
+              {isLessor
+                ? 'Chats are only available after you’ve created a short-list of people you’d like to invite for interviews or flat viewing.'
+                : 'Chats are only available if the landlord has invited you.'}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.container}>
+            {data.chatrooms.map((chatroom: Chatroom) => (
+              <Pressable
+                key={chatroom.id}
+                onPress={() =>
+                  navigation.navigate('ChatShow', {
+                    chatroomId: chatroom.id,
+                  })
+                }
+              >
                 <ChatCard chatroomData={chatroom} isLessor={isLessor} />
               </Pressable>
-            ))
-          }
-        </View>
-        }
+            ))}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
