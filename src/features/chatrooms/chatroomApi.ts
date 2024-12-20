@@ -18,10 +18,19 @@ export const chatroomsApi = lofftApi.injectEndpoints({
         return toCamelCaseKeys(response as MessagesState);
       },
     }),
+    createMessage: builder.mutation<any, { id: number, content: string }>({
+      query: ({ id, content }) => ({
+        url: `/api/chatrooms/${id}/messages`,
+        method: 'POST',
+        body: { content },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
 export const {
   useGetChatroomsQuery,
+  useGetChatroombyIdQuery,
+  useCreateMessageMutation,
 } = chatroomsApi;
