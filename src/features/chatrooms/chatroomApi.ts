@@ -1,6 +1,6 @@
 import { toCamelCaseKeys } from 'helpers/toCamelCaseKeys';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import { ChatroomsState } from './types';
+import { ChatroomsState, MessagesState } from './types';
 
 export const chatroomsApi = lofftApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +9,13 @@ export const chatroomsApi = lofftApi.injectEndpoints({
       transformResponse: (response) => {
         console.log('getChatrooms called 🎨');
         return toCamelCaseKeys(response as ChatroomsState);
+      },
+    }),
+    getChatroombyId: builder.query<any, number>({
+      query: id => `/api/chatrooms/${id}`,
+      transformResponse: (response) => {
+        console.log('getChatroombyId called 🌈');
+        return toCamelCaseKeys(response as MessagesState);
       },
     }),
   }),

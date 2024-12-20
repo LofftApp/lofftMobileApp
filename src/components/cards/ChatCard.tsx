@@ -22,6 +22,7 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
   const { read, content, createdAt } = message ?? {};
   const [isBlinking, setIsBlinking] = useState(false);
 
+
   useEffect(() => {
     const blinkingInterval = setInterval(() => setIsBlinking((prev) => !prev), 3000);
     return () => clearInterval(blinkingInterval);

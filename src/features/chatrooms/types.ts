@@ -12,7 +12,7 @@ interface Chatroom {
   id: number;
   name: string;
   message: Message | null;
-  userPhoto: string;
+  userPhoto: string | null;
   matchScore: number;
   advertTagLine: string;
 }
@@ -21,7 +21,12 @@ interface ChatroomsState {
   chatrooms: Chatroom[];
 }
 
+interface MessagesState {
+  messages: Message[]
+}
+
 export type {
   ChatroomsState,
   Chatroom,
+  MessagesState,
 };
