@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, SafeAreaView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, SafeAreaView, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // Styles 🎨
@@ -19,13 +19,18 @@ import BackButton from 'components/buttons/BackButton';
 // Types 🦄
 import { Chatroom } from 'reduxFeatures/chatrooms/types';
 import { useGetUserQuery } from 'reduxFeatures/user/userApi';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ChatroomsStackParamsList } from 'navigationStacks/types';
+
+type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList>;
+
 
 const ChatIndexScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
 
   const {data, isLoading} = useGetChatroomsQuery();
-  const navigation = useNavigation();
+  const navigation = useNavigation<ChatroomNavigationProps>();
 
   if(isLoading) {
     return <LoadingComponent/>;
@@ -48,7 +53,15 @@ const ChatIndexScreen = () => {
         </View>
           :
         <View style={styles.container}>
-          {data.chatrooms.map((chatroom: Chatroom) => <ChatCard key={chatroom.id} chatroomData={chatroom} isLessor={isLessor} />)}
+          {
+            data.chatrooms.map((chatroom: Chatroom) => (
+              <Pressable key={chatroom.id} onPress={() => navigation.navigate('ChatShow', {
+                chatroomId: chatroom.id,
+                })}>
+                <ChatCard chatroomData={chatroom} isLessor={isLessor} />
+              </Pressable>
+            ))
+          }
         </View>
         }
       </ScrollView>
