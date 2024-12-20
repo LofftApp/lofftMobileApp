@@ -17,27 +17,30 @@ const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
 ];
 
-const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
-  const {
-  matchScore,
-  name,
-  message,
-  userPhoto,
-  advertTagLine,
-  } = chatroomData;
-
+const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
+  const { matchScore, name, message, userPhoto, advertTagLine } = chatroomData;
   const { read, content, createdAt } = message ?? {};
-
   const [isBlinking, setIsBlinking] = useState(false);
 
   useEffect(() => {
-    const blinkingInterval = setInterval(() => {
-      setIsBlinking((prev) => !prev);
-    }, 3000);
-    return () => {
-      clearInterval(blinkingInterval);
-    };
+    const blinkingInterval = setInterval(() => setIsBlinking((prev) => !prev), 3000);
+    return () => clearInterval(blinkingInterval);
   }, []);
+
+  const renderMessageText = () => {
+    if (message === null) {
+      const blinkingStyle = isLessor ? styles.textGlowingLessor : styles.textGlowingTenant;
+      return (
+        <Text style={[fontStyles.bodyMedium, isBlinking && blinkingStyle]}>
+          Start Chat 🚀
+        </Text>
+      );
+    }
+
+    return isLessor
+      ? `🌟 ${matchScore}% match`
+      : truncateTextAtWord(advertTagLine ?? '', 20);
+  };
 
   return (
     <View
@@ -48,49 +51,36 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
             ? styles.lessorContainerBgWhite
             : styles.lessorContainerBg
           : styles.tenantContainerBg,
-      ]}>
+      ]}
+    >
       <View style={styles.boxA}>
         <Image
           style={styles.image}
-          source={{uri: userPhoto || hardcodedImages[0]}}
+          source={{ uri: userPhoto || hardcodedImages[0] }}
         />
       </View>
       <View style={styles.boxB}>
         <View style={styles.innerBoxBup}>
           <View>
             <Text style={fontStyles.headerSmall}>
-             {message === null ? (
+              {!read && (
                 <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
                   ●
                 </Text>
-              ) : (
-                read ? null : (
-                  <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
-                    ●
-                  </Text>
-                )
               )}{' '}
               {name}
             </Text>
-            <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>
-                {message === null ? (
-                isLessor ? <Text style={[ fontStyles.bodyMedium, isBlinking && styles.textGlowingLessor]}>Start Chat 🚀</Text>
-                :
-                <Text style={[ fontStyles.bodyMedium, isBlinking && styles.textGlowingTenant]}>Start Chat 🚀</Text>
-              ) : (
-                isLessor ? `🌟 ${matchScore}% match` : `${truncateTextAtWord(advertTagLine ?? '', 20)}`
-              )}
+            <Text style={[fontStyles.bodySmall, { color: Color.Black[50] }]}>
+              {renderMessageText()}
             </Text>
           </View>
-          <View>
-            <Text style={[fontStyles.bodySmall, styles.timeFont]}>
-              {message === null ? null : checkMessageDate(createdAt ?? '')}
-            </Text>
-          </View>
+          <Text style={[fontStyles.bodySmall, styles.timeFont]}>
+            {message !== null && checkMessageDate(createdAt ?? '')}
+          </Text>
         </View>
         <View style={styles.innerBoxBdown}>
-          <Text style={[fontStyles.bodyMedium, {color: Color.Black[100]}]}>
-            {message === null ? null : `${truncateTextAtWord(content ?? '', 20)} ...`}
+          <Text style={[fontStyles.bodyMedium, { color: Color.Black[100] }]}>
+            {message !== null && `${truncateTextAtWord(content ?? '', 20)} ...`}
           </Text>
         </View>
       </View>
@@ -122,20 +112,16 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     justifyContent: 'space-between',
   },
-  unreadDot: {
-    color: Color.Lavendar[100],
-  },
   innerBoxBup: {
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  innerBoxBdown: {
+    justifyContent: 'flex-end',
   },
   timeFont: {
     color: Color.Black[50],
     paddingTop: 5,
-  },
-  innerBoxBdown: {
-    justifyContent: 'flex-end',
   },
   lessorContainerBg: {
     backgroundColor: Color.Lavendar[10],
@@ -152,22 +138,16 @@ const styles = StyleSheet.create({
   tenantDot: {
     color: Color.Mint[100],
   },
-  startChatTenant: {
-    color: Color.Mint[100],
-  },
-  startChatLessor: {
-    color: Color.Lavendar[100],
-  },
   textGlowingLessor: {
     color: Color.Lavendar[100],
     textShadowColor: 'rgba(203, 188, 255, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 15,
   },
   textGlowingTenant: {
     color: Color.Mint[100],
     textShadowColor: 'rgba(188, 255, 200, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 15,
   },
 });
