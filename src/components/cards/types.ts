@@ -15,7 +15,7 @@ type Message = {
 type ChatRoomData = {
   id: number;
   matchScore: number;
-  message: Message;
+  message: Message | null;
   name: string;
   userPhoto: string | null;
   advertTagLine: string;

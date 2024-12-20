@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
 // Helpers 🥷🏻
@@ -19,12 +19,25 @@ const hardcodedImages = [
 
 const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
   const {
-    matchScore,
-    name,
-    message: {read, content, createdAt},
-    userPhoto,
-    advertTagLine,
+  matchScore,
+  name,
+  message,
+  userPhoto,
+  advertTagLine,
   } = chatroomData;
+
+  const { read, content, createdAt } = message ?? {};
+
+  const [isBlinking, setIsBlinking] = useState(false);
+
+  useEffect(() => {
+    const blinkingInterval = setInterval(() => {
+      setIsBlinking((prev) => !prev);
+    }, 3000);
+    return () => {
+      clearInterval(blinkingInterval);
+    };
+  }, []);
 
   return (
     <View
@@ -46,26 +59,38 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
         <View style={styles.innerBoxBup}>
           <View>
             <Text style={fontStyles.headerSmall}>
-              {read ? null : (
+             {message === null ? (
                 <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
                   ●
                 </Text>
+              ) : (
+                read ? null : (
+                  <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
+                    ●
+                  </Text>
+                )
               )}{' '}
               {name}
             </Text>
             <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>
-              {isLessor ? `🌟 ${matchScore}% match` : `${truncateTextAtWord(advertTagLine, 20)}` }
+                {message === null ? (
+                isLessor ? <Text style={[ fontStyles.bodyMedium, isBlinking && styles.textGlowingLessor]}>Start Chat 🚀</Text>
+                :
+                <Text style={[ fontStyles.bodyMedium, isBlinking && styles.textGlowingTenant]}>Start Chat 🚀</Text>
+              ) : (
+                isLessor ? `🌟 ${matchScore}% match` : `${truncateTextAtWord(advertTagLine ?? '', 20)}`
+              )}
             </Text>
           </View>
           <View>
             <Text style={[fontStyles.bodySmall, styles.timeFont]}>
-              {checkMessageDate(createdAt)}
+              {message === null ? null : checkMessageDate(createdAt ?? '')}
             </Text>
           </View>
         </View>
         <View style={styles.innerBoxBdown}>
-          <Text style={[fontStyles.bodyMedium, {color: Color.Black[80]}]}>
-            {truncateTextAtWord(content, 20)} ...
+          <Text style={[fontStyles.bodyMedium, {color: Color.Black[100]}]}>
+            {message === null ? null : `${truncateTextAtWord(content ?? '', 20)} ...`}
           </Text>
         </View>
       </View>
@@ -126,6 +151,24 @@ const styles = StyleSheet.create({
   },
   tenantDot: {
     color: Color.Mint[100],
+  },
+  startChatTenant: {
+    color: Color.Mint[100],
+  },
+  startChatLessor: {
+    color: Color.Lavendar[100],
+  },
+  textGlowingLessor: {
+    color: Color.Lavendar[100],
+    textShadowColor: 'rgba(203, 188, 255, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 15,
+  },
+  textGlowingTenant: {
+    color: Color.Mint[100],
+    textShadowColor: 'rgba(188, 255, 200, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 15,
   },
 });
 
