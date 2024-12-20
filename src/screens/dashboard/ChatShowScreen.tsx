@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,8 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
+  TextInput,
+  Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,16 +23,24 @@ import { Message } from 'reduxFeatures/chatrooms/types';
 
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import { size } from 'react-native-responsive-sizes';
+import { fontStyles } from 'styleSheets/fontStyles';
 
 
 const ChatShowScreen = ({ route }: ChatShowProp) => {
   const { chatroomId, currentUser, isLessor } = route.params;
   const { data, isLoading } = useGetChatroombyIdQuery(chatroomId);
+  const [newMessage, setNewMessage] = useState('');
   const navigation = useNavigation();
 
   if (isLoading) {
     return <LoadingComponent />;
   }
+
+  const handleSendMessage = () => {
+
+  };
 
   const renderMessage = ({ item }: { item: Message }) => {
     const isUserMessage = currentUser === item.userId;
@@ -42,13 +51,13 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
           isLessor ?
           (isUserMessage ? styles.userMessageContainerLessor : styles.otherMessageContainer)
           :
-          (isUserMessage ? styles.userMessageContainerTenant : styles.otherMessageContainer)
+          (isUserMessage ? styles.userMessageContainerTenant : styles.otherMessageContainer),
         ]}
       >
         {item.content !== '' && (
           <Text
             style={[
-              styles.messageText,
+              styles.messageText, fontStyles.bodyMedium,
               isUserMessage ? styles.userMessageText : null,
             ]}
           >
@@ -77,8 +86,15 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
           data={data.messages}
           renderItem={renderMessage}
           keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={{ padding: 10 }}
+          contentContainerStyle={styles.flatListStyle}
         />
+
+        <View style={styles.inputContainer}>
+            <TextInput style={styles.textInput} value={newMessage} onChangeText={setNewMessage} placeholder="Type your message" multiline={true} />
+            <Pressable style={isLessor ? styles.sendButtonLessor : styles.sendButton} onPress={handleSendMessage} disabled={newMessage === ''} >
+              <LofftIcon size={size(31)} color={Color.White[100]} name="send" />
+            </Pressable>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -90,13 +106,54 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   chatContainer: {
+    flex:1,
+  },
+   inputContainer: {
+    padding: size(10),
+    backgroundColor: Color.White[100],
+    alignItems: 'center',
+    flexDirection: 'row',
+    elevation: 3,
+    position: 'absolute',
+    bottom: 0,
+  },
+  flatListStyle:{
+    padding: size(10),
+  },
+  textInput: {
     flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    paddingHorizontal: size(10),
+    minHeight: size(40),
+    backgroundColor: '#fff',
+    paddingTop: size(10),
+  },
+  sendButtonLessor: {
+    backgroundColor: Color.Lavendar[100],
+    borderRadius: 5,
+    padding: size(10),
+    marginLeft: size(10),
+    alignSelf: 'flex-end',
+  },
+  sendButton: {
+    backgroundColor: Color.Mint[100],
+    borderRadius: 5,
+    padding: size(10),
+    marginLeft: size(10),
+    alignSelf: 'flex-end',
+  },
+  sendButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   messageContainer: {
-    padding: 10,
+    padding: size(10),
     borderRadius: 10,
-    marginVertical: 5,
-    marginHorizontal: 10,
+    marginVertical: size(5),
+    marginHorizontal: size(10),
     maxWidth: '80%',
   },
   userMessageContainerTenant: {
@@ -113,7 +170,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   messageText: {
-    fontSize: 16,
     flexWrap: 'wrap',
   },
   userMessageText: {
@@ -121,13 +177,12 @@ const styles = StyleSheet.create({
   },
   userMessageTimeStamp: {
     color: '#E8E8E8',
-    marginTop: 5,
+    marginTop: size(5),
     textAlign: 'right',
   },
   otherMessageTimeStamp: {
-    fontSize: 12,
     color: '#8E8E8E',
-    marginTop: 5,
+    marginTop: size(5),
     textAlign: 'right',
   },
 });
