@@ -25,6 +25,12 @@ export const chatroomsApi = lofftApi.injectEndpoints({
         body: { content },
       }),
     }),
+    readAllMessages: builder.mutation<any, number>({
+      query: (id) => ({
+        url: `/api/chatrooms/${id}/all_messages_read`,
+        method: 'PATCH',
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -33,4 +39,5 @@ export const {
   useGetChatroomsQuery,
   useGetChatroombyIdQuery,
   useCreateMessageMutation,
+  useReadAllMessagesMutation,
 } = chatroomsApi;

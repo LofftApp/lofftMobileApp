@@ -10,7 +10,9 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Components 🧱
 import BackButton from 'components/buttons/BackButton';
@@ -27,8 +29,9 @@ import { size } from 'react-native-responsive-sizes';
 import { fontStyles } from 'styleSheets/fontStyles';
 
 // RTK 🛜
-import { useCreateMessageMutation, useGetChatroombyIdQuery } from 'reduxFeatures/chatrooms/chatroomApi';
-import EncryptedStorage from 'react-native-encrypted-storage';
+import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMutation } from 'reduxFeatures/chatrooms/chatroomApi';
+
+// Helpers 🥷🏻
 import { baseUrl } from 'helpers/baseUrl';
 
 const ChatShowScreen = ({ route }: ChatShowProp) => {
@@ -36,6 +39,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   const { data, isLoading, refetch } = useGetChatroombyIdQuery(chatroomId, {
     refetchOnMountOrArgChange: true,
   });
+  const [readAllMessages] = useReadAllMessagesMutation();
   const [newMessage, setNewMessage] = useState('');
   const navigation = useNavigation();
   const flatListRef = useRef<FlatList>(null);
@@ -48,6 +52,9 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
 
   // Scroll to bottom when data changes
   useEffect(() => {
+    if(!isLoading) {
+      readAllMessages(chatroomId);
+    }
     if (flatListRef.current) {
        flatListRef.current.scrollToOffset({ offset: 0, animated: true });
     }
@@ -110,7 +117,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
       }
     };
 
-  }, [chatroomId, refetch, data?.messages]);
+  }, [chatroomId, refetch, data?.messages, readAllMessages, isLoading]);
 
 
   const handleSendMessage = async () => {

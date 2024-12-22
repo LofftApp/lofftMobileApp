@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, ScrollView, SafeAreaView, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 

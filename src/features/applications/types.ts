@@ -17,6 +17,7 @@ interface IncomingApplication {
   round_3: boolean;
   advert?: IncomingAdvert;
   applicant?: IncomingAdvertApplicant;
+  chatId?: number;
 }
 
 interface IncomingApplications {
