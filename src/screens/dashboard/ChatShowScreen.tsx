@@ -42,14 +42,14 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   const [createMessage] = useCreateMessageMutation();
 
 
-    // Use a ref for the WebSocket connection
+  // Use a ref for the WebSocket connection
   const ws = useRef<WebSocket | null>(null);
 
 
   // Scroll to bottom when data changes
   useEffect(() => {
     if (flatListRef.current) {
-      flatListRef.current.scrollToEnd({ animated: true });
+       flatListRef.current.scrollToOffset({ offset: 0, animated: true });
     }
 
      async function setupWebSocket() {
@@ -132,11 +132,11 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
 
   const renderMessage = ({ item, index }: { item: Message, index: number }) => {
     const isUserMessage = currentUser === item.userId;
-    const isLastItem = index === data.messages.length - 1;
+    const isFirstItem = index === 0 && data.messages.length > 0;
     return (
       <View
       style={[
-        styles.messageContainer,isLastItem &&  styles.lastMessage,
+        styles.messageContainer,isFirstItem &&  styles.lastMessageReversed,
         isLessor ?
         (isUserMessage ? styles.userMessageContainerLessor : styles.otherMessageContainer)
         :
@@ -172,8 +172,9 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
       <FlatList
+      inverted
       ref={flatListRef}
-      data={data.messages}
+      data={[...data.messages].reverse()}
       renderItem={renderMessage}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.flatListStyle}
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
   flatListStyle: {
     paddingVertical:size(10),
   },
-  lastMessage: {
+  lastMessageReversed: {
     marginBottom: size(100),
   },
   textInput: {
