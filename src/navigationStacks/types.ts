@@ -35,7 +35,6 @@ type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
   ApplicationShowScreen: {id: number};
   ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList };
-  ChatShowScreen: ChatShowScreenProp;
 };
 
 type SearchStackParamsList = {

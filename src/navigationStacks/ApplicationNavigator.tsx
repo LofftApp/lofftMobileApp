@@ -5,7 +5,6 @@ import ApplicationShowScreen from 'screens/dashboard/tenant/ApplicationShowScree
 import ChatroomsNavigator from './ChatroomsNavigator';
 
 import {ApplicationStackParamsList} from './types';
-import ChatShowScreen from 'screens/dashboard/ChatShowScreen';
 
 const Apply = createNativeStackNavigator<ApplicationStackParamsList>();
 const ApplicationNavigator = () => {
@@ -24,7 +23,6 @@ const ApplicationNavigator = () => {
         component={ChatroomsNavigator}
         options={{headerShown: false}}
       />
-      <Apply.Screen name="ChatShow" component={ChatShowScreen} />
     </Apply.Navigator>
   );
 };
