@@ -18,7 +18,6 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // Types 🦄
 import { ChatShowProp } from './types';
-import { useGetChatroombyIdQuery } from 'reduxFeatures/chatrooms/chatroomApi';
 import { Message } from 'reduxFeatures/chatrooms/types';
 
 // Styles 🎨
@@ -27,25 +26,103 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import { size } from 'react-native-responsive-sizes';
 import { fontStyles } from 'styleSheets/fontStyles';
 
+// RTK 🛜
+import { useCreateMessageMutation, useGetChatroombyIdQuery } from 'reduxFeatures/chatrooms/chatroomApi';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { baseUrl } from 'helpers/baseUrl';
 
 const ChatShowScreen = ({ route }: ChatShowProp) => {
   const { chatroomId, currentUser, isLessor } = route.params;
-  const { data, isLoading } = useGetChatroombyIdQuery(chatroomId);
+  const { data, isLoading, refetch } = useGetChatroombyIdQuery(chatroomId, {
+    refetchOnMountOrArgChange: true,
+  });
   const [newMessage, setNewMessage] = useState('');
   const navigation = useNavigation();
-
   const flatListRef = useRef<FlatList>(null);
+  const [createMessage] = useCreateMessageMutation();
+
+
+    // Use a ref for the WebSocket connection
+  const ws = useRef<WebSocket | null>(null);
+
 
   // Scroll to bottom when data changes
   useEffect(() => {
     if (flatListRef.current) {
       flatListRef.current.scrollToEnd({ animated: true });
     }
-  }, [data?.messages]);
+
+     async function setupWebSocket() {
+      try {
+        const token = await EncryptedStorage.getItem('token');
+        /* 🚨 Probably best to store localhost in env for production */
+        /* 🚨 Ideally have an if Platform === 'ios' then different localhost etc */
+
+        const wsBase = baseUrl.split('http:')[1];
+        console.log(wsBase);
+
+        const wsUrl = token
+          ? `ws:${wsBase}/cable?token=${encodeURIComponent(token)}`
+          : `ws:${wsBase}/cable`;
+
+        ws.current = new WebSocket(wsUrl);
+
+        ws.current.onopen = () => {
+          console.log('WebSocket connection opened');
+          ws.current?.send(
+            JSON.stringify({
+              command: 'subscribe',
+              identifier: JSON.stringify({
+                id: chatroomId,
+                channel: 'ChatroomsChannel',
+              }),
+            })
+          );
+        };
+
+        ws.current.onmessage = (event: any) => {
+          console.log('Message received:', event.data);
+          const response = JSON.parse(event.data);
+          if (response.message) {
+            const newMessage = response.message;
+            console.log('New chat message received:', newMessage);
+
+            refetch(); /* on message I just refetch as cable is listening */
+          }
+        };
+
+        ws.current.onclose = () => console.log('WebSocket connection closed');
+        ws.current.onerror = (error) => console.error('WebSocket error:', error);
+      } catch (error) {
+        console.error('Error setting up WebSocket:', error);
+      }
+    }
+
+    if (chatroomId) {
+      setupWebSocket();
+    }
+
+    // Clean up WebSocket connection on component unmount
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+        console.log('WebSocket connection closed on unmount');
+      }
+    };
+
+  }, [chatroomId, refetch, data?.messages]);
 
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
+    if (newMessage.trim()) {
+        try {
+          await createMessage({ id: chatroomId, content: newMessage });
 
+          setNewMessage('');
+        } catch (error) {
+          console.error('Error sending message:', error);
+        }
+      }
   };
 
 
@@ -73,7 +150,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
             isUserMessage ? styles.userMessageText : null,
           ]}
           >
-            {item.content} {item.userId}
+            {item.content}
           </Text>
         )}
         <Text style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}>
