@@ -35,7 +35,7 @@ type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
   ApplicationShowScreen: {id: number};
   ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList };
-  LessorChatScreen: undefined;
+  ChatShowScreen: ChatShowScreenProp;
 };
 
 type SearchStackParamsList = {
@@ -97,6 +97,16 @@ type ChatroomsStackParamsList = {
     currentUser: number | undefined,
     isLessor: boolean,
    };
+};
+
+
+type ChatShowScreenProp = {
+  route: {params: {
+    chatroomId: number
+    currentUserId: number,
+    isLessor: boolean,
+  }
+  };
 };
 
 //Notifications Navigator
@@ -185,4 +195,5 @@ export type {
   NotificationsStackParamsList,
   NotificationsScreenNavigationProp,
   ChatroomsStackParamsList,
+  ChatShowScreenProp,
 };

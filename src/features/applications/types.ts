@@ -17,7 +17,7 @@ interface IncomingApplication {
   round_3: boolean;
   advert?: IncomingAdvert;
   applicant?: IncomingAdvertApplicant;
-  chatId?: number;
+  chatroomId?: number;
 }
 
 interface IncomingApplications {
@@ -40,6 +40,7 @@ interface Application {
   round3: boolean;
   advert?: Advert;
   applicant?: AdvertApplicant;
+  chatroomId?: boolean;
 }
 
 interface ApplicationState {

@@ -29,6 +29,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
+  console.log(application)
 
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<
@@ -40,6 +41,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const round1 = application?.round1;
   const round2 = application?.round2;
   const round3 = application?.round3;
+  const chatroomId = application?.chatroomId;
 
   const active = isLessor
     ? !['closed'].includes(advert?.status ?? '')
@@ -184,9 +186,11 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
               )}
               {currentAdvertStatus === 2 && currentAdvertStatus === index && (
                 <CoreButton
-                  value="Go to chat"
+                  value="Go to chats"
                   style={styles.button}
-                  onPress={() => navigation.navigate('LessorChatScreen')}
+                  onPress={() => navigation.navigate('ChatroomsNavigator', {
+                    screen: 'ChatIndex',
+                  })}
                   icon={
                     <LofftIcon name="send" size={20} color={Color.White[100]} />
                   }
@@ -201,7 +205,16 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
               <CoreButton
                 value="Go to chat"
                 style={[styles.button, styles.greenButton]}
-                onPress={() => navigation.navigate('LessorChatScreen')}
+                onPress={() =>
+                navigation.navigate('ChatroomsNavigator', {
+                  screen: 'ChatShow',
+                          params: {
+                            chatroomId: chatroomId,
+                            currentUser: currentUser?.id,
+                            isLessor: false,
+                          },
+                        })
+                      }
                 icon={
                   <LofftIcon name="send" size={20} color={Color.White[100]} />
                 }

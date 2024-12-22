@@ -34,6 +34,7 @@ import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMu
 // Helpers 🥷🏻
 import { baseUrl } from 'helpers/baseUrl';
 
+
 const ChatShowScreen = ({ route }: ChatShowProp) => {
   const { chatroomId, currentUser, isLessor } = route.params;
   const { data, isLoading, refetch } = useGetChatroombyIdQuery(chatroomId, {
@@ -45,10 +46,8 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   const flatListRef = useRef<FlatList>(null);
   const [createMessage] = useCreateMessageMutation();
 
-
   // Use a ref for the WebSocket connection
   const ws = useRef<WebSocket | null>(null);
-
 
   // Scroll to bottom when data changes
   useEffect(() => {
