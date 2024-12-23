@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, SafeAreaView, Text, Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -27,12 +27,35 @@ type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsLis
 const ChatIndexScreen = () => {
   const { data: currentUser } = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
-  const { data, isLoading } = useGetChatroomsQuery();
+  const { data, isLoading, refetch } = useGetChatroomsQuery();
   const navigation = useNavigation<ChatroomNavigationProps>();
+
+
+
+useFocusEffect(
+    useCallback(() => {
+      if(data?.chatrooms && data?.chatrooms?.length > 0) {
+       refetch();
+    }
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [data?.chatrooms, refetch])
+  );
+
+
+
+  useEffect(() => {
+    if(data?.chatrooms && data?.chatrooms?.length > 0) {
+       refetch();
+    }
+  }, [data?.chatrooms, refetch]);
 
   if (isLoading) {
     return <LoadingComponent />;
   }
+
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

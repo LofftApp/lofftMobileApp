@@ -11,8 +11,8 @@ interface Message {
 interface Chatroom {
   id: number;
   name: string;
-  message: Message | null;
-  userPhoto: string | null;
+  message?: Message;
+  userPhoto?: string;
   matchScore: number;
   advertTagLine: string;
 }

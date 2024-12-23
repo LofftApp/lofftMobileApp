@@ -27,6 +27,7 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
     return () => clearInterval(blinkingInterval);
   }, []);
 
+
   const renderMessageText = () => {
     if (message === null) {
       const blinkingStyle = isLessor ? styles.textGlowingLessor : styles.textGlowingTenant;
@@ -44,15 +45,18 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
 
   return (
     <View
-      style={[
-        styles.container,
-        isLessor
-          ? read
-            ? styles.lessorContainerBgWhite
-            : styles.lessorContainerBg
-          : styles.tenantContainerBg,
-      ]}
-    >
+    style={[
+      styles.container,
+      isLessor
+        ? read
+          ? styles.lessorContainerBgWhite
+          : styles.lessorContainerBg
+        : read
+        ? styles.lessorContainerBgWhite
+        : styles.tenantContainerBg,
+        ]}
+      >
+
       <View style={styles.boxA}>
         <Image
           style={styles.image}

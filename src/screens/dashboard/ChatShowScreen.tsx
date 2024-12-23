@@ -1,4 +1,213 @@
-import React, { useEffect, useRef, useState } from 'react';
+// import React, { useCallback, useEffect, useRef, useState } from 'react';
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   SafeAreaView,
+//   FlatList,
+//   KeyboardAvoidingView,
+//   Platform,
+//   TextInput,
+//   Pressable,
+// } from 'react-native';
+
+// import { useFocusEffect, useNavigation } from '@react-navigation/native';
+// import EncryptedStorage from 'react-native-encrypted-storage';
+
+// // Components 🧱
+// import BackButton from 'components/buttons/BackButton';
+// import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+
+// // Types 🦄
+// import { ChatShowProp } from './types';
+// import { Message } from 'reduxFeatures/chatrooms/types';
+
+// // Styles 🎨
+// import Color from 'styleSheets/lofftColorPallet.json';
+// import LofftIcon from 'components/lofftIcons/LofftIcon';
+// import { size } from 'react-native-responsive-sizes';
+// import { fontStyles } from 'styleSheets/fontStyles';
+
+// // RTK 🛜
+// import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMutation } from 'reduxFeatures/chatrooms/chatroomApi';
+
+// // Helpers 🥷🏻
+// import { baseUrl } from 'helpers/baseUrl';
+// import { useGetUserQuery } from 'reduxFeatures/user/userApi';
+
+
+// const ChatShowScreen = ({ route }: ChatShowProp) => {
+//   const chatroomId = route.params.chatroomId;
+//   const {data: currentUser} = useGetUserQuery();
+//   const isLessor = currentUser?.userType === 'lessor';
+//   const { data, isLoading, refetch } = useGetChatroombyIdQuery(chatroomId, {
+//     refetchOnMountOrArgChange: true,
+//   });
+//   const [readAllMessages] = useReadAllMessagesMutation();
+//   const [newMessage, setNewMessage] = useState('');
+//   const navigation = useNavigation();
+//   const flatListRef = useRef<FlatList>(null);
+//   const [createMessage] = useCreateMessageMutation();
+
+//   // Use a ref for the WebSocket connection
+//   const ws = useRef<WebSocket | null>(null);
+
+//   useFocusEffect(
+//     useCallback(() => {
+//       // Do something when the screen is focused
+//       return () => {
+//        readAllMessages(chatroomId);
+//       };
+//     }, [chatroomId, readAllMessages])
+//   );
+
+//   // Scroll to bottom when data changes
+//   useEffect(() => {
+
+//     if (flatListRef.current) {
+//        flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+//     }
+
+//      async function setupWebSocket() {
+//       try {
+//         const token = await EncryptedStorage.getItem('token');
+//         /* 🚨 Probably best to store localhost in env for production */
+//         /* 🚨 Ideally have an if Platform === 'ios' then different localhost etc */
+
+//         const wsBase = baseUrl.split('http:')[1];
+//         console.log(wsBase);
+
+//         const wsUrl = token
+//           ? `ws:${wsBase}/cable?token=${encodeURIComponent(token)}`
+//           : `ws:${wsBase}/cable`;
+
+//         ws.current = new WebSocket(wsUrl);
+
+//         ws.current.onopen = () => {
+//           console.log('WebSocket connection opened');
+//           ws.current?.send(
+//             JSON.stringify({
+//               command: 'subscribe',
+//               identifier: JSON.stringify({
+//                 id: chatroomId,
+//                 channel: 'ChatroomsChannel',
+//               }),
+//             })
+//           );
+//         };
+
+//         ws.current.onmessage = (event: any) => {
+//           console.log('Message received:', event.data);
+//           const response = JSON.parse(event.data);
+//           if (response.message) {
+//             const newMessage = response.message;
+//             console.log('New chat message received:', newMessage);
+
+//             refetch(); /* on message I just refetch as cable is listening */
+//           }
+//         };
+
+//         ws.current.onclose = () => console.log('WebSocket connection closed');
+//         ws.current.onerror = (error) => console.error('WebSocket error:', error);
+//       } catch (error) {
+//         console.error('Error setting up WebSocket:', error);
+//       }
+//     }
+
+//     if (chatroomId) {
+//       setupWebSocket();
+//     }
+
+//     // Clean up WebSocket connection on component unmount
+//     return () => {
+//       if (ws.current) {
+//         ws.current.close();
+//         console.log('WebSocket connection closed on unmount');
+//       }
+//     };
+
+//   }, [chatroomId, refetch, data?.messages, readAllMessages, isLoading]);
+
+
+//   const handleSendMessage = async () => {
+//     if (newMessage.trim()) {
+//         try {
+//           await createMessage({ id: chatroomId, content: newMessage });
+
+//           setNewMessage('');
+//         } catch (error) {
+//           console.error('Error sending message:', error);
+//         }
+//       }
+//   };
+
+
+//     if (isLoading) {
+//       return <LoadingComponent />;
+//     }
+
+//   const renderMessage = ({ item, index }: { item: Message, index: number }) => {
+//     const isUserMessage = currentUser?.id === item.userId;
+//     const isFirstItem = index === 0 && data.messages.length > 0;
+//     return (
+//       <View
+//       style={[
+//         styles.messageContainer,isFirstItem &&  styles.lastMessageReversed,
+//         isLessor ?
+//         (isUserMessage ? styles.userMessageContainerLessor : styles.otherMessageContainer)
+//         :
+//         (isUserMessage ? styles.userMessageContainerTenant : styles.otherMessageContainer),
+//       ]}
+//       >
+//         {item.content !== '' && (
+//           <Text
+//           style={[
+//             styles.messageText, fontStyles.bodyMedium,
+//             isUserMessage ? styles.userMessageText : null,
+//           ]}
+//           >
+//             {item.content}
+//           </Text>
+//         )}
+//         <Text style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}>
+//         {new Date(item.createdAt).toLocaleTimeString('en-GB', {
+//           timeZone: 'CET',
+//           hour: '2-digit',
+//           minute: '2-digit',
+//         })}
+//         </Text>
+//       </View>
+//     );
+//   };
+
+//   return (
+//     <SafeAreaView style={styles.safeContainer}>
+//       <BackButton title="Chat" onPress={() => navigation.goBack()} />
+//       <KeyboardAvoidingView
+//         style={styles.chatContainer}
+//         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+//       >
+//       <FlatList
+//       inverted
+//       ref={flatListRef}
+//       data={[...data.messages]}
+//       renderItem={renderMessage}
+//       keyExtractor={(item) => item.id.toString()}
+//       contentContainerStyle={styles.flatListStyle}
+
+//     />
+
+//         <View style={styles.inputContainer}>
+//             <TextInput style={styles.textInput} value={newMessage} onChangeText={setNewMessage} placeholder="Type your message" multiline={true} />
+//             <Pressable style={isLessor ? styles.sendButtonLessor : styles.sendButton} onPress={handleSendMessage} disabled={newMessage === ''} >
+//               <LofftIcon size={size(31)} color={Color.White[100]} name="send" />
+//             </Pressable>
+//         </View>
+//       </KeyboardAvoidingView>
+//     </SafeAreaView>
+//   );
+// };
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,7 +220,7 @@ import {
   Pressable,
 } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Components 🧱
@@ -30,43 +239,32 @@ import { fontStyles } from 'styleSheets/fontStyles';
 
 // RTK 🛜
 import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMutation } from 'reduxFeatures/chatrooms/chatroomApi';
+import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 
 // Helpers 🥷🏻
 import { baseUrl } from 'helpers/baseUrl';
 
-
 const ChatShowScreen = ({ route }: ChatShowProp) => {
-  const { chatroomId, currentUser, isLessor } = route.params;
-  const { data, isLoading, refetch } = useGetChatroombyIdQuery(chatroomId, {
+  const chatroomId = route.params.chatroomId;
+  const { data: currentUser } = useGetUserQuery();
+  const isLessor = currentUser?.userType === 'lessor';
+  const { data, isLoading } = useGetChatroombyIdQuery(chatroomId, {
     refetchOnMountOrArgChange: true,
   });
   const [readAllMessages] = useReadAllMessagesMutation();
   const [newMessage, setNewMessage] = useState('');
-  const navigation = useNavigation();
+  const [messages, setMessages] = useState<Message[]>([]);
   const flatListRef = useRef<FlatList>(null);
   const [createMessage] = useCreateMessageMutation();
-
-  // Use a ref for the WebSocket connection
   const ws = useRef<WebSocket | null>(null);
+  const navigation = useNavigation();
 
-  // Scroll to bottom when data changes
+  // Initialize WebSocket connection
   useEffect(() => {
-    if(!isLoading) {
-      readAllMessages(chatroomId);
-    }
-    if (flatListRef.current) {
-       flatListRef.current.scrollToOffset({ offset: 0, animated: true });
-    }
-
-     async function setupWebSocket() {
+    const setupWebSocket = async () => {
       try {
         const token = await EncryptedStorage.getItem('token');
-        /* 🚨 Probably best to store localhost in env for production */
-        /* 🚨 Ideally have an if Platform === 'ios' then different localhost etc */
-
         const wsBase = baseUrl.split('http:')[1];
-        console.log(wsBase);
-
         const wsUrl = token
           ? `ws:${wsBase}/cable?token=${encodeURIComponent(token)}`
           : `ws:${wsBase}/cable`;
@@ -86,14 +284,13 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
           );
         };
 
-        ws.current.onmessage = (event: any) => {
-          console.log('Message received:', event.data);
+        ws.current.onmessage = (event) => {
           const response = JSON.parse(event.data);
-          if (response.message) {
-            const newMessage = response.message;
-            console.log('New chat message received:', newMessage);
+          console.log('Received WebSocket message:', response);
 
-            refetch(); /* on message I just refetch as cable is listening */
+          if (response.message?.message) {
+            const newMsg = response.message.message;
+            setMessages((prevMessages) => [...prevMessages, newMsg]); // Append new message
           }
         };
 
@@ -102,73 +299,88 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
       } catch (error) {
         console.error('Error setting up WebSocket:', error);
       }
-    }
+    };
 
-    if (chatroomId) {
-      setupWebSocket();
-    }
+    if (chatroomId) {setupWebSocket();}
 
-    // Clean up WebSocket connection on component unmount
     return () => {
       if (ws.current) {
         ws.current.close();
         console.log('WebSocket connection closed on unmount');
       }
     };
+  }, [chatroomId]);
 
-  }, [chatroomId, refetch, data?.messages, readAllMessages, isLoading]);
+  // Load initial messages and mark them as read
+  useFocusEffect(
+    useCallback(() => {
+      if (data?.messages) {setMessages(data.messages);}
+      return () => readAllMessages(chatroomId);
+    }, [chatroomId, data?.messages, readAllMessages])
+  );
 
+  // Scroll to bottom when messages update
+  useEffect(() => {
+    if (flatListRef.current) {flatListRef.current.scrollToOffset({ offset: 0, animated: true });}
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
-        try {
-          await createMessage({ id: chatroomId, content: newMessage });
-
-          setNewMessage('');
-        } catch (error) {
-          console.error('Error sending message:', error);
-        }
+      try {
+        await createMessage({ id: chatroomId, content: newMessage });
+        setNewMessage('');
+      } catch (error) {
+        console.error('Error sending message:', error);
       }
+    }
   };
 
+  const renderMessage = ({ item, index }: { item: Message; index: number }) => {
+   const isUserMessage = currentUser?.id === (item.user_id || item.userId);
+    console.log('🐠', item);
+    const isFirstItem = index === 0 && messages.length > 0;
 
-    if (isLoading) {
-      return <LoadingComponent />;
-    }
-
-  const renderMessage = ({ item, index }: { item: Message, index: number }) => {
-    const isUserMessage = currentUser === item.userId;
-    const isFirstItem = index === 0 && data.messages.length > 0;
     return (
       <View
-      style={[
-        styles.messageContainer,isFirstItem &&  styles.lastMessageReversed,
-        isLessor ?
-        (isUserMessage ? styles.userMessageContainerLessor : styles.otherMessageContainer)
-        :
-        (isUserMessage ? styles.userMessageContainerTenant : styles.otherMessageContainer),
-      ]}
+        style={[
+          styles.messageContainer,
+          isFirstItem && styles.lastMessageReversed,
+          isLessor
+            ? isUserMessage
+              ? styles.userMessageContainerLessor
+              : styles.otherMessageContainer
+            : isUserMessage
+            ? styles.userMessageContainerTenant
+            : styles.otherMessageContainer,
+        ]}
       >
-        {item.content !== '' && (
+        {item.content && (
           <Text
-          style={[
-            styles.messageText, fontStyles.bodyMedium,
-            isUserMessage ? styles.userMessageText : null,
-          ]}
+            style={[
+              styles.messageText,
+              fontStyles.bodyMedium,
+              isUserMessage && styles.userMessageText,
+            ]}
           >
             {item.content}
           </Text>
         )}
-        <Text style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}>
-        {new Date(item.createdAt).toLocaleTimeString('en-GB', {
-          timeZone: 'CET',
-          hour: '2-digit',
-          minute: '2-digit',
-        })}
+        <Text
+          style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}
+        >
+          {new Date(item.createdAt).toLocaleTimeString('en-GB', {
+            timeZone: 'CET',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
         </Text>
       </View>
     );
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -177,26 +389,36 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
         style={styles.chatContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-      <FlatList
-      inverted
-      ref={flatListRef}
-      data={[...data.messages].reverse()}
-      renderItem={renderMessage}
-      keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={styles.flatListStyle}
-
-    />
+        <FlatList
+          inverted
+          ref={flatListRef}
+          data={[...messages].reverse()}
+          renderItem={renderMessage}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.flatListStyle}
+        />
 
         <View style={styles.inputContainer}>
-            <TextInput style={styles.textInput} value={newMessage} onChangeText={setNewMessage} placeholder="Type your message" multiline={true} />
-            <Pressable style={isLessor ? styles.sendButtonLessor : styles.sendButton} onPress={handleSendMessage} disabled={newMessage === ''} >
-              <LofftIcon size={size(31)} color={Color.White[100]} name="send" />
-            </Pressable>
+          <TextInput
+            style={styles.textInput}
+            value={newMessage}
+            onChangeText={setNewMessage}
+            placeholder="Type your message"
+            multiline
+          />
+          <Pressable
+            style={isLessor ? styles.sendButtonLessor : styles.sendButton}
+            onPress={handleSendMessage}
+            disabled={!newMessage.trim()}
+          >
+            <LofftIcon size={size(31)} color={Color.White[100]} name="send" />
+          </Pressable>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   safeContainer: {
@@ -204,9 +426,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.White[100],
   },
   chatContainer: {
-    flex:1,
+    flex: 1,
   },
-   inputContainer: {
+  inputContainer: {
     padding: size(10),
     backgroundColor: Color.White[100],
     alignItems: 'center',
@@ -216,7 +438,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   flatListStyle: {
-    paddingVertical:size(10),
+    paddingVertical: size(10),
   },
   lastMessageReversed: {
     marginBottom: size(100),

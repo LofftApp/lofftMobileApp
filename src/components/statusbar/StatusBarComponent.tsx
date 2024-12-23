@@ -29,7 +29,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
-  console.log(application)
+
 
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<
@@ -210,8 +210,6 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   screen: 'ChatShow',
                           params: {
                             chatroomId: chatroomId,
-                            currentUser: currentUser?.id,
-                            isLessor: false,
                           },
                         })
                       }

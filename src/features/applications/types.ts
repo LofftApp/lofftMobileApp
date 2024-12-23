@@ -40,7 +40,7 @@ interface Application {
   round3: boolean;
   advert?: Advert;
   applicant?: AdvertApplicant;
-  chatroomId?: boolean;
+  chatroomId?: number;
 }
 
 interface ApplicationState {
