@@ -2,8 +2,10 @@ interface Message {
   id: number;
   chatroomId: number;
   userId: number;
+  user_id?: number;
   content: string;
   createdAt: string;
+  created_at?: string;
   updatedAt: string;
   read: boolean;
 }
@@ -11,7 +13,7 @@ interface Message {
 interface Chatroom {
   id: number;
   name: string;
-  message?: Message;
+  message: Message | null;
   userPhoto?: string;
   matchScore: number;
   advertTagLine: string;

@@ -61,7 +61,7 @@ useFocusEffect(
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton title="Chats" onPress={() => navigation.goBack()} />
       <ScrollView showsVerticalScrollIndicator={false}>
-        {data.chatrooms.length === 0 ? (
+        {data?.chatrooms.length === 0 ? (
           <View style={styles.containerNoChatrooms}>
             <Looking />
             <Text style={[fontStyles.headerMedium, styles.centerText]}>
@@ -75,14 +75,12 @@ useFocusEffect(
           </View>
         ) : (
           <View style={styles.container}>
-            {data.chatrooms.map((chatroom: Chatroom) => (
+            {data?.chatrooms.map((chatroom: Chatroom) => (
               <Pressable
                 key={chatroom.id}
                 onPress={() =>
                   navigation.navigate('ChatShow', {
                     chatroomId: chatroom.id,
-                    currentUser: currentUser?.id,
-                    isLessor: isLessor,
                   })
                 }
               >
