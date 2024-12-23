@@ -49,6 +49,16 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   const [createMessage] = useCreateMessageMutation();
   const ws = useRef<WebSocket | null>(null);
   const navigation = useNavigation();
+  const [activateFirstScroll, setActivateScroll] = useState(true);
+
+
+  const sortMessages = (inputMessages: Message[]) => {
+    return inputMessages.sort((a, b) => {
+      const dateA = new Date(a.createdAt || a.created_at || '');
+      const dateB = new Date(b.createdAt || b.created_at || '');
+      return dateB.getTime() - dateA.getTime();
+    });
+  };
 
   // Initialize WebSocket connection
   useEffect(() => {
@@ -81,7 +91,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
 
           if (response.message?.message) {
             const newMsg = response.message.message;
-            setMessages((prevMessages) => [...prevMessages, newMsg]);
+            setMessages((prevMessages) => sortMessages([...prevMessages, newMsg]));
           }
         };
 
@@ -105,15 +115,23 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   // Load initial messages and mark them as read
   useFocusEffect(
     useCallback(() => {
-      if (data?.messages) {setMessages(data.messages);}
+      if (data?.messages) {
+         setMessages(sortMessages([...data.messages]));
+      }
       return () => readAllMessages(chatroomId);
     }, [chatroomId, data?.messages, readAllMessages])
   );
 
-  // Scroll to bottom when messages update
-  useEffect(() => {
-    if (flatListRef.current) {flatListRef.current.scrollToOffset({ offset: 0, animated: true });}
-  }, [messages]);
+  // Scroll to bottom when coming onto screen
+ useFocusEffect(
+  useCallback(() => {
+    if (activateFirstScroll && flatListRef.current) {
+      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+
+      setActivateScroll(false);
+    }
+  }, [activateFirstScroll])
+);
 
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
@@ -182,7 +200,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
         <FlatList
           inverted
           ref={flatListRef}
-          data={[...messages].reverse()}
+          data={messages}
           renderItem={renderMessage}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.flatListStyle}
@@ -208,6 +226,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
     </SafeAreaView>
   );
 };
+
 
 
 const styles = StyleSheet.create({
