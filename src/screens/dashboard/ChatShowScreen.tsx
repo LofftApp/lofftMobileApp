@@ -51,7 +51,6 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
   const navigation = useNavigation();
   const [activateFirstScroll, setActivateScroll] = useState(true);
 
-
   const sortMessages = (inputMessages: Message[]) => {
     return inputMessages.sort((a, b) => {
       const dateA = new Date(a.createdAt || a.created_at || '');
@@ -144,47 +143,67 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
     }
   };
 
-  const renderMessage = ({ item, index }: { item: Message; index: number }) => {
-   const isUserMessage = currentUser?.id === (item.user_id || item.userId);
-    const isFirstItem = index === 0 && messages.length > 0;
+ const renderMessage = ({ item, index }: { item: Message; index: number }) => {
+  const isUserMessage = currentUser?.id === (item.user_id || item.userId);
+  const isFirstItem = index === 0 && messages.length > 0;
 
-    return (
-      <View
-        style={[
-          styles.messageContainer,
-          isFirstItem && styles.lastMessageReversed,
-          isLessor
-            ? isUserMessage
-              ? styles.userMessageContainerLessor
-              : styles.otherMessageContainer
-            : isUserMessage
-            ? styles.userMessageContainerTenant
-            : styles.otherMessageContainer,
-        ]}
-      >
-        {item.content && (
-          <Text
-            style={[
-              styles.messageText,
-              fontStyles.bodyMedium,
-              isUserMessage && styles.userMessageText,
-            ]}
-          >
-            {item.content}
-          </Text>
-        )}
+  const createdDate = new Date(item.createdAt || item.created_at || '');
+  const today = new Date();
+
+  const isToday =
+    createdDate.getUTCDate() === today.getUTCDate() &&
+    createdDate.getUTCMonth() === today.getUTCMonth() &&
+    createdDate.getUTCFullYear() === today.getUTCFullYear();
+
+  const formattedDate = `${String(createdDate.getUTCDate()).padStart(2, '0')}.${String(
+    createdDate.getUTCMonth() + 1
+  ).padStart(2, '0')}`;
+
+  return (
+    <View>
+    <View
+      style={[
+        styles.messageContainer,
+        isFirstItem && styles.lastMessageReversed,
+        isLessor
+          ? isUserMessage
+            ? styles.userMessageContainerLessor
+            : styles.otherMessageContainer
+          : isUserMessage
+          ? styles.userMessageContainerTenant
+          : styles.otherMessageContainer,
+      ]}
+    >
+      {item.content && (
         <Text
-          style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}
+          style={[
+            styles.messageText,
+            fontStyles.bodyMedium,
+            isUserMessage && styles.userMessageText,
+          ]}
         >
-          {new Date(item.createdAt || item.created_at || '').toLocaleTimeString('en-GB', {
-            timeZone: 'CET',
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
+          {item.content}
         </Text>
-      </View>
-    );
-  };
+      )}
+      <Text
+        style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}
+      >
+        {createdDate.toLocaleTimeString('en-GB', {
+          timeZone: 'CET',
+          hour: '2-digit',
+          minute: '2-digit',
+        })}
+      </Text>
+    </View>
+      <View style={styles.dateContainer}>
+        <Text style={[styles.dateBubble, fontStyles.bodySmall]}>
+          {isToday ? 'Today' : formattedDate}
+        </Text>
+       </View>
+    </View>
+  );
+};
+
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -316,6 +335,17 @@ const styles = StyleSheet.create({
     color: '#8E8E8E',
     marginTop: size(2),
     textAlign: 'right',
+  },
+   dateContainer: {
+    alignItems: 'center',
+    paddingVertical: size(8),
+  },
+  dateBubble: {
+    backgroundColor: Color.Black[5],
+    paddingVertical: size(4),
+    paddingHorizontal: size(8),
+    borderRadius: 8,
+    color: Color.Black[80],
   },
 });
 
