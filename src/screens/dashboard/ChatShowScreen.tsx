@@ -34,6 +34,8 @@ import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 
 // Helpers 🥷🏻
 import { baseUrl } from 'helpers/baseUrl';
+import { toCamelCaseKeys } from 'helpers/toCamelCaseKeys';
+
 
 const ChatShowScreen = ({ route }: ChatShowProp) => {
   const chatroomId = route.params.chatroomId;
@@ -89,7 +91,7 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
           console.log('Received WebSocket message:', response);
 
           if (response.message?.message) {
-            const newMsg = response.message.message;
+            const newMsg = toCamelCaseKeys(response.message.message);
             setMessages((prevMessages) => sortMessages([...prevMessages, newMsg]));
           }
         };
@@ -143,66 +145,73 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
     }
   };
 
- const renderMessage = ({ item, index }: { item: Message; index: number }) => {
-  const isUserMessage = currentUser?.id === (item.user_id || item.userId);
-  const isFirstItem = index === 0 && messages.length > 0;
+  const renderMessage = ({ item, index }: { item: Message; index: number }) => {
+    const isUserMessage = currentUser?.id === (item.user_id || item.userId);
+    const isLastItem = index === messages.length - 1;
 
-  const createdDate = new Date(item.createdAt || item.created_at || '');
-  const today = new Date();
+    const currentCreatedDate = new Date(item.createdAt || item.created_at || '');
+    const nextCreatedDate =
+      index < messages.length - 1
+        ? new Date(messages[index + 1].createdAt || messages[index + 1].created_at || '')
+        : null;
 
-  const isToday =
-    createdDate.getUTCDate() === today.getUTCDate() &&
-    createdDate.getUTCMonth() === today.getUTCMonth() &&
-    createdDate.getUTCFullYear() === today.getUTCFullYear();
+    const currentDateKey = `${currentCreatedDate.getUTCFullYear()}-${currentCreatedDate.getUTCMonth() + 1}-${currentCreatedDate.getUTCDate()}`;
+    const nextDateKey =
+      nextCreatedDate &&
+      `${nextCreatedDate.getUTCFullYear()}-${nextCreatedDate.getUTCMonth() + 1}-${nextCreatedDate.getUTCDate()}`;
 
-  const formattedDate = `${String(createdDate.getUTCDate()).padStart(2, '0')}.${String(
-    createdDate.getUTCMonth() + 1
-  ).padStart(2, '0')}`;
+    const shouldRenderDateHeader = currentDateKey !== nextDateKey;
 
-  return (
-    <View>
-    <View
-      style={[
-        styles.messageContainer,
-        isFirstItem && styles.lastMessageReversed,
-        isLessor
-          ? isUserMessage
-            ? styles.userMessageContainerLessor
-            : styles.otherMessageContainer
-          : isUserMessage
-          ? styles.userMessageContainerTenant
-          : styles.otherMessageContainer,
-      ]}
-    >
-      {item.content && (
-        <Text
+    const formattedDate = `${String(currentCreatedDate.getUTCDate()).padStart(2, '0')}.${String(
+      currentCreatedDate.getUTCMonth() + 1
+    ).padStart(2, '0')}`;
+
+    return (
+      <>
+        {shouldRenderDateHeader && (
+          <Text style={styles.dateHeader}>
+            {currentDateKey === `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+              ? 'Today'
+              : formattedDate}
+          </Text>
+        )}
+        <View
           style={[
-            styles.messageText,
-            fontStyles.bodyMedium,
-            isUserMessage && styles.userMessageText,
+            styles.messageContainer,
+            isLastItem && styles.lastMessageReversed,
+            isLessor
+              ? isUserMessage
+                ? styles.userMessageContainerLessor
+                : styles.otherMessageContainer
+              : isUserMessage
+              ? styles.userMessageContainerTenant
+              : styles.otherMessageContainer,
           ]}
         >
-          {item.content}
-        </Text>
-      )}
-      <Text
-        style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}
-      >
-        {createdDate.toLocaleTimeString('en-GB', {
-          timeZone: 'CET',
-          hour: '2-digit',
-          minute: '2-digit',
-        })}
-      </Text>
-    </View>
-      <View style={styles.dateContainer}>
-        <Text style={[styles.dateBubble, fontStyles.bodySmall]}>
-          {isToday ? 'Today' : formattedDate}
-        </Text>
-       </View>
-    </View>
-  );
-};
+          {item.content && (
+            <Text
+              style={[
+                styles.messageText,
+                fontStyles.bodyMedium,
+                isUserMessage && styles.userMessageText,
+              ]}
+            >
+              {item.content}
+            </Text>
+          )}
+          <Text
+            style={isUserMessage ? styles.userMessageTimeStamp : styles.otherMessageTimeStamp}
+          >
+            {currentCreatedDate.toLocaleTimeString('en-GB', {
+              timeZone: 'CET',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </Text>
+        </View>
+      </>
+    );
+  };
 
 
   if (isLoading) {
@@ -340,12 +349,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: size(8),
   },
-  dateBubble: {
-    backgroundColor: Color.Black[5],
+  dateHeader: {
     paddingVertical: size(4),
     paddingHorizontal: size(8),
     borderRadius: 8,
-    color: Color.Black[80],
+    color: Color.Black[50],
+    textAlign: 'center',
   },
 });
 
