@@ -41,6 +41,8 @@ const NotificationCard = ({
   const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
   const advertStatus = notification.advert.status;
 
+  console.log(notification.advert.chatroomId)
+
   const lessorNotificationHelper = useMemo(
     () => (notificationType: LessorNotificationType) => {
       switch (notificationType) {
@@ -81,8 +83,9 @@ const NotificationCard = ({
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
-              navigation.navigate('LessorIndexNavigator', {
-                screen: 'LessorChatScreen',
+              navigation.navigate('ChatroomsNavigator', {
+                screen: 'ChatShow',
+                 params: {chatroomId: notification.advert.chatroomId},
               }),
           };
         case 'offered':
@@ -94,8 +97,9 @@ const NotificationCard = ({
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
-              navigation.navigate('LessorIndexNavigator', {
-                screen: 'LessorChatScreen',
+               navigation.navigate('ChatroomsNavigator', {
+                screen: 'ChatShow',
+                 params: {chatroomId: notification.advert.chatroomId},
               }),
           };
         case 'closed':
@@ -135,7 +139,7 @@ const NotificationCard = ({
           };
       }
     },
-    [navigation, notification.advert.id, lessorBgColor, advertStatus],
+    [navigation, notification.advert.id, lessorBgColor, advertStatus, notification.advert.chatroomId],
   );
 
   const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
@@ -175,8 +179,9 @@ const NotificationCard = ({
             buttonColor: Color.Mint[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
-              navigation.navigate('ApplicationNavigator', {
-                screen: 'LessorChatScreen',
+               navigation.navigate('ChatroomsNavigator', {
+                screen: 'ChatShow',
+                 params: {chatroomId: notification.advert.chatroomId},
               }),
           };
         case 'offered':
@@ -219,6 +224,7 @@ const NotificationCard = ({
       tenantPositiveBgColor,
       navigation,
       applicationStatus,
+      notification.advert.chatroomId,
     ],
   );
 

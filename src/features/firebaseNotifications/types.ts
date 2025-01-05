@@ -9,6 +9,7 @@ interface Notification {
   advert: {
     id: number;
     status: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
+    chatroomId?: number;
     createdAt: string;
     flat: {
       url: string;
