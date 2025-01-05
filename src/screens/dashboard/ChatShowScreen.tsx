@@ -26,7 +26,6 @@ import { Message } from 'reduxFeatures/chatrooms/types';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import { size } from 'react-native-responsive-sizes';
-import { fontStyles } from 'styleSheets/fontStyles';
 
 // RTK 🛜
 import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMutation } from 'reduxFeatures/chatrooms/chatroomApi';
@@ -145,8 +144,10 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
     }
   };
 
+
   const renderMessage = ({ item, index }: { item: Message; index: number }) => {
     const isUserMessage = currentUser?.id === (item.user_id || item.userId);
+    const isFirstItem = index === 0;
     const isLastItem = index === messages.length - 1;
 
     const currentCreatedDate = new Date(item.createdAt || item.created_at || '');
@@ -160,14 +161,16 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
       nextCreatedDate &&
       `${nextCreatedDate.getUTCFullYear()}-${nextCreatedDate.getUTCMonth() + 1}-${nextCreatedDate.getUTCDate()}`;
 
-    const shouldRenderDateHeader = currentDateKey !== nextDateKey;
+    // Render header if the current date differs from the next or if it's the last item
+    const shouldRenderDateHeader = currentDateKey !== nextDateKey || isLastItem;
 
     const formattedDate = `${String(currentCreatedDate.getUTCDate()).padStart(2, '0')}.${String(
       currentCreatedDate.getUTCMonth() + 1
     ).padStart(2, '0')}`;
 
     return (
-      <>
+      <View>
+        {/* Render Date Header */}
         {shouldRenderDateHeader && (
           <Text style={styles.dateHeader}>
             {currentDateKey === `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
@@ -175,10 +178,11 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
               : formattedDate}
           </Text>
         )}
+        {/* Render Message */}
         <View
           style={[
             styles.messageContainer,
-            isLastItem && styles.lastMessageReversed,
+            isFirstItem && { marginBottom: size(100) }, // Add extra margin for the first message when reversed
             isLessor
               ? isUserMessage
                 ? styles.userMessageContainerLessor
@@ -192,7 +196,6 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
             <Text
               style={[
                 styles.messageText,
-                fontStyles.bodyMedium,
                 isUserMessage && styles.userMessageText,
               ]}
             >
@@ -209,10 +212,9 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
             })}
           </Text>
         </View>
-      </>
+      </View>
     );
   };
-
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -226,12 +228,12 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <FlatList
-          inverted
           ref={flatListRef}
           data={messages}
+          inverted
           renderItem={renderMessage}
           keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.flatListStyle}
+          contentContainerStyle={[styles.flatListStyle, { paddingBottom: size(100) }]}
         />
 
         <View style={styles.inputContainer}>
@@ -254,8 +256,6 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
     </SafeAreaView>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   safeContainer: {
