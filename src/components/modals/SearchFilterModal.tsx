@@ -14,7 +14,6 @@ import BackButton from 'components/buttons/BackButton';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import {fontStyles} from 'styleSheets/fontStyles';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
@@ -32,13 +31,15 @@ import {
 } from 'components/componentData/constants';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types 🏷️
 import type {SearchFilterModalProps} from './types';
 import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const SearchFilterModal = ({
   openModal,
@@ -55,6 +56,11 @@ const SearchFilterModal = ({
   const [, setMaxFocus] = useState(false);
 
   const [selectedFeaturesIds, setSelectedFeaturesIds] = useState<number[]>([]);
+
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
 
   const handleSearch = async () => {
     if (
@@ -139,9 +145,9 @@ const SearchFilterModal = ({
 
   return (
     <Modal visible={openModal} animationType="fade">
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+      <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
         <BackButton title="Filters" onPress={toggleModal} />
-        <View style={CoreStyleSheet.screenContainer}>
+        <View style={coreStyles.screenContainer}>
           <Text style={fontStyles.headerSmall}>Price Range</Text>
           <View style={styles.priceRangeContainer}>
             <View style={styles.inputContainer}>
@@ -178,8 +184,8 @@ const SearchFilterModal = ({
                 />
               )}
               <Slider
-                thumbTintColor={Color.Lavendar[100]}
-                minimumTrackTintColor={Color.Lavendar[80]}
+                thumbTintColor={colors.Lavendar[100]}
+                minimumTrackTintColor={colors.Lavendar[80]}
                 value={[onlyNumber(minPrice), onlyNumber(maxPrice)]}
                 animateTransitions={true}
                 minimumValue={100}

@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, TextInput, Pressable} from 'react-native';
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type SearchInputProps = {
   placeholder?: string;
@@ -36,10 +37,15 @@ const SearchInput = ({
   value,
   keyboardType,
 }: SearchInputProps) => {
+
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   return (
     <View style={styles.inputContainerWithIcon}>
       <View style={styles.textContainer}>
-        <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
+        <LofftIcon name={'search-sm'} size={25} color={colors.Black[50]} />
         <TextInput
           value={value}
           onChangeText={onChangeText}
@@ -52,7 +58,7 @@ const SearchInput = ({
       </View>
       {value ? (
         <Pressable onPress={onClear} style={styles.clearContainer}>
-          <LofftIcon name="x-close" size={20} color={Color.Black[50]} />
+          <LofftIcon name="x-close" size={20} color={colors.Black[50]} />
         </Pressable>
       ) : null}
     </View>

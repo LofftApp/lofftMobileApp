@@ -11,7 +11,7 @@ import useRefetchNotifications from 'hooks/useRefetchNotifications';
 import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Navigator
 import FlatSearchNavigator from './FlatSearchNavigator';
@@ -25,6 +25,7 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
+import { useTheme } from 'components/themes/ThemeContext';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
@@ -33,6 +34,9 @@ const TenantNavigator = () => {
   const admin = currentUser?.admin;
   const {data} = useRefetchNotifications();
   const notifications = data?.notifications;
+  const {isDarkMode}: any = useTheme();
+
+  const colors = isDarkMode ? Color.Dark : Color.Light;
 
   const unreadNotifications = notifications?.filter(n => !n.read).length;
 
@@ -40,9 +44,12 @@ const TenantNavigator = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({color}) => tabIcons({route, color}),
-        tabBarActiveTintColor: Color.Lavendar[100],
-        tabBarInActiveTintColor: Color.Black[30],
+        tabBarActiveTintColor: colors.Lavendar[100],
+        tabBarInActiveTintColor: colors.Black[30],
         tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: colors.White[100],
+        },
       })}>
       <Tab.Screen
         name="SearchTab"
@@ -64,7 +71,7 @@ const TenantNavigator = () => {
         component={NotificationsNavigator}
         options={{
           headerShown: false,
-          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          tabBarBadgeStyle: {backgroundColor: colors.Tomato[100]},
           tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
         }}
       />

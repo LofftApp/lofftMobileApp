@@ -10,6 +10,7 @@ import {persister} from 'persistance/persister';
 import {setupStore} from 'reduxCore/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
+import { ThemeProvider } from 'components/themes/ThemeContext';
 
 import {handleBackgroundNotifications} from 'reduxFeatures/firebaseNotifications/handleBackgroundNotifications';
 import {setupAndroidNotificationChannel} from 'reduxFeatures/firebaseNotifications/setupAndroidNotificationChannel';
@@ -26,7 +27,9 @@ export default function Main() {
     <Provider store={setupStore}>
       <PersistGate loading={null} persistor={persister}>
         <SafeAreaProvider>
+          <ThemeProvider>
           <App />
+          </ThemeProvider>
         </SafeAreaProvider>
       </PersistGate>
     </Provider>

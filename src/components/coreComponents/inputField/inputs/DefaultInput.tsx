@@ -2,8 +2,9 @@ import React from 'react';
 import {TextInput} from 'react-native';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type DefaultInputProps = {
   placeholder?: string;
@@ -37,6 +38,10 @@ const DefaultInput = ({
   autoCapitalize,
   keyboardType = 'default',
 }: DefaultInputProps) => {
+
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
   return (
     <TextInput
       value={value}

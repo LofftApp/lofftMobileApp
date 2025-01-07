@@ -6,15 +6,21 @@ import {size} from 'react-native-responsive-sizes';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheet 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Types 🏷️
 import type {FilterButtonProps} from './types';
+import { useTheme } from 'components/themes/ThemeContext';
+
 
 const FilterButton = ({onPress, isSearching}: FilterButtonProps) => {
-  const iconColor = isSearching ? Color.White[100] : Color.Black[50];
-  const bgColor = isSearching ? Color.Lavendar[100] : Color.White[100];
-  const borderColor = isSearching ? Color.Lavendar[100] : Color.Black[50];
+
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
+  const iconColor = isSearching ? colors.White[100] : colors.Black[50];
+  const bgColor = isSearching ? colors.Lavendar[100] : colors.White[100];
+  const borderColor = isSearching ? colors.Lavendar[100] : colors.Black[50];
   return (
     <TouchableOpacity onPress={onPress}>
       <View

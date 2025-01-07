@@ -44,6 +44,7 @@ const FlatFindScreen = () => {
   const [search, setSearch] = useState<string>('');
   const [screen, setScreen] = useState('list');
 
+
   const setActiveScreen = (activeScreen: string) => {
     setScreen(activeScreen);
   };
@@ -51,8 +52,10 @@ const FlatFindScreen = () => {
     setOpenModal(prev => !prev);
   };
 
+  const coreStyles = CoreStyleSheet();
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewListContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
           type="search"
@@ -73,7 +76,7 @@ const FlatFindScreen = () => {
         setActiveScreen={setActiveScreen}
       />
       {screen === 'list' ? (
-        <View style={CoreStyleSheet.screenContainer}>
+        <View style={coreStyles.screenContainer}>
           <FlatListSubScreen
             adverts={adverts ?? []}
             isError={isError}

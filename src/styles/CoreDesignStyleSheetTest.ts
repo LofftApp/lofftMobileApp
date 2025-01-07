@@ -1,12 +1,11 @@
-import { StyleSheet } from 'react-native';
-import { useTheme } from 'components/themes/ThemeContext';
-import { size } from 'react-native-responsive-sizes';
-import Color from './lofftColorPalletTest.json'; // Assuming this is the correct path
+// CoreDesignStyleSheet.ts
 
-export const CoreStyleSheet = () => {
-  const { isDarkMode } : any = useTheme();
+import {StyleSheet} from 'react-native';
+import * as Color from 'styleSheets/lofftColorPalletTest.json';
+import {size} from 'react-native-responsive-sizes';
+
+export const getCoreStyleSheet = (isDarkMode: boolean) => {
   const colors = isDarkMode ? Color.Dark : Color.Light;
-
   return StyleSheet.create({
     viewContainerStyle: {
       backgroundColor: colors.White[100],

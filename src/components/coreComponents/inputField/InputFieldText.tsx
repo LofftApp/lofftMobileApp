@@ -9,11 +9,12 @@ import CurrencyInput from './inputs/CurrencyInput';
 import DefaultInput from './inputs/DefaultInput';
 
 // Style 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Types 🏷️
 import type {InputFieldTextProps} from './types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const InputFieldText = ({
   placeholder = null,
@@ -32,6 +33,11 @@ const InputFieldText = ({
   const [focus, setFocus] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
+
   useEffect(() => {
     if (dropdown && dropDownContent.length > 0) {
       Animated.timing(fadeAnim, {
@@ -43,6 +49,48 @@ const InputFieldText = ({
       fadeAnim.setValue(0);
     }
   }, [dropdown, dropDownContent, fadeAnim]);
+
+  const styles = StyleSheet.create({
+  inputFieldStyle: {
+    borderWidth: 2,
+    borderRadius: 12,
+    borderColor: colors.Black[50],
+    paddingHorizontal: size(4),
+    height: size(48),
+    justifyContent: 'center',
+  },
+  focus: {
+    borderColor: colors.Lavendar[100],
+  },
+  inputDropDown: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    marginBottom: 0,
+    borderBottomWidth: 0,
+  },
+  dropDown: {
+    borderWidth: 2,
+    borderTopWidth: 1,
+    borderTopColor: colors.Lavendar[100],
+    borderColor: colors.Lavendar[100],
+    borderBottomLeftRadius: size(16),
+    borderBottomRightRadius: size(16),
+    minHeight: size(48),
+    justifyContent: 'center',
+  },
+  dropDownItem: {
+    marginVertical: 2,
+    borderBottomWidth: 3,
+    paddingVertical: size(6),
+    paddingHorizontal: size(8),
+    borderBottomColor: colors.Black[100],
+  },
+  oddPlaceList: {},
+
+  errorActive: {
+    borderColor: colors.Tomato[100],
+  },
+});
 
   return (
     <>
@@ -125,46 +173,5 @@ const InputFieldText = ({
   );
 };
 
-const styles = StyleSheet.create({
-  inputFieldStyle: {
-    borderWidth: 2,
-    borderRadius: 12,
-    borderColor: Color.Black[50],
-    paddingHorizontal: size(4),
-    height: size(48),
-    justifyContent: 'center',
-  },
-  focus: {
-    borderColor: Color.Lavendar[100],
-  },
-  inputDropDown: {
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    marginBottom: 0,
-    borderBottomWidth: 0,
-  },
-  dropDown: {
-    borderWidth: 2,
-    borderTopWidth: 1,
-    borderTopColor: Color.Lavendar[100],
-    borderColor: Color.Lavendar[100],
-    borderBottomLeftRadius: size(16),
-    borderBottomRightRadius: size(16),
-    minHeight: size(48),
-    justifyContent: 'center',
-  },
-  dropDownItem: {
-    marginVertical: 2,
-    borderBottomWidth: 3,
-    paddingVertical: size(6),
-    paddingHorizontal: size(8),
-    borderBottomColor: Color.Black[100],
-  },
-  oddPlaceList: {},
-
-  errorActive: {
-    borderColor: Color.Tomato[100],
-  },
-});
 
 export default InputFieldText;

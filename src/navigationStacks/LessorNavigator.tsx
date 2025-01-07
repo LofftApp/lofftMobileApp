@@ -11,7 +11,7 @@ import useRefetchNotifications from 'hooks/useRefetchNotifications';
 import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
@@ -21,12 +21,17 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 // Types
 import {LessorTabParamsList} from './types';
+import { useTheme } from '@react-navigation/native';
+
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {
   const {data: currentUser} = useGetUserQuery();
 
   const {data} = useRefetchNotifications();
+  const {isDarkMode}: any = useTheme();
+
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   const notifications = data?.notifications;
 
   const unreadNotifications = notifications?.filter(
@@ -38,9 +43,12 @@ const LessorNavigator = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({color}) => tabIcons({route, color}),
-        tabBarActiveTintColor: Color.Lavendar[100],
-        tabBarInActiveTintColor: Color.Black[30],
+        tabBarActiveTintColor: colors.Lavendar[100],
+        tabBarInActiveTintColor: colors.Black[30],
         tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: colors.White[100],
+        },
       })}>
       <Tab.Screen
         name="LessorIndexNavigator"
@@ -52,7 +60,7 @@ const LessorNavigator = () => {
         component={NotificationsNavigator}
         options={{
           headerShown: false,
-          tabBarBadgeStyle: {backgroundColor: Color.Tomato[100]},
+          tabBarBadgeStyle: {backgroundColor: colors.Tomato[100]},
           tabBarBadge: unreadNotifications ? unreadNotifications : undefined,
         }}
       />
