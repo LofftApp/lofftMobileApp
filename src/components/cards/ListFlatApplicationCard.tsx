@@ -12,8 +12,7 @@ import HeartButton from 'components/buttons/HeartButton';
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // StyleSheet 🖼
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // helpers 🧰
 import {size} from 'react-native-responsive-sizes';
@@ -26,6 +25,8 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -33,6 +34,9 @@ const ListFlatApplicationCard = ({
   _advert,
 }: ListFlatApplicationCardProps) => {
   const {data} = useGetUserQuery();
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   const isLessor = data?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
@@ -87,6 +91,90 @@ const ListFlatApplicationCard = ({
     toggleFavorite(advert?.id ?? 0);
   };
 
+  const styles = StyleSheet.create({
+  advertCardContainer: {
+    marginBottom: size(18),
+  },
+  advertCardButtonsOverlay: {
+    position: 'absolute',
+    zIndex: 2,
+    width: '100%',
+  },
+  advertCardbuttonsWrap: {
+    flex: 1,
+    alignItems: 'flex-end',
+    padding: size(15),
+  },
+  advertCardImage: {
+    width: '100%',
+    overflow: 'hidden',
+    zIndex: 1,
+    borderRadius: 12,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: size(16),
+    marginTop: size(10),
+  },
+  button: {
+    flex: 1,
+    maxWidth: size(183),
+    height: size(48),
+    paddingHorizontal: size(10),
+  },
+  textbutton: {
+    color: colors.Lavendar[100],
+  },
+  metaDataContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: size(10),
+  },
+  locationData: {
+    color: colors.Black[50],
+  },
+  locationContainer: {
+    marginTop: size(5),
+    marginBottom: size(10),
+  },
+
+  progressBarOutline: {
+    flex: 1,
+    padding: size(6),
+    borderRadius: 8,
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: size(10),
+  },
+  active: {
+    fontWeight: 'bold',
+    color: colors.Black[100],
+  },
+  inactive: {
+    color: colors.Black[50],
+  },
+  actualProgress: {
+    padding: size(8),
+    borderRadius: 8,
+  },
+  timeWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: size(15),
+    marginTop: size(7),
+  },
+  timeWrapperText: {
+    color: colors.Tomato[100],
+    marginTop: size(2),
+    marginLeft: size(7),
+  },
+});
+
   return (
     <View style={styles.advertCardContainer}>
       <View style={styles.advertCardButtonsOverlay}>
@@ -115,7 +203,7 @@ const ListFlatApplicationCard = ({
         <Text
           style={[
             fontStyles.bodySmall,
-            {color: isLessor ? Color.Black[50] : Color.Mint[100]},
+            {color: isLessor ? colors.Black[50] : colors.Mint[100]},
           ]}>
           {isLessor
             ? `Posted on ${dateFormatConverter({
@@ -137,7 +225,7 @@ const ListFlatApplicationCard = ({
 
       {isLessor && (
         <View style={styles.timeWrapper}>
-          <LofftIcon size={20} name="alarm-clock" color={Color.Tomato[100]} />
+          <LofftIcon size={20} name="alarm-clock" color={colors.Tomato[100]} />
           <Text style={styles.timeWrapperText}>
             3h left to make the decision for this round!
           </Text>
@@ -148,14 +236,14 @@ const ListFlatApplicationCard = ({
         <View
           style={[
             styles.progressBarOutline,
-            {backgroundColor: active ? Color.Mint[10] : Color.Tomato[10]},
+            {backgroundColor: active ? colors.Mint[10] : colors.Tomato[10]},
           ]}>
           <View
             style={[
               styles.actualProgress,
               {
                 width: `${Number(currentStatusBar)}%` as DimensionValue,
-                backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
+                backgroundColor: active ? colors.Mint[100] : colors.Tomato[100],
               },
             ]}
           />
@@ -212,89 +300,5 @@ const ListFlatApplicationCard = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  advertCardContainer: {
-    marginBottom: size(18),
-  },
-  advertCardButtonsOverlay: {
-    position: 'absolute',
-    zIndex: 2,
-    width: '100%',
-  },
-  advertCardbuttonsWrap: {
-    flex: 1,
-    alignItems: 'flex-end',
-    padding: size(15),
-  },
-  advertCardImage: {
-    width: '100%',
-    overflow: 'hidden',
-    zIndex: 1,
-    borderRadius: 12,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: size(16),
-    marginTop: size(10),
-  },
-  button: {
-    flex: 1,
-    maxWidth: size(183),
-    height: size(48),
-    paddingHorizontal: size(10),
-  },
-  textbutton: {
-    color: Color.Lavendar[100],
-  },
-  metaDataContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: size(10),
-  },
-  locationData: {
-    color: Color.Black[50],
-  },
-  locationContainer: {
-    marginTop: size(5),
-    marginBottom: size(10),
-  },
-
-  progressBarOutline: {
-    flex: 1,
-    padding: size(6),
-    borderRadius: 8,
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: size(10),
-  },
-  active: {
-    fontWeight: 'bold',
-    color: Color.Black[100],
-  },
-  inactive: {
-    color: Color.Black[50],
-  },
-  actualProgress: {
-    padding: size(8),
-    borderRadius: 8,
-  },
-  timeWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: size(15),
-    marginTop: size(7),
-  },
-  timeWrapperText: {
-    color: Color.Tomato[100],
-    marginTop: size(2),
-    marginLeft: size(7),
-  },
-});
 
 export default ListFlatApplicationCard;

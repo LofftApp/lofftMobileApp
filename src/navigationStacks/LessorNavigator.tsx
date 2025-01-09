@@ -21,8 +21,7 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 // Types
 import {LessorTabParamsList} from './types';
-import { useTheme } from '@react-navigation/native';
-
+import { useTheme } from 'components/themes/ThemeContext';
 
 const Tab = createBottomTabNavigator<LessorTabParamsList>();
 const LessorNavigator = () => {

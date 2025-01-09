@@ -5,8 +5,7 @@ import {Text, View, StyleSheet, Dimensions, DimensionValue} from 'react-native';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Styles
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Components
 import {useNavigation} from '@react-navigation/native';
@@ -24,8 +23,14 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
@@ -49,6 +54,75 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
       !['closed'].includes(advert?.status ?? '');
 
   const screenheight = Dimensions.get('window').height;
+
+
+  const styles = StyleSheet.create({
+  maincontainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  infoBlockHeader: {
+    marginTop: size(15),
+  },
+  infoBlock: {
+    color: colors.Black[50],
+  },
+  infoBlockActive: {
+    color: colors.Black[100],
+  },
+  progressContainer: {
+    flexDirection: 'row',
+    maxHeight: '50%',
+  },
+  progressBarOutline: {
+    height: '100%',
+    width: '15%',
+    borderRadius: 28,
+    alignItems: 'center',
+  },
+  iconsPosition: {
+    position: 'absolute',
+    zIndex: 400,
+    height: '100%',
+    justifyContent: 'space-between',
+    paddingVertical: size(20),
+  },
+  progressBar: {
+    width: '100%',
+    borderRadius: 30,
+  },
+  progressTextContainer: {
+    width: '84%',
+    marginLeft: size(15),
+    justifyContent: 'space-around',
+  },
+
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: size(8),
+    paddingHorizontal: size(16),
+    marginTop: size(10),
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+  },
+  greenButton: {
+    backgroundColor: colors.Mint[100],
+    borderColor: colors.Mint[100],
+  },
+
+  buttonText: {
+    color: colors.White[100],
+  },
+  height95: {
+    height: '95%',
+  },
+  height98: {
+    height: '98%',
+  },
+});
+
 
   const iconsCreated = statusBarText[isLessor ? 'lessor' : 'tenant'].map(
     (key, index: number) => {
@@ -81,9 +155,9 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                     index <= 4) ||
                   currentApplicationStatus === index ||
                   currentApplicationStatus > index
-                ? Color.White[100]
-                : Color.Lavendar[50]
-              : Color.Black[50]
+                ? colors.White[100]
+                : colors.Lavendar[50]
+              : colors.Black[50]
           }
         />
       );
@@ -192,7 +266,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                     screen: 'ChatIndex',
                   })}
                   icon={
-                    <LofftIcon name="send" size={20} color={Color.White[100]} />
+                    <LofftIcon name="send" size={20} color={colors.White[100]} />
                   }
                 />
               )}
@@ -214,7 +288,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                         })
                       }
                 icon={
-                  <LofftIcon name="send" size={20} color={Color.White[100]} />
+                  <LofftIcon name="send" size={20} color={colors.White[100]} />
                 }
               />
             )
@@ -257,6 +331,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
     calculateStatusBar(index);
   }, [advert?.status, active, calculateStatusBar]);
 
+
   return (
     <>
       <View style={styles.maincontainer}>
@@ -273,9 +348,9 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
               {
                 backgroundColor: active
                   ? isLessor
-                    ? Color.Lavendar[10]
-                    : Color.Mint[10]
-                  : Color.Tomato[10],
+                    ? colors.Lavendar[10]
+                    : colors.Mint[10]
+                  : colors.Tomato[10],
               },
             ]}>
             <View style={styles.iconsPosition}>{iconsCreated}</View>
@@ -286,9 +361,9 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   height: `${Number(statusBar)}%` as DimensionValue,
                   backgroundColor: active
                     ? isLessor
-                      ? Color.Lavendar[100]
-                      : Color.Mint[100]
-                    : Color.Tomato[100],
+                      ? colors.Lavendar[100]
+                      : colors.Mint[100]
+                    : colors.Tomato[100],
                 },
               ]}
             />
@@ -305,72 +380,5 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  maincontainer: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  infoBlockHeader: {
-    marginTop: size(15),
-  },
-  infoBlock: {
-    color: Color.Black[50],
-  },
-  infoBlockActive: {
-    color: Color.Black[100],
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    maxHeight: '50%',
-  },
-  progressBarOutline: {
-    height: '100%',
-    width: '15%',
-    borderRadius: 28,
-    alignItems: 'center',
-  },
-  iconsPosition: {
-    position: 'absolute',
-    zIndex: 400,
-    height: '100%',
-    justifyContent: 'space-between',
-    paddingVertical: size(20),
-  },
-  progressBar: {
-    width: '100%',
-    borderRadius: 30,
-  },
-  progressTextContainer: {
-    width: '84%',
-    marginLeft: size(15),
-    justifyContent: 'space-around',
-  },
-
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: size(8),
-    paddingHorizontal: size(16),
-    marginTop: size(10),
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-  },
-  greenButton: {
-    backgroundColor: Color.Mint[100],
-    borderColor: Color.Mint[100],
-  },
-
-  buttonText: {
-    color: Color.White[100],
-  },
-  height95: {
-    height: '95%',
-  },
-  height98: {
-    height: '98%',
-  },
-});
 
 export default StatusBarComponent;

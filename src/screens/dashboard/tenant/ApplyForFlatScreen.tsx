@@ -6,9 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Styles
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -24,13 +23,40 @@ import {
   ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../../navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const ApplyForFlatScreen = () => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   const navigation = useNavigation<
     ApplicationScreenNavigationProp & SearchScreenNavigationProp
   >();
   const {data, isLoading, isError} = useGetUserQuery();
   const credits = data?.credits;
+  const coreStyles = CoreStyleSheet();
+
+
+  const styles = StyleSheet.create({
+    mainContainer: StyleSheet.flatten([
+      coreStyles.safeAreaViewShowContainer,
+      {alignItems: 'center', flex: 1},
+    ]),
+    backButton: {
+      marginLeft: 10,
+    },
+
+    textContainer: {
+      textAlign: 'center',
+      marginTop: size(24),
+    },
+    buttonsWrap: {
+      width: '100%',
+      gap: size(10),
+      marginTop: size(24),
+    },
+  });
 
   if (isLoading) {
     <LoadingComponent />;
@@ -40,11 +66,11 @@ const ApplyForFlatScreen = () => {
       <ConfirmBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
       <BackButton style={styles.backButton} onPress={navigation.goBack} />
       <HiFive />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <Text style={[fontStyles.headerSmall, styles.textContainer]}>
           You’ve applied for this Lofft. {'\n'} The owner has maximum 48 hours
           to get back to you!
@@ -58,7 +84,7 @@ const ApplyForFlatScreen = () => {
             style={[
               fontStyles.bodyMedium,
               styles.textContainer,
-              {color: Color.Tomato[100]},
+              {color: colors.Tomato[100]},
             ]}>
             Failed to get ramining tokens
           </Text>
@@ -82,25 +108,5 @@ const ApplyForFlatScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: StyleSheet.flatten([
-    CoreStyleSheet.safeAreaViewShowContainer,
-    {alignItems: 'center', flex: 1},
-  ]),
-  backButton: {
-    marginLeft: 10,
-  },
-
-  textContainer: {
-    textAlign: 'center',
-    marginTop: size(24),
-  },
-  buttonsWrap: {
-    width: '100%',
-    gap: size(10),
-    marginTop: size(24),
-  },
-});
 
 export default ApplyForFlatScreen;

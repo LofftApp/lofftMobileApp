@@ -4,10 +4,11 @@ import {size} from 'react-native-responsive-sizes';
 
 // StyleSheets 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Types 🏷
 import type {CoreButtonProps} from './types';
+import { useTheme } from 'components/themes/ThemeContext';
 
 export const CoreButton = ({
   value,
@@ -19,6 +20,46 @@ export const CoreButton = ({
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
+
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
+  const buttonFont = isDarkMode ?  colors.Black[100] : colors.White[100];
+
+  const styles = StyleSheet.create({
+  buttonStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.Lavendar[100],
+    borderColor: colors.Lavendar[100],
+    borderRadius: 12,
+    paddingVertical: size(10),
+    paddingHorizontal: size(16),
+    borderWidth: size(2),
+    flexDirection: 'row',
+    gap: size(7),
+    width: '100%',
+    height: size(56),
+  },
+  buttonTextStyle: {
+    color: buttonFont,
+  },
+  buttonInvert: {
+    backgroundColor: colors.White[100],
+  },
+  textInvertButton: {
+    color: colors.Lavendar[100],
+  },
+  buttonDisabled: {
+    backgroundColor: colors.Black[30],
+    borderColor: colors.Black[30],
+  },
+  textDisabled: {
+    color: colors.White[100],
+  },
+});
+
+
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -43,36 +84,3 @@ export const CoreButton = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.Lavendar[100],
-    borderColor: Color.Lavendar[100],
-    borderRadius: 12,
-    paddingVertical: size(10),
-    paddingHorizontal: size(16),
-    borderWidth: size(2),
-    flexDirection: 'row',
-    gap: size(7),
-    width: '100%',
-    height: size(56),
-  },
-  buttonTextStyle: {
-    color: Color.White[100],
-  },
-  buttonInvert: {
-    backgroundColor: Color.White[100],
-  },
-  textInvertButton: {
-    color: Color.Lavendar[100],
-  },
-  buttonDisabled: {
-    backgroundColor: Color.Black[30],
-    borderColor: Color.Black[30],
-  },
-  textDisabled: {
-    color: Color.White[100],
-  },
-});

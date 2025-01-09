@@ -2,10 +2,9 @@ import React from 'react';
 import {View, Text, StyleSheet, Modal, SafeAreaView} from 'react-native';
 
 // Components
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {ConfirmBackground} from 'assets';
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -15,6 +14,8 @@ import type {ConfirmModalProps} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const ConfirmModal = ({
   openModal,
@@ -30,6 +31,59 @@ const ConfirmModal = ({
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
+
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
+
+  const coreStyles = CoreStyleSheet();
+
+  const styles = StyleSheet.create({
+  modalContainer: {
+    width: '100%',
+
+    paddingHorizontal: size(16),
+    alignItems: 'center',
+  },
+  fullScreenModalContainer: {
+    width: '100%',
+    flex: 1,
+    paddingHorizontal: size(16),
+    alignItems: 'center',
+    paddingVertical: size(16),
+    justifyContent: 'space-around',
+  },
+  headerContainer: {
+    position: 'relative',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+
+  descriptionContainer: {
+    marginBottom: size(10),
+  },
+
+  image: {
+    marginTop: size(-25),
+  },
+
+  textContainer: {
+    textAlign: 'center',
+    marginTop: size(24),
+  },
+  buttonsWrap: {
+    width: '100%',
+    gap: size(10),
+    flex: 1,
+  },
+  textRed: {
+    color: colors.Tomato[100],
+  },
+});
+
   return (
     <Modal
       visible={openModal}
@@ -39,14 +93,14 @@ const ConfirmModal = ({
       <SafeAreaView
         style={
           fullScreen
-            ? CoreStyleSheet.fullScreenModalContainer
-            : CoreStyleSheet.modalContainer
+            ? coreStyles.fullScreenModalContainer
+            : coreStyles.modalContainer
         }>
         <BackButton onPress={toggleModal} close />
         <ConfirmBackground
           height="100%"
           width="100%"
-          style={CoreStyleSheet.backgroundImage}
+          style={coreStyles.backgroundImage}
         />
         {fullScreen ? (
           <>
@@ -117,50 +171,5 @@ const ConfirmModal = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    width: '100%',
-
-    paddingHorizontal: size(16),
-    alignItems: 'center',
-  },
-  fullScreenModalContainer: {
-    width: '100%',
-    flex: 1,
-    paddingHorizontal: size(16),
-    alignItems: 'center',
-    paddingVertical: size(16),
-    justifyContent: 'space-around',
-  },
-  headerContainer: {
-    position: 'relative',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  },
-
-  descriptionContainer: {
-    marginBottom: size(10),
-  },
-
-  image: {
-    marginTop: size(-25),
-  },
-
-  textContainer: {
-    textAlign: 'center',
-    marginTop: size(24),
-  },
-  buttonsWrap: {
-    width: '100%',
-    gap: size(10),
-    flex: 1,
-  },
-  textRed: {
-    color: Color.Tomato[100],
-  },
-});
 
 export default ConfirmModal;

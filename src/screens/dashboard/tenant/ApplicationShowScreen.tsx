@@ -26,9 +26,11 @@ import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 // Types
 import type {ApplicationShowScreenProp} from './types';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
 
 const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
+  const coreStyles = CoreStyleSheet();
+
   const {id} = route.params;
 
   const {data} = useGetUserQuery();
@@ -85,7 +87,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
     );
   }
   return (
-    <View style={CoreStyleSheet.showContainer}>
+    <View style={coreStyles.showContainer}>
       <View>
         <HighlightButtons
           favorite={advert?.favorite}
@@ -99,7 +101,7 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={CoreStyleSheet.screenContainer}>
+        <View style={coreStyles.screenContainer}>
           <StatusBarComponent application={application} _advert={advert} />
 
           <SeeMoreButton collapsed={collapsed} toggleExpand={toggleExpand} />

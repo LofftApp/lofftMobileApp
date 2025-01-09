@@ -14,15 +14,16 @@ import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch'
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // helpers 🧰
 import {applicationPartition} from 'helpers/applicationsPartition';
 
 // types 🦄
 import { ApplicationStackParamsList } from 'navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type ApplicationNavigationProp = NativeStackNavigationProp<ApplicationStackParamsList>;
 
@@ -46,15 +47,20 @@ const ApplicationsIndexScreen = () => {
     return applicationPartition(applications ?? []);
   }, [applications]);
 
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
-      <View style={CoreStyleSheet.headerContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewListContainer}>
+      <View style={coreStyles.headerContainer}>
         <Text style={fontStyles.headerLarge}>My Applications</Text>
         <Pressable onPress={() => navigation.navigate('ChatroomsNavigator', { screen: 'ChatIndex' })}>
             <LofftIcon
               name={'annotation-heart'}
               size={33}
-              color={Color.Lavendar[100]}
+              color={colors.Lavendar[100]}
             />
           </Pressable>
       </View>
@@ -67,7 +73,7 @@ const ApplicationsIndexScreen = () => {
         setActiveScreen={setActiveScreen}
       />
 
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <ListFlatApplicationComponent
           applications={
             screen === 'thumbs-down' ? inactiveApplications : activeApplications
@@ -79,6 +85,5 @@ const ApplicationsIndexScreen = () => {
     </SafeAreaView>
   );
 };
-
 
 export default ApplicationsIndexScreen;

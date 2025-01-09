@@ -11,14 +11,15 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 //Validation 🛡️
 import {signInSchema} from 'lib/zodSchema';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type SignInFormProps = {
   clearErrors: boolean;
@@ -26,6 +27,10 @@ type SignInFormProps = {
 };
 
 const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -104,6 +109,34 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
     }
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      paddingTop: size(55),
+      alignItems: 'center',
+      flex: 1,
+
+      gap: size(20),
+    },
+
+    inputsContainer: {
+      width: '100%',
+      gap: size(10),
+    },
+
+    inputContainer: {
+      gap: size(3),
+    },
+
+    forgotPassText: {
+      alignSelf: 'flex-end',
+      color: colors.Blue['100'],
+    },
+    signInContainer: {
+      width: '100%',
+      gap: size(5),
+    },
+  });
+
   return (
     <View style={styles.mainContainer}>
       <Text style={fontStyles.headerMedium}>Hello again!</Text>
@@ -150,32 +183,5 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   );
 };
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    paddingTop: size(55),
-    alignItems: 'center',
-    flex: 1,
-
-    gap: size(20),
-  },
-
-  inputsContainer: {
-    width: '100%',
-    gap: size(10),
-  },
-
-  inputContainer: {
-    gap: size(3),
-  },
-
-  forgotPassText: {
-    alignSelf: 'flex-end',
-    color: Color.Blue['100'],
-  },
-  signInContainer: {
-    width: '100%',
-    gap: size(5),
-  },
-});
 
 export default SignInForm;

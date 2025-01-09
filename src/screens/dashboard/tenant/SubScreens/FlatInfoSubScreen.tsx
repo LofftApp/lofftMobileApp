@@ -5,8 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Advert} from 'reduxFeatures/adverts/types';
 
 // StyleSheet 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 //Components
 import Chips from 'components/buttons/Chips';
@@ -21,10 +20,16 @@ import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // Types 🏷
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
 
@@ -74,6 +79,76 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const isTruncated =
     advert.flat.description.length > truncatedDescription.length;
 
+
+const styles = StyleSheet.create({
+  matchContainer: {
+    width: '100%',
+    backgroundColor: colors.Mint[10],
+    marginVertical: size(20),
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: size(20),
+    alignItems: 'center',
+  },
+  infoContainer: {
+    width: '100%',
+    marginTop: size(10),
+  },
+  LegendContainer: {
+    width: '100%',
+    marginTop: size(20),
+  },
+  firstRowLegendContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: size(20),
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
+  },
+  iconMargin: {
+    marginRight: size(70),
+  },
+  secondRowLegendContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
+  },
+
+  descriptionContainer: {
+    marginTop: size(10),
+  },
+
+  chipsContainer: {
+    marginTop: size(23),
+    marginBottom: size(5),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+
+  matchWithYouContainer: {
+    marginTop: size(10),
+  },
+
+  line: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'black',
+  },
+
+  coreButtonStyle: {
+    marginTop: size(20),
+  },
+
+  descriptionMargin: {
+    marginTop: size(20),
+  },
+});
+
+
   return (
     <>
       {!isLessor && (
@@ -82,7 +157,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             <Text style={fontStyles.headerLarge}>🌟</Text>
           </View>
           <View>
-            <Text style={fontStyles.headerSmall}>
+            <Text style={[fontStyles.headerSmall, {color: 'black'}]}>
               {advert.matchScore}% match with your lifestyles
               {'\n'}& flat expectations
             </Text>
@@ -97,13 +172,13 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
         <View style={styles.LegendContainer}>
           <View style={styles.firstRowLegendContainer}>
             <View style={styles.iconContainer}>
-              <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
+              <LofftIcon name="banke-note" size={23} color={colors.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
                 {advert.monthlyRent} {advert.currency}
               </Text>
             </View>
             <View style={styles.iconContainer}>
-              <LofftIcon name="ruler" size={23} color={Color.Black[30]} />
+              <LofftIcon name="ruler" size={23} color={colors.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
                 {advert.flat.size}
                 {advert.flat.measurementUnit}
@@ -111,7 +186,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             </View>
           </View>
           <View style={styles.secondRowLegendContainer}>
-            <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
+            <LofftIcon name="calendar" size={23} color={colors.Black[30]} />
             <Text style={fontStyles.bodyMedium}>
               From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
               {`- ${dateFormatConverter({
@@ -122,14 +197,14 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
         </View>
 
         <View style={styles.descriptionMargin}>
-          <Text style={{color: Color.Black[80]}}>
+          <Text style={{color: colors.Black[80]}}>
             {truncatedDescription}
             {!descriptionExpanded && isTruncated && '...'}
           </Text>
 
           {isTruncated && (
             <Collapsible collapsed={!descriptionExpanded} duration={300}>
-              <Text style={{color: Color.Black[80]}}>{hiddenDescription}</Text>
+              <Text style={{color: colors.Black[80]}}>{hiddenDescription}</Text>
             </Collapsible>
           )}
 
@@ -140,7 +215,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
                 style={styles.coreButtonStyle}
                 textStyle={[
                   fontStyles.headerSmall,
-                  {color: Color.Lavendar[100]},
+                  {color: colors.Lavendar[100]},
                 ]}
                 invert
                 disabled={false}
@@ -234,73 +309,5 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  matchContainer: {
-    width: '100%',
-    backgroundColor: Color.Mint[10],
-    marginVertical: size(20),
-    borderRadius: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: size(20),
-    alignItems: 'center',
-  },
-  infoContainer: {
-    width: '100%',
-    marginTop: size(10),
-  },
-  LegendContainer: {
-    width: '100%',
-    marginTop: size(20),
-  },
-  firstRowLegendContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: size(20),
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(10),
-  },
-  iconMargin: {
-    marginRight: size(70),
-  },
-  secondRowLegendContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(10),
-  },
-
-  descriptionContainer: {
-    marginTop: size(10),
-  },
-
-  chipsContainer: {
-    marginTop: size(23),
-    marginBottom: size(5),
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'baseline',
-  },
-
-  matchWithYouContainer: {
-    marginTop: size(10),
-  },
-
-  line: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'black',
-  },
-
-  coreButtonStyle: {
-    marginTop: size(20),
-  },
-
-  descriptionMargin: {
-    marginTop: size(20),
-  },
-});
 
 export default FlatInfoSubScreen;

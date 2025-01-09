@@ -17,8 +17,7 @@ import {Looking} from 'assets';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import ConfirmModal from 'components/modals/ConfirmModal';
 import {CoreButton} from 'components/buttons/CoreButton';
-import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
@@ -31,6 +30,8 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -52,6 +53,10 @@ const outOfTokens = {
 };
 
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   const {advertId} = route.params;
   const navigation = useNavigation<SearchScreenNavigationProp>();
   const {data: currentUser} = useGetUserQuery();
@@ -93,8 +98,33 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
     return <NotFoundComponent message="There was an error getting this flat" />;
   }
 
+  const coreStyles = CoreStyleSheet();
+
+  const styles = StyleSheet.create({
+      flatCardContainer: {
+        width: '100%',
+        paddingHorizontal: size(16),
+        alignItems: 'center',
+      },
+
+      buttonContainer: {
+        width: '100%',
+        marginTop: size(10),
+        marginBottom: size(10),
+      },
+
+      countDownTimer: {
+        textAlign: 'center',
+        color: colors.Mint[100],
+      },
+      coreButtonCustom: {
+        marginTop: size(14),
+        width: '100%',
+      },
+    });
+
   return (
-    <View style={CoreStyleSheet.showContainer}>
+    <View style={coreStyles.showContainer}>
       <View>
         {!isModalOpen && (
           <HighlightedButtons
@@ -161,27 +191,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   );
 };
 
-const styles = StyleSheet.create({
-  flatCardContainer: {
-    width: '100%',
-    paddingHorizontal: size(16),
-    alignItems: 'center',
-  },
 
-  buttonContainer: {
-    width: '100%',
-    marginTop: size(10),
-    marginBottom: size(10),
-  },
-
-  countDownTimer: {
-    textAlign: 'center',
-    color: Color.Mint[100],
-  },
-  coreButtonCustom: {
-    marginTop: size(14),
-    width: '100%',
-  },
-});
 
 export default FlatShowScreen;

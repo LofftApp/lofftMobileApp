@@ -8,8 +8,7 @@ import SignInForm from 'components/Forms/SignInForm';
 import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPalletTest.json';
 
 // Assets 🛠️
 import {SignInBackground} from '../../assets';
@@ -20,10 +19,16 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
+
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
 
   const insets = useSafeAreaInsets();
   const imageMarginTop = height < 700 ? size(10) : size(70);
@@ -38,6 +43,49 @@ const SignInScreen = () => {
     navigation.navigate('SignUpScreen');
     setClearErrors(true);
   };
+
+  const styles = StyleSheet.create({
+  behindContainer: {
+    flex: 1,
+    backgroundColor: colors.Lavendar['10'],
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: '-46%',
+    zIndex: 1,
+  },
+  image: {
+    marginTop: height / 12,
+  },
+  imageContainer: {
+    zIndex: 3,
+    flex: 1,
+    alignItems: 'center',
+  },
+  formContainer: {
+    flex: 3,
+    paddingHorizontal: size(16),
+    backgroundColor: colors.White['100'],
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    zIndex: 2,
+  },
+  signInForm: {
+    flex: 2,
+  },
+  footer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: size(190),
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    gap: size(20),
+    alignItems: 'center',
+    marginBottom: size(10),
+  },
+});
 
   return (
     <View testID="sign-in" style={styles.behindContainer}>
@@ -65,7 +113,7 @@ const SignInScreen = () => {
               Don't have an account yet?
             </Text>
             <Text
-              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
+              style={[fontStyles.bodyMedium, {color: colors.Blue['100']}]}
               onPress={handleSignUp}>
               Sign Up
             </Text>
@@ -76,46 +124,5 @@ const SignInScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  behindContainer: {
-    flex: 1,
-    backgroundColor: Color.Lavendar['10'],
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: '-46%',
-    zIndex: 1,
-  },
-  image: {
-    marginTop: height / 12,
-  },
-  imageContainer: {
-    zIndex: 3,
-    flex: 1,
-    alignItems: 'center',
-  },
-  formContainer: {
-    flex: 3,
-    paddingHorizontal: size(16),
-    backgroundColor: Color.White['100'],
-    borderRadius: 30,
-    zIndex: 2,
-  },
-  signInForm: {
-    flex: 2,
-  },
-  footer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: size(190),
-  },
-  signUpContainer: {
-    flexDirection: 'row',
-    gap: size(20),
-    alignItems: 'center',
-    marginBottom: size(10),
-  },
-});
 
 export default SignInScreen;

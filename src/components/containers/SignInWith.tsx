@@ -5,8 +5,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useAuth} from 'reduxFeatures/auth/useAuth';
 
 //Assets 🎨
-import {AppleIcon, GoogleIcon} from 'assets';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { AppleIcon, GoogleIcon} from 'assets';
 
 //Components 🧰
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -17,7 +16,9 @@ import {size} from 'react-native-responsive-sizes';
 // API 🧠
 
 // Styles 🖼️
-import Colors from 'styleSheets/lofftColorPallet.json';
+import Color from 'styleSheets/lofftColorPalletTest.json';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type SignInWithProps = {
   isSignInScreen: boolean;
@@ -26,6 +27,10 @@ type SignInWithProps = {
 const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const [message, setMessage] = useState('');
   const {authMessage, setAuthMessage} = useAuth();
+
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
 
   const messageText =
     "Our amazing team is working on this feature. It's coming soon!";
@@ -63,6 +68,49 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
     console.log('sign in with google');
     setMessage(messageText);
   };
+
+  const styles = StyleSheet.create({
+    messageContainer: {
+      position: 'absolute',
+      top: size(24),
+      backgroundColor: colors.Mint[20],
+      padding: size(10),
+      borderRadius: 12,
+      zIndex: 1,
+      height: size(75),
+      width: '80%',
+      justifyContent: 'center',
+    },
+    messageTextContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: size(10),
+      justifyContent: 'center',
+    },
+
+    mainContainer: {
+      alignItems: 'center',
+      flex: 1,
+      gap: size(20),
+    },
+    signInWithText: {
+      color: colors.Black[50],
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      gap: size(16),
+    },
+    logInWithButton: {
+      width: size(74),
+      height: size(58),
+      borderWidth: 2,
+      borderRadius: 12,
+      borderColor: colors.Lavendar[100],
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  });
+
   return (
     <>
       {message && (
@@ -72,10 +120,10 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
               <LofftIcon
                 name={'log-out'}
                 size={size(20)}
-                color={Colors.Black[100]}
+                color={colors.Black[100]}
               />
             )}
-            <Text style={[fontStyles.bodySmall, {color: Colors.Black[100]}]}>
+            <Text style={[fontStyles.bodySmall, {color: colors.Black[100]}]}>
               {message}
             </Text>
           </View>
@@ -89,7 +137,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
           <TouchableOpacity
             onPress={handleSignInWithApple}
             style={styles.logInWithButton}>
-            <AppleIcon />
+            <AppleIcon color={isDarkMode ? colors.White[100] : colors.Black[100]} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSignInWithGoogle}
@@ -101,47 +149,5 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  messageContainer: {
-    position: 'absolute',
-    top: size(24),
-    backgroundColor: Colors.Mint[20],
-    padding: size(10),
-    borderRadius: 12,
-    zIndex: 1,
-    height: size(75),
-    width: '80%',
-    justifyContent: 'center',
-  },
-  messageTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(10),
-    justifyContent: 'center',
-  },
-
-  mainContainer: {
-    alignItems: 'center',
-    flex: 1,
-    gap: size(20),
-  },
-  signInWithText: {
-    color: Colors.Black[50],
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    gap: size(16),
-  },
-  logInWithButton: {
-    width: size(74),
-    height: size(58),
-    borderWidth: 2,
-    borderRadius: 12,
-    borderColor: Colors.Lavendar[100],
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default SignInWith;
