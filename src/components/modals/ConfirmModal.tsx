@@ -15,7 +15,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const ConfirmModal = ({
   openModal,

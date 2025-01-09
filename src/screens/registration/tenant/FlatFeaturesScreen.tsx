@@ -25,7 +25,7 @@ import {RegistrationBackground} from 'assets';
 // Styles 🖼  ️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Helper 🤝
 import {useNavigation} from '@react-navigation/native';

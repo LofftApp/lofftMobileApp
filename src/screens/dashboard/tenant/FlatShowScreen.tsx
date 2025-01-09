@@ -31,7 +31,7 @@ import {size} from 'react-native-responsive-sizes';
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",

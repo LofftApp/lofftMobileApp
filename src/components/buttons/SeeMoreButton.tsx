@@ -3,7 +3,7 @@ import {Pressable, StyleSheet, Text, Animated} from 'react-native';
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Helpers

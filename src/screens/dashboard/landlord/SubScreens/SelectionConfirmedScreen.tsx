@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import { useTheme } from 'components/themes/ThemeContext';
 
 //Components

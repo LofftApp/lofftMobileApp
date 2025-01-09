@@ -19,7 +19,7 @@ import {signInSchema} from 'lib/zodSchema';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type SignInFormProps = {
   clearErrors: boolean;

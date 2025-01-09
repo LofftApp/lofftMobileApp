@@ -12,11 +12,19 @@ export const ThemeProvider = ({ children }: any) => {
   const [isDarkMode, setIsDarkMode] = useState(Appearance.getColorScheme() === 'dark');
 
   useEffect(() => {
+    let isSubscribed = true; // Track subscription status
+
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
-      setIsDarkMode(colorScheme === 'dark');
+      if (isSubscribed) {
+        setIsDarkMode(colorScheme === 'dark');
+      }
     });
 
-    return () => subscription.remove();
+    // Cleanup function to ensure the listener is removed properly
+    return () => {
+      isSubscribed = false;
+      subscription.remove();
+    };
   }, []);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);

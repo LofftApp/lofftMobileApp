@@ -37,7 +37,7 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import { useTheme } from 'components/themes/ThemeContext';
 
 const LanguageSelectionScreen = () => {

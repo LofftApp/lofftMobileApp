@@ -9,7 +9,7 @@ import {checkMessageDate} from 'helpers/checkMessageDate';
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types 🦄
 import {ChatCardProps} from './types';

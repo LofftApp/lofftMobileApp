@@ -26,7 +26,7 @@ import {
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({

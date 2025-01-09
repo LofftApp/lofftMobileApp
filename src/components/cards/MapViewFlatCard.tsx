@@ -20,7 +20,7 @@ import HeartButton from 'components/buttons/HeartButton';
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Assets 🪴
 import {NoFlatImage} from 'assets';

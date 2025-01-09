@@ -6,7 +6,7 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type NotFoundComponentProps = {
   message: string;

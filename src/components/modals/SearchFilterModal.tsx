@@ -39,7 +39,7 @@ import type {SearchFilterModalProps} from './types';
 import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const SearchFilterModal = ({
   openModal,

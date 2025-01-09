@@ -10,7 +10,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {Dollar, Pound} from 'assets';
 import {Currency} from 'reduxFeatures/assets/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type CurrencyInputProps = {
   placeholder?: string;

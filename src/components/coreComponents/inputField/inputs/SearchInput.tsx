@@ -4,7 +4,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import { InputStyleSheet } from './styleSheet';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type SearchInputProps = {
   placeholder?: string;

@@ -8,7 +8,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {InputStyleSheet} from './styleSheet';
 import { useTheme } from 'components/themes/ThemeContext';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type PasswordInputProps = {
   placeholder?: string;

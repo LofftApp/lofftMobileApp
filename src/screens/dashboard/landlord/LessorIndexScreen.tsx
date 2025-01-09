@@ -11,9 +11,9 @@ import {size} from 'react-native-responsive-sizes';
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 // StyleSheets 🖼️
-import * as Color from 'styleSheets/lofftColorPalletTest.json';
+import * as Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';

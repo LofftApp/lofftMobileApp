@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { useTheme } from 'components/themes/ThemeContext';
 import { size } from 'react-native-responsive-sizes';
-import Color from './lofftColorPalletTest.json'; // Assuming this is the correct path
+import Color from './lofftColorPallet.json';
 
 export const CoreStyleSheet = () => {
   const { isDarkMode } : any = useTheme();

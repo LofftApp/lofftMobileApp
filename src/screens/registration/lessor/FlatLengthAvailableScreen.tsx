@@ -38,7 +38,7 @@ dayjs.extend(isToday);
 // Types
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const FlatLengthAvailableScreen = () => {
   //CoreStyles

@@ -24,13 +24,13 @@ const ScreenBackButton = ({
   title = null,
   children,
 }: ScreenBackButtonProp) => {
+   const coreStyles = CoreStyleSheet();
   return (
-    // Screen back button
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View
         style={[
-          CoreStyleSheet.viewContainerStyle,
-          Platform.OS === 'ios' ? CoreStyleSheet.viewContainerIOSStyle : null,
+          coreStyles.viewContainerStyle,
+          Platform.OS === 'ios' ? coreStyles.viewContainerIOSStyle : null,
         ]}>
         {nav && <BackButton onPress={nav} title={title ?? ''} />}
         <View style={styles.safeViewContainer}>{children}</View>

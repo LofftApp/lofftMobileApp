@@ -19,7 +19,7 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 // StylesSheet 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {createFontStyles} from 'styleSheets/fontStylesTest';
+import {createFontStyles} from 'styleSheets/fontStyles';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';

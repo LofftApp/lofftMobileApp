@@ -5,8 +5,6 @@ import {Switch} from 'react-native';
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
-
-
 const CustomSwitch = ({value, onValueChange}: any) => {
   const {isDarkMode} = useTheme();
   const colors = isDarkMode ? Color.Dark : Color.Light;

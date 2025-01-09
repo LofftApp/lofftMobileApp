@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {View, Text, StyleSheet, Pressable, Animated} from 'react-native';
 
 // Styles
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Colors
 import Color from 'styleSheets/lofftColorPallet.json';

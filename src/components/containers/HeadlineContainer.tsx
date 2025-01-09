@@ -3,8 +3,8 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
 // Styles
-import {createFontStyles} from '../../styles/fontStylesTest';
-import Color from '../../styles/lofftColorPalletTest.json';
+import {createFontStyles} from '../../styles/fontStyles';
+import Color from '../../styles/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 import { useTheme } from 'components/themes/ThemeContext';
 

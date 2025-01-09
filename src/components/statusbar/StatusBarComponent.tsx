@@ -24,7 +24,7 @@ import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const {isDarkMode}: any = useTheme();

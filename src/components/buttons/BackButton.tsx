@@ -6,7 +6,7 @@ import {height, size} from 'react-native-responsive-sizes';
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types 🏷️
 import type {BackButtonProps} from './types';

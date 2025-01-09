@@ -23,7 +23,7 @@ import {applicationPartition} from 'helpers/applicationsPartition';
 // types 🦄
 import { ApplicationStackParamsList } from 'navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type ApplicationNavigationProp = NativeStackNavigationProp<ApplicationStackParamsList>;
 

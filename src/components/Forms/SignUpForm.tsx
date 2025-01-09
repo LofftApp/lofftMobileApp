@@ -20,7 +20,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const SignUpForm = () => {
   const {isDarkMode}: any = useTheme();

@@ -18,7 +18,7 @@ import {size} from 'react-native-responsive-sizes';
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type SignInWithProps = {
   isSignInScreen: boolean;

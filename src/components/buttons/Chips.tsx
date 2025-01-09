@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import { useTheme } from 'components/themes/ThemeContext';
 //Helpers
 import {size} from 'react-native-responsive-sizes';

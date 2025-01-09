@@ -38,7 +38,7 @@ import {RegistrationBackground} from 'assets';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 //Validation 🛡️
 import {addressSchema} from 'lib/zodSchema';

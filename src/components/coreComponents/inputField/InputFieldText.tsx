@@ -14,7 +14,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // Types 🏷️
 import type {InputFieldTextProps} from './types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const InputFieldText = ({
   placeholder = null,

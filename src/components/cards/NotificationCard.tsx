@@ -7,7 +7,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 
 //Styles
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 //Assets

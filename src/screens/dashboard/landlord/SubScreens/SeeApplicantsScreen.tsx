@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Styles
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 

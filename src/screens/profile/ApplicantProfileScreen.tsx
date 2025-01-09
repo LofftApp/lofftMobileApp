@@ -29,7 +29,7 @@ import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';

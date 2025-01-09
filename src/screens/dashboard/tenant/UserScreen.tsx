@@ -8,7 +8,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 // Styles
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useTheme} from 'components/themes/ThemeContext';
 import CustomSwitch from 'components/buttons/CustomSwitch';
@@ -19,7 +19,7 @@ const UserScreen = () => {
 
   const userCredits = data?.credits;
 
-  const {isDarkMode, toggleTheme}: any = useTheme();
+  const {isDarkMode, toggleTheme} = useTheme();
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 
@@ -28,7 +28,7 @@ const UserScreen = () => {
   };
 
   const handleTheme = () => {
-    toggleTheme()
+    toggleTheme();
   };
 
   const styles = StyleSheet.create({

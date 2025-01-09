@@ -11,7 +11,7 @@ import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload'
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   // CoreStyles

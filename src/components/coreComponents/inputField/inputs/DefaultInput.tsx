@@ -4,7 +4,7 @@ import {TextInput} from 'react-native';
 // Styles 🖼️
 import {InputStyleSheet} from './styleSheet';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 type DefaultInputProps = {

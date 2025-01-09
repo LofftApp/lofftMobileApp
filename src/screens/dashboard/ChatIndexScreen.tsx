@@ -21,7 +21,7 @@ import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChatroomsStackParamsList } from 'navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList, 'ChatShow'>;
 

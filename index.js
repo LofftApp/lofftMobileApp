@@ -28,7 +28,7 @@ export default function Main() {
       <PersistGate loading={null} persistor={persister}>
         <SafeAreaProvider>
           <ThemeProvider>
-          <App />
+            <App />
           </ThemeProvider>
         </SafeAreaProvider>
       </PersistGate>

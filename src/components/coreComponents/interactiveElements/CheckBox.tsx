@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
-import Color from '../../../styles/lofftColorPalletTest.json';
+import Color from '../../../styles/lofftColorPallet.json';
 import {CrossIcon} from '../../../assets';
 import { useTheme } from 'components/themes/ThemeContext';
 

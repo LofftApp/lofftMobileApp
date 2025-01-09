@@ -10,7 +10,7 @@ import {size as sizeResponsive} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {MatchingScoreButtonProps} from './types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const MatchingScoreButton = ({size, score}: MatchingScoreButtonProps) => {
 

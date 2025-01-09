@@ -24,7 +24,7 @@ import {
   TenantNotification,
 } from 'reduxFeatures/firebaseNotifications/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const NotificationsScreen = () => {
   const coreStyles = CoreStyleSheet();

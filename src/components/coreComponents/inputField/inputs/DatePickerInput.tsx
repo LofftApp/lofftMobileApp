@@ -4,7 +4,7 @@ import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 type DatePickerInputProps = {

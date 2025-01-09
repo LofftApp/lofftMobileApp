@@ -40,7 +40,7 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import { useTheme } from 'components/themes/ThemeContext';
 
 const ConditionsOfUseScreen = () => {

@@ -41,7 +41,7 @@ import {capitalize} from 'helpers/capitalize';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const SelectCityScreen = () => {
   // CoreStyles

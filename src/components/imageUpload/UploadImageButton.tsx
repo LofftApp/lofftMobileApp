@@ -13,7 +13,7 @@ import {
 } from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 // import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 type UploadImageButtonProps = {

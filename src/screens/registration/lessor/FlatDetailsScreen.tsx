@@ -22,7 +22,7 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';

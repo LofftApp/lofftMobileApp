@@ -5,7 +5,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 import {IconButtonProps} from './types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const IconButton = ({
   text,

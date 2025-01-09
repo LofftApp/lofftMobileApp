@@ -20,7 +20,7 @@ import {size} from 'react-native-responsive-sizes';
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {

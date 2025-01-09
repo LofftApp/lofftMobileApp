@@ -8,7 +8,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 //Types
 import {SelectionButtonProps} from './types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const SelectionButton = ({
   id,

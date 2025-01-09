@@ -13,7 +13,7 @@ import {
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // External
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';

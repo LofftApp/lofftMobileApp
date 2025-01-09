@@ -5,7 +5,7 @@ import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const LoadingComponent = () => {
   const coreStyles = CoreStyleSheet();

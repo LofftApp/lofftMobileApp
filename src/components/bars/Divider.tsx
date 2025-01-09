@@ -6,7 +6,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 const Divider = ({color}: {color?: string}) => {
   const borderColor = color
     ? {borderColor: color}
-    : {borderColor: Color.Black[30]};
+    : {borderColor: Color.Light.Black[30]};
   return <View style={[styles.pageBreak, borderColor]} />;
 };
 

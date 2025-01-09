@@ -21,7 +21,7 @@ import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types 🏷
 

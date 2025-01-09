@@ -8,7 +8,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {AdvertWithCoordinates} from './types';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 
 const MapMarker = ({data}: {data: AdvertWithCoordinates}) => {
   const {isDarkMode} = useTheme();

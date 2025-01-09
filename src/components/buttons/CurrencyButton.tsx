@@ -6,7 +6,7 @@ import {Currency} from 'reduxFeatures/assets/types';
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 //Types
 
 type CurrencyButtonProps = {

@@ -27,7 +27,7 @@ import {RegistrationBackground} from 'assets';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {useTheme} from 'components/themes/ThemeContext';
-import {createFontStyles} from 'styleSheets/fontStylesTest';
+import {createFontStyles} from 'styleSheets/fontStyles';
 
 //Validation 🛡️
 import {budgetSchema} from 'lib/zodSchema';
@@ -50,7 +50,9 @@ const BudgetScreen = () => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
   const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
+
 
   //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -207,8 +209,8 @@ const BudgetScreen = () => {
               />
             )}
             <Slider
-              thumbTintColor={Color.Lavendar[100]}
-              minimumTrackTintColor={Color.Lavendar[80]}
+              thumbTintColor={colors.Lavendar[100]}
+              minimumTrackTintColor={colors.Lavendar[80]}
               value={[onlyNumber(minPrice), onlyNumber(maxPrice)]}
               animateTransitions={true}
               minimumValue={100}

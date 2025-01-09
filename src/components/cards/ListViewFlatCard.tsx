@@ -14,7 +14,7 @@ import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-// import {fontStyles} from 'styleSheets/fontStylesTest';
+
 
 // Assets 🪴
 import LofftHeaderPhoto from './LofftHeaderPhoto';
@@ -25,7 +25,7 @@ import {tagSorter} from 'helpers/tagSorter';
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../navigationStacks/types';
-import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { createFontStyles } from 'styleSheets/fontStyles';
 import { useTheme } from 'components/themes/ThemeContext';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
