@@ -139,8 +139,8 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   (currentAdvertStatus === 2 && index <= 2) ||
                   currentAdvertStatus === index ||
                   currentAdvertStatus > index
-                  ? Color.White[100]
-                  : Color.Lavendar[50]
+                  ? colors.White[100]
+                  : colors.Lavendar[50]
                 : (currentApplicationStatus === 0 &&
                     currentAdvertStatus === 1 &&
                     round1 &&
