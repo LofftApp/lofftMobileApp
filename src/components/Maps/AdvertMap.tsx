@@ -14,10 +14,12 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 // Types 🏷️
 import {Advert} from 'reduxFeatures/adverts/types';
 import {AdvertWithCoordinates} from './types';
+import { useTheme } from 'components/themes/ThemeContext';
+
 
 const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-
+  const {isDarkMode} = useTheme();
   const {mapboxAdverts, isLoading, error} = useAdvertsWithCoordinates(adverts);
 
   const onViewRef = useRef(({viewableItems}: {viewableItems: ViewToken[]}) => {
@@ -43,12 +45,14 @@ const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
     return <NotFoundComponent message="No flats found in this area" />;
   }
 
+  const mapBoxStyle = isDarkMode ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd';
+
   return (
     <>
       <View style={styles.container}>
         <MapboxGL.MapView
           style={styles.map}
-          styleURL={'mapbox://styles/jhibbs89/clc15o5dl003514rzws3xk8hd'}>
+          styleURL={mapBoxStyle}>
           <MapboxGL.Camera
             zoomLevel={15}
             centerCoordinate={coordinateViewConverter(

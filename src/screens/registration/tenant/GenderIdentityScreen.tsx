@@ -61,6 +61,9 @@ const GenderIdentityScreen = () => {
 
   const savedGenders = newUserDetails.genderIdentity;
 
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+
   // Local State
   const [selectedGenderIds, setSelectedGenderIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
@@ -106,14 +109,14 @@ const GenderIdentityScreen = () => {
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={'What is your gender identity?'}
           subDescription={'To help you find the right match'}

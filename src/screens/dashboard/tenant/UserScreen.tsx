@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 // Redux
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 

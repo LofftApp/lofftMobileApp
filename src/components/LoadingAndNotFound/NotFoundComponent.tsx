@@ -1,11 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import BackButton from 'components/buttons/BackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
+import { useTheme } from 'components/themes/ThemeContext';
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type NotFoundComponentProps = {
   message: string;
@@ -20,6 +21,9 @@ const NotFoundComponent = ({
   buttonValue,
   onPress,
 }: NotFoundComponentProps) => {
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
   const navigation = useNavigation();
 
   const onPressHandler = () => {
@@ -31,7 +35,7 @@ const NotFoundComponent = ({
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       {backButton && <BackButton onPress={onPressHandler} />}
       <View style={styles.ErrorContainer}>
         <Text style={[fontStyles.headerSmall, styles.textAlign]}>

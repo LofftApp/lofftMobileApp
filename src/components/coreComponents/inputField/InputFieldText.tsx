@@ -9,7 +9,7 @@ import CurrencyInput from './inputs/CurrencyInput';
 import DefaultInput from './inputs/DefaultInput';
 
 // Style 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {InputFieldTextProps} from './types';

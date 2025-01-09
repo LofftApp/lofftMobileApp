@@ -4,9 +4,9 @@ import {size} from 'react-native-responsive-sizes';
 import {Currency} from 'reduxFeatures/assets/types';
 
 // Styles
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 //Types
 
 type CurrencyButtonProps = {
@@ -22,7 +22,33 @@ const CurrencyButton = ({
   selectFn,
   disabled = false,
 }: CurrencyButtonProps) => {
-  const colorText = {color: toggle ? Color.White[100] : Color.Black[100]};
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+  const colorText = {color: toggle ? colors.White[100] : colors.Black[100]};
+
+  const styles = StyleSheet.create({
+    emojiIcon: {
+      borderColor: colors.Black[100],
+    },
+    selectedEmojiIcon: {
+      borderColor: colors.Lavendar[100],
+      backgroundColor: colors.Lavendar[100],
+    },
+    buttonStyle: {
+      paddingVertical: size(12),
+      paddingHorizontal: size(16),
+
+      marginRight: size(8),
+      marginBottom: size(16),
+      borderRadius: size(16),
+      borderWidth: size(2),
+    },
+    disabled: {
+      backgroundColor: colors.Black[5],
+      borderColor: colors.Black[10],
+    },
+  });
 
   return (
     <View>
@@ -49,28 +75,5 @@ const CurrencyButton = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  emojiIcon: {
-    borderColor: Color.Black[100],
-  },
-  selectedEmojiIcon: {
-    borderColor: Color.Lavendar[100],
-    backgroundColor: Color.Lavendar[100],
-  },
-  buttonStyle: {
-    paddingVertical: size(12),
-    paddingHorizontal: size(16),
-
-    marginRight: size(8),
-    marginBottom: size(16),
-    borderRadius: size(16),
-    borderWidth: size(2),
-  },
-  disabled: {
-    backgroundColor: Color.Black[5],
-    borderColor: Color.Black[10],
-  },
-});
 
 export default CurrencyButton;

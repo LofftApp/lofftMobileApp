@@ -13,7 +13,7 @@ import MatchingScoreButton from 'components/buttons/MatchingScoreButton';
 import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 // import {fontStyles} from 'styleSheets/fontStylesTest';
 
 // Assets 🪴

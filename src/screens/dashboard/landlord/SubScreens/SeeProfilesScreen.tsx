@@ -3,9 +3,11 @@ import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
+
 
 // Redux
 import {
@@ -37,6 +39,12 @@ import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
+  //CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {advertId} = route.params;
   const [cleanError, setCleanError] = useState(false);
 
@@ -133,6 +141,27 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
       errorConfirming && !cleanError ? 'Error confirming the applicants' : '',
   };
 
+
+const styles = StyleSheet.create({
+  screenContainer: StyleSheet.flatten([
+    coreStyles.screenContainer,
+    {paddingVertical: size(10)},
+  ]),
+
+  coreButton: {width: '100%'},
+
+  iconContainer: {
+    zIndex: 100,
+  },
+  selectedButtonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: size(10),
+    paddingBottom: size(10),
+    gap: size(10),
+  },
+});
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -156,7 +185,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   }
 
   return (
-    <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
+    <SafeAreaView style={[coreStyles.safeAreaViewShowContainer]}>
       <BackButton title="Profiles" onPress={navigation.goBack} />
 
       <View style={styles.screenContainer}>
@@ -174,7 +203,7 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
         </ScrollView>
 
         <View style={styles.selectedButtonContainer}>
-          <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[50]}]}>
+          <Text style={[fontStyles.bodyExtraSmall, {color: colors.Black[50]}]}>
             {`You can select up to ${MAX_SELECT_ROUND2} applicants`}
           </Text>
           <CoreButton
@@ -202,25 +231,5 @@ const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  screenContainer: StyleSheet.flatten([
-    CoreStyleSheet.screenContainer,
-    {paddingVertical: size(10)},
-  ]),
-
-  coreButton: {width: '100%'},
-
-  iconContainer: {
-    zIndex: 100,
-  },
-  selectedButtonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    paddingTop: size(10),
-    paddingBottom: size(10),
-    gap: size(10),
-  },
-});
 
 export default SeeProfilesScreen;

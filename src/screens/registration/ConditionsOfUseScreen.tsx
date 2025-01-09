@@ -23,7 +23,6 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ConfirmModal from 'components/modals/ConfirmModal';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
@@ -41,8 +40,16 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { useTheme } from 'components/themes/ThemeContext';
 
 const ConditionsOfUseScreen = () => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -152,16 +159,42 @@ const ConditionsOfUseScreen = () => {
     return <LoadingComponent />;
   }
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      flex: 1,
+      justifyContent: 'space-between',
+    },
+    textContainer: {
+      marginTop: size(10),
+      paddingHorizontal: size(10),
+      gap: size(30),
+    },
+    overlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: colors.BlackOpacity[50],
+      zIndex: 1,
+    },
+    footerContainer: {
+      paddingTop: size(20),
+      paddingBottom: size(10),
+      gap: size(10),
+    },
+  });
+
   return (
     <>
       {isModalOpen && <View style={styles.overlay} />}
-      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-        <View style={CoreStyleSheet.screenContainer}>
+      <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
+        <View style={coreStyles.screenContainer}>
           <BackButton onPress={handleBackButton} />
           <RegistrationBackground
             height="100%"
             width="100%"
-            style={CoreStyleSheet.backgroundImage}
+            style={coreStyles.backgroundImage}
           />
           <HeadlineContainer
             headlineText={`Lofft is an ${'\n'}inclusive space`}
@@ -170,7 +203,7 @@ const ConditionsOfUseScreen = () => {
           />
           <View style={styles.mainContainer}>
             <View style={styles.textContainer}>
-              <Text style={[fontStyles.bodySmall, {color: Color.Black[80]}]}>
+              <Text style={[fontStyles.bodySmall, {color: colors.Black[80]}]}>
                 Therefore, we ask our members to agree to the statement below:
               </Text>
               <Text style={fontStyles.bodySmall}>
@@ -220,31 +253,5 @@ const ConditionsOfUseScreen = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  textContainer: {
-    marginTop: size(10),
-    paddingHorizontal: size(10),
-    gap: size(30),
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: Color.BlackOpacity[50],
-    zIndex: 1,
-  },
-  footerContainer: {
-    paddingTop: size(20),
-    paddingBottom: size(10),
-    gap: size(10),
-  },
-});
 
 export default ConditionsOfUseScreen;

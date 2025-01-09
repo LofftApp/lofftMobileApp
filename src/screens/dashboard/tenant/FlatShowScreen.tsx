@@ -17,7 +17,7 @@ import {Looking} from 'assets';
 import FlatInfoSubScreen from './SubScreens/FlatInfoSubScreen';
 import ConfirmModal from 'components/modals/ConfirmModal';
 import {CoreButton} from 'components/buttons/CoreButton';
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
@@ -53,6 +53,7 @@ const outOfTokens = {
 };
 
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
+  const coreStyles = CoreStyleSheet();
   const {isDarkMode}: any = useTheme();
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
@@ -90,16 +91,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
     applyForFlat(advert?.id ?? 0);
   };
 
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
-
-  if (error) {
-    return <NotFoundComponent message="There was an error getting this flat" />;
-  }
-
-  const coreStyles = CoreStyleSheet();
-
   const styles = StyleSheet.create({
       flatCardContainer: {
         width: '100%',
@@ -122,6 +113,15 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
         width: '100%',
       },
     });
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return <NotFoundComponent message="There was an error getting this flat" />;
+  }
+
 
   return (
     <View style={coreStyles.showContainer}>

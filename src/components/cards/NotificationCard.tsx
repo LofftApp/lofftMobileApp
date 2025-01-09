@@ -6,7 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 //Styles
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 //Assets
@@ -28,20 +29,22 @@ import {
 } from 'reduxFeatures/firebaseNotifications/types';
 import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
 
+
 const NotificationCard = ({
   notification,
 }: {
   notification: LessorNotification | TenantNotification;
 }) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
   const navigation = useNavigation<NotificationsScreenNavigationProp>();
   const {width} = useWindowDimensions();
   const isLessorNotification = notification.userType === 'lessor';
   const isRead = notification.read;
 
-  const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
+  const lessorBgColor = isRead ? colors.White[100] : colors.Lavendar[20];
   const advertStatus = notification.advert.status;
-
-  console.log(notification.advert.chatroomId)
 
   const lessorNotificationHelper = useMemo(
     () => (notificationType: LessorNotificationType) => {
@@ -49,10 +52,10 @@ const NotificationCard = ({
         case 'open':
           return {
             icon: 'calendar',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'open' ? 'See applicants' : undefined,
-            buttonColor: Color.Lavendar[100],
+            buttonColor: colors.Lavendar[100],
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -63,10 +66,10 @@ const NotificationCard = ({
         case 'review':
           return {
             icon: 'calendar',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'review' ? 'See applicants' : undefined,
-            buttonColor: Color.Lavendar[100],
+            buttonColor: colors.Lavendar[100],
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -77,10 +80,10 @@ const NotificationCard = ({
         case 'viewing':
           return {
             icon: 'hourglass',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'viewing' ? 'Go to chat' : undefined,
-            buttonColor: Color.Lavendar[100],
+            buttonColor: colors.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('ChatroomsNavigator', {
@@ -91,10 +94,10 @@ const NotificationCard = ({
         case 'offered':
           return {
             icon: 'home-smile',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'offered' ? 'Go to chat' : undefined,
-            buttonColor: Color.Lavendar[100],
+            buttonColor: colors.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
                navigation.navigate('ChatroomsNavigator', {
@@ -105,7 +108,7 @@ const NotificationCard = ({
         case 'closed':
           return {
             icon: 'calendar',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: undefined,
             buttonColor: undefined,
@@ -116,10 +119,10 @@ const NotificationCard = ({
         case 'new_applicant':
           return {
             icon: 'face-wink',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: advertStatus === 'open' ? 'See applicants' : undefined,
-            buttonColor: Color.Lavendar[100],
+            buttonColor: colors.Lavendar[100],
             buttonIcon: undefined,
             buttonNavigation: () =>
               navigation.navigate('LessorIndexNavigator', {
@@ -130,7 +133,7 @@ const NotificationCard = ({
         default:
           return {
             icon: 'calendar',
-            iconColor: Color.Black[100],
+            iconColor: colors.Black[100],
             bgColor: lessorBgColor,
             value: undefined,
             buttonColor: undefined,
@@ -139,11 +142,11 @@ const NotificationCard = ({
           };
       }
     },
-    [navigation, notification.advert.id, lessorBgColor, advertStatus, notification.advert.chatroomId],
+    [colors.Black, colors.Lavendar, lessorBgColor, advertStatus, navigation, notification.advert.id, notification.advert.chatroomId],
   );
 
-  const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
-  const tenantNegativeBgColor = isRead ? Color.White[100] : Color.Tomato[20];
+  const tenantPositiveBgColor = isRead ? colors.White[100] : colors.Mint[20];
+  const tenantNegativeBgColor = isRead ? colors.White[100] : colors.Tomato[20];
   const applicationStatus =
     !isLessorNotification && notification.application.status;
 
@@ -153,7 +156,7 @@ const NotificationCard = ({
         case 'round_1':
           return {
             icon: 'thumbs-up',
-            iconColor: Color.Mint[100],
+            iconColor: colors.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: undefined,
             buttonColor: undefined,
@@ -163,20 +166,20 @@ const NotificationCard = ({
         case 'round_2':
           return {
             icon: 'thumbs-up',
-            iconColor: Color.Mint[100],
+            iconColor: colors.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: undefined,
-            buttonColor: Color.Mint[100],
+            buttonColor: colors.Mint[100],
             buttonIcon: undefined,
             buttonNavigation: undefined,
           };
         case 'round_3':
           return {
             icon: 'thumbs-up',
-            iconColor: Color.Mint[100],
+            iconColor: colors.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: applicationStatus === 'active' ? 'Go to chat' : undefined,
-            buttonColor: Color.Mint[100],
+            buttonColor: colors.Mint[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
                navigation.navigate('ChatroomsNavigator', {
@@ -187,10 +190,10 @@ const NotificationCard = ({
         case 'offered':
           return {
             icon: 'thumbs-up',
-            iconColor: Color.Mint[100],
+            iconColor: colors.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: applicationStatus === 'offered' ? 'Accept' : undefined,
-            buttonColor: Color.Mint[100],
+            buttonColor: colors.Mint[100],
             buttonIcon: 'home-smile',
             buttonNavigation: () =>
               navigation.navigate('ApplicationNavigator', {
@@ -200,7 +203,7 @@ const NotificationCard = ({
         case 'closed':
           return {
             icon: 'thumbs-down',
-            iconColor: Color.Tomato[100],
+            iconColor: colors.Tomato[100],
             bgColor: tenantNegativeBgColor,
             value: undefined,
             buttonColor: undefined,
@@ -210,7 +213,7 @@ const NotificationCard = ({
         default:
           return {
             icon: 'thumbs-up',
-            iconColor: Color.Mint[100],
+            iconColor: colors.Mint[100],
             bgColor: tenantPositiveBgColor,
             value: undefined,
             buttonColor: undefined,
@@ -219,13 +222,7 @@ const NotificationCard = ({
           };
       }
     },
-    [
-      tenantNegativeBgColor,
-      tenantPositiveBgColor,
-      navigation,
-      applicationStatus,
-      notification.advert.chatroomId,
-    ],
+    [colors.Mint, colors.Tomato, tenantPositiveBgColor, applicationStatus, tenantNegativeBgColor, navigation, notification.advert.chatroomId],
   );
 
   const notificationAssets = isLessorNotification
@@ -269,7 +266,7 @@ const NotificationCard = ({
         <View style={styles.iconImageContainer}>
           <LofftIcon
             name={notificationAssets.icon}
-            size={30}
+            size={size(30)}
             color={notificationAssets.iconColor}
             testID={notificationAssets.icon}
           />
@@ -286,11 +283,17 @@ const NotificationCard = ({
           </View>
         </View>
         <View style={styles.details}>
-          <Text style={[fontStyles.bodySmall, {color: Color.Black[100]}]}>
+          <Text style={[fontStyles.bodySmall, {
+              color: isDarkMode
+                ? isRead
+                  ? colors.Black[100]
+                  : colors.White[100]
+                : colors.Black[100],
+            }]}>
             {beforeTagLine}
             <Text
               onPress={handleAdvertNavigation}
-              style={[fontStyles.bodySmall, {color: Color.Blue[100]}]}>
+              style={[fontStyles.bodySmall, {color: colors.Blue[100]}]}>
               {notification.advert.flat.tagLine}
             </Text>
             {afterTagLine}.
@@ -298,7 +301,7 @@ const NotificationCard = ({
           <Text
             style={[
               fontStyles.bodyExtraSmall,
-              {color: Color.BlackOpacity[50]},
+              {color: colors.BlackOpacity[50]},
             ]}>
             {timeFromNow.charAt(0).toUpperCase() + timeFromNow.slice(1)}
           </Text>
@@ -319,7 +322,7 @@ const NotificationCard = ({
                   <LofftIcon
                     name={notificationAssets.buttonIcon}
                     size={size(25)}
-                    color={Color.White[100]}
+                    color={colors.White[100]}
                   />
                 ) : undefined
               }

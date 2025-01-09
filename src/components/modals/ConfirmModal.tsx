@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Modal, SafeAreaView} from 'react-native';
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
 import {ConfirmBackground} from 'assets';
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
@@ -26,19 +26,16 @@ const ConfirmModal = ({
   fullScreen = false,
   disabled = false,
 }: ConfirmModalProps) => {
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   const marginTop = fullScreen ? size(24) : size(10);
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
-
-  const {isDarkMode}: any = useTheme();
-  const fontStyles = createFontStyles(isDarkMode);
-  const colors = isDarkMode ? Color.Dark : Color.Light;
-
-
-  const coreStyles = CoreStyleSheet();
-
   const styles = StyleSheet.create({
   modalContainer: {
     width: '100%',

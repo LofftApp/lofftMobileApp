@@ -7,7 +7,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -27,7 +27,7 @@ import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const ApplyForFlatScreen = () => {
-  const {isDarkMode}: any = useTheme();
+  const {isDarkMode} = useTheme();
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const navigation = useNavigation<

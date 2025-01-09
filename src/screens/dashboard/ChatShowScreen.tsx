@@ -26,6 +26,7 @@ import { Message } from 'reduxFeatures/chatrooms/types';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import { size } from 'react-native-responsive-sizes';
+import { useTheme } from 'components/themes/ThemeContext';
 
 // RTK 🛜
 import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMutation } from 'reduxFeatures/chatrooms/chatroomApi';
@@ -35,9 +36,11 @@ import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 import { baseUrl } from 'helpers/baseUrl';
 import { toCamelCaseKeys } from 'helpers/toCamelCaseKeys';
 
-
 const ChatShowScreen = ({ route }: ChatShowProp) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ?  Color.Dark : Color.Light;
   const chatroomId = route.params.chatroomId;
+
   const { data: currentUser } = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const { data, isLoading } = useGetChatroombyIdQuery(chatroomId, {
@@ -144,6 +147,109 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
     }
   };
 
+  const styles = StyleSheet.create({
+    safeContainer: {
+      flex: 1,
+      backgroundColor: colors.White[100],
+    },
+    chatContainer: {
+      flex: 1,
+    },
+    inputContainer: {
+      padding: size(10),
+      backgroundColor: colors.White[100],
+      alignItems: 'center',
+      flexDirection: 'row',
+      elevation: 3,
+      position: 'absolute',
+      bottom: 0,
+    },
+    flatListStyle: {
+      paddingVertical: size(10),
+    },
+    lastMessageReversed: {
+      marginBottom: size(100),
+    },
+    textInput: {
+      flex: 1,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 5,
+      paddingHorizontal: size(10),
+      minHeight: size(40),
+      backgroundColor: colors.White[100],
+      paddingTop: size(10),
+      color: colors.Black[100],
+    },
+    sendButtonLessor: {
+      backgroundColor: colors.Lavendar[100],
+      borderRadius: 5,
+      padding: size(10),
+      marginLeft: size(10),
+      alignSelf: 'flex-end',
+    },
+    sendButton: {
+      backgroundColor: colors.Mint[100],
+      borderRadius: 5,
+      padding: size(10),
+      marginLeft: size(10),
+      alignSelf: 'flex-end',
+    },
+    sendButtonText: {
+      color: 'white',
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    messageContainer: {
+      padding: size(10),
+      borderRadius: 10,
+      marginVertical: size(5),
+      marginHorizontal: size(10),
+      maxWidth: '80%',
+    },
+    userMessageContainerTenant: {
+      backgroundColor: colors.Mint[100],
+      alignSelf: 'flex-end',
+      color: 'white',
+    },
+    userMessageContainerLessor: {
+      backgroundColor: colors.Lavendar[100],
+      alignSelf: 'flex-end',
+    },
+    otherMessageContainer: {
+      backgroundColor: colors.Black[5],
+      alignSelf: 'flex-start',
+    },
+    messageText: {
+      flexWrap: 'wrap',
+      color: colors.Black[100],
+    },
+    userMessageText: {
+      color: colors.White[100],
+    },
+    userMessageTimeStamp: {
+      color: '#E8E8E8',
+      marginTop: size(2),
+      textAlign: 'right',
+    },
+    otherMessageTimeStamp: {
+      color: '#8E8E8E',
+      marginTop: size(2),
+      textAlign: 'right',
+    },
+    dateContainer: {
+      alignItems: 'center',
+      paddingVertical: size(8),
+    },
+    dateHeader: {
+      paddingVertical: size(4),
+      paddingHorizontal: size(8),
+      borderRadius: 8,
+      color: colors.Black[50],
+      textAlign: 'center',
+    },
+  });
+
 
   const renderMessage = ({ item, index }: { item: Message; index: number }) => {
     const isUserMessage = currentUser?.id === (item.user_id || item.userId);
@@ -243,119 +349,19 @@ const ChatShowScreen = ({ route }: ChatShowProp) => {
             onChangeText={setNewMessage}
             placeholder="Type your message"
             multiline
+            placeholderTextColor={colors.Black[5]}
           />
           <Pressable
             style={isLessor ? styles.sendButtonLessor : styles.sendButton}
             onPress={handleSendMessage}
             disabled={!newMessage.trim()}
           >
-            <LofftIcon size={size(31)} color={Color.White[100]} name="send" />
+            <LofftIcon size={size(31)} color={colors.White[100]} name="send" />
           </Pressable>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeContainer: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-  },
-  chatContainer: {
-    flex: 1,
-  },
-  inputContainer: {
-    padding: size(10),
-    backgroundColor: Color.White[100],
-    alignItems: 'center',
-    flexDirection: 'row',
-    elevation: 3,
-    position: 'absolute',
-    bottom: 0,
-  },
-  flatListStyle: {
-    paddingVertical: size(10),
-  },
-  lastMessageReversed: {
-    marginBottom: size(100),
-  },
-  textInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    paddingHorizontal: size(10),
-    minHeight: size(40),
-    backgroundColor: '#fff',
-    paddingTop: size(10),
-  },
-  sendButtonLessor: {
-    backgroundColor: Color.Lavendar[100],
-    borderRadius: 5,
-    padding: size(10),
-    marginLeft: size(10),
-    alignSelf: 'flex-end',
-  },
-  sendButton: {
-    backgroundColor: Color.Mint[100],
-    borderRadius: 5,
-    padding: size(10),
-    marginLeft: size(10),
-    alignSelf: 'flex-end',
-  },
-  sendButtonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  messageContainer: {
-    padding: size(10),
-    borderRadius: 10,
-    marginVertical: size(5),
-    marginHorizontal: size(10),
-    maxWidth: '80%',
-  },
-  userMessageContainerTenant: {
-    backgroundColor: Color.Mint[100],
-    alignSelf: 'flex-end',
-    color: 'white',
-  },
-  userMessageContainerLessor: {
-    backgroundColor: Color.Lavendar[100],
-    alignSelf: 'flex-end',
-  },
-  otherMessageContainer: {
-    backgroundColor: '#F4F4F4',
-    alignSelf: 'flex-start',
-  },
-  messageText: {
-    flexWrap: 'wrap',
-  },
-  userMessageText: {
-    color: Color.White[100],
-  },
-  userMessageTimeStamp: {
-    color: '#E8E8E8',
-    marginTop: size(2),
-    textAlign: 'right',
-  },
-  otherMessageTimeStamp: {
-    color: '#8E8E8E',
-    marginTop: size(2),
-    textAlign: 'right',
-  },
-   dateContainer: {
-    alignItems: 'center',
-    paddingVertical: size(8),
-  },
-  dateHeader: {
-    paddingVertical: size(4),
-    paddingHorizontal: size(8),
-    borderRadius: 8,
-    color: Color.Black[50],
-    textAlign: 'center',
-  },
-});
 
 export default ChatShowScreen;

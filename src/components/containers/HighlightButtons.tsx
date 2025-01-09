@@ -16,7 +16,7 @@ import HeartButton from 'components/buttons/HeartButton';
 const HighlightButtons = ({
   goBack = true,
   heartPresent = true,
-  color = Color.Lavendar[80],
+  color = Color.Light.Lavendar[80],
   favorite,
   onPressHeart,
 }: HighlightButtonsProps) => {

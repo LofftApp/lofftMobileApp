@@ -15,7 +15,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // helpers 🧰
 import {applicationPartition} from 'helpers/applicationsPartition';

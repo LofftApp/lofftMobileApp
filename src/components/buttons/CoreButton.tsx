@@ -3,8 +3,7 @@ import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
 // StyleSheets 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷
 import type {CoreButtonProps} from './types';
@@ -16,7 +15,7 @@ export const CoreButton = ({
   invert = false,
   style,
   textStyle,
-  textSize = fontStyles.headerSmall,
+  textSize ,
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
@@ -48,7 +47,7 @@ export const CoreButton = ({
     backgroundColor: colors.White[100],
   },
   textInvertButton: {
-    color: colors.Lavendar[100],
+    color: isDarkMode ? colors.Black[100] : colors.Lavendar[100],
   },
   buttonDisabled: {
     backgroundColor: colors.Black[30],

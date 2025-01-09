@@ -11,7 +11,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 //Validation 🛡️
 import {signInSchema} from 'lib/zodSchema';

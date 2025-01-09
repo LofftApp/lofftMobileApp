@@ -9,7 +9,7 @@ import SignInWith from 'components/containers/SignInWith';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+
 
 // Assets 🛠️
 import {Search} from '../../assets';
@@ -20,11 +20,18 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const {height} = Dimensions.get('window');
 
 const SignUpScreen = () => {
+
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
+
 
   const insets = useSafeAreaInsets();
   const imageHeight = height * 0.3;
@@ -34,41 +41,10 @@ const SignUpScreen = () => {
     navigation.navigate('SignInScreen');
   };
 
-  return (
-    <View testID="sign-up" style={styles.behindContainer}>
-      <SignUpBackground
-        height={height * 1.9}
-        width="100%"
-        style={styles.backgroundImage}
-      />
-      <View style={styles.imageContainer}>
-        <Search height={imageHeight} style={{marginTop: imageMarginTop}} />
-      </View>
-
-      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
-        <View style={styles.signUpForm}>
-          <SignUpForm />
-        </View>
-        <View style={styles.footer}>
-          <SignInWith isSignInScreen={false} />
-          <View style={styles.signInContainer}>
-            <Text style={fontStyles.bodyMedium}>Already have an account ?</Text>
-            <Text
-              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
-              onPress={handleSignIn}>
-              Sign In
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
   behindContainer: {
     flex: 1,
-    backgroundColor: Color.Lavendar['10'],
+    backgroundColor: colors.Lavendar['10'],
   },
 
   backgroundImage: {
@@ -85,8 +61,9 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 3,
     paddingHorizontal: size(16),
-    backgroundColor: Color.White['100'],
-    borderRadius: 30,
+    backgroundColor: colors.White['100'],
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     zIndex: 2,
   },
 
@@ -108,5 +85,38 @@ const styles = StyleSheet.create({
     marginBottom: size(10),
   },
 });
+
+  return (
+    <View testID="sign-up" style={styles.behindContainer}>
+      <SignUpBackground
+        height={height * 1.9}
+        width="100%"
+        style={styles.backgroundImage}
+      />
+      <View style={styles.imageContainer}>
+        <Search height={imageHeight} style={{marginTop: imageMarginTop}} />
+      </View>
+
+      <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
+        <View style={styles.signUpForm}>
+          <SignUpForm />
+        </View>
+        <View style={styles.footer}>
+          <SignInWith isSignInScreen={false} />
+          <View style={styles.signInContainer}>
+            <Text style={fontStyles.bodyMedium}>Already have an account ?</Text>
+            <Text
+              style={[fontStyles.bodyMedium, {color: colors.Blue['100']}]}
+              onPress={handleSignIn}>
+              Sign In
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+
 
 export default SignUpScreen;

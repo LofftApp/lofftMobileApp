@@ -6,7 +6,7 @@ import {size} from 'react-native-responsive-sizes';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheet 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {FilterButtonProps} from './types';

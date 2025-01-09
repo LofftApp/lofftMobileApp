@@ -5,14 +5,15 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets
-import Colors from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {
   MAX_FLAT_IMAGES,
   MAX_USER_IMAGES,
 } from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 // import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 type UploadImageButtonProps = {
@@ -25,8 +26,37 @@ const UploadImageButton = ({
   error,
   imageType,
 }: UploadImageButtonProps) => {
+  // CoreStyles
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {imagesToUpload} = useImagesToUpload();
   const disable = imagesToUpload.length >= MAX_FLAT_IMAGES;
+
+  const styles = StyleSheet.create({
+    mainContainer: {
+      gap: size(10),
+    },
+    imageUploadButton: {
+      borderWidth: 2,
+      borderRadius: 12,
+      borderColor: colors.Black[50],
+      paddingVertical: size(16),
+      alignItems: 'center',
+      gap: size(12),
+    },
+    uploadText: {
+      color: colors.Lavendar[100],
+    },
+    disabled: {
+      borderColor: colors.Black[30],
+      color: colors.Black[30],
+    },
+    error: {
+      borderColor: colors.Tomato[100],
+    },
+  });
   return (
     <View style={styles.mainContainer}>
       <Text style={fontStyles.headerSmall}>
@@ -44,7 +74,7 @@ const UploadImageButton = ({
         <LofftIcon
           name="upload"
           size={30}
-          color={disable ? Colors.Black[30] : Colors.Lavendar[100]}
+          color={disable ? colors.Black[30] : colors.Lavendar[100]}
         />
         <Text
           style={[
@@ -59,29 +89,5 @@ const UploadImageButton = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    gap: size(10),
-  },
-  imageUploadButton: {
-    borderWidth: 2,
-    borderRadius: 12,
-    borderColor: Colors.Black[50],
-    paddingVertical: size(16),
-    alignItems: 'center',
-    gap: size(12),
-  },
-  uploadText: {
-    color: Colors.Lavendar[100],
-  },
-  disabled: {
-    borderColor: Colors.Black[30],
-    color: Colors.Black[30],
-  },
-  error: {
-    borderColor: Colors.Tomato[100],
-  },
-});
 
 export default UploadImageButton;

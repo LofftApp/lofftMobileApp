@@ -26,12 +26,14 @@ import {tagSorter} from 'helpers/tagSorter';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
 /* Styles */
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
+
 
 const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -41,6 +43,12 @@ const hardcodedImages = [
 ];
 
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {advertId, applicantId, applicationId} = route.params;
 
   const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
@@ -106,6 +114,71 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
     applicant.profile.description &&
     applicant.profile.description?.length > truncatedDescription.length;
 
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+
+  nameAgeContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  timeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: size(10),
+    paddingTop: size(10),
+  },
+  languageContainer: {
+    paddingBottom: size(20),
+    flexDirection: 'row',
+  },
+  centerButtonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    paddingTop: size(20),
+    paddingBottom: size(10),
+  },
+  descriptionContainer: {
+    paddingHorizontal: size(10),
+  },
+  descriptionText: {
+    color: colors.Black[80],
+  },
+  chipsContainer: {
+    marginTop: size(23),
+    marginBottom: size(5),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  matchWithYouContainer: {
+    marginTop: size(10),
+  },
+
+  selectedButton: {
+    width: '94%',
+    margin: 0,
+  },
+  selected: {
+    backgroundColor: colors.Mint[100],
+    borderColor: colors.Mint[100],
+  },
+  calendarText: {color: colors.Black[100], paddingLeft: size(10)},
+  translateText: {color: colors.Black[100], paddingLeft: size(10)},
+
+  readMoreButton: {
+    marginTop: size(20),
+  },
+});
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -117,7 +190,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   }
 
   return (
-    <View style={CoreStyleSheet.showContainer}>
+    <View style={coreStyles.showContainer}>
       <View>
         <LofftHeaderPhoto
           images={applicant.profile.userPhotos || hardcodedImages}
@@ -126,40 +199,40 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
         <HighlightButtons heartPresent={false} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={CoreStyleSheet.screenContainer}>
+        <View style={coreStyles.screenContainer}>
           <View style={styles.nameAgeContainer}>
             <Text style={fontStyles.headerMedium}>
               {capitalize(applicant.profile.firstName ?? '')}{' '}
               {capitalize(applicant.profile.lastName ?? '')}
             </Text>
-            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Black[80]}]}>
+            <Text style={[fontStyles.bodyExtraSmall, {color: colors.Black[80]}]}>
               {applicant.profile.age} years old
             </Text>
           </View>
 
           <View style={styles.timeContainer}>
-            <LofftIcon name="calendar" size={25} color={Color.Black[30]} />
+            <LofftIcon name="calendar" size={25} color={colors.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.calendarText]}>
               From: 25/12/22 - unlimited
             </Text>
           </View>
 
           <View style={styles.languageContainer}>
-            <LofftIcon name="translate" size={25} color={Color.Black[30]} />
+            <LofftIcon name="translate" size={25} color={colors.Black[30]} />
             <Text style={[fontStyles.headerSmall, styles.translateText]}>
               English, German, Arabic
             </Text>
           </View>
 
           <View style={styles.descriptionContainer}>
-            <Text style={{color: Color.Black[80]}}>
+            <Text style={{color: colors.Black[80]}}>
               {truncatedDescription}
               {!descriptionExpanded && isTruncated && '...'}
             </Text>
 
             {isTruncated && (
               <Collapsible collapsed={!descriptionExpanded} duration={300}>
-                <Text style={{color: Color.Black[80]}}>
+                <Text style={{color: colors.Black[80]}}>
                   {hiddenDescription}
                 </Text>
               </Collapsible>
@@ -172,7 +245,7 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
                   style={styles.readMoreButton}
                   textStyle={[
                     fontStyles.headerSmall,
-                    {color: Color.Lavendar[100]},
+                    {color: colors.Lavendar[100]},
                   ]}
                   invert
                   disabled={false}
@@ -244,68 +317,5 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-
-  nameAgeContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: size(10),
-    paddingTop: size(10),
-  },
-  languageContainer: {
-    paddingBottom: size(20),
-    flexDirection: 'row',
-  },
-  centerButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    paddingTop: size(20),
-    paddingBottom: size(10),
-  },
-  descriptionContainer: {
-    paddingHorizontal: size(10),
-  },
-  descriptionText: {
-    color: Color.Black[80],
-  },
-  chipsContainer: {
-    marginTop: size(23),
-    marginBottom: size(5),
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'baseline',
-  },
-  matchWithYouContainer: {
-    marginTop: size(10),
-  },
-
-  selectedButton: {
-    width: '94%',
-    margin: 0,
-  },
-  selected: {
-    backgroundColor: Color.Mint[100],
-    borderColor: Color.Mint[100],
-  },
-  calendarText: {color: Color.Black[100], paddingLeft: size(10)},
-  translateText: {color: Color.Black[100], paddingLeft: size(10)},
-
-  readMoreButton: {
-    marginTop: size(20),
-  },
-});
 
 export default ApplicantProfileScreen;

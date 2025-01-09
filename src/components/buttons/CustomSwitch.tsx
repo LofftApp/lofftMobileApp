@@ -1,16 +1,21 @@
+import { useTheme } from 'components/themes/ThemeContext';
 import React from 'react';
 import {Switch} from 'react-native';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
+
+
 const CustomSwitch = ({value, onValueChange}: any) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   return (
     <Switch
       value={value}
       onValueChange={onValueChange}
-      trackColor={{false: Color.Lavendar[30], true: Color.Lavendar[50]}}
-      thumbColor={Color.Lavendar[100]}
+      trackColor={{false: colors.Lavendar[30], true: colors.Lavendar[50]}}
+      thumbColor={colors.Lavendar[100]}
     />
   );
 };

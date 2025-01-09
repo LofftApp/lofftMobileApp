@@ -1,4 +1,5 @@
 import AppleIcon from './Apple-icon.svg';
+import AppleIconWhite from './Apple-icon-white.svg';
 import GoogleIcon from './Google-icon.svg';
 import CrossIcon from './Cross-icon.svg';
 import HeartDefault from './Heart-default.svg';
@@ -9,6 +10,7 @@ import Check from './Check.svg';
 export {HeartSaved};
 export {HeartDefault};
 export {AppleIcon};
+export {AppleIconWhite};
 export {GoogleIcon};
 export {CrossIcon};
 export {Check};

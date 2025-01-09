@@ -1,9 +1,10 @@
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+import { useTheme } from 'components/themes/ThemeContext';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 type DatePickerInputProps = {
@@ -25,18 +26,42 @@ const DatePickerInput = ({
   disabled,
   dateSelected,
 }: DatePickerInputProps) => {
-  const dateColor = disabled
-    ? Color.Black[10]
-    : dateSelected
-    ? Color.Black[100]
-    : Color.Black[30];
-  const borderColor = disabled
-    ? Color.Black[10]
-    : error
-    ? Color.Tomato[100]
-    : Color.Black[50];
+  // CoreStyles
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
 
-  const iconColor = disabled ? Color.Black[30] : Color.Black[100];
+  const dateColor = disabled
+    ? colors.Black[10]
+    : dateSelected
+    ? colors.Black[100]
+    : colors.Black[30];
+  const borderColor = disabled
+    ? colors.Black[10]
+    : error
+    ? colors.Tomato[100]
+    : colors.Black[50];
+
+  const iconColor = disabled ? colors.Black[30] : colors.Black[100];
+
+  const styles = StyleSheet.create({
+    dateInput: {
+      minWidth: size(168),
+      borderWidth: 2,
+      borderRadius: 12,
+      paddingHorizontal: size(8),
+      alignItems: 'center',
+      flexDirection: 'row',
+      gap: size(10),
+      paddingLeft: size(10),
+    },
+    disabledStyle: {
+      backgroundColor: colors.Black[10],
+      borderColor: colors.Black[10],
+    },
+
+    dateText: {},
+  });
 
   return (
     <>
@@ -63,24 +88,5 @@ const DatePickerInput = ({
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  dateInput: {
-    minWidth: size(168),
-    borderWidth: 2,
-    borderRadius: 12,
-    paddingHorizontal: size(8),
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: size(10),
-    paddingLeft: size(10),
-  },
-  disabledStyle: {
-    backgroundColor: Color.Black[10],
-    borderColor: Color.Black[10],
-  },
-
-  dateText: {},
-});
 
 export default DatePickerInput;

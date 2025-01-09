@@ -24,7 +24,8 @@ import {RegistrationBackground} from 'assets';
 
 // Styles 🖼  ️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // Helper 🤝
 import {useNavigation} from '@react-navigation/native';
@@ -40,6 +41,11 @@ import {featuresSchema} from 'lib/zodSchema';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 const FlatFeaturesScreen = () => {
+   // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -123,7 +129,7 @@ const FlatFeaturesScreen = () => {
   return (
     <View
       style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
+        coreStyles.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
@@ -133,9 +139,9 @@ const FlatFeaturesScreen = () => {
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={
             isLessor

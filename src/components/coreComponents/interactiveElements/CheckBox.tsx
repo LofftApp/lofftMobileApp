@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
-import colors from '../../../styles/lofftColorPallet.json';
+import Color from '../../../styles/lofftColorPalletTest.json';
 import {CrossIcon} from '../../../assets';
+import { useTheme } from 'components/themes/ThemeContext';
 
 type CheckboxProps = {
   disabled?: boolean;
@@ -16,20 +17,10 @@ const CheckBox = ({
   style = null,
   onPress,
 }: CheckboxProps) => {
-  return (
-    <View
-      style={[styles.CBContainer, style, disabled ? styles.disabled : null]}>
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={disabled}
-        style={[styles.xIconContainer]}>
-        {disabled ? null : value ? <CrossIcon /> : null}
-      </TouchableOpacity>
-    </View>
-  );
-};
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
 
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
   CBContainer: {
     width: 24,
     height: 24,
@@ -51,5 +42,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.Black[10],
   },
 });
+
+  return (
+    <View
+      style={[styles.CBContainer, style, disabled ? styles.disabled : null]}>
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={disabled}
+        style={[styles.xIconContainer]}>
+        {disabled ? null : value ? <CrossIcon /> : null}
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export default CheckBox;

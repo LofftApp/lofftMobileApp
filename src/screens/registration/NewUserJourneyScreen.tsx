@@ -33,6 +33,7 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 const NewUserJourneyScreen = () => {
+  const coreStyles = CoreStyleSheet();
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [typeSelected, setTypeSelected] = useState(false);
@@ -84,16 +85,16 @@ const NewUserJourneyScreen = () => {
   }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleSignOut} />
 
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
 
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <View style={styles.mainContainer}>
           <HeadlineContainer
             headlineText={'What brings you here?'}

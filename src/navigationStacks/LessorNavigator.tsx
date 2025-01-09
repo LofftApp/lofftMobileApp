@@ -11,7 +11,7 @@ import useRefetchNotifications from 'hooks/useRefetchNotifications';
 import {tabIcons} from './tabIcons';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';

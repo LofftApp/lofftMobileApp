@@ -1,4 +1,5 @@
 import {CoreButton} from 'components/buttons/CoreButton';
+import { useTheme } from 'components/themes/ThemeContext';
 import React, {Dispatch, SetStateAction} from 'react';
 import {Modal, StyleSheet, View} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -16,6 +17,11 @@ const UploadImageModal = ({
   isModalOpen,
   setIsModalOpen,
 }: UploadImageModalProps) => {
+
+  // CoreStyles
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
   };
@@ -39,6 +45,33 @@ const UploadImageModal = ({
     toggleModal();
     setImagesToUpload(result.assets as ImageToUpload[]);
   };
+
+  const styles = StyleSheet.create({
+    centeredView: {
+      backgroundColor: colors.BlackOpacity[30],
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    modalView: {
+      minHeight: size(350),
+      justifyContent: 'space-evenly',
+      width: '100%',
+      backgroundColor: colors.White[100],
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
+      paddingHorizontal: size(35),
+      paddingBottom: size(35),
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.5,
+      shadowRadius: size(4),
+      elevation: 5,
+    },
+  });
   return (
     <Modal
       animationType="fade"
@@ -52,8 +85,8 @@ const UploadImageModal = ({
             value="Upload from Library"
             onPress={handleImageUpload}
             style={{
-              backgroundColor: Color.Blue[80],
-              borderColor: Color.Blue[80],
+              backgroundColor: colors.Blue[80],
+              borderColor: colors.Blue[80],
             }}
           />
           <CoreButton value="Cancel" onPress={toggleModal} invert />
@@ -62,32 +95,5 @@ const UploadImageModal = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  centeredView: {
-    backgroundColor: Color.BlackOpacity[30],
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  modalView: {
-    minHeight: size(350),
-    justifyContent: 'space-evenly',
-    width: '100%',
-    backgroundColor: Color.White[100],
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    paddingHorizontal: size(35),
-    paddingBottom: size(35),
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: size(4),
-    elevation: 5,
-  },
-});
 
 export default UploadImageModal;

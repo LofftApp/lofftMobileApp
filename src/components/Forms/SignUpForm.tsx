@@ -16,12 +16,16 @@ import {signUpSchema} from 'lib/zodSchema';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const SignUpForm = () => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
   const [checkbox, setCheckBox] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -114,6 +118,46 @@ const SignUpForm = () => {
     }
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      paddingTop: size(35),
+      alignItems: 'center',
+      flex: 1,
+    },
+
+    titleContainer: {
+      marginBottom: size(10),
+    },
+
+    inputsContainer: {
+      width: '100%',
+      gap: size(5),
+    },
+    inputContainer: {gap: size(3)},
+
+    checkBoxContainer: {
+      width: '90%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: size(16),
+      marginTop: size(-5),
+      marginBottom: size(10),
+      paddingHorizontal: size(5),
+    },
+
+    signUpContainer: {
+      width: '100%',
+      zIndex: 10,
+    },
+    link: {
+      color: colors.Blue['100'],
+    },
+    alertBox: {
+      borderColor: colors.Tomato[100],
+      backgroundColor: colors.Tomato[30],
+    },
+  });
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.titleContainer}>
@@ -175,45 +219,5 @@ const SignUpForm = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    paddingTop: size(35),
-    alignItems: 'center',
-    flex: 1,
-  },
-
-  titleContainer: {
-    marginBottom: size(10),
-  },
-
-  inputsContainer: {
-    width: '100%',
-    gap: size(5),
-  },
-  inputContainer: {gap: size(3)},
-
-  checkBoxContainer: {
-    width: '90%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(16),
-    marginTop: size(-5),
-    marginBottom: size(10),
-    paddingHorizontal: size(5),
-  },
-
-  signUpContainer: {
-    width: '100%',
-    zIndex: 10,
-  },
-  link: {
-    color: Color.Blue['100'],
-  },
-  alertBox: {
-    borderColor: Color.Tomato[100],
-    backgroundColor: Color.Tomato[30],
-  },
-});
 
 export default SignUpForm;

@@ -4,13 +4,14 @@ import {View, Text, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
-
+import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { useTheme } from 'components/themes/ThemeContext';
 //Helpers
 import {size} from 'react-native-responsive-sizes';
 
 //Types
 import type {ChipsProps} from './types';
+
 
 const Chips = ({
   tags,
@@ -21,6 +22,65 @@ const Chips = ({
   whiteBg,
   open,
 }: ChipsProps) => {
+
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
+  const styles = StyleSheet.create({
+    chipContainer: {
+      flexDirection: 'column',
+    },
+    chipsWrap: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      paddingVertical: size(4),
+      alignItems: 'center',
+    },
+    chip: {
+      flexDirection: 'row',
+      paddingHorizontal: size(8),
+      paddingVertical: size(4),
+      alignSelf: 'flex-start',
+      borderRadius: 8,
+      marginRight: size(8),
+      marginBottom: size(8),
+    },
+    featureTag: {
+      backgroundColor: colors.Blue[20],
+      alignItems: 'center',
+      gap: size(5),
+    },
+    characteristicTag: {
+      backgroundColor: colors.Lavendar[20],
+      alignItems: 'center',
+      gap: size(5),
+    },
+    featureBorder: {
+      borderColor: colors.Blue[100],
+      borderWidth: 0.5,
+    },
+    characteristicBorder: {
+      borderColor: colors.Lavendar[100],
+      borderWidth: 0.5,
+    },
+    whiteBackground: {
+      backgroundColor: colors.White[100],
+      alignItems: 'center',
+      gap: size(5),
+    },
+    featureTagFont: {
+      color: colors.Blue[100],
+    },
+    characteristicTagFont: {
+      color: colors.Lavendar[100],
+    },
+    seeReadLess: {
+      color: colors.Blue[100],
+      marginLeft: 'auto',
+      marginRight: size(10),
+    },
+  });
   // Check if there are tags to display
   if (!tags || tags.length === 0) {
     return (
@@ -163,60 +223,5 @@ const Chips = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  chipContainer: {
-    flexDirection: 'column',
-  },
-  chipsWrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingVertical: size(4),
-    alignItems: 'center',
-  },
-  chip: {
-    flexDirection: 'row',
-    paddingHorizontal: size(8),
-    paddingVertical: size(4),
-    alignSelf: 'flex-start',
-    borderRadius: 8,
-    marginRight: size(8),
-    marginBottom: size(8),
-  },
-  featureTag: {
-    backgroundColor: Color.Blue[20],
-    alignItems: 'center',
-    gap: size(5),
-  },
-  characteristicTag: {
-    backgroundColor: Color.Lavendar[20],
-    alignItems: 'center',
-    gap: size(5),
-  },
-  featureBorder: {
-    borderColor: Color.Blue[100],
-    borderWidth: 0.5,
-  },
-  characteristicBorder: {
-    borderColor: Color.Lavendar[100],
-    borderWidth: 0.5,
-  },
-  whiteBackground: {
-    backgroundColor: Color.White[100],
-    alignItems: 'center',
-    gap: size(5),
-  },
-  featureTagFont: {
-    color: Color.Blue[100],
-  },
-  characteristicTagFont: {
-    color: Color.Lavendar[100],
-  },
-  seeReadLess: {
-    color: Color.Blue[100],
-    marginLeft: 'auto',
-    marginRight: size(10),
-  },
-});
 
 export default Chips;

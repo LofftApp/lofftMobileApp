@@ -26,7 +26,8 @@ import {RegistrationBackground} from 'assets';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
+import {useTheme} from 'components/themes/ThemeContext';
+import {createFontStyles} from 'styleSheets/fontStylesTest';
 
 //Validation 🛡️
 import {budgetSchema} from 'lib/zodSchema';
@@ -46,6 +47,11 @@ import {
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 const BudgetScreen = () => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
   //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -154,14 +160,14 @@ const BudgetScreen = () => {
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={'What is your budget?'}
           subDescription={'Define the range for your monthly rental budget'}

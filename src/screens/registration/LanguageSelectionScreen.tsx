@@ -7,8 +7,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+
 // Styles 🎨
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Screens  📺
@@ -37,6 +37,8 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { useTheme } from 'components/themes/ThemeContext';
 
 const LanguageSelectionScreen = () => {
   // Navigation
@@ -60,6 +62,15 @@ const LanguageSelectionScreen = () => {
 
   // Safe Area
   const insets = useSafeAreaInsets();
+
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+
+  // Theme
+  const {isDarkMode}: any = useTheme();
+
+  // FonteStyles
+  const fontStyles = createFontStyles(isDarkMode);
 
   useEffect(() => {
     if (savedLanguages && savedLanguages.length > 0) {
@@ -142,7 +153,7 @@ const LanguageSelectionScreen = () => {
   return (
     <View
       style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
+        coreStyles.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
@@ -152,7 +163,7 @@ const LanguageSelectionScreen = () => {
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
       <View style={styles.mainContainer}>
         <HeadlineContainer

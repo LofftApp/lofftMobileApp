@@ -5,7 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Advert} from 'reduxFeatures/adverts/types';
 
 // StyleSheet 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 //Components
 import Chips from 'components/buttons/Chips';

@@ -5,7 +5,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useAuth} from 'reduxFeatures/auth/useAuth';
 
 //Assets 🎨
-import { AppleIcon, GoogleIcon} from 'assets';
+import { AppleIcon, GoogleIcon, AppleIconWhite} from 'assets';
 
 //Components 🧰
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -16,7 +16,7 @@ import {size} from 'react-native-responsive-sizes';
 // API 🧠
 
 // Styles 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStylesTest';
 
@@ -137,7 +137,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
           <TouchableOpacity
             onPress={handleSignInWithApple}
             style={styles.logInWithButton}>
-            <AppleIcon color={isDarkMode ? colors.White[100] : colors.Black[100]} />
+              {isDarkMode ? <AppleIconWhite /> : <AppleIcon />}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSignInWithGoogle}

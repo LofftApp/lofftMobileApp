@@ -36,8 +36,9 @@ import {RegistrationBackground} from 'assets';
 
 // Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 //Validation 🛡️
 import {addressSchema} from 'lib/zodSchema';
@@ -47,9 +48,16 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Currency} from 'reduxFeatures/assets/types';
 
+
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
 const WhereIsFlatScreen = () => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -206,14 +214,14 @@ const WhereIsFlatScreen = () => {
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={[CoreStyleSheet.screenContainer]}>
+      <View style={[coreStyles.screenContainer]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.mainContainer}>
             <View>
@@ -241,7 +249,7 @@ const WhereIsFlatScreen = () => {
               {isLoading && isSearching && (
                 <ActivityIndicator
                   size="large"
-                  color={Color.Lavendar[100]}
+                  color={colors.Lavendar[100]}
                   style={styles.loading}
                 />
               )}

@@ -19,7 +19,8 @@ import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // Assets 🪴
 import {NoFlatImage} from 'assets';
@@ -34,9 +35,13 @@ import type {Advert} from 'reduxFeatures/adverts/types';
 import {useNavigation} from '@react-navigation/native';
 import {SearchScreenNavigationProp} from 'navigationStacks/types';
 
+
 const maxTaglineLength = 35;
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
   const navigation = useNavigation<SearchScreenNavigationProp>();
   const {data: currentUser} = useGetUserQuery();
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -58,6 +63,81 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
   const handleNavigate = () => {
     navigation.navigate('FlatShowScreen', {advertId: advert.id});
   };
+
+  const styles = StyleSheet.create({
+    boundryContainer: {
+      flex: 1,
+      paddingHorizontal: size(8),
+      width: Dimensions.get('screen').width,
+    },
+    flatCardContainer: {
+      height: size(280),
+      width: width(95),
+      paddingVertical: size(6),
+      paddingHorizontal: size(8),
+      borderRadius: 12,
+      backgroundColor: isDarkMode ? '#1b1f22' : colors.White[100],
+    },
+    imageDetailsBlock: {
+      flex: 1,
+      flexDirection: 'row',
+      overflow: 'hidden',
+    },
+    details: {
+      flex: 1,
+      marginHorizontal: size(4),
+      justifyContent: 'space-between',
+    },
+    coreDetails: {
+      marginTop: size(10),
+    },
+    taglineContainer: {
+      marginBottom: size(10),
+      marginTop: size(10),
+      flex: 1,
+      gap: size(8),
+      justifyContent: 'space-between',
+    },
+    flatCardImage: {
+      width: size(168),
+      height: size(168),
+      borderRadius: 12,
+    },
+
+    flatCardbuttonsWrap: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingTop: size(3),
+      paddingRight: size(1),
+    },
+
+    flatCardMatchingScoreButton: {
+      backgroundColor: colors.Mint[10],
+      height: size(27),
+      width: size(63),
+      borderRadius: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    flatCardMatchingScoreButtonFont: {
+      fontWeight: '700',
+      fontSize: size(15),
+      color: colors.Mint[100],
+    },
+
+    flatCardMetadataWrap: {
+      flex: 1,
+      justifyContent: 'space-between',
+    },
+    flatCardMetadataLocation: {
+      color: colors.Black[50],
+    },
+    chipsContainer: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+    },
+  });
 
   return (
     <View style={styles.boundryContainer}>
@@ -125,80 +205,5 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  boundryContainer: {
-    flex: 1,
-    paddingHorizontal: size(8),
-    width: Dimensions.get('screen').width,
-  },
-  flatCardContainer: {
-    height: size(280),
-    width: width(95),
-    paddingVertical: size(6),
-    paddingHorizontal: size(8),
-    borderRadius: 12,
-    backgroundColor: Color.White[100],
-  },
-  imageDetailsBlock: {
-    flex: 1,
-    flexDirection: 'row',
-    overflow: 'hidden',
-  },
-  details: {
-    flex: 1,
-    marginHorizontal: size(4),
-    justifyContent: 'space-between',
-  },
-  coreDetails: {
-    marginTop: size(10),
-  },
-  taglineContainer: {
-    marginBottom: size(10),
-    marginTop: size(10),
-    flex: 1,
-    gap: size(8),
-    justifyContent: 'space-between',
-  },
-  flatCardImage: {
-    width: size(168),
-    height: size(168),
-    borderRadius: 12,
-  },
-
-  flatCardbuttonsWrap: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: size(3),
-    paddingRight: size(1),
-  },
-
-  flatCardMatchingScoreButton: {
-    backgroundColor: Color.Mint[10],
-    height: size(27),
-    width: size(63),
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  flatCardMatchingScoreButtonFont: {
-    fontWeight: '700',
-    fontSize: size(15),
-    color: Color.Mint[100],
-  },
-
-  flatCardMetadataWrap: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  flatCardMetadataLocation: {
-    color: Color.Black[50],
-  },
-  chipsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-});
 
 export default MapViewFlatCard;

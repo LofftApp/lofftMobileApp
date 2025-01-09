@@ -5,12 +5,12 @@ import {size} from 'react-native-responsive-sizes';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // StyleSheets 🖼️
-import Color from 'styleSheets/lofftColorPalletTest.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷
 import type {HeaderPageContentSwitchProps} from './types';
 import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const HeaderPageContentSwitch = ({
   toggleNames,
@@ -21,8 +21,9 @@ const HeaderPageContentSwitch = ({
 }: HeaderPageContentSwitchProps) => {
 
 
-  const {isDarkMode}: any = useTheme();
+  const {isDarkMode} = useTheme();
   const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
 
   const styles = StyleSheet.create({
   viewToggle: {
@@ -53,7 +54,11 @@ const HeaderPageContentSwitch = ({
     color: colors.Lavendar[100],
   },
   toggleButtonTextActive: {
-    color: colors.White[100],
+    color: isDarkMode
+      ? colors.Black[100]
+      : activeScreen === markers[0]
+      ? colors.White[100]
+      : colors.Lavendar[50],
   },
 });
 
@@ -65,12 +70,18 @@ const HeaderPageContentSwitch = ({
           activeScreen === markers[0] && styles.toggleButtonActive,
         ]}
         onPress={() => setActiveScreen(markers[0])}>
-        <LofftIcon
+       <LofftIcon
           name={toggleIcons[0]}
           size={size(20)}
           color={
-            activeScreen === markers[0] ? colors.White[100] : colors.Lavendar[50]
-          }
+          isDarkMode
+            ? activeScreen === markers[0]
+              ? colors.Black[100]
+              : colors.Lavendar[100]
+            : activeScreen === markers[0]
+            ? colors.White[100]
+            : colors.Lavendar[50]
+        }
         />
         <Text
           style={[
@@ -90,9 +101,15 @@ const HeaderPageContentSwitch = ({
         <LofftIcon
           name={toggleIcons[1]}
           size={20}
-          color={
-            activeScreen === markers[1] ? colors.White[100] : colors.Lavendar[50]
-          }
+         color={
+          isDarkMode
+            ? activeScreen === markers[1]
+              ? colors.Black[100]
+              : colors.Lavendar[100]
+            : activeScreen === markers[1]
+            ? colors.White[100]
+            : colors.Lavendar[50]
+        }
         />
         <Text
           style={[

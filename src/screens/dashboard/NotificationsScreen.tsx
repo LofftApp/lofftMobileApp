@@ -14,7 +14,6 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 //Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 //Helpers
@@ -24,8 +23,15 @@ import {
   LessorNotification,
   TenantNotification,
 } from 'reduxFeatures/firebaseNotifications/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const NotificationsScreen = () => {
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   const navigation = useNavigation();
 
   const {data: currentUser} = useGetUserQuery();
@@ -51,6 +57,35 @@ const NotificationsScreen = () => {
     refetch();
   };
 
+
+  const styles = StyleSheet.create({
+    screenContainer: StyleSheet.flatten([
+      coreStyles.screenContainer,
+      {paddingVertical: size(10)},
+    ]),
+
+    coreButton: {width: '100%'},
+
+    iconContainer: {
+      zIndex: 100,
+    },
+    selectedButtonContainer: {
+      width: '100%',
+      alignItems: 'center',
+      paddingTop: size(20),
+      paddingBottom: size(10),
+      gap: size(15),
+    },
+    maxNumberText: {
+      color: colors.Mint[100],
+    },
+    checkboxContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: size(10),
+    },
+  });
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -66,8 +101,8 @@ const NotificationsScreen = () => {
   return (
     <SafeAreaView
       testID="notifications-screen"
-      style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <View style={CoreStyleSheet.headerContainer}>
+      style={[coreStyles.safeAreaViewShowContainer]}>
+      <View style={coreStyles.headerContainer}>
         <Text style={fontStyles.headerLarge}>Notifications</Text>
       </View>
       {notifications?.length === 0 && (
@@ -93,33 +128,5 @@ const NotificationsScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  screenContainer: StyleSheet.flatten([
-    CoreStyleSheet.screenContainer,
-    {paddingVertical: size(10)},
-  ]),
-
-  coreButton: {width: '100%'},
-
-  iconContainer: {
-    zIndex: 100,
-  },
-  selectedButtonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    paddingTop: size(20),
-    paddingBottom: size(10),
-    gap: size(15),
-  },
-  maxNumberText: {
-    color: Color.Mint[100],
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(10),
-  },
-});
 
 export default NotificationsScreen;

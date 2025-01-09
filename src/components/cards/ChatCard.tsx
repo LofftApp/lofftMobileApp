@@ -8,7 +8,8 @@ import {checkMessageDate} from 'helpers/checkMessageDate';
 
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // Types 🦄
 import {ChatCardProps} from './types';
@@ -18,6 +19,9 @@ const hardcodedImages = [
 ];
 
 const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ?  Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
   const { matchScore, name, message, userPhoto, advertTagLine } = chatroomData;
   const { read, content, createdAt } = message ?? {};
   const [isBlinking, setIsBlinking] = useState(false);
@@ -43,6 +47,77 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
       : truncateTextAtWord(advertTagLine ?? '', 20);
   };
 
+
+  const styles = StyleSheet.create({
+    container: {
+      width: '90%',
+      height: size(117),
+      flexDirection: 'row',
+      padding: size(10),
+      borderRadius: 12,
+      marginTop: 10,
+    },
+    boxA: {
+      width: '30%',
+      height: '100%',
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 8,
+    },
+    boxB: {
+      width: '70%',
+      height: '100%',
+      paddingLeft: 10,
+      justifyContent: 'space-between',
+    },
+    innerBoxBup: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    innerBoxBdown: {
+      justifyContent: 'flex-end',
+    },
+    timeFont: {
+      color: isDarkMode
+        ? read
+          ? colors.Black[100]
+          : colors.White[100]
+        : read
+        ? colors.Black[100]
+        : colors.Black[100],
+      paddingTop: 5,
+    },
+    lessorContainerBg: {
+      backgroundColor: colors.Lavendar[10],
+    },
+    lessorContainerBgWhite: {
+      backgroundColor: colors.White[100],
+    },
+    tenantContainerBg: {
+      backgroundColor: colors.Mint[10],
+    },
+    lessorDot: {
+      color: colors.Lavendar[100],
+    },
+    tenantDot: {
+      color: colors.Mint[100],
+    },
+    textGlowingLessor: {
+      color: colors.Lavendar[100],
+      textShadowColor: 'rgba(203, 188, 255, 0.75)',
+      textShadowOffset: { width: -1, height: 1 },
+      textShadowRadius: 15,
+    },
+    textGlowingTenant: {
+      color: colors.Mint[100],
+      textShadowColor: 'rgba(188, 255, 200, 0.75)',
+      textShadowOffset: { width: -1, height: 1 },
+      textShadowRadius: 15,
+    },
+  });
+
   return (
     <View
     style={[
@@ -66,15 +141,31 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
       <View style={styles.boxB}>
         <View style={styles.innerBoxBup}>
           <View>
-            <Text style={fontStyles.headerSmall}>
+            <Text style={[fontStyles.headerSmall, {
+              color: isDarkMode
+                ? read
+                  ? colors.Black[100]
+                  : colors.White[100]
+                : read
+                ? colors.Black[100]
+                : colors.Black[100],
+            }]}>
               {!read && (
                 <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
                   ●
                 </Text>
-              )}{' '}
+              )}
               {name}
             </Text>
-            <Text style={[fontStyles.bodySmall, { color: Color.Black[50] }]}>
+            <Text style={[fontStyles.bodySmall, {
+              color: isDarkMode
+                ? read
+                  ? colors.Black[100]
+                  : colors.White[100]
+                : read
+                ? colors.Black[100]
+                : colors.Black[100],
+            }]}>
               {renderMessageText()}
             </Text>
           </View>
@@ -83,7 +174,15 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
           </Text>
         </View>
         <View style={styles.innerBoxBdown}>
-          <Text style={[fontStyles.bodyMedium, { color: Color.Black[100] }]}>
+          <Text style={[fontStyles.bodyMedium, {
+            color: isDarkMode
+              ? read
+                ? colors.Black[100]
+                : colors.White[100]
+              : read
+              ? colors.Black[100]
+              : colors.Black[100],
+          }]}>
             {message !== null && `${truncateTextAtWord(content ?? '', 20)} ...`}
           </Text>
         </View>
@@ -91,69 +190,5 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '90%',
-    height: size(117),
-    flexDirection: 'row',
-    padding: size(10),
-    borderRadius: 12,
-    marginTop: 10,
-  },
-  boxA: {
-    width: '30%',
-    height: '100%',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
-  boxB: {
-    width: '70%',
-    height: '100%',
-    paddingLeft: 10,
-    justifyContent: 'space-between',
-  },
-  innerBoxBup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  innerBoxBdown: {
-    justifyContent: 'flex-end',
-  },
-  timeFont: {
-    color: Color.Black[50],
-    paddingTop: 5,
-  },
-  lessorContainerBg: {
-    backgroundColor: Color.Lavendar[10],
-  },
-  lessorContainerBgWhite: {
-    backgroundColor: Color.White[100],
-  },
-  tenantContainerBg: {
-    backgroundColor: Color.Mint[10],
-  },
-  lessorDot: {
-    color: Color.Lavendar[100],
-  },
-  tenantDot: {
-    color: Color.Mint[100],
-  },
-  textGlowingLessor: {
-    color: Color.Lavendar[100],
-    textShadowColor: 'rgba(203, 188, 255, 0.75)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 15,
-  },
-  textGlowingTenant: {
-    color: Color.Mint[100],
-    textShadowColor: 'rgba(188, 255, 200, 0.75)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 15,
-  },
-});
 
 export default ChatCard;

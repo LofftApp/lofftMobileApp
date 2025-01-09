@@ -6,7 +6,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
 import { Looking } from 'assets';
-import { fontStyles } from 'styleSheets/fontStyles';
 
 // Redux 🛜
 import { useGetChatroomsQuery } from 'reduxFeatures/chatrooms/chatroomApi';
@@ -21,28 +20,32 @@ import { Chatroom } from 'reduxFeatures/chatrooms/types';
 import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChatroomsStackParamsList } from 'navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList, 'ChatShow'>;
 
 const ChatIndexScreen = () => {
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ?  Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
   const { data: currentUser } = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const { data, isLoading, refetch } = useGetChatroomsQuery();
   const navigation = useNavigation<ChatroomNavigationProps>();
 
-
-
-useFocusEffect(
-    useCallback(() => {
-      if(data?.chatrooms && data?.chatrooms?.length > 0) {
-       refetch();
-    }
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [data?.chatrooms, refetch])
-  );
+  useFocusEffect(
+      useCallback(() => {
+        if(data?.chatrooms && data?.chatrooms?.length > 0) {
+        refetch();
+      }
+        return () => {
+          // Do something when the screen is unfocused
+          // Useful for cleanup functions
+        };
+      }, [data?.chatrooms, refetch])
+    );
 
 
 
@@ -56,9 +59,27 @@ useFocusEffect(
     return <LoadingComponent />;
   }
 
+  const styles = StyleSheet.create({
+    containerNoChatrooms: {
+      flex: 1,
+      backgroundColor: colors.White[100],
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      justifyContent: 'center',
+    },
+    container: {
+      flex: 1,
+      backgroundColor: colors.White[100],
+      alignItems: 'center',
+    },
+    centerText: {
+      textAlign: 'center',
+      marginTop: 15,
+    },
+  });
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton title="Chats" onPress={() => navigation.goBack()} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {data?.chatrooms.length === 0 ? (
@@ -93,24 +114,5 @@ useFocusEffect(
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  containerNoChatrooms: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-    alignItems: 'center',
-  },
-  centerText: {
-    textAlign: 'center',
-    marginTop: 15,
-  },
-});
 
 export default ChatIndexScreen;

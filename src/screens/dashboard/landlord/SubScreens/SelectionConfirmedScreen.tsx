@@ -3,8 +3,9 @@ import {Text, View, StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
+import { useTheme } from 'components/themes/ThemeContext';
 
 //Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -19,6 +20,11 @@ import {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/
 import {SelectionConfirmedScreenProp} from './types';
 
 const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {advertId} = route.params;
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
@@ -26,16 +32,35 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
     navigation.navigate('ApplicationShowScreen', {id: advertId});
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: StyleSheet.flatten([
+      coreStyles.safeAreaViewShowContainer,
+      {alignItems: 'center', flex: 1},
+    ]),
+    backButton: {
+      marginLeft: 10,
+    },
+    textContainer: {
+      textAlign: 'center',
+      marginTop: size(24),
+    },
+    buttonsWrap: {
+      width: '100%',
+      gap: size(10),
+      marginTop: size(24),
+    },
+  });
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ConfirmBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
       <BackButton style={styles.backButton} onPress={handleNavigate} />
       <HiFive />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <Text style={[fontStyles.headerSmall, styles.textContainer]}>
           Selection Confirmed!
         </Text>
@@ -55,24 +80,5 @@ const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: StyleSheet.flatten([
-    CoreStyleSheet.safeAreaViewShowContainer,
-    {alignItems: 'center', flex: 1},
-  ]),
-  backButton: {
-    marginLeft: 10,
-  },
-  textContainer: {
-    textAlign: 'center',
-    marginTop: size(24),
-  },
-  buttonsWrap: {
-    width: '100%',
-    gap: size(10),
-    marginTop: size(24),
-  },
-});
 
 export default SelectionConfirmedScreen;

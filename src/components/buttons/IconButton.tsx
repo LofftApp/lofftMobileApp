@@ -1,10 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import {View, Text, Pressable, Animated, StyleSheet} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 import {IconButtonProps} from './types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const IconButton = ({
   text,
@@ -14,9 +15,14 @@ const IconButton = ({
   style,
   animation,
   isActive,
-  color = Color.Lavendar[100],
+  color,
 }: IconButtonProps) => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  color = colors.Lavendar[100];
   const animatedValue = useRef(new Animated.Value(0)).current;
+
 
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -54,22 +60,36 @@ const IconButton = ({
 
   const animatedBackgroundColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [Color.White[100], color],
+    outputRange: [colors.White[100], color],
   });
 
   const animatedTextColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [Color.Black[100], Color.White[100]],
+    outputRange: [colors.Black[100], colors.White[100]],
   });
 
   const animatedBorderColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [Color.Black[100], color],
+    outputRange: [colors.Black[100], color],
   });
 
-  const backgroundColor = isActive ? color : Color.White[100];
-  const textColor = isActive ? Color.White[100] : Color.Black[100];
-  const borderColor = isActive ? color : Color.Black[100];
+  const backgroundColor = isActive ? color : colors.White[100];
+  const textColor = isActive ? colors.White[100] : colors.Black[100];
+  const borderColor = isActive ? color : colors.Black[100];
+
+  const styles = StyleSheet.create({
+    buttonContainer: {
+      borderColor: colors.Black[100],
+      borderWidth: 2,
+      borderRadius: 12,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: size(15),
+      paddingVertical: size(30),
+      gap: size(20),
+    },
+  });
+
   return (
     <Pressable onPress={animation ? handleOnPress : onPress}>
       {animation ? (
@@ -83,7 +103,7 @@ const IconButton = ({
             <LofftIcon
               name={icon}
               size={iconSize}
-              color={isActive ? Color.White[100] : Color.Black[100]}
+              color={isActive ? colors.White[100] : colors.Black[100]}
             />
           )}
           <Animated.Text
@@ -101,7 +121,7 @@ const IconButton = ({
             <LofftIcon
               name={icon}
               size={iconSize}
-              color={isActive ? Color.White[100] : Color.Black[100]}
+              color={isActive ? colors.White[100] : colors.Black[100]}
             />
           )}
           <Text style={[fontStyles.headerSmall, {color: textColor}]}>
@@ -112,18 +132,5 @@ const IconButton = ({
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    borderColor: Color.Black[100],
-    borderWidth: 2,
-    borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: size(15),
-    paddingVertical: size(30),
-    gap: size(20),
-  },
-});
 
 export default IconButton;

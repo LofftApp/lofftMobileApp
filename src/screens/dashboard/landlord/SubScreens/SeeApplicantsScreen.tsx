@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Styles
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 
@@ -37,6 +38,12 @@ import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
+  //CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {advertId} = route.params;
   const [cleanError, setCleanError] = useState(false);
 
@@ -135,6 +142,36 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
       errorConfirming && !cleanError ? 'Error confirming the applicants' : '',
   };
 
+
+  const styles = StyleSheet.create({
+    screenContainer: StyleSheet.flatten([
+      coreStyles.screenContainer,
+      {paddingVertical: size(10)},
+    ]),
+
+    coreButton: {width: '100%'},
+
+    iconContainer: {
+      zIndex: 100,
+    },
+    selectedButtonContainer: {
+      width: '100%',
+      alignItems: 'center',
+      paddingTop: size(20),
+      paddingBottom: size(10),
+      gap: size(15),
+    },
+    maxNumberText: {
+      color: colors.Mint[100],
+    },
+    checkboxContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: size(10),
+    },
+  });
+
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -160,7 +197,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   }
 
   return (
-    <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
+    <SafeAreaView style={[coreStyles.safeAreaViewShowContainer]}>
       <BackButton title="Applicants" onPress={navigation.goBack} />
       <View style={styles.screenContainer}>
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
@@ -177,7 +214,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         </ScrollView>
         <View style={styles.selectedButtonContainer}>
           {totalSelected === MAX_SELECT_ROUND1 && (
-            <Text style={[fontStyles.bodyExtraSmall, {color: Color.Mint[100]}]}>
+            <Text style={[fontStyles.bodyExtraSmall, {color: colors.Mint[100]}]}>
               You've selected the maximum number of {MAX_SELECT_ROUND1}
             </Text>
           )}
@@ -187,7 +224,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
               <Text
                 style={[
                   fontStyles.headerExtraSmall,
-                  {color: Color.Black[100]},
+                  {color: colors.Black[100]},
                 ]}>
                 Select all applicants
               </Text>
@@ -218,33 +255,5 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  screenContainer: StyleSheet.flatten([
-    CoreStyleSheet.screenContainer,
-    {paddingVertical: size(10)},
-  ]),
-
-  coreButton: {width: '100%'},
-
-  iconContainer: {
-    zIndex: 100,
-  },
-  selectedButtonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    paddingTop: size(20),
-    paddingBottom: size(10),
-    gap: size(15),
-  },
-  maxNumberText: {
-    color: Color.Mint[100],
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(10),
-  },
-});
 
 export default SeeApplicantsScreen;

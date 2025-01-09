@@ -5,7 +5,7 @@ import {Text, View, StyleSheet, Dimensions, DimensionValue} from 'react-native';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Styles
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 // Components
 import {useNavigation} from '@react-navigation/native';
@@ -156,7 +156,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   currentApplicationStatus === index ||
                   currentApplicationStatus > index
                 ? colors.White[100]
-                : colors.Lavendar[50]
+                : colors.Mint[50]
               : colors.Black[50]
           }
         />

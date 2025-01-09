@@ -23,7 +23,6 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Assets
@@ -41,8 +40,15 @@ import {capitalize} from 'helpers/capitalize';
 
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const SelectCityScreen = () => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -228,7 +234,7 @@ const SelectCityScreen = () => {
   return (
     <View
       style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
+        coreStyles.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
@@ -238,7 +244,7 @@ const SelectCityScreen = () => {
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
       <View style={styles.mainContainer}>
         <HeadlineContainer

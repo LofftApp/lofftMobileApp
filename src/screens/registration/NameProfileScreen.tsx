@@ -34,7 +34,8 @@ import UploadImageModal from 'components/modals/UploadImageModal';
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
+import {useTheme} from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -52,7 +53,13 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 const NameProfileScreen = () => {
-  //Navigation
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
+  // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Local State
@@ -231,16 +238,42 @@ const NameProfileScreen = () => {
     }, 1000);
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      flex: 1,
+    },
+    centerContainer: {
+      paddingHorizontal: size(10),
+      paddingVertical: size(10),
+      gap: size(20),
+    },
+    inputContainer: {
+      gap: size(10),
+    },
+
+    minText: {
+      color: colors.Black[100],
+    },
+
+    imagesContainer: {
+      gap: size(20),
+    },
+
+    footerContainer: {
+      gap: size(10),
+    },
+  });
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
 
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText="A bit more about you..."
           subDescription="How others should call you? Uploading a picture gets more attention!"
@@ -331,31 +364,5 @@ const NameProfileScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-  },
-  centerContainer: {
-    paddingHorizontal: size(10),
-    paddingVertical: size(10),
-    gap: size(20),
-  },
-  inputContainer: {
-    gap: size(10),
-  },
-
-  minText: {
-    color: Color.Black[100],
-  },
-
-  imagesContainer: {
-    gap: size(20),
-  },
-
-  footerContainer: {
-    gap: size(10),
-  },
-});
 
 export default NameProfileScreen;

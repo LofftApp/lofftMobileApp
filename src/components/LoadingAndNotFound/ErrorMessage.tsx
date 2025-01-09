@@ -33,7 +33,7 @@ const ErrorMessage = ({
           : styles.container
       }>
       <Text
-        style={[fontSize, {textAlign: textAlign}, {color: Color.Tomato[100]}]}>
+        style={[fontSize, {textAlign: textAlign}, {color: Color.Light.Tomato[100]}]}>
         {message}
       </Text>
     </View>

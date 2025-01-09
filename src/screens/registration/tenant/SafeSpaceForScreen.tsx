@@ -12,7 +12,6 @@ import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 //Styles 🎨
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 //Assets
 import {RegistrationBackground} from 'assets';
@@ -37,9 +36,16 @@ import {MAX_GENDERS} from 'components/componentData/constants';
 
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const SafeSpaceForScreen = () => {
-  //Navigation
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
+  // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   // initial state
@@ -100,14 +106,14 @@ const SafeSpaceForScreen = () => {
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={
             isLessor

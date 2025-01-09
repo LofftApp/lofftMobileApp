@@ -20,6 +20,7 @@ import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomT
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import { useTheme } from 'components/themes/ThemeContext';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -36,6 +37,11 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 const SelfFlatDescribeScreen = () => {
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -110,16 +116,40 @@ const SelfFlatDescribeScreen = () => {
     setError('');
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      flex: 4,
+    },
+
+    minText: {
+      color: colors.Black[80],
+    },
+
+    inputText: {
+      borderWidth: 2,
+      paddingLeft: size(10),
+      paddingVertical: size(5),
+      borderRadius: 12,
+      height: size(10),
+    },
+    footerContainer: {
+      flex: 1,
+      paddingTop: size(20),
+      paddingBottom: size(20),
+      gap: size(10),
+    },
+  });
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
 
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={`In your own ${'\n'}words!`}
           subDescription={
@@ -160,29 +190,5 @@ const SelfFlatDescribeScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 4,
-  },
-
-  minText: {
-    color: Color.Black[80],
-  },
-
-  inputText: {
-    borderWidth: 2,
-    paddingLeft: size(10),
-    paddingVertical: size(5),
-    borderRadius: 12,
-    height: size(10),
-  },
-  footerContainer: {
-    flex: 1,
-    paddingTop: size(20),
-    paddingBottom: size(20),
-    gap: size(10),
-  },
-});
 
 export default SelfFlatDescribeScreen;

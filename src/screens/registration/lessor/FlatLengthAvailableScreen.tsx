@@ -27,7 +27,6 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {dateLengthSchema} from 'lib/zodSchema';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Helpers 🤝
@@ -38,8 +37,15 @@ dayjs.extend(isToday);
 
 // Types
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const FlatLengthAvailableScreen = () => {
+  //CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -181,15 +187,15 @@ const FlatLengthAvailableScreen = () => {
   };
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
 
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer headlineText="How long is the flat available for rent?" />
         <View style={styles.mainContainer}>
           <View>

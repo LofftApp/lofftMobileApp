@@ -12,7 +12,8 @@ import {
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // External
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
@@ -30,11 +31,16 @@ import {MAX_SELECT_ROUND2} from 'components/componentData/constants';
 import type {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
 import {ApplicantCardRound2Props} from './types';
 
+
 const ApplicantCardRound2 = ({
   currentSelectedNums,
   selectApplication,
   application,
 }: ApplicantCardRound2Props) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const applicant = application.applicant;
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
@@ -63,6 +69,30 @@ const ApplicantCardRound2 = ({
     });
   };
 
+  const styles = StyleSheet.create({
+    outterContainer: {
+      backgroundColor: colors.Lavendar[10],
+      borderRadius: 10,
+      marginBottom: size(20),
+      padding: size(15),
+    },
+    innerContainer: {
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: size(100),
+    },
+    profilePic: {
+      width: '30%',
+      height: '80%',
+      borderRadius: 8,
+    },
+    checkbox: {marginLeft: 10},
+    iconContainer: {
+      padding: size(10),
+    },
+  });
+
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
@@ -90,35 +120,11 @@ const ApplicantCardRound2 = ({
           </Text>
         </View>
         <Pressable style={styles.iconContainer} onPress={handleNavigate}>
-          <LofftIcon name="chevron-right" size={35} color={Color.Blue[80]} />
+          <LofftIcon name="chevron-right" size={35} color={colors.Blue[80]} />
         </Pressable>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  outterContainer: {
-    backgroundColor: Color.Lavendar[10],
-    borderRadius: 10,
-    marginBottom: size(20),
-    padding: size(15),
-  },
-  innerContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: size(100),
-  },
-  profilePic: {
-    width: '30%',
-    height: '80%',
-    borderRadius: 8,
-  },
-  checkbox: {marginLeft: 10},
-  iconContainer: {
-    padding: size(10),
-  },
-});
 
 export default ApplicantCardRound2;

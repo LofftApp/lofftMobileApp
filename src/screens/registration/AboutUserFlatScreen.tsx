@@ -18,8 +18,8 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 // StylesSheet 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {createFontStyles} from 'styleSheets/fontStylesTest';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -40,6 +40,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import { useTheme } from 'components/themes/ThemeContext';
 
 const AboutUserFlatScreen = () => {
   //Navigation
@@ -60,6 +61,11 @@ const AboutUserFlatScreen = () => {
 
   //Safe Area
   const insets = useSafeAreaInsets();
+
+  //CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
 
   useEffect(() => {
     if (savedCharsIds.length) {
@@ -122,7 +128,7 @@ const AboutUserFlatScreen = () => {
   return (
     <View
       style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
+        coreStyles.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
@@ -132,9 +138,9 @@ const AboutUserFlatScreen = () => {
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={
             isLessor

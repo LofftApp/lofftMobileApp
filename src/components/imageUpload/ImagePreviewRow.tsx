@@ -1,8 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet, Pressable, Text} from 'react-native';
 
-// Redux 🐰
-
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Divider from 'components/bars/Divider';
@@ -12,9 +10,15 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload';
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
+  // CoreStyles
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
     useImagesToUpload();
   const {isLessor} = useNewUserDetails();
@@ -25,12 +29,43 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
       : savedImages.lessor.flatImages
     : savedImages.tenant.userImages;
 
+  const styles = StyleSheet.create({
+    textAndImageContainer: {
+      flexDirection: 'column',
+      gap: size(10),
+    },
+    imageContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: size(12),
+    },
+    image: {
+      width: size(120),
+      height: size(120),
+      borderRadius: 12,
+      zIndex: 1,
+    },
+    closeButton: {
+      position: 'absolute',
+      right: -8,
+      zIndex: 2,
+      marginTop: -8,
+      width: size(25),
+      height: size(25),
+      borderRadius: 9999,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.Tomato['100'],
+    },
+    textStyle: {},
+  });
+
   return (
     <>
       {imagesToUpload.length > 0 && (
         <>
           <View style={styles.textAndImageContainer}>
-            <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
+            <Text style={[fontStyles.headerSmall, {color: colors.Black[50]}]}>
               Images to upload
             </Text>
 
@@ -43,7 +78,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                     <LofftIcon
                       name="x-close"
                       size={12}
-                      color={Color.White[100]}
+                      color={colors.White[100]}
                     />
                   </Pressable>
                   <Image
@@ -63,7 +98,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
       )}
       {savedImagesDisplay.length > 0 && (
         <>
-          <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
+          <Text style={[fontStyles.headerSmall, {color: colors.Black[50]}]}>
             Saved Images
           </Text>
           <View style={styles.textAndImageContainer}>
@@ -84,7 +119,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                         <LofftIcon
                           name="x-close"
                           size={12}
-                          color={Color.White[100]}
+                          color={colors.White[100]}
                         />
                       </Pressable>
                       <Image
@@ -103,36 +138,5 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  textAndImageContainer: {
-    flexDirection: 'column',
-    gap: size(10),
-  },
-  imageContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: size(12),
-  },
-  image: {
-    width: size(120),
-    height: size(120),
-    borderRadius: 12,
-    zIndex: 1,
-  },
-  closeButton: {
-    position: 'absolute',
-    right: -8,
-    zIndex: 2,
-    marginTop: -8,
-    width: size(25),
-    height: size(25),
-    borderRadius: 9999,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.Tomato['100'],
-  },
-  textStyle: {},
-});
 
 export default ImagePreviewRow;

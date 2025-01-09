@@ -44,7 +44,10 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const FlatImageUploadScreen = () => {
-  //Navigation
+  // CoreStyles
+  const coreStyles = CoreStyleSheet();
+
+  // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   //Local State
@@ -124,14 +127,14 @@ const FlatImageUploadScreen = () => {
     }, 1000);
   };
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText={
             isLessor ? 'Upload images of your flat' : 'Upload pictures of you'

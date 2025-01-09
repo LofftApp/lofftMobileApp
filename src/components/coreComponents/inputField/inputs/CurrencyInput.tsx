@@ -5,11 +5,12 @@ import {View, TextInput} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import {styles} from './styleSheet';
+import {InputStyleSheet} from './styleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {Dollar, Pound} from 'assets';
 import {Currency} from 'reduxFeatures/assets/types';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type CurrencyInputProps = {
   placeholder?: string;
@@ -42,8 +43,12 @@ const CurrencyInput = ({
   keyboardType,
   currency = 'eur',
 }: CurrencyInputProps) => {
+  const {isDarkMode}: any = useTheme();
+  const fontStyles = createFontStyles(isDarkMode);
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const inputStyleSheet = InputStyleSheet();
   return (
-    <View style={styles.inputContainerWithIcon}>
+    <View style={inputStyleSheet.inputContainerWithIcon}>
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -51,16 +56,17 @@ const CurrencyInput = ({
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
+        placeholderTextColor={colors.Black[5]}
         keyboardType={keyboardType}
       />
       {currency === 'eur' && (
-        <LofftIcon name={'currency-euro'} size={22} color={Color.Black[30]} />
+        <LofftIcon name={'currency-euro'} size={22} color={colors.Black[30]} />
       )}
       {currency === 'gbp' && (
-        <Pound height={30} width={30} color={Color.Black[30]} />
+        <Pound height={30} width={30} color={colors.Black[30]} />
       )}
       {currency === 'usd' && (
-        <Dollar height={30} width={30} color={Color.Black[30]} />
+        <Dollar height={30} width={30} color={colors.Black[30]} />
       )}
     </View>
   );

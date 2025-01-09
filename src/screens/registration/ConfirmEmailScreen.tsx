@@ -25,11 +25,15 @@ import {size} from 'react-native-responsive-sizes';
 import IconButton from 'components/buttons/IconButton';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import { useTheme } from 'components/themes/ThemeContext';
 
 const ConfirmEmailScreen = () => {
   const {data, isError, isLoading, refetch} = useGetUserQuery();
   const emailConfirmed = data?.confirmedEmail;
   const confirmRef = useRef(emailConfirmed);
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const coreStyles = CoreStyleSheet();
 
   const [error, setError] = useState('');
 
@@ -66,15 +70,41 @@ const ConfirmEmailScreen = () => {
     return <NotFoundComponent message="Error while getting profile" />;
   }
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
+      paddingTop: size(100),
+      gap: size(20),
+    },
+    iconContainer: {
+      alignItems: 'center',
+      marginTop: size(50),
+    },
+    iconSubText: {
+      marginLeft: size(10),
+      color: colors.White[100],
+    },
+
+    positiveIconContainer: {
+      textAlign: 'center',
+      alignItems: 'center',
+    },
+    iconSubTextPositive: {
+      color: colors.Black[100],
+      marginTop: 10,
+    },
+  });
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleSignOut} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <View style={styles.mainContainer}>
           <HeadlineContainer
             headlineText={emailConfirmed ? "Let's Go 🚀" : 'Almost Ready ...'}
@@ -86,14 +116,14 @@ const ConfirmEmailScreen = () => {
           />
           <View style={styles.iconContainer}>
             {isLoading ? (
-              <ActivityIndicator size="large" color={Color.Black[100]} />
+              <ActivityIndicator size="large" color={colors.Black[100]} />
             ) : emailConfirmed ? (
               <IconButton
                 icon="check-verified-02"
                 iconSize={65}
                 text="Email confirmed"
                 isActive
-                color={Color.Mint[100]}
+                color={colors.Mint[100]}
                 onPress={() => {}}
               />
             ) : (
@@ -104,6 +134,7 @@ const ConfirmEmailScreen = () => {
                   text="I have confirmed my email"
                   onPress={handleRefresh}
                   isActive={true}
+                  color={colors.Tomato[100]}
                 />
                 <ErrorMessage message={error} />
               </View>
@@ -121,31 +152,5 @@ const ConfirmEmailScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: size(100),
-    gap: size(20),
-  },
-  iconContainer: {
-    alignItems: 'center',
-    marginTop: size(50),
-  },
-  iconSubText: {
-    marginLeft: size(10),
-    color: Color.White[100],
-  },
-
-  positiveIconContainer: {
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  iconSubTextPositive: {
-    color: Color.Black[100],
-    marginTop: 10,
-  },
-});
 
 export default ConfirmEmailScreen;

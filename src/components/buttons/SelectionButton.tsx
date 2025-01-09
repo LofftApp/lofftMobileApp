@@ -3,7 +3,7 @@ import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
 // Styles
-import Color from 'styleSheets/lofftColorPalletTest.json';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 //Types
 import {SelectionButtonProps} from './types';
@@ -32,7 +32,11 @@ const SelectionButton = ({
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 
-  const colorText = {color: toggle ? colors.White[100] : colors.Black[100]};
+const colorText = {
+  color: isDarkMode
+    ? colors.Black[100]
+    : (toggle ? colors.White[100] : colors.Black[100]),
+};
 
   const styles = StyleSheet.create({
   emojiIcon: {

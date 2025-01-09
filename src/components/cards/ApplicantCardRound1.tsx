@@ -6,7 +6,8 @@ import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 //Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // External
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
@@ -25,11 +26,16 @@ import {MAX_SELECT_ROUND1} from 'components/componentData/constants';
 import type {ApplicantCardRound1Props} from './types';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
+
 const ApplicantCardRound1 = ({
   currentSelectedNums,
   selectApplication,
   application,
 }: ApplicantCardRound1Props) => {
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
   const [collapsed, setCollapsed] = useState(false);
 
   const {width} = useWindowDimensions();
@@ -71,6 +77,44 @@ const ApplicantCardRound1 = ({
   const positiveCharTags = charTags.positiveTags;
   const negativeCharTags = charTags.negativeTags;
 
+
+  const styles = StyleSheet.create({
+    outterContainer: {
+      backgroundColor: colors.Lavendar[10],
+      borderRadius: 10,
+      marginBottom: size(20),
+      padding: size(15),
+      height: 'auto',
+    },
+    innerContainer: {
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+      alignContent: 'center',
+      padding: size(15),
+    },
+    details: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    matcher: {
+      color: colors.Mint[100],
+    },
+    collapsedExpand: {
+      marginTop: size(10),
+      gap: size(10),
+      height: 'auto',
+    },
+
+    nameMargin: {
+      marginRight: size(20),
+    },
+    chipsContainer: {
+      flexWrap: 'wrap',
+    },
+  });
+
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
       <View style={[styles.innerContainer]}>
@@ -85,7 +129,7 @@ const ApplicantCardRound1 = ({
           <Text style={[fontStyles.bodyMedium, styles.nameMargin]}>
             {applicant.profile?.firstName?.split('')[0].toUpperCase()}.
           </Text>
-          <Text style={[fontStyles.bodyMedium, {color: Color.Mint[100]}]}>
+          <Text style={[fontStyles.bodyMedium, {color: colors.Mint[100]}]}>
             {applicant.matchScore}% Match
           </Text>
         </View>
@@ -122,42 +166,5 @@ const ApplicantCardRound1 = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  outterContainer: {
-    backgroundColor: Color.Lavendar[10],
-    borderRadius: 10,
-    marginBottom: size(20),
-    padding: size(15),
-    height: 'auto',
-  },
-  innerContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
-    padding: size(15),
-  },
-  details: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  matcher: {
-    color: Color.Mint[100],
-  },
-  collapsedExpand: {
-    marginTop: size(10),
-    gap: size(10),
-    height: 'auto',
-  },
-
-  nameMargin: {
-    marginRight: size(20),
-  },
-  chipsContainer: {
-    flexWrap: 'wrap',
-  },
-});
 
 export default ApplicantCardRound1;

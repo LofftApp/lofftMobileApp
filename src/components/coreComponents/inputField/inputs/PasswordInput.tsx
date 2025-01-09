@@ -5,8 +5,10 @@ import {View, TextInput, Pressable} from 'react-native';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import {styles} from './styleSheet';
+import {InputStyleSheet} from './styleSheet';
+import { useTheme } from 'components/themes/ThemeContext';
+import Color from 'styleSheets/lofftColorPallet.json';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 type PasswordInputProps = {
   placeholder?: string;
@@ -40,9 +42,15 @@ const PasswordInput = ({
   autoCapitalize = 'none',
   keyboardType,
 }: PasswordInputProps) => {
+
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+  const inputStyleSheet = InputStyleSheet();
+
   const [hidePassword, setHidePassword] = useState(true);
   return (
-    <View style={styles.inputContainerWithIcon}>
+    <View style={inputStyleSheet.inputContainerWithIcon}>
       <TextInput
         value={value}
         secureTextEntry={hidePassword}
@@ -51,11 +59,12 @@ const PasswordInput = ({
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}
+        placeholderTextColor={colors.Black[5]}
         autoCapitalize={autoCapitalize}
         keyboardType={keyboardType}
       />
       <Pressable onPress={() => setHidePassword(!hidePassword)}>
-        <LofftIcon name={hidePassword ? 'eye' : 'eye-off'} size={20} />
+        <LofftIcon color={colors.Black[100]} name={hidePassword ? 'eye' : 'eye-off'} size={20} />
       </Pressable>
     </View>
   );

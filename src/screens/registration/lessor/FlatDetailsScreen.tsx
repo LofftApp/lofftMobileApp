@@ -21,7 +21,8 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {fontStyles} from 'styleSheets/fontStyles';
+import { useTheme } from 'components/themes/ThemeContext';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -35,7 +36,15 @@ import {size as _size} from 'react-native-responsive-sizes';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
+
 const FlatDetailsScreen = () => {
+  //CoreStyles
+  const coreStyles = CoreStyleSheet();
+  const {isDarkMode} = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
+
+
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -121,16 +130,42 @@ const FlatDetailsScreen = () => {
     setErrorSize('');
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      flex: 1,
+      justifyContent: 'space-between',
+    },
+    centerContainer: {
+      flex: 3,
+      paddingHorizontal: _size(10),
+      paddingVertical: _size(10),
+      gap: _size(20),
+    },
+
+    minText: {
+      color: colors.Black[80],
+    },
+
+    inputContainer: {
+      gap: _size(10),
+    },
+
+    footerContainer: {
+      paddingTop: _size(20),
+      gap: _size(10),
+    },
+  });
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView style={coreStyles.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
         width="100%"
-        style={CoreStyleSheet.backgroundImage}
+        style={coreStyles.backgroundImage}
       />
 
-      <View style={CoreStyleSheet.screenContainer}>
+      <View style={coreStyles.screenContainer}>
         <HeadlineContainer
           headlineText="Share some details about your flat"
           subDescription="Write a catchy headline to attract potential flatmates"
@@ -174,31 +209,5 @@ const FlatDetailsScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  centerContainer: {
-    flex: 3,
-    paddingHorizontal: _size(10),
-    paddingVertical: _size(10),
-    gap: _size(20),
-  },
-
-  minText: {
-    color: Color.Black[80],
-  },
-
-  inputContainer: {
-    gap: _size(10),
-  },
-
-  footerContainer: {
-    paddingTop: _size(20),
-    gap: _size(10),
-  },
-});
 
 export default FlatDetailsScreen;

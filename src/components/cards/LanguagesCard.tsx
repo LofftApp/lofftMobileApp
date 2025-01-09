@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {View, Text, StyleSheet, Pressable, Animated} from 'react-native';
 
 // Styles
-import {fontStyles} from 'styleSheets/fontStyles';
+import { createFontStyles } from 'styleSheets/fontStylesTest';
 
 // Colors
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -15,12 +15,16 @@ import {LanguagesCardProps} from './types';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
+import { useTheme } from 'components/themes/ThemeContext';
 
 const LanguagesCard = ({
   language,
   selected,
   handleSelectedLanguages,
 }: LanguagesCardProps) => {
+  const {isDarkMode}: any = useTheme();
+  const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const translateY = useRef(new Animated.Value(0)).current;
 
@@ -42,7 +46,37 @@ const LanguagesCard = ({
       handleSelectedLanguages(language);
     });
   };
+
+  const styles = StyleSheet.create({
+    selectedContainer: {
+      paddingVertical: size(10),
+      paddingHorizontal: size(20),
+    },
+    notSelected: {
+      paddingVertical: 0,
+      paddingHorizontal: 0,
+    },
+
+    selected: {
+      backgroundColor: colors.Lavendar[20],
+      borderRadius: size(8),
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: size(20),
+      paddingVertical: size(10),
+    },
+    textContainer: {
+      paddingVertical: size(16),
+      paddingLeft: size(76),
+    },
+    selectedText: {
+      paddingLeft: size(20),
+      color: isDarkMode ? colors.White[100] : colors.Black[100],
+    },
+  });
+
   const container = selected ? styles.selectedContainer : styles.notSelected;
+
   return (
     <Animated.View
       style={[
@@ -58,7 +92,7 @@ const LanguagesCard = ({
             <LofftIcon
               name="check-verified-02"
               size={25}
-              color={Color.Lavendar[100]}
+              color={colors.Lavendar[100]}
             />
           )}
 
@@ -74,32 +108,5 @@ const LanguagesCard = ({
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  selectedContainer: {
-    paddingVertical: size(10),
-    paddingHorizontal: size(20),
-  },
-  notSelected: {
-    paddingVertical: 0,
-    paddingHorizontal: 0,
-  },
-
-  selected: {
-    backgroundColor: Color.Lavendar[20],
-    borderRadius: size(8),
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: size(20),
-    paddingVertical: size(10),
-  },
-  textContainer: {
-    paddingVertical: size(16),
-    paddingLeft: size(76),
-  },
-  selectedText: {
-    paddingLeft: size(20),
-  },
-});
 
 export default LanguagesCard;
