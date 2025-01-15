@@ -4283,6 +4283,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^18.11.18":
+  version: 18.19.70
+  resolution: "@types/node@npm:18.19.70"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/374abb7e75f7f8b2418cde5b0a8dae0032d4e1e3a76097a507a90ed9e66e40c12d19b75493db3aa9d4f92b03ae90d7d9f67c7d64c7f73f20145577350adf0e9b
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^20.8.8":
   version: 20.17.13
   resolution: "@types/node@npm:20.17.13"
@@ -6382,6 +6391,19 @@ __metadata:
   version: 1.5.82
   resolution: "electron-to-chromium@npm:1.5.82"
   checksum: 10/2c8e01d71515773d6789013162505a31b831c4f4e7b4a1e9fc65ed6d7e31e21f71b0880dd141eadbb93d89e2a2fce9636ac72604c28fa0960d44e8dacbed431e
+  languageName: node
+  linkType: hard
+
+"electron@npm:26.2.1":
+  version: 26.2.1
+  resolution: "electron@npm:26.2.1"
+  dependencies:
+    "@electron/get": "npm:^2.0.0"
+    "@types/node": "npm:^18.11.18"
+    extract-zip: "npm:^2.0.1"
+  bin:
+    electron: cli.js
+  checksum: 10/3d07d9773a6353c2a487c40900f7a68e3e654e582c771969237610a5dac67d08e31329555287bd7076344aaf16c7d613fcae40f3211517cc60c5dfff084d1a05
   languageName: node
   linkType: hard
 
@@ -9389,6 +9411,7 @@ __metadata:
     babel-plugin-module-resolver: "npm:^5.0.2"
     cross-spawn: "npm:^6.0.6"
     dayjs: "npm:^1.11.13"
+    electron: "npm:26.2.1"
     eslint: "npm:^8.19.0"
     jest: "npm:^29.6.3"
     metro-react-native-babel-preset: "npm:^0.76.9"
@@ -13265,6 +13288,13 @@ __metadata:
     has-symbols: "npm:^1.1.0"
     which-boxed-primitive: "npm:^1.1.1"
   checksum: 10/fadb347020f66b2c8aeacf8b9a79826fa34cc5e5457af4eb0bbc4e79bd87fed0fa795949825df534320f7c13f199259516ad30abc55a6e7b91d8d996ca069e50
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 10/0097779d94bc0fd26f0418b3a05472410408877279141ded2bd449167be1aed7ea5b76f756562cb3586a07f251b90799bab22d9019ceba49c037c76445f7cddd
   languageName: node
   linkType: hard
 
