@@ -34,7 +34,7 @@
     "dayjs": "^1.11.13",
     "prop-types": "^15.8.1",
     "react": "18.3.1",
-    "react-native": "0.76.0",
+    "react-native": "0.76.6",
     "react-native-collapsible": "^1.6.1",
     "react-native-date-picker": "^5.0.7",
     "react-native-dotenv": "^3.4.8",
@@ -59,13 +59,13 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "15.0.0-alpha.2",
-    "@react-native-community/cli-platform-android": "15.0.0-alpha.2",
-    "@react-native-community/cli-platform-ios": "15.0.0-alpha.2",
-    "@react-native/babel-preset": "0.76.0",
-    "@react-native/eslint-config": "0.76.0",
-    "@react-native/metro-config": "0.76.0",
-    "@react-native/typescript-config": "0.76.0",
+    "@react-native-community/cli": "15.0.1",
+    "@react-native-community/cli-platform-android": "15.0.1",
+    "@react-native-community/cli-platform-ios": "15.0.1",
+    "@react-native/babel-preset": "0.76.6",
+    "@react-native/eslint-config": "0.76.6",
+    "@react-native/metro-config": "0.76.6",
+    "@react-native/typescript-config": "0.76.6",
     "@testing-library/react-native": "^12.8.1",
     "@tsconfig/react-native": "^3.0.0",
     "@types/jest": "^29.5.13",
@@ -102,5 +102,5 @@
     "ws": "^7.5.10",
     "got": "^11.8.5"
   },
-  "packageManager": "yarn@4.5.1"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
