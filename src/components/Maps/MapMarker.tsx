@@ -7,11 +7,16 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {AdvertWithCoordinates} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
+// Redux 🧠
+import { useSelector } from 'react-redux';
+
+// Types 🏷️
+import { RootState } from 'reduxCore/store';
+
 const MapMarker = ({data}: {data: AdvertWithCoordinates}) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

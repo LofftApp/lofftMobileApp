@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useSelector } from 'react-redux';
 
 // Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -23,11 +24,11 @@ import {
   ApplicationScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../../navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 const ApplyForFlatScreen = () => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const navigation = useNavigation<

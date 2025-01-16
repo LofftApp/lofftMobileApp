@@ -11,15 +11,18 @@ import MapMarker from 'components/Maps/MapMarker';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
+// Redux 🧠
+import { useSelector } from 'react-redux';
+
 // Types 🏷️
 import {Advert} from 'reduxFeatures/adverts/types';
 import {AdvertWithCoordinates} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
+import { RootState } from 'reduxCore/store';
 
 
 const AdvertMap = ({adverts}: {adverts: Advert[]}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const {mapboxAdverts, isLoading, error} = useAdvertsWithCoordinates(adverts);
 
   const onViewRef = useRef(({viewableItems}: {viewableItems: ViewToken[]}) => {

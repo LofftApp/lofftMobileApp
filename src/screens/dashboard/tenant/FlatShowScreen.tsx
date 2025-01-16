@@ -9,6 +9,7 @@ import {
   useToggleFavoriteMutation,
 } from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useSelector } from 'react-redux';
 
 // Components
 import HighlightedButtons from 'components/containers/HighlightButtons';
@@ -30,8 +31,8 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -54,7 +55,7 @@ const outOfTokens = {
 
 const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

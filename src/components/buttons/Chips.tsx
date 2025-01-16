@@ -5,12 +5,17 @@ import Collapsible from 'react-native-collapsible';
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
 import { createFontStyles } from 'styleSheets/fontStyles';
-import { useTheme } from 'components/themes/ThemeContext';
+
 //Helpers
 import {size} from 'react-native-responsive-sizes';
 
+// Redux
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
+
 //Types
 import type {ChipsProps} from './types';
+
 
 
 const Chips = ({
@@ -23,7 +28,7 @@ const Chips = ({
   open,
 }: ChipsProps) => {
 
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

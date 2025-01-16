@@ -20,14 +20,15 @@ import { Chatroom } from 'reduxFeatures/chatrooms/types';
 import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ChatroomsStackParamsList } from 'navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList, 'ChatShow'>;
 
 const ChatIndexScreen = () => {
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ?  Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const { data: currentUser } = useGetUserQuery();

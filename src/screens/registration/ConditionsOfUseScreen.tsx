@@ -11,6 +11,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useCompleteLessorAndCreateAdvertMutation} from 'reduxFeatures/adverts/advertApi';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import { useSelector } from 'react-redux';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -41,12 +42,12 @@ import {
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
 import { createFontStyles } from 'styleSheets/fontStyles';
-import { useTheme } from 'components/themes/ThemeContext';
+import { RootState } from 'reduxCore/store';
 
 const ConditionsOfUseScreen = () => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

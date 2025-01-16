@@ -6,7 +6,8 @@ import {Text, View, StyleSheet} from 'react-native';
 import {createFontStyles} from '../../styles/fontStyles';
 import Color from '../../styles/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
-import { useTheme } from 'components/themes/ThemeContext';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type HeadlineContainerProps = {
   headlineText: string;
@@ -18,7 +19,7 @@ const HeadlineContainer = ({
   subDescription,
 }: HeadlineContainerProps) => {
 
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

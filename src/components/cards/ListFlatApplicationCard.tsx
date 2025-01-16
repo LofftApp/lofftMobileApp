@@ -11,6 +11,8 @@ import HeartButton from 'components/buttons/HeartButton';
 // Redux 🐙
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useSelector } from 'react-redux';
+
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 
@@ -25,8 +27,8 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -34,7 +36,7 @@ const ListFlatApplicationCard = ({
   _advert,
 }: ListFlatApplicationCardProps) => {
   const {data} = useGetUserQuery();
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const isLessor = data?.userType === 'lessor';

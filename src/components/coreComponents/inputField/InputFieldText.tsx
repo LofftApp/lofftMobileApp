@@ -13,8 +13,9 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {InputFieldTextProps} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const InputFieldText = ({
   placeholder = null,
@@ -30,10 +31,10 @@ const InputFieldText = ({
   style,
   currency = 'eur',
 }: InputFieldTextProps) => {
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const [focus, setFocus] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  const {isDarkMode}: any = useTheme();
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

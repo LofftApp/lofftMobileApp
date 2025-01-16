@@ -7,6 +7,7 @@ import {useSeeApplicationsByAdvertIdQuery} from 'reduxFeatures/adverts/advertApi
 import {useGetSpecificUserQuery} from 'reduxFeatures/user/userApi';
 import {useAppDispatch, useAppSelector} from 'reduxCore/hooks';
 import {toggleRound2} from 'reduxFeatures/applications/applicationSlice';
+import { useSelector } from 'react-redux';
 
 /* Components */
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
@@ -28,11 +29,11 @@ import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 /* Styles */
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types
 import type {ApplicantProfileScreenProps} from './types';
+import { RootState } from 'reduxCore/store';
 
 
 const hardcodedImages = [
@@ -45,7 +46,7 @@ const hardcodedImages = [
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

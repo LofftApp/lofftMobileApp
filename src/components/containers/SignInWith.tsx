@@ -17,8 +17,9 @@ import {size} from 'react-native-responsive-sizes';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type SignInWithProps = {
   isSignInScreen: boolean;
@@ -28,7 +29,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const [message, setMessage] = useState('');
   const {authMessage, setAuthMessage} = useAuth();
 
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

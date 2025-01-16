@@ -21,12 +21,12 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 // Types 🦄
 import { ChatShowProp } from './types';
 import { Message } from 'reduxFeatures/chatrooms/types';
+import { RootState } from 'reduxCore/store';
 
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import { size } from 'react-native-responsive-sizes';
-import { useTheme } from 'components/themes/ThemeContext';
 
 // RTK 🛜
 import { useCreateMessageMutation, useGetChatroombyIdQuery, useReadAllMessagesMutation } from 'reduxFeatures/chatrooms/chatroomApi';
@@ -36,8 +36,11 @@ import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 import { baseUrl } from 'helpers/baseUrl';
 import { toCamelCaseKeys } from 'helpers/toCamelCaseKeys';
 
+// Redux 🧠
+import { useSelector } from 'react-redux';
+
 const ChatShowScreen = ({ route }: ChatShowProp) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ?  Color.Dark : Color.Light;
   const chatroomId = route.params.chatroomId;
 

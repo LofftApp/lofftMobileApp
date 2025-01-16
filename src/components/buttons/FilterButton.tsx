@@ -10,12 +10,13 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Types 🏷️
 import type {FilterButtonProps} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 
 const FilterButton = ({onPress, isSearching}: FilterButtonProps) => {
 
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 
   const iconColor = isSearching ? colors.White[100] : colors.Black[50];

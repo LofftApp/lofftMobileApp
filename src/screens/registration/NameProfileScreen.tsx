@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import { useSelector } from 'react-redux';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -34,7 +35,6 @@ import UploadImageModal from 'components/modals/UploadImageModal';
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {useTheme} from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 //Assets 🎨
@@ -51,11 +51,12 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷 ️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import { RootState } from 'reduxCore/store';
 
 const NameProfileScreen = () => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

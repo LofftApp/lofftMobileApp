@@ -16,6 +16,7 @@ import newUserReducer from 'reduxFeatures/registration/newUserSlice';
 import imageUploadReducer from 'reduxFeatures/imageHandling/imageUploadSlice';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import applicationsReducer from 'reduxFeatures/applications/applicationSlice';
+import { themeReducer } from 'reduxFeatures/themes/themeReducer';
 
 const persistConfig = {
   key: 'root',
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   newUser: newUserReducer,
   imageUpload: imageUploadReducer,
   applications: applicationsReducer,
+  theme: themeReducer,
   [lofftApi.reducerPath]: lofftApi.reducer,
 });
 

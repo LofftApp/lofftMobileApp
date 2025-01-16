@@ -5,11 +5,15 @@ import {height, size} from 'react-native-responsive-sizes';
 
 // Stylesheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+
+// Redux
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 // Types 🏷️
 import type {BackButtonProps} from './types';
+
 
 const BackButton = ({
   onPress,
@@ -19,7 +23,7 @@ const BackButton = ({
   neutral = false,
   absolute = false,
 }: BackButtonProps) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ?  Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

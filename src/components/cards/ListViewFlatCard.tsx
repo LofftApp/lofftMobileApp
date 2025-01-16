@@ -26,12 +26,13 @@ import {tagSorter} from 'helpers/tagSorter';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {SearchScreenNavigationProp} from '../../navigationStacks/types';
 import { createFontStyles } from 'styleSheets/fontStyles';
-import { useTheme } from 'components/themes/ThemeContext';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const ListViewFlatCard = ({advert}: {advert: Advert}) => {
   const navigation = useNavigation<SearchScreenNavigationProp>();
 
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

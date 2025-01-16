@@ -7,9 +7,12 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
+// Redux 🧠
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
+
 // Types 🏷
 import type {HeaderPageContentSwitchProps} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 const HeaderPageContentSwitch = ({
@@ -21,7 +24,7 @@ const HeaderPageContentSwitch = ({
 }: HeaderPageContentSwitchProps) => {
 
 
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);;
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

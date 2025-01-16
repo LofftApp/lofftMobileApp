@@ -12,8 +12,12 @@ import {
   MAX_USER_IMAGES,
 } from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+
+// Redux
+import { useSelector } from 'react-redux';
+// Types
+import { RootState } from 'reduxCore/store';
 // import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 type UploadImageButtonProps = {
@@ -27,7 +31,7 @@ const UploadImageButton = ({
   imageType,
 }: UploadImageButtonProps) => {
   // CoreStyles
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

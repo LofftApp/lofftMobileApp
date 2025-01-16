@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
 import {Advert} from 'reduxFeatures/adverts/types';
+import { useSelector } from 'react-redux';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -20,13 +21,14 @@ import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types 🏷
+import { RootState } from 'reduxCore/store';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
-  const {isDarkMode}: any = useTheme();
+
+    const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

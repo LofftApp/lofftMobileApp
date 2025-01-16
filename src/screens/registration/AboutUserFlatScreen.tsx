@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import { useSelector } from 'react-redux';
 
 // Components 🪢
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
@@ -40,9 +41,10 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
+import { RootState } from 'reduxCore/store';
 
 const AboutUserFlatScreen = () => {
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -64,7 +66,7 @@ const AboutUserFlatScreen = () => {
 
   //CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode}: any = useTheme();
+
   const fontStyles = createFontStyles(isDarkMode);
 
   useEffect(() => {

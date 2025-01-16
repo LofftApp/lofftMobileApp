@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 // Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 
@@ -15,6 +14,7 @@ import {
   useSeeApplicationsByAdvertIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
 import {useSelectApplicants} from 'reduxFeatures/applications/useSelectApplicants';
+import { useSelector } from 'react-redux';
 
 // Components
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -25,23 +25,24 @@ import ConfirmModal from 'components/modals/ConfirmModal';
 import ApplicantCardRound2 from 'components/cards/ApplicantCardRound2';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
-//Assets
+// Assets
 import {Looking} from 'assets';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
-//Constants
+// Constants
 import {MAX_SELECT_ROUND2} from 'components/componentData/constants';
 
 // Types
 import type {SeeProfilesScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
+import { RootState } from 'reduxCore/store';
 
 const SeeProfilesScreen = ({route}: SeeProfilesScreenProp) => {
   //CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

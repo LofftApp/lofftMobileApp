@@ -19,16 +19,21 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
+
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
 
-  const {isDarkMode}: any = useTheme();
-  const fontStyles = createFontStyles(isDarkMode);
+   // Access isDarkMode from Redux store
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
+
+  // Use isDarkMode to determine colors and styles
   const colors = isDarkMode ? Color.Dark : Color.Light;
+  const fontStyles = createFontStyles(isDarkMode);
 
   const insets = useSafeAreaInsets();
   const imageMarginTop = height < 700 ? size(10) : size(70);

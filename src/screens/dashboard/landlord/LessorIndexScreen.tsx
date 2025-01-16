@@ -9,16 +9,19 @@ import {size} from 'react-native-responsive-sizes';
 
 // Redux
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import { useSelector } from 'react-redux';
 
 // StyleSheets 🖼️
 import * as Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import { useNavigation } from '@react-navigation/native';
+
+// Types
+import { RootState } from 'reduxCore/store';
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamsList } from 'navigationStacks/types';
@@ -28,7 +31,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamsList>;
 const LessorIndexScreen = () => {
    //CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

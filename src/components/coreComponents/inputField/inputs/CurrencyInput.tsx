@@ -9,8 +9,9 @@ import {InputStyleSheet} from './styleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {Dollar, Pound} from 'assets';
 import {Currency} from 'reduxFeatures/assets/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type CurrencyInputProps = {
   placeholder?: string;
@@ -43,7 +44,7 @@ const CurrencyInput = ({
   keyboardType,
   currency = 'eur',
 }: CurrencyInputProps) => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const inputStyleSheet = InputStyleSheet();

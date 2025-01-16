@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Text, View, StyleSheet, Dimensions, DimensionValue} from 'react-native';
 
-//Redux 🏗️
+// Redux 🏗️
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useSelector } from 'react-redux';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -23,18 +24,18 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
-  const {isDarkMode}: any = useTheme();
+
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 
   const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
-
 
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<

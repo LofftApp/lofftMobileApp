@@ -5,24 +5,27 @@ import {useNavigation} from '@react-navigation/native';
 // Styles
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import { createFontStyles } from 'styleSheets/fontStyles';
-import { useTheme } from 'components/themes/ThemeContext';
 
-//Components
+// Redux
+import { useSelector } from 'react-redux';
+
+// Components
 import {CoreButton} from 'components/buttons/CoreButton';
 import {ConfirmBackground, HiFive} from 'assets';
 import BackButton from 'components/buttons/BackButton';
 
-//Helpers
+// Helpers
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
 import {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
 import {SelectionConfirmedScreenProp} from './types';
+import { RootState } from 'reduxCore/store';
 
 const SelectionConfirmedScreen = ({route}: SelectionConfirmedScreenProp) => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
 
   const {advertId} = route.params;

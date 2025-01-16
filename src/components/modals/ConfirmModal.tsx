@@ -14,8 +14,11 @@ import type {ConfirmModalProps} from './types';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import BackButton from 'components/buttons/BackButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
+
+// Redux 🧠
+import { useSelector } from 'react-redux';
 
 const ConfirmModal = ({
   openModal,
@@ -27,7 +30,7 @@ const ConfirmModal = ({
   disabled = false,
 }: ConfirmModalProps) => {
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

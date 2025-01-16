@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { size } from 'react-native-responsive-sizes';
+
 import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext'; // Assuming you have a ThemeContext
+import {useSelector} from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type ErrorMessageProps = {
   message: string;
@@ -23,7 +25,7 @@ const ErrorMessage = ({
   style,
   isInputField = false,
 }: ErrorMessageProps) => {
-  const { isDarkMode } = useTheme(); // Accessing isDarkMode from ThemeContext
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const dynamicFontStyles = createFontStyles(isDarkMode);
   const textAlign = isInputField ? 'left' : 'center';
 
@@ -65,3 +67,6 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorMessage;
+// function useSelector(arg0: (state: RootState) => any) {
+//   throw new Error('Function not implemented.');
+// }

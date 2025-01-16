@@ -1,7 +1,8 @@
 import React from 'react';
 import {Switch} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const CustomSwitch = ({
   value,
@@ -10,7 +11,7 @@ const CustomSwitch = ({
   value: boolean;
   onValueChange: () => void;
 }) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   return (
     <Switch

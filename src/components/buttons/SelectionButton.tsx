@@ -7,8 +7,9 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 //Types
 import {SelectionButtonProps} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const SelectionButton = ({
   id,
@@ -28,7 +29,7 @@ const SelectionButton = ({
     }).start();
   }, [fadeAnim]);
 
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

@@ -1,9 +1,10 @@
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import { useTheme } from 'components/themes/ThemeContext';
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
@@ -28,7 +29,7 @@ const CustomTextInput = ({
   isFlat,
 }: CustomTextInputProps) => {
   // CoreStyles
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

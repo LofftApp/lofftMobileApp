@@ -1,9 +1,10 @@
 import LofftIcon from 'components/lofftIcons/LofftIcon';
-import { useTheme } from 'components/themes/ThemeContext';
 import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
@@ -27,7 +28,7 @@ const DatePickerInput = ({
   dateSelected,
 }: DatePickerInputProps) => {
   // CoreStyles
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

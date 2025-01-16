@@ -6,7 +6,6 @@ import {useNavigation} from '@react-navigation/native';
 import {CoreButton} from 'components/buttons/CoreButton';
 
 //Styles
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
@@ -20,6 +19,9 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
+// Redux
+import { useSelector } from 'react-redux';
+
 //Types
 import {
   LessorNotification,
@@ -28,6 +30,7 @@ import {
   TenantNotificationType,
 } from 'reduxFeatures/firebaseNotifications/types';
 import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
+import { RootState } from 'reduxCore/store';
 
 
 const NotificationCard = ({
@@ -35,7 +38,7 @@ const NotificationCard = ({
 }: {
   notification: LessorNotification | TenantNotification;
 }) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const navigation = useNavigation<NotificationsScreenNavigationProp>();

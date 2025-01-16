@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Redux 🏪
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useSelector } from 'react-redux';
 
 // Hooks 🪝
 import useRefetchNotifications from 'hooks/useRefetchNotifications';
@@ -25,16 +26,16 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
+import { RootState } from 'reduxCore/store';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
 const TenantNavigator = () => {
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const {data: currentUser} = useGetUserQuery();
   const admin = currentUser?.admin;
   const {data} = useRefetchNotifications();
   const notifications = data?.notifications;
-  const {isDarkMode}: any = useTheme();
 
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

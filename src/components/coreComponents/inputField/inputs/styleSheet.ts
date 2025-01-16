@@ -1,10 +1,12 @@
-import { useTheme } from 'components/themes/ThemeContext';
+
 import {StyleSheet} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 export const InputStyleSheet = () => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 
   return StyleSheet.create({

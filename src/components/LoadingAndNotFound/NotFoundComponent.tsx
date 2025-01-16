@@ -1,10 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import BackButton from 'components/buttons/BackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
-import { useTheme } from 'components/themes/ThemeContext';
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
@@ -22,7 +23,7 @@ const NotFoundComponent = ({
   onPress,
 }: NotFoundComponentProps) => {
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const navigation = useNavigation();
 

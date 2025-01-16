@@ -3,14 +3,19 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // assets 🛠️
 import {Looking} from '../../../assets';
 
+// Redux 🧠
+import { useSelector } from 'react-redux';
+
+// Types 🏷️
+import { RootState } from 'reduxCore/store';
+
 const FavoritesScreen: React.FC = () => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

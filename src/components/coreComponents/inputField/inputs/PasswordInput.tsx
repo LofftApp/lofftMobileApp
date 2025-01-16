@@ -6,9 +6,10 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
 import {InputStyleSheet} from './styleSheet';
-import { useTheme } from 'components/themes/ThemeContext';
 import Color from 'styleSheets/lofftColorPallet.json';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type PasswordInputProps = {
   placeholder?: string;
@@ -43,7 +44,7 @@ const PasswordInput = ({
   keyboardType,
 }: PasswordInputProps) => {
 
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const inputStyleSheet = InputStyleSheet();

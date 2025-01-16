@@ -6,6 +6,7 @@ import DatePicker from 'react-native-date-picker';
 //Redux 🧠
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import { useSelector } from 'react-redux';
 
 // Screen 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -37,13 +38,13 @@ dayjs.extend(isToday);
 
 // Types
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 const FlatLengthAvailableScreen = () => {
   //CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
 
   // Navigation

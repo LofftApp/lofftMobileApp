@@ -3,8 +3,9 @@ import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { size } from 'react-native-responsive-sizes';
 import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import type { CoreButtonProps } from './types';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 export const CoreButton = ({
   value,
@@ -16,7 +17,7 @@ export const CoreButton = ({
   onPress,
   disabled = false,
 }: CoreButtonProps) => {
-  const { isDarkMode } = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const dynamicFontStyles = createFontStyles(isDarkMode);
 

@@ -1,16 +1,22 @@
 import React, {useRef, useEffect} from 'react';
 import {Pressable, StyleSheet, Text, Animated} from 'react-native';
+
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+
 // Components
 import LofftIcon from 'components/lofftIcons/LofftIcon';
+
 // Helpers
 import {size} from 'react-native-responsive-sizes';
+
+// Redux
+import { useSelector } from 'react-redux';
+
 // Types
 import {SeeMoreButtonProps} from './types';
-
+import { RootState } from 'reduxCore/store';
 
 function SeeMoreButton({
   collapsed,
@@ -18,7 +24,7 @@ function SeeMoreButton({
   noText = false,
   iconSize = size(25),
 }: SeeMoreButtonProps) {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const rotateAnim = useRef(new Animated.Value(collapsed ? 0 : 1)).current;

@@ -1,9 +1,10 @@
 import {CoreButton} from 'components/buttons/CoreButton';
-import { useTheme } from 'components/themes/ThemeContext';
 import React, {Dispatch, SetStateAction} from 'react';
 import {Modal, StyleSheet, View} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {size} from 'react-native-responsive-sizes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 import {ImageToUpload} from 'reduxFeatures/imageHandling/types';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -19,7 +20,7 @@ const UploadImageModal = ({
 }: UploadImageModalProps) => {
 
   // CoreStyles
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 
   const toggleModal = () => {

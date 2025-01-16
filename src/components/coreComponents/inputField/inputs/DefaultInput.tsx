@@ -3,9 +3,10 @@ import {TextInput} from 'react-native';
 
 // Styles 🖼️
 import {InputStyleSheet} from './styleSheet';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type DefaultInputProps = {
   placeholder?: string;
@@ -39,7 +40,7 @@ const DefaultInput = ({
   autoCapitalize,
   keyboardType = 'default',
 }: DefaultInputProps) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const inputStyleSheet = InputStyleSheet();
   const colors = isDarkMode ? Color.Dark : Color.Light;

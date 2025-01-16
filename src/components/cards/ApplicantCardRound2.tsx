@@ -12,8 +12,10 @@ import {
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+
+// Redux
+import { useSelector } from 'react-redux';
 
 // External
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
@@ -27,9 +29,11 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants
 import {MAX_SELECT_ROUND2} from 'components/componentData/constants';
+
 // Types
 import type {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
 import {ApplicantCardRound2Props} from './types';
+import { RootState } from 'reduxCore/store';
 
 
 const ApplicantCardRound2 = ({
@@ -37,7 +41,7 @@ const ApplicantCardRound2 = ({
   selectApplication,
   application,
 }: ApplicantCardRound2Props) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

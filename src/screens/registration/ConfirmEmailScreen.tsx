@@ -16,6 +16,8 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 // Redux 🧠
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
@@ -25,13 +27,12 @@ import {size} from 'react-native-responsive-sizes';
 import IconButton from 'components/buttons/IconButton';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import { useTheme } from 'components/themes/ThemeContext';
 
 const ConfirmEmailScreen = () => {
   const {data, isError, isLoading, refetch} = useGetUserQuery();
   const emailConfirmed = data?.confirmedEmail;
   const confirmRef = useRef(emailConfirmed);
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const coreStyles = CoreStyleSheet();
 

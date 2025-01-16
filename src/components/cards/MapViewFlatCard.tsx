@@ -19,7 +19,6 @@ import HeartButton from 'components/buttons/HeartButton';
 
 // StyleSheet 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Assets 🪴
@@ -30,16 +29,20 @@ import {tagSorter} from 'helpers/tagSorter';
 import {width, height, size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 
+// Reudx
+import { useSelector } from 'react-redux';
+
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {useNavigation} from '@react-navigation/native';
 import {SearchScreenNavigationProp} from 'navigationStacks/types';
+import { RootState } from 'reduxCore/store';
 
 
 const maxTaglineLength = 35;
 
 const MapViewFlatCard = ({advert}: {advert: Advert}) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const navigation = useNavigation<SearchScreenNavigationProp>();

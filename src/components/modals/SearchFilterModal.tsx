@@ -38,8 +38,9 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import type {SearchFilterModalProps} from './types';
 import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const SearchFilterModal = ({
   openModal,
@@ -58,7 +59,7 @@ const SearchFilterModal = ({
   const [selectedFeaturesIds, setSelectedFeaturesIds] = useState<number[]>([]);
 
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode}: any = useTheme();
+   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 // Redux 🧠
 import {useSignInMutation} from 'reduxFeatures/auth/authApi';
+import { useSelector } from 'react-redux';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
@@ -18,16 +19,17 @@ import {signInSchema} from 'lib/zodSchema';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
+// Types 🏷️
+import { RootState } from 'reduxCore/store';
 type SignInFormProps = {
   clearErrors: boolean;
   setClearErrors: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

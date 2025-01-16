@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, useWindowDimensions} from 'react-native';
-//Redux
 
+//Redux
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import { useSelector } from 'react-redux';
 
 //Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // External
@@ -22,8 +22,10 @@ import {tagSorter} from 'helpers/tagSorter';
 
 // Constants
 import {MAX_SELECT_ROUND1} from 'components/componentData/constants';
+
 // Types
 import type {ApplicantCardRound1Props} from './types';
+import { RootState } from 'reduxCore/store';
 import SeeMoreButton from 'components/buttons/SeeMoreButton';
 
 
@@ -32,7 +34,7 @@ const ApplicantCardRound1 = ({
   selectApplication,
   application,
 }: ApplicantCardRound1Props) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

@@ -6,20 +6,23 @@ import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {checkMessageDate} from 'helpers/checkMessageDate';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 // Types 🦄
 import {ChatCardProps} from './types';
+import { RootState } from 'reduxCore/store';
 
 const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
 ];
 
 const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ?  Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const { matchScore, name, message, userPhoto, advertTagLine } = chatroomData;

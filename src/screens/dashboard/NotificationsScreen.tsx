@@ -6,6 +6,7 @@ import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
 } from 'reduxFeatures/firebaseNotifications/fcmApi';
+import { useSelector } from 'react-redux';
 
 //Components
 import NotificationCard from 'components/cards/NotificationCard';
@@ -23,12 +24,14 @@ import {
   LessorNotification,
   TenantNotification,
 } from 'reduxFeatures/firebaseNotifications/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+
+// Types
+import { RootState } from 'reduxCore/store';
 
 const NotificationsScreen = () => {
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 

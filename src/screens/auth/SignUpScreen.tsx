@@ -10,6 +10,8 @@ import SignInWith from 'components/containers/SignInWith';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 
+// Redux
+import { useSelector } from 'react-redux';
 
 // Assets 🛠️
 import {Search} from '../../assets';
@@ -20,14 +22,14 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 const {height} = Dimensions.get('window');
 
 const SignUpScreen = () => {
 
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const navigation = useNavigation<GuestStackScreenNavigationProp>();

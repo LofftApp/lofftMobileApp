@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import { useSelector } from 'react-redux';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -21,7 +22,6 @@ import InputFieldText from 'components/coreComponents/inputField/InputFieldText'
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 //Assets 🎨
@@ -35,12 +35,13 @@ import {size as _size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import { RootState } from 'reduxCore/store';
 
 
 const FlatDetailsScreen = () => {
   //CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

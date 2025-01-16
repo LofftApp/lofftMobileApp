@@ -3,9 +3,10 @@ import {Text, View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import {useNavigation} from '@react-navigation/native';
 
-//Redux 📦
+// Redux 📦
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import { useSelector } from 'react-redux';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -26,7 +27,6 @@ import {RegistrationBackground} from 'assets';
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {useTheme} from 'components/themes/ThemeContext';
 import {createFontStyles} from 'styleSheets/fontStyles';
 
 //Validation 🛡️
@@ -37,19 +37,20 @@ import {size} from 'react-native-responsive-sizes';
 import {isPriceValid} from 'helpers/isPriceValid';
 import {onlyNumber} from 'helpers/onlyNumber';
 
-//Constants 📊
+// Constants 📊
 import {
   initialMaxPrice,
   initialMinPrice,
 } from 'components/componentData/constants';
 
-//Types 🏷️
+// Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import { RootState } from 'reduxCore/store';
 
 const BudgetScreen = () => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

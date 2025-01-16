@@ -15,14 +15,15 @@ import {LanguagesCardProps} from './types';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
-import { useTheme } from 'components/themes/ThemeContext';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const LanguagesCard = ({
   language,
   selected,
   handleSelectedLanguages,
 }: LanguagesCardProps) => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const fadeAnim = useRef(new Animated.Value(1)).current;

@@ -5,10 +5,13 @@ import {Currency} from 'reduxFeatures/assets/types';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
-//Types
 
+// Redux
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
+
+// Types
 type CurrencyButtonProps = {
   currency: Currency;
   toggle: boolean;
@@ -22,7 +25,7 @@ const CurrencyButton = ({
   selectFn,
   disabled = false,
 }: CurrencyButtonProps) => {
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
   const colorText = {color: toggle ? colors.White[100] : colors.Black[100]};

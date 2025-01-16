@@ -4,8 +4,9 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 import {IconButtonProps} from './types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 const IconButton = ({
   text,
@@ -17,7 +18,7 @@ const IconButton = ({
   isActive,
   color,
 }: IconButtonProps) => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   color = colors.Lavendar[100];

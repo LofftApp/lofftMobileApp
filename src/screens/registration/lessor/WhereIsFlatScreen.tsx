@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 //Redux 🧠
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import { useSelector } from 'react-redux';
 
 // Screen 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -37,16 +38,18 @@ import {RegistrationBackground} from 'assets';
 // Styles 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import Color from 'styleSheets/lofftColorPallet.json';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
 //Validation 🛡️
 import {addressSchema} from 'lib/zodSchema';
+
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+// Types 🏷️
 import {Currency} from 'reduxFeatures/assets/types';
+import { RootState } from 'reduxCore/store';
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
@@ -54,7 +57,7 @@ const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 const WhereIsFlatScreen = () => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

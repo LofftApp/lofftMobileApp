@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // RTK 🌎
 import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
+import { useSelector } from 'react-redux';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
@@ -19,11 +20,13 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
 
+// Types 🏷️
+import { RootState } from 'reduxCore/store';
+
 const SignUpForm = () => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const [checkbox, setCheckBox] = useState(false);

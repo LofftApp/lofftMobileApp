@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import { useSelector } from 'react-redux';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -37,16 +38,15 @@ import {useNavigation} from '@react-navigation/native';
 import {capitalize} from 'helpers/capitalize';
 
 // Types
-
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { RootState } from 'reduxCore/store';
 
 const SelectCityScreen = () => {
   // CoreStyles
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
 
   //Navigation

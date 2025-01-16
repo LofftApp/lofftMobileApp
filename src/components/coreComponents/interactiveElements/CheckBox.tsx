@@ -2,7 +2,8 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
 import Color from '../../../styles/lofftColorPallet.json';
 import {CrossIcon} from '../../../assets';
-import { useTheme } from 'components/themes/ThemeContext';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type CheckboxProps = {
   disabled?: boolean;
@@ -17,7 +18,7 @@ const CheckBox = ({
   style = null,
   onPress,
 }: CheckboxProps) => {
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
 
   const styles = StyleSheet.create({

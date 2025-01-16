@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import { useSelector } from 'react-redux';
 
 // Styles 🎨
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -38,7 +39,7 @@ import {languagesSchema} from 'lib/zodSchema';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import { createFontStyles } from 'styleSheets/fontStyles';
-import { useTheme } from 'components/themes/ThemeContext';
+import { RootState } from 'reduxCore/store';
 
 const LanguageSelectionScreen = () => {
   // Navigation
@@ -67,7 +68,7 @@ const LanguageSelectionScreen = () => {
   const coreStyles = CoreStyleSheet();
 
   // Theme
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
 
   // FonteStyles
   const fontStyles = createFontStyles(isDarkMode);

@@ -22,8 +22,9 @@ import {applicationPartition} from 'helpers/applicationsPartition';
 
 // types 🦄
 import { ApplicationStackParamsList } from 'navigationStacks/types';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type ApplicationNavigationProp = NativeStackNavigationProp<ApplicationStackParamsList>;
 
@@ -48,7 +49,7 @@ const ApplicationsIndexScreen = () => {
   }, [applications]);
 
   const coreStyles = CoreStyleSheet();
-  const {isDarkMode}: any = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const fontStyles = createFontStyles(isDarkMode);
 

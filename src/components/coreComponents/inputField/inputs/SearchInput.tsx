@@ -3,8 +3,9 @@ import {View, TextInput, Pressable} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import { InputStyleSheet } from './styleSheet';
-import { useTheme } from 'components/themes/ThemeContext';
 import { createFontStyles } from 'styleSheets/fontStyles';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reduxCore/store';
 
 type SearchInputProps = {
   placeholder?: string;
@@ -38,7 +39,7 @@ const SearchInput = ({
   keyboardType,
 }: SearchInputProps) => {
 
-  const {isDarkMode} = useTheme();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const fontStyles = createFontStyles(isDarkMode);
   const colors = isDarkMode ? Color.Dark : Color.Light;
   const inputStyleSheet = InputStyleSheet();
