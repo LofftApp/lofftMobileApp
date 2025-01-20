@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
 // Helpers 🥷🏻
@@ -12,25 +12,32 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🦄
 import {ChatCardProps} from './types';
+import {useGetChatroombyIdQuery} from 'reduxFeatures/chatrooms/chatroomApi';
 
 const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
 ];
 
-const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
-  const { matchScore, name, message, userPhoto, advertTagLine } = chatroomData;
-  const { read, content, createdAt } = message ?? {};
+const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
+  const {matchScore, name, message, userPhoto, advertTagLine} = chatroomData;
+  const {read, content, createdAt} = message ?? {};
   const [isBlinking, setIsBlinking] = useState(false);
 
   useEffect(() => {
-    const blinkingInterval = setInterval(() => setIsBlinking((prev) => !prev), 3000);
+    const blinkingInterval = setInterval(
+      () => setIsBlinking(prev => !prev),
+      3000,
+    );
     return () => clearInterval(blinkingInterval);
   }, []);
+  console.log('Message', message);
 
-
+  //DISPLAY THE MESSAGE WHEN SENDER ALREADY SENT A MESSAGE
   const renderMessageText = () => {
-    if (message === null) {
-      const blinkingStyle = isLessor ? styles.textGlowingLessor : styles.textGlowingTenant;
+    if (!message) {
+      const blinkingStyle = isLessor
+        ? styles.textGlowingLessor
+        : styles.textGlowingTenant;
       return (
         <Text style={[fontStyles.bodyMedium, isBlinking && blinkingStyle]}>
           Start Chat 🚀
@@ -45,22 +52,20 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
 
   return (
     <View
-    style={[
-      styles.container,
-      isLessor
-        ? read
+      style={[
+        styles.container,
+        isLessor
+          ? read
+            ? styles.lessorContainerBgWhite
+            : styles.lessorContainerBg
+          : read
           ? styles.lessorContainerBgWhite
-          : styles.lessorContainerBg
-        : read
-        ? styles.lessorContainerBgWhite
-        : styles.tenantContainerBg,
-        ]}
-      >
-
+          : styles.tenantContainerBg,
+      ]}>
       <View style={styles.boxA}>
         <Image
           style={styles.image}
-          source={{ uri: userPhoto || hardcodedImages[0] }}
+          source={{uri: userPhoto || hardcodedImages[0]}}
         />
       </View>
       <View style={styles.boxB}>
@@ -74,17 +79,18 @@ const ChatCard = ({ chatroomData, isLessor }: ChatCardProps) => {
               )}{' '}
               {name}
             </Text>
-            <Text style={[fontStyles.bodySmall, { color: Color.Black[50] }]}>
+            <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>
               {renderMessageText()}
             </Text>
           </View>
           <Text style={[fontStyles.bodySmall, styles.timeFont]}>
-            {message !== null && checkMessageDate(createdAt ?? '')}
+            {/* refactor to DayJs ? */}
+            {message && checkMessageDate(createdAt ?? '')}
           </Text>
         </View>
         <View style={styles.innerBoxBdown}>
-          <Text style={[fontStyles.bodyMedium, { color: Color.Black[100] }]}>
-            {message !== null && `${truncateTextAtWord(content ?? '', 20)} ...`}
+          <Text style={[fontStyles.bodyMedium, {color: Color.Black[100]}]}>
+            {message && `${truncateTextAtWord(content ?? '', 20)} ...`}
           </Text>
         </View>
       </View>
@@ -145,13 +151,13 @@ const styles = StyleSheet.create({
   textGlowingLessor: {
     color: Color.Lavendar[100],
     textShadowColor: 'rgba(203, 188, 255, 0.75)',
-    textShadowOffset: { width: -1, height: 1 },
+    textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 15,
   },
   textGlowingTenant: {
     color: Color.Mint[100],
     textShadowColor: 'rgba(188, 255, 200, 0.75)',
-    textShadowOffset: { width: -1, height: 1 },
+    textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 15,
   },
 });

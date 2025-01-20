@@ -98,6 +98,8 @@ type ChatroomsStackParamsList = {
     chatroomId: number,
    };
 };
+type ChatroomNavigationProps = StackNavigationProp<ChatroomsStackParamsList>;
+
 
 
 //Notifications Navigator
@@ -189,4 +191,5 @@ export type {
   NotificationsStackParamsList,
   NotificationsScreenNavigationProp,
   ChatroomsStackParamsList,
+  ChatroomNavigationProps,
 };

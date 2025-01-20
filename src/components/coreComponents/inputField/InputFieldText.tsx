@@ -16,7 +16,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import type {InputFieldTextProps} from './types';
 
 const InputFieldText = ({
-  placeholder = null,
+  placeholder,
   type = null,
   onChangeText,
   value,
@@ -93,7 +93,7 @@ const InputFieldText = ({
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
             value={value}
-            placeholder={placeholder || 'Default Field'}
+            placeholder={placeholder || ''}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}
             keyboardType={keyboardType}
           />

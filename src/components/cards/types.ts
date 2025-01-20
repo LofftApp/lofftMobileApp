@@ -2,6 +2,7 @@ import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
+// Duplicate types Use the one from chatroomApi types
 type Message = {
   chatroomId: number;
   content: string;

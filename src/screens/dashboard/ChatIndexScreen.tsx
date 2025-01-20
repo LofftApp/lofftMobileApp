@@ -1,15 +1,22 @@
-import React, { useCallback, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, SafeAreaView, Text, Pressable } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, {useCallback, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  Text,
+  Pressable,
+} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 // Styles 🎨
 import Color from 'styleSheets/lofftColorPallet.json';
-import { CoreStyleSheet } from 'styleSheets/CoreDesignStyleSheet';
-import { Looking } from 'assets';
-import { fontStyles } from 'styleSheets/fontStyles';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import {Looking} from 'assets';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 // Redux 🛜
-import { useGetChatroomsQuery } from 'reduxFeatures/chatrooms/chatroomApi';
+import {useGetChatroomsQuery} from 'reduxFeatures/chatrooms/chatroomApi';
 
 // Components 🧱
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
@@ -17,45 +24,35 @@ import ChatCard from 'components/cards/ChatCard';
 import BackButton from 'components/buttons/BackButton';
 
 // Types 🦄
-import { Chatroom } from 'reduxFeatures/chatrooms/types';
-import { useGetUserQuery } from 'reduxFeatures/user/userApi';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ChatroomsStackParamsList } from 'navigationStacks/types';
-
-type ChatroomNavigationProps = NativeStackNavigationProp<ChatroomsStackParamsList, 'ChatShow'>;
+import {Chatroom} from 'reduxFeatures/chatrooms/types';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {ChatroomNavigationProps} from 'navigationStacks/types';
 
 const ChatIndexScreen = () => {
-  const { data: currentUser } = useGetUserQuery();
+  const {data: currentUser} = useGetUserQuery();
   const isLessor = currentUser?.userType === 'lessor';
-  const { data, isLoading, refetch } = useGetChatroomsQuery();
+  const {data, isLoading, refetch} = useGetChatroomsQuery();
   const navigation = useNavigation<ChatroomNavigationProps>();
+  console.log('DATA ', data);
 
-
-
-useFocusEffect(
+  useFocusEffect(
     useCallback(() => {
-      if(data?.chatrooms && data?.chatrooms?.length > 0) {
-       refetch();
-    }
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [data?.chatrooms, refetch])
+      if (data?.chatrooms && data?.chatrooms?.length > 0) {
+        refetch();
+      }
+    }, [data?.chatrooms, refetch]),
   );
 
-
-
-  useEffect(() => {
-    if(data?.chatrooms && data?.chatrooms?.length > 0) {
-       refetch();
-    }
-  }, [data?.chatrooms, refetch]);
+  // EXTRA USE EFFECT
+  // useEffect(() => {
+  //   if (data?.chatrooms && data?.chatrooms?.length > 0) {
+  //     refetch();
+  //   }
+  // }, [data?.chatrooms, refetch]);
 
   if (isLoading) {
     return <LoadingComponent />;
   }
-
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -74,6 +71,7 @@ useFocusEffect(
             </Text>
           </View>
         ) : (
+          /* CAN WE CHANGE TO FLAT LIST? */
           <View style={styles.container}>
             {data?.chatrooms.map((chatroom: Chatroom) => (
               <Pressable
@@ -82,8 +80,7 @@ useFocusEffect(
                   navigation.navigate('ChatShow', {
                     chatroomId: chatroom.id,
                   })
-                }
-              >
+                }>
                 <ChatCard chatroomData={chatroom} isLessor={isLessor} />
               </Pressable>
             ))}
