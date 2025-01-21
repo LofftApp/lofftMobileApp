@@ -12,7 +12,6 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🦄
 import {ChatCardProps} from './types';
-import {useGetChatroombyIdQuery} from 'reduxFeatures/chatrooms/chatroomApi';
 import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 
 const hardcodedImages = [
