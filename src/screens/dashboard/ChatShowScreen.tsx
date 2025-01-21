@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Components 🧱
 import BackButton from 'components/buttons/BackButton';
@@ -36,9 +35,9 @@ import {
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Helpers 🥷🏻
-import {baseUrl} from 'helpers/baseUrl';
-import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
+import {sortMessages} from 'helpers/sortMessages';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import useWebSocket from 'hooks/useWebSocket';
 
 const ChatShowScreen = ({route}: ChatShowProp) => {
   //Params
@@ -55,77 +54,13 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
 
   // Local State
   const [newMessage, setNewMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+
   const flatListRef = useRef<FlatList>(null);
   const [createMessage] = useCreateMessageMutation();
   const [activateFirstScroll, setActivateScroll] = useState(true);
   const [errorMessages, setErrorMessages] = useState('');
 
-  const sortMessages = (inputMessages: Message[]) => {
-    return inputMessages.sort((a, b) => {
-      const dateA = new Date(a.createdAt || a.created_at || '');
-      const dateB = new Date(b.createdAt || b.created_at || '');
-      return dateB.getTime() - dateA.getTime();
-    });
-  };
-
-  // ABSTRACT TO A CUSTOM HOOK useWebSocket
-  // Initialize WebSocket connection
-  const ws = useRef<WebSocket | null>(null);
-  useEffect(() => {
-    const setupWebSocket = async () => {
-      try {
-        const token = await EncryptedStorage.getItem('token');
-        const wsBase = baseUrl.split('http:')[1];
-        const wsUrl = token
-          ? `ws:${wsBase}/cable?token=${encodeURIComponent(token)}`
-          : `ws:${wsBase}/cable`;
-
-        ws.current = new WebSocket(wsUrl);
-
-        ws.current.onopen = () => {
-          console.log('WebSocket connection opened');
-          ws.current?.send(
-            JSON.stringify({
-              command: 'subscribe',
-              identifier: JSON.stringify({
-                id: chatroomId,
-                channel: 'ChatroomsChannel',
-              }),
-            }),
-          );
-        };
-
-        ws.current.onmessage = event => {
-          const response = JSON.parse(event.data);
-          console.log('Received WebSocket message:', response);
-
-          if (response.message?.message) {
-            const newMsg = toCamelCaseKeys(response.message.message);
-            setMessages(prevMessages =>
-              sortMessages([...prevMessages, newMsg]),
-            );
-          }
-        };
-
-        ws.current.onclose = () => console.log('WebSocket connection closed');
-        ws.current.onerror = error => console.error('WebSocket error:', error);
-      } catch (error) {
-        console.error('Error setting up WebSocket:', error);
-      }
-    };
-
-    if (chatroomId) {
-      setupWebSocket();
-    }
-
-    return () => {
-      if (ws.current) {
-        ws.current.close();
-        console.log('WebSocket connection closed on unmount');
-      }
-    };
-  }, [chatroomId]);
+  const {messages, setMessages} = useWebSocket(chatroomId);
 
   // Load initial messages and mark them as read
   useFocusEffect(
@@ -134,7 +69,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         setMessages(sortMessages([...data.messages]));
       }
       return () => readAllMessages(chatroomId);
-    }, [chatroomId, data?.messages, readAllMessages]),
+    }, [chatroomId, data?.messages, readAllMessages, setMessages]),
   );
 
   //REFACTOR TO A USE EFFECT
