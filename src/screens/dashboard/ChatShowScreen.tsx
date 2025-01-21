@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -36,8 +36,14 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Helpers 🥷🏻
 import {sortMessages} from 'helpers/sortMessages';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+// import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import useWebSocket from 'hooks/useWebSocket';
+import Dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+Dayjs.extend(utc);
+Dayjs.extend(timezone);
 
 const ChatShowScreen = ({route}: ChatShowProp) => {
   //Params
@@ -58,7 +64,11 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
   const flatListRef = useRef<FlatList>(null);
   const [createMessage] = useCreateMessageMutation();
   const [activateFirstScroll, setActivateScroll] = useState(true);
-  const [errorMessages, setErrorMessages] = useState('');
+  const [errorDetected, setErrorDetected] = useState({
+    content: '',
+    detected: false,
+  });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const {messages, setMessages} = useWebSocket(chatroomId);
 
@@ -86,14 +96,64 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
   );
 
   // HANDLE ERROR IN MESSAGE IS NOT SHOWN IN THE CHAT (see ConditionsOfUseScreen.tsx)
-  // display the error in the jsx (red bubble??), (retry button??)
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
       try {
         await createMessage({id: chatroomId, content: newMessage}).unwrap();
         setNewMessage('');
       } catch (error) {
-        console.error('Error sending message:', error);
+        const typedError = error as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setErrorMessage('Sth went wrong');
+          setErrorDetected({content: newMessage, detected: true});
+        } else {
+          setErrorMessage('An error occurred');
+          setErrorDetected({content: newMessage, detected: true});
+        }
+      }
+    }
+  };
+
+  const reHandleSendMessage = async (newMessageContent: string) => {
+    if (newMessageContent.trim()) {
+      try {
+        await createMessage({
+          id: chatroomId,
+          content: newMessageContent,
+        }).unwrap();
+
+        setMessages(prevData => {
+          const seen = new Set<string>();
+          const uniqueMessages = prevData
+            .slice()
+            .reverse()
+            .filter(message => {
+              if (seen.has(message.content)) {
+                return false;
+              }
+              seen.add(message.content);
+              return true;
+            })
+            .reverse();
+
+          return uniqueMessages;
+        });
+
+        setErrorDetected({content: '', detected: false});
+        // Clear the input message
+        setNewMessage('');
+      } catch (error) {
+        // Handle errors
+        const typedError = error as {status?: number};
+        if (typedError.status === 422) {
+          setErrorMessage('Something went wrong');
+          setErrorDetected({content: newMessageContent, detected: true});
+        } else {
+          setErrorMessage('An error occurred');
+          setErrorDetected({content: newMessageContent, detected: true});
+        }
       }
     }
   };
@@ -114,24 +174,12 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
               '',
           )
         : null;
-    // Refactor wtih DayJS
-    const currentDateKey = `${currentCreatedDate.getUTCFullYear()}-${
-      currentCreatedDate.getUTCMonth() + 1
-    }-${currentCreatedDate.getUTCDate()}`;
-    const nextDateKey =
-      nextCreatedDate &&
-      `${nextCreatedDate.getUTCFullYear()}-${
-        nextCreatedDate.getUTCMonth() + 1
-      }-${nextCreatedDate.getUTCDate()}`;
-
+    const currentDateKey = Dayjs(currentCreatedDate).format('YYYY-MM-DD');
+    const nextDateKey = nextCreatedDate
+      ? Dayjs(nextCreatedDate).format('YYYY-MM-DD')
+      : null;
     // Render header if the current date differs from the next or if it's the last item
     const shouldRenderDateHeader = currentDateKey !== nextDateKey || isLastItem;
-
-    // Refactor to DayJS
-    const formattedDate = `${String(currentCreatedDate.getUTCDate()).padStart(
-      2,
-      '0',
-    )}.${String(currentCreatedDate.getUTCMonth() + 1).padStart(2, '0')}`;
 
     return (
       <View>
@@ -139,14 +187,12 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         {shouldRenderDateHeader && (
           <Text style={styles.dateHeader}>
             {/* Refactor to DayJS */}
-            {currentDateKey ===
-            `${new Date().getFullYear()}-${
-              new Date().getMonth() + 1
-            }-${new Date().getDate()}`
+            {Dayjs(currentCreatedDate).isSame(Dayjs(), 'day')
               ? 'Today'
-              : formattedDate}
+              : Dayjs(currentCreatedDate).format('DD.MM')}
           </Text>
         )}
+
         {/* Render Message */}
         <View
           style={[
@@ -161,13 +207,35 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
               : styles.otherMessageContainer,
           ]}>
           {item.content && (
-            <Text
-              style={[
-                styles.messageText,
-                isUserMessage && styles.userMessageText,
-              ]}>
-              {item.content}
-            </Text>
+            <>
+              {item.content === errorDetected.content &&
+              errorDetected.detected ? (
+                <Text>
+                  <Text
+                    style={[
+                      styles.messageText,
+                      isUserMessage && styles.userMessageText,
+                    ]}>
+                    {item.content}
+                  </Text>
+                  {'\n'}
+                  <Text style={styles.errorMessageText}>{errorMessage}</Text>
+                  {'\n'}
+                  <Text
+                    onPress={() => reHandleSendMessage(errorDetected.content)}>
+                    Try Again ↩︎
+                  </Text>
+                </Text>
+              ) : (
+                <Text
+                  style={[
+                    styles.messageText,
+                    isUserMessage && styles.userMessageText,
+                  ]}>
+                  {item.content}
+                </Text>
+              )}
+            </>
           )}
           <Text
             style={
@@ -175,12 +243,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
                 ? styles.userMessageTimeStamp
                 : styles.otherMessageTimeStamp
             }>
-            {/* Refactor to DayJS */}
-            {currentCreatedDate.toLocaleTimeString('en-GB', {
-              timeZone: 'CET',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+            {Dayjs(currentCreatedDate).tz('CET').format('HH:mm')}
           </Text>
         </View>
       </View>
@@ -337,6 +400,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: Color.Black[50],
     textAlign: 'center',
+  },
+  errorMessageText: {
+    color: Color.Tomato[100],
   },
 });
 

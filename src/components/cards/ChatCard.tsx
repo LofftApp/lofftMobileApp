@@ -93,7 +93,7 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
         </View>
         <View style={styles.innerBoxBdown}>
           <Text style={[fontStyles.bodyMedium, {color: Color.Black[100]}]}>
-            {message && `${truncateTextAtWord(content ?? '', 20)} ...`}
+            {message && `${truncateTextAtWord(content ?? '', 15)} ...`}
           </Text>
         </View>
       </View>
