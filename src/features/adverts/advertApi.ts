@@ -3,7 +3,6 @@ import {
   Advert,
   AdvertsAndFeatures,
   AdvertWithApplications,
-  Favorite,
   Favorites,
   GetAdvertsParams,
   IncomingAdvert,

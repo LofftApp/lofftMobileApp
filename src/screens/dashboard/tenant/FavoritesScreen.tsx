@@ -8,24 +8,26 @@ import Color from 'styleSheets/lofftColorPallet.json';
 // assets 🛠️
 import {Looking} from '../../../assets';
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 const FavoritesScreen = () => {
   const {data, isLoading} = useGetFavoritesAdvertsQuery();
   const favorites = data?.favorites;
   console.log('Favorites', favorites);
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <LoadingComponent />;
   }
   return (
     <View style={styles.pageContainer}>
       <View style={styles.headerText}>
-        <Text style={fontStyles.headerLarge}>Saved Listings - hardcoded</Text>
+        <Text style={fontStyles.headerLarge}>Saved Listings</Text>
       </View>
       {favorites && favorites.length > 0 ? (
         <View style={styles.bodyContainer}>
-
           {favorites?.map(favorite => (
-            <Text key={favorite.id} style={fontStyles.headerMedium}>{favorite.flat.tagLine}</Text>
+            <Text key={favorite.id} style={fontStyles.headerMedium}>
+              {favorite.flat.tagLine}
+            </Text>
           ))}
           {/* <Text style={fontStyles.headerMedium}>Data</Text>
           <Text style={[fontStyles.bodyMedium, styles.subText]}>

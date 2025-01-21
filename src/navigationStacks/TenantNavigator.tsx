@@ -25,6 +25,7 @@ import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
+import FavoritesNavigator from './FavoritesNavigator';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
@@ -56,7 +57,7 @@ const TenantNavigator = () => {
       />
       <Tab.Screen
         name="FavoritesTab"
-        component={FavoritesScreen}
+        component={FavoritesNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen
