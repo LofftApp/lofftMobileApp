@@ -7,23 +7,44 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // assets 🛠️
 import {Looking} from '../../../assets';
+import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 const FavoritesScreen = () => {
+  const {data, isLoading} = useGetFavoritesAdvertsQuery();
+  const favorites = data?.favorites;
+  console.log('Favorites', favorites);
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
   return (
     <View style={styles.pageContainer}>
       <View style={styles.headerText}>
         <Text style={fontStyles.headerLarge}>Saved Listings - hardcoded</Text>
       </View>
-      <View style={styles.bodyContainer}>
-        <Looking style={styles.image} />
-        <Text style={fontStyles.headerMedium}>
-          You don't have any saved listings
-        </Text>
-        <Text style={[fontStyles.bodyMedium, styles.subText]}>
-          Find the saved listings that you've applied to in the applications
-          tab.
-        </Text>
-      </View>
+      {favorites && favorites.length > 0 ? (
+        <View style={styles.bodyContainer}>
+
+          {favorites?.map(favorite => (
+            <Text key={favorite.id} style={fontStyles.headerMedium}>{favorite.flat.tagLine}</Text>
+          ))}
+          {/* <Text style={fontStyles.headerMedium}>Data</Text>
+          <Text style={[fontStyles.bodyMedium, styles.subText]}>
+            Find the saved listings that you've applied to in the applications
+            tab.
+          </Text> */}
+        </View>
+      ) : (
+        <View style={styles.bodyContainer}>
+          <Looking style={styles.image} />
+          <Text style={fontStyles.headerMedium}>
+            You don't have any saved listings
+          </Text>
+          <Text style={[fontStyles.bodyMedium, styles.subText]}>
+            Find the saved listings that you've applied to in the applications
+            tab.
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

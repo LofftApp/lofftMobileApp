@@ -3,6 +3,8 @@ import {
   Advert,
   AdvertsAndFeatures,
   AdvertWithApplications,
+  Favorite,
+  Favorites,
   GetAdvertsParams,
   IncomingAdvert,
   IncomingAdvertAndFeatures,
@@ -149,6 +151,7 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
         {type: 'Applications', id},
+        {type: 'Favorites', id: 'LIST'},
       ],
     }),
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
@@ -234,6 +237,23 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'User', id: 'PROFILE'},
       ],
     }),
+    getFavoritesAdverts: builder.query<Favorites, void>({
+      query: () => '/api/favorites',
+      providesTags: result =>
+        result
+          ? [
+              ...result.favorites.map(
+                ({id}) => ({type: 'Favorites', id} as const),
+              ),
+              {type: 'Favorites', id: 'LIST'},
+            ]
+          : [{type: 'Favorites', id: 'LIST'}],
+      // providesTags: ['Favorites'],
+      transformResponse: response => {
+        console.log('getFavoritesAdverts called ❤️');
+        return toCamelCaseKeys(response as Favorites);
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -246,4 +266,5 @@ export const {
   useApplyForFlatMutation,
   useConfirmApplicationsMutation,
   useCompleteLessorAndCreateAdvertMutation,
+  useGetFavoritesAdvertsQuery,
 } = advertApi;

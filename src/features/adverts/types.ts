@@ -160,6 +160,12 @@ interface LessorSignUpParams {
   userImages: Image[];
 }
 
+interface Favorite extends Advert {}
+
+interface Favorites {
+  favorites: Favorite[];
+}
+
 export type {
   Advert,
   AdvertState,
@@ -179,4 +185,6 @@ export type {
   IncomingAdvertWithApplications,
   GetAdvertsParams,
   LessorSignUpParams,
+  Favorite,
+  Favorites,
 };
