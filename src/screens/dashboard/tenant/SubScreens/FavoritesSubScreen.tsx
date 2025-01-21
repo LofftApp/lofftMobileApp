@@ -12,6 +12,7 @@ import {FavoritesSubScreenProps} from './types';
 import {Looking} from 'assets';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import FavoriteViewFlatCard from 'components/cards/FavoriteViewFlatCard';
 
 const FavoritesSubScreen = ({
   favorites,
@@ -44,7 +45,7 @@ const FavoritesSubScreen = ({
     <FlatList
       data={favorites || []}
       keyExtractor={item => item.id.toString()}
-      renderItem={({item}) => <ListViewFlatCard advert={item} />}
+      renderItem={({item}) => <FavoriteViewFlatCard favorite={item} />}
       showsVerticalScrollIndicator={false}
     />
   );

@@ -59,7 +59,13 @@ type SearchScreenNavigationProp = CompositeNavigationProp<
 //Favorites Navigator
 type FavoritesStackParamsList = {
   FavoritesScreen: undefined;
+  ApplyForFlatScreen: undefined;
 };
+
+type FavoritesScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<TenantTabParamsList, 'FavoritesTab'>,
+  StackNavigationProp<FavoritesStackParamsList>
+>;
 
 // Lessor Navigator
 
@@ -198,4 +204,5 @@ export type {
   ChatroomsStackParamsList,
   ChatroomNavigationProps,
   FavoritesStackParamsList,
+  FavoritesScreenNavigationProp,
 };

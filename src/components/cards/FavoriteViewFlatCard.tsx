@@ -26,17 +26,11 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 import {tagSorter} from 'helpers/tagSorter';
 
 // Types 🏷️
-import type {Advert} from 'reduxFeatures/adverts/types';
-import {SearchScreenNavigationProp} from '../../navigationStacks/types';
+import {FavoritesScreenNavigationProp} from '../../navigationStacks/types';
+import {Favorite} from 'reduxFeatures/adverts/types';
 
-const FavoriteViewFlatCard = ({
-  advert,
-  favorite,
-}: {
-  advert: Advert;
-  favorite: boolean;
-}) => {
-  const navigation = useNavigation<SearchScreenNavigationProp>();
+const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
+  const navigation = useNavigation<FavoritesScreenNavigationProp>();
 
   const {data: currentUser} = useGetUserQuery();
 
@@ -44,56 +38,57 @@ const FavoriteViewFlatCard = ({
 
   const [
     applyForFlat,
-
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
 
   const characteristicsTags = tagSorter(
     currentUser?.profile.characteristics ?? [],
-    advert.flat.characteristics ?? [],
+    favorite.flat.characteristics ?? [],
   );
   const featuresTags = tagSorter(
     currentUser?.profile.filter ?? [],
-    advert.flat.features,
+    favorite.flat.features,
   );
   const positiveFeatures = featuresTags.positiveTags;
   const positiveChars = characteristicsTags.positiveTags;
 
   const handleFavorite = () => {
-    toggleFavorite(advert.id ?? 0);
+    toggleFavorite(favorite.id ?? 0);
   };
   return (
     <View style={styles.flatCardContainer}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
           {/* favorite button /> */}
-          <HeartButton favorite={advert.favorite} onPress={handleFavorite} />
+          <HeartButton favorite={favorite.favorite} onPress={handleFavorite} />
         </View>
       </View>
       {/* flat image */}
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert.flat.photos ?? []}
+          images={favorite.flat.photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoContainer}>
         <View style={styles.flatDetailsContainer}>
           <View style={styles.flatMonthlyRentSizeContainer}>
-            <Text style={[fontStyles.headerSmall]}>{advert.monthlyRent} €</Text>
             <Text style={[fontStyles.headerSmall]}>
-              {advert.flat.size} {advert.flat.measurementUnit}
+              {favorite.monthlyRent} €
+            </Text>
+            <Text style={[fontStyles.headerSmall]}>
+              {favorite.flat.size} {favorite.flat.measurementUnit}
             </Text>
           </View>
 
-          <MatchingScoreButton size="Big" score={advert.matchScore ?? 5} />
+          <MatchingScoreButton size="Big" score={favorite.matchScore ?? 5} />
         </View>
         <View style={styles.taglineDistrictContainer}>
           <Text style={[fontStyles.headerExtraSmall, {color: Color.Black[80]}]}>
-            {advert.flat.tagLine}
+            {favorite.flat.tagLine}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {advert.flat.district}, {advert.flat.city}
+            {favorite.flat.district}, {favorite.flat.city}
           </Text>
         </View>
 
@@ -102,21 +97,11 @@ const FavoriteViewFlatCard = ({
           <Chips tags={positiveChars} features={false} />
         </View>
       </View>
-      {favorite ? (
-        <CoreButton
-          value="Apply"
-          onPress={() =>
-            navigation.navigate('ApplyForFlatScreen', {advertId: advert.id})
-          }
-        />
-      ) : (
-        <CoreButton
-          value="View flat"
-          onPress={() =>
-            navigation.navigate('FlatShowScreen', {advertId: advert.id})
-          }
-        />
-      )}
+
+      <CoreButton
+        value="Apply"
+        onPress={() => navigation.navigate('ApplyForFlatScreen')}
+      />
     </View>
   );
 };
