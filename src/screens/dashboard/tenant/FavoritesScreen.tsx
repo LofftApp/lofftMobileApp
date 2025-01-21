@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -9,45 +9,29 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {Looking} from '../../../assets';
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import FavoritesSubScreen from './SubScreens/FavoritesSubScreen';
 
 const FavoritesScreen = () => {
-  const {data, isLoading} = useGetFavoritesAdvertsQuery();
+  const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
   const favorites = data?.favorites;
   console.log('Favorites', favorites);
   if (isLoading) {
     return <LoadingComponent />;
   }
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.headerText}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+      <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Saved Listings</Text>
       </View>
-      {favorites && favorites.length > 0 ? (
-        <View style={styles.bodyContainer}>
-          {favorites?.map(favorite => (
-            <Text key={favorite.id} style={fontStyles.headerMedium}>
-              {favorite.flat.tagLine}
-            </Text>
-          ))}
-          {/* <Text style={fontStyles.headerMedium}>Data</Text>
-          <Text style={[fontStyles.bodyMedium, styles.subText]}>
-            Find the saved listings that you've applied to in the applications
-            tab.
-          </Text> */}
-        </View>
-      ) : (
-        <View style={styles.bodyContainer}>
-          <Looking style={styles.image} />
-          <Text style={fontStyles.headerMedium}>
-            You don't have any saved listings
-          </Text>
-          <Text style={[fontStyles.bodyMedium, styles.subText]}>
-            Find the saved listings that you've applied to in the applications
-            tab.
-          </Text>
-        </View>
-      )}
-    </View>
+      <View style={CoreStyleSheet.screenContainer}>
+        <FavoritesSubScreen
+          favorites={favorites}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

@@ -15,17 +15,16 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
 import FlatSearchNavigator from './FlatSearchNavigator';
+import FavoritesNavigator from './FavoritesNavigator';
+import NotificationsNavigator from './NotificationsNavigator';
 
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
-import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
-import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
-import FavoritesNavigator from './FavoritesNavigator';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
