@@ -13,6 +13,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 // Types 🦄
 import {ChatCardProps} from './types';
 import {useGetChatroombyIdQuery} from 'reduxFeatures/chatrooms/chatroomApi';
+import { useGetUserQuery } from 'reduxFeatures/user/userApi';
 
 const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -22,6 +23,7 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
   const {matchScore, name, message, userPhoto, advertTagLine} = chatroomData;
   const {read, content, createdAt} = message ?? {};
   const [isBlinking, setIsBlinking] = useState(false);
+    const {data: currentUser} = useGetUserQuery();
 
   useEffect(() => {
     const blinkingInterval = setInterval(
@@ -51,17 +53,22 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        isLessor
-          ? read
-            ? styles.lessorContainerBgWhite
-            : styles.lessorContainerBg
-          : read
-          ? styles.lessorContainerBgWhite
-          : styles.tenantContainerBg,
-      ]}>
+  <View
+  style={[
+    styles.container,
+    message?.userId === currentUser?.id
+      ? styles.chatContainerWhite
+      : message?.userId !== currentUser?.id && isLessor && !read
+      ? styles.lessorContainerBg
+      : message?.userId !== currentUser?.id && !isLessor && !read
+      ? styles.tenantContainerBg
+      : message?.userId !== currentUser?.id && read
+      ? styles.chatContainerWhite
+      : null, // Optional: no additional styling if none of the conditions match
+  ]}
+>
+
+
       <View style={styles.boxA}>
         <Image
           style={styles.image}
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
   lessorContainerBg: {
     backgroundColor: Color.Lavendar[10],
   },
-  lessorContainerBgWhite: {
+  chatContainerWhite: {
     backgroundColor: Color.White[100],
   },
   tenantContainerBg: {

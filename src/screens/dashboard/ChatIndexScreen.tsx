@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -42,13 +42,6 @@ const ChatIndexScreen = () => {
       }
     }, [data?.chatrooms, refetch]),
   );
-
-  // EXTRA USE EFFECT
-  // useEffect(() => {
-  //   if (data?.chatrooms && data?.chatrooms?.length > 0) {
-  //     refetch();
-  //   }
-  // }, [data?.chatrooms, refetch]);
 
   if (isLoading) {
     return <LoadingComponent />;
