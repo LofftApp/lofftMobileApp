@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, StyleSheet, Animated} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
@@ -28,6 +28,7 @@ import {tagSorter} from 'helpers/tagSorter';
 // Types 🏷️
 import {FavoritesScreenNavigationProp} from '../../navigationStacks/types';
 import {Favorite} from 'reduxFeatures/adverts/types';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
   const navigation = useNavigation<FavoritesScreenNavigationProp>();
@@ -40,6 +41,29 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     applyForFlat,
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
+
+  // useEffect(() => {
+  //   if (applyIsSuccess) {
+  //     navigation.navigate('ApplyForFlatScreen');
+  //   }
+  // }, [applyIsSuccess, navigation]);
+  const greenButtonHeight = useRef(new Animated.Value(0)).current; // Animation for button height
+  const [isAnimating, setIsAnimating] = useState(false); // Track animation state
+
+  useEffect(() => {
+    if (applyIsSuccess && isAnimating) {
+      // Animate green button
+      Animated.timing(greenButtonHeight, {
+        toValue: 50, // Height of the green button
+        duration: 1000, // Duration of the animation
+        useNativeDriver: false,
+      }).start(() => {
+        setTimeout(() => {
+          navigation.navigate('ApplyForFlatScreen'); // Navigate after animation
+        }, 2000); // Small delay before navigation
+      });
+    }
+  }, [applyIsSuccess, navigation, greenButtonHeight, isAnimating]);
 
   const characteristicsTags = tagSorter(
     currentUser?.profile.characteristics ?? [],
@@ -54,6 +78,11 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
 
   const handleFavorite = () => {
     toggleFavorite(favorite.id ?? 0);
+  };
+
+  const handleApplyForFlat = () => {
+    setIsAnimating(true);
+    applyForFlat(favorite?.id ?? 0);
   };
   return (
     <View style={styles.flatCardContainer}>
@@ -98,10 +127,33 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
         </View>
       </View>
 
-      <CoreButton
-        value="Apply"
-        onPress={() => navigation.navigate('ApplyForFlatScreen')}
-      />
+      <Animated.View
+        style={[
+          styles.greenButton,
+          {
+            height: greenButtonHeight, // Green button height animation
+            overflow: 'hidden',
+          },
+        ]}>
+        <Text style={styles.greenButtonText}>Applied</Text>
+      </Animated.View>
+
+      {!isAnimating && (
+        <CoreButton
+          value={
+            favorite?.applied ? (
+              'Applied'
+            ) : applyIsLoading ? (
+              <LoadingButtonIcon />
+            ) : applyError ? (
+              'Error. Try Again'
+            ) : (
+              'Apply'
+            )
+          }
+          onPress={handleApplyForFlat}
+        />
+      )}
     </View>
   );
 };
@@ -150,6 +202,17 @@ const styles = StyleSheet.create({
   },
   chipContainer: {
     marginTop: size(10),
+  },
+
+  greenButton: {
+    backgroundColor: Color.Mint[100], // Use your green color
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  greenButtonText: {
+    color: Color.White[100],
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

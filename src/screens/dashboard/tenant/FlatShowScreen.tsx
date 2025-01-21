@@ -21,6 +21,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -120,13 +121,15 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             {completeProfile && hasTokens ? (
               <CoreButton
                 value={
-                  advert?.applied
-                    ? 'Applied'
-                    : applyIsLoading
-                    ? 'Applying'
-                    : applyError
-                    ? 'Error. Try Again'
-                    : 'Apply'
+                  advert?.applied ? (
+                    'Applied'
+                  ) : applyIsLoading ? (
+                    <LoadingButtonIcon />
+                  ) : applyError ? (
+                    'Error. Try Again'
+                  ) : (
+                    'Apply'
+                  )
                 }
                 style={styles.coreButtonCustom}
                 disabled={advert?.applied || applyIsLoading || applyIsSuccess}
