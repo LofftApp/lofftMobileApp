@@ -68,8 +68,11 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
   const [errorDetected, setErrorDetected] = useState({
     content: '',
     detected: false,
+    errorId: '',
   });
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(
+    'Akward, sth went wrong ...',
+  );
 
   const {messages, setMessages} = useWebSocket(chatroomId);
 
@@ -83,7 +86,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     }, [chatroomId, data?.messages, readAllMessages, setMessages]),
   );
 
-  //REFACTOR TO A USE EFFECT
   // Scroll to bottom when coming onto screen
   useEffect(() => {
     if (activateFirstScroll && flatListRef.current) {
@@ -93,32 +95,34 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     }
   }, [activateFirstScroll]);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (activateFirstScroll && flatListRef.current) {
-  //       flatListRef.current.scrollToOffset({offset: 0, animated: true});
-
-  //       setActivateScroll(false);
-  //     }
-  //   }, [activateFirstScroll]),
-  // );
-
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
       try {
         await createMessage({id: chatroomId, content: newMessage}).unwrap();
         setNewMessage('');
       } catch (error) {
-        const typedError = error as {
-          status?: number;
-        };
-        if (typedError.status === 422) {
-          setErrorMessage('Sth went wrong');
-          setErrorDetected({content: newMessage, detected: true});
-        } else {
-          setErrorMessage('An error occurred');
-          setErrorDetected({content: newMessage, detected: true});
-        }
+        const typedError = error as {status?: number};
+        const errorId = Math.random().toString(36).substr(2, 9);
+
+        // Set error message and detected state
+        const errorM =
+          typedError.status === 422
+            ? 'Something went wrong'
+            : 'An error occurred';
+        setErrorMessage(errorM);
+        setErrorDetected({
+          content: newMessage,
+          detected: true,
+          errorId: errorId,
+        });
+
+        setMessages(prevMessages =>
+          prevMessages.map(message =>
+            message.content === newMessage
+              ? {...message, errorId: errorId}
+              : message,
+          ),
+        );
       }
     }
   };
@@ -132,23 +136,14 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         }).unwrap();
 
         setMessages(prevData => {
-          const seen = new Set<string>();
-          const uniqueMessages = prevData
-            .slice()
-            .reverse()
-            .filter(message => {
-              if (seen.has(message.content)) {
-                return false;
-              }
-              seen.add(message.content);
-              return true;
-            })
-            .reverse();
-
+          const uniqueMessages = prevData.filter(
+            message =>
+              !(message.content === newMessageContent && message.errorId),
+          );
           return uniqueMessages;
         });
 
-        setErrorDetected({content: '', detected: false});
+        setErrorDetected({content: '', detected: false, errorId: ''});
         // Clear the input message
         setNewMessage('');
       } catch (error) {
@@ -156,10 +151,18 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         const typedError = error as {status?: number};
         if (typedError.status === 422) {
           setErrorMessage('Something went wrong');
-          setErrorDetected({content: newMessageContent, detected: true});
+          setErrorDetected({
+            content: newMessageContent,
+            detected: true,
+            errorId: Math.random().toString(36).substr(2, 9),
+          });
         } else {
           setErrorMessage('An error occurred');
-          setErrorDetected({content: newMessageContent, detected: true});
+          setErrorDetected({
+            content: newMessageContent,
+            detected: true,
+            errorId: Math.random().toString(36).substr(2, 9),
+          });
         }
       }
     }
@@ -229,6 +232,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
                   <Text style={styles.errorMessageText}>{errorMessage}</Text>
                   {'\n'}
                   <Text
+                    style={[styles.sendAgain]}
                     onPress={() => reHandleSendMessage(errorDetected.content)}>
                     Try Again ↩︎
                   </Text>
@@ -316,6 +320,10 @@ const styles = StyleSheet.create({
     elevation: 3,
     position: 'absolute',
     bottom: 0,
+  },
+  sendAgain: {
+    color: Color.White[100],
+    textDecorationLine: 'underline',
   },
   flatListStyle: {
     paddingVertical: size(10),

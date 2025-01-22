@@ -8,6 +8,7 @@ interface Message {
   created_at?: string;
   updatedAt: string;
   read: boolean;
+  errorId?: string;
 }
 
 interface Chatroom {
@@ -24,12 +25,7 @@ interface ChatroomsState {
 }
 
 interface MessagesState {
-  messages: Message[]
+  messages: Message[];
 }
 
-export type {
-  ChatroomsState,
-  Chatroom,
-  Message,
-  MessagesState,
-};
+export type {ChatroomsState, Chatroom, Message, MessagesState};

@@ -86,12 +86,13 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
+    width: '100%',
     height: size(117),
     flexDirection: 'row',
     padding: size(10),
     borderRadius: 12,
     marginTop: 10,
+    backgroundColor: 'blue',
   },
   boxA: {
     width: '30%',

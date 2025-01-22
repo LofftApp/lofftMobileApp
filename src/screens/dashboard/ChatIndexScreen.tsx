@@ -74,7 +74,8 @@ const ChatIndexScreen = () => {
               <ChatCard chatroomData={chatroom} isLessor={isLessor} />
             </Pressable>
           )}
-          contentContainerStyle={styles.container}
+          contentContainerStyle={styles.flatlistContainer}
+          style={styles.flatlist}
         />
       )}
     </SafeAreaView>
@@ -89,10 +90,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'center',
   },
-  container: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-    alignItems: 'center',
+  flatlist: {
+    flex: 1, // Ensure FlatList takes up the full space
+    width: '100%', // Match parent width
+  },
+  flatlistContainer: {
+    paddingHorizontal: 16, // Add consistent horizontal padding
+    alignItems: 'center', // Center items within the FlatList
+    justifyContent: 'center', // Optional: vertical centering
   },
   centerText: {
     textAlign: 'center',
