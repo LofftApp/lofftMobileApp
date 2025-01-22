@@ -95,7 +95,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     }, [activateFirstScroll]),
   );
 
-  // HANDLE ERROR IN MESSAGE IS NOT SHOWN IN THE CHAT (see ConditionsOfUseScreen.tsx)
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
       try {
@@ -186,7 +185,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         {/* Render Date Header */}
         {shouldRenderDateHeader && (
           <Text style={styles.dateHeader}>
-            {/* Refactor to DayJS */}
             {Dayjs(currentCreatedDate).isSame(Dayjs(), 'day')
               ? 'Today'
               : Dayjs(currentCreatedDate).format('DD.MM')}
@@ -273,7 +271,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         />
 
         <View style={styles.inputContainer}>
-          {/* //On KEY PRESS, Copy InputFieldText.tsx styles, CHAT INPUT COMPONENT */}
           <TextInput
             style={styles.textInput}
             value={newMessage}
@@ -281,15 +278,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
             placeholder="Type your message"
             multiline
           />
-          {/* <InputFieldText
-            value={newMessage}
-            onChangeText={setNewMessage}
-            placeholder="Type your message"
-            type="text"
-            keyboardType="default"
-            errorMessage={errorMessages}
-          /> */}
-
           <Pressable
             style={isLessor ? styles.sendButtonLessor : styles.sendButton}
             onPress={handleSendMessage}
@@ -327,13 +315,17 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    paddingHorizontal: size(10),
     minHeight: size(40),
     backgroundColor: '#fff',
-    paddingTop: size(10),
+    paddingTop: size(14),
+    paddingLeft: size(9),
+    borderWidth: 2,
+    borderRadius: 12,
+    borderColor: Color.Black[50],
+    paddingHorizontal: size(4),
+    height: size(48),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sendButtonLessor: {
     backgroundColor: Color.Lavendar[100],
