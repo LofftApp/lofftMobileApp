@@ -75,6 +75,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
   );
 
   const {messages, setMessages} = useWebSocket(chatroomId);
+  console.log(messages);
 
   // Load initial messages and mark them as read
   useFocusEffect(
