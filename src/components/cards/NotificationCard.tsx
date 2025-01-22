@@ -79,14 +79,13 @@ const NotificationCard = ({
             icon: 'hourglass',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: advertStatus === 'viewing' ? 'Go to chat' : undefined,
+            value: advertStatus === 'viewing' ? 'Go to chats' : undefined,
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             //Chatroom Nested Navigation in Notification
             buttonNavigation: () =>
               navigation.navigate('ChatroomsNavigator', {
-                screen: 'ChatShow',
-                params: {chatroomId: notification.advert.chatroomId},
+                screen: 'ChatIndex',
               }),
           };
         case 'offered':
@@ -94,13 +93,12 @@ const NotificationCard = ({
             icon: 'home-smile',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: advertStatus === 'offered' ? 'Go to chat' : undefined,
+            value: advertStatus === 'offered' ? 'Go to chats' : undefined,
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('ChatroomsNavigator', {
-                screen: 'ChatShow',
-                params: {chatroomId: notification.advert.chatroomId},
+                screen: 'ChatIndex',
               }),
           };
         case 'closed':
