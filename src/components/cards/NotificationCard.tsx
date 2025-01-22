@@ -138,13 +138,7 @@ const NotificationCard = ({
           };
       }
     },
-    [
-      navigation,
-      notification.advert.id,
-      lessorBgColor,
-      advertStatus,
-      notification.advert.chatroomId,
-    ],
+    [navigation, notification.advert.id, lessorBgColor, advertStatus],
   );
 
   const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
@@ -351,19 +345,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     gap: size(10),
   },
-
   iconImageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(5),
   },
-
   imageContainer: {
     width: 100,
     aspectRatio: 1,
     overflow: 'hidden',
   },
-
   advertImage: {
     width: '100%',
     height: '100%',
@@ -375,7 +366,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: size(3),
   },
-
   buttonStyle: {
     width: '96%',
     height: size(50),
