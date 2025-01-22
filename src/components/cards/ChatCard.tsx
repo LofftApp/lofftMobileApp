@@ -11,7 +11,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🦄
-import {ChatCardProps} from './types';
+import {ChatCardProps} from 'reduxFeatures/chatrooms/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const hardcodedImages = [

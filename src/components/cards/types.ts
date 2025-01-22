@@ -2,31 +2,6 @@ import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
-// Duplicate types Use the one from chatroomApi types
-type Message = {
-  chatroomId: number;
-  content: string;
-  createdAt: string;
-  id: number;
-  read: boolean;
-  updatedAt: string;
-  userId: number;
-};
-
-type ChatRoomData = {
-  id: number;
-  matchScore: number;
-  message?: Message | null;
-  name: string;
-  userPhoto?: string | null;
-  advertTagLine: string;
-};
-
-type ChatCardProps = {
-  chatroomData: ChatRoomData,
-  isLessor: boolean
-}
-
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
   application?: Application;
@@ -69,5 +44,4 @@ export type {
   ApplicantCardRound1Props,
   ApplicantCardRound2Props,
   LanguagesCardProps,
-  ChatCardProps,
 };
