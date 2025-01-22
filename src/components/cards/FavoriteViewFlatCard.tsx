@@ -1,5 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Animated} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Animated,
+  Touchable,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
@@ -29,6 +37,7 @@ import {tagSorter} from 'helpers/tagSorter';
 import {FavoritesScreenNavigationProp} from '../../navigationStacks/types';
 import {Favorite} from 'reduxFeatures/adverts/types';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import useColorAnimation from 'hooks/useColorAnimation';
 
 const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
   const navigation = useNavigation<FavoritesScreenNavigationProp>();
@@ -47,23 +56,17 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
   //     navigation.navigate('ApplyForFlatScreen');
   //   }
   // }, [applyIsSuccess, navigation]);
-  const greenButtonHeight = useRef(new Animated.Value(0)).current; // Animation for button height
+  const greenButtonHeight = useRef(new Animated.Value(0)).current; // Initial height
+  const greenButtonOpacity = useRef(new Animated.Value(0)).current; // Initial opacity
   const [isAnimating, setIsAnimating] = useState(false); // Track animation state
 
-  useEffect(() => {
-    if (applyIsSuccess && isAnimating) {
-      // Animate green button
-      Animated.timing(greenButtonHeight, {
-        toValue: 50, // Height of the green button
-        duration: 1000, // Duration of the animation
-        useNativeDriver: false,
-      }).start(() => {
-        setTimeout(() => {
-          navigation.navigate('ApplyForFlatScreen'); // Navigate after animation
-        }, 2000); // Small delay before navigation
-      });
-    }
-  }, [applyIsSuccess, navigation, greenButtonHeight, isAnimating]);
+  // useEffect(() => {
+  //   if (applyIsSuccess && isAnimating) {
+  //     setTimeout(() => {
+  //       navigation.navigate('ApplyForFlatScreen'); // Navigate after animation
+  //     }, 2000);
+  //   }
+  // }, [applyIsSuccess, navigation, isAnimating]);
 
   const characteristicsTags = tagSorter(
     currentUser?.profile.characteristics ?? [],
@@ -80,9 +83,32 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     toggleFavorite(favorite.id ?? 0);
   };
 
+  // const handleApplyForFlat = () => {
+  //   setIsAnimating(true);
+  //   applyForFlat(favorite?.id ?? 0);
+
+  //   // Start animation for green button
+  //   Animated.parallel([
+  //     Animated.timing(greenButtonHeight, {
+  //       toValue: 50, // Final height of the green button
+  //       duration: 500, // Smooth animation duration
+  //       useNativeDriver: false,
+  //     }),
+  //     Animated.timing(greenButtonOpacity, {
+  //       toValue: 1, // Fade in the green button
+  //       duration: 500, // Match the height animation duration
+  //       useNativeDriver: false,
+  //     }),
+  //   ]).start();
+  // };
+  const [buttonColor, setButtonColor] = useState(Color.Lavendar[100]); // Default color
+  const [animatedColor, finished] = useColorAnimation(buttonColor) as [
+    Animated.AnimatedInterpolation<string | number>,
+    boolean,
+  ]; // Animated color
   const handleApplyForFlat = () => {
-    setIsAnimating(true);
     applyForFlat(favorite?.id ?? 0);
+    setButtonColor(Color.Mint[100]);
   };
   return (
     <View style={styles.flatCardContainer}>
@@ -126,19 +152,21 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
           <Chips tags={positiveChars} features={false} />
         </View>
       </View>
-
-      <Animated.View
-        style={[
-          styles.greenButton,
-          {
-            height: greenButtonHeight, // Green button height animation
-            overflow: 'hidden',
-          },
-        ]}>
-        <Text style={styles.greenButtonText}>Applied</Text>
-      </Animated.View>
-
-      {!isAnimating && (
+      {/* {isAnimating ? (
+        <Animated.View
+          style={[
+            styles.greenButton,
+            {
+              height: greenButtonHeight,
+              opacity: greenButtonOpacity,
+              // overflow: 'hidden',
+            },
+          ]}>
+          <Text style={[fontStyles.headerSmall, styles.greenButtonText]}>
+            Applied
+          </Text>
+        </Animated.View>
+      ) : (
         <CoreButton
           value={
             favorite?.applied ? (
@@ -152,8 +180,35 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
             )
           }
           onPress={handleApplyForFlat}
+          // style={styles.coreButtonCustom}
         />
-      )}
+      )} */}
+      <Pressable onPress={handleApplyForFlat} disabled={!finished}>
+        <Animated.View
+          style={[
+            styles.animatedButton,
+            {backgroundColor: animatedColor}, // Apply animated background color
+          ]}>
+          <Text style={[fontStyles.headerSmall, styles.greenButtonText]}>
+            {favorite?.applied ? 'Applied' : 'Apply'}
+          </Text>
+          {/* <CoreButton
+          value={
+            favorite?.applied ? (
+              'Applied'
+              ) : applyIsLoading ? (
+                <LoadingButtonIcon />
+                ) : applyError ? (
+                  'Error. Try Again'
+                  ) : (
+                    'Apply'
+                    )
+                    }
+                    onPress={handleApplyForFlat}
+                    disabled={!finished} // Disable button during animation
+                    /> */}
+        </Animated.View>
+      </Pressable>
     </View>
   );
 };
@@ -205,14 +260,30 @@ const styles = StyleSheet.create({
   },
 
   greenButton: {
-    backgroundColor: Color.Mint[100], // Use your green color
+    backgroundColor: Color.Mint[100],
     alignItems: 'center',
     justifyContent: 'center',
+
+    borderColor: Color.Mint[100],
+    borderRadius: 12,
+
+    paddingHorizontal: size(16),
+    borderWidth: size(2),
+    flexDirection: 'row',
+    gap: size(7),
+    width: '100%',
+    height: size(56),
+    color: Color.White[100],
   },
   greenButtonText: {
     color: Color.White[100],
-    fontSize: 16,
-    fontWeight: 'bold',
+  },
+  animatedButton: {
+    borderRadius: 12,
+    paddingHorizontal: size(16),
+    paddingVertical: size(12),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
