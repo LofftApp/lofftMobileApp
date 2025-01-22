@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -41,6 +41,7 @@ import useWebSocket from 'hooks/useWebSocket';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import {fontStyles} from 'styleSheets/fontStyles';
 
 Dayjs.extend(utc);
 Dayjs.extend(timezone);
@@ -84,16 +85,23 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
 
   //REFACTOR TO A USE EFFECT
   // Scroll to bottom when coming onto screen
+  useEffect(() => {
+    if (activateFirstScroll && flatListRef.current) {
+      flatListRef.current.scrollToOffset({offset: 0, animated: true});
 
-  useFocusEffect(
-    useCallback(() => {
-      if (activateFirstScroll && flatListRef.current) {
-        flatListRef.current.scrollToOffset({offset: 0, animated: true});
+      setActivateScroll(false);
+    }
+  }, [activateFirstScroll]);
 
-        setActivateScroll(false);
-      }
-    }, [activateFirstScroll]),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (activateFirstScroll && flatListRef.current) {
+  //       flatListRef.current.scrollToOffset({offset: 0, animated: true});
+
+  //       setActivateScroll(false);
+  //     }
+  //   }, [activateFirstScroll]),
+  // );
 
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
@@ -211,6 +219,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
                 <Text>
                   <Text
                     style={[
+                      fontStyles.bodySmall,
                       styles.messageText,
                       isUserMessage && styles.userMessageText,
                     ]}>
@@ -227,6 +236,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
               ) : (
                 <Text
                   style={[
+                    fontStyles.bodySmall,
                     styles.messageText,
                     isUserMessage && styles.userMessageText,
                   ]}>

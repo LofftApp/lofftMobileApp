@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
 // Helpers 🥷🏻
@@ -21,29 +21,11 @@ const hardcodedImages = [
 const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
   const {matchScore, name, message, userPhoto, advertTagLine} = chatroomData;
   const {read, content, createdAt} = message ?? {};
-  const [isBlinking, setIsBlinking] = useState(false);
   const {data: currentUser} = useGetUserQuery();
 
-  useEffect(() => {
-    const blinkingInterval = setInterval(
-      () => setIsBlinking(prev => !prev),
-      3000,
-    );
-    return () => clearInterval(blinkingInterval);
-  }, []);
-  console.log('Message', message);
-
-  //DISPLAY THE MESSAGE WHEN SENDER ALREADY SENT A MESSAGE
   const renderMessageText = () => {
     if (!message) {
-      const blinkingStyle = isLessor
-        ? styles.textGlowingLessor
-        : styles.textGlowingTenant;
-      return (
-        <Text style={[fontStyles.bodyMedium, isBlinking && blinkingStyle]}>
-          Start Chat 🚀
-        </Text>
-      );
+      return <Text style={fontStyles.bodyMedium}>Start Chat 🚀</Text>;
     }
 
     return isLessor
@@ -63,7 +45,7 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
           ? styles.tenantContainerBg
           : message?.userId !== currentUser?.id && read
           ? styles.chatContainerWhite
-          : null, // Optional: no additional styling if none of the conditions match
+          : null,
       ]}>
       <View style={styles.boxA}>
         <Image
@@ -75,11 +57,13 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
         <View style={styles.innerBoxBup}>
           <View>
             <Text style={fontStyles.headerSmall}>
-              {!read && (
-                <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
-                  ●
-                </Text>
-              )}{' '}
+              {!read && currentUser?.id !== message?.userId && (
+                <>
+                  <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
+                    ●
+                  </Text>{' '}
+                </>
+              )}
               {name}
             </Text>
             <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>
@@ -87,7 +71,6 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
             </Text>
           </View>
           <Text style={[fontStyles.bodySmall, styles.timeFont]}>
-            {/* refactor to DayJs ? */}
             {message && checkMessageDate(createdAt ?? '')}
           </Text>
         </View>
