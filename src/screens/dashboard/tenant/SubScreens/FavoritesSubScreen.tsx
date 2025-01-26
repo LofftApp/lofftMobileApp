@@ -19,6 +19,8 @@ const FavoritesSubScreen = ({
   isError,
   isLoading,
 }: FavoritesSubScreenProps) => {
+  const isAllFavoritesApplied = favorites?.every(favorite => favorite.applied);
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -27,7 +29,7 @@ const FavoritesSubScreen = ({
       <NotFoundComponent message="There was an error getting favorites flats" />
     );
   }
-  if (favorites?.length === 0) {
+  if (favorites?.length === 0 || isAllFavoritesApplied) {
     return (
       <View style={styles.bodyContainer}>
         <Looking style={styles.image} />
