@@ -59,14 +59,30 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
   const greenButtonHeight = useRef(new Animated.Value(0)).current; // Initial height
   const greenButtonOpacity = useRef(new Animated.Value(0)).current; // Initial opacity
   const [isAnimating, setIsAnimating] = useState(false); // Track animation state
+  const [animationFinished, setAnimationFinished] = useState(false); // Track animation state
+  const cardOpacity = useRef(new Animated.Value(1)).current; // Initial opacity
 
-  // useEffect(() => {
-  //   if (applyIsSuccess && isAnimating) {
-  //     setTimeout(() => {
-  //       navigation.navigate('ApplyForFlatScreen'); // Navigate after animation
-  //     }, 2000);
-  //   }
-  // }, [applyIsSuccess, navigation, isAnimating]);
+  useEffect(() => {
+    if (applyIsSuccess) {
+      setButtonColor(Color.Mint[100]);
+
+      Animated.timing(cardOpacity, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start(() => {
+        navigation.navigate('ApplyForFlatScreen');
+
+        const timeout = setTimeout(() => {
+          setAnimationFinished(true);
+        }, 1000);
+
+        return () => {
+          clearTimeout(timeout);
+        };
+      });
+    }
+  }, [applyIsSuccess, navigation, cardOpacity]);
 
   const characteristicsTags = tagSorter(
     currentUser?.profile.characteristics ?? [],
@@ -110,8 +126,11 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     applyForFlat(favorite?.id ?? 0);
     setButtonColor(Color.Mint[100]);
   };
+  if (favorite.applied && animationFinished) {
+    return null;
+  }
   return (
-    <View style={styles.flatCardContainer}>
+    <Animated.View style={[styles.flatCardContainer, {opacity: cardOpacity}]}>
       <View style={styles.flatCardButtonsOverlay}>
         <View style={styles.flatCardbuttonsWrap}>
           {/* favorite button /> */}
@@ -223,7 +242,7 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
                     /> */}
         </Animated.View>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 
