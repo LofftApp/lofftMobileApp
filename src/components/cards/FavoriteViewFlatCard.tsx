@@ -41,7 +41,7 @@ import useColorAnimation from 'hooks/useColorAnimation';
 
 const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
   const navigation = useNavigation<FavoritesScreenNavigationProp>();
-
+  console.log(' is applied', favorite.applied);
   const {data: currentUser} = useGetUserQuery();
 
   const [toggleFavorite] = useToggleFavoriteMutation();
@@ -183,14 +183,28 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
           // style={styles.coreButtonCustom}
         />
       )} */}
-      <Pressable onPress={handleApplyForFlat} disabled={!finished}>
+      <TouchableOpacity onPress={handleApplyForFlat} disabled={!finished}>
         <Animated.View
-          style={[
-            styles.animatedButton,
-            {backgroundColor: animatedColor}, // Apply animated background color
-          ]}>
+          style={[styles.animatedButton, {backgroundColor: animatedColor}]}>
           <Text style={[fontStyles.headerSmall, styles.greenButtonText]}>
-            {favorite?.applied ? 'Applied' : 'Apply'}
+            {favorite?.applied ? (
+              'Applied'
+            ) : applyIsLoading ? (
+              <LoadingButtonIcon />
+            ) : applyError ? (
+              'Error. Try again'
+            ) : (
+              'Apply'
+            )}
+            {/* {applyIsLoading ? ( // Show spinner while loading
+              <LoadingButtonIcon />
+            ) : favorite?.applied ? ( // Show "Applied" after loading completes
+              'Applied'
+            ) : applyError ? ( // Show error message if there's an error
+              'Error. Try Again'
+            ) : (
+              'Apply'
+            )} */}
           </Text>
           {/* <CoreButton
           value={
@@ -208,7 +222,7 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
                     disabled={!finished} // Disable button during animation
                     /> */}
         </Animated.View>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -284,6 +298,14 @@ const styles = StyleSheet.create({
     paddingVertical: size(12),
     alignItems: 'center',
     justifyContent: 'center',
+    height: size(56),
+  },
+  buttonDisabled: {
+    backgroundColor: Color.Black[30],
+    borderColor: Color.Black[30],
+  },
+  textDisabled: {
+    color: Color.White[100],
   },
 });
 

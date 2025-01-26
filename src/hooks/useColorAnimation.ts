@@ -2,7 +2,8 @@ import {useRef, useMemo, useEffect, useState} from 'react';
 import {Animated, Easing} from 'react-native';
 
 const useColorAnimation = (color: string) => {
-  const anim = useMemo(() => new Animated.Value(0), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const anim = useMemo(() => new Animated.Value(0), [color]);
   const [finished, setFinished] = useState(true);
   const currentColor = useRef(color);
   const nextColor = useMemo(() => color, [color]);
@@ -14,10 +15,10 @@ const useColorAnimation = (color: string) => {
 
   useEffect(() => {
     setFinished(false);
-    Animated.timing(anim, {
+    Animated.spring(anim, {
       toValue: 1,
-      duration: 800,
-      easing: Easing.cubic,
+
+
 
       useNativeDriver: false,
     }).start(() => {

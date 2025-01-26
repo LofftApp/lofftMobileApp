@@ -153,17 +153,113 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Favorites', id: 'LIST'},
       ],
     }),
+    // applyForFlat: builder.mutation<{credits: number; status: string}, number>({
+    //   query: id => ({
+    //     url: `/api/adverts/${id}/advert_applications`,
+    //     method: 'POST',
+    //   }),
+    //   invalidatesTags: (result, error, id) => [
+    //     {type: 'Adverts', id},
+    //     {type: 'Applications', id: 'LIST'},
+    //     {type: 'User', id: 'PROFILE'},
+    //     {type: 'Favorites', id: 'LIST'},
+    //   ],
+    // }),
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
       query: id => ({
         url: `/api/adverts/${id}/advert_applications`,
         method: 'POST',
       }),
+      async onQueryStarted(id, {dispatch, queryFulfilled}) {
+        // Step 1: Apply optimistic updates
+        const patchAdvertById = dispatch(
+          advertApi.util.updateQueryData('getAdvertById', id, draft => {
+            if (draft) {
+              draft.applied = !draft.applied; // Assuming 'applied' is a boolean property
+          
+            }
+          }),
+        );
+        const patchFavoriteList = dispatch(
+          advertApi.util.updateQueryData(
+            'getFavoritesAdverts',
+            undefined,
+            draft => {
+              draft.favorites.forEach(favorite => {
+                if (favorite.id === id) {
+                  favorite.applied = !favorite.applied; // Mark as applied in the favorites list
+                }
+              });
+            },
+          ),
+        );
+
+        // const patchAdvertList = dispatch(
+        //   advertApi.util.updateQueryData('getAdverts', undefined, (draft) => {
+        //     draft.adverts.forEach((advert) => {
+        //       if (advert.id === id) {
+        //         advert.applied = true; // Mark as applied in the adverts list
+        //       }
+        //     });
+        //   })
+        // );
+
+        // const patchApplicationById = dispatch(
+        //   applicationApi.util.updateQueryData(
+        //     'getApplicationById',
+        //     id,
+        //     draft => {
+        //       if (draft && draft.advert) {
+        //         draft.advert.applied = true; // Update in application details
+        //       }
+        //     },
+        //   ),
+        // );
+
+        // const patchApplicationList = dispatch(
+        //   applicationApi.util.updateQueryData(
+        //     'getApplications',
+        //     undefined,
+        //     draft => {
+        //       draft.forEach(application => {
+        //         if (application.advert?.id === id) {
+        //           application.advert.applied = true; // Update in application list
+        //         }
+        //       });
+        //     },
+        //   ),
+        // );
+
+        // const patchAdvertList = dispatch(
+        //   advertApi.util.updateQueryData('getAdverts', undefined, (draft) => {
+        //     draft.adverts.forEach((advert) => {
+        //       if (advert.id === id) {
+        //         advert.applied = true; // Mark as applied in the adverts list
+        //       }
+        //     });
+        //   })
+        // );
+
+        // Step 2: Revert changes if request fails
+        try {
+          await queryFulfilled;
+        } catch {
+          patchAdvertById.undo();
+          // patchAdvertList.undo();
+          // patchApplicationById.undo();
+          // patchApplicationList.undo();
+          // patchUserProfile.undo();
+          patchFavoriteList.undo();
+        }
+      },
       invalidatesTags: (result, error, id) => [
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
         {type: 'User', id: 'PROFILE'},
+        {type: 'Favorites', id: 'LIST'},
       ],
     }),
+
     confirmApplications: builder.mutation<
       void,
       {

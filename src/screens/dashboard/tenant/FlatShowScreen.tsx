@@ -64,6 +64,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
+  console.log('applyIsLoading', applyIsLoading);
 
   const completeProfile = currentUser?.userType !== 'newuser';
   const hasTokens = currentUser?.credits && currentUser?.credits > 0;
@@ -121,18 +122,18 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             {completeProfile && hasTokens ? (
               <CoreButton
                 value={
-                  advert?.applied ? (
-                    'Applied'
-                  ) : applyIsLoading ? (
+                  applyIsLoading ? ( // Show spinner while loading
                     <LoadingButtonIcon />
-                  ) : applyError ? (
+                  ) : advert?.applied ? ( // Show "Applied" after loading completes
+                    'Applied'
+                  ) : applyError ? ( // Show error message if there's an error
                     'Error. Try Again'
                   ) : (
                     'Apply'
                   )
                 }
                 style={styles.coreButtonCustom}
-                disabled={advert?.applied || applyIsLoading || applyIsSuccess}
+                disabled={advert?.applied || applyIsLoading}
                 onPress={handleApplyForFlat}
               />
             ) : (

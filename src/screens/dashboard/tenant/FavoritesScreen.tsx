@@ -15,7 +15,7 @@ import FavoritesSubScreen from './SubScreens/FavoritesSubScreen';
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
   const favorites = data?.favorites;
-  console.log('Favorites', favorites);
+  console.log('Favorites>>>>>>>>>>>>', favorites);
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -26,7 +26,7 @@ const FavoritesScreen = () => {
       </View>
       <View style={CoreStyleSheet.screenContainer}>
         <FavoritesSubScreen
-          favorites={favorites}
+          favorites={favorites ?? []}
           isLoading={isLoading}
           isError={isError}
         />
