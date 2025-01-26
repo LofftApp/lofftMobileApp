@@ -1,13 +1,11 @@
 import React from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 
 // Components 🪢
-import ListViewFlatCard from 'components/cards/ListViewFlatCard';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // Types 🏷️
-import type {Advert, Favorite} from 'reduxFeatures/adverts/types';
 import {FavoritesSubScreenProps} from './types';
 import {Looking} from 'assets';
 import {fontStyles} from 'styleSheets/fontStyles';

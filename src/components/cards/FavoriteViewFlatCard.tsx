@@ -59,23 +59,19 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
   const greenButtonHeight = useRef(new Animated.Value(0)).current; // Initial height
   const greenButtonOpacity = useRef(new Animated.Value(0)).current; // Initial opacity
   const [isAnimating, setIsAnimating] = useState(false); // Track animation state
-  const [animationFinished, setAnimationFinished] = useState(false); // Track animation state
+  const [isApplied, setIsApplied] = useState(false); // Track if the flat is applied
   const cardOpacity = useRef(new Animated.Value(1)).current; // Initial opacity
 
   useEffect(() => {
     if (applyIsSuccess) {
-      setButtonColor(Color.Mint[100]);
-
       Animated.timing(cardOpacity, {
         toValue: 0,
         duration: 1000,
         useNativeDriver: true,
       }).start(() => {
-        navigation.navigate('ApplyForFlatScreen');
-
         const timeout = setTimeout(() => {
-          setAnimationFinished(true);
-        }, 1000);
+          navigation.navigate('ApplyForFlatScreen');
+        }, 2000);
 
         return () => {
           clearTimeout(timeout);
@@ -126,9 +122,10 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     applyForFlat(favorite?.id ?? 0);
     setButtonColor(Color.Mint[100]);
   };
-  if (favorite.applied && animationFinished) {
+  if (favorite.applied) {
     return null;
   }
+
   return (
     <Animated.View style={[styles.flatCardContainer, {opacity: cardOpacity}]}>
       <View style={styles.flatCardButtonsOverlay}>
