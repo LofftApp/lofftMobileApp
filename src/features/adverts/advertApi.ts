@@ -273,7 +273,7 @@ export const advertApi = lofftApi.injectEndpoints({
         try {
           // Step 1: Introduce a delay
           console.log('Delay started...');
-          await new Promise(resolve => setTimeout(resolve, 2000)); // 3-second delay
+          await new Promise(resolve => setTimeout(resolve, 3000)); // 3-second delay
 
           // Step 2: Wait for the server response
           await queryFulfilled;

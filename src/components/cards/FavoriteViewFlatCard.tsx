@@ -51,34 +51,28 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
 
-  // useEffect(() => {
-  //   if (applyIsSuccess) {
-  //     navigation.navigate('ApplyForFlatScreen');
-  //   }
-  // }, [applyIsSuccess, navigation]);
-  const greenButtonHeight = useRef(new Animated.Value(0)).current; // Initial height
-  const greenButtonOpacity = useRef(new Animated.Value(0)).current; // Initial opacity
-  const [isAnimating, setIsAnimating] = useState(false); // Track animation state
-  const [isApplied, setIsApplied] = useState(false); // Track if the flat is applied
-  const cardOpacity = useRef(new Animated.Value(1)).current; // Initial opacity
+  const [isApplied, setIsApplied] = useState(false);
+
+  const cardOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     if (applyIsSuccess) {
+      setIsApplied(true);
       Animated.timing(cardOpacity, {
         toValue: 0,
-        duration: 1000,
+        duration: 1500,
         useNativeDriver: true,
       }).start(() => {
         const timeout = setTimeout(() => {
-          navigation.navigate('ApplyForFlatScreen');
+          // navigation.navigate('ApplyForFlatScreen');
+          setIsApplied(favorite?.applied);
         }, 2000);
-
         return () => {
           clearTimeout(timeout);
         };
       });
     }
-  }, [applyIsSuccess, navigation, cardOpacity]);
+  }, [applyIsSuccess, navigation, cardOpacity, favorite?.applied]);
 
   const characteristicsTags = tagSorter(
     currentUser?.profile.characteristics ?? [],
@@ -95,24 +89,6 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     toggleFavorite(favorite.id ?? 0);
   };
 
-  // const handleApplyForFlat = () => {
-  //   setIsAnimating(true);
-  //   applyForFlat(favorite?.id ?? 0);
-
-  //   // Start animation for green button
-  //   Animated.parallel([
-  //     Animated.timing(greenButtonHeight, {
-  //       toValue: 50, // Final height of the green button
-  //       duration: 500, // Smooth animation duration
-  //       useNativeDriver: false,
-  //     }),
-  //     Animated.timing(greenButtonOpacity, {
-  //       toValue: 1, // Fade in the green button
-  //       duration: 500, // Match the height animation duration
-  //       useNativeDriver: false,
-  //     }),
-  //   ]).start();
-  // };
   const [buttonColor, setButtonColor] = useState(Color.Lavendar[100]); // Default color
   const [animatedColor, finished] = useColorAnimation(buttonColor) as [
     Animated.AnimatedInterpolation<string | number>,
@@ -199,11 +175,13 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
           // style={styles.coreButtonCustom}
         />
       )} */}
-      <TouchableOpacity onPress={handleApplyForFlat} disabled={!finished}>
+      <TouchableOpacity
+        onPress={handleApplyForFlat}
+        disabled={!finished || favorite?.applied}>
         <Animated.View
           style={[styles.animatedButton, {backgroundColor: animatedColor}]}>
           <Text style={[fontStyles.headerSmall, styles.greenButtonText]}>
-            {favorite?.applied ? (
+            {isApplied ? (
               'Applied'
             ) : applyIsLoading ? (
               <LoadingButtonIcon />
@@ -222,21 +200,7 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
               'Apply'
             )} */}
           </Text>
-          {/* <CoreButton
-          value={
-            favorite?.applied ? (
-              'Applied'
-              ) : applyIsLoading ? (
-                <LoadingButtonIcon />
-                ) : applyError ? (
-                  'Error. Try Again'
-                  ) : (
-                    'Apply'
-                    )
-                    }
-                    onPress={handleApplyForFlat}
-                    disabled={!finished} // Disable button during animation
-                    /> */}
+       
         </Animated.View>
       </TouchableOpacity>
     </Animated.View>
