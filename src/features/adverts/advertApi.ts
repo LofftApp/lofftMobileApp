@@ -271,15 +271,10 @@ export const advertApi = lofftApi.injectEndpoints({
       }),
       async onQueryStarted(id, {dispatch, queryFulfilled}) {
         try {
-          // Step 1: Introduce a delay
-          console.log('Delay started...');
-          await new Promise(resolve => setTimeout(resolve, 3000)); // 3-second delay
+          await new Promise(resolve => setTimeout(resolve, 3000));
 
-          // Step 2: Wait for the server response
           await queryFulfilled;
 
-          // Step 3: Update the cache manually after the delay
-          console.log('Updating cache...');
           dispatch(
             advertApi.util.updateQueryData('getAdverts', undefined, draft => {
               draft.adverts.forEach(advert => {

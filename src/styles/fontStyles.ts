@@ -65,4 +65,10 @@ export const fontStyles = StyleSheet.create({
     fontSize: fontSize(12),
     lineHeight: size(20),
   },
+  bodyTiny: {
+    fontFamily: InterMedium,
+    color: color.Black[100],
+    fontSize: fontSize(10),
+    lineHeight: size(18),
+  },
 });

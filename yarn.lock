@@ -3661,6 +3661,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native/normalize-color@npm:*":
+  version: 2.1.0
+  resolution: "@react-native/normalize-color@npm:2.1.0"
+  checksum: 10/a72b98538e6b7e265fb0669b8767d5f788777fb1a0ac1df7b0c82d8b3a804c8122aa7b819688c5e36fcf90b5ba93050b0070e29d3f0d70ab9530c2abd2bb9f9e
+  languageName: node
+  linkType: hard
+
 "@react-native/normalize-colors@npm:0.73.2, @react-native/normalize-colors@npm:^0.73.0":
   version: 0.73.2
   resolution: "@react-native/normalize-colors@npm:0.73.2"
@@ -6376,6 +6383,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deprecated-react-native-prop-types@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "deprecated-react-native-prop-types@npm:2.3.0"
+  dependencies:
+    "@react-native/normalize-color": "npm:*"
+    invariant: "npm:*"
+    prop-types: "npm:*"
+  checksum: 10/5abbad5b6d6830ca92151167f42611256ada1e8991b5066ed3659f3bbe909ae87949f3e7f075f1b685256138cad81423222220f4c6d5740376db19cb9f793312
+  languageName: node
+  linkType: hard
+
 "deprecated-react-native-prop-types@npm:^5.0.0":
   version: 5.0.0
   resolution: "deprecated-react-native-prop-types@npm:5.0.0"
@@ -8195,7 +8213,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
+"invariant@npm:*, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -9568,6 +9586,7 @@ __metadata:
     react-native-encrypted-storage: "npm:^4.0.3"
     react-native-gesture-handler: "npm:^2.13.4"
     react-native-image-picker: "npm:^7.1.2"
+    react-native-popover-view: "npm:^6.1.0"
     react-native-responsive-sizes: "npm:^2.0.4"
     react-native-safe-area-context: "npm:^4.5.0"
     react-native-screens: "npm:^3.27.0"
@@ -11338,7 +11357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:*, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -11607,6 +11626,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10/62c6cc3c88edb29f2b17b4cdaa098b32efd23a5faf4380171c2ccfb1706c732a50553f2ce447e1df1ea48197dde3af42dd67584c60e2c4577ee1b7769152475d
+  languageName: node
+  linkType: hard
+
+"react-native-popover-view@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "react-native-popover-view@npm:6.1.0"
+  dependencies:
+    deprecated-react-native-prop-types: "npm:^2.3.0"
+    prop-types: "npm:^15.8.1"
+  checksum: 10/8cdb334e1a57523f5db3f43927b227f61abf955d2868d5182d7b6100cd9e8650a53fe39b1dc9c21605e45ec6c52b73eec884aafaed72251269a4834540887532
   languageName: node
   linkType: hard
 
