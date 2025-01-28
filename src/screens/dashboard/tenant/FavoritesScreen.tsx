@@ -51,6 +51,7 @@ const FavoritesScreen = () => {
     const checkFirstApply = async () => {
       try {
         const hasShown = await AsyncStorage.getItem(FIRST_APPLY_KEY);
+        console.log('hasShown:', hasShown);
         if (!hasShown && isApplied) {
           setShowPopover(true);
           await AsyncStorage.setItem(FIRST_APPLY_KEY, 'true');
@@ -66,18 +67,25 @@ const FavoritesScreen = () => {
       checkFirstApply();
     }
   }, [favorites, isApplied, hasCheckedStorage]);
+  console.log('isApplied:', isApplied);
+  console.log('hasCheckedStorage:', hasCheckedStorage);
 
   useEffect(() => {
     if (isApplied && hasCheckedStorage) {
       setShowPopover(true);
     }
   }, [isApplied, hasCheckedStorage]);
+  useEffect(() => {
+    console.log('showPopover:', showPopover);
+  }, [showPopover]);
 
   if (isLoading) {
     return <LoadingComponent />;
   }
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+    <SafeAreaView
+      style={CoreStyleSheet.safeAreaViewListContainer}
+      testID="favorites-screen">
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Saved Listings</Text>
       </View>

@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, StyleSheet, Animated, TouchableOpacity} from 'react-native';
-import {size} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 // Redux 🏗️
 import {
@@ -26,6 +25,7 @@ import LofftHeaderPhoto from './LofftHeaderPhoto';
 
 // Helpers
 import {tagSorter} from 'helpers/tagSorter';
+import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷️
 import {FavoritesScreenNavigationProp} from '../../navigationStacks/types';
