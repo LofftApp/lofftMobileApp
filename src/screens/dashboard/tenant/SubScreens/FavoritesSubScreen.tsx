@@ -11,6 +11,7 @@ import {Looking} from 'assets';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import FavoriteViewFlatCard from 'components/cards/FavoriteViewFlatCard';
+import {size} from 'react-native-responsive-sizes';
 
 const FavoritesSubScreen = ({
   favorites,
@@ -31,7 +32,7 @@ const FavoritesSubScreen = ({
     return (
       <View style={styles.bodyContainer}>
         <Looking style={styles.image} />
-        <Text style={fontStyles.headerMedium}>
+        <Text style={[fontStyles.headerMedium, styles.text]}>
           You don't have any saved listings
         </Text>
         <Text style={[fontStyles.bodyMedium, styles.subText]}>
@@ -52,24 +53,18 @@ const FavoritesSubScreen = ({
 };
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    backgroundColor: Color.White[100],
-    paddingHorizontal: 16,
-    flex: 1,
-  },
-  headerText: {
-    marginTop: 68,
-    marginHorizontal: 16,
-  },
   image: {
     height: '70%',
     overflow: 'visible',
-    marginTop: 50,
+    marginTop: size(10),
   },
   bodyContainer: {
     flex: 1,
     alignItems: 'center',
     paddingTop: 35,
+  },
+  text: {
+    textAlign: 'center',
   },
   subText: {
     marginTop: 16,
