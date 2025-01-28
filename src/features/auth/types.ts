@@ -3,6 +3,11 @@ type SignInArgs = {
   password: string;
 };
 
+type ResetPasswordResponse = {
+  message: string;
+  status: string;
+};
+
 type SignInResponse = {
   access_token: string;
   created_at: number;
@@ -23,4 +28,10 @@ type SignUpResponse = {
   };
 };
 
-export type {SignInArgs, SignInResponse, SignUpArgs, SignUpResponse};
+export type {
+  SignInArgs,
+  SignInResponse,
+  SignUpArgs,
+  SignUpResponse,
+  ResetPasswordResponse,
+};

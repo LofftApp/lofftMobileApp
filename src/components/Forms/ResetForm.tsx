@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 
 // Redux 🧠
-import {useSignInMutation} from 'reduxFeatures/auth/authApi';
+import {useResetPasswordInstructionsMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
@@ -14,11 +14,10 @@ import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
-//Validation 🛡️
-import {signInSchema} from 'lib/zodSchema';
-
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import IconButton from 'components/buttons/IconButton';
+import {resetPasswordSchema} from 'lib/zodSchema';
 
 type SignInFormProps = {
   clearErrors: boolean;
@@ -27,14 +26,15 @@ type SignInFormProps = {
 
 const ResetForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const [errorEmail, setErrorEmail] = useState('');
   const [signInError, setSignInError] = useState('');
+  const [successResetEmailSend, setSuccessResetEmailSend] = useState(false);
 
   const [devMessage, setDevMessage] = useState('');
 
-  const [signIn, {isLoading}] = useSignInMutation();
+  const [resetPasswordInstructions, {isLoading}] =
+    useResetPasswordInstructionsMutation();
 
   useEffect(() => {
     if (clearErrors) {
@@ -51,8 +51,8 @@ const ResetForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
     setDevMessage('');
   };
 
-  const handleSignIn = async () => {
-    const validation = signInSchema.safeParse({email, password});
+  const handleResetPassword = async () => {
+    const validation = resetPasswordSchema.safeParse({email});
     if (!validation.success) {
       const errEmail = validation.error.flatten().fieldErrors.email?.[0];
       if (errEmail) {
@@ -60,19 +60,21 @@ const ResetForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
       }
       return;
     }
+
     try {
-      await signIn({
-        email: validation.data.email,
-        password: validation.data.password,
+      const response = await resetPasswordInstructions({
+        email: email,
       }).unwrap();
       setEmail('');
-      setPassword('');
+      if (response.status === 'ok') {
+        setSuccessResetEmailSend(true);
+      }
     } catch (error) {
       const typedError = error as {
         status?: number | 'FETCH_ERROR';
       };
-      if (typedError.status === 400 || typedError.status === 401) {
-        setSignInError('Invalid email or password');
+      if (typedError.status === 400 || typedError.status === 404) {
+        setSignInError('Invalid email');
       } else if (typedError.status === 'FETCH_ERROR') {
         setSignInError('Network error. Please check connection or server');
       } else if (typedError.status === 403) {
@@ -85,30 +87,49 @@ const ResetForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text style={fontStyles.headerMedium}>Reset password</Text>
-      <View style={styles.inputsContainer}>
-        <View style={styles.inputContainer}>
-          <InputFieldText
-            value={email}
-            onChangeText={handleEmailChange}
-            placeholder="Email"
-            type="email"
-            keyboardType="email-address"
-            errorMessage={errorEmail || signInError}
+      <Text style={fontStyles.headerMedium}>Reset Password</Text>
+      {isLoading ? (
+        <ActivityIndicator size="large" color={Color.Black[100]} />
+      ) : successResetEmailSend ? (
+        <View>
+          <IconButton
+            icon="check-verified-02"
+            iconSize={size(60)}
+            text="Reset email send"
+            isActive
+            color={Color.Mint[100]}
+            onPress={() => {}}
           />
-
-          <ErrorMessage isInputField message={errorEmail} />
+          <Text style={[fontStyles.bodyMedium, styles.descriptionText]}>
+            Almost there, now head to your {'\n'}email & follow the instructions
+          </Text>
         </View>
-      </View>
-      <View style={styles.signInContainer}>
-        <CoreButton
-          value={isLoading ? '' : 'Reset password'}
-          icon={isLoading ? <LoadingButtonIcon /> : undefined}
-          onPress={handleSignIn}
-          disabled={isLoading}
-        />
-        <ErrorMessage message={signInError || devMessage} />
-      </View>
+      ) : (
+        <>
+          <View style={styles.inputsContainer}>
+            <View style={styles.inputContainer}>
+              <InputFieldText
+                value={email}
+                onChangeText={handleEmailChange}
+                placeholder="Email"
+                type="email"
+                keyboardType="email-address"
+                errorMessage={errorEmail || signInError}
+              />
+              <ErrorMessage isInputField message={errorEmail} />
+            </View>
+          </View>
+          <View style={styles.signInContainer}>
+            <CoreButton
+              value={isLoading ? '' : 'Reset password'}
+              icon={isLoading ? <LoadingButtonIcon /> : undefined}
+              onPress={handleResetPassword}
+              disabled={isLoading}
+            />
+            <ErrorMessage message={signInError || devMessage} />
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -118,19 +139,18 @@ const styles = StyleSheet.create({
     paddingTop: size(55),
     alignItems: 'center',
     flex: 1,
-
     gap: size(20),
   },
-
+  descriptionText: {
+    marginTop: 10,
+  },
   inputsContainer: {
     width: '100%',
     gap: size(10),
   },
-
   inputContainer: {
     gap: size(3),
   },
-
   forgotPassText: {
     alignSelf: 'flex-end',
     color: Color.Blue['100'],
