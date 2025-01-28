@@ -1,6 +1,10 @@
 import HiFive from './Hi-five.svg';
 import Search from './search.svg';
 import Looking from './looking.svg';
+import Rocket from './rocket.svg';
+import Heart from './heart.svg';
 export {HiFive};
 export {Search};
 export {Looking};
+export {Rocket};
+export {Heart};

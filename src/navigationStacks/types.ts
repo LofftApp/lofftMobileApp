@@ -17,6 +17,7 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamsList>;
 type GuestStackParamsList = {
   SignInScreen: undefined;
   SignUpScreen: undefined;
+  ForgotPasswordScreen: undefined;
 };
 type GuestStackScreenNavigationProp = StackNavigationProp<GuestStackParamsList>;
 
@@ -33,9 +34,10 @@ type TenantTabParamsList = {
 type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
   ApplicationShowScreen: {id: number};
-  ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList;
-    params?: {chatroomId?: number}
-  }
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
+  };
 };
 
 type SearchStackParamsList = {
@@ -81,9 +83,10 @@ type LessorNavigatorStackParamsList = {
     applicationId: number;
   };
   LessorChatScreen: undefined;
-  ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList;
-    params?: {chatroomId?: number}
-  }
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
+  };
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
@@ -95,12 +98,10 @@ type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
 type ChatroomsStackParamsList = {
   ChatIndex: undefined;
   ChatShow: {
-    chatroomId: number,
-   };
+    chatroomId: number;
+  };
 };
 type ChatroomNavigationProps = StackNavigationProp<ChatroomsStackParamsList>;
-
-
 
 //Notifications Navigator
 type NotificationsTabParamsList = {
@@ -123,8 +124,9 @@ type NotificationsStackParamsList = {
     screen: 'ApplicationShowScreen' | 'LessorChatScreen';
     params?: {id: number};
   };
-  ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList;
-    params?: {chatroomId?: number}
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
   };
 };
 
@@ -132,7 +134,6 @@ type NotificationsScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<NotificationsTabParamsList, 'NotificationsTab'>,
   StackNavigationProp<NotificationsStackParamsList>
 >;
-
 
 //NewUser Navigator
 type NewUserScreenNames =

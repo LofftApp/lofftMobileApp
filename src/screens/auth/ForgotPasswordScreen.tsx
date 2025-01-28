@@ -1,74 +1,54 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-// Components 🪢
-import SignInForm from 'components/Forms/SignInForm';
-import SignInWith from 'components/containers/SignInWith';
-
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 // Assets 🛠️
 import {SignInBackground} from '../../assets';
-import {HiFive} from '../../assets';
+import {Heart} from '../../assets';
 
 // Helpers 🥷  🏻
 import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
+import ResetForm from 'components/Forms/ResetForm';
+import BackButton from 'components/buttons/BackButton';
 const {height} = Dimensions.get('window');
 
-const SignInScreen = () => {
+const ForgotPasswordScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
 
   const insets = useSafeAreaInsets();
-  const imageMarginTop = height < 700 ? size(10) : size(70);
+  const imageMarginTop = height < 700 ? size(10) : size(20);
   const [clearErrors, setClearErrors] = useState(false);
-
-  const handleSignUp = () => {
-    if (clearErrors) {
-      setClearErrors(false);
-      return;
-    }
-
-    navigation.navigate('SignUpScreen');
-    setClearErrors(true);
-  };
 
   return (
     <View testID="sign-in" style={styles.behindContainer}>
+      <BackButton
+        style={styles.backButton}
+        neutral={true}
+        onPress={() => navigation.goBack()}
+      />
       <SignInBackground
         height={height * 1.9}
         width="100%"
         style={styles.backgroundImage}
       />
+
       <View style={styles.imageContainer}>
-        <HiFive style={{marginTop: imageMarginTop}} />
+        <Heart style={{marginTop: imageMarginTop}} />
       </View>
 
       <View style={[styles.formContainer, {paddingBottom: insets.bottom}]}>
         <View style={styles.signInForm}>
-          <SignInForm
+          <ResetForm
             clearErrors={clearErrors}
             setClearErrors={setClearErrors}
           />
-        </View>
-        <View style={styles.footer}>
-          <SignInWith isSignInScreen />
-          <View style={styles.signUpContainer}>
-            <Text style={fontStyles.bodyMedium}>
-              Don't have an account yet?
-            </Text>
-            <Text
-              style={[fontStyles.bodyMedium, {color: Color.Blue['100']}]}
-              onPress={handleSignUp}>
-              Sign Up
-            </Text>
-          </View>
         </View>
       </View>
     </View>
@@ -79,6 +59,15 @@ const styles = StyleSheet.create({
   behindContainer: {
     flex: 1,
     backgroundColor: Color.Lavendar['10'],
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    zIndex: 5000,
+  },
+  rocket: {
+    height: 20,
+    width: 20,
   },
   backgroundImage: {
     position: 'absolute',
@@ -108,13 +97,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: size(190),
-  },
-  signUpContainer: {
     flexDirection: 'row',
-    gap: size(20),
-    alignItems: 'center',
-    marginBottom: size(10),
+    padding: 10,
   },
 });
 
-export default SignInScreen;
+export default ForgotPasswordScreen;

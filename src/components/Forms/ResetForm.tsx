@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🧠
 import {useSignInMutation} from 'reduxFeatures/auth/authApi';
@@ -19,31 +19,26 @@ import {signInSchema} from 'lib/zodSchema';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-import {useNavigation} from '@react-navigation/native';
-import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
 
 type SignInFormProps = {
   clearErrors: boolean;
   setClearErrors: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
+const ResetForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [errorEmail, setErrorEmail] = useState('');
-  const [errorPassword, setErrorPassword] = useState('');
   const [signInError, setSignInError] = useState('');
 
   const [devMessage, setDevMessage] = useState('');
 
   const [signIn, {isLoading}] = useSignInMutation();
-  const navigation = useNavigation<GuestStackScreenNavigationProp>();
 
   useEffect(() => {
     if (clearErrors) {
       setErrorEmail('');
-      setErrorPassword('');
       setSignInError('');
     }
     setClearErrors(false);
@@ -56,32 +51,12 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
     setDevMessage('');
   };
 
-  const handlePasswordChange = (input: string) => {
-    setPassword(input);
-    setErrorPassword('');
-    setSignInError('');
-    setDevMessage('');
-  };
-
-  const handleForgotPassword = () => {
-    // if (devMessage) {
-    //   setDevMessage('');
-    //   return;
-    // }
-    // setDevMessage('This feature is coming soon');
-    navigation.navigate('ForgotPasswordScreen');
-  };
-
   const handleSignIn = async () => {
     const validation = signInSchema.safeParse({email, password});
     if (!validation.success) {
       const errEmail = validation.error.flatten().fieldErrors.email?.[0];
-      const errPassword = validation.error.flatten().fieldErrors.password?.[0];
       if (errEmail) {
         setErrorEmail(errEmail);
-      }
-      if (errPassword) {
-        setErrorPassword(errPassword);
       }
       return;
     }
@@ -110,7 +85,7 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text style={fontStyles.headerMedium}>Hello again!</Text>
+      <Text style={fontStyles.headerMedium}>Reset password</Text>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
           <InputFieldText
@@ -124,26 +99,10 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
 
           <ErrorMessage isInputField message={errorEmail} />
         </View>
-        <View style={styles.inputContainer}>
-          <InputFieldText
-            value={password}
-            onChangeText={handlePasswordChange}
-            placeholder="Password"
-            type="password"
-            errorMessage={errorPassword || signInError}
-          />
-
-          <ErrorMessage isInputField message={errorPassword} />
-        </View>
-        <Pressable onPress={handleForgotPassword}>
-          <Text style={[fontStyles.bodyMedium, styles.forgotPassText]}>
-            Forgot password?
-          </Text>
-        </Pressable>
       </View>
       <View style={styles.signInContainer}>
         <CoreButton
-          value={isLoading ? '' : 'Sign In'}
+          value={isLoading ? '' : 'Reset password'}
           icon={isLoading ? <LoadingButtonIcon /> : undefined}
           onPress={handleSignIn}
           disabled={isLoading}
@@ -182,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInForm;
+export default ResetForm;
