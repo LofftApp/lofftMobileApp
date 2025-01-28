@@ -19,6 +19,8 @@ import {signInSchema} from 'lib/zodSchema';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import {useNavigation} from '@react-navigation/native';
+import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
 
 type SignInFormProps = {
   clearErrors: boolean;
@@ -36,6 +38,7 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   const [devMessage, setDevMessage] = useState('');
 
   const [signIn, {isLoading}] = useSignInMutation();
+  const navigation = useNavigation<GuestStackScreenNavigationProp>();
 
   useEffect(() => {
     if (clearErrors) {
@@ -61,11 +64,12 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
   };
 
   const handleForgotPassword = () => {
-    if (devMessage) {
-      setDevMessage('');
-      return;
-    }
-    setDevMessage('This feature is coming soon');
+    // if (devMessage) {
+    //   setDevMessage('');
+    //   return;
+    // }
+    // setDevMessage('This feature is coming soon');
+    navigation.navigate('ForgotPasswordScreen');
   };
 
   const handleSignIn = async () => {

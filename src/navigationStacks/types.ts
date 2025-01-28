@@ -17,6 +17,7 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamsList>;
 type GuestStackParamsList = {
   SignInScreen: undefined;
   SignUpScreen: undefined;
+  ForgotPasswordScreen: undefined;
 };
 type GuestStackScreenNavigationProp = StackNavigationProp<GuestStackParamsList>;
 
@@ -33,7 +34,10 @@ type TenantTabParamsList = {
 type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
   ApplicationShowScreen: {id: number};
-  LessorChatScreen: undefined;
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
+  };
 };
 
 type SearchStackParamsList = {
@@ -79,12 +83,25 @@ type LessorNavigatorStackParamsList = {
     applicationId: number;
   };
   LessorChatScreen: undefined;
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
+  };
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<LessorTabParamsList, 'LessorIndexNavigator'>,
   StackNavigationProp<LessorNavigatorStackParamsList>
 >;
+
+// Chatrooms Navigator
+type ChatroomsStackParamsList = {
+  ChatIndex: undefined;
+  ChatShow: {
+    chatroomId: number;
+  };
+};
+type ChatroomNavigationProps = StackNavigationProp<ChatroomsStackParamsList>;
 
 //Notifications Navigator
 type NotificationsTabParamsList = {
@@ -106,6 +123,10 @@ type NotificationsStackParamsList = {
   ApplicationNavigator: {
     screen: 'ApplicationShowScreen' | 'LessorChatScreen';
     params?: {id: number};
+  };
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
   };
 };
 
@@ -170,4 +191,6 @@ export type {
   NotificationsTabParamsList,
   NotificationsStackParamsList,
   NotificationsScreenNavigationProp,
+  ChatroomsStackParamsList,
+  ChatroomNavigationProps,
 };

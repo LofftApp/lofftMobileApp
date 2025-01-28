@@ -3,7 +3,13 @@ import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
 import {logout, setAuthenticated, setAuthMessage} from './authSlice';
 import {clearPersister} from 'persistance/persister';
-import {SignInArgs, SignUpArgs, SignInResponse, SignUpResponse} from './types';
+import {
+  SignInArgs,
+  SignUpArgs,
+  SignInResponse,
+  SignUpResponse,
+  ResetPasswordResponse,
+} from './types';
 
 export const authApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -100,9 +106,24 @@ export const authApi = lofftApi.injectEndpoints({
         {type: 'Adverts', id: 'LIST'},
       ],
     }),
+    resetPasswordInstructions: builder.mutation<ResetPasswordResponse, any>({
+      query: ({email}) => ({
+        url: '/api/users/password',
+        method: 'POST',
+        body: {
+          user: {
+            email,
+          },
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const {useSignInMutation, useSignOutMutation, useSignUpMutation} =
-  authApi;
+export const {
+  useSignInMutation,
+  useSignOutMutation,
+  useSignUpMutation,
+  useResetPasswordInstructionsMutation,
+} = authApi;

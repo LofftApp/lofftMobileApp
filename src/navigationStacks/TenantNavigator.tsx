@@ -73,7 +73,6 @@ const TenantNavigator = () => {
         component={UserScreen}
         options={{headerShown: false}}
       />
-
       {admin ? (
         <Tab.Screen
           name="AdminTab"

@@ -258,6 +258,10 @@ const flatImagesSchema = z
     message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
   });
 
+const resetPasswordSchema = z.object({
+  email: z.string().email().min(1, {message: "can't be blank"}),
+});
+
 const signInSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {message: 'Must be at least 6 digits'}),
@@ -310,4 +314,5 @@ export {
   flatImagesSchema,
   signInSchema,
   signUpSchema,
+  resetPasswordSchema,
 };
