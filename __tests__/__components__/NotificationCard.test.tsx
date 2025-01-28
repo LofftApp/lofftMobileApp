@@ -6,10 +6,7 @@ import {
   tenantNotificationMock,
 } from '../../__mocks__/notification';
 import {renderWithProviders, findStyleInArray} from '../../__utils__/testUtils';
-import {
-  LessorNotificationType,
-  TenantNotificationType,
-} from 'reduxFeatures/firebaseNotifications/types';
+import {LessorNotificationType} from 'reduxFeatures/firebaseNotifications/types';
 import {useNavigation} from '@react-navigation/native';
 
 jest.mock('@react-navigation/native', () => ({
