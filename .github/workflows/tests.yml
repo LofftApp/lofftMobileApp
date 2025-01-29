@@ -1,8 +1,6 @@
 name: Jest and Lint tests
 on: push
 jobs:
-  build:
-    runs-on: macos-latest
   test:
     runs-on: ubuntu-latest
     steps:
