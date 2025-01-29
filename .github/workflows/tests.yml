@@ -1,4 +1,4 @@
-name: Jest and Lint tests
+name: Jest and Lint tests Fix text issue
 on: push
 jobs:
   test:
