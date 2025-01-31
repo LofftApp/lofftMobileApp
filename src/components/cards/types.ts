@@ -23,9 +23,9 @@ type ChatRoomData = {
 };
 
 type ChatCardProps = {
-  chatroomData: ChatRoomData,
-  isLessor: boolean
-}
+  chatroomData: ChatRoomData;
+  isLessor: boolean;
+};
 
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
@@ -36,6 +36,16 @@ type LofftHeaderPhotoProps = {
   imageContainerHeight: number;
   images: string[];
   activeBlur?: boolean;
+};
+
+type ImageCarrousselProps = {
+  imageContainerHeight: number;
+  imageContainerWidth: number;
+  pagination?: boolean;
+  snapToInterval: number;
+  images: string[];
+  activeBlur?: boolean;
+  marginHorizontal?: number;
 };
 
 type OnViewableItemsChangedParams = {
@@ -70,4 +80,5 @@ export type {
   ApplicantCardRound2Props,
   LanguagesCardProps,
   ChatCardProps,
+  ImageCarrousselProps,
 };

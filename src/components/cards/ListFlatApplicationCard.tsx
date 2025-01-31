@@ -181,7 +181,6 @@ const ListFlatApplicationCard = ({
           <CoreButton
             value="Edit listing"
             textSize={fontStyles.headerExtraSmall}
-            textStyle={styles.textbutton}
             invert
             style={styles.button}
           />
@@ -242,7 +241,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     maxWidth: size(183),
-    height: size(48),
+    height: size(50),
     paddingHorizontal: size(10),
   },
   textbutton: {
