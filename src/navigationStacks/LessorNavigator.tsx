@@ -15,9 +15,9 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
-import UserScreen from 'screens/dashboard/tenant/UserScreen';
 import LessorIndexNavigator from './LessorIndexNavigator';
 import NotificationsNavigator from './NotificationsNavigator';
+import SettingsNavigator from './SettingsNavigator';
 
 // Types
 import {LessorTabParamsList} from './types';
@@ -57,8 +57,8 @@ const LessorNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="UserTab"
-        component={UserScreen}
+        name="SettingsTab"
+        component={SettingsNavigator}
         options={{headerShown: false}}
       />
       {admin ? (

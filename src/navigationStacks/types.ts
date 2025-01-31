@@ -24,7 +24,7 @@ type GuestStackScreenNavigationProp = StackNavigationProp<GuestStackParamsList>;
 type TenantTabParamsList = {
   SearchTab: undefined;
   ApplicationsTab: undefined;
-  UserTab: undefined;
+  SettingsTab: undefined;
   AdminTab: undefined;
   NotificationsTab: undefined;
   tempTab: undefined;
@@ -72,7 +72,7 @@ type FavoritesScreenNavigationProp = CompositeNavigationProp<
 type LessorTabParamsList = {
   LessorIndexNavigator: undefined;
   NotificationsTab: undefined;
-  UserTab: undefined;
+  SettingsTab: undefined;
   AdminTab: undefined;
 };
 
@@ -175,6 +175,20 @@ type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
 type NewUserJourneyStackNavigation =
   StackNavigationProp<NewUserStackParamsList>;
 
+// Settings Navigator
+
+type SettingsTabParamsList = {
+  SettingsTab: undefined;
+};
+type SettingsStackParamsList = {
+  SettingsScreen: undefined;
+};
+
+type SettingsScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<SettingsTabParamsList, 'SettingsTab'>,
+  StackNavigationProp<SettingsStackParamsList>
+>;
+
 //Admin Navigator
 type AdminStackParamsList = {
   AdminScreen: undefined;
@@ -205,4 +219,7 @@ export type {
   ChatroomNavigationProps,
   FavoritesStackParamsList,
   FavoritesScreenNavigationProp,
+  SettingsTabParamsList,
+  SettingsStackParamsList,
+  SettingsScreenNavigationProp,
 };

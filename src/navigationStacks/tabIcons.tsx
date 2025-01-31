@@ -22,7 +22,7 @@ export const tabIcons = ({
     case 'NotificationsTab':
       iconName = 'bell';
       break;
-    case 'UserTab':
+    case 'SettingsTab':
       iconName = 'user';
       break;
     case 'tempTab':

@@ -11,7 +11,7 @@ import {CoreButton} from 'components/buttons/CoreButton';
 import {fontStyles} from 'styleSheets/fontStyles';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
-const UserScreen = () => {
+const SettingsScreen = () => {
   const {data} = useGetUserQuery();
   const [signOut] = useSignOutMutation();
 
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserScreen;
+export default SettingsScreen;
