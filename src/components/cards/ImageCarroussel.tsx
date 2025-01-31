@@ -56,8 +56,6 @@ const ImageCarroussel = ({
               />
             );
           }}
-          // disableIntervalMomentum={disabledIntervalMomentum}
-          // pagingEnabled={pagingEnabled}
         />
       ) : (
         <Image

@@ -14,7 +14,9 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {RegistrationBackground, Trail} from 'assets';
 import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import ImageCarroussel from 'components/cards/ImageCarroussel';
-import { size } from 'react-native-responsive-sizes';
+import {size} from 'react-native-responsive-sizes';
+import SettingsUserImage from 'components/images/SettingsUserImages';
+import SettingsFlatImages from 'components/images/SettingsFlatImages';
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
 const flatImages = [
@@ -34,33 +36,23 @@ const SettingsScreen = () => {
     signOut();
   };
   const userPhotoUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
-  const imageArray = [
-    userPhotoUri,
-    userPhotoUri,
-    userPhotoUri,
-    userPhotoUri,
-    userPhotoUri,
-  ];
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <Trail height="100%" width="100%" style={styles.backgroundImageExtra} />
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Profile and Settings</Text>
       </View>
-
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.profilePic}
-          source={{
-            uri: userPhotoUri,
-          }}
-        />
-        <ImageCarroussel
-          imageContainerHeight={90}
-          imageContainerWidth={90}
-          images={flatImages}
-          snapToInterval={30}
-        />
+      <View style={CoreStyleSheet.screenContainer}>
+        <View style={styles.imagesContainer}>
+          <SettingsUserImage userImageUri={picUrl} />
+          <ImageCarroussel
+            imageContainerHeight={90}
+            imageContainerWidth={90}
+            images={flatImages}
+            snapToInterval={30}
+          />
+        </View>
       </View>
 
       {/* <Text style={fontStyles.headerLarge}>
@@ -78,32 +70,19 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   backgroundImageExtra: {
     position: 'absolute',
-    top: -0,
+    top: size(15),
     zIndex: -1,
     left: 0,
     opacity: 0.7,
   },
-  userScreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  imagesContainer: {
+    marginTop: size(20),
+    gap: size(30),
   },
+
   coreButtonStyle: {
     width: '40%',
     marginTop: 20,
-  },
-  imageContainer: {
-    alignItems: 'center',
-    flex: 1,
-    gap: size(20),
-
-  },
-  profilePic: {
-    width: '25%',
-    height: '25%',
-
-    aspectRatio: 1,
-    borderRadius: 8,
   },
 });
 
