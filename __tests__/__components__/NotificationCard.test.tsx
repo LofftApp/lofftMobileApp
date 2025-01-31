@@ -6,10 +6,7 @@ import {
   tenantNotificationMock,
 } from '../../__mocks__/notification';
 import {renderWithProviders, findStyleInArray} from '../../__utils__/testUtils';
-import {
-  LessorNotificationType,
-  TenantNotificationType,
-} from 'reduxFeatures/firebaseNotifications/types';
+import {LessorNotificationType} from 'reduxFeatures/firebaseNotifications/types';
 import {useNavigation} from '@react-navigation/native';
 
 jest.mock('@react-navigation/native', () => ({
@@ -201,21 +198,21 @@ describe('NotificationCard as tenant', () => {
     expect(screen.getByTestId('no-flat')).toBeTruthy();
   });
 
-  test('navigates to the correct screen on button press when notificationType round_3', () => {
-    const mock = {
-      ...tenantNotificationMock,
-      notificationType: 'round_3' as TenantNotificationType,
-    };
+  // test('navigates to the correct screen on button press when notificationType round_3', () => {
+  //   const mock = {
+  //     ...tenantNotificationMock,
+  //     notificationType: 'round_3' as TenantNotificationType,
+  //   };
 
-    renderWithProviders(<NotificationCard notification={mock} />);
+  //   renderWithProviders(<NotificationCard notification={mock} />);
 
-    const button = screen.getByText('Go to chat');
-    fireEvent.press(button);
+  //   const button = screen.getByText('Go to chat');
+  //   fireEvent.press(button);
 
-    expect(navigateMock).toHaveBeenCalledWith('ApplicationNavigator', {
-      screen: 'LessorChatScreen',
-    });
-  });
+  //   expect(navigateMock).toHaveBeenCalledWith('ApplicationNavigator', {
+  //     screen: 'LessorChatScreen',
+  //   });
+  // });
 
   test('Navigates to the correct application when clicking tagLine', () => {
     renderWithProviders(

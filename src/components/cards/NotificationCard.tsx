@@ -41,6 +41,8 @@ const NotificationCard = ({
   const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
   const advertStatus = notification.advert.status;
 
+  console.log(notification.advert.chatroomId);
+
   const lessorNotificationHelper = useMemo(
     () => (notificationType: LessorNotificationType) => {
       switch (notificationType) {
@@ -77,12 +79,13 @@ const NotificationCard = ({
             icon: 'hourglass',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: advertStatus === 'viewing' ? 'Go to chat' : undefined,
+            value: advertStatus === 'viewing' ? 'Go to chats' : undefined,
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
+            //Chatroom Nested Navigation in Notification
             buttonNavigation: () =>
-              navigation.navigate('LessorIndexNavigator', {
-                screen: 'LessorChatScreen',
+              navigation.navigate('ChatroomsNavigator', {
+                screen: 'ChatIndex',
               }),
           };
         case 'offered':
@@ -90,12 +93,12 @@ const NotificationCard = ({
             icon: 'home-smile',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: advertStatus === 'offered' ? 'Go to chat' : undefined,
+            value: advertStatus === 'offered' ? 'Go to chats' : undefined,
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
-              navigation.navigate('LessorIndexNavigator', {
-                screen: 'LessorChatScreen',
+              navigation.navigate('ChatroomsNavigator', {
+                screen: 'ChatIndex',
               }),
           };
         case 'closed':
@@ -174,9 +177,12 @@ const NotificationCard = ({
             value: applicationStatus === 'active' ? 'Go to chat' : undefined,
             buttonColor: Color.Mint[100],
             buttonIcon: 'send',
+            //Chatroom Nested Navigation in Notification
+
             buttonNavigation: () =>
-              navigation.navigate('ApplicationNavigator', {
-                screen: 'LessorChatScreen',
+              navigation.navigate('ChatroomsNavigator', {
+                screen: 'ChatShow',
+                params: {chatroomId: notification.advert.chatroomId},
               }),
           };
         case 'offered':
@@ -219,6 +225,7 @@ const NotificationCard = ({
       tenantPositiveBgColor,
       navigation,
       applicationStatus,
+      notification.advert.chatroomId,
     ],
   );
 
@@ -338,19 +345,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     gap: size(10),
   },
-
   iconImageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(5),
   },
-
   imageContainer: {
     width: 100,
     aspectRatio: 1,
     overflow: 'hidden',
   },
-
   advertImage: {
     width: '100%',
     height: '100%',
@@ -362,7 +366,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: size(3),
   },
-
   buttonStyle: {
     width: '96%',
     height: size(50),

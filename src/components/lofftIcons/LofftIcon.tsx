@@ -1,4 +1,7 @@
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import icoMoonConfig from './selection.json';
+import {IconProps} from 'react-native-vector-icons/Icon';
 
-export default createIconSetFromIcoMoon(icoMoonConfig);
+const LofftIcon = createIconSetFromIcoMoon(icoMoonConfig, 'IcoMoon', 'icomoon.ttf');
+
+export default LofftIcon as unknown as React.FC<IconProps>;

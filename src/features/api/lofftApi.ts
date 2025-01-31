@@ -43,6 +43,6 @@ export const lofftApi = createApi({
 
     return result;
   },
-  tagTypes: ['Adverts', 'Applications', 'User', 'Notifications'],
+  tagTypes: ['Adverts', 'Applications', 'User', 'Notifications', 'Chat'],
   endpoints: () => ({}),
 });

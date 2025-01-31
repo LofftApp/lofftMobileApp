@@ -11,6 +11,7 @@ import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 import SelectionConfirmedScreen from 'screens/dashboard/landlord/SubScreens/SelectionConfirmedScreen';
 
 import type {LessorNavigatorStackParamsList} from './types';
+import ChatroomsNavigator from './ChatroomsNavigator';
 
 const Lessor = createNativeStackNavigator<LessorNavigatorStackParamsList>();
 const LessorIndexNavigator = () => {
@@ -30,8 +31,11 @@ const LessorIndexNavigator = () => {
         name="SelectionConfirmedScreen"
         component={SelectionConfirmedScreen}
       />
-
-      {/* Chat etc need to be added */}
+      <Lessor.Screen
+        name="ChatroomsNavigator"
+        component={ChatroomsNavigator}
+        options={{headerShown: false}}
+      />
       <Lessor.Screen name="LessorChatScreen" component={LessorChatScreen} />
 
       <Lessor.Screen
