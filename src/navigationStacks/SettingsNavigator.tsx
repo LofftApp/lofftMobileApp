@@ -10,12 +10,15 @@ import AppLanguageScreen from 'screens/profile/AppLanguageScreen';
 import SwitchUserScreen from 'screens/profile/SwitchUserScreen';
 import TermsAndConditionsScreen from 'screens/profile/TermsAndConditionsScreen';
 import SendFeedbackScreen from 'screens/profile/SendFeedbackScreen';
+import GetTokensScreen from 'screens/profile/GetTokensScreen';
 
 const Settings = createNativeStackNavigator<SettingsStackParamsList>();
 const SettingsNavigator = () => {
   return (
     <Settings.Navigator screenOptions={{headerShown: false}}>
       <Settings.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Settings.Screen name="GetTokensScreen" component={GetTokensScreen} />
+
       <Settings.Screen name="AppLanguageScreen" component={AppLanguageScreen} />
       <Settings.Screen
         name="SendFeedbackScreen"

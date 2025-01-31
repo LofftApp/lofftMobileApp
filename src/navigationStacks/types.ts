@@ -182,6 +182,7 @@ type SettingsTabParamsList = {
 };
 type SettingsStackParamsList = {
   SettingsScreen: undefined;
+  GetTokensScreen: undefined;
   AppLanguageScreen: undefined;
   SwitchUserScreen: undefined;
   TermsAndConditionsScreen: undefined;

@@ -47,6 +47,18 @@ type LanguagesCardProps = {
   handleSelectedLanguages: (chosenLangugage: string) => void;
 };
 
+type SettingsData = {
+  id: number;
+  title: string;
+  subtitle: string;
+  icon: string;
+  navigate: () => void;
+};
+
+type SettingsCardProps = {
+  settingsData: SettingsData;
+};
+
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
@@ -54,4 +66,7 @@ export type {
   ApplicantCardRound1Props,
   ApplicantCardRound2Props,
   LanguagesCardProps,
+  SettingsData,
+  SettingsCardProps,
+  ImageCarrousselProps,
 };

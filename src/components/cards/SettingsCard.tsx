@@ -18,39 +18,24 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {SettingsCardProps} from './types';
+import {useUserType} from 'hooks/useUserType';
 
 // Constants
 // Types
 
 const SettingsCard = ({
   settingsData: {title, icon, subtitle, id, navigate},
-
-  selectApplication,
-  application,
 }: SettingsCardProps) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const hasArrowArr = [1, 2, 3, 4];
-  const isDelete = id === 6;
+  const {isLessor} = useUserType();
+  const hasArrowArr = [1, 2, 3, 4, 5];
+  const isDelete = id === 7;
   const hasArrow = hasArrowArr.includes(id);
-  const navigation = useNavigation<SettingsScreenNavigationProp>();
-
-
-  const toggleCollapsed = () => {
-    setCollapsed(prev => !prev);
-  };
 
   const handleNavigate = () => {
-    // Ensure navigate is a function before calling
-    if (typeof navigate === 'function') {
-      navigate(navigation);
-    } else {
-      console.error('Navigate is not a function');
-    }
+    navigate();
   };
-  // const handleOnPress = () => {
-  //   signOut();
-  // };
 
   const {width} = useWindowDimensions();
 
@@ -80,31 +65,22 @@ const SettingsCard = ({
               )}
             </View>
           </View>
-          {/* <SeeMoreButton
-          collapsed={collapsed}
-          toggleExpand={toggleCollapsed}
-          noText
-          iconSize={35}
-        /> */}
 
           <View style={styles.iconContainer}>
             <LofftIcon
               name="chevron-right"
               size={35}
-              color={hasArrow ? Color.Lavendar[80] : Color.White[80]}
+              color={
+                hasArrow
+                  ? isLessor
+                    ? Color.Lavendar[80]
+                    : Color.Mint[100]
+                  : Color.White[80]
+              }
             />
           </View>
         </View>
       </Pressable>
-
-      {/* <Collapsible collapsed={!collapsed} duration={300}>
-        <View style={styles.collapsedExpand}>
-          <Text style={fontStyles.headerSmall}>Match with you</Text>
-          <View style={styles.chipsContainer}>
-            <Text>text 3</Text>
-          </View>
-        </View>
-      </Collapsible> */}
     </View>
   );
 };

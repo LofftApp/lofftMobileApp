@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-const TermsAndConditionsScreen = () => {
+const GetTokensScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Terms and Conditions Screen</Text>
+      <Text>Get Tokens Screen</Text>
     </View>
   );
 };
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TermsAndConditionsScreen;
+export default GetTokensScreen;

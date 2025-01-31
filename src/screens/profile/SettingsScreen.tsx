@@ -1,31 +1,28 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  FlatList,
-} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 // Redux
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
+
+//Hooks
+import {useUserType} from 'hooks/useUserType';
 
 //Components
-import {CoreButton} from 'components/buttons/CoreButton';
+import {RegistrationBackground, Trail} from 'assets';
+import ImageCarroussel from 'components/cards/ImageCarroussel';
+import SettingsUserImage from 'components/images/SettingsUserImages';
+import SettingsCard from 'components/cards/SettingsCard';
 
 //Styles
 import {fontStyles} from 'styleSheets/fontStyles';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import {RegistrationBackground, Trail} from 'assets';
-import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
-import ImageCarroussel from 'components/cards/ImageCarroussel';
+
+//Helpers
 import {size} from 'react-native-responsive-sizes';
-import SettingsUserImage from 'components/images/SettingsUserImages';
-import {useUserType} from 'hooks/useUserType';
-import SettingsCard from 'components/cards/SettingsCard';
-import {useNavigation} from '@react-navigation/native';
+
+//Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 
 const picUrl =
@@ -44,43 +41,49 @@ const SettingsScreen = () => {
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
-  const userCredits = currentUser?.credits;
   const userView = isLessor ? 'tenant' : 'lessor';
   const settingsData = [
     {
       id: 1,
+      title: 'Get Tokens',
+      subtitle: `You have ${currentUser?.credits} tokens`,
+      navigate: () => navigation.navigate('GetTokensScreen'),
+      icon: 'coins-stacked',
+    },
+    {
+      id: 2,
       title: 'App Language',
       subtitle: 'English',
       navigate: () => navigation.navigate('AppLanguageScreen'),
       icon: 'translate',
     },
     {
-      id: 2,
+      id: 3,
       title: 'Send Feedback',
       subtitle: '',
       navigate: () => navigation.navigate('SendFeedbackScreen'),
       icon: 'announcement',
     },
     {
-      id: 3,
+      id: 4,
       title: 'Terms and Conditions',
       navigate: () => navigation.navigate('TermsAndConditionsScreen'),
       icon: 'file',
     },
     {
-      id: 4,
+      id: 5,
       title: `Switch to ${userView} view`,
       navigate: () => navigation.navigate('SwitchUserScreen'),
       icon: 'refresh-ccq-03',
     },
     {
-      id: 5,
+      id: 6,
       title: 'Sign Out',
       navigate: () => signOut(),
       icon: 'log-out',
     },
     {
-      id: 6,
+      id: 7,
       title: 'Delete Account',
       navigate: () => {},
       icon: 'trash',

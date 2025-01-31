@@ -5,10 +5,12 @@ import {StyleSheet, FlatList, Image, View} from 'react-native';
 import PaginationBar from 'components/bars/PaginationBar';
 import {NoFlatImage} from 'assets';
 
+//Helpers
+import {size} from 'react-native-responsive-sizes';
+
 // Types 🏷
 import type {ImageCarrousselProps} from './types';
 import type {OnViewableItemsChangedParams} from './types';
-import {size} from 'react-native-responsive-sizes';
 
 const ImageCarroussel = ({
   imageContainerHeight,
