@@ -75,7 +75,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     'Akward, sth went wrong ...',
   );
   const {messages, setMessages} = useWebSocket(chatroomId);
-  console.log(messages);
 
   // Load initial messages and mark them as read
   useFocusEffect(
@@ -143,8 +142,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     content: string;
     errorId: string;
   }) => {
-    console.log(content);
-
     try {
       await createMessage({
         id: chatroomId,

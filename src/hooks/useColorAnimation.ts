@@ -1,5 +1,5 @@
 import {useRef, useMemo, useEffect, useState} from 'react';
-import {Animated, Easing} from 'react-native';
+import {Animated} from 'react-native';
 
 const useColorAnimation = (color: string) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
