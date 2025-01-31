@@ -1,4 +1,4 @@
-import {Advert} from 'reduxFeatures/adverts/types';
+import {Advert, Favorite} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
 type ListFlatApplicationComponentProps = {
@@ -15,4 +15,14 @@ type FlatListSubScreenProps = {
   toggleModal: () => void;
 };
 
-export type {ListFlatApplicationComponentProps, FlatListSubScreenProps};
+type FavoritesSubScreenProps = {
+  favorites: Favorite[];
+  isError: boolean;
+  isLoading: boolean;
+};
+
+export type {
+  ListFlatApplicationComponentProps,
+  FlatListSubScreenProps,
+  FavoritesSubScreenProps,
+};

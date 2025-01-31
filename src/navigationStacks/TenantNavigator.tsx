@@ -15,13 +15,13 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 // Navigator
 import FlatSearchNavigator from './FlatSearchNavigator';
+import FavoritesNavigator from './FavoritesNavigator';
+import NotificationsNavigator from './NotificationsNavigator';
 
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
 import UserScreen from 'screens/dashboard/tenant/UserScreen';
-import FavoritesScreen from 'screens/dashboard/tenant/FavoritesScreen';
-import NotificationsNavigator from './NotificationsNavigator';
 
 //Types
 import {TenantTabParamsList} from './types';
@@ -56,7 +56,7 @@ const TenantNavigator = () => {
       />
       <Tab.Screen
         name="FavoritesTab"
-        component={FavoritesScreen}
+        component={FavoritesNavigator}
         options={{headerShown: false}}
       />
       <Tab.Screen

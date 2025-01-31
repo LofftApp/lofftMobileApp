@@ -33,9 +33,10 @@ type TenantTabParamsList = {
 type ApplicationStackParamsList = {
   ApplicationsIndexScreen: undefined;
   ApplicationShowScreen: {id: number};
-  ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList;
-    params?: {chatroomId?: number}
-  }
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
+  };
 };
 
 type SearchStackParamsList = {
@@ -53,6 +54,17 @@ type ApplicationScreenNavigationProp = CompositeNavigationProp<
 type SearchScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<TenantTabParamsList, 'SearchTab'>,
   StackNavigationProp<SearchStackParamsList>
+>;
+
+//Favorites Navigator
+type FavoritesStackParamsList = {
+  FavoritesScreen: undefined;
+  ApplyForFlatScreen: undefined;
+};
+
+type FavoritesScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<TenantTabParamsList, 'FavoritesTab'>,
+  StackNavigationProp<FavoritesStackParamsList>
 >;
 
 // Lessor Navigator
@@ -81,9 +93,10 @@ type LessorNavigatorStackParamsList = {
     applicationId: number;
   };
   LessorChatScreen: undefined;
-  ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList;
-    params?: {chatroomId?: number}
-  }
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
+  };
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
@@ -95,12 +108,10 @@ type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<
 type ChatroomsStackParamsList = {
   ChatIndex: undefined;
   ChatShow: {
-    chatroomId: number,
-   };
+    chatroomId: number;
+  };
 };
 type ChatroomNavigationProps = StackNavigationProp<ChatroomsStackParamsList>;
-
-
 
 //Notifications Navigator
 type NotificationsTabParamsList = {
@@ -123,8 +134,9 @@ type NotificationsStackParamsList = {
     screen: 'ApplicationShowScreen' | 'LessorChatScreen';
     params?: {id: number};
   };
-  ChatroomsNavigator: { screen: keyof ChatroomsStackParamsList;
-    params?: {chatroomId?: number}
+  ChatroomsNavigator: {
+    screen: keyof ChatroomsStackParamsList;
+    params?: {chatroomId?: number};
   };
 };
 
@@ -132,7 +144,6 @@ type NotificationsScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<NotificationsTabParamsList, 'NotificationsTab'>,
   StackNavigationProp<NotificationsStackParamsList>
 >;
-
 
 //NewUser Navigator
 type NewUserScreenNames =
@@ -192,4 +203,6 @@ export type {
   NotificationsScreenNavigationProp,
   ChatroomsStackParamsList,
   ChatroomNavigationProps,
+  FavoritesStackParamsList,
+  FavoritesScreenNavigationProp,
 };

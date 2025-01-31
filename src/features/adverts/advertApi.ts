@@ -3,6 +3,7 @@ import {
   Advert,
   AdvertsAndFeatures,
   AdvertWithApplications,
+  Favorites,
   GetAdvertsParams,
   IncomingAdvert,
   IncomingAdvertAndFeatures,
@@ -149,19 +150,58 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Adverts', id},
         {type: 'Applications', id: 'LIST'},
         {type: 'Applications', id},
+        {type: 'Favorites', id: 'LIST'},
       ],
     }),
+
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
       query: id => ({
         url: `/api/adverts/${id}/advert_applications`,
         method: 'POST',
       }),
-      invalidatesTags: (result, error, id) => [
-        {type: 'Adverts', id},
-        {type: 'Applications', id: 'LIST'},
-        {type: 'User', id: 'PROFILE'},
-      ],
+      async onQueryStarted(id, {dispatch, queryFulfilled}) {
+        try {
+          await new Promise(resolve => setTimeout(resolve, 3000));
+
+          await queryFulfilled;
+
+          dispatch(
+            advertApi.util.updateQueryData('getAdverts', undefined, draft => {
+              draft.adverts.forEach(advert => {
+                if (advert.id === id) {
+                  advert.applied = true;
+                }
+              });
+            }),
+          );
+
+          dispatch(
+            advertApi.util.updateQueryData('getAdvertById', id, draft => {
+              if (draft) {
+                draft.applied = true;
+              }
+            }),
+          );
+
+          dispatch(
+            advertApi.util.updateQueryData(
+              'getFavoritesAdverts',
+              undefined,
+              draft => {
+                draft.favorites.forEach(favorite => {
+                  if (favorite.id === id) {
+                    favorite.applied = true;
+                  }
+                });
+              },
+            ),
+          );
+        } catch (error) {
+          console.error('Error in mutation:', error);
+        }
+      },
     }),
+
     confirmApplications: builder.mutation<
       void,
       {
@@ -234,6 +274,23 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'User', id: 'PROFILE'},
       ],
     }),
+    getFavoritesAdverts: builder.query<Favorites, void>({
+      query: () => '/api/favorites',
+      providesTags: result =>
+        result
+          ? [
+              ...result.favorites.map(
+                ({id}) => ({type: 'Favorites', id} as const),
+              ),
+              {type: 'Favorites', id: 'LIST'},
+            ]
+          : [{type: 'Favorites', id: 'LIST'}],
+      // providesTags: ['Favorites'],
+      transformResponse: response => {
+        console.log('getFavoritesAdverts called ❤️');
+        return toCamelCaseKeys(response as Favorites);
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -246,4 +303,5 @@ export const {
   useApplyForFlatMutation,
   useConfirmApplicationsMutation,
   useCompleteLessorAndCreateAdvertMutation,
+  useGetFavoritesAdvertsQuery,
 } = advertApi;

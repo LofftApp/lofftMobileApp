@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {baseUrl} from 'helpers/baseUrl';
 import {clearPersister} from 'persistance/persister';
@@ -37,12 +38,20 @@ export const lofftApi = createApi({
         api.dispatch(setAuthMessage('Session expired. Please log in again.'));
         clearPersister();
         api.dispatch(lofftApi.util.resetApiState());
+        await AsyncStorage.clear();
       }
       console.error('API error:', result.error);
     }
 
     return result;
   },
-  tagTypes: ['Adverts', 'Applications', 'User', 'Notifications', 'Chat'],
+  tagTypes: [
+    'Adverts',
+    'Applications',
+    'User',
+    'Notifications',
+    'Chat',
+    'Favorites',
+  ],
   endpoints: () => ({}),
 });

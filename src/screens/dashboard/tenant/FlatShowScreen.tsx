@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux 🏗️
@@ -21,6 +28,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //StyleSheets 🖼️
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -31,6 +39,7 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷️
 import type {FlatShowScreenProp} from './types';
 import {SearchScreenNavigationProp} from '../../../navigationStacks/types';
+import useColorAnimation from 'hooks/useColorAnimation';
 
 const profileNotDone = {
   header: "Your application profile isn't complete",
@@ -63,6 +72,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
+  console.log('applyIsLoading', applyIsLoading);
 
   const completeProfile = currentUser?.userType !== 'newuser';
   const hasTokens = currentUser?.credits && currentUser?.credits > 0;
@@ -70,12 +80,29 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Local state
+  const [isApplied, setIsApplied] = useState(false);
+  const [buttonColor, setButtonColor] = useState(Color.Lavendar[100]); // Default color
+  const [animatedColor, finished] = useColorAnimation(buttonColor) as [
+    Animated.AnimatedInterpolation<string | number>,
+    boolean,
+  ];
   //navigate to the next screen if applyForFlat is successful
   useEffect(() => {
     if (applyIsSuccess) {
-      navigation.navigate('ApplyForFlatScreen');
+      setIsApplied(true);
+      const timeout = setTimeout(() => {
+        navigation.navigate('ApplyForFlatScreen');
+      }, 1000);
+      const timeout2 = setTimeout(() => {
+        setIsApplied(advert?.applied || false);
+      }, 2000);
+      return () => {
+        clearTimeout(timeout);
+        clearTimeout(timeout2);
+      };
     }
-  }, [applyIsSuccess, navigation]);
+  }, [applyIsSuccess, navigation, advert?.applied]);
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
@@ -83,6 +110,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   const handleApplyForFlat = () => {
     applyForFlat(advert?.id ?? 0);
+    setButtonColor(Color.Mint[100]);
   };
 
   if (isLoading) {
@@ -118,20 +146,38 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
             </Text>
 
             {completeProfile && hasTokens ? (
-              <CoreButton
-                value={
-                  advert?.applied
-                    ? 'Applied'
-                    : applyIsLoading
-                    ? 'Applying'
-                    : applyError
-                    ? 'Error. Try Again'
-                    : 'Apply'
-                }
-                style={styles.coreButtonCustom}
-                disabled={advert?.applied || applyIsLoading || applyIsSuccess}
+              <TouchableOpacity
                 onPress={handleApplyForFlat}
-              />
+                disabled={!finished || advert?.applied}>
+                <Animated.View
+                  style={[
+                    styles.animatedButton,
+                    {backgroundColor: animatedColor},
+                    advert?.applied ? styles.buttonDisabled : null,
+                  ]}>
+                  <Text
+                    style={[fontStyles.headerSmall, styles.greenButtonText]}>
+                    {advert?.applied || isApplied ? (
+                      'Applied'
+                    ) : applyIsLoading ? (
+                      <LoadingButtonIcon />
+                    ) : applyError ? (
+                      'Error. Try again'
+                    ) : (
+                      'Apply'
+                    )}
+                    {/* {applyIsLoading ? ( // Show spinner while loading
+                      <LoadingButtonIcon />
+                    ) : favorite?.applied ? ( // Show "Applied" after loading completes
+                      'Applied'
+                    ) : applyError ? ( // Show error message if there's an error
+                      'Error. Try Again'
+                    ) : (
+                      'Apply'
+                    )} */}
+                  </Text>
+                </Animated.View>
+              </TouchableOpacity>
             ) : (
               <CoreButton
                 value={advert?.applied ? 'Applied' : 'Apply'}
@@ -177,10 +223,45 @@ const styles = StyleSheet.create({
   countDownTimer: {
     textAlign: 'center',
     color: Color.Mint[100],
+    marginBottom: size(10),
+  },
+  greenButton: {
+    backgroundColor: Color.Mint[100],
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderColor: Color.Mint[100],
+    borderRadius: 12,
+
+    paddingHorizontal: size(16),
+    borderWidth: size(2),
+    flexDirection: 'row',
+    gap: size(7),
+    width: '100%',
+    height: size(56),
+    color: Color.White[100],
+  },
+  greenButtonText: {
+    color: Color.White[100],
   },
   coreButtonCustom: {
     marginTop: size(14),
     width: '100%',
+  },
+  animatedButton: {
+    borderRadius: 12,
+    paddingHorizontal: size(16),
+    paddingVertical: size(12),
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: size(56),
+  },
+  buttonDisabled: {
+    backgroundColor: Color.Black[30],
+    borderColor: Color.Black[30],
+  },
+  textDisabled: {
+    color: Color.White[100],
   },
 });
 

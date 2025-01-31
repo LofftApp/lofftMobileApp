@@ -4,6 +4,7 @@ import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
 import {logout, setAuthenticated, setAuthMessage} from './authSlice';
 import {clearPersister} from 'persistance/persister';
 import {SignInArgs, SignUpArgs, SignInResponse, SignUpResponse} from './types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const authApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -62,6 +63,7 @@ export const authApi = lofftApi.injectEndpoints({
           dispatch(lofftApi.util.resetApiState());
           clearPersister();
           await EncryptedStorage.removeItem('token');
+          await AsyncStorage.clear();
           console.log('Token removed and user signed out successfully');
         } catch (error) {
           console.log('Error during sign out:', error);
