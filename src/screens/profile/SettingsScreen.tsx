@@ -123,10 +123,6 @@ const SettingsScreen = () => {
           />
         </View>
       </View>
-
-      {/* <Text style={fontStyles.headerLarge}>
-          Current Credits: {userCredits}
-        </Text> */}
     </SafeAreaView>
   );
 };

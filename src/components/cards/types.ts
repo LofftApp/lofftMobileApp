@@ -50,7 +50,7 @@ type LanguagesCardProps = {
 type SettingsData = {
   id: number;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   icon: string;
   navigate: () => void;
 };

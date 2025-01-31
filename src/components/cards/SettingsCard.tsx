@@ -17,8 +17,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Helpers
 import {size} from 'react-native-responsive-sizes';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
-import {useNavigation} from '@react-navigation/native';
+
 import {SettingsCardProps} from './types';
 import {useUserType} from 'hooks/useUserType';
 
