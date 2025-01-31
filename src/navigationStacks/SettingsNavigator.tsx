@@ -6,12 +6,28 @@ import SettingsScreen from 'screens/profile/SettingsScreen';
 
 //Types
 import type {SettingsStackParamsList} from './types';
+import AppLanguageScreen from 'screens/profile/AppLanguageScreen';
+import SwitchUserScreen from 'screens/profile/SwitchUserScreen';
+import TermsAndConditionsScreen from 'screens/profile/TermsAndConditionsScreen';
+import SendFeedbackScreen from 'screens/profile/SendFeedbackScreen';
 
 const Settings = createNativeStackNavigator<SettingsStackParamsList>();
 const SettingsNavigator = () => {
   return (
     <Settings.Navigator screenOptions={{headerShown: false}}>
       <Settings.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Settings.Screen name="AppLanguageScreen" component={AppLanguageScreen} />
+      <Settings.Screen
+        name="SendFeedbackScreen"
+        component={SendFeedbackScreen}
+      />
+
+      <Settings.Screen
+        name="TermsAndConditionsScreen"
+        component={TermsAndConditionsScreen}
+      />
+
+      <Settings.Screen name="SwitchUserScreen" component={SwitchUserScreen} />
     </Settings.Navigator>
   );
 };

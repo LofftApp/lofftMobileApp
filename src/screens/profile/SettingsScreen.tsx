@@ -25,7 +25,8 @@ import {size} from 'react-native-responsive-sizes';
 import SettingsUserImage from 'components/images/SettingsUserImages';
 import {useUserType} from 'hooks/useUserType';
 import SettingsCard from 'components/cards/SettingsCard';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
@@ -41,7 +42,7 @@ const SettingsScreen = () => {
   const {isLessor} = useUserType();
   const [signOut] = useSignOutMutation();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<SettingsScreenNavigationProp>();
 
   const userCredits = currentUser?.credits;
   const userView = isLessor ? 'tenant' : 'lessor';
@@ -50,26 +51,26 @@ const SettingsScreen = () => {
       id: 1,
       title: 'App Language',
       subtitle: 'English',
-      navigate: '',
+      navigate: () => navigation.navigate('AppLanguageScreen'),
       icon: 'translate',
     },
     {
       id: 2,
       title: 'Send Feedback',
       subtitle: '',
-      navigate: '',
+      navigate: () => navigation.navigate('SendFeedbackScreen'),
       icon: 'announcement',
     },
     {
       id: 3,
       title: 'Terms and Conditions',
-      navigate: '',
+      navigate: () => navigation.navigate('TermsAndConditionsScreen'),
       icon: 'file',
     },
     {
       id: 4,
       title: `Switch to ${userView} view`,
-      navigate: '',
+      navigate: () => navigation.navigate('SwitchUserScreen'),
       icon: 'refresh-ccq-03',
     },
     {
@@ -81,16 +82,13 @@ const SettingsScreen = () => {
     {
       id: 6,
       title: 'Delete Account',
-      navigate: '',
+      navigate: () => {},
       icon: 'trash',
     },
   ];
 
-  const handleOnPress = () => {
-    signOut();
-  };
   const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
-  const arrowIds = [1, 2, 3, 4];
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <Trail height="100%" width="100%" style={styles.backgroundImageExtra} />

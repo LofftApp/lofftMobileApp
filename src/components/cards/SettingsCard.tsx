@@ -18,6 +18,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
+import { useNavigation } from '@react-navigation/native';
 
 // Constants
 // Types
@@ -32,18 +33,24 @@ const SettingsCard = ({
   const hasArrowArr = [1, 2, 3, 4];
   const isDelete = id === 6;
   const hasArrow = hasArrowArr.includes(id);
+  const navigation = useNavigation<SettingsScreenNavigationProp>();
+
 
   const toggleCollapsed = () => {
     setCollapsed(prev => !prev);
   };
 
   const handleNavigate = () => {
-    navigate();
+    // Ensure navigate is a function before calling
+    if (typeof navigate === 'function') {
+      navigate(navigation);
+    } else {
+      console.error('Navigate is not a function');
+    }
   };
-
-  const handleOnPress = () => {
-    signOut();
-  };
+  // const handleOnPress = () => {
+  //   signOut();
+  // };
 
   const {width} = useWindowDimensions();
 

@@ -25,6 +25,7 @@ import UserScreen from 'screens/profile/SettingsScreen';
 
 //Types
 import {TenantTabParamsList} from './types';
+import SettingsNavigator from './SettingsNavigator';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
@@ -69,8 +70,8 @@ const TenantNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="UserTab"
-        component={UserScreen}
+        name="SettingsTab"
+        component={SettingsNavigator}
         options={{headerShown: false}}
       />
       {admin ? (

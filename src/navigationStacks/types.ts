@@ -182,6 +182,10 @@ type SettingsTabParamsList = {
 };
 type SettingsStackParamsList = {
   SettingsScreen: undefined;
+  AppLanguageScreen: undefined;
+  SwitchUserScreen: undefined;
+  TermsAndConditionsScreen: undefined;
+  SendFeedbackScreen: undefined;
 };
 
 type SettingsScreenNavigationProp = CompositeNavigationProp<
