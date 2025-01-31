@@ -1,13 +1,13 @@
 interface Message {
-  id: number;
-  chatroomId: number;
-  userId: number;
-  user_id?: number;
-  content: string;
-  createdAt: string;
+  id: number | string;
+  chatroomId?: number;
+  userId?: number | undefined;
+  user_id?: number | undefined;
+  content?: string;
+  createdAt?: string;
   created_at?: string;
-  updatedAt: string;
-  read: boolean;
+  updatedAt?: string;
+  read?: boolean;
   errorId?: string;
 }
 

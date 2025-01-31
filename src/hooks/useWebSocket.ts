@@ -7,7 +7,7 @@ import {Message} from 'reduxFeatures/chatrooms/types';
 import {useFocusEffect} from '@react-navigation/native';
 
 const useWebSocket = (chatroomId: number) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Partial<Message[]>>([]);
   const ws = useRef<WebSocket | null>(null);
 
   useFocusEffect(

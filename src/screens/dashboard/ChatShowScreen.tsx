@@ -46,6 +46,11 @@ import {fontStyles} from 'styleSheets/fontStyles';
 Dayjs.extend(utc);
 Dayjs.extend(timezone);
 
+interface ErrorMessage {
+  content: string;
+  errorId: string;
+}
+
 const ChatShowScreen = ({route}: ChatShowProp) => {
   //Params
   const chatroomId = route.params.chatroomId;
@@ -61,19 +66,14 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
 
   // Local State
   const [newMessage, setNewMessage] = useState('');
+  const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
 
   const flatListRef = useRef<FlatList>(null);
   const [createMessage] = useCreateMessageMutation();
   const [activateFirstScroll, setActivateScroll] = useState(true);
-  const [errorDetected, setErrorDetected] = useState({
-    content: '',
-    detected: false,
-    errorId: '',
-  });
   const [errorMessage, setErrorMessage] = useState(
     'Akward, sth went wrong ...',
   );
-
   const {messages, setMessages} = useWebSocket(chatroomId);
   console.log(messages);
 
@@ -99,73 +99,94 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
       try {
+        // Send message
         await createMessage({id: chatroomId, content: newMessage}).unwrap();
         setNewMessage('');
       } catch (error) {
+        const tempMessageId = Math.random().toString(36).slice(2, 9);
         const typedError = error as {status?: number};
-        const errorId = Math.random().toString(36).substr(2, 9);
-
-        // Set error message and detected state
         const errorM =
           typedError.status === 422
             ? 'Something went wrong'
             : 'An error occurred';
-        setErrorMessage(errorM);
-        setErrorDetected({
-          content: newMessage,
-          detected: true,
-          errorId: errorId,
-        });
 
-        setMessages(prevMessages =>
-          prevMessages.map(message =>
-            message.content === newMessage
-              ? {...message, errorId: errorId}
-              : message,
-          ),
-        );
+        setErrorMessage(errorM);
+
+        // Store the error message
+        const newErrorMessages = [...errorMessages];
+        newErrorMessages.push({content: newMessage, errorId: tempMessageId});
+        setErrorMessages(newErrorMessages);
+        // Add error message
+        setMessages(prevMessages => {
+          const updatedMessages: Message[] = [
+            ...prevMessages.filter(
+              (message): message is Message => message !== undefined,
+            ),
+            {
+              content: newMessage,
+              errorId: tempMessageId,
+              userId: currentUser?.id,
+              id: tempMessageId,
+              createdAt: Dayjs().toISOString(),
+            },
+          ];
+          return sortMessages(updatedMessages); // Sort messages here
+        });
       }
     }
   };
 
-  const reHandleSendMessage = async (newMessageContent: string) => {
-    if (newMessageContent.trim()) {
-      try {
-        await createMessage({
-          id: chatroomId,
-          content: newMessageContent,
-        }).unwrap();
+  const reHandleSendMessage = async ({
+    content,
+    errorId,
+  }: {
+    content: string;
+    errorId: string;
+  }) => {
+    console.log(content);
 
-        setMessages(prevData => {
-          const uniqueMessages = prevData.filter(
-            message =>
-              !(message.content === newMessageContent && message.errorId),
-          );
-          return uniqueMessages;
-        });
+    try {
+      await createMessage({
+        id: chatroomId,
+        content: content,
+      }).unwrap();
 
-        setErrorDetected({content: '', detected: false, errorId: ''});
-        // Clear the input message
-        setNewMessage('');
-      } catch (error) {
-        // Handle errors
-        const typedError = error as {status?: number};
-        if (typedError.status === 422) {
-          setErrorMessage('Something went wrong');
-          setErrorDetected({
-            content: newMessageContent,
-            detected: true,
-            errorId: Math.random().toString(36).substr(2, 9),
-          });
-        } else {
-          setErrorMessage('An error occurred');
-          setErrorDetected({
-            content: newMessageContent,
-            detected: true,
-            errorId: Math.random().toString(36).substr(2, 9),
-          });
-        }
-      }
+      setMessages(prevData => {
+        const uniqueMessages = prevData.filter(
+          message =>
+            !(content === message?.content && message?.errorId === errorId),
+        );
+        return uniqueMessages;
+      });
+
+      setErrorMessages(prevData => {
+        const uniqueMessages = prevData.filter(
+          message => !(content === message?.content && message?.errorId),
+        );
+        return uniqueMessages;
+      });
+    } catch (error) {
+      const tempMessageId = Math.random().toString(36).slice(2, 9);
+
+      const newErrorMessages = [...errorMessages];
+      newErrorMessages.push({content: content, errorId: tempMessageId});
+      setErrorMessages(newErrorMessages);
+
+      setMessages(prevMessages => {
+        const updatedMessages: Message[] = [
+          ...prevMessages.filter(
+            (message): message is Message => message !== undefined,
+          ),
+          {
+            content: newMessage,
+            errorId: tempMessageId,
+            userId: currentUser?.id,
+            id: tempMessageId,
+            createdAt: Dayjs().toISOString(),
+          },
+        ];
+        return sortMessages(updatedMessages);
+      });
     }
   };
 
@@ -177,20 +198,24 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     const currentCreatedDate = new Date(
       item.createdAt || item.created_at || '',
     );
+
     const nextCreatedDate =
-      index < messages.length - 1
+      index < messages.length - 1 && messages[index + 1]
         ? new Date(
-            messages[index + 1].createdAt ||
-              messages[index + 1].created_at ||
+            messages[index + 1]?.createdAt ||
+              messages[index + 1]?.created_at ||
               '',
           )
         : null;
+
     const currentDateKey = Dayjs(currentCreatedDate).format('YYYY-MM-DD');
     const nextDateKey = nextCreatedDate
       ? Dayjs(nextCreatedDate).format('YYYY-MM-DD')
       : null;
     // Render header if the current date differs from the next or if it's the last item
     const shouldRenderDateHeader = currentDateKey !== nextDateKey || isLastItem;
+
+    const findError = errorMessages.find(el => el.errorId === item.errorId);
 
     return (
       <View>
@@ -216,40 +241,41 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
               ? styles.userMessageContainerTenant
               : styles.otherMessageContainer,
           ]}>
-          {item.content && (
-            <>
-              {item.content === errorDetected.content &&
-              errorDetected.detected ? (
-                <Text>
-                  <Text
-                    style={[
-                      fontStyles.bodySmall,
-                      styles.messageText,
-                      isUserMessage && styles.userMessageText,
-                    ]}>
-                    {item.content}
-                  </Text>
-                  {'\n'}
-                  <Text style={styles.errorMessageText}>{errorMessage}</Text>
-                  {'\n'}
-                  <Text
-                    style={[styles.sendAgain]}
-                    onPress={() => reHandleSendMessage(errorDetected.content)}>
-                    Try Again ↩︎
-                  </Text>
-                </Text>
-              ) : (
-                <Text
-                  style={[
-                    fontStyles.bodySmall,
-                    styles.messageText,
-                    isUserMessage && styles.userMessageText,
-                  ]}>
-                  {item.content}
-                </Text>
-              )}
-            </>
+          {findError ? (
+            <Text>
+              <Text
+                style={[
+                  fontStyles.bodySmall,
+                  styles.messageText,
+                  isUserMessage && styles.userMessageText,
+                ]}>
+                {item.content}
+              </Text>
+              {'\n'}
+              <Text style={styles.errorMessageText}>{errorMessage}</Text>
+              {'\n'}
+              <Text
+                style={[styles.sendAgain]}
+                onPress={() =>
+                  reHandleSendMessage({
+                    content: findError.content,
+                    errorId: findError.errorId,
+                  })
+                }>
+                Try Again ↩︎
+              </Text>
+            </Text>
+          ) : (
+            <Text
+              style={[
+                fontStyles.bodySmall,
+                styles.messageText,
+                isUserMessage && styles.userMessageText,
+              ]}>
+              {item.content}
+            </Text>
           )}
+
           <Text
             style={
               isUserMessage
@@ -275,7 +301,9 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <FlatList
           ref={flatListRef}
-          data={messages}
+          data={messages.filter(
+            (message): message is Message => message !== undefined,
+          )}
           inverted
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
