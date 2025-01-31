@@ -38,7 +38,6 @@ const FlatFindScreen = () => {
     refetchOnMountOrArgChange: true,
   });
   const adverts = data?.adverts;
-  // console.log('Adverts', adverts);
 
   const [openModal, setOpenModal] = useState(false);
 

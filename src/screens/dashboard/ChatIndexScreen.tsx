@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   StyleSheet,
-  ScrollView,
   SafeAreaView,
   Text,
   Pressable,
+  FlatList,
 } from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
@@ -24,7 +24,6 @@ import ChatCard from 'components/cards/ChatCard';
 import BackButton from 'components/buttons/BackButton';
 
 // Types 🦄
-import {Chatroom} from 'reduxFeatures/chatrooms/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {ChatroomNavigationProps} from 'navigationStacks/types';
 
@@ -33,7 +32,6 @@ const ChatIndexScreen = () => {
   const isLessor = currentUser?.userType === 'lessor';
   const {data, isLoading, refetch} = useGetChatroomsQuery();
   const navigation = useNavigation<ChatroomNavigationProps>();
-  console.log('DATA ', data);
 
   useFocusEffect(
     useCallback(() => {
@@ -43,13 +41,6 @@ const ChatIndexScreen = () => {
     }, [data?.chatrooms, refetch]),
   );
 
-  // EXTRA USE EFFECT
-  // useEffect(() => {
-  //   if (data?.chatrooms && data?.chatrooms?.length > 0) {
-  //     refetch();
-  //   }
-  // }, [data?.chatrooms, refetch]);
-
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -57,36 +48,36 @@ const ChatIndexScreen = () => {
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton title="Chats" onPress={() => navigation.goBack()} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {data?.chatrooms.length === 0 ? (
-          <View style={styles.containerNoChatrooms}>
-            <Looking />
-            <Text style={[fontStyles.headerMedium, styles.centerText]}>
-              You don't have any active chats
-            </Text>
-            <Text style={[fontStyles.bodyMedium, styles.centerText]}>
-              {isLessor
-                ? 'Chats are only available after you’ve created a short-list of people you’d like to invite for interviews or flat viewing.'
-                : 'Chats are only available if the landlord has invited you.'}
-            </Text>
-          </View>
-        ) : (
-          /* CAN WE CHANGE TO FLAT LIST? */
-          <View style={styles.container}>
-            {data?.chatrooms.map((chatroom: Chatroom) => (
-              <Pressable
-                key={chatroom.id}
-                onPress={() =>
-                  navigation.navigate('ChatShow', {
-                    chatroomId: chatroom.id,
-                  })
-                }>
-                <ChatCard chatroomData={chatroom} isLessor={isLessor} />
-              </Pressable>
-            ))}
-          </View>
-        )}
-      </ScrollView>
+      {data?.chatrooms.length === 0 ? (
+        <View style={styles.containerNoChatrooms}>
+          <Looking />
+          <Text style={[fontStyles.headerMedium, styles.centerText]}>
+            You don't have any active chats
+          </Text>
+          <Text style={[fontStyles.bodyMedium, styles.centerText]}>
+            {isLessor
+              ? 'Chats are only available after you’ve created a short-list of people you’d like to invite for interviews or flat viewing.'
+              : 'Chats are only available if the landlord has invited you.'}
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={data?.chatrooms}
+          keyExtractor={chatroom => chatroom.id.toString()}
+          renderItem={({item: chatroom}) => (
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ChatShow', {
+                  chatroomId: chatroom.id,
+                })
+              }>
+              <ChatCard chatroomData={chatroom} isLessor={isLessor} />
+            </Pressable>
+          )}
+          contentContainerStyle={styles.flatlistContainer}
+          style={styles.flatlist}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -99,10 +90,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'center',
   },
-  container: {
-    flex: 1,
-    backgroundColor: Color.White[100],
-    alignItems: 'center',
+  flatlist: {
+    flex: 1, // Ensure FlatList takes up the full space
+    width: '100%', // Match parent width
+  },
+  flatlistContainer: {
+    paddingHorizontal: 16, // Add consistent horizontal padding
+    alignItems: 'center', // Center items within the FlatList
+    justifyContent: 'center', // Optional: vertical centering
   },
   centerText: {
     textAlign: 'center',

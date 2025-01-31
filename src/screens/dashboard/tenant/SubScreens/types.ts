@@ -1,4 +1,4 @@
-import {Advert, Favorite, Favorites} from 'reduxFeatures/adverts/types';
+import {Advert, Favorite} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 
 type ListFlatApplicationComponentProps = {

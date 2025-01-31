@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Components 🧱
 import BackButton from 'components/buttons/BackButton';
@@ -36,9 +35,21 @@ import {
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Helpers 🥷🏻
-import {baseUrl} from 'helpers/baseUrl';
-import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import {sortMessages} from 'helpers/sortMessages';
+// import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import useWebSocket from 'hooks/useWebSocket';
+import Dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import {fontStyles} from 'styleSheets/fontStyles';
+
+Dayjs.extend(utc);
+Dayjs.extend(timezone);
+
+interface ErrorMessage {
+  content: string;
+  errorId: string;
+}
 
 const ChatShowScreen = ({route}: ChatShowProp) => {
   //Params
@@ -55,77 +66,15 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
 
   // Local State
   const [newMessage, setNewMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
+
   const flatListRef = useRef<FlatList>(null);
   const [createMessage] = useCreateMessageMutation();
   const [activateFirstScroll, setActivateScroll] = useState(true);
-  const [errorMessages, setErrorMessages] = useState('');
-
-  const sortMessages = (inputMessages: Message[]) => {
-    return inputMessages.sort((a, b) => {
-      const dateA = new Date(a.createdAt || a.created_at || '');
-      const dateB = new Date(b.createdAt || b.created_at || '');
-      return dateB.getTime() - dateA.getTime();
-    });
-  };
-
-  // ABSTRACT TO A CUSTOM HOOK useWebSocket
-  // Initialize WebSocket connection
-  const ws = useRef<WebSocket | null>(null);
-  useEffect(() => {
-    const setupWebSocket = async () => {
-      try {
-        const token = await EncryptedStorage.getItem('token');
-        const wsBase = baseUrl.split('http:')[1];
-        const wsUrl = token
-          ? `ws:${wsBase}/cable?token=${encodeURIComponent(token)}`
-          : `ws:${wsBase}/cable`;
-
-        ws.current = new WebSocket(wsUrl);
-
-        ws.current.onopen = () => {
-          console.log('WebSocket connection opened');
-          ws.current?.send(
-            JSON.stringify({
-              command: 'subscribe',
-              identifier: JSON.stringify({
-                id: chatroomId,
-                channel: 'ChatroomsChannel',
-              }),
-            }),
-          );
-        };
-
-        ws.current.onmessage = event => {
-          const response = JSON.parse(event.data);
-          console.log('Received WebSocket message:', response);
-
-          if (response.message?.message) {
-            const newMsg = toCamelCaseKeys(response.message.message);
-            setMessages(prevMessages =>
-              sortMessages([...prevMessages, newMsg]),
-            );
-          }
-        };
-
-        ws.current.onclose = () => console.log('WebSocket connection closed');
-        ws.current.onerror = error => console.error('WebSocket error:', error);
-      } catch (error) {
-        console.error('Error setting up WebSocket:', error);
-      }
-    };
-
-    if (chatroomId) {
-      setupWebSocket();
-    }
-
-    return () => {
-      if (ws.current) {
-        ws.current.close();
-        console.log('WebSocket connection closed on unmount');
-      }
-    };
-  }, [chatroomId]);
+  const [errorMessage, setErrorMessage] = useState(
+    'Akward, sth went wrong ...',
+  );
+  const {messages, setMessages} = useWebSocket(chatroomId);
 
   // Load initial messages and mark them as read
   useFocusEffect(
@@ -134,32 +83,107 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         setMessages(sortMessages([...data.messages]));
       }
       return () => readAllMessages(chatroomId);
-    }, [chatroomId, data?.messages, readAllMessages]),
+    }, [chatroomId, data?.messages, readAllMessages, setMessages]),
   );
 
-  //REFACTOR TO A USE EFFECT
   // Scroll to bottom when coming onto screen
+  useEffect(() => {
+    if (activateFirstScroll && flatListRef.current) {
+      flatListRef.current.scrollToOffset({offset: 0, animated: true});
 
-  useFocusEffect(
-    useCallback(() => {
-      if (activateFirstScroll && flatListRef.current) {
-        flatListRef.current.scrollToOffset({offset: 0, animated: true});
+      setActivateScroll(false);
+    }
+  }, [activateFirstScroll]);
 
-        setActivateScroll(false);
-      }
-    }, [activateFirstScroll]),
-  );
-
-  // HANDLE ERROR IN MESSAGE IS NOT SHOWN IN THE CHAT (see ConditionsOfUseScreen.tsx)
-  // display the error in the jsx (red bubble??), (retry button??)
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
       try {
+        // Send message
         await createMessage({id: chatroomId, content: newMessage}).unwrap();
         setNewMessage('');
       } catch (error) {
-        console.error('Error sending message:', error);
+        const tempMessageId = Math.random().toString(36).slice(2, 9);
+        const typedError = error as {status?: number};
+        const errorM =
+          typedError.status === 422
+            ? 'Something went wrong'
+            : 'An error occurred';
+
+        setErrorMessage(errorM);
+
+        // Store the error message
+        const newErrorMessages = [...errorMessages];
+        newErrorMessages.push({content: newMessage, errorId: tempMessageId});
+        setErrorMessages(newErrorMessages);
+        // Add error message
+        setMessages(prevMessages => {
+          const updatedMessages: Message[] = [
+            ...prevMessages.filter(
+              (message): message is Message => message !== undefined,
+            ),
+            {
+              content: newMessage,
+              errorId: tempMessageId,
+              userId: currentUser?.id,
+              id: tempMessageId,
+              createdAt: Dayjs().toISOString(),
+            },
+          ];
+          return sortMessages(updatedMessages); // Sort messages here
+        });
       }
+    }
+  };
+
+  const reHandleSendMessage = async ({
+    content,
+    errorId,
+  }: {
+    content: string;
+    errorId: string;
+  }) => {
+    try {
+      await createMessage({
+        id: chatroomId,
+        content: content,
+      }).unwrap();
+
+      setMessages(prevData => {
+        const uniqueMessages = prevData.filter(
+          message =>
+            !(content === message?.content && message?.errorId === errorId),
+        );
+        return uniqueMessages;
+      });
+
+      setErrorMessages(prevData => {
+        const uniqueMessages = prevData.filter(
+          message => !(content === message?.content && message?.errorId),
+        );
+        return uniqueMessages;
+      });
+    } catch (error) {
+      const tempMessageId = Math.random().toString(36).slice(2, 9);
+
+      const newErrorMessages = [...errorMessages];
+      newErrorMessages.push({content: content, errorId: tempMessageId});
+      setErrorMessages(newErrorMessages);
+
+      setMessages(prevMessages => {
+        const updatedMessages: Message[] = [
+          ...prevMessages.filter(
+            (message): message is Message => message !== undefined,
+          ),
+          {
+            content: newMessage,
+            errorId: tempMessageId,
+            userId: currentUser?.id,
+            id: tempMessageId,
+            createdAt: Dayjs().toISOString(),
+          },
+        ];
+        return sortMessages(updatedMessages);
+      });
     }
   };
 
@@ -171,47 +195,36 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
     const currentCreatedDate = new Date(
       item.createdAt || item.created_at || '',
     );
+
     const nextCreatedDate =
-      index < messages.length - 1
+      index < messages.length - 1 && messages[index + 1]
         ? new Date(
-            messages[index + 1].createdAt ||
-              messages[index + 1].created_at ||
+            messages[index + 1]?.createdAt ||
+              messages[index + 1]?.created_at ||
               '',
           )
         : null;
-    // Refactor wtih DayJS
-    const currentDateKey = `${currentCreatedDate.getUTCFullYear()}-${
-      currentCreatedDate.getUTCMonth() + 1
-    }-${currentCreatedDate.getUTCDate()}`;
-    const nextDateKey =
-      nextCreatedDate &&
-      `${nextCreatedDate.getUTCFullYear()}-${
-        nextCreatedDate.getUTCMonth() + 1
-      }-${nextCreatedDate.getUTCDate()}`;
 
+    const currentDateKey = Dayjs(currentCreatedDate).format('YYYY-MM-DD');
+    const nextDateKey = nextCreatedDate
+      ? Dayjs(nextCreatedDate).format('YYYY-MM-DD')
+      : null;
     // Render header if the current date differs from the next or if it's the last item
     const shouldRenderDateHeader = currentDateKey !== nextDateKey || isLastItem;
 
-    // Refactor to DayJS
-    const formattedDate = `${String(currentCreatedDate.getUTCDate()).padStart(
-      2,
-      '0',
-    )}.${String(currentCreatedDate.getUTCMonth() + 1).padStart(2, '0')}`;
+    const findError = errorMessages.find(el => el.errorId === item.errorId);
 
     return (
       <View>
         {/* Render Date Header */}
         {shouldRenderDateHeader && (
           <Text style={styles.dateHeader}>
-            {/* Refactor to DayJS */}
-            {currentDateKey ===
-            `${new Date().getFullYear()}-${
-              new Date().getMonth() + 1
-            }-${new Date().getDate()}`
+            {Dayjs(currentCreatedDate).isSame(Dayjs(), 'day')
               ? 'Today'
-              : formattedDate}
+              : Dayjs(currentCreatedDate).format('DD.MM')}
           </Text>
         )}
+
         {/* Render Message */}
         <View
           style={[
@@ -225,27 +238,48 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
               ? styles.userMessageContainerTenant
               : styles.otherMessageContainer,
           ]}>
-          {item.content && (
+          {findError ? (
+            <Text>
+              <Text
+                style={[
+                  fontStyles.bodySmall,
+                  styles.messageText,
+                  isUserMessage && styles.userMessageText,
+                ]}>
+                {item.content}
+              </Text>
+              {'\n'}
+              <Text style={styles.errorMessageText}>{errorMessage}</Text>
+              {'\n'}
+              <Text
+                style={[styles.sendAgain]}
+                onPress={() =>
+                  reHandleSendMessage({
+                    content: findError.content,
+                    errorId: findError.errorId,
+                  })
+                }>
+                Try Again ↩︎
+              </Text>
+            </Text>
+          ) : (
             <Text
               style={[
+                fontStyles.bodySmall,
                 styles.messageText,
                 isUserMessage && styles.userMessageText,
               ]}>
               {item.content}
             </Text>
           )}
+
           <Text
             style={
               isUserMessage
                 ? styles.userMessageTimeStamp
                 : styles.otherMessageTimeStamp
             }>
-            {/* Refactor to DayJS */}
-            {currentCreatedDate.toLocaleTimeString('en-GB', {
-              timeZone: 'CET',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+            {Dayjs(currentCreatedDate).tz('CET').format('HH:mm')}
           </Text>
         </View>
       </View>
@@ -264,7 +298,9 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <FlatList
           ref={flatListRef}
-          data={messages}
+          data={messages.filter(
+            (message): message is Message => message !== undefined,
+          )}
           inverted
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
@@ -275,7 +311,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
         />
 
         <View style={styles.inputContainer}>
-          {/* //On KEY PRESS, Copy InputFieldText.tsx styles, CHAT INPUT COMPONENT */}
           <TextInput
             style={styles.textInput}
             value={newMessage}
@@ -283,15 +318,6 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
             placeholder="Type your message"
             multiline
           />
-          {/* <InputFieldText
-            value={newMessage}
-            onChangeText={setNewMessage}
-            placeholder="Type your message"
-            type="text"
-            keyboardType="default"
-            errorMessage={errorMessages}
-          /> */}
-
           <Pressable
             style={isLessor ? styles.sendButtonLessor : styles.sendButton}
             onPress={handleSendMessage}
@@ -321,6 +347,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
+  sendAgain: {
+    color: Color.White[100],
+    textDecorationLine: 'underline',
+  },
   flatListStyle: {
     paddingVertical: size(10),
   },
@@ -329,13 +359,17 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    paddingHorizontal: size(10),
     minHeight: size(40),
     backgroundColor: '#fff',
-    paddingTop: size(10),
+    paddingTop: size(14),
+    paddingLeft: size(9),
+    borderWidth: 2,
+    borderRadius: 12,
+    borderColor: Color.Black[50],
+    paddingHorizontal: size(4),
+    height: size(48),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sendButtonLessor: {
     backgroundColor: Color.Lavendar[100],
@@ -402,6 +436,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: Color.Black[50],
     textAlign: 'center',
+  },
+  errorMessageText: {
+    color: Color.Tomato[100],
   },
 });
 

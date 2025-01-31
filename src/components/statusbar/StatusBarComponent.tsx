@@ -30,7 +30,6 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const isLessor = currentUser?.userType === 'lessor';
   const advert = isLessor ? _advert : application?.advert;
 
-
   const [statusBar, setStatusBar] = useState('');
   const navigation = useNavigation<
     StatusBarNavigationProp | LessorNavigatorScreenNavigationProp
@@ -188,9 +187,11 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                 <CoreButton
                   value="Go to chats"
                   style={styles.button}
-                  onPress={() => navigation.navigate('ChatroomsNavigator', {
-                    screen: 'ChatIndex',
-                  })}
+                  onPress={() =>
+                    navigation.navigate('ChatroomsNavigator', {
+                      screen: 'ChatIndex',
+                    })
+                  }
                   icon={
                     <LofftIcon name="send" size={20} color={Color.White[100]} />
                   }
@@ -206,13 +207,13 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                 value="Go to chat"
                 style={[styles.button, styles.greenButton]}
                 onPress={() =>
-                navigation.navigate('ChatroomsNavigator', {
-                  screen: 'ChatShow',
-                          params: {
-                            chatroomId: chatroomId,
-                          },
-                        })
-                      }
+                  navigation.navigate('ChatroomsNavigator', {
+                    screen: 'ChatShow',
+                    params: {
+                      chatroomId: chatroomId,
+                    },
+                  })
+                }
                 icon={
                   <LofftIcon name="send" size={20} color={Color.White[100]} />
                 }
