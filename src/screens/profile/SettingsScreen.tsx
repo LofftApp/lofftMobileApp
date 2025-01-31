@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  FlatList,
+} from 'react-native';
 
 // Redux
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -16,7 +23,10 @@ import LofftHeaderPhoto from 'components/cards/LofftHeaderPhoto';
 import ImageCarroussel from 'components/cards/ImageCarroussel';
 import {size} from 'react-native-responsive-sizes';
 import SettingsUserImage from 'components/images/SettingsUserImages';
-import SettingsFlatImages from 'components/images/SettingsFlatImages';
+import {useUserType} from 'hooks/useUserType';
+import SettingsCard from 'components/cards/SettingsCard';
+import { useNavigation } from '@react-navigation/native';
+
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
 const flatImages = [
@@ -28,29 +38,87 @@ const flatImages = [
 
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
+  const {isLessor} = useUserType();
   const [signOut] = useSignOutMutation();
 
-  const userCredits = currentUser?.credits;
+  const navigation = useNavigation();
 
-  const handleSignOut = () => {
+  const userCredits = currentUser?.credits;
+  const userView = isLessor ? 'tenant' : 'lessor';
+  const settingsData = [
+    {
+      id: 1,
+      title: 'App Language',
+      subtitle: 'English',
+      navigate: '',
+      icon: 'translate',
+    },
+    {
+      id: 2,
+      title: 'Send Feedback',
+      subtitle: '',
+      navigate: '',
+      icon: 'announcement',
+    },
+    {
+      id: 3,
+      title: 'Terms and Conditions',
+      navigate: '',
+      icon: 'file',
+    },
+    {
+      id: 4,
+      title: `Switch to ${userView} view`,
+      navigate: '',
+      icon: 'refresh-ccq-03',
+    },
+    {
+      id: 5,
+      title: 'Sign Out',
+      navigate: () => signOut(),
+      icon: 'log-out',
+    },
+    {
+      id: 6,
+      title: 'Delete Account',
+      navigate: '',
+      icon: 'trash',
+    },
+  ];
+
+  const handleOnPress = () => {
     signOut();
   };
-  const userPhotoUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
-
+  const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
+  const arrowIds = [1, 2, 3, 4];
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <Trail height="100%" width="100%" style={styles.backgroundImageExtra} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Profile and Settings</Text>
       </View>
       <View style={CoreStyleSheet.screenContainer}>
-        <View style={styles.imagesContainer}>
-          <SettingsUserImage userImageUri={picUrl} />
-          <ImageCarroussel
-            imageContainerHeight={90}
-            imageContainerWidth={90}
-            images={flatImages}
-            snapToInterval={30}
+        <View style={styles.mainContainer}>
+          <View style={styles.imagesContainer}>
+            <SettingsUserImage userImageUri={userImageUri} />
+            <ImageCarroussel
+              imageContainerHeight={90}
+              imageContainerWidth={90}
+              images={flatImages}
+              snapToInterval={30}
+            />
+          </View>
+          <FlatList
+            data={settingsData}
+            renderItem={({item}) => <SettingsCard settingsData={item} />}
+            keyExtractor={item => item.id.toString()}
+            contentContainerStyle={styles.cardsContainer}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       </View>
@@ -58,26 +126,29 @@ const SettingsScreen = () => {
       {/* <Text style={fontStyles.headerLarge}>
           Current Credits: {userCredits}
         </Text> */}
-      {/* <CoreButton
-        value="Sign Out"
-        style={styles.coreButtonStyle}
-        onPress={handleSignOut}
-      /> */}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    gap: size(24),
+  },
+
   backgroundImageExtra: {
     position: 'absolute',
-    top: size(15),
+    top: size(-25),
     zIndex: -1,
     left: 0,
     opacity: 0.7,
   },
   imagesContainer: {
-    marginTop: size(20),
-    gap: size(30),
+    gap: size(20),
+  },
+
+  cardsContainer: {
+    alignItems: 'center',
   },
 
   coreButtonStyle: {
