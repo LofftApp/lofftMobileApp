@@ -79,14 +79,13 @@ const NotificationCard = ({
             icon: 'hourglass',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: advertStatus === 'viewing' ? 'Go to chat' : undefined,
+            value: advertStatus === 'viewing' ? 'Go to chats' : undefined,
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             //Chatroom Nested Navigation in Notification
             buttonNavigation: () =>
               navigation.navigate('ChatroomsNavigator', {
-                screen: 'ChatShow',
-                params: {chatroomId: notification.advert.chatroomId},
+                screen: 'ChatIndex',
               }),
           };
         case 'offered':
@@ -94,13 +93,12 @@ const NotificationCard = ({
             icon: 'home-smile',
             iconColor: Color.Black[100],
             bgColor: lessorBgColor,
-            value: advertStatus === 'offered' ? 'Go to chat' : undefined,
+            value: advertStatus === 'offered' ? 'Go to chats' : undefined,
             buttonColor: Color.Lavendar[100],
             buttonIcon: 'send',
             buttonNavigation: () =>
               navigation.navigate('ChatroomsNavigator', {
-                screen: 'ChatShow',
-                params: {chatroomId: notification.advert.chatroomId},
+                screen: 'ChatIndex',
               }),
           };
         case 'closed':
@@ -140,13 +138,7 @@ const NotificationCard = ({
           };
       }
     },
-    [
-      navigation,
-      notification.advert.id,
-      lessorBgColor,
-      advertStatus,
-      notification.advert.chatroomId,
-    ],
+    [navigation, notification.advert.id, lessorBgColor, advertStatus],
   );
 
   const tenantPositiveBgColor = isRead ? Color.White[100] : Color.Mint[20];
@@ -353,19 +345,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     gap: size(10),
   },
-
   iconImageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(5),
   },
-
   imageContainer: {
     width: 100,
     aspectRatio: 1,
     overflow: 'hidden',
   },
-
   advertImage: {
     width: '100%',
     height: '100%',
@@ -377,7 +366,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: size(3),
   },
-
   buttonStyle: {
     width: '96%',
     height: size(50),

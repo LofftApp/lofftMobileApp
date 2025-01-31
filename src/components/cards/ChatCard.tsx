@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
 // Helpers 🥷🏻
@@ -11,8 +11,8 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
 // Types 🦄
-import {ChatCardProps} from './types';
-import {useGetChatroombyIdQuery} from 'reduxFeatures/chatrooms/chatroomApi';
+import {ChatCardProps} from 'reduxFeatures/chatrooms/types';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
@@ -21,28 +21,11 @@ const hardcodedImages = [
 const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
   const {matchScore, name, message, userPhoto, advertTagLine} = chatroomData;
   const {read, content, createdAt} = message ?? {};
-  const [isBlinking, setIsBlinking] = useState(false);
+  const {data: currentUser} = useGetUserQuery();
 
-  useEffect(() => {
-    const blinkingInterval = setInterval(
-      () => setIsBlinking(prev => !prev),
-      3000,
-    );
-    return () => clearInterval(blinkingInterval);
-  }, []);
-  console.log('Message', message);
-
-  //DISPLAY THE MESSAGE WHEN SENDER ALREADY SENT A MESSAGE
   const renderMessageText = () => {
     if (!message) {
-      const blinkingStyle = isLessor
-        ? styles.textGlowingLessor
-        : styles.textGlowingTenant;
-      return (
-        <Text style={[fontStyles.bodyMedium, isBlinking && blinkingStyle]}>
-          Start Chat 🚀
-        </Text>
-      );
+      return <Text style={fontStyles.bodyMedium}>Start Chat 🚀</Text>;
     }
 
     return isLessor
@@ -54,13 +37,15 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
     <View
       style={[
         styles.container,
-        isLessor
-          ? read
-            ? styles.lessorContainerBgWhite
-            : styles.lessorContainerBg
-          : read
-          ? styles.lessorContainerBgWhite
-          : styles.tenantContainerBg,
+        message?.userId === currentUser?.id
+          ? styles.chatContainerWhite
+          : message?.userId !== currentUser?.id && isLessor && !read
+          ? styles.lessorContainerBg
+          : message?.userId !== currentUser?.id && !isLessor && !read
+          ? styles.tenantContainerBg
+          : message?.userId !== currentUser?.id && read
+          ? styles.chatContainerWhite
+          : null,
       ]}>
       <View style={styles.boxA}>
         <Image
@@ -72,11 +57,13 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
         <View style={styles.innerBoxBup}>
           <View>
             <Text style={fontStyles.headerSmall}>
-              {!read && (
-                <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
-                  ●
-                </Text>
-              )}{' '}
+              {!read && currentUser?.id !== message?.userId && (
+                <>
+                  <Text style={isLessor ? styles.lessorDot : styles.tenantDot}>
+                    ●
+                  </Text>{' '}
+                </>
+              )}
               {name}
             </Text>
             <Text style={[fontStyles.bodySmall, {color: Color.Black[50]}]}>
@@ -84,13 +71,12 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
             </Text>
           </View>
           <Text style={[fontStyles.bodySmall, styles.timeFont]}>
-            {/* refactor to DayJs ? */}
             {message && checkMessageDate(createdAt ?? '')}
           </Text>
         </View>
         <View style={styles.innerBoxBdown}>
           <Text style={[fontStyles.bodyMedium, {color: Color.Black[100]}]}>
-            {message && `${truncateTextAtWord(content ?? '', 20)} ...`}
+            {message && `${truncateTextAtWord(content ?? '', 15)} ...`}
           </Text>
         </View>
       </View>
@@ -100,12 +86,13 @@ const ChatCard = ({chatroomData, isLessor}: ChatCardProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
+    width: '100%',
     height: size(117),
     flexDirection: 'row',
     padding: size(10),
     borderRadius: 12,
     marginTop: 10,
+    backgroundColor: 'blue',
   },
   boxA: {
     width: '30%',
@@ -136,7 +123,7 @@ const styles = StyleSheet.create({
   lessorContainerBg: {
     backgroundColor: Color.Lavendar[10],
   },
-  lessorContainerBgWhite: {
+  chatContainerWhite: {
     backgroundColor: Color.White[100],
   },
   tenantContainerBg: {
