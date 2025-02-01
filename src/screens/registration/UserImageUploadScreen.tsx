@@ -35,8 +35,10 @@ import {userImagesSchema} from 'lib/zodSchema';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageSection from 'components/imageUpload/UploadImageSection';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const UserImageUploadScreen = () => {
+const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const {edit} = route.params;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -48,20 +50,22 @@ const UserImageUploadScreen = () => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
-  const {isLessor} = useNewUserDetails();
+  const {isLessor: isNewUserLessor} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  console.log('isLessor', isLessor);
 
-  const totalImages = isLessor
+  const totalImages = isNewUserLessor
     ? imagesToUpload.length + savedImages.lessor.userImages.length
     : imagesToUpload.length + savedImages.tenant.userImages.length;
 
   useEffect(() => {
-    if (isLessor && savedImages.lessor.userImages.length > 0) {
+    if (isNewUserLessor && savedImages.lessor.userImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'user',
         images: savedImages.lessor.userImages,
       });
-    } else if (!isLessor && savedImages.tenant.userImages.length > 0) {
+    } else if (!isNewUserLessor && savedImages.tenant.userImages.length > 0) {
       setSavedImages({
         userType: 'tenant',
         imageType: 'user',
@@ -72,7 +76,7 @@ const UserImageUploadScreen = () => {
     savedImages.lessor.userImages,
     savedImages.tenant.userImages,
     setSavedImages,
-    isLessor,
+    isNewUserLessor,
   ]);
   useEffect(() => {
     if (totalImages > MAX_USER_IMAGES) {
@@ -103,7 +107,7 @@ const UserImageUploadScreen = () => {
   };
 
   const handleContinue = () => {
-    const concatImages = isLessor
+    const concatImages = isNewUserLessor
       ? [...imagesToUpload, ...savedImages.lessor.userImages]
       : [...imagesToUpload, ...savedImages.tenant.userImages];
     const result = userImagesSchema.safeParse(concatImages);
@@ -115,7 +119,7 @@ const UserImageUploadScreen = () => {
     }
 
     setCurrentScreen(currentScreen + 1);
-    const screen = isLessor
+    const screen = isNewUserLessor
       ? newUserScreens.lessor[currentScreen + 1]
       : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
@@ -123,13 +127,45 @@ const UserImageUploadScreen = () => {
     setError('');
     setTimeout(() => {
       setSavedImages({
-        userType: isLessor ? 'lessor' : 'tenant',
+        userType: isNewUserLessor ? 'lessor' : 'tenant',
         imageType: 'user',
         images: result.data,
       });
       clearImagesToUpload();
     }, 1000);
   };
+  console.log('isNewUserLessor', isNewUserLessor);
+
+  const handleEdit = () => {
+    const concatImages = isLessor
+      ? [...imagesToUpload, ...savedImages.lessor.userImages]
+      : [...imagesToUpload, ...savedImages.tenant.userImages];
+    const result = userImagesSchema.safeParse(concatImages);
+
+    if (!result.success) {
+      const err = result.error.flatten().formErrors?.[0];
+      setError(err);
+      return;
+    }
+
+    // setCurrentScreen(currentScreen - 1);
+    // const screen = isNewUserLessor
+    //   ? newUserScreens.lessor[currentScreen - 1]
+    //   : newUserScreens.tenant[currentScreen - 1];
+    // navigation.navigate(screen);
+    navigation.goBack();
+
+    setError('');
+    setTimeout(() => {
+      setSavedImages({
+        userType: isNewUserLessor ? 'lessor' : 'tenant',
+        imageType: 'user',
+        images: result.data,
+      });
+      clearImagesToUpload();
+    }, 1000);
+  };
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
@@ -154,11 +190,11 @@ const UserImageUploadScreen = () => {
         <View style={styles.footerContainer}>
           <Divider />
           {error && <ErrorMessage message={error} />}
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             disabled={totalImages > MAX_USER_IMAGES}
-            onPress={handleContinue}
+            onPress={edit ? handleEdit : handleContinue}
           />
         </View>
       </View>

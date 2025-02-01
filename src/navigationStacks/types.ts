@@ -190,6 +190,10 @@ type SettingsStackParamsList = {
   SwitchUserScreen: undefined;
   TermsAndConditionsScreen: undefined;
   SendFeedbackScreen: undefined;
+  NewUserNavigator: {
+    screen: keyof NewUserStackParamsList;
+    params?: {edit?: boolean};
+  };
 };
 
 type SettingsScreenNavigationProp = CompositeNavigationProp<

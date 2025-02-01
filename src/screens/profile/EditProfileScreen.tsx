@@ -42,17 +42,21 @@ const EditProfileScreen = () => {
   const {appLanguage} = useAppLanguage();
   const [signOut] = useSignOutMutation();
 
-  const navigation = useNavigation<EditProfileScreenNavigationProp>();
+  const navigation = useNavigation<SettingsScreenNavigationProp>();
 
   const userView = isLessor ? 'tenant' : 'lessor';
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const editProfileData = [
     {
       id: 1,
-      title: 'Get Tokens',
-      subtitle: `You have ${currentUser?.credits} tokens`,
-      navigate: () => navigation.navigate('GetTokensScreen'),
-      icon: 'coins-stacked',
+      title: 'Edit Pictures',
+      subtitle: '',
+      navigate: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'UserImageUploadScreen',
+          params: {edit: true},
+        }),
+      icon: 'upload',
     },
     {
       id: 2,

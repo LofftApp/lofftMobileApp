@@ -13,6 +13,7 @@ import SendFeedbackScreen from 'screens/profile/SendFeedbackScreen';
 import GetTokensScreen from 'screens/profile/GetTokensScreen';
 import EditProfileScreen from 'screens/profile/EditProfileScreen';
 import EditAdvertScreen from 'screens/profile/EditAdvertScreen';
+import NewUserNavigator from './NewUserNavigator';
 
 const Settings = createNativeStackNavigator<SettingsStackParamsList>();
 const SettingsNavigator = () => {
@@ -36,6 +37,11 @@ const SettingsNavigator = () => {
       />
 
       <Settings.Screen name="SwitchUserScreen" component={SwitchUserScreen} />
+      <Settings.Screen
+        name="NewUserNavigator"
+        component={NewUserNavigator}
+        options={{headerShown: false}}
+      />
     </Settings.Navigator>
   );
 };

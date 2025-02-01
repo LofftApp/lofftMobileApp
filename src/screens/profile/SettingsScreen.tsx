@@ -108,12 +108,13 @@ const SettingsScreen = () => {
         style={CoreStyleSheet.backgroundImage}
       />
       <View style={CoreStyleSheet.headerContainer}>
-        <Text style={fontStyles.headerLarge}>Profile and Settings</Text>
+        <Text style={fontStyles.headerLarge}>Settings</Text>
       </View>
       <View style={CoreStyleSheet.screenContainer}>
         <View style={styles.mainContainer}>
           <View style={styles.imagesContainer}>
             <SettingsUserImage userImageUri={userImageUri} />
+
             {isLessor && (
               <ImageSwiper
                 imageContainerHeight={90}
@@ -157,11 +158,6 @@ const styles = StyleSheet.create({
 
   cardsContainer: {
     alignItems: 'center',
-  },
-
-  coreButtonStyle: {
-    width: '40%',
-    marginTop: 20,
   },
 });
 
