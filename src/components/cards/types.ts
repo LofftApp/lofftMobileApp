@@ -1,6 +1,7 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
+import { ImageFile } from 'reduxFeatures/registration/types';
 import {AppLanguages} from 'reduxFeatures/settings/settingsSlice';
 
 type ListFlatApplicationCardProps = {
@@ -19,10 +20,12 @@ type ImageSwiperProps = {
   imageContainerWidth: number;
   pagination?: boolean;
   snapToInterval: number;
-  images: string[];
+  images: string[] | ImageFile[]
   activeBlur?: boolean;
   marginHorizontal?: number;
   editButton?: boolean;
+  deleteImage?: (fileName: string) => void;
+  onPress?: () => void;
 };
 
 type OnViewableItemsChangedParams = {

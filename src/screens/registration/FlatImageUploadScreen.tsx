@@ -1,11 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Animated,
-  ScrollView,
-  StyleSheet,
-  View,
-  SafeAreaView,
-} from 'react-native';
+import {Animated, StyleSheet, View, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
@@ -132,13 +126,9 @@ const FlatImageUploadScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={
-            isLessor ? 'Upload images of your flat' : 'Upload pictures of you'
-          }
+          headlineText={'Upload images of your flat'}
           subDescription={
-            isLessor
-              ? 'Time to show off your space! The more images, more chances of getting a match!'
-              : 'Show off your best self! The more images, more chances of getting a match!'
+            'Time to show off your space! The more images, more chances of getting a match!'
           }
         />
         <UploadImageSection

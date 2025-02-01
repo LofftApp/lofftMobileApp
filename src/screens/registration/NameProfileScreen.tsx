@@ -26,10 +26,7 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import DatePicker from 'react-native-date-picker';
-import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
-import UploadImageButton from 'components/imageUpload/UploadImageButton';
-import UploadImageModal from 'components/modals/UploadImageModal';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -41,9 +38,6 @@ import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
 import {nameSchema} from 'lib/zodSchema';
-
-//Constants 📊
-import {MAX_USER_IMAGES} from 'components/componentData/constants';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -60,7 +54,6 @@ const NameProfileScreen = () => {
   const [lastName, setLastName] = useState('');
   const [date, setDate] = useState(new Date());
   const [isDateSelected, setIsDateSelected] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [errorFirstName, setErrorFirstName] = useState('');
   const [errorLastName, setErrorLastName] = useState('');
@@ -69,16 +62,12 @@ const NameProfileScreen = () => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
+  const {clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
   const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
-  // const totalImages =
-  //   (isLessor
-  //     ? savedImages.lessor.userImages.length
-  //     : savedImages.tenant.userImages.length) + imagesToUpload.length;
 
   useEffect(() => {
     if (savedFirstName) {
@@ -91,18 +80,6 @@ const NameProfileScreen = () => {
       setDate(new Date(savedDate));
       setIsDateSelected(true);
     }
-    // if (
-    //   savedImages.lessor.userImages.length > 0 ||
-    //   savedImages.tenant.userImages.length > 0
-    // ) {
-    //   setSavedImages({
-    //     userType: isLessor ? 'lessor' : 'tenant',
-    //     imageType: 'user',
-    //     images: isLessor
-    //       ? savedImages.lessor.userImages
-    //       : savedImages.tenant.userImages,
-    //   });
-    // }
   }, [
     savedFirstName,
     savedLastName,
@@ -112,14 +89,6 @@ const NameProfileScreen = () => {
     savedImages.lessor.userImages,
     setSavedImages,
   ]);
-
-  // useEffect(() => {
-  //   if (totalImages > MAX_USER_IMAGES) {
-  //     setErrorImage(`You can only upload ${MAX_USER_IMAGES} images`);
-  //   } else {
-  //     setErrorImage('');
-  //   }
-  // }, [totalImages]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -143,11 +112,6 @@ const NameProfileScreen = () => {
   const handleOnPressDatePicker = () => {
     setIsDatePickerOpen(true);
   };
-
-  // const toggleModal = () => {
-  //   setIsModalOpen(prev => !prev);
-  //   setErrorImage('');
-  // };
 
   const handleDateChange = (input: Date) => {
     setDate(input);
@@ -173,22 +137,17 @@ const NameProfileScreen = () => {
   const handleContinue = () => {
     const trimmedFirstName = firstName.trim();
     const trimmedLastName = lastName.trim();
-    // const concatImages = isLessor
-    //   ? [...imagesToUpload, ...savedImages.lessor.userImages]
-    //   : [...imagesToUpload, ...savedImages.tenant.userImages];
 
     const result = nameSchema.safeParse({
       firstName: trimmedFirstName,
       lastName: trimmedLastName,
       dateOfBirth: isDateSelected ? date : undefined,
-      // images: concatImages,
     });
 
     if (!result.success) {
       const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
       const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
       const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];
-      // const imageError = result.error.flatten().fieldErrors?.images?.[0];
 
       if (firstError) {
         setErrorFirstName(firstError);
@@ -199,9 +158,7 @@ const NameProfileScreen = () => {
       if (dateError) {
         setErrorDate(dateError);
       }
-      // if (imageError) {
-      //   setErrorImage(imageError);
-      // }
+
       return;
     }
 
@@ -221,15 +178,6 @@ const NameProfileScreen = () => {
     setErrorLastName('');
     setErrorDate('');
     setErrorImage('');
-    setTimeout(() => {
-      setSavedImages({
-        userType: isLessor ? 'lessor' : 'tenant',
-        imageType: 'user',
-        // images: result.data.images,
-        images: [],
-      });
-      clearImagesToUpload();
-    }, 1000);
   };
 
   return (

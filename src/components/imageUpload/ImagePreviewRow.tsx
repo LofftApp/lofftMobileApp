@@ -1,10 +1,9 @@
 import React from 'react';
-import {View, Image, StyleSheet, Pressable, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🐰
 
 // Components 🪢
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Divider from 'components/bars/Divider';
 
 // Stylesheets 🖼️
@@ -13,12 +12,13 @@ import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload'
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
+import ImageSwiper from 'components/cards/ImageSwiper';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
     useImagesToUpload();
   const {isLessor} = useNewUserDetails();
-
+  console.log('savedImages', savedImages);
   const savedImagesDisplay = isLessor
     ? imageType === 'user'
       ? savedImages.lessor.userImages
@@ -27,76 +27,45 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
 
   return (
     <>
-      {imagesToUpload.length > 0 && (
+      {savedImagesDisplay.length > 0 && (
         <>
           <View style={styles.textAndImageContainer}>
             <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
-              Images to upload
+              Saved Images
             </Text>
 
-            <View style={styles.imageContainer}>
-              {imagesToUpload.map(image => (
-                <View key={image.fileName}>
-                  <Pressable
-                    style={styles.closeButton}
-                    onPress={() => deleteImageToUpload(image.fileName)}>
-                    <LofftIcon
-                      name="x-close"
-                      size={12}
-                      color={Color.White[100]}
-                    />
-                  </Pressable>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: image.uri,
-                    }}
-                  />
-                </View>
-              ))}
-            </View>
+            <ImageSwiper
+              images={savedImagesDisplay}
+              imageContainerHeight={size(110)}
+              imageContainerWidth={size(110)}
+              snapToInterval={size(100)}
+              deleteImage={fileName =>
+                deleteSavedImage({
+                  userType: isLessor ? 'lessor' : 'tenant',
+                  imageType,
+                  fileName,
+                })
+              }
+            />
           </View>
         </>
       )}
       {imagesToUpload.length > 0 && savedImagesDisplay.length > 0 && (
         <Divider />
       )}
-      {savedImagesDisplay.length > 0 && (
+      {imagesToUpload.length > 0 && (
         <>
-          <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
-            Saved Images
-          </Text>
           <View style={styles.textAndImageContainer}>
-            <View style={styles.imageContainer}>
-              {savedImagesDisplay.length > 0 &&
-                savedImagesDisplay.map(image => {
-                  return (
-                    <View key={image.fileName}>
-                      <Pressable
-                        style={styles.closeButton}
-                        onPress={() =>
-                          deleteSavedImage({
-                            userType: isLessor ? 'lessor' : 'tenant',
-                            imageType,
-                            fileName: image.fileName,
-                          })
-                        }>
-                        <LofftIcon
-                          name="x-close"
-                          size={12}
-                          color={Color.White[100]}
-                        />
-                      </Pressable>
-                      <Image
-                        style={styles.image}
-                        source={{
-                          uri: image.uri,
-                        }}
-                      />
-                    </View>
-                  );
-                })}
-            </View>
+            <Text style={[fontStyles.headerSmall, {color: Color.Black[50]}]}>
+              Images to upload
+            </Text>
+            <ImageSwiper
+              images={imagesToUpload}
+              imageContainerHeight={size(110)}
+              imageContainerWidth={size(110)}
+              snapToInterval={size(100)}
+              deleteImage={fileName => deleteImageToUpload(fileName)}
+            />
           </View>
         </>
       )}
@@ -106,7 +75,6 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
 
 const styles = StyleSheet.create({
   textAndImageContainer: {
-    flexDirection: 'column',
     gap: size(10),
   },
   imageContainer: {
@@ -132,7 +100,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Color.Tomato['100'],
   },
-  textStyle: {},
 });
 
 export default ImagePreviewRow;

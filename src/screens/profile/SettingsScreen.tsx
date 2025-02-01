@@ -93,6 +93,10 @@ const SettingsScreen = () => {
     },
   ];
 
+  const handlePressImageSwiper = () => {
+    navigation.navigate('EditAdvertScreen');
+  };
+
   const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
 
   return (
@@ -117,6 +121,7 @@ const SettingsScreen = () => {
                 images={flatImages}
                 snapToInterval={30}
                 editButton
+                onPress={handlePressImageSwiper}
               />
             )}
           </View>

@@ -1,11 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Animated,
-  ScrollView,
-  StyleSheet,
-  View,
-  SafeAreaView,
-} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, StyleSheet, View, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
@@ -24,8 +18,6 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
-import UploadImageButton from 'components/imageUpload/UploadImageButton';
-import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -37,7 +29,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {MAX_USER_IMAGES} from 'components/componentData/constants';
 
 //Validation 🛡 ️
-import {flatImagesSchema, userImagesSchema} from 'lib/zodSchema';
+import {userImagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
@@ -66,13 +58,13 @@ const UserImageUploadScreen = () => {
     if (isLessor && savedImages.lessor.userImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
-        imageType: 'flat',
+        imageType: 'user',
         images: savedImages.lessor.userImages,
       });
     } else if (!isLessor && savedImages.tenant.userImages.length > 0) {
       setSavedImages({
         userType: 'tenant',
-        imageType: 'flat',
+        imageType: 'user',
         images: savedImages.tenant.userImages,
       });
     }

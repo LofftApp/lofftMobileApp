@@ -25,13 +25,26 @@ const UploadImageButton = ({
   error,
   imageType,
 }: UploadImageButtonProps) => {
-  const {imagesToUpload} = useImagesToUpload();
+  const {imagesToUpload, savedImages} = useImagesToUpload();
+  const displayTotalImagesNumber = () => {
+    if (imageType === 'user') {
+      return (
+        MAX_USER_IMAGES -
+        (imagesToUpload.length + savedImages.lessor.userImages.length)
+      );
+    } else {
+      return (
+        MAX_FLAT_IMAGES -
+        (imagesToUpload.length + savedImages.lessor.flatImages.length)
+      );
+    }
+  };
+
   const disable = imagesToUpload.length >= MAX_FLAT_IMAGES;
   return (
     <View style={styles.mainContainer}>
       <Text style={fontStyles.headerSmall}>
-        Add up to {imageType === 'user' ? MAX_USER_IMAGES : MAX_FLAT_IMAGES}{' '}
-        images
+        Add up to {displayTotalImagesNumber()} images
       </Text>
       <TouchableOpacity
         style={[
