@@ -183,11 +183,11 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
         params: {edit: true},
       });
     } else {
-      setCurrentScreen(currentScreen + 1);
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
+      setCurrentScreen(currentScreen + 1);
     }
 
     setErrorFirstName('');

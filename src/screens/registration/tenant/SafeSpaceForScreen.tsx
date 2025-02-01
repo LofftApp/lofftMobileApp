@@ -37,8 +37,10 @@ import {MAX_GENDERS} from 'components/componentData/constants';
 
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const SafeSpaceForScreen = () => {
+const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -54,7 +56,9 @@ const SafeSpaceForScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
+    useNewUserDetails(isLessor);
   const savedSafeSpacesIds = newUserDetails.safeSpaces;
 
   useEffect(() => {
@@ -88,14 +92,18 @@ const SafeSpaceForScreen = () => {
     }
 
     setNewUserDetails({safeSpaces: selectedSafeSpaceIds});
+    if (edit) {
+      navigation.goBack();
+      navigation.goBack();
+    } else {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
 
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+      setCurrentScreen(currentScreen + 1);
+    }
 
-    navigation.navigate(screen);
-
-    setCurrentScreen(currentScreen + 1);
     setError('');
   };
 
@@ -110,7 +118,7 @@ const SafeSpaceForScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
           headlineText={
-            isLessor
+            isNewUserLessor || isLessor
               ? 'Your flat is a safe place for...'
               : 'What is a safe place for you?'
           }
@@ -140,9 +148,9 @@ const SafeSpaceForScreen = () => {
           </View>
 
           {error && <ErrorMessage message={error} />}
-          <NewUserPaginationBar />
+          {edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             disabled={
               selectedSafeSpaceIds.length === 0 ||
               selectedSafeSpaceIds.length > MAX_GENDERS

@@ -46,11 +46,22 @@ const EditProfileScreen = () => {
 
   const userView = isLessor ? 'tenant' : 'lessor';
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
-  const editProfileData = [
+  const editTenantProfile = [
     {
       id: 1,
+      title: 'Match Tags',
+      subtitle: 'Boost your profile to find the perfect flat',
+      navigate: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'AboutUserFlatScreen',
+          params: {edit: true},
+        }),
+      icon: 'annotation-heart',
+    },
+    {
+      id: 2,
       title: 'Upload Pictures',
-      subtitle: '',
+      subtitle: 'Show your best side',
       navigate: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'UserImageUploadScreen',
@@ -59,9 +70,9 @@ const EditProfileScreen = () => {
       icon: 'upload',
     },
     {
-      id: 2,
+      id: 3,
       title: 'Personal Information',
-      subtitle: '',
+      subtitle: 'Name and date of birth',
       navigate: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'NameProfileScreen',
@@ -70,54 +81,54 @@ const EditProfileScreen = () => {
       icon: 'user-edit',
     },
     {
-      id: 3,
-      title: 'Send Feedback',
-      subtitle: '',
-      navigate: () => navigation.navigate('SendFeedbackScreen'),
-      icon: 'announcement',
-    },
-    {
       id: 4,
-      title: 'Terms and Conditions',
-      navigate: () => navigation.navigate('TermsAndConditionsScreen'),
-      icon: 'file',
+      title: 'Gender Identity',
+      subtitle: 'To get you closer to the right community',
+      navigate: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'GenderIdentityScreen',
+          params: {edit: true},
+        }),
+      icon: 'face-wink',
     },
     {
       id: 5,
-      title: `Switch to ${userView} view`,
-      navigate: () => navigation.navigate('SwitchUserScreen'),
-      icon: 'refresh-ccq-03',
+      title: 'Search Preferences',
+      subtitle: 'City, budget, and more',
+      navigate: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'SelectCityScreen',
+          params: {edit: true},
+        }),
+      icon: 'search-sm',
     },
     {
       id: 6,
-      title: 'Sign Out',
-      navigate: () => signOut(),
-      icon: 'log-out',
-    },
-    {
-      id: 7,
-      title: 'Delete Account',
-      navigate: () => {},
-      icon: 'trash',
+      title: 'Languages',
+      subtitle: 'The languages spoken in the flat',
+      navigate: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'LanguageSelectionScreen',
+          params: {edit: true},
+        }),
+      icon: 'home-smile',
     },
   ];
-
-  const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton title="Edit Profile" onPress={navigation.goBack} />
 
-      {/* <RegistrationBackground
+      <RegistrationBackground
         height="100%"
         width="100%"
         style={CoreStyleSheet.backgroundImage}
-      /> */}
+      />
 
       <View style={CoreStyleSheet.screenContainer}>
         <View style={styles.mainContainer}>
           <FlatList
-            data={editProfileData}
+            data={editTenantProfile}
             renderItem={({item}) => <SettingsCard settingsData={item} />}
             keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.cardsContainer}

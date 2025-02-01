@@ -37,8 +37,14 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const LanguageSelectionScreen = () => {
+const LanguageSelectionScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean}};
+}) => {
+  const edit = route?.params.edit;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -54,7 +60,9 @@ const LanguageSelectionScreen = () => {
   const languagesData = data?.languages;
 
   // Redux
-  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
+    useNewUserDetails(isLessor);
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
 
@@ -120,12 +128,15 @@ const LanguageSelectionScreen = () => {
     }
     setNewUserDetails({languages: languagesIds});
 
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
-
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.goBack();
+    } else {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+      setCurrentScreen(currentScreen + 1);
+    }
 
     handleClearSearch();
     setError('');
@@ -157,7 +168,7 @@ const LanguageSelectionScreen = () => {
       <View style={styles.mainContainer}>
         <HeadlineContainer
           headlineText={
-            isLessor
+            isNewUserLessor || isLessor
               ? 'What are the common language(s) in your Lofft?'
               : 'What language(s) do you speak?'
           }
@@ -225,10 +236,10 @@ const LanguageSelectionScreen = () => {
       </View>
       <View style={styles.footerContainer}>
         {error && <ErrorMessage message={error} />}
-        <UserJourneyPaginationBar />
+        {!edit && <UserJourneyPaginationBar />}
 
         <NewUserJourneyContinueButton
-          value="Continue"
+          value={edit ? 'Save' : 'Continue'}
           disabled={languagesIds.length === 0}
           onPress={handleContinue}
         />

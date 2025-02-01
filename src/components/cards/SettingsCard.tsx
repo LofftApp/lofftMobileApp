@@ -92,17 +92,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(5),
     paddingVertical: size(8),
     height: 'auto',
+    width: '100%',
   },
 
   innerContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
   },
   details: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(30),
+    flexShrink: 1,
+
   },
   titleContainer: {
     alignItems: 'flex-start',
@@ -113,6 +117,9 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: Color.Black[50],
+    flexWrap: 'wrap',
+    flexShrink: 1,
+    width: '80%',
   },
   matcher: {
     color: Color.Mint[100],

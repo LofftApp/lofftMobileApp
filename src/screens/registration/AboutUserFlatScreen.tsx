@@ -39,11 +39,18 @@ import {
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
-import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from '../../navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const AboutUserFlatScreen = () => {
+const AboutUserFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
 
   // initial state
   const {data} = useGetAssetsQuery();
@@ -55,9 +62,11 @@ const AboutUserFlatScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {newUserDetails, setNewUserDetails, isLessor} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {newUserDetails, setNewUserDetails, isNewUserLessor} =
+    useNewUserDetails(isLessor);
   const savedCharsIds = newUserDetails.characteristics;
-
+  console.log('newHHHYY', newUserDetails);
   //Safe Area
   const insets = useSafeAreaInsets();
 
@@ -91,13 +100,23 @@ const AboutUserFlatScreen = () => {
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
-    setNewUserDetails({characteristics: selectedCharsIds});
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
 
-    setCurrentScreen(currentScreen + 1);
+    setNewUserDetails({characteristics: selectedCharsIds});
+    if (edit) {
+      isLessor
+        ? navigation.goBack()
+        : navigation.navigate('NewUserNavigator', {
+            screen: 'FlatFeaturesScreen',
+            params: {edit: true},
+          });
+    } else {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+
+      setCurrentScreen(currentScreen + 1);
+    }
 
     setError('');
   };
@@ -137,12 +156,12 @@ const AboutUserFlatScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
           headlineText={
-            isLessor
+            isNewUserLessor
               ? 'Tell us a bit about your flat'
               : 'Tell us a bit about yourself'
           }
           subDescription={
-            isLessor
+            isNewUserLessor
               ? `Select at least ${MIN_SELECTED_CHARS} tags that describe your Lofft lifestyles. More tags selected, more likelihood you'll find the right crowd!`
               : `Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`
           }
@@ -167,7 +186,7 @@ const AboutUserFlatScreen = () => {
                 }
               />
             ))}
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={selectedCharsIds.length < MIN_SELECTED_CHARS}

@@ -9,7 +9,7 @@ export const useNewUserDetails = (isLessor: boolean) => {
   const dispatch = useAppDispatch();
   const userType = useAppSelector(state => state.newUser.userType);
   const isNewUserLessor = userType === 'lessor';
-  const isTenant = userType === 'tenant';
+  const isNewUserTenant = userType === 'tenant';
   const setUserType = (type: 'lessor' | 'tenant' | '') => {
     dispatch(_setUserType(type));
   };
@@ -35,7 +35,7 @@ export const useNewUserDetails = (isLessor: boolean) => {
     userType,
     setUserType,
     isNewUserLessor,
-    isTenant,
+    isNewUserTenant,
     userJourney,
     newUserDetails,
     setNewUserDetails,

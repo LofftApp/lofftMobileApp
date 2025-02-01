@@ -44,8 +44,10 @@ import {
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const BudgetScreen = () => {
+const BudgetScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -59,7 +61,8 @@ const BudgetScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor);
   const savedBudget =
     newUserDetails.userType === 'tenant' ? newUserDetails.budget : undefined;
 
@@ -124,7 +127,9 @@ const BudgetScreen = () => {
     setWarmRent(prev => !prev);
   };
   const handleBackButton = () => {
-    setCurrentScreen(currentScreen - 1);
+    if (!edit) {
+      setCurrentScreen(currentScreen - 1);
+    }
     navigation.goBack();
     setError('');
   };
@@ -148,8 +153,14 @@ const BudgetScreen = () => {
 
     setNewUserDetails({budget: result.data});
 
-    navigation.navigate(newUserScreens.tenant[currentScreen + 1]);
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.goBack();
+      navigation.goBack();
+    } else {
+      navigation.navigate(newUserScreens.tenant[currentScreen + 1]);
+      setCurrentScreen(currentScreen + 1);
+    }
+
     setError('');
   };
 
@@ -231,9 +242,9 @@ const BudgetScreen = () => {
       <View style={styles.footerContainer}>
         <Divider />
         {error && <ErrorMessage message={error} />}
-        <NewUserPaginationBar />
+        {!edit && <NewUserPaginationBar />}
         <NewUserJourneyContinueButton
-          value="Continue"
+          value={edit ? 'Save' : 'Continue'}
           disabled={!isPriceValid(minPrice, maxPrice)}
           onPress={handleContinue}
         />

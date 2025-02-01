@@ -37,8 +37,12 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageSection from 'components/imageUpload/UploadImageSection';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
-  const {edit} = route.params;
+const UserImageUploadScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean}};
+}) => {
+  const edit = route?.params.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 

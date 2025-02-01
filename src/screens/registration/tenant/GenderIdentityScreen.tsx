@@ -34,8 +34,12 @@ import {size} from 'react-native-responsive-sizes';
 import {MAX_GENDERS} from 'components/componentData/constants';
 
 //Types 🏷  ️
-import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from '../../../navigationStacks/types';
 import {Gender} from 'reduxFeatures/assets/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const genders: Gender[] = [
   {name: 'Male', id: 1, toggle: false, emoji: '👨'},
@@ -51,13 +55,18 @@ const genders: Gender[] = [
   {name: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
 ];
 
-const GenderIdentityScreen = () => {
+const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   // Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
+    useNewUserDetails(isLessor);
 
   const savedGenders = newUserDetails.genderIdentity;
 
@@ -96,12 +105,19 @@ const GenderIdentityScreen = () => {
     const selectedGenderNames = selectedGenders.map(g => g.name);
     setNewUserDetails({genderIdentity: selectedGenderNames});
 
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
+    if (edit) {
+      navigation.navigate('NewUserNavigator', {
+        screen: 'SafeSpaceForScreen',
+        params: {edit: true},
+      });
+    } else {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
 
-    setCurrentScreen(currentScreen + 1);
+      setCurrentScreen(currentScreen + 1);
+    }
     setError('');
   };
 
@@ -136,7 +152,7 @@ const GenderIdentityScreen = () => {
 
         <View style={styles.footerContainer}>
           {error && <ErrorMessage message={error} />}
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={

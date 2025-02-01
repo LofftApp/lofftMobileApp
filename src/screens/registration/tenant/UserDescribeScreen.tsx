@@ -34,9 +34,10 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const UserDescribeScreen = ({route}: {route: {params: {edit: boolean}}}) => {
-  const {edit} = route.params;
+const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -47,11 +48,9 @@ const UserDescribeScreen = ({route}: {route: {params: {edit: boolean}}}) => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {
-    setNewUserDetails,
-    newUserDetails,
-    isLessor: isNewUserLessor,
-  } = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {setNewUserDetails, newUserDetails, isNewUserLessor} =
+    useNewUserDetails(isLessor);
   const savedDescription = newUserDetails.selfDescription;
 
   useEffect(() => {

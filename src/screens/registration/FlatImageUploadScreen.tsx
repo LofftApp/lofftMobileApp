@@ -35,6 +35,7 @@ import {flatImagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const FlatImageUploadScreen = () => {
   //Navigation
@@ -48,7 +49,8 @@ const FlatImageUploadScreen = () => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
-  const {isLessor} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor);
   const totalImages =
     imagesToUpload.length + savedImages.lessor.flatImages.length;
 
@@ -100,11 +102,11 @@ const FlatImageUploadScreen = () => {
       return;
     }
 
-    setCurrentScreen(currentScreen + 1);
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
+    const screen = isNewUserLessor
+    ? newUserScreens.lessor[currentScreen + 1]
+    : newUserScreens.tenant[currentScreen + 1];
     navigation.navigate(screen);
+    setCurrentScreen(currentScreen + 1);
 
     setError('');
     setTimeout(() => {

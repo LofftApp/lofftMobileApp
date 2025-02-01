@@ -37,11 +37,18 @@ import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
 import {featuresSchema} from 'lib/zodSchema';
 
 // Types 🧩
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const FlatFeaturesScreen = () => {
+const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   // Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
 
   //initial State
   const {data} = useGetAssetsQuery();
@@ -51,7 +58,9 @@ const FlatFeaturesScreen = () => {
   const [error, setError] = useState<string | undefined>('');
 
   //Redux
-  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
+    useNewUserDetails(isLessor);
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const savedFeaturesIds =
     newUserDetails.userType === 'lessor'
@@ -88,9 +97,11 @@ const FlatFeaturesScreen = () => {
   });
 
   const handleBackButton = () => {
-    const previousScreen = currentScreen - 1;
+    if (!edit) {
+      const previousScreen = currentScreen - 1;
+      setCurrentScreen(previousScreen);
+    }
     navigation.goBack();
-    setCurrentScreen(previousScreen);
     setError('');
   };
 
@@ -110,12 +121,16 @@ const FlatFeaturesScreen = () => {
       setNewUserDetails({filter: selectedFeaturesIds});
     }
 
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
-
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.goBack();
+      navigation.goBack();
+    } else {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+      setCurrentScreen(currentScreen + 1);
+    }
 
     setError('');
   };
@@ -138,12 +153,12 @@ const FlatFeaturesScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
           headlineText={
-            isLessor
+            isNewUserLessor || isLessor
               ? 'What is your flat like?'
               : 'What is your ideal flat like?'
           }
           subDescription={
-            isLessor
+            isNewUserLessor || isLessor
               ? 'Select all the tags that match your place.'
               : 'Select all the tags that match the place you are looking for.'
           }
@@ -163,7 +178,7 @@ const FlatFeaturesScreen = () => {
           {error && <ErrorMessage message={error} />}
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             disabled={selectedFeaturesIds.length < MIN_SELECTED_FEATURES}
             onPress={handleContinue}
           />

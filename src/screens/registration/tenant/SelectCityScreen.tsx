@@ -39,12 +39,19 @@ import {capitalize} from 'helpers/capitalize';
 
 // Types
 
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const SelectCityScreen = () => {
+const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const edit = route?.params.edit;
   //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
 
   // initial state
   const {data} = useGetAssetsQuery();
@@ -67,7 +74,9 @@ const SelectCityScreen = () => {
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {setNewUserDetails, newUserDetails, isLessor} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {setNewUserDetails, newUserDetails, isNewUserLessor} =
+    useNewUserDetails(isLessor);
   const savedCityId = newUserDetails.city;
   const savedDistrictIds = newUserDetails.districts;
 
@@ -137,7 +146,7 @@ const SelectCityScreen = () => {
 
   const selectFn = (id: number) => {
     let updatedDistricts: number[] = [];
-    if (isLessor) {
+    if (isNewUserLessor || isLessor) {
       updatedDistricts = selectedDistrictIds.includes(id) ? [] : [id];
     } else {
       updatedDistricts = selectedDistrictIds.includes(id)
@@ -216,14 +225,22 @@ const SelectCityScreen = () => {
       city: selectedCityId,
       districts: selectedDistrictIds,
     });
-
-    navigation.navigate(
+    if (edit) {
       isLessor
-        ? newUserScreens.lessor[currentScreen + 1]
-        : newUserScreens.tenant[currentScreen + 1],
-    );
-    setCurrentScreen(currentScreen + 1);
-    setError('');
+        ? navigation.goBack()
+        : navigation.navigate('NewUserNavigator', {
+            screen: 'FinderBudgetScreen',
+            params: {edit: true},
+          });
+    } else {
+      navigation.navigate(
+        isNewUserLessor || isLessor
+          ? newUserScreens.lessor[currentScreen + 1]
+          : newUserScreens.tenant[currentScreen + 1],
+      );
+      setCurrentScreen(currentScreen + 1);
+      setError('');
+    }
   };
   return (
     <View
@@ -243,7 +260,7 @@ const SelectCityScreen = () => {
       <View style={styles.mainContainer}>
         <HeadlineContainer
           headlineText={
-            isLessor
+            isNewUserLessor || isLessor
               ? 'In which city and district is your flat located?'
               : 'Where are you looking for the flat?'
           }
@@ -272,7 +289,7 @@ const SelectCityScreen = () => {
               },
             ]}>
             <Text style={[fontStyles.headerMedium]}>Districts</Text>
-            {!isLessor && (
+            {(!isNewUserLessor || !isLessor) && (
               <View style={styles.switchContainer}>
                 <Text style={fontStyles.bodySmall}>Select All</Text>
                 <CustomSwitch
@@ -293,7 +310,8 @@ const SelectCityScreen = () => {
 
       <View style={styles.footerContainer}>
         {error && <ErrorMessage message={error} />}
-        <NewUserPaginationBar />
+        {!edit && <NewUserPaginationBar />}
+
         <NewUserJourneyContinueButton
           value="Continue"
           onPress={handleContinue}
@@ -339,8 +357,8 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingHorizontal: size(16),
-    paddingBottom: size(20),
     width: '100%',
+    marginTop: 'auto',
   },
 });
 
