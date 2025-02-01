@@ -156,7 +156,8 @@ type NewUserScreenNames =
   | 'SelectCityScreen'
   | 'FinderBudgetScreen'
   | 'FlatFeaturesScreen'
-  | 'SelfFlatDescribeScreen'
+  | 'UserDescribeScreen'
+  | 'FlatDescribeScreen'
   | 'ConditionsOfUseScreen'
   | 'FinderBudgetScreen'
   | 'NameProfileScreen'
@@ -171,7 +172,10 @@ type NewUserScreens = {
   lessor: Record<number, NewUserScreenNames>;
 };
 
-type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
+type NewUserStackParamsList = Record<
+  NewUserScreenNames,
+  undefined | {edit?: boolean}
+>;
 
 type NewUserJourneyStackNavigation =
   StackNavigationProp<NewUserStackParamsList>;

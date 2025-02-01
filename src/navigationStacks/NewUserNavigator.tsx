@@ -17,11 +17,14 @@ import WhereIsFlatScreen from 'screens/registration/lessor/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration/lessor/FlatLengthAvailableScreen';
 import NameProfileScreen from 'screens/registration/NameProfileScreen';
 import FlatUserImageUploadScreen from 'screens/registration/FlatImageUploadScreen';
-import SelfFlatDescribeScreen from 'screens/registration/tenant/SelfFlatDescribeScreen';
+import SelfFlatDescribeScreen from 'screens/registration/tenant/UserDescribeScreen';
 import FlatDetailsScreen from 'screens/registration/lessor/FlatDetailsScreen';
 import SafeSpaceForScreen from 'screens/registration/tenant/SafeSpaceForScreen';
 import {NewUserStackParamsList} from './types';
 import UserImageUploadScreen from 'screens/registration/UserImageUploadScreen';
+import FlatDescribeScreen from 'screens/registration/lessor/FlatDescribeScreen';
+import UserDescribeScreen from 'screens/registration/tenant/UserDescribeScreen';
+import EditProfileScreen from 'screens/profile/EditProfileScreen';
 
 const NewUserNavigatorFlow =
   createNativeStackNavigator<NewUserStackParamsList>();
@@ -72,6 +75,10 @@ const NewUserNavigator = () => {
           component={FlatDetailsScreen}
         />
         <NewUserNavigatorFlow.Screen
+          name="FlatDescribeScreen"
+          component={FlatDescribeScreen}
+        />
+        <NewUserNavigatorFlow.Screen
           name="SafeSpaceForScreen"
           component={SafeSpaceForScreen}
         />
@@ -91,8 +98,8 @@ const NewUserNavigator = () => {
           component={AboutUserFlatScreen}
         />
         <NewUserNavigatorFlow.Screen
-          name="SelfFlatDescribeScreen"
-          component={SelfFlatDescribeScreen}
+          name="UserDescribeScreen"
+          component={UserDescribeScreen}
         />
 
         <NewUserNavigatorFlow.Screen

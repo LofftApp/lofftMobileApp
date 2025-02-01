@@ -43,12 +43,17 @@ import {nameSchema} from 'lib/zodSchema';
 import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷 ️
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from 'navigationStacks/types';
 
-const NameProfileScreen = ({route}: {route: {params: {edit: boolean}}}) => {
-  const {edit} = route.params;
+const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params?.edit;
   //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
 
   //Local State
   const [firstName, setFirstName] = useState('');
@@ -174,7 +179,10 @@ const NameProfileScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     });
 
     if (edit) {
-      navigation.goBack();
+      navigation.navigate('NewUserNavigator', {
+        screen: 'UserDescribeScreen',
+        params: {edit: true},
+      });
     } else {
       setCurrentScreen(currentScreen + 1);
       const screen = isNewUserLessor
@@ -266,7 +274,7 @@ const NameProfileScreen = ({route}: {route: {params: {edit: boolean}}}) => {
           {errorImage && <ErrorMessage message={errorImage} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
+            value={'Continue'}
             onPress={handleContinue}
             disabled={!isDateSelected || !firstName || !lastName}
           />

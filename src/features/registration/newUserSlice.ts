@@ -60,6 +60,7 @@ const initialState: UserJourneyState = {
       tagLine: '',
       size: 0,
       measurementUnit: 'm²',
+      selfDescription: '',
       flatDescription: '',
       deviceToken: '',
     },

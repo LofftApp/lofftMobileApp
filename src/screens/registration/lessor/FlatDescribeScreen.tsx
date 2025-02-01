@@ -25,7 +25,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
-import {flatDescriptionSchema, selfDescriptionSchema} from 'lib/zodSchema';
+import {flatDescriptionSchema} from 'lib/zodSchema';
 
 //Constants  📊
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
@@ -35,7 +35,8 @@ import {size} from 'react-native-responsive-sizes';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
-const SelfFlatDescribeScreen = () => {
+const FlatDescribeScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const {edit} = route.params;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -46,11 +47,13 @@ const SelfFlatDescribeScreen = () => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {setNewUserDetails, newUserDetails, isLessor} = useNewUserDetails();
+  const {
+    setNewUserDetails,
+    newUserDetails,
+    isLessor: isNewUserLessor,
+  } = useNewUserDetails();
   const savedDescription =
-    newUserDetails.userType === 'lessor'
-      ? newUserDetails.flatDescription
-      : newUserDetails.selfDescription;
+    newUserDetails.userType === 'lessor' && newUserDetails.flatDescription;
 
   useEffect(() => {
     if (savedDescription) {
@@ -80,32 +83,31 @@ const SelfFlatDescribeScreen = () => {
   }, [fadeAnim]);
 
   const handleBackButton = () => {
-    setCurrentScreen(currentScreen - 1);
+    if (!edit) {
+      setCurrentScreen(currentScreen - 1);
+    }
     navigation.goBack();
     setError('');
   };
   const handleContinue = () => {
     const trimmedText = text.trim();
-    const result = isLessor
-      ? flatDescriptionSchema.safeParse(trimmedText)
-      : selfDescriptionSchema.safeParse(trimmedText);
+    const result = flatDescriptionSchema.safeParse(trimmedText);
+
     if (!result.success) {
       setError(result.error.flatten().formErrors?.[0]);
       return;
     }
 
-    setNewUserDetails(
-      isLessor
-        ? {flatDescription: result.data}
-        : {selfDescription: result.data},
-    );
+    setNewUserDetails({flatDescription: result.data});
 
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.goBack();
+    } else {
+      setCurrentScreen(currentScreen + 1);
+      const screen = newUserScreens.lessor[currentScreen + 1];
 
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
+      navigation.navigate(screen);
+    }
 
     setError('');
   };
@@ -121,11 +123,9 @@ const SelfFlatDescribeScreen = () => {
 
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={`In your own ${'\n'}words!`}
+          headlineText={"It's your turn!"}
           subDescription={
-            isLessor
-              ? 'Describe your flat in a short text. This can be edited later!'
-              : 'Describe yourself in a short text. Dont worry, this can be edited in your profile later!'
+            'Describe your flat in a short text. This can be edited later!'
           }
         />
         <View style={styles.mainContainer}>
@@ -137,21 +137,17 @@ const SelfFlatDescribeScreen = () => {
               handleOnChange={handleOnChange}
               handleOnFocus={handleOnFocus}
               handleOnBlur={handleOnBlur}
-              placeholder={
-                isLessor
-                  ? 'Tell us about your lofft.'
-                  : 'Who are you? What do you like?'
-              }
-              isFlat={isLessor}
+              placeholder={'Tell us about your lofft.'}
+              isFlat={isNewUserLessor}
             />
           </Animated.View>
         </View>
 
         <View style={styles.footerContainer}>
           <Divider />
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             disabled={text.length < MIN_DESCRIPTION_CHARS}
             onPress={handleContinue}
           />
@@ -185,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelfFlatDescribeScreen;
+export default FlatDescribeScreen;

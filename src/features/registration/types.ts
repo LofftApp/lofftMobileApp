@@ -48,6 +48,7 @@ interface NewUserLessorDetails {
   size: number;
   measurementUnit: 'm²' | 'ft²';
   flatDescription: string;
+  selfDescription: string;
   deviceToken: string;
 }
 type NewUserDetails = {
