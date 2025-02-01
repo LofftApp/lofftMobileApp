@@ -60,6 +60,13 @@ type SettingsCardProps = {
   settingsData: SettingsData;
 };
 
+type AppLanguageCardScreenProps = {
+  languageData: {
+    id: number;
+    name: string;
+  };
+};
+
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
@@ -70,4 +77,5 @@ export type {
   SettingsData,
   SettingsCardProps,
   ImageSwiperProps,
+  AppLanguageCardScreenProps,
 };

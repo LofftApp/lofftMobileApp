@@ -3,7 +3,6 @@ import {StyleSheet, FlatList, Image, View, Pressable} from 'react-native';
 
 // Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
-import {NoFlatImage} from 'assets';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';

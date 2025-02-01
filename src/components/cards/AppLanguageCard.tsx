@@ -18,22 +18,19 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Helpers
 import {size} from 'react-native-responsive-sizes';
 
-import {SettingsCardProps} from './types';
+import {AppLanguageCardScreenProps} from './types';
 import {useUserType} from 'hooks/useUserType';
 
 // Constants
 // Types
 
-const SettingsCard = ({
-  settingsData: {title, icon, subtitle, id, navigate},
-}: SettingsCardProps) => {
+const AppLanguageCard = ({
+  languageData: {id, name},
+}: AppLanguageCardScreenProps) => {
   const {isLessor} = useUserType();
-  const hasArrowArr = [1, 2, 3, 4, 5];
-  const isDelete = id === 7;
-  const hasArrow = hasArrowArr.includes(id);
 
   const handleNavigate = () => {
-    navigate();
+    console.log('Navigate');
   };
 
   const {width} = useWindowDimensions();
@@ -44,28 +41,23 @@ const SettingsCard = ({
         <View style={[styles.innerContainer]}>
           <View style={styles.details}>
             <LofftIcon
-              name={icon}
+              name="check-verified-02"
               size={25}
-              color={isDelete ? Color.Tomato[100] : Color.Black[100]}
+              color={isLessor ? Color.Lavendar[100] : Color.Mint[100]}
             />
             <View style={styles.titleContainer}>
               <Text
                 style={[
                   fontStyles.headerSmall,
                   styles.nameMargin,
-                  isDelete && {color: Color.Tomato[100]},
+                  {color: Color.Black[100]},
                 ]}>
-                {title}
+                {name}
               </Text>
-              {subtitle && (
-                <Text style={[fontStyles.bodySmall, styles.subtitle]}>
-                  {subtitle}
-                </Text>
-              )}
             </View>
           </View>
 
-          <View style={styles.iconContainer}>
+          {/* <View style={styles.iconContainer}>
             <LofftIcon
               name="chevron-right"
               size={35}
@@ -77,7 +69,7 @@ const SettingsCard = ({
                   : Color.White[80]
               }
             />
-          </View>
+          </View> */}
         </View>
       </Pressable>
     </View>
@@ -135,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsCard;
+export default AppLanguageCard;
