@@ -50,22 +50,29 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
-  const {isLessor: isNewUserLessor} = useNewUserDetails();
   const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor);
   console.log('isLessor', isLessor);
 
-  const totalImages = isNewUserLessor
-    ? imagesToUpload.length + savedImages.lessor.userImages.length
-    : imagesToUpload.length + savedImages.tenant.userImages.length;
+  const totalImages =
+    isNewUserLessor || isLessor
+      ? imagesToUpload.length + savedImages.lessor.userImages.length
+      : imagesToUpload.length + savedImages.tenant.userImages.length;
 
   useEffect(() => {
-    if (isNewUserLessor && savedImages.lessor.userImages.length > 0) {
+    if (
+      (isNewUserLessor || isLessor) &&
+      savedImages.lessor.userImages.length > 0
+    ) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'user',
         images: savedImages.lessor.userImages,
       });
-    } else if (!isNewUserLessor && savedImages.tenant.userImages.length > 0) {
+    } else if (
+      (!isNewUserLessor || !isLessor) &&
+      savedImages.tenant.userImages.length > 0
+    ) {
       setSavedImages({
         userType: 'tenant',
         imageType: 'user',
@@ -77,6 +84,7 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     savedImages.tenant.userImages,
     setSavedImages,
     isNewUserLessor,
+    isLessor,
   ]);
   useEffect(() => {
     if (totalImages > MAX_USER_IMAGES) {
@@ -132,7 +140,7 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     setError('');
     setTimeout(() => {
       setSavedImages({
-        userType: isNewUserLessor ? 'lessor' : 'tenant',
+        userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
         imageType: 'user',
         images: result.data,
       });
@@ -140,30 +148,6 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     }, 1000);
   };
   console.log('isNewUserLessor', isNewUserLessor);
-
-  const handleEdit = () => {
-    const concatImages =
-      isNewUserLessor || isLessor
-        ? [...imagesToUpload, ...savedImages.lessor.userImages]
-        : [...imagesToUpload, ...savedImages.tenant.userImages];
-    const result = userImagesSchema.safeParse(concatImages);
-
-    if (!result.success) {
-      const err = result.error.flatten().formErrors?.[0];
-      setError(err);
-      return;
-    }
-
-    setError('');
-    setTimeout(() => {
-      setSavedImages({
-        userType: isNewUserLessor ? 'lessor' : 'tenant',
-        imageType: 'user',
-        images: result.data,
-      });
-      clearImagesToUpload();
-    }, 1000);
-  };
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -193,7 +177,7 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
           <NewUserJourneyContinueButton
             value={edit ? 'Save' : 'Continue'}
             disabled={totalImages > MAX_USER_IMAGES}
-            onPress={edit ? handleEdit : handleContinue}
+            onPress={handleContinue}
           />
         </View>
       </View>

@@ -47,6 +47,7 @@ import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
@@ -67,17 +68,16 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const [errorImage, setErrorImage] = useState('');
 
   //Redux
+  const {isLessor} = useUserType();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
-  const {
-    isLessor: isNewUserLessor,
-    setNewUserDetails,
-    newUserDetails,
-  } = useNewUserDetails();
+  const {isNewUserLessor, setNewUserDetails, newUserDetails} =
+    useNewUserDetails(isLessor);
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
+  console.log('NewUSerDetails', newUserDetails);
 
   useEffect(() => {
     if (savedFirstName) {
@@ -94,7 +94,6 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     savedFirstName,
     savedLastName,
     savedDate,
-    isNewUserLessor,
     savedImages.tenant.userImages,
     savedImages.lessor.userImages,
     setSavedImages,

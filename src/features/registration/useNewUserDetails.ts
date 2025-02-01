@@ -5,20 +5,22 @@ import {
 } from './newUserSlice';
 import {NewUserLessorDetails, NewUserTenantDetails} from './types';
 
-export const useNewUserDetails = () => {
+export const useNewUserDetails = (isLessor: boolean) => {
   const dispatch = useAppDispatch();
   const userType = useAppSelector(state => state.newUser.userType);
-  const isLessor = userType === 'lessor';
+  const isNewUserLessor = userType === 'lessor';
   const isTenant = userType === 'tenant';
   const setUserType = (type: 'lessor' | 'tenant' | '') => {
     dispatch(_setUserType(type));
   };
   const userJourney = useAppSelector(state =>
-    isLessor ? state.newUser.lessorJourney : state.newUser.tenantJourney,
+    isNewUserLessor || isLessor
+      ? state.newUser.lessorJourney
+      : state.newUser.tenantJourney,
   );
 
   const newUserDetails = useAppSelector(state =>
-    isLessor
+    isNewUserLessor || isLessor
       ? state.newUser.newUserDetails.lessor
       : state.newUser.newUserDetails.tenant,
   );
@@ -32,7 +34,7 @@ export const useNewUserDetails = () => {
   return {
     userType,
     setUserType,
-    isLessor,
+    isNewUserLessor,
     isTenant,
     userJourney,
     newUserDetails,
