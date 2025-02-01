@@ -157,23 +157,6 @@ const nameSchema = z.object({
     .string({required_error: 'Please enter your last name'})
     .min(1, 'Please enter your last name'),
   dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
-  images: z
-    .array(
-      z.object({
-        fileName: z.string(),
-        fileSize: z.number(),
-        height: z.number(),
-        type: z.string(),
-        uri: z.string(),
-        width: z.number(),
-      }),
-    )
-    .nonempty({
-      message: 'Please upload at least one image',
-    })
-    .max(MAX_USER_IMAGES, {
-      message: `You can upload up to ${MAX_USER_IMAGES} images only`,
-    }),
 });
 
 const addressSchema = z.object({
@@ -238,6 +221,24 @@ const flatDescriptionSchema = z
   })
   .max(MAX_DESCRIPTION_CHARS, {
     message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
+  });
+
+const userImagesSchema = z
+  .array(
+    z.object({
+      fileName: z.string(),
+      fileSize: z.number(),
+      height: z.number(),
+      type: z.string(),
+      uri: z.string(),
+      width: z.number(),
+    }),
+  )
+  .nonempty({
+    message: 'Please upload at least one image',
+  })
+  .max(MAX_USER_IMAGES, {
+    message: `You can upload up to ${MAX_USER_IMAGES} images only`,
   });
 
 const flatImagesSchema = z
@@ -308,6 +309,7 @@ export {
   flatDescriptionSchema,
   flatDetailsSchema,
   flatImagesSchema,
+  userImagesSchema,
   signInSchema,
   signUpSchema,
 };

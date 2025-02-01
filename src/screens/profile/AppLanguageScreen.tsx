@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
   ]),
   container: {
     alignItems: 'center',
-    marginLeft: size(100),
+
     marginVertical: size(20),
-    gap: size(10),
+    gap: size(5),
   },
 
   image: {

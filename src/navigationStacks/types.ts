@@ -161,6 +161,7 @@ type NewUserScreenNames =
   | 'FinderBudgetScreen'
   | 'NameProfileScreen'
   | 'FlatImageUploadScreen'
+  | 'UserImageUploadScreen'
   | 'FlatDetailsScreen'
   | 'SafeSpaceForScreen'
   | 'ConfirmEmail';

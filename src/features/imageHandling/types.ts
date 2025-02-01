@@ -19,16 +19,17 @@ interface ImageUploadState {
     };
   };
 }
+type ImageType = 'user' | 'flat';
 
 interface SetSavedImagesPayload {
   userType: 'tenant' | 'lessor';
-  imageType: 'user' | 'flat';
+  imageType: ImageType;
   images: ImageToUpload[];
 }
 
 interface DeleteSavedImagePayload {
   userType: 'tenant' | 'lessor';
-  imageType: 'user' | 'flat';
+  imageType: ImageType;
   fileName: string;
 }
 export type {
@@ -36,4 +37,5 @@ export type {
   ImageToUpload,
   SetSavedImagesPayload,
   DeleteSavedImagePayload,
+  ImageType,
 };

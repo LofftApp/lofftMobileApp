@@ -38,11 +38,20 @@ const AppLanguageCard = ({
   };
 
   const {width} = useWindowDimensions();
-
+  const bgColor = isSelected
+    ? isLessor
+      ? Color.Lavendar[20]
+      : Color.Mint[20]
+    : Color.White[10];
   return (
-    <View style={[styles.outterContainer, {width: width - 30}]}>
+    <View
+      style={[
+        styles.outterContainer,
+        {width: width - 30},
+        {backgroundColor: bgColor},
+      ]}>
       <Pressable onPress={handleSelectLanguage}>
-        <View style={[styles.innerContainer]}>
+        <View style={[isSelected ? styles.selected : styles.innerContainer]}>
           <View style={styles.details}>
             <LofftIcon
               name="check-verified-02"
@@ -86,6 +95,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: size(20),
+    paddingVertical: size(10),
+  },
+  selected: {
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: size(20),
+    paddingVertical: size(10),
+    width: '100%',
   },
   details: {
     flexDirection: 'row',

@@ -51,11 +51,12 @@ const NewUserJourneyScreen = () => {
           ? newUserScreens.lessor[1]
           : newUserScreens.tenant[1];
 
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         navigation.navigate(screen);
       }, 400);
 
       setTypeSelected(false);
+      () => clearTimeout(timeout);
     }
   }, [userType, navigation, typeSelected]);
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Animated,
   ScrollView,
@@ -24,8 +24,8 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import UploadImageSection from 'components/imageUpload/UploadImageSection';
+import UploadImageButton from 'components/imageUpload/UploadImageButton';
+import ImagePreviewRow from 'components/imageUpload/ImagePreviewRow';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -34,15 +34,17 @@ import {size} from 'react-native-responsive-sizes';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Constants 📊
-import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
+import {MAX_USER_IMAGES} from 'components/componentData/constants';
 
 //Validation 🛡 ️
-import {flatImagesSchema} from 'lib/zodSchema';
+import {flatImagesSchema, userImagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import UploadImageSection from 'components/imageUpload/UploadImageSection';
 
-const FlatImageUploadScreen = () => {
+const UserImageUploadScreen = () => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -55,22 +57,34 @@ const FlatImageUploadScreen = () => {
   const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
   const {isLessor} = useNewUserDetails();
-  const totalImages =
-    imagesToUpload.length + savedImages.lessor.flatImages.length;
+
+  const totalImages = isLessor
+    ? imagesToUpload.length + savedImages.lessor.userImages.length
+    : imagesToUpload.length + savedImages.tenant.userImages.length;
 
   useEffect(() => {
-    if (savedImages.lessor.flatImages.length > 0) {
+    if (isLessor && savedImages.lessor.userImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'flat',
-        images: savedImages.lessor.flatImages,
+        images: savedImages.lessor.userImages,
+      });
+    } else if (!isLessor && savedImages.tenant.userImages.length > 0) {
+      setSavedImages({
+        userType: 'tenant',
+        imageType: 'flat',
+        images: savedImages.tenant.userImages,
       });
     }
-  }, [savedImages.lessor.flatImages, setSavedImages]);
-
+  }, [
+    savedImages.lessor.userImages,
+    savedImages.tenant.userImages,
+    setSavedImages,
+    isLessor,
+  ]);
   useEffect(() => {
-    if (totalImages > MAX_FLAT_IMAGES) {
-      setError(`You can only upload ${MAX_FLAT_IMAGES} images`);
+    if (totalImages > MAX_USER_IMAGES) {
+      setError(`You can only upload ${MAX_USER_IMAGES} images`);
     } else {
       setError('');
     }
@@ -97,8 +111,10 @@ const FlatImageUploadScreen = () => {
   };
 
   const handleContinue = () => {
-    const concatImages = [...imagesToUpload, ...savedImages.lessor.flatImages];
-    const result = flatImagesSchema.safeParse(concatImages);
+    const concatImages = isLessor
+      ? [...imagesToUpload, ...savedImages.lessor.userImages]
+      : [...imagesToUpload, ...savedImages.tenant.userImages];
+    const result = userImagesSchema.safeParse(concatImages);
 
     if (!result.success) {
       const err = result.error.flatten().formErrors?.[0];
@@ -115,8 +131,8 @@ const FlatImageUploadScreen = () => {
     setError('');
     setTimeout(() => {
       setSavedImages({
-        userType: 'lessor',
-        imageType: 'flat',
+        userType: isLessor ? 'lessor' : 'tenant',
+        imageType: 'user',
         images: result.data,
       });
       clearImagesToUpload();
@@ -132,20 +148,16 @@ const FlatImageUploadScreen = () => {
       />
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
-          headlineText={
-            isLessor ? 'Upload images of your flat' : 'Upload pictures of you'
-          }
+          headlineText={'Upload pictures of you'}
           subDescription={
-            isLessor
-              ? 'Time to show off your space! The more images, more chances of getting a match!'
-              : 'Show off your best self! The more images, more chances of getting a match!'
+            'Show off your best self! The more images, more chances of getting a match!'
           }
         />
         <UploadImageSection
-          toggleModal={toggleModal}
+          imageType="user"
           fadeAnim={fadeAnim}
           error={error}
-          imageType="flat"
+          toggleModal={toggleModal}
         />
         <View style={styles.footerContainer}>
           <Divider />
@@ -153,7 +165,7 @@ const FlatImageUploadScreen = () => {
           <NewUserPaginationBar />
           <NewUserJourneyContinueButton
             value="Continue"
-            disabled={totalImages > MAX_FLAT_IMAGES}
+            disabled={totalImages > MAX_USER_IMAGES}
             onPress={handleContinue}
           />
         </View>
@@ -182,4 +194,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatImageUploadScreen;
+export default UserImageUploadScreen;

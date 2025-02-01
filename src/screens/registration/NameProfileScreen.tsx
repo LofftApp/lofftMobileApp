@@ -75,10 +75,10 @@ const NameProfileScreen = () => {
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
-  const totalImages =
-    (isLessor
-      ? savedImages.lessor.userImages.length
-      : savedImages.tenant.userImages.length) + imagesToUpload.length;
+  // const totalImages =
+  //   (isLessor
+  //     ? savedImages.lessor.userImages.length
+  //     : savedImages.tenant.userImages.length) + imagesToUpload.length;
 
   useEffect(() => {
     if (savedFirstName) {
@@ -91,18 +91,18 @@ const NameProfileScreen = () => {
       setDate(new Date(savedDate));
       setIsDateSelected(true);
     }
-    if (
-      savedImages.lessor.userImages.length > 0 ||
-      savedImages.tenant.userImages.length > 0
-    ) {
-      setSavedImages({
-        userType: isLessor ? 'lessor' : 'tenant',
-        imageType: 'user',
-        images: isLessor
-          ? savedImages.lessor.userImages
-          : savedImages.tenant.userImages,
-      });
-    }
+    // if (
+    //   savedImages.lessor.userImages.length > 0 ||
+    //   savedImages.tenant.userImages.length > 0
+    // ) {
+    //   setSavedImages({
+    //     userType: isLessor ? 'lessor' : 'tenant',
+    //     imageType: 'user',
+    //     images: isLessor
+    //       ? savedImages.lessor.userImages
+    //       : savedImages.tenant.userImages,
+    //   });
+    // }
   }, [
     savedFirstName,
     savedLastName,
@@ -113,13 +113,13 @@ const NameProfileScreen = () => {
     setSavedImages,
   ]);
 
-  useEffect(() => {
-    if (totalImages > MAX_USER_IMAGES) {
-      setErrorImage(`You can only upload ${MAX_USER_IMAGES} images`);
-    } else {
-      setErrorImage('');
-    }
-  }, [totalImages]);
+  // useEffect(() => {
+  //   if (totalImages > MAX_USER_IMAGES) {
+  //     setErrorImage(`You can only upload ${MAX_USER_IMAGES} images`);
+  //   } else {
+  //     setErrorImage('');
+  //   }
+  // }, [totalImages]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -144,10 +144,10 @@ const NameProfileScreen = () => {
     setIsDatePickerOpen(true);
   };
 
-  const toggleModal = () => {
-    setIsModalOpen(prev => !prev);
-    setErrorImage('');
-  };
+  // const toggleModal = () => {
+  //   setIsModalOpen(prev => !prev);
+  //   setErrorImage('');
+  // };
 
   const handleDateChange = (input: Date) => {
     setDate(input);
@@ -173,22 +173,22 @@ const NameProfileScreen = () => {
   const handleContinue = () => {
     const trimmedFirstName = firstName.trim();
     const trimmedLastName = lastName.trim();
-    const concatImages = isLessor
-      ? [...imagesToUpload, ...savedImages.lessor.userImages]
-      : [...imagesToUpload, ...savedImages.tenant.userImages];
+    // const concatImages = isLessor
+    //   ? [...imagesToUpload, ...savedImages.lessor.userImages]
+    //   : [...imagesToUpload, ...savedImages.tenant.userImages];
 
     const result = nameSchema.safeParse({
       firstName: trimmedFirstName,
       lastName: trimmedLastName,
       dateOfBirth: isDateSelected ? date : undefined,
-      images: concatImages,
+      // images: concatImages,
     });
 
     if (!result.success) {
       const firstError = result.error.flatten().fieldErrors?.firstName?.[0];
       const lastError = result.error.flatten().fieldErrors?.lastName?.[0];
       const dateError = result.error.flatten().fieldErrors?.dateOfBirth?.[0];
-      const imageError = result.error.flatten().fieldErrors?.images?.[0];
+      // const imageError = result.error.flatten().fieldErrors?.images?.[0];
 
       if (firstError) {
         setErrorFirstName(firstError);
@@ -199,9 +199,9 @@ const NameProfileScreen = () => {
       if (dateError) {
         setErrorDate(dateError);
       }
-      if (imageError) {
-        setErrorImage(imageError);
-      }
+      // if (imageError) {
+      //   setErrorImage(imageError);
+      // }
       return;
     }
 
@@ -225,7 +225,8 @@ const NameProfileScreen = () => {
       setSavedImages({
         userType: isLessor ? 'lessor' : 'tenant',
         imageType: 'user',
-        images: result.data.images,
+        // images: result.data.images,
+        images: [],
       });
       clearImagesToUpload();
     }, 1000);
@@ -243,11 +244,25 @@ const NameProfileScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
           headlineText="A bit more about you..."
-          subDescription="How others should call you? Uploading a picture gets more attention!"
+          subDescription="How others should call you?"
         />
         <View style={styles.mainContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.centerContainer}>
+              {/* <Animated.View
+                style={[styles.imagesContainer, {opacity: fadeAnim}]}>
+                <UploadImageButton
+                  onPress={toggleModal}
+                  error={errorImage}
+                  imageType="user"
+                />
+
+                <ImagePreviewRow imageType="user" />
+                <UploadImageModal
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                />
+              </Animated.View> */}
               <Animated.View
                 style={[styles.inputContainer, {opacity: fadeAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
@@ -299,20 +314,6 @@ const NameProfileScreen = () => {
                 onConfirm={handleDateChange}
                 onCancel={handleCancelDate}
               />
-              <Animated.View
-                style={[styles.imagesContainer, {opacity: fadeAnim}]}>
-                <UploadImageButton
-                  onPress={toggleModal}
-                  error={errorImage}
-                  imageType="user"
-                />
-
-                <ImagePreviewRow imageType="user" />
-                <UploadImageModal
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                />
-              </Animated.View>
             </View>
           </ScrollView>
         </View>
