@@ -49,7 +49,7 @@ const EditProfileScreen = () => {
   const editProfileData = [
     {
       id: 1,
-      title: 'Edit Pictures',
+      title: 'Upload Pictures',
       subtitle: '',
       navigate: () =>
         navigation.navigate('NewUserNavigator', {
@@ -60,10 +60,14 @@ const EditProfileScreen = () => {
     },
     {
       id: 2,
-      title: 'App Language',
-      subtitle: appLang,
-      navigate: () => navigation.navigate('AppLanguageScreen'),
-      icon: 'translate',
+      title: 'Personal Information',
+      subtitle: '',
+      navigate: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'NameProfileScreen',
+          params: {edit: true},
+        }),
+      icon: 'user-edit',
     },
     {
       id: 3,

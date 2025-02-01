@@ -45,7 +45,8 @@ import {size} from 'react-native-responsive-sizes';
 //Types 🏷 ️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 
-const NameProfileScreen = () => {
+const NameProfileScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const {edit} = route.params;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -64,7 +65,11 @@ const NameProfileScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {clearImagesToUpload, setSavedImages, savedImages} =
     useImagesToUpload();
-  const {isLessor, setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const {
+    isLessor: isNewUserLessor,
+    setNewUserDetails,
+    newUserDetails,
+  } = useNewUserDetails();
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
@@ -84,7 +89,7 @@ const NameProfileScreen = () => {
     savedFirstName,
     savedLastName,
     savedDate,
-    isLessor,
+    isNewUserLessor,
     savedImages.tenant.userImages,
     savedImages.lessor.userImages,
     setSavedImages,
@@ -168,11 +173,15 @@ const NameProfileScreen = () => {
       dateOfBirth: result.data.dateOfBirth.toISOString(),
     });
 
-    setCurrentScreen(currentScreen + 1);
-    const screen = isLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
+    if (edit) {
+      navigation.goBack();
+    } else {
+      setCurrentScreen(currentScreen + 1);
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+    }
 
     setErrorFirstName('');
     setErrorLastName('');
@@ -197,20 +206,6 @@ const NameProfileScreen = () => {
         <View style={styles.mainContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.centerContainer}>
-              {/* <Animated.View
-                style={[styles.imagesContainer, {opacity: fadeAnim}]}>
-                <UploadImageButton
-                  onPress={toggleModal}
-                  error={errorImage}
-                  imageType="user"
-                />
-
-                <ImagePreviewRow imageType="user" />
-                <UploadImageModal
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                />
-              </Animated.View> */}
               <Animated.View
                 style={[styles.inputContainer, {opacity: fadeAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
@@ -269,9 +264,9 @@ const NameProfileScreen = () => {
         <View style={styles.footerContainer}>
           <Divider />
           {errorImage && <ErrorMessage message={errorImage} />}
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             onPress={handleContinue}
             disabled={!isDateSelected || !firstName || !lastName}
           />

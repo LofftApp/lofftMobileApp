@@ -107,9 +107,10 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
   };
 
   const handleContinue = () => {
-    const concatImages = isNewUserLessor
-      ? [...imagesToUpload, ...savedImages.lessor.userImages]
-      : [...imagesToUpload, ...savedImages.tenant.userImages];
+    const concatImages =
+      isNewUserLessor || isLessor
+        ? [...imagesToUpload, ...savedImages.lessor.userImages]
+        : [...imagesToUpload, ...savedImages.tenant.userImages];
     const result = userImagesSchema.safeParse(concatImages);
 
     if (!result.success) {
@@ -118,11 +119,15 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       return;
     }
 
-    setCurrentScreen(currentScreen + 1);
-    const screen = isNewUserLessor
-      ? newUserScreens.lessor[currentScreen + 1]
-      : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
+    if (edit) {
+      navigation.goBack();
+    } else {
+      setCurrentScreen(currentScreen + 1);
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+    }
 
     setError('');
     setTimeout(() => {
@@ -137,9 +142,10 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
   console.log('isNewUserLessor', isNewUserLessor);
 
   const handleEdit = () => {
-    const concatImages = isLessor
-      ? [...imagesToUpload, ...savedImages.lessor.userImages]
-      : [...imagesToUpload, ...savedImages.tenant.userImages];
+    const concatImages =
+      isNewUserLessor || isLessor
+        ? [...imagesToUpload, ...savedImages.lessor.userImages]
+        : [...imagesToUpload, ...savedImages.tenant.userImages];
     const result = userImagesSchema.safeParse(concatImages);
 
     if (!result.success) {
@@ -147,13 +153,6 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       setError(err);
       return;
     }
-
-    // setCurrentScreen(currentScreen - 1);
-    // const screen = isNewUserLessor
-    //   ? newUserScreens.lessor[currentScreen - 1]
-    //   : newUserScreens.tenant[currentScreen - 1];
-    // navigation.navigate(screen);
-    navigation.goBack();
 
     setError('');
     setTimeout(() => {
