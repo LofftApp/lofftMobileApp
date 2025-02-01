@@ -21,7 +21,6 @@ import NotificationsNavigator from './NotificationsNavigator';
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
-import UserScreen from 'screens/profile/SettingsScreen';
 
 //Types
 import {TenantTabParamsList} from './types';

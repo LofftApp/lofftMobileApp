@@ -13,7 +13,7 @@ type LofftHeaderPhotoProps = {
   activeBlur?: boolean;
 };
 
-type ImageCarrousselProps = {
+type ImageSwiperProps = {
   imageContainerHeight: number;
   imageContainerWidth: number;
   pagination?: boolean;
@@ -21,6 +21,7 @@ type ImageCarrousselProps = {
   images: string[];
   activeBlur?: boolean;
   marginHorizontal?: number;
+  editButton?: boolean;
 };
 
 type OnViewableItemsChangedParams = {
@@ -68,5 +69,5 @@ export type {
   LanguagesCardProps,
   SettingsData,
   SettingsCardProps,
-  ImageCarrousselProps,
+  ImageSwiperProps,
 };

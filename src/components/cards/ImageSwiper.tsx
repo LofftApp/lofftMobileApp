@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {StyleSheet, FlatList, Image, View} from 'react-native';
+import {StyleSheet, FlatList, Image, View, Pressable} from 'react-native';
 
 // Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
@@ -9,10 +9,13 @@ import {NoFlatImage} from 'assets';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
-import type {ImageCarrousselProps} from './types';
+import type {ImageSwiperProps} from './types';
 import type {OnViewableItemsChangedParams} from './types';
+import ImageEditButton from 'components/buttons/ImageEditButton';
+import {useNavigation} from '@react-navigation/native';
+import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 
-const ImageCarroussel = ({
+const ImageSwiper = ({
   imageContainerHeight,
   imageContainerWidth,
   images,
@@ -20,7 +23,8 @@ const ImageCarroussel = ({
   pagination = false,
   snapToInterval,
   marginHorizontal = 10,
-}: ImageCarrousselProps) => {
+  editButton = false,
+}: ImageSwiperProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   const onViewableItemsChanged = useCallback(
@@ -30,21 +34,23 @@ const ImageCarroussel = ({
     },
     [],
   );
-
-  const hasImages = images && images.length > 0;
+  const navigation = useNavigation<SettingsScreenNavigationProp>();
+  const handlePress = () => {
+    navigation.navigate('EditAdvertScreen');
+  };
 
   return (
     <View>
-      {hasImages ? (
-        <FlatList
-          data={images}
-          horizontal
-          snapToInterval={snapToInterval}
-          decelerationRate="normal"
-          showsHorizontalScrollIndicator={false}
-          onViewableItemsChanged={onViewableItemsChanged}
-          renderItem={({item, index}) => {
-            return (
+      <FlatList
+        data={images}
+        horizontal
+        snapToInterval={snapToInterval}
+        decelerationRate="normal"
+        showsHorizontalScrollIndicator={false}
+        onViewableItemsChanged={onViewableItemsChanged}
+        renderItem={({item, index}) => {
+          return (
+            <Pressable onPress={handlePress}>
               <Image
                 style={[
                   styles.imageContainer,
@@ -56,20 +62,12 @@ const ImageCarroussel = ({
                 key={index + 1}
                 blurRadius={activeBlur ? 65 : 0}
               />
-            );
-          }}
-        />
-      ) : (
-        <Image
-          style={[
-            styles.imageContainer,
-            {height: imageContainerHeight},
-            {width: imageContainerWidth},
-          ]}
-          source={NoFlatImage}
-          blurRadius={activeBlur ? 65 : 0}
-        />
-      )}
+              {editButton && <ImageEditButton right={10} />}
+            </Pressable>
+          );
+        }}
+      />
+
       {!activeBlur && pagination && (
         <PaginationBar
           screen={currentCardIndex}
@@ -84,6 +82,7 @@ const ImageCarroussel = ({
 
 const styles = StyleSheet.create({
   imageContainer: {
+    position: 'relative',
     resizeMode: 'cover',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
@@ -91,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageCarroussel;
+export default ImageSwiper;

@@ -182,6 +182,8 @@ type SettingsTabParamsList = {
 };
 type SettingsStackParamsList = {
   SettingsScreen: undefined;
+  EditProfileScreen: undefined;
+  EditAdvertScreen: undefined;
   GetTokensScreen: undefined;
   AppLanguageScreen: undefined;
   SwitchUserScreen: undefined;

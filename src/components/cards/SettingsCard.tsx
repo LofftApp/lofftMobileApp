@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: size(20),
     paddingHorizontal: size(5),
+    paddingVertical: size(8),
     height: 'auto',
   },
 

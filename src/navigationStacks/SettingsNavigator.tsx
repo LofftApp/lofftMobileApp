@@ -11,12 +11,17 @@ import SwitchUserScreen from 'screens/profile/SwitchUserScreen';
 import TermsAndConditionsScreen from 'screens/profile/TermsAndConditionsScreen';
 import SendFeedbackScreen from 'screens/profile/SendFeedbackScreen';
 import GetTokensScreen from 'screens/profile/GetTokensScreen';
+import EditProfileScreen from 'screens/profile/EditProfileScreen';
+import EditAdvertScreen from 'screens/profile/EditAdvertScreen';
 
 const Settings = createNativeStackNavigator<SettingsStackParamsList>();
 const SettingsNavigator = () => {
   return (
     <Settings.Navigator screenOptions={{headerShown: false}}>
       <Settings.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Settings.Screen name="EditProfileScreen" component={EditProfileScreen} />
+      <Settings.Screen name="EditAdvertScreen" component={EditAdvertScreen} />
+
       <Settings.Screen name="GetTokensScreen" component={GetTokensScreen} />
 
       <Settings.Screen name="AppLanguageScreen" component={AppLanguageScreen} />

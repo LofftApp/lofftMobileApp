@@ -11,7 +11,7 @@ import {useUserType} from 'hooks/useUserType';
 
 //Components
 import {RegistrationBackground, Trail} from 'assets';
-import ImageCarroussel from 'components/cards/ImageCarroussel';
+import ImageSwiper from 'components/cards/ImageSwiper';
 import SettingsUserImage from 'components/images/SettingsUserImages';
 import SettingsCard from 'components/cards/SettingsCard';
 
@@ -107,12 +107,15 @@ const SettingsScreen = () => {
         <View style={styles.mainContainer}>
           <View style={styles.imagesContainer}>
             <SettingsUserImage userImageUri={userImageUri} />
-            <ImageCarroussel
-              imageContainerHeight={90}
-              imageContainerWidth={90}
-              images={flatImages}
-              snapToInterval={30}
-            />
+            {isLessor && (
+              <ImageSwiper
+                imageContainerHeight={90}
+                imageContainerWidth={90}
+                images={flatImages}
+                snapToInterval={30}
+                editButton
+              />
+            )}
           </View>
           <FlatList
             data={settingsData}
