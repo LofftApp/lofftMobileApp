@@ -64,6 +64,7 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       (isNewUserLessor || isLessor) &&
       savedImages.lessor.userImages.length > 0
     ) {
+      console.log('LESSOR');
       setSavedImages({
         userType: 'lessor',
         imageType: 'user',
@@ -73,6 +74,7 @@ const UserImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       (!isNewUserLessor || !isLessor) &&
       savedImages.tenant.userImages.length > 0
     ) {
+      console.log('TENANT');
       setSavedImages({
         userType: 'tenant',
         imageType: 'user',

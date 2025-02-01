@@ -13,17 +13,20 @@ import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
 import ImageSwiper from 'components/cards/ImageSwiper';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
     useImagesToUpload();
-  const {isLessor} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor);
   console.log('savedImages', savedImages);
-  const savedImagesDisplay = isLessor
-    ? imageType === 'user'
-      ? savedImages.lessor.userImages
-      : savedImages.lessor.flatImages
-    : savedImages.tenant.userImages;
+  const savedImagesDisplay =
+    isNewUserLessor || isLessor
+      ? imageType === 'user'
+        ? savedImages.lessor.userImages
+        : savedImages.lessor.flatImages
+      : savedImages.tenant.userImages;
 
   return (
     <>
@@ -41,7 +44,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               snapToInterval={size(100)}
               deleteImage={fileName =>
                 deleteSavedImage({
-                  userType: isLessor ? 'lessor' : 'tenant',
+                  userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
                   imageType,
                   fileName,
                 })
