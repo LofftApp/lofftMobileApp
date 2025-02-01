@@ -3,25 +3,33 @@ import {useNavigation} from '@react-navigation/native';
 import BackButton from 'components/buttons/BackButton';
 import AppLanguageCard from 'components/cards/AppLanguageCard';
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
-import {SafeAreaView, StyleSheet, Text, View, FlatList} from 'react-native';
+import {SafeAreaView, StyleSheet, View, FlatList} from 'react-native';
 
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {size} from 'react-native-responsive-sizes';
 import {ArmsInL} from 'assets';
-const appLanguages = [
+import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
+import { AppLanguages } from 'reduxFeatures/settings/settingsSlice';
+
+type AppLanguageData = {
+  id: AppLanguages;
+  name: string;
+}[];
+
+const appLanguages: AppLanguageData = [
   {
-    id: 1,
+    id: 'EN',
     name: 'English',
   },
   {
-    id: 2,
+    id: 'DE',
     name: 'Deutsch',
   },
 ];
 
 const AppLanguageScreen = () => {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
-
+  const {appLanguage} = useAppLanguage();
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <BackButton title="App Language" onPress={navigation.goBack} />
@@ -32,6 +40,7 @@ const AppLanguageScreen = () => {
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.container}
+          extraData={appLanguage}
         />
         <ArmsInL width="100%" height="100%" style={styles.image} />
       </View>

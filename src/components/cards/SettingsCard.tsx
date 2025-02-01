@@ -19,7 +19,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {size} from 'react-native-responsive-sizes';
 
 import {SettingsCardProps} from './types';
-import {useUserType} from 'hooks/useUserType';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 // Constants
 // Types

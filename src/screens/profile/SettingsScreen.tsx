@@ -7,7 +7,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 //Hooks
-import {useUserType} from 'hooks/useUserType';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //Components
 import {RegistrationBackground, Trail} from 'assets';
@@ -24,6 +24,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
+import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
 
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
@@ -37,11 +38,13 @@ const flatImages = [
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const {isLessor} = useUserType();
+  const {appLanguage} = useAppLanguage();
   const [signOut] = useSignOutMutation();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
   const userView = isLessor ? 'tenant' : 'lessor';
+  const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const settingsData = [
     {
       id: 1,
@@ -53,7 +56,7 @@ const SettingsScreen = () => {
     {
       id: 2,
       title: 'App Language',
-      subtitle: 'English',
+      subtitle: appLang,
       navigate: () => navigation.navigate('AppLanguageScreen'),
       icon: 'translate',
     },

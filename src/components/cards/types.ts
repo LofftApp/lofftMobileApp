@@ -1,6 +1,7 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
+import {AppLanguages} from 'reduxFeatures/settings/settingsSlice';
 
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
@@ -62,7 +63,7 @@ type SettingsCardProps = {
 
 type AppLanguageCardScreenProps = {
   languageData: {
-    id: number;
+    id: AppLanguages;
     name: string;
   };
 };

@@ -6,7 +6,10 @@ import {
   useWindowDimensions,
   Pressable,
 } from 'react-native';
+
 //Redux
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
 
 //Styles
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -19,7 +22,6 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {size} from 'react-native-responsive-sizes';
 
 import {AppLanguageCardScreenProps} from './types';
-import {useUserType} from 'hooks/useUserType';
 
 // Constants
 // Types
@@ -28,48 +30,42 @@ const AppLanguageCard = ({
   languageData: {id, name},
 }: AppLanguageCardScreenProps) => {
   const {isLessor} = useUserType();
+  const {appLanguage, setAppLanguage} = useAppLanguage(); // Get language state from Redux
 
-  const handleNavigate = () => {
-    console.log('Navigate');
+  const isSelected = appLanguage === id;
+  const handleSelectLanguage = () => {
+    setAppLanguage(id);
   };
 
   const {width} = useWindowDimensions();
 
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
-      <Pressable onPress={handleNavigate}>
+      <Pressable onPress={handleSelectLanguage}>
         <View style={[styles.innerContainer]}>
           <View style={styles.details}>
             <LofftIcon
               name="check-verified-02"
               size={25}
-              color={isLessor ? Color.Lavendar[100] : Color.Mint[100]}
+              color={
+                isSelected
+                  ? isLessor
+                    ? Color.Lavendar[100]
+                    : Color.Mint[100]
+                  : Color.White[10]
+              }
             />
             <View style={styles.titleContainer}>
               <Text
                 style={[
                   fontStyles.headerSmall,
                   styles.nameMargin,
-                  {color: Color.Black[100]},
+                  {color: isSelected ? Color.Black[100] : Color.Black[50]},
                 ]}>
                 {name}
               </Text>
             </View>
           </View>
-
-          {/* <View style={styles.iconContainer}>
-            <LofftIcon
-              name="chevron-right"
-              size={35}
-              color={
-                hasArrow
-                  ? isLessor
-                    ? Color.Lavendar[80]
-                    : Color.Mint[100]
-                  : Color.White[80]
-              }
-            />
-          </View> */}
         </View>
       </Pressable>
     </View>
