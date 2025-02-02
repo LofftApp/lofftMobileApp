@@ -56,7 +56,7 @@ const genders: Gender[] = [
 ];
 
 const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   // Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -66,7 +66,7 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
 
   const savedGenders = newUserDetails.genderIdentity;
 
@@ -106,10 +106,14 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     setNewUserDetails({genderIdentity: selectedGenderNames});
 
     if (edit) {
-      navigation.navigate('NewUserNavigator', {
-        screen: 'SafeSpaceForScreen',
-        params: {edit: true},
-      });
+      if (isLessor) {
+        navigation.goBack();
+      } else {
+        navigation.navigate('NewUserNavigator', {
+          screen: 'SafeSpaceForScreen',
+          params: {edit: true},
+        });
+      }
     } else {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
@@ -154,7 +158,7 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           {error && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? (isLessor ? 'Save' : 'Continue') : 'Continue'}
             disabled={
               selectedGenderIds.length === 0 ||
               selectedGenderIds.length > MAX_GENDERS

@@ -42,7 +42,7 @@ const UserImageUploadScreen = ({
 }: {
   route?: {params: {edit: boolean}};
 }) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 

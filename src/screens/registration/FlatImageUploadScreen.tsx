@@ -37,7 +37,8 @@ import {flatImagesSchema} from 'lib/zodSchema';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const FlatImageUploadScreen = () => {
+const FlatImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -102,11 +103,15 @@ const FlatImageUploadScreen = () => {
       return;
     }
 
-    const screen = isNewUserLessor
-    ? newUserScreens.lessor[currentScreen + 1]
-    : newUserScreens.tenant[currentScreen + 1];
-    navigation.navigate(screen);
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.goBack();
+    } else {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+      navigation.navigate(screen);
+      setCurrentScreen(currentScreen + 1);
+    }
 
     setError('');
     setTimeout(() => {
@@ -142,9 +147,9 @@ const FlatImageUploadScreen = () => {
         <View style={styles.footerContainer}>
           <Divider />
           {error && <ErrorMessage message={error} />}
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             disabled={totalImages > MAX_FLAT_IMAGES}
             onPress={handleContinue}
           />

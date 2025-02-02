@@ -47,7 +47,7 @@ import {CityAssets, District} from 'reduxFeatures/assets/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -76,7 +76,7 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const savedCityId = newUserDetails.city;
   const savedDistrictIds = newUserDetails.districts;
 
@@ -227,7 +227,10 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     });
     if (edit) {
       isLessor
-        ? navigation.goBack()
+        ? navigation.navigate('NewUserNavigator', {
+            screen: 'WhereIsFlatScreen',
+            params: {edit: true},
+          })
         : navigation.navigate('NewUserNavigator', {
             screen: 'FinderBudgetScreen',
             params: {edit: true},
@@ -248,7 +251,7 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
         CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
+          // paddingBottom: insets.bottom,
         },
       ]}>
       <BackButton onPress={handleBackButton} />

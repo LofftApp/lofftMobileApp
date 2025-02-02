@@ -200,6 +200,7 @@ export const advertApi = lofftApi.injectEndpoints({
           console.error('Error in mutation:', error);
         }
       },
+      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
 
     confirmApplications: builder.mutation<

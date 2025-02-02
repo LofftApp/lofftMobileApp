@@ -44,7 +44,7 @@ import {
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   // Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -60,7 +60,7 @@ const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   //Redux
   const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const savedFeaturesIds =
     newUserDetails.userType === 'lessor'
@@ -70,7 +70,7 @@ const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    if (savedFeaturesIds.length) {
+    if (savedFeaturesIds?.length) {
       setSelectedFeaturesIds(savedFeaturesIds);
     }
   }, [savedFeaturesIds]);
@@ -141,7 +141,7 @@ const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
         CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
+          // paddingBottom: insets.bottom,
         },
       ]}>
       <BackButton onPress={handleBackButton} />
@@ -176,7 +176,7 @@ const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
               }>{`* Select at least ${MIN_SELECTED_FEATURES} tags`}</Text>
           </View>
           {error && <ErrorMessage message={error} />}
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value={edit ? 'Save' : 'Continue'}
             disabled={selectedFeaturesIds.length < MIN_SELECTED_FEATURES}

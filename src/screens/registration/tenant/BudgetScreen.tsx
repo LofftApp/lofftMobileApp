@@ -47,7 +47,7 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const BudgetScreen = ({route}: {route: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   //Navigatiom
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 

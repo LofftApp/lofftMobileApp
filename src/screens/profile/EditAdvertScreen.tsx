@@ -28,7 +28,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
 const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
-  const advertId = route?.params.advertId;
+  const advertId = route?.params?.advertId;
   console.log('advertId', advertId);
   const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0);
   const {isLessor} = useUserType();
@@ -49,8 +49,8 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
     },
     {
       id: 2,
-      title: 'Location',
-      subtitle: 'City and address',
+      title: 'Location and Rent',
+      subtitle: 'City, address and rent price',
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'SelectCityScreen',
@@ -58,30 +58,55 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
         }),
       icon: 'map',
     },
+
     {
       id: 3,
-      title: 'Gender Identity',
-      subtitle: 'To get you closer to the right community',
+      title: 'Flat Details',
+      subtitle: 'Headline, size and description',
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
-          screen: 'GenderIdentityScreen',
+          screen: 'FlatDetailsScreen',
+          params: {edit: true},
+        }),
+      icon: 'building',
+    },
+
+    {
+      id: 4,
+      title: 'Upload Photos',
+      subtitle: 'Show off your flat',
+      onPress: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'FlatImageUploadScreen',
           params: {edit: true},
         }),
       icon: 'face-wink',
     },
     {
-      id: 4,
-      title: 'Search Preferences',
-      subtitle: 'City, budget, and more',
+      id: 5,
+      title: 'Availability',
+      subtitle: 'The languages spoken in the flat',
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
-          screen: 'SelectCityScreen',
+          screen: 'FlatLengthAvailableScreen',
           params: {edit: true},
         }),
-      icon: 'search-sm',
+      icon: 'calendar',
     },
     {
-      id: 5,
+      id: 6,
+      title: 'Safe Space',
+      subtitle: 'To help you find the right tenant',
+      onPress: () =>
+        navigation.navigate('NewUserNavigator', {
+          screen: 'SafeSpaceForScreen',
+          params: {edit: true},
+        }),
+      icon: 'face-wink',
+    },
+
+    {
+      id: 7,
       title: 'Languages',
       subtitle: 'The languages spoken in the flat',
       onPress: () =>
@@ -90,6 +115,14 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
           params: {edit: true},
         }),
       icon: 'home-smile',
+    },
+
+    {
+      id: 8,
+      title: 'Delete Advert',
+      subtitle: '',
+      onPress: () => {},
+      icon: 'trash',
     },
   ];
 
@@ -112,7 +145,11 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
           <FlatList
             data={editAdvertData}
             renderItem={({item}) => (
-              <SettingsCard settingsData={item} hasArrowIds={[1, 2, 3, 4, 5]} />
+              <SettingsCard
+                settingsData={item}
+                hasArrowIds={[1, 2, 3, 4, 5, 6, 7]}
+                isDeleteId={8}
+              />
             )}
             keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.cardsContainer}

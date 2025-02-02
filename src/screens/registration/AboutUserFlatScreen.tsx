@@ -50,8 +50,8 @@ const AboutUserFlatScreen = ({
 }: {
   route?: {params: {edit: boolean; advertId: number}};
 }) => {
-  const edit = route?.params.edit;
-  const advertId = route?.params.advertId;
+  const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp

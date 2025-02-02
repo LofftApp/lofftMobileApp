@@ -24,14 +24,15 @@ import {RegistrationBackground} from 'assets';
 //Screens
 import {newUserScreens} from '../../navigationStacks/newUserScreens';
 
+//Components
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+
 // Helper
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();

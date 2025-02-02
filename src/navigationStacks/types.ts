@@ -97,6 +97,10 @@ type LessorNavigatorStackParamsList = {
     screen: keyof ChatroomsStackParamsList;
     params?: {chatroomId?: number};
   };
+  SettingsNavigator: {
+    screen: keyof SettingsStackParamsList;
+    params?: {edit?: boolean; advertId?: number};
+  };
 };
 
 type LessorNavigatorScreenNavigationProp = CompositeNavigationProp<

@@ -33,11 +33,18 @@ import {flatDetailsSchema} from 'lib/zodSchema';
 import {size as _size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const FlatDetailsScreen = () => {
+const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+  const edit = route?.params?.edit;
   //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
 
   //Local State
   const [tagLine, setTagLine] = useState('');
@@ -47,7 +54,8 @@ const FlatDetailsScreen = () => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {setNewUserDetails, newUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {setNewUserDetails, newUserDetails} = useNewUserDetails(isLessor, edit);
   const savedTagLine =
     newUserDetails.userType === 'lessor' && newUserDetails.tagLine;
   const savedSize = newUserDetails.userType === 'lessor' && newUserDetails.size;
@@ -82,7 +90,9 @@ const FlatDetailsScreen = () => {
   }, [fadeAnim]);
 
   const handleBackButton = () => {
-    setCurrentScreen(currentScreen - 1);
+    if (!edit) {
+      setCurrentScreen(currentScreen - 1);
+    }
     navigation.goBack();
     setErrorTagLine('');
     setErrorSize('');
@@ -112,10 +122,17 @@ const FlatDetailsScreen = () => {
       size: result.data.size,
     });
 
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.navigate('NewUserNavigator', {
+        screen: 'FlatDescribeScreen',
+        params: {edit: true},
+      });
+    } else {
+      setCurrentScreen(currentScreen + 1);
 
-    const screen = newUserScreens.lessor[currentScreen + 1];
-    navigation.navigate(screen);
+      const screen = newUserScreens.lessor[currentScreen + 1];
+      navigation.navigate(screen);
+    }
 
     setErrorTagLine('');
     setErrorSize('');
@@ -163,7 +180,7 @@ const FlatDetailsScreen = () => {
 
           <View style={styles.footerContainer}>
             <Divider />
-            <NewUserPaginationBar />
+            {!edit && <NewUserPaginationBar />}
             <NewUserJourneyContinueButton
               value="Continue"
               onPress={handleContinue}

@@ -37,7 +37,7 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -50,7 +50,7 @@ const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const savedDescription =
     newUserDetails.userType === 'lessor' && newUserDetails.flatDescription;
 
@@ -100,6 +100,7 @@ const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     setNewUserDetails({flatDescription: result.data});
 
     if (edit) {
+      navigation.goBack();
       navigation.goBack();
     } else {
       setCurrentScreen(currentScreen + 1);
@@ -175,7 +176,6 @@ const styles = StyleSheet.create({
   footerContainer: {
     flex: 1,
     paddingTop: size(20),
-    paddingBottom: size(20),
     gap: size(10),
   },
 });

@@ -25,6 +25,7 @@ import type {ListFlatApplicationCardProps} from './types';
 import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
+  SettingsScreenNavigationProp,
 } from '../../navigationStacks/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
@@ -85,6 +86,13 @@ const ListFlatApplicationCard = ({
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
+  };
+
+  const handleEdit = () => {
+    navigation.navigate('SettingsNavigator', {
+      screen: 'EditAdvertScreen',
+      params: {advertId: advert?.id ?? 0},
+    });
   };
 
   return (
@@ -179,13 +187,14 @@ const ListFlatApplicationCard = ({
       {isLessor ? (
         <View style={styles.buttonContainer}>
           <CoreButton
-            value="Edit listing"
+            value="Edit"
             textSize={fontStyles.headerExtraSmall}
             invert
             style={styles.button}
+            onPress={handleEdit}
           />
           <CoreButton
-            value="See applicants"
+            value="See Applicants"
             textSize={fontStyles.headerExtraSmall}
             style={styles.button}
             onPress={() =>
@@ -242,11 +251,9 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: size(183),
     height: size(50),
-    paddingHorizontal: size(10),
+    paddingHorizontal: size(0),
   },
-  textbutton: {
-    color: Color.Lavendar[100],
-  },
+
   metaDataContainer: {
     display: 'flex',
     flexDirection: 'row',

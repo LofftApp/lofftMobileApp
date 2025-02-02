@@ -44,7 +44,7 @@ const LanguageSelectionScreen = ({
 }: {
   route?: {params: {edit: boolean}};
 }) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -62,9 +62,11 @@ const LanguageSelectionScreen = ({
   // Redux
   const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const savedLanguages = newUserDetails.languages;
+  console.log('savedLanguages', savedLanguages);
+  console.log("newUserDetails", newUserDetails);
 
   // Safe Area
   const insets = useSafeAreaInsets();

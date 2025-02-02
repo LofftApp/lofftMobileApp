@@ -40,7 +40,7 @@ import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -58,7 +58,7 @@ const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const savedSafeSpacesIds = newUserDetails.safeSpaces;
 
   useEffect(() => {
@@ -93,8 +93,12 @@ const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
 
     setNewUserDetails({safeSpaces: selectedSafeSpaceIds});
     if (edit) {
-      navigation.goBack();
-      navigation.goBack();
+      if (isLessor) {
+        navigation.goBack();
+      } else {
+        navigation.goBack();
+        navigation.goBack();
+      }
     } else {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
@@ -148,7 +152,7 @@ const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           </View>
 
           {error && <ErrorMessage message={error} />}
-          {edit && <NewUserPaginationBar />}
+          {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value={edit ? 'Save' : 'Continue'}
             disabled={

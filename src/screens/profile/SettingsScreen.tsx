@@ -56,7 +56,7 @@ const flatImages = [
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const {isLessor} = useUserType();
-  const {resetNewUserState} = useNewUserDetails();
+  const {resetNewUserState} = useNewUserDetails(isLessor);
   const {data} = useGetAdvertsQuery(undefined, {skip: !isLessor});
   const adverts = data?.adverts;
   console.log('adverts', adverts);
@@ -77,61 +77,77 @@ const SettingsScreen = () => {
   const totalPhotos = [...flatImages, ...advertPhotos];
   console.log('totalPhotos', totalPhotos);
 
-  const settingsData = [
+  const tenantSettingsData = [
     {
-      id: 10,
+      id: 1,
       title: 'Edit Profile',
       subtitle: 'Profile details, Match Tags and more',
       onPress: () => navigation.navigate('EditProfileScreen'),
       icon: 'user-edit',
     },
     {
-      id: 1,
+      id: 2,
       title: 'Get Tokens',
       subtitle: `You have ${currentUser?.credits} tokens`,
       onPress: () => navigation.navigate('GetTokensScreen'),
       icon: 'coins-stacked',
     },
     {
-      id: 2,
+      id: 3,
       title: 'App Language',
       subtitle: appLang,
       onPress: () => navigation.navigate('AppLanguageScreen'),
       icon: 'translate',
     },
     {
-      id: 3,
+      id: 4,
       title: 'Send Feedback',
       subtitle: '',
       onPress: () => navigation.navigate('SendFeedbackScreen'),
       icon: 'announcement',
     },
     {
-      id: 4,
+      id: 5,
       title: 'Terms and Conditions',
       onPress: () => navigation.navigate('TermsAndConditionsScreen'),
       icon: 'file',
     },
     {
-      id: 5,
+      id: 6,
       title: `Switch to ${userView} view`,
       onPress: () => navigation.navigate('SwitchUserScreen'),
       icon: 'refresh-ccq-03',
     },
     {
-      id: 6,
+      id: 7,
       title: 'Sign Out',
       onPress: () => signOut(),
       icon: 'log-out',
     },
     {
-      id: 7,
+      id: 8,
       title: 'Delete Account',
       onPress: () => {},
       icon: 'trash',
     },
   ];
 
+  const lessorExtraData = {
+    id: 9,
+    title: 'Archived Adverts',
+    subtitle: '',
+    onPress: () => {},
+    icon: 'archive',
+  };
+
+  const indexToInsert = 4;
+  const lessorSettingsData = [
+    ...tenantSettingsData.slice(0, indexToInsert),
+    lessorExtraData,
+    ...tenantSettingsData.slice(indexToInsert),
+  ];
+
+  console.log('lessorSettingsData', lessorSettingsData);
   const handlePressImageSwiper = (advertId: number) => {
     navigation.navigate('EditAdvertScreen', {advertId});
     resetNewUserState();
@@ -171,12 +187,12 @@ const SettingsScreen = () => {
             )}
           </View>
           <FlatList
-            data={settingsData}
+            data={isLessor ? lessorSettingsData : tenantSettingsData}
             renderItem={({item}) => (
               <SettingsCard
                 settingsData={item}
-                hasArrowIds={[1, 2, 3, 4, 5, 10]}
-                isDeleteId={7}
+                hasArrowIds={[1, 2, 3, 4, 5, 6, 9]}
+                isDeleteId={8}
               />
             )}
             keyExtractor={item => item.id.toString()}

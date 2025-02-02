@@ -52,13 +52,8 @@ export const useNewUserDetails = (isLessor: boolean, edit: boolean = false) => {
   const resetNewUserState = () => {
     dispatch(_resetNewUserState());
   };
-
-  console.log('edit in hook', edit);
-  console.log('isLessor in hook', isLessor);
   console.log('isNewUserLessor in hook', isNewUserLessor);
-  console.log('user type in hook', userType);
-  console.log('newUserDetails in hook', newUserDetails);
-  console.log('userJourney in hook', userJourney);
+  console.log('userType', userType);
 
   return {
     userType,

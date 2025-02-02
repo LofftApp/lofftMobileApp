@@ -46,10 +46,12 @@ import {size} from 'react-native-responsive-sizes';
 
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Currency} from 'reduxFeatures/assets/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
-const WhereIsFlatScreen = () => {
+const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+  const edit = route?.params?.edit;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -79,16 +81,17 @@ const WhereIsFlatScreen = () => {
 
   // Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor, edit);
   const savedAddress =
-    newUserDetails.userType === 'lessor' && newUserDetails.address;
+    newUserDetails.userType === 'lessor' ? newUserDetails.address : undefined;
   const savedPrice =
-    newUserDetails.userType === 'lessor' && newUserDetails.price;
+    newUserDetails.userType === 'lessor' ? newUserDetails.price : undefined;
   const savedWarmRent =
-    newUserDetails.userType === 'lessor' && newUserDetails.warmRent;
+    newUserDetails.userType === 'lessor' ? newUserDetails.warmRent : undefined;
   const savedCurrency =
-    newUserDetails.userType === 'lessor' && newUserDetails.currency;
-
+    newUserDetails.userType === 'lessor' ? newUserDetails.currency : undefined;
+  console.log('savedAddress', savedAddress);
   useEffect(() => {
     if (savedAddress) {
       setLocation(savedAddress.address);
@@ -125,7 +128,9 @@ const WhereIsFlatScreen = () => {
   }, [fadeAnim]);
 
   const handleBackButton = () => {
-    setCurrentScreen(currentScreen - 1);
+    if (!edit) {
+      setCurrentScreen(currentScreen - 1);
+    }
     navigation.goBack();
     setErrorAddress('');
     setErrorPrice('');
@@ -196,14 +201,20 @@ const WhereIsFlatScreen = () => {
       currency: result.data.currency,
     });
 
-    setCurrentScreen(currentScreen + 1);
+    if (edit) {
+      navigation.goBack();
+      navigation.goBack();
+    } else {
+      setCurrentScreen(currentScreen + 1);
 
-    navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
+      navigation.navigate(newUserScreens.lessor[currentScreen + 1]);
+    }
 
     setErrorAddress('');
     setErrorPrice('');
     setErrorSearch('');
   };
+  console.log('newUserDetaiks in WHere is flat', newUserDetails);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -290,9 +301,10 @@ const WhereIsFlatScreen = () => {
         </ScrollView>
         <Divider />
         <View style={styles.footerContainer}>
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
+
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             disabled={!location || !price}
             onPress={handleContinue}
           />

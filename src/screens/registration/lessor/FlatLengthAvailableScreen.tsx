@@ -38,8 +38,14 @@ dayjs.extend(isToday);
 
 // Types
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const FlatLengthAvailableScreen = () => {
+const FlatLengthAvailableScreen = ({
+  route,
+}: {
+  route: {params: {edit: boolean}};
+}) => {
+  const edit = route?.params?.edit;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -57,7 +63,8 @@ const FlatLengthAvailableScreen = () => {
 
   // Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {newUserDetails, setNewUserDetails} = useNewUserDetails();
+  const {isLessor} = useUserType();
+  const {newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor, edit);
   const savedFromDate =
     newUserDetails.userType === 'lessor' && newUserDetails.fromDate;
   const savedUntilDate =
@@ -166,9 +173,13 @@ const FlatLengthAvailableScreen = () => {
       return;
     }
 
-    setCurrentScreen(currentScreen + 1);
-    const screen = newUserScreens.lessor[currentScreen + 1];
-    navigation.navigate(screen);
+    if (edit) {
+      navigation.goBack();
+    } else {
+      setCurrentScreen(currentScreen + 1);
+      const screen = newUserScreens.lessor[currentScreen + 1];
+      navigation.navigate(screen);
+    }
 
     setNewUserDetails({
       fromDate: fromDate?.toISOString(),
@@ -252,9 +263,10 @@ const FlatLengthAvailableScreen = () => {
         </View>
         <View style={styles.footerContainer}>
           <Divider />
-          <NewUserPaginationBar />
+          {!edit && <NewUserPaginationBar />}
+
           <NewUserJourneyContinueButton
-            value="Continue"
+            value={edit ? 'Save' : 'Continue'}
             onPress={handleContinue}
           />
         </View>

@@ -37,7 +37,7 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
-  const edit = route?.params.edit;
+  const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -50,7 +50,7 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const savedDescription = newUserDetails.selfDescription;
 
   useEffect(() => {

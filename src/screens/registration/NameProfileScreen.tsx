@@ -12,7 +12,6 @@ import {useNavigation} from '@react-navigation/native';
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -70,10 +69,8 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   //Redux
   const {isLessor} = useUserType();
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {clearImagesToUpload, setSavedImages, savedImages} =
-    useImagesToUpload();
   const {isNewUserLessor, setNewUserDetails, newUserDetails} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails(isLessor, edit);
   const savedFirstName = newUserDetails.firstName;
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
@@ -90,14 +87,7 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
       setDate(new Date(savedDate));
       setIsDateSelected(true);
     }
-  }, [
-    savedFirstName,
-    savedLastName,
-    savedDate,
-    savedImages.tenant.userImages,
-    savedImages.lessor.userImages,
-    setSavedImages,
-  ]);
+  }, [savedFirstName, savedLastName, savedDate]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -172,7 +162,7 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     console.log('result', result);
 
     setNewUserDetails({
-      userType: isLessor ? 'lessor' : 'tenant',
+      userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
       firstName: result.data.firstName,
       lastName: result.data.lastName,
       dateOfBirth: result.data.dateOfBirth.toISOString(),
