@@ -100,6 +100,7 @@ const WhereIsFlatScreen = ({
     isError: isErrorAdvert,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit,
+    refetchOnMountOrArgChange: true,
   });
   const savedAddress =
     newUserDetails.userType === 'lessor' ? newUserDetails.address : undefined;
@@ -173,7 +174,7 @@ const WhereIsFlatScreen = ({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsReady(true);
-    }, 500); // Delay setting state
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, []);

@@ -76,6 +76,8 @@ const FlatFeaturesScreen = ({
     isError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit,
+    refetchOnMountOrArgChange: true,
+
   });
   const savedFeaturesIds =
     newUserDetails.userType === 'lessor'

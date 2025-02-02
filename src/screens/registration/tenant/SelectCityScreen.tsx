@@ -91,6 +91,7 @@ const SelectCityScreen = ({
     isError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit,
+    refetchOnMountOrArgChange: true,
   });
   const savedCityId = newUserDetails.city;
   const savedDistrictIds = newUserDetails.districts;

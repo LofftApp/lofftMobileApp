@@ -29,7 +29,9 @@ import Color from 'styleSheets/lofftColorPallet.json';
 const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   const advertId = route?.params?.advertId;
   console.log('advertId', advertId);
-  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0);
+  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+    refetchOnMountOrArgChange: true,
+  });
   const {isLessor} = useUserType();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();

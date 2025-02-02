@@ -26,6 +26,7 @@ type ImageSwiperProps = {
   editButton?: boolean;
   deleteImage?: (fileName: string) => void;
   onPress?: (index?: number) => void;
+  isLoading?: boolean;
 };
 
 type OnViewableItemsChangedParams = {

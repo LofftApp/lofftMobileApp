@@ -69,7 +69,10 @@ const FlatDetailsScreen = ({
     data: advert,
     isLoading,
     isError,
-  } = useGetAdvertByIdQuery(advertId ?? 0, {skip: !edit});
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+    refetchOnMountOrArgChange: true,
+  });
   const savedTagLine =
     newUserDetails.userType === 'lessor' && newUserDetails.tagLine;
   const savedSize = newUserDetails.userType === 'lessor' && newUserDetails.size;

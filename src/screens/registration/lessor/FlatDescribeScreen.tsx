@@ -65,6 +65,7 @@ const FlatDescribeScreen = ({
     isError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit,
+    refetchOnMountOrArgChange: true,
   });
   const savedDescription =
     newUserDetails.userType === 'lessor' && newUserDetails.flatDescription;
