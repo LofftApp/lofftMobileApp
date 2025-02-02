@@ -108,12 +108,10 @@ const AboutUserFlatScreen = ({
 
     setNewUserDetails({characteristics: selectedCharsIds});
     if (edit) {
-      isLessor
-        ? navigation.goBack()
-        : navigation.navigate('NewUserNavigator', {
-            screen: 'FlatFeaturesScreen',
-            params: {edit: true},
-          });
+      navigation.navigate('NewUserNavigator', {
+        screen: 'FlatFeaturesScreen',
+        params: {edit: true},
+      });
     } else {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
@@ -142,14 +140,13 @@ const AboutUserFlatScreen = ({
       />
     );
   });
-
+  const footStyles = {marginTop: size(0)};
   return (
     <View
       style={[
         CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
         },
       ]}>
       <BackButton onPress={handleBackButton} />
@@ -161,12 +158,12 @@ const AboutUserFlatScreen = ({
       <View style={CoreStyleSheet.screenContainer}>
         <HeadlineContainer
           headlineText={
-            isNewUserLessor
+            isNewUserLessor || isLessor
               ? 'Tell us a bit about your flat'
               : 'Tell us a bit about yourself'
           }
           subDescription={
-            isNewUserLessor
+            isNewUserLessor || isLessor
               ? `Select at least ${MIN_SELECTED_CHARS} tags that describe your Lofft lifestyles. More tags selected, more likelihood you'll find the right crowd!`
               : `Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`
           }
@@ -175,7 +172,7 @@ const AboutUserFlatScreen = ({
           <View style={styles.selectionContainer}>{charsButtons}</View>
         </ScrollView>
         <Divider />
-        <View style={styles.footerContainer}>
+        <View style={[styles.footerContainer, edit && footStyles]}>
           <View style={styles.tagInfoContainer}>
             <Text
               style={
@@ -192,6 +189,7 @@ const AboutUserFlatScreen = ({
               />
             ))}
           {!edit && <NewUserPaginationBar />}
+
           <NewUserJourneyContinueButton
             value="Continue"
             disabled={selectedCharsIds.length < MIN_SELECTED_CHARS}

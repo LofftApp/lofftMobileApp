@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {View, StyleSheet, SafeAreaView, FlatList, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Hooks
@@ -19,9 +19,18 @@ import {size} from 'react-native-responsive-sizes';
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import {
+  useGetAdvertByIdQuery,
+  useGetAdvertsQuery,
+} from 'reduxFeatures/adverts/advertApi';
+import HeadlineContainer from 'components/containers/HeadlineContainer';
+import {fontStyles} from 'styleSheets/fontStyles';
+import Color from 'styleSheets/lofftColorPallet.json';
 
-const EditAdvertScreen = () => {
+const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
+  const advertId = route?.params.advertId;
+  console.log('advertId', advertId);
+  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0);
   const {isLessor} = useUserType();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
@@ -30,24 +39,24 @@ const EditAdvertScreen = () => {
     {
       id: 1,
       title: 'Match Tags',
-      subtitle: 'Boost your profile to find the perfect flat',
+      subtitle: 'Boost your flat profile to find the perfect tenant',
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'AboutUserFlatScreen',
-          params: {edit: true, advertId: 1},
+          params: {edit: true},
         }),
       icon: 'annotation-heart',
     },
     {
       id: 2,
-      title: 'Personal Information',
-      subtitle: 'Name and date of birth',
+      title: 'Location',
+      subtitle: 'City and address',
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'NameProfileScreen',
           params: {edit: true},
         }),
-      icon: 'user-edit',
+      icon: 'map',
     },
     {
       id: 3,
@@ -86,7 +95,7 @@ const EditAdvertScreen = () => {
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton title="Edit Profile" onPress={navigation.goBack} />
+      <BackButton title="Edit Advert" onPress={navigation.goBack} />
 
       <RegistrationBackground
         height="100%"
@@ -95,6 +104,9 @@ const EditAdvertScreen = () => {
       />
 
       <View style={CoreStyleSheet.screenContainer}>
+        <Text style={[fontStyles.bodyMedium, styles.title]}>
+          {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} - {advert?.flat.city || 'Berlin'}
+        </Text>
         <View style={styles.mainContainer}>
           <FlatList
             data={editAdvertData}
@@ -115,6 +127,13 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: size(24),
+  },
+
+  title: {
+    color: Color.Black[100],
+    paddingTop: size(0),
+    paddingBottom: size(10),
+    textAlign: 'center',
   },
 
   backgroundImageExtra: {

@@ -30,10 +30,26 @@ import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
 const flatImages = [
-  'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1586105251261-72a756497a11?q=80&w=1258&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1585128792020-803d29415281?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  {
+    photo:
+      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    advertId: 3,
+  },
+  {
+    photo:
+      'https://images.unsplash.com/photo-1586105251261-72a756497a11?q=80&w=1258&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    advertId: 4,
+  },
+  {
+    photo:
+      'https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    advertId: 5,
+  },
+  {
+    photo:
+      'https://images.unsplash.com/photo-1585128792020-803d29415281?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    advertId: 6,
+  },
 ];
 
 const SettingsScreen = () => {
@@ -55,6 +71,9 @@ const SettingsScreen = () => {
       advertId: advert.id,
     })) || [];
   console.log('advertPhotos', advertPhotos);
+
+  const totalPhotos = [...flatImages, ...advertPhotos];
+  console.log('totalPhotos', totalPhotos);
 
   const settingsData = [
     {
@@ -137,12 +156,14 @@ const SettingsScreen = () => {
               <ImageSwiper
                 imageContainerHeight={90}
                 imageContainerWidth={90}
-                images={advertPhotos.map(photo => photo.photo)}
+                images={totalPhotos.map(photo => photo.photo)}
                 snapToInterval={30}
                 editButton
-                onPress={index =>
-                  handlePressImageSwiper(advertPhotos[index ?? 0].advertId)
-                }
+                onPress={index => {
+                  if (index !== undefined) {
+                    handlePressImageSwiper(totalPhotos[index].advertId);
+                  }
+                }}
               />
             )}
           </View>

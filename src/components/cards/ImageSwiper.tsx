@@ -35,11 +35,6 @@ const ImageSwiper = ({
     },
     [],
   );
-  const handlePress = () => {
-    if (onPress) {
-      onPress();
-    }
-  };
 
   const handleDeleteImage = (fileName: string) => {
     if (deleteImage) {
@@ -70,7 +65,7 @@ const ImageSwiper = ({
                 </Pressable>
               )}
 
-              <Pressable onPress={handlePress}>
+              <Pressable onPress={() => onPress?.(index)}>
                 <Image
                   style={[
                     styles.imageContainer,
