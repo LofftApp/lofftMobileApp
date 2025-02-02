@@ -37,7 +37,7 @@ import {flatImagesSchema} from 'lib/zodSchema';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const FlatImageUploadScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+const FlatImageUploadScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();

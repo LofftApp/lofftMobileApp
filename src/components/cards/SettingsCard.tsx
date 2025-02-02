@@ -5,6 +5,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   Pressable,
+  Animated,
 } from 'react-native';
 //Redux
 
@@ -20,6 +21,7 @@ import {size} from 'react-native-responsive-sizes';
 
 import {SettingsCardProps} from './types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 // Constants
 // Types
@@ -33,6 +35,8 @@ const SettingsCard = ({
   const isDelete = isDeleteId === id;
   const hasArrow = hasArrowIds?.includes(id);
 
+  const {fadeInAnim} = useFadeInAnimation();
+
   const handlePress = () => {
     onPress();
   };
@@ -40,7 +44,11 @@ const SettingsCard = ({
   const {width} = useWindowDimensions();
   const subtitleWidth = width - 150;
   return (
-    <View style={[styles.outterContainer, {width: width - 30}]}>
+    <Animated.View
+      style={[
+        styles.outterContainer,
+        {width: width - 30, opacity: fadeInAnim},
+      ]}>
       <Pressable onPress={handlePress}>
         <View style={[styles.innerContainer]}>
           <View style={styles.details}>
@@ -86,7 +94,7 @@ const SettingsCard = ({
           </View>
         </View>
       </Pressable>
-    </View>
+    </Animated.View>
   );
 };
 

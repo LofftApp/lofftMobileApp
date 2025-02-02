@@ -35,9 +35,17 @@ import {size} from 'react-native-responsive-sizes';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
-const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const FlatDescribeScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -51,6 +59,13 @@ const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails, isNewUserLessor} =
     useNewUserDetails(isLessor, edit);
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+  });
   const savedDescription =
     newUserDetails.userType === 'lessor' && newUserDetails.flatDescription;
 
@@ -58,7 +73,11 @@ const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     if (savedDescription) {
       setText(savedDescription);
     }
-  }, [savedDescription]);
+
+    if (edit && advert?.flat.description) {
+      setText(advert.flat.description);
+    }
+  }, [savedDescription, edit, advert, advert?.flat.description]);
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -111,6 +130,20 @@ const FlatDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
 
     setError('');
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

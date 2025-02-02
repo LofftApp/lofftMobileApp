@@ -52,7 +52,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 const SelectCityScreen = ({
   route,
 }: {
-  route: {params: {edit: boolean; advertId: number}};
+  route?: {params: {edit: boolean; advertId: number}};
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;

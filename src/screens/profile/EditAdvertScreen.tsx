@@ -65,7 +65,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'FlatDetailsScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'building',
     },
@@ -79,7 +79,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
           screen: 'FlatImageUploadScreen',
           params: {edit: true},
         }),
-      icon: 'face-wink',
+      icon: 'upload',
     },
     {
       id: 5,
@@ -136,7 +136,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       />
 
       <View style={CoreStyleSheet.screenContainer}>
-        <Text style={[fontStyles.bodyMedium, styles.title]}>
+        <Text style={[fontStyles.bodyMedium, styles.titleAddress]}>
           {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
           {advert?.flat.city || 'Berlin'}
         </Text>
@@ -166,11 +166,14 @@ const styles = StyleSheet.create({
     gap: size(24),
   },
 
-  title: {
+  titleAddress: {
     color: Color.Black[100],
     paddingTop: size(0),
     paddingBottom: size(10),
     textAlign: 'center',
+    minHeight: size(60),
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
 
   backgroundImageExtra: {

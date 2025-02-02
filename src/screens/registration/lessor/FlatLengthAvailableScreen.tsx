@@ -43,7 +43,7 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 const FlatLengthAvailableScreen = ({
   route,
 }: {
-  route: {params: {edit: boolean}};
+  route?: {params: {edit: boolean}};
 }) => {
   const edit = route?.params?.edit;
   // Navigation

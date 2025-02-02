@@ -9,11 +9,10 @@ import SeeApplicantsScreen from 'screens/dashboard/landlord/SubScreens/SeeApplic
 import SeeProfilesScreen from 'screens/dashboard/landlord/SubScreens/SeeProfilesScreen';
 import ApplicantProfileScreen from 'screens/profile/ApplicantProfileScreen';
 import SelectionConfirmedScreen from 'screens/dashboard/landlord/SubScreens/SelectionConfirmedScreen';
+import ChatroomsNavigator from './ChatroomsNavigator';
+import SettingsNavigator from './SettingsNavigator';
 
 import type {LessorNavigatorStackParamsList} from './types';
-import ChatroomsNavigator from './ChatroomsNavigator';
-import EditAdvertScreen from 'screens/profile/EditAdvertScreen';
-import SettingsNavigator from './SettingsNavigator';
 
 const Lessor = createNativeStackNavigator<LessorNavigatorStackParamsList>();
 const LessorIndexNavigator = () => {
@@ -48,7 +47,7 @@ const LessorIndexNavigator = () => {
       <Lessor.Screen
         name="SettingsNavigator"
         component={SettingsNavigator}
-        screenOptions={{headerShown: false}}
+        options={{headerShown: false}}
       />
     </Lessor.Navigator>
   );

@@ -38,9 +38,18 @@ import {
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
-const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+const FlatDetailsScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -56,6 +65,11 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails} = useNewUserDetails(isLessor, edit);
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {skip: !edit});
   const savedTagLine =
     newUserDetails.userType === 'lessor' && newUserDetails.tagLine;
   const savedSize = newUserDetails.userType === 'lessor' && newUserDetails.size;
@@ -67,7 +81,24 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     if (savedSize) {
       setSize(savedSize.toString());
     }
-  }, [savedTagLine, savedSize]);
+
+    if (edit && advert?.flat.tagLine) {
+      setTagLine(advert.flat.tagLine);
+    }
+    if (edit && advert?.flat.size) {
+      setSize(advert.flat.size.toString());
+    }
+  }, [
+    savedTagLine,
+    savedSize,
+    edit,
+    advert,
+    advert?.flat.tagLine,
+    advert?.flat.size,
+  ]);
+
+  //animation
+  const {fadeInAnim} = useFadeInAnimation();
 
   const handleTagLineChange = (input: string) => {
     setTagLine(input);
@@ -78,16 +109,6 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     setSize(input);
     setErrorSize('');
   };
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
 
   const handleBackButton = () => {
     if (!edit) {
@@ -125,7 +146,7 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     if (edit) {
       navigation.navigate('NewUserNavigator', {
         screen: 'FlatDescribeScreen',
-        params: {edit: true},
+        params: {edit: true, advertId},
       });
     } else {
       setCurrentScreen(currentScreen + 1);
@@ -137,6 +158,20 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
     setErrorTagLine('');
     setErrorSize('');
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -154,7 +189,8 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
         />
         <View style={styles.mainContainer}>
           <View style={styles.centerContainer}>
-            <Animated.View style={[styles.inputContainer, {opacity: fadeAnim}]}>
+            <Animated.View
+              style={[styles.inputContainer, {opacity: fadeInAnim}]}>
               <InputFieldText
                 value={tagLine}
                 onChangeText={handleTagLineChange}
@@ -163,7 +199,8 @@ const FlatDetailsScreen = ({route}: {route: {params: {edit: boolean}}}) => {
 
               <ErrorMessage isInputField message={errorTagLine} />
             </Animated.View>
-            <Animated.View style={[styles.inputContainer, {opacity: fadeAnim}]}>
+            <Animated.View
+              style={[styles.inputContainer, {opacity: fadeInAnim}]}>
               <Text style={[fontStyles.headerSmall, styles.minText]}>
                 Flat size in m²
               </Text>

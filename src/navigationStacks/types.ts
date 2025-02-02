@@ -177,7 +177,7 @@ type NewUserScreens = {
 };
 
 type NewUserStackParamsList = {
-  [key in NewUserScreenNames]: undefined;
+  [key in NewUserScreenNames]: undefined | {edit?: boolean; advertId?: number};
 };
 
 type NewUserJourneyStackNavigation =

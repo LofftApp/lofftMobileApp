@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Looking, Vector1, Vector2, Vector5} from 'assets';
+import {Looking} from 'assets';
 import BackButton from 'components/buttons/BackButton';
 import {CoreButton} from 'components/buttons/CoreButton';
 import BackgroundVector1 from 'components/vector/BackgroundVector1';
