@@ -133,8 +133,18 @@ const App = () => {
 };
 
 export default () => {
+  const linking = {
+    prefixes: ['welcomeback://', 'https://myapp.com'], // this has to be changes to production url 🚨
+    config: {
+      screens: {
+        SignInScreen: 'sign-in',
+      },
+    },
+  };
+
   return (
     <NavigationContainer
+      linking={linking}
       ref={navigationRef}
       onReady={() => SplashScreen.hide()}>
       <App />

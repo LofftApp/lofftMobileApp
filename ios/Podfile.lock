@@ -61,11 +61,11 @@ PODS:
   - hermes-engine (0.76.6):
     - hermes-engine/Pre-built (= 0.76.6)
   - hermes-engine/Pre-built (0.76.6)
-  - MapboxCommon (23.11.2)
+  - MapboxCommon (23.11.3)
   - MapboxCoreMaps (10.19.2):
     - MapboxCommon (~> 23.11)
-  - MapboxMaps (10.19.1):
-    - MapboxCommon (= 23.11.2)
+  - MapboxMaps (10.19.2):
+    - MapboxCommon (= 23.11.3)
     - MapboxCoreMaps (= 10.19.2)
     - MapboxMobileEvents (= 2.0.0)
     - Turf (= 2.8.0)
@@ -1311,7 +1311,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-date-picker (5.0.8):
+  - react-native-date-picker (5.0.10):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2155,9 +2155,9 @@ SPEC CHECKSUMS:
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   hermes-engine: 1949ca944b195a8bde7cbf6316b9068e19cf53c6
-  MapboxCommon: 873b75dd0e8c5d7029e0c849437eba365f4887e5
+  MapboxCommon: f3f0a586ae683689cf528617757427553a405148
   MapboxCoreMaps: 35685edba03e44468aed57c3dfd7f8795edafda8
-  MapboxMaps: 05822ab0ee74f7d626e6471572439afe35c1c116
+  MapboxMaps: 6d98b43134fe3bad2c810a4d4d9f1c5a5d181b50
   MapboxMobileEvents: d044b9edbe0ec7df60f6c2c9634fe9a7f449266b
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -2190,7 +2190,7 @@ SPEC CHECKSUMS:
   React-logger: 162c09cc432b02d4a0db31b1d98f6df5243a2679
   React-Mapbuffer: eab34f6d54d26931c5f70eb19da1e36162d87bbd
   React-microtasksnativemodule: 069ef12656a93e0344851e18de6cfb7bdfd9a59e
-  react-native-date-picker: ce13cdf5cdfcd729025022c8d3b6f4fa547a754f
+  react-native-date-picker: d366d738b5f74c185c35dadfd4b2a4baa477164f
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: 8d06080ecb33269e77e0728f1fd8a16f2f5aad07
   react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
