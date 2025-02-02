@@ -42,9 +42,15 @@ import {
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
-const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const FlatFeaturesScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   // Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -62,6 +68,9 @@ const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
     useNewUserDetails(isLessor, edit);
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+  });
   const savedFeaturesIds =
     newUserDetails.userType === 'lessor'
       ? newUserDetails.flatFeatures
@@ -73,7 +82,11 @@ const FlatFeaturesScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     if (savedFeaturesIds?.length) {
       setSelectedFeaturesIds(savedFeaturesIds);
     }
-  }, [savedFeaturesIds]);
+
+    if (edit && advert && advert.flat.features.length > 0) {
+      setSelectedFeaturesIds(advert?.flat.features.map(feat => feat.id) ?? []);
+    }
+  }, [savedFeaturesIds, advert, edit]);
 
   const handleSelectFeatures = (id: number) => {
     setSelectedFeaturesIds(prevIds =>

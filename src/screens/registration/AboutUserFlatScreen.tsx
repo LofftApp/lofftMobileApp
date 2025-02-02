@@ -44,6 +44,7 @@ import {
   SettingsScreenNavigationProp,
 } from '../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 const AboutUserFlatScreen = ({
   route,
@@ -52,6 +53,8 @@ const AboutUserFlatScreen = ({
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
+  console.log('advertId', advertId);
+
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -68,10 +71,13 @@ const AboutUserFlatScreen = ({
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
-  const {newUserDetails, setNewUserDetails, isNewUserLessor, setNewUserType} =
+  const {newUserDetails, setNewUserDetails, isNewUserLessor} =
     useNewUserDetails(isLessor, edit);
   const savedCharsIds = newUserDetails.characteristics;
-  console.log('newHHHYY', newUserDetails);
+  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+  });
+
   //Safe Area
   const insets = useSafeAreaInsets();
 
@@ -79,7 +85,11 @@ const AboutUserFlatScreen = ({
     if (savedCharsIds.length) {
       setSelectedCharsIds(savedCharsIds);
     }
-  }, [savedCharsIds]);
+
+    if (edit && advert?.flat.characteristics.length) {
+      setSelectedCharsIds(advert?.flat.characteristics.map(char => char.id));
+    }
+  }, [savedCharsIds, edit, advert]);
 
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;
@@ -106,15 +116,12 @@ const AboutUserFlatScreen = ({
       setError(result.error?.flatten().formErrors.at(0));
       return;
     }
-    if (edit &&isLessor) {
-      setNewUserType
-    }
 
     setNewUserDetails({characteristics: selectedCharsIds});
     if (edit) {
       navigation.navigate('NewUserNavigator', {
         screen: 'FlatFeaturesScreen',
-        params: {edit: true},
+        params: {edit: true, advertId},
       });
     } else {
       const screen = isNewUserLessor

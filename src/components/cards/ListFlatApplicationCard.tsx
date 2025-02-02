@@ -26,15 +26,18 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
   application,
   _advert,
 }: ListFlatApplicationCardProps) => {
-  const {data} = useGetUserQuery();
-  const isLessor = data?.userType === 'lessor';
+  const {isLessor} = useUserType();
+
   const advert = isLessor ? _advert : application?.advert;
+  const {resetNewUserState} = useNewUserDetails(isLessor);
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
@@ -92,6 +95,7 @@ const ListFlatApplicationCard = ({
       screen: 'EditAdvertScreen',
       params: {advertId: advert?.id ?? 0},
     });
+    resetNewUserState();
   };
 
   return (
@@ -248,9 +252,10 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    maxWidth: size(183),
+    maxWidth: size(200),
     height: size(50),
-    paddingHorizontal: size(0),
+    paddingHorizontal: size(10),
+    alignItems: 'center',
   },
 
   metaDataContainer: {

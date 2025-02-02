@@ -42,7 +42,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'AboutUserFlatScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'annotation-heart',
     },
