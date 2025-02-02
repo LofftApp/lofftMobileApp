@@ -68,8 +68,8 @@ const AboutUserFlatScreen = ({
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
-  const {newUserDetails, setNewUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor);
+  const {newUserDetails, setNewUserDetails, isNewUserLessor, setNewUserType} =
+    useNewUserDetails(isLessor, edit);
   const savedCharsIds = newUserDetails.characteristics;
   console.log('newHHHYY', newUserDetails);
   //Safe Area
@@ -100,10 +100,14 @@ const AboutUserFlatScreen = ({
     const selectedChars = characteristics?.filter(chars =>
       selectedCharsIds.includes(chars.id),
     );
+    console.log('selectedChars', selectedChars);
     const result = characteristicsSchema.safeParse(selectedChars);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));
       return;
+    }
+    if (edit &&isLessor) {
+      setNewUserType
     }
 
     setNewUserDetails({characteristics: selectedCharsIds});
@@ -140,7 +144,6 @@ const AboutUserFlatScreen = ({
       />
     );
   });
-  const footStyles = {marginTop: size(0)};
   return (
     <View
       style={[
@@ -172,7 +175,7 @@ const AboutUserFlatScreen = ({
           <View style={styles.selectionContainer}>{charsButtons}</View>
         </ScrollView>
         <Divider />
-        <View style={[styles.footerContainer, edit && footStyles]}>
+        <View style={[styles.footerContainer]}>
           <View style={styles.tagInfoContainer}>
             <Text
               style={

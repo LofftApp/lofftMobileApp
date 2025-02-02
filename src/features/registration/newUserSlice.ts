@@ -100,6 +100,10 @@ export const newUserSlice = createSlice({
         };
       }
     },
+
+    resetNewUserState: state => {
+      Object.assign(state, initialState);
+    },
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => {
@@ -108,6 +112,10 @@ export const newUserSlice = createSlice({
   },
 });
 
-export const {setUserType, setCurrentScreen, setNewUserDetails} =
-  newUserSlice.actions;
+export const {
+  setUserType,
+  setCurrentScreen,
+  setNewUserDetails,
+  resetNewUserState,
+} = newUserSlice.actions;
 export default newUserSlice.reducer;

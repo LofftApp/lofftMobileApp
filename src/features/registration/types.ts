@@ -50,6 +50,7 @@ interface NewUserLessorDetails {
   flatDescription: string;
   selfDescription: string;
   deviceToken: string;
+  advertsIds?: number[];
 }
 type NewUserDetails = {
   tenant: NewUserTenantDetails;

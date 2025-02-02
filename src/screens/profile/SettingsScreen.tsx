@@ -26,6 +26,7 @@ import {size} from 'react-native-responsive-sizes';
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
@@ -55,6 +56,7 @@ const flatImages = [
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const {isLessor} = useUserType();
+  const {resetNewUserState} = useNewUserDetails();
   const {data} = useGetAdvertsQuery(undefined, {skip: !isLessor});
   const adverts = data?.adverts;
   console.log('adverts', adverts);
@@ -132,6 +134,7 @@ const SettingsScreen = () => {
 
   const handlePressImageSwiper = (advertId: number) => {
     navigation.navigate('EditAdvertScreen', {advertId});
+    resetNewUserState();
   };
 
   const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;

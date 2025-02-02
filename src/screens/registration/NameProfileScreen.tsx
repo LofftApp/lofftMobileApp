@@ -140,7 +140,6 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     setErrorLastName('');
     setErrorDate('');
     setErrorImage('');
-    clearImagesToUpload();
   };
 
   const handleContinue = () => {
@@ -170,8 +169,10 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
 
       return;
     }
+    console.log('result', result);
 
     setNewUserDetails({
+      userType: isLessor ? 'lessor' : 'tenant',
       firstName: result.data.firstName,
       lastName: result.data.lastName,
       dateOfBirth: result.data.dateOfBirth.toISOString(),
@@ -190,10 +191,10 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
       setCurrentScreen(currentScreen + 1);
     }
 
-    setErrorFirstName('');
-    setErrorLastName('');
-    setErrorDate('');
-    setErrorImage('');
+    // setErrorFirstName('');
+    // setErrorLastName('');
+    // setErrorDate('');
+    // setErrorImage('');
   };
 
   return (

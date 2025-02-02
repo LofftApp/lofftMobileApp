@@ -31,13 +31,14 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
   const [typeSelected, setTypeSelected] = useState(false);
 
-  const {userType, setUserType} = useNewUserDetails();
+  const {userType, setUserType} = useNewUserDetails(false);
   const {setCurrentScreen} = useNewUserCurrentScreen();
 
   const [signOut] = useSignOutMutation();

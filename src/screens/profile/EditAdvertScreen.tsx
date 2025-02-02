@@ -53,7 +53,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       subtitle: 'City and address',
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
-          screen: 'NameProfileScreen',
+          screen: 'SelectCityScreen',
           params: {edit: true},
         }),
       icon: 'map',
@@ -105,7 +105,8 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
 
       <View style={CoreStyleSheet.screenContainer}>
         <Text style={[fontStyles.bodyMedium, styles.title]}>
-          {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} - {advert?.flat.city || 'Berlin'}
+          {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
+          {advert?.flat.city || 'Berlin'}
         </Text>
         <View style={styles.mainContainer}>
           <FlatList

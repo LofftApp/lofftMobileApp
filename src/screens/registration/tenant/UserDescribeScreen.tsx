@@ -111,6 +111,8 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     setError('');
   };
 
+  console.log('NewuSer', newUserDetails);
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
