@@ -7,6 +7,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import {styles} from './styleSheet';
+import {size} from 'react-native-responsive-sizes';
 
 type PasswordInputProps = {
   placeholder?: string;
@@ -47,7 +48,7 @@ const PasswordInput = ({
         value={value}
         secureTextEntry={hidePassword}
         onChangeText={onChangeText}
-        style={[fontStyles.bodyMedium]}
+        style={[fontStyles.bodyMedium, {marginBottom: size(2)}]}
         onBlur={onBlur}
         onFocus={onFocus}
         placeholder={placeholder}

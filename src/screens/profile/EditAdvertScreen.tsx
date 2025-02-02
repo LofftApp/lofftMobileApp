@@ -25,11 +25,17 @@ import {
 } from 'reduxFeatures/adverts/advertApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   const advertId = route?.params?.advertId;
   console.log('advertId', advertId);
-  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
     refetchOnMountOrArgChange: true,
   });
   const {isLessor} = useUserType();
@@ -79,7 +85,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'FlatImageUploadScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'upload',
     },
@@ -90,7 +96,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'FlatLengthAvailableScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'calendar',
     },
@@ -101,7 +107,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'SafeSpaceForScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'face-wink',
     },
@@ -113,7 +119,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'LanguageSelectionScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'home-smile',
     },
@@ -138,10 +144,16 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       />
 
       <View style={CoreStyleSheet.screenContainer}>
-        <Text style={[fontStyles.bodyMedium, styles.titleAddress]}>
-          {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
-          {advert?.flat.city || 'Berlin'}
-        </Text>
+        {isLoading ? (
+          <LoadingButtonIcon />
+        ) : isError ? (
+          <ErrorMessage message="We couldn't retrieve the advert details" />
+        ) : (
+          <Text style={[fontStyles.bodyMedium, styles.titleAddress]}>
+            {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
+            {advert?.flat.city || 'Berlin'}
+          </Text>
+        )}
         <View style={styles.mainContainer}>
           <FlatList
             data={editAdvertData}

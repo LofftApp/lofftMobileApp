@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import {Text, StyleSheet, Pressable, Animated} from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
@@ -8,6 +8,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 //Types
 import {SelectionButtonProps} from './types';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 const SelectionButton = ({
   id,
@@ -17,22 +18,14 @@ const SelectionButton = ({
   selectFn,
   disabled = false,
 }: SelectionButtonProps) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
+  const {fadeInAnim} = useFadeInAnimation();
 
   const colorText = {color: toggle ? Color.White[100] : Color.Black[100]};
 
   return (
     <Animated.View
       style={{
-        opacity: fadeAnim,
+        opacity: fadeInAnim,
       }}>
       <Pressable
         onPress={() => {

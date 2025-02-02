@@ -7,9 +7,9 @@ import {SafeAreaView, StyleSheet, View, FlatList} from 'react-native';
 
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {size} from 'react-native-responsive-sizes';
-import {ArmsInL} from 'assets';
+import {ArmsInL, RegistrationBackground} from 'assets';
 import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
-import { AppLanguages } from 'reduxFeatures/settings/settingsSlice';
+import {AppLanguages} from 'reduxFeatures/settings/settingsSlice';
 
 type AppLanguageData = {
   id: AppLanguages;
@@ -33,6 +33,11 @@ const AppLanguageScreen = () => {
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
       <BackButton title="App Language" onPress={navigation.goBack} />
+      <RegistrationBackground
+        height="100%"
+        width="100%"
+        style={CoreStyleSheet.backgroundImage}
+      />
       <View style={styles.screenContainer}>
         <FlatList
           data={appLanguages}
@@ -63,8 +68,8 @@ const styles = StyleSheet.create({
   image: {
     position: 'absolute',
     top: size(90),
+    left: size(10),
     zIndex: -1,
-    left: 0,
     opacity: 0.9,
   },
 });

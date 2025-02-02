@@ -38,12 +38,12 @@ const SearchInput = ({
 }: SearchInputProps) => {
   return (
     <View style={styles.inputContainerWithIcon}>
-      <View style={styles.textContainer}>
+      <View style={styles.inputContainerWithIcon}>
         <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
         <TextInput
           value={value}
           onChangeText={onChangeText}
-          style={[fontStyles.bodyMedium]}
+          style={[fontStyles.bodyMedium, styles.input]}
           onBlur={onBlur}
           onFocus={onFocus}
           placeholder={placeholder}

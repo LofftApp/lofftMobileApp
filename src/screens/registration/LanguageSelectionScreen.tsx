@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {ScrollView, View, Text, StyleSheet, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -38,13 +38,17 @@ import {languagesSchema} from 'lib/zodSchema';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 const LanguageSelectionScreen = ({
   route,
 }: {
-  route?: {params: {edit: boolean}};
+  route?: {params: {edit: boolean; advertId: number}};
 }) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -64,12 +68,22 @@ const LanguageSelectionScreen = ({
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
     useNewUserDetails(isLessor, edit);
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
+  const {
+    data: advert,
+    isLoading: advertIsLoading,
+    isError: advertIsError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+    refetchOnMountOrArgChange: true,
+  });
   const savedLanguages = newUserDetails.languages;
   console.log('savedLanguages', savedLanguages);
-  console.log("newUserDetails", newUserDetails);
+  console.log('newUserDetails', newUserDetails);
 
   // Safe Area
   const insets = useSafeAreaInsets();
+
+  const {fadeInAnim} = useFadeInAnimation(!isLoading);
 
   useEffect(() => {
     if (savedLanguages && savedLanguages.length > 0) {
@@ -148,8 +162,18 @@ const LanguageSelectionScreen = ({
     ?.filter(language => languagesIds.includes(language.id))
     .map(language => language.name);
 
-  if (isLoading) {
+  if (isLoading || advertIsLoading) {
     return <LoadingComponent />;
+  }
+
+  if (advertIsError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
   }
 
   return (
@@ -176,7 +200,7 @@ const LanguageSelectionScreen = ({
           }
         />
 
-        <View style={styles.inputContainer}>
+        <Animated.View style={[styles.inputContainer, {opacity: fadeInAnim}]}>
           <InputFieldText
             type="search"
             placeholder="Search for your language"
@@ -184,7 +208,7 @@ const LanguageSelectionScreen = ({
             onChangeText={handleSearch}
             onClear={handleClearSearch}
           />
-        </View>
+        </Animated.View>
 
         <ScrollView ref={scrollViewRef}>
           {selectedLanguageNames && selectedLanguageNames.length > 0 && (
@@ -192,7 +216,8 @@ const LanguageSelectionScreen = ({
               <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
                 Your current Selection:
               </Text>
-              <View style={styles.languagesContainer}>
+              <Animated.View
+                style={[styles.languagesContainer, {opacity: fadeInAnim}]}>
                 {selectedLanguageNames?.map(language => (
                   <LanguagesCard
                     key={language}
@@ -205,7 +230,7 @@ const LanguageSelectionScreen = ({
                     }
                   />
                 ))}
-              </View>
+              </Animated.View>
             </>
           )}
           <Divider />
@@ -218,7 +243,8 @@ const LanguageSelectionScreen = ({
             {selectedLanguageNames && selectedLanguageNames.length > 0 && (
               <Text style={fontStyles.headerSmall}>Other languages</Text>
             )}
-            <View style={styles.languagesContainer}>
+            <Animated.View
+              style={[styles.languagesContainer, {opacity: fadeInAnim}]}>
               {languages.map(language => (
                 <LanguagesCard
                   key={language}
@@ -231,7 +257,7 @@ const LanguageSelectionScreen = ({
                   }
                 />
               ))}
-            </View>
+            </Animated.View>
           </View>
         </ScrollView>
         <Divider />

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
@@ -39,13 +39,18 @@ dayjs.extend(isToday);
 // Types
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 const FlatLengthAvailableScreen = ({
   route,
 }: {
-  route?: {params: {edit: boolean}};
+  route?: {params: {edit: boolean; advertId: number}};
 }) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -65,6 +70,14 @@ const FlatLengthAvailableScreen = ({
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor, edit);
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+    refetchOnMountOrArgChange: true,
+  });
   const savedFromDate =
     newUserDetails.userType === 'lessor' && newUserDetails.fromDate;
   const savedUntilDate =
@@ -86,16 +99,26 @@ const FlatLengthAvailableScreen = ({
       setPermanent(true);
       setUntilDateSelected(true);
     }
-  }, [savedFromDate, savedUntilDate]);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
+    if (edit && advert?.fromDate) {
+      setFromDate(new Date(advert.fromDate));
+      setFromDateSelected(true);
+    }
+
+    if (edit && advert?.toDate) {
+      setUntilDate(new Date(advert.toDate));
+      setUntilDateSelected(true);
+    }
+  }, [
+    savedFromDate,
+    savedUntilDate,
+    edit,
+    advert,
+    advert?.fromDate,
+    advert?.toDate,
+  ]);
+
+  const {fadeInAnim} = useFadeInAnimation();
 
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;
@@ -191,6 +214,20 @@ const FlatLengthAvailableScreen = ({
     setErrorUntilDate('');
   };
 
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
@@ -207,7 +244,7 @@ const FlatLengthAvailableScreen = ({
             <View style={styles.datePickerContainer}>
               <Text style={fontStyles.headerSmall}>From</Text>
               <Animated.View
-                style={[styles.buttonContainer, {opacity: fadeAnim}]}>
+                style={[styles.buttonContainer, {opacity: fadeInAnim}]}>
                 <DatePickerInput
                   date={fromDate}
                   error={errorFromDate}
@@ -233,7 +270,7 @@ const FlatLengthAvailableScreen = ({
             <View style={styles.datePickerContainer}>
               <Text style={fontStyles.headerSmall}>Until</Text>
               <Animated.View
-                style={[styles.buttonContainer, {opacity: fadeAnim}]}>
+                style={[styles.buttonContainer, {opacity: fadeInAnim}]}>
                 <DatePickerInput
                   date={untilDate}
                   error={errorUntilDate}

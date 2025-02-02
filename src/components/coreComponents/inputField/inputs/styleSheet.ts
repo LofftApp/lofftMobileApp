@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: size(10),
     gap: size(8),
+    marginBottom: size(10),
   },
   clearContainer: {
     position: 'absolute',
@@ -23,6 +24,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     paddingLeft: size(10),
+    marginBottom: size(5),
   },
   clearButton: {
     padding: 0,

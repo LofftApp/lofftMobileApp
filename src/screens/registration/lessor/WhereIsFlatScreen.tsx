@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -51,6 +51,7 @@ import {size} from 'react-native-responsive-sizes';
 
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Currency} from 'reduxFeatures/assets/types';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
@@ -169,25 +170,15 @@ const WhereIsFlatScreen = ({
     }
   }, [location]);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsReady(true);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, []);
 
-  useEffect(() => {
-    if (isReady) {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [isReady, fadeAnim]);
+  const {fadeInAnim} = useFadeInAnimation(isReady);
 
   const handleBackButton = () => {
     if (!edit) {
@@ -312,7 +303,7 @@ const WhereIsFlatScreen = ({
               <HeadlineContainer headlineText={'Where is your flat?'} />
               <Animated.View
                 style={{
-                  opacity: fadeAnim,
+                  opacity: fadeInAnim,
                 }}>
                 <InputFieldText
                   type="search"
@@ -343,7 +334,7 @@ const WhereIsFlatScreen = ({
                 <HeadlineContainer headlineText="How much is the monthly rent?" />
                 <Animated.View
                   style={{
-                    opacity: fadeAnim,
+                    opacity: fadeInAnim,
                   }}>
                   <InputFieldText
                     value={price}

@@ -38,9 +38,17 @@ import {MAX_GENDERS} from 'components/componentData/constants';
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
-const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const SafeSpaceForScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -59,6 +67,14 @@ const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
     useNewUserDetails(isLessor, edit);
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+    refetchOnMountOrArgChange: true,
+  });
   const savedSafeSpacesIds = newUserDetails.safeSpaces;
 
   useEffect(() => {
@@ -110,6 +126,20 @@ const SafeSpaceForScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
 
     setError('');
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

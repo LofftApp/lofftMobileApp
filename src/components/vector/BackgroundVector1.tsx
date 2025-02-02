@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
     top: '100%',
     zIndex: -1,
     left: '-40%',
-    opacity: 0.9,
+    opacity: 0.8,
   },
   vector2: {
     position: 'absolute',
     top: '-10%',
     zIndex: -1,
     right: '-35%',
-    opacity: 0.9,
+    opacity: 0.8,
   },
 });
 

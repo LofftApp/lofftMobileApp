@@ -21,7 +21,7 @@ const SettingsUserImage = ({
   isLoading?: boolean;
 }) => {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
-  const {width, height} = useWindowDimensions();
+  const {height} = useWindowDimensions();
 
   const handlePress = () => {
     navigation.navigate('NewUserNavigator', {
@@ -34,21 +34,21 @@ const SettingsUserImage = ({
       <View style={styles.loadingContainer}>
         {isLoading && <LoadingButtonIcon size="large" />}
       </View>
-      {userImageUri ? (
-        <Image
-          style={[styles.profilePic, {height: height * 0.15}]}
-          source={{uri: userImageUri}}
-          blurRadius={isLoading ? 30 : 0}
-        />
-      ) : (
-        <Image
-          style={[styles.noProfilePic, {height: height * 0.15}]}
-          source={NoAvatarImage}
-          blurRadius={isLoading ? 30 : 0}
-        />
-      )}
 
-      <ImageEditButton right={width * 0.303} />
+      <View style={styles.profilePicWrapper}>
+        <Image
+          style={[
+            styles.profilePic,
+            {height: height * 0.18, width: height * 0.18},
+          ]}
+          source={userImageUri ? {uri: userImageUri} : NoAvatarImage}
+          blurRadius={isLoading ? 30 : 0}
+        />
+
+        <Pressable style={styles.editButtonContainer}>
+          <ImageEditButton />
+        </Pressable>
+      </View>
     </Pressable>
   );
 };
@@ -56,25 +56,33 @@ const SettingsUserImage = ({
 const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     position: 'relative',
+  },
+
+  profilePicWrapper: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   profilePic: {
     aspectRatio: 1,
     borderRadius: 12,
+    resizeMode: 'cover',
   },
-  noProfilePic: {
-    aspectRatio: 1,
-    borderRadius: 12,
-    width: '33%',
-    height: '33%',
+
+  editButtonContainer: {
+    position: 'absolute',
+    bottom: size(5),
+    right: size(5),
+    zIndex: 2,
   },
+
   loadingContainer: {
     position: 'absolute',
-    top: size(50),
-
+    top: size(55),
     zIndex: 1,
   },
 });
-
 export default SettingsUserImage;
