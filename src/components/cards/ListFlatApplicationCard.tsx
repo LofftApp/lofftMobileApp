@@ -1,5 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, DimensionValue} from 'react-native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  DimensionValue,
+  Animated,
+  Easing,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
@@ -55,7 +62,7 @@ const ListFlatApplicationCard = ({
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
-  const calculateStatusBar = (currentStatusIndex: number) => {
+  const calculateStatusBar = useCallback((currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
         setCurrentStatusBar('40');
@@ -74,14 +81,34 @@ const ListFlatApplicationCard = ({
         setActiveStage(0);
         break;
     }
-  };
+  }, []);
 
+  const animatedWidth = useRef(new Animated.Value(1)).current;
   useEffect(() => {
     const index = active
       ? advertStatusIndex(advert?.status ?? '')
       : advertStatusIndex('offered');
     calculateStatusBar(index);
-  }, [advert?.status, application?.status, active]);
+    Animated.spring(animatedWidth, {
+      toValue: Number(currentStatusBar),
+      speed: 0.1,
+      bounciness: 1,
+      useNativeDriver: false,
+    }).start();
+  }, [
+    animatedWidth,
+    calculateStatusBar,
+    active,
+    advert?.status,
+    currentStatusBar,
+  ]);
+
+  // useEffect(() => {
+  //   const index = active
+  //     ? advertStatusIndex(advert?.status ?? '')
+  //     : advertStatusIndex('offered');
+  //   calculateStatusBar(index);
+  // }, [advert?.status, application?.status, active]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : tenantActiveStatus;
 
@@ -155,21 +182,24 @@ const ListFlatApplicationCard = ({
       )}
 
       <View>
-        <View
+        <Animated.View
           style={[
             styles.progressBarOutline,
             {backgroundColor: active ? Color.Mint[10] : Color.Tomato[10]},
           ]}>
-          <View
+          <Animated.View
             style={[
               styles.actualProgress,
               {
-                width: `${Number(currentStatusBar)}%` as DimensionValue,
+                width: animatedWidth.interpolate({
+                  inputRange: [0, 100],
+                  outputRange: ['0%', '100%'], // Maps values to % height
+                }) as DimensionValue,
                 backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
               },
             ]}
           />
-        </View>
+        </Animated.View>
 
         <View style={styles.statusContainer}>
           {textForStatusBar.map(el => (
