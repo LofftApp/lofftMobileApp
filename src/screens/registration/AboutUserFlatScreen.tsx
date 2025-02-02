@@ -45,8 +45,13 @@ import {
 } from '../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
-const AboutUserFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const AboutUserFlatScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params.edit;
+  const advertId = route?.params.advertId;
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp

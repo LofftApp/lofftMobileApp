@@ -172,10 +172,9 @@ type NewUserScreens = {
   lessor: Record<number, NewUserScreenNames>;
 };
 
-type NewUserStackParamsList = Record<
-  NewUserScreenNames,
-  undefined | {edit?: boolean}
->;
+type NewUserStackParamsList = {
+  [key in NewUserScreenNames]: undefined;
+};
 
 type NewUserJourneyStackNavigation =
   StackNavigationProp<NewUserStackParamsList>;
@@ -188,7 +187,7 @@ type SettingsTabParamsList = {
 type SettingsStackParamsList = {
   SettingsScreen: undefined;
   EditProfileScreen: undefined;
-  EditAdvertScreen: undefined;
+  EditAdvertScreen: {advertId: number};
   GetTokensScreen: undefined;
   AppLanguageScreen: undefined;
   SwitchUserScreen: undefined;
@@ -196,7 +195,7 @@ type SettingsStackParamsList = {
   SendFeedbackScreen: undefined;
   NewUserNavigator: {
     screen: keyof NewUserStackParamsList;
-    params?: {edit?: boolean};
+    params?: {edit?: boolean; advertId?: number};
   };
 };
 

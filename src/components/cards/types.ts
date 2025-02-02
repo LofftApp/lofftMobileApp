@@ -25,7 +25,7 @@ type ImageSwiperProps = {
   marginHorizontal?: number;
   editButton?: boolean;
   deleteImage?: (fileName: string) => void;
-  onPress?: () => void;
+  onPress?: (index?: number) => void;
 };
 
 type OnViewableItemsChangedParams = {

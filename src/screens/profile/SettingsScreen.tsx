@@ -25,6 +25,7 @@ import {size} from 'react-native-responsive-sizes';
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 
 const picUrl =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
@@ -38,6 +39,9 @@ const flatImages = [
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const {isLessor} = useUserType();
+  const {data} = useGetAdvertsQuery(undefined, {skip: !isLessor});
+  const adverts = data?.adverts;
+  console.log('adverts', adverts);
   const {appLanguage} = useAppLanguage();
   const [signOut] = useSignOutMutation();
 
@@ -45,6 +49,13 @@ const SettingsScreen = () => {
 
   const userView = isLessor ? 'tenant' : 'lessor';
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
+  const advertPhotos =
+    adverts?.map(advert => ({
+      photo: advert.flat.photos[0],
+      advertId: advert.id,
+    })) || [];
+  console.log('advertPhotos', advertPhotos);
+
   const settingsData = [
     {
       id: 10,
@@ -100,8 +111,8 @@ const SettingsScreen = () => {
     },
   ];
 
-  const handlePressImageSwiper = () => {
-    navigation.navigate('EditAdvertScreen');
+  const handlePressImageSwiper = (advertId: number) => {
+    navigation.navigate('EditAdvertScreen', {advertId});
   };
 
   const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
@@ -126,10 +137,12 @@ const SettingsScreen = () => {
               <ImageSwiper
                 imageContainerHeight={90}
                 imageContainerWidth={90}
-                images={flatImages}
+                images={advertPhotos.map(photo => photo.photo)}
                 snapToInterval={30}
                 editButton
-                onPress={handlePressImageSwiper}
+                onPress={index =>
+                  handlePressImageSwiper(advertPhotos[index ?? 0].advertId)
+                }
               />
             )}
           </View>
