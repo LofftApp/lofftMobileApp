@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -62,8 +62,19 @@ const SettingsScreen = () => {
   console.log('adverts', adverts);
   const {appLanguage} = useAppLanguage();
   const [signOut] = useSignOutMutation();
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const userView = isLessor ? 'tenant' : 'lessor';
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
@@ -169,7 +180,7 @@ const SettingsScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <View style={styles.mainContainer}>
           <View style={styles.imagesContainer}>
-            <SettingsUserImage userImageUri={userImageUri} />
+            <SettingsUserImage userImageUri={userImageUri} isLoading={isLoading} />
 
             {isLessor && (
               <ImageSwiper
