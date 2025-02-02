@@ -13,6 +13,8 @@ import type {OnViewableItemsChangedParams} from './types';
 import ImageEditButton from 'components/buttons/ImageEditButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Color from 'styleSheets/lofftColorPallet.json';
+import {NoFlatImage} from 'assets';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const ImageSwiper = ({
   imageContainerHeight,
@@ -25,6 +27,7 @@ const ImageSwiper = ({
   editButton = false,
   deleteImage,
   onPress,
+  isLoading,
 }: ImageSwiperProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
@@ -65,18 +68,38 @@ const ImageSwiper = ({
                 </Pressable>
               )}
 
-              <Pressable onPress={() => onPress?.(index)}>
-                <Image
-                  style={[
-                    styles.imageContainer,
-                    {height: imageContainerHeight},
-                    {width: imageContainerWidth},
-                    {marginHorizontal: size(marginHorizontal)},
-                  ]}
-                  source={{uri: source}}
-                  key={index + 1}
-                  blurRadius={activeBlur ? 65 : 0}
-                />
+              <Pressable
+                onPress={() => onPress?.(index)}
+                style={styles.pressContainer}>
+                {isLoading && (
+                  <View style={styles.loadingContainer}>
+                    <LoadingButtonIcon size="small" />
+                  </View>
+                )}
+                {item.uri || item ? (
+                  <Image
+                    style={[
+                      styles.imageContainer,
+                      {height: imageContainerHeight},
+                      {width: imageContainerWidth},
+                      {marginHorizontal: size(marginHorizontal)},
+                    ]}
+                    source={{uri: source}}
+                    key={index + 1}
+                    blurRadius={activeBlur || isLoading ? 30 : 0}
+                  />
+                ) : (
+                  <Image
+                    style={[
+                      styles.imageContainer,
+                      {height: imageContainerHeight},
+                      {width: imageContainerWidth},
+                      {marginHorizontal: size(marginHorizontal)},
+                    ]}
+                    source={NoFlatImage}
+                    blurRadius={activeBlur || isLoading ? 65 : 0}
+                  />
+                )}
                 {editButton && <ImageEditButton right={10} />}
               </Pressable>
             </>
@@ -97,6 +120,10 @@ const ImageSwiper = ({
 };
 
 const styles = StyleSheet.create({
+  pressContainer: {
+    position: 'relative',
+    alignItems: 'center',
+  },
   imageContainer: {
     position: 'relative',
     resizeMode: 'cover',
@@ -117,6 +144,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Color.Tomato['100'],
+  },
+
+  loadingContainer: {
+    position: 'absolute',
+    top: '40%',
+    zIndex: 1,
   },
 });
 

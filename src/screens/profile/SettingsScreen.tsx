@@ -37,8 +37,7 @@ const flatImages = [
     advertId: 3,
   },
   {
-    photo:
-      'https://images.unsplash.com/photo-1586105251261-72a756497a11?q=80&w=1258&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    photo: '',
     advertId: 4,
   },
   {
@@ -180,7 +179,10 @@ const SettingsScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <View style={styles.mainContainer}>
           <View style={styles.imagesContainer}>
-            <SettingsUserImage userImageUri={userImageUri} isLoading={isLoading} />
+            <SettingsUserImage
+              userImageUri={userImageUri}
+              isLoading={isLoading}
+            />
 
             {isLessor && (
               <ImageSwiper
@@ -194,6 +196,7 @@ const SettingsScreen = () => {
                     handlePressImageSwiper(totalPhotos[index].advertId);
                   }
                 }}
+                isLoading={isLoading}
               />
             )}
           </View>
