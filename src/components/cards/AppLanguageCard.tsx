@@ -5,6 +5,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   Pressable,
+  Animated,
 } from 'react-native';
 
 //Redux
@@ -22,6 +23,7 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {size} from 'react-native-responsive-sizes';
 
 import {AppLanguageCardScreenProps} from './types';
+import { useFadeInAnimation } from 'hooks/useFadeInAnimation';
 
 // Constants
 // Types
@@ -31,7 +33,7 @@ const AppLanguageCard = ({
 }: AppLanguageCardScreenProps) => {
   const {isLessor} = useUserType();
   const {appLanguage, setAppLanguage} = useAppLanguage(); // Get language state from Redux
-
+  const {fadeInAnim} = useFadeInAnimation();
   const isSelected = appLanguage === id;
   const handleSelectLanguage = () => {
     setAppLanguage(id);
@@ -44,11 +46,12 @@ const AppLanguageCard = ({
       : Color.Mint[20]
     : Color.White[10];
   return (
-    <View
+    <Animated.View
       style={[
         styles.outterContainer,
         {width: width - 30},
         {backgroundColor: bgColor},
+        {opacity: fadeInAnim},
       ]}>
       <Pressable onPress={handleSelectLanguage}>
         <View style={[isSelected ? styles.selected : styles.innerContainer]}>
@@ -77,7 +80,7 @@ const AppLanguageCard = ({
           </View>
         </View>
       </Pressable>
-    </View>
+    </Animated.View>
   );
 };
 

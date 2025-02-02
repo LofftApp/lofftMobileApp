@@ -1,5 +1,13 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Text, View, StyleSheet, Dimensions, DimensionValue} from 'react-native';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  DimensionValue,
+  Animated,
+  Easing,
+} from 'react-native';
 
 //Redux 🏗️
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -245,18 +253,32 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
     [isLessor],
   );
 
+  const animatedHeight = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    const index = active
+      ? advertStatusIndex(advert?.status ?? '')
+      : advertStatusIndex('offered');
+    calculateStatusBar(index);
+    Animated.timing(animatedHeight, {
+      toValue: Number(statusBar),
+      duration: 1500,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start();
+  }, [animatedHeight, calculateStatusBar, active, advert?.status, statusBar]);
+
   // The background color height of the statusbar is set here 👨🏻‍🍳
   // The Index needs to be stored in state or in the advert.status enum for the color to change
   // useEffect(() => {
   //   calculateStatusBar(currentAdvertStatus);
   // }, [currentAdvertStatus, calculateStatusBar]);
 
-  useEffect(() => {
-    const index = active
-      ? advertStatusIndex(advert?.status ?? '')
-      : advertStatusIndex('offered');
-    calculateStatusBar(index);
-  }, [advert?.status, active, calculateStatusBar]);
+  // useEffect(() => {
+  //   const index = active
+  //     ? advertStatusIndex(advert?.status ?? '')
+  //     : advertStatusIndex('offered');
+  //   calculateStatusBar(index);
+  // }, [advert?.status, active, calculateStatusBar]);
 
   return (
     <>
@@ -268,7 +290,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
               maxHeight: isLessor ? screenheight / 1.2 : screenheight / 1.6,
             },
           ]}>
-          <View
+          <Animated.View
             style={[
               styles.progressBarOutline,
               {
@@ -280,11 +302,14 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
               },
             ]}>
             <View style={styles.iconsPosition}>{iconsCreated}</View>
-            <View
+            <Animated.View
               style={[
                 styles.progressBar,
                 {
-                  height: `${Number(statusBar)}%` as DimensionValue,
+                  height: animatedHeight.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: ['0%', '100%'], // Maps values to % height
+                  }) as DimensionValue,
                   backgroundColor: active
                     ? isLessor
                       ? Color.Lavendar[100]
@@ -293,7 +318,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                 },
               ]}
             />
-          </View>
+          </Animated.View>
           <View
             style={[
               styles.progressTextContainer,
