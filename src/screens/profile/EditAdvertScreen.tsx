@@ -23,7 +23,6 @@ import {
   useGetAdvertByIdQuery,
   useGetAdvertsQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import HeadlineContainer from 'components/containers/HeadlineContainer';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 
