@@ -45,6 +45,8 @@ import {
 } from '../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 const AboutUserFlatScreen = ({
   route,
@@ -74,7 +76,11 @@ const AboutUserFlatScreen = ({
   const {newUserDetails, setNewUserDetails, isNewUserLessor} =
     useNewUserDetails(isLessor, edit);
   const savedCharsIds = newUserDetails.characteristics;
-  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit,
   });
 
@@ -134,6 +140,20 @@ const AboutUserFlatScreen = ({
 
     setError('');
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
 
   const charsButtons = characteristics?.map(char => {
     return (

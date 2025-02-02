@@ -9,10 +9,13 @@ import {
   Animated,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Redux 🧠
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 // Screen 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -30,6 +33,8 @@ import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import CurrencyButton from 'components/buttons/CurrencyButton';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 //Assets
 import {RegistrationBackground} from 'assets';
@@ -46,15 +51,20 @@ import {size} from 'react-native-responsive-sizes';
 
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Currency} from 'reduxFeatures/assets/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
-const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const WhereIsFlatScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
-
+  // Safe Area
+  const insets = useSafeAreaInsets();
   // Local State
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
@@ -70,6 +80,7 @@ const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   });
   const [errorAddress, setErrorAddress] = useState('');
   const [errorPrice, setErrorPrice] = useState('');
+  const [isReady, setIsReady] = useState(false);
   // API Hook
   const {
     addresses,
@@ -83,6 +94,13 @@ const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor, edit);
+  const {
+    data: advert,
+    isLoading: isLoadingAdvert,
+    isError: isErrorAdvert,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+  });
   const savedAddress =
     newUserDetails.userType === 'lessor' ? newUserDetails.address : undefined;
   const savedPrice =
@@ -92,6 +110,7 @@ const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const savedCurrency =
     newUserDetails.userType === 'lessor' ? newUserDetails.currency : undefined;
   console.log('savedAddress', savedAddress);
+
   useEffect(() => {
     if (savedAddress) {
       setLocation(savedAddress.address);
@@ -109,7 +128,39 @@ const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     if (savedCurrency) {
       setCurrency(savedCurrency);
     }
-  }, [savedAddress, savedPrice, savedWarmRent, savedCurrency]);
+
+    if (edit && advert?.flat.address) {
+      setLocation(advert?.flat.address);
+      setAddressDetails({
+        address: advert?.flat.address,
+        district: advert?.flat.district,
+      });
+    }
+
+    if (edit && advert?.monthlyRent) {
+      setPrice(advert?.monthlyRent.toString());
+    }
+
+    if (edit && advert?.currency) {
+      setCurrency('eur');
+    }
+
+    if (edit && advert?.warmRent) {
+      setWarmRent(advert?.warmRent);
+    }
+  }, [
+    savedAddress,
+    savedPrice,
+    savedWarmRent,
+    savedCurrency,
+    advert,
+    edit,
+    advert?.flat.address,
+    advert?.flat.district,
+    advert?.monthlyRent,
+    advert?.currency,
+    advert?.warmRent,
+  ]);
 
   useEffect(() => {
     if (!location) {
@@ -120,12 +171,22 @@ const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
+    const timeout = setTimeout(() => {
+      setIsReady(true);
+    }, 500); // Delay setting state
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isReady, fadeAnim]);
 
   const handleBackButton = () => {
     if (!edit) {
@@ -214,10 +275,29 @@ const WhereIsFlatScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     setErrorPrice('');
     setErrorSearch('');
   };
-  console.log('newUserDetaiks in WHere is flat', newUserDetails);
+  if (isLoadingAdvert || !isReady) {
+    return <LoadingComponent />;
+  }
+
+  if (isErrorAdvert) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"

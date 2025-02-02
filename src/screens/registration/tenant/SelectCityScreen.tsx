@@ -45,9 +45,17 @@ import {
 } from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
-const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
+const SelectCityScreen = ({
+  route,
+}: {
+  route: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -77,6 +85,13 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails, isNewUserLessor} =
     useNewUserDetails(isLessor, edit);
+  const {
+    data: advert,
+    isLoading,
+    isError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit,
+  });
   const savedCityId = newUserDetails.city;
   const savedDistrictIds = newUserDetails.districts;
 
@@ -97,7 +112,25 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
         );
       }
     }
-  }, [savedCityId, savedDistrictIds, cities]);
+
+    if (edit && advert && advert.flat.city) {
+      const matchedCity = cities.find(c => c.name === advert.flat.city);
+      const matchedDistricts = matchedCity?.districts
+        .filter(d => advert.flat.district.includes(d.name))
+        .map(d => d.id);
+      console.log('matchedCity', matchedCity);
+      console.log('matchedDistricts', matchedDistricts);
+      if (matchedCity) {
+        setCity(`${matchedCity.flag} ${capitalize(matchedCity.name)}`);
+        setSelectedCityId(matchedCity.id);
+        setDistricts(matchedCity.districts);
+        setSelectedDistrictIds(matchedDistricts ?? []);
+        setIsAllDistricts(
+          matchedDistricts?.length === matchedCity.districts.length,
+        );
+      }
+    }
+  }, [savedCityId, savedDistrictIds, cities, edit, advert, advert?.flat.city]);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -229,7 +262,7 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       isLessor
         ? navigation.navigate('NewUserNavigator', {
             screen: 'WhereIsFlatScreen',
-            params: {edit: true},
+            params: {edit: true, advertId},
           })
         : navigation.navigate('NewUserNavigator', {
             screen: 'FinderBudgetScreen',
@@ -245,6 +278,22 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       setError('');
     }
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
+  console.log('isError', isError);
+
   return (
     <View
       style={[
@@ -312,7 +361,12 @@ const SelectCityScreen = ({route}: {route: {params: {edit: boolean}}}) => {
       </View>
 
       <View style={styles.footerContainer}>
-        {error && <ErrorMessage message={error} />}
+        {error ||
+          (isError && (
+            <ErrorMessage
+              message={error || 'An error occorrued fetching adverts'}
+            />
+          ))}
         {!edit && <NewUserPaginationBar />}
 
         <NewUserJourneyContinueButton

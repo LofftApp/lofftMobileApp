@@ -53,7 +53,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'SelectCityScreen',
-          params: {edit: true},
+          params: {edit: true, advertId},
         }),
       icon: 'map',
     },

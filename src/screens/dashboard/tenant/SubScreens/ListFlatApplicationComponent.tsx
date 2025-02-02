@@ -37,6 +37,8 @@ const ListFlatApplicationComponent = ({
             ? 'There was an error getting your listings'
             : 'There was an error getting your applications'
         }
+        buttonValue="Try again"
+        onPress={() => {}}
       />
     );
   }

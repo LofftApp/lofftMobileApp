@@ -10,7 +10,6 @@ import HeartButton from 'components/buttons/HeartButton';
 
 // Redux 🐙
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';

@@ -12,8 +12,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: size(5),
-    marginRight: size(10),
+    paddingVertical: size(10),
     gap: size(8),
   },
   clearContainer: {
