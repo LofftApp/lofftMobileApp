@@ -8,7 +8,10 @@ const SettingsUserImage = ({userImageUri}: {userImageUri: string}) => {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   const {width} = useWindowDimensions();
   const handlePress = () => {
-    navigation.navigate('EditProfileScreen');
+    navigation.navigate('NewUserNavigator', {
+      screen: 'UserImageUploadScreen',
+      params: {edit: true},
+    });
   };
   return (
     <Pressable style={styles.imageContainer} onPress={handlePress}>

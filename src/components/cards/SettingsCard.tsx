@@ -25,22 +25,23 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 // Types
 
 const SettingsCard = ({
-  settingsData: {title, icon, subtitle, id, navigate},
+  settingsData: {title, icon, subtitle, id, onPress},
+  hasArrowIds,
+  isDeleteId,
 }: SettingsCardProps) => {
   const {isLessor} = useUserType();
-  const hasArrowArr = [1, 2, 3, 4, 5];
-  const isDelete = id === 7;
-  const hasArrow = hasArrowArr.includes(id);
+  const isDelete = isDeleteId === id;
+  const hasArrow = hasArrowIds?.includes(id);
 
-  const handleNavigate = () => {
-    navigate();
+  const handlePress = () => {
+    onPress();
   };
 
   const {width} = useWindowDimensions();
-
+  const subtitleWidth = width - 150;
   return (
     <View style={[styles.outterContainer, {width: width - 30}]}>
-      <Pressable onPress={handleNavigate}>
+      <Pressable onPress={handlePress}>
         <View style={[styles.innerContainer]}>
           <View style={styles.details}>
             <LofftIcon
@@ -58,7 +59,12 @@ const SettingsCard = ({
                 {title}
               </Text>
               {subtitle && (
-                <Text style={[fontStyles.bodySmall, styles.subtitle]}>
+                <Text
+                  style={[
+                    fontStyles.bodySmall,
+                    styles.subtitle,
+                    {width: subtitleWidth},
+                  ]}>
                   {subtitle}
                 </Text>
               )}
@@ -99,14 +105,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
   },
   details: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(30),
     flexShrink: 1,
-
   },
   titleContainer: {
     alignItems: 'flex-start',
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     color: Color.Black[50],
     flexWrap: 'wrap',
     flexShrink: 1,
-    width: '80%',
+    width: '90%',
   },
   matcher: {
     color: Color.Mint[100],

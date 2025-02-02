@@ -47,48 +47,55 @@ const SettingsScreen = () => {
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const settingsData = [
     {
+      id: 10,
+      title: 'Edit Profile',
+      subtitle: 'Profile details, Match Tags and more',
+      onPress: () => navigation.navigate('EditProfileScreen'),
+      icon: 'user-edit',
+    },
+    {
       id: 1,
       title: 'Get Tokens',
       subtitle: `You have ${currentUser?.credits} tokens`,
-      navigate: () => navigation.navigate('GetTokensScreen'),
+      onPress: () => navigation.navigate('GetTokensScreen'),
       icon: 'coins-stacked',
     },
     {
       id: 2,
       title: 'App Language',
       subtitle: appLang,
-      navigate: () => navigation.navigate('AppLanguageScreen'),
+      onPress: () => navigation.navigate('AppLanguageScreen'),
       icon: 'translate',
     },
     {
       id: 3,
       title: 'Send Feedback',
       subtitle: '',
-      navigate: () => navigation.navigate('SendFeedbackScreen'),
+      onPress: () => navigation.navigate('SendFeedbackScreen'),
       icon: 'announcement',
     },
     {
       id: 4,
       title: 'Terms and Conditions',
-      navigate: () => navigation.navigate('TermsAndConditionsScreen'),
+      onPress: () => navigation.navigate('TermsAndConditionsScreen'),
       icon: 'file',
     },
     {
       id: 5,
       title: `Switch to ${userView} view`,
-      navigate: () => navigation.navigate('SwitchUserScreen'),
+      onPress: () => navigation.navigate('SwitchUserScreen'),
       icon: 'refresh-ccq-03',
     },
     {
       id: 6,
       title: 'Sign Out',
-      navigate: () => signOut(),
+      onPress: () => signOut(),
       icon: 'log-out',
     },
     {
       id: 7,
       title: 'Delete Account',
-      navigate: () => {},
+      onPress: () => {},
       icon: 'trash',
     },
   ];
@@ -128,7 +135,13 @@ const SettingsScreen = () => {
           </View>
           <FlatList
             data={settingsData}
-            renderItem={({item}) => <SettingsCard settingsData={item} />}
+            renderItem={({item}) => (
+              <SettingsCard
+                settingsData={item}
+                hasArrowIds={[1, 2, 3, 4, 5, 10]}
+                isDeleteId={7}
+              />
+            )}
             keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.cardsContainer}
             showsVerticalScrollIndicator={false}

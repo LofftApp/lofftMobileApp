@@ -1,22 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
-// Redux
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 
 //Hooks
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //Components
-import {RegistrationBackground, Trail} from 'assets';
-import ImageSwiper from 'components/cards/ImageSwiper';
-import SettingsUserImage from 'components/images/SettingsUserImages';
+import {RegistrationBackground} from 'assets';
 import SettingsCard from 'components/cards/SettingsCard';
+import BackButton from 'components/buttons/BackButton';
 
 //Styles
-import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Helpers
@@ -24,34 +18,18 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
-import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
-import BackButton from 'components/buttons/BackButton';
-
-const picUrl =
-  'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
-const flatImages = [
-  'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1586105251261-72a756497a11?q=80&w=1258&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1585128792020-803d29415281?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-];
 
 const EditProfileScreen = () => {
-  const {data: currentUser} = useGetUserQuery();
   const {isLessor} = useUserType();
-  const {appLanguage} = useAppLanguage();
-  const [signOut] = useSignOutMutation();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
-  const userView = isLessor ? 'tenant' : 'lessor';
-  const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const editTenantProfile = [
     {
       id: 1,
       title: 'Match Tags',
       subtitle: 'Boost your profile to find the perfect flat',
-      navigate: () =>
+      onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'AboutUserFlatScreen',
           params: {edit: true},
@@ -60,20 +38,9 @@ const EditProfileScreen = () => {
     },
     {
       id: 2,
-      title: 'Upload Pictures',
-      subtitle: 'Show your best side',
-      navigate: () =>
-        navigation.navigate('NewUserNavigator', {
-          screen: 'UserImageUploadScreen',
-          params: {edit: true},
-        }),
-      icon: 'upload',
-    },
-    {
-      id: 3,
       title: 'Personal Information',
       subtitle: 'Name and date of birth',
-      navigate: () =>
+      onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'NameProfileScreen',
           params: {edit: true},
@@ -81,10 +48,10 @@ const EditProfileScreen = () => {
       icon: 'user-edit',
     },
     {
-      id: 4,
+      id: 3,
       title: 'Gender Identity',
       subtitle: 'To get you closer to the right community',
-      navigate: () =>
+      onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'GenderIdentityScreen',
           params: {edit: true},
@@ -92,10 +59,10 @@ const EditProfileScreen = () => {
       icon: 'face-wink',
     },
     {
-      id: 5,
+      id: 4,
       title: 'Search Preferences',
       subtitle: 'City, budget, and more',
-      navigate: () =>
+      onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'SelectCityScreen',
           params: {edit: true},
@@ -103,10 +70,10 @@ const EditProfileScreen = () => {
       icon: 'search-sm',
     },
     {
-      id: 6,
+      id: 5,
       title: 'Languages',
       subtitle: 'The languages spoken in the flat',
-      navigate: () =>
+      onPress: () =>
         navigation.navigate('NewUserNavigator', {
           screen: 'LanguageSelectionScreen',
           params: {edit: true},
@@ -114,6 +81,8 @@ const EditProfileScreen = () => {
       icon: 'home-smile',
     },
   ];
+
+  const editLessorProfile = editTenantProfile.slice(1, 3);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -128,8 +97,10 @@ const EditProfileScreen = () => {
       <View style={CoreStyleSheet.screenContainer}>
         <View style={styles.mainContainer}>
           <FlatList
-            data={editTenantProfile}
-            renderItem={({item}) => <SettingsCard settingsData={item} />}
+            data={isLessor ? editLessorProfile : editTenantProfile}
+            renderItem={({item}) => (
+              <SettingsCard settingsData={item} hasArrowIds={[1, 2, 3, 4, 5]} />
+            )}
             keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.cardsContainer}
             showsVerticalScrollIndicator={false}
