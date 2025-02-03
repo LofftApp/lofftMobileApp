@@ -47,6 +47,8 @@ import {
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
@@ -75,8 +77,11 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const savedLastName = newUserDetails.lastName;
   const savedDate = newUserDetails.dateOfBirth;
   console.log('NewUSerDetails', newUserDetails);
+  const {data: currentUser} = useGetUserQuery();
+  console.log('currentUser', currentUser);
 
   useEffect(() => {
+    //New User
     if (savedFirstName) {
       setFirstName(savedFirstName);
     }
@@ -87,16 +92,29 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
       setDate(new Date(savedDate));
       setIsDateSelected(true);
     }
-  }, [savedFirstName, savedLastName, savedDate]);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  });
+    //Edit User Profile
+    if (edit && currentUser?.profile.firstName) {
+      setFirstName(currentUser.profile.firstName);
+    }
+    if (edit && currentUser?.profile.lastName) {
+      setLastName(currentUser.profile.lastName);
+    }
+    if (edit && currentUser?.profile.dateOfBirth) {
+      setDate(new Date(currentUser.profile.dateOfBirth));
+      setIsDateSelected(true);
+    }
+  }, [
+    savedFirstName,
+    savedLastName,
+    savedDate,
+    edit,
+    currentUser?.profile.firstName,
+    currentUser?.profile.lastName,
+    currentUser?.profile.dateOfBirth,
+  ]);
+
+  const {fadeInAnim} = useFadeInAnimation();
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -181,10 +199,10 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
       setCurrentScreen(currentScreen + 1);
     }
 
-    // setErrorFirstName('');
-    // setErrorLastName('');
-    // setErrorDate('');
-    // setErrorImage('');
+    setErrorFirstName('');
+    setErrorLastName('');
+    setErrorDate('');
+    setErrorImage('');
   };
 
   return (
@@ -205,7 +223,7 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.centerContainer}>
               <Animated.View
-                style={[styles.inputContainer, {opacity: fadeAnim}]}>
+                style={[styles.inputContainer, {opacity: fadeInAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   First Name
                 </Text>
@@ -220,7 +238,7 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
                 )}
               </Animated.View>
               <Animated.View
-                style={[styles.inputContainer, {opacity: fadeAnim}]}>
+                style={[styles.inputContainer, {opacity: fadeInAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   Last Name
                 </Text>
