@@ -263,6 +263,9 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
       toValue: Number(statusBar),
       duration: 1500,
       easing: Easing.out(Easing.ease),
+      // duration: 1000,
+      // easing: Easing.out(Easing.exp),
+      // easing: Easing.bezier(0.42, 0, 0.58, 1),
       useNativeDriver: false,
     }).start();
   }, [animatedHeight, calculateStatusBar, active, advert?.status, statusBar]);

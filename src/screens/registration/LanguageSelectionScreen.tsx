@@ -73,7 +73,7 @@ const LanguageSelectionScreen = ({
     isLoading: advertIsLoading,
     isError: advertIsError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit,
+    skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
   });
   const savedLanguages = newUserDetails.languages;

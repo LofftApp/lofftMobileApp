@@ -29,10 +29,10 @@ const initialState: UserJourneyState = {
         warmRent: false,
       },
       filter: [],
+      dateOfBirth: '',
       selfDescription: '',
       firstName: '',
       lastName: '',
-      dateOfBirth: '',
       deviceToken: '',
     },
     lessor: {

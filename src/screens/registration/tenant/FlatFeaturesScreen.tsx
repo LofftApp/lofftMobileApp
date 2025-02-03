@@ -75,7 +75,7 @@ const FlatFeaturesScreen = ({
     isLoading,
     isError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit,
+    skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
 
   });

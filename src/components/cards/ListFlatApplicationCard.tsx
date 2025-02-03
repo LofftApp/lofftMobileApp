@@ -5,7 +5,6 @@ import {
   StyleSheet,
   DimensionValue,
   Animated,
-  Easing,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 

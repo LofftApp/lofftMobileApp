@@ -100,7 +100,7 @@ const SettingsCard = ({
 
 const styles = StyleSheet.create({
   outterContainer: {
-    backgroundColor: Color.White[100],
+    backgroundColor: Color.White[80],
     borderRadius: 12,
     marginBottom: size(20),
     paddingHorizontal: size(5),

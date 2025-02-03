@@ -47,6 +47,7 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const AboutUserFlatScreen = ({
   route,
@@ -81,9 +82,11 @@ const AboutUserFlatScreen = ({
     isLoading,
     isError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit,
+    skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
   });
+  const {data: currentUser} = useGetUserQuery();
+  console.log('currentUser', currentUser);
 
   //Safe Area
   const insets = useSafeAreaInsets();
@@ -96,7 +99,20 @@ const AboutUserFlatScreen = ({
     if (edit && advert?.flat.characteristics.length) {
       setSelectedCharsIds(advert?.flat.characteristics.map(char => char.id));
     }
-  }, [savedCharsIds, edit, advert]);
+
+    if (edit && currentUser?.profile.characteristics.length) {
+      setSelectedCharsIds(
+        currentUser?.profile.characteristics.map(char => char.id),
+      );
+    }
+  }, [
+    savedCharsIds,
+    edit,
+    advert,
+    advert?.flat.characteristics.length,
+    currentUser,
+    currentUser?.profile.characteristics.length,
+  ]);
 
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;

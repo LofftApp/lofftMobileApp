@@ -90,7 +90,7 @@ const SelectCityScreen = ({
     isLoading,
     isError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit,
+    skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
   });
   const savedCityId = newUserDetails.city;
@@ -116,6 +116,7 @@ const SelectCityScreen = ({
 
     if (edit && advert && advert.flat.city) {
       const matchedCity = cities.find(c => c.name === advert.flat.city);
+
       const matchedDistricts = matchedCity?.districts
         .filter(d => advert.flat.district.includes(d.name))
         .map(d => d.id);
@@ -132,7 +133,7 @@ const SelectCityScreen = ({
       }
     }
   }, [savedCityId, savedDistrictIds, cities, edit, advert, advert?.flat.city]);
-
+  console.log('Cities', cities);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     if (districts.length >= 1 && city !== '') {

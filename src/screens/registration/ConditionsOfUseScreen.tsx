@@ -41,6 +41,7 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
+import { useUserType } from 'reduxFeatures/user/useUserType';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -55,7 +56,9 @@ const ConditionsOfUseScreen = () => {
 
   const {savedImages} = useImagesToUpload();
 
-  const {isLessor, newUserDetails, setNewUserDetails} = useNewUserDetails();
+
+  const {isLessor} = useUserType();
+  const {isNewUserLessor, newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor);
 
   const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();
@@ -85,7 +88,7 @@ const ConditionsOfUseScreen = () => {
   console.log('newUserDetails token', newUserDetails.deviceToken);
 
   const handleNewUserJourneyCheckout = async () => {
-    if (isLessor) {
+    if (isNewUserLessor) {
       const flatImagesArray = savedImages.lessor.flatImages;
       const lessorProfileImagesArray = savedImages.lessor.userImages;
       handleGetDeviceToken();
