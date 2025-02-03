@@ -92,15 +92,17 @@ const AboutUserFlatScreen = ({
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
+    // New User
     if (savedCharsIds.length) {
       setSelectedCharsIds(savedCharsIds);
     }
-
-    if (edit && advert?.flat.characteristics.length) {
+    //currentUser is Lessor and is editing the advert
+    if (edit && isLessor && advert?.flat.characteristics.length) {
       setSelectedCharsIds(advert?.flat.characteristics.map(char => char.id));
     }
 
-    if (edit && currentUser?.profile.characteristics.length) {
+    //currentUser is Tenant and is editing the profile
+    if (edit && !isLessor && currentUser?.profile.characteristics.length) {
       setSelectedCharsIds(
         currentUser?.profile.characteristics.map(char => char.id),
       );
@@ -112,6 +114,7 @@ const AboutUserFlatScreen = ({
     advert?.flat.characteristics.length,
     currentUser,
     currentUser?.profile.characteristics.length,
+    isLessor,
   ]);
 
   const handleBackButton = () => {

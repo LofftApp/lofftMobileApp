@@ -45,6 +45,7 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const FlatFeaturesScreen = ({
   route,
@@ -77,8 +78,10 @@ const FlatFeaturesScreen = ({
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
-
   });
+
+  const {data: currentUser} = useGetUserQuery();
+
   const savedFeaturesIds =
     newUserDetails.userType === 'lessor'
       ? newUserDetails.flatFeatures
@@ -87,14 +90,35 @@ const FlatFeaturesScreen = ({
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
+    // NewUser
     if (savedFeaturesIds?.length) {
       setSelectedFeaturesIds(savedFeaturesIds);
     }
 
-    if (edit && advert && advert.flat.features.length > 0) {
+    //currentUser is Lessor and is editing the advert
+    if (edit && isLessor && advert && advert.flat.features.length > 0) {
       setSelectedFeaturesIds(advert?.flat.features.map(feat => feat.id) ?? []);
     }
-  }, [savedFeaturesIds, advert, edit]);
+
+    //currentUser is Tenant and is editing the profile
+    if (
+      edit &&
+      !isLessor &&
+      currentUser?.profile.filter &&
+      currentUser?.profile.filter.length > 0
+    ) {
+      setSelectedFeaturesIds(
+        currentUser?.profile.filter.map(feat => feat.id) ?? [],
+      );
+    }
+  }, [
+    savedFeaturesIds,
+    advert,
+    edit,
+    currentUser?.profile.filter,
+    currentUser?.profile.filter.length,
+    isLessor,
+  ]);
 
   const handleSelectFeatures = (id: number) => {
     setSelectedFeaturesIds(prevIds =>
