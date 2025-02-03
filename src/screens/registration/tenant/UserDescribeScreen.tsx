@@ -1,10 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+
+//Hooks 🪝
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -34,7 +39,6 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
@@ -53,11 +57,20 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     useNewUserDetails(isLessor, edit);
   const savedDescription = newUserDetails.selfDescription;
 
+  const {data: currentUser} = useGetUserQuery();
+
+  const {fadeInAnim} = useFadeInAnimation();
+
   useEffect(() => {
+    // New User
     if (savedDescription) {
       setText(savedDescription);
     }
-  }, [savedDescription]);
+    // Edit User Profile
+    if (edit && currentUser?.profile.description) {
+      setText(currentUser.profile.description);
+    }
+  }, [savedDescription, currentUser, edit, currentUser?.profile.description]);
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -69,16 +82,6 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const handleOnBlur = () => {
     setTextFocus(false);
   };
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
 
   const handleBackButton = () => {
     if (!edit) {
@@ -132,7 +135,7 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           }
         />
         <View style={styles.mainContainer}>
-          <Animated.View style={{opacity: fadeAnim}}>
+          <Animated.View style={{opacity: fadeInAnim}}>
             <CustomTextInput
               text={text}
               textFocus={textFocus}

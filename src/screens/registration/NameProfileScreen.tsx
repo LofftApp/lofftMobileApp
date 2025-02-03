@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -253,7 +253,7 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
                 )}
               </Animated.View>
               <Animated.View
-                style={[styles.inputContainer, {opacity: fadeAnim}]}>
+                style={[styles.inputContainer, {opacity: fadeInAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   Date of Birth
                 </Text>
