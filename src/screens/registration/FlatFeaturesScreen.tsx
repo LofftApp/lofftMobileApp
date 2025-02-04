@@ -51,6 +51,11 @@ import {
 } from 'reduxFeatures/user/userApi';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import {isEqualValue} from 'helpers/isEqualValue';
+import {
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+} from 'reduxFeatures/registration/types';
+import {EditUserProfileParams} from 'reduxFeatures/user/types';
 
 const FlatFeaturesScreen = ({
   route,
@@ -78,8 +83,12 @@ const FlatFeaturesScreen = ({
 
   //Redux
   const {isLessor} = useUserType();
-  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor, edit);
+  const {
+    isNewUserLessor,
+    newUserDetails,
+    setNewUserDetails,
+    resetNewUserState,
+  } = useNewUserDetails(isLessor, edit);
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {
     data: advert,
@@ -95,17 +104,33 @@ const FlatFeaturesScreen = ({
   const [editUserProfile, {isLoading: isEditLoading}] =
     useEditUserProfileMutation();
 
+  const newUserLessorDetails = newUserDetails as NewUserLessorDetails;
+  const newUserTenantDetails = newUserDetails as NewUserTenantDetails;
+
   const savedFeaturesIds = useMemo(() => {
     if (edit) {
       return isLessor
         ? advert?.flat.features.map(feat => feat.id)
         : currentUser?.profile.filter.map(feat => feat.id);
     } else {
-      return newUserDetails.userType === 'lessor'
-        ? newUserDetails.flatFeatures
-        : newUserDetails.filter;
+      if (newUserDetails.userType === 'lessor') {
+        return newUserLessorDetails.flatFeatures;
+      } else {
+        return newUserTenantDetails.filter;
+      }
     }
-  }, [edit, advert, currentUser, newUserDetails, isLessor]);
+  }, [
+    edit,
+    advert?.flat.features,
+    currentUser?.profile.filter,
+    newUserLessorDetails.flatFeatures,
+    newUserTenantDetails.filter,
+    newUserDetails,
+    isLessor,
+  ]);
+
+  console.log('savedFeaturesIds in flat features', savedFeaturesIds);
+  console.log('selectedFeaturesIds in flat features', selectedFeaturesIds);
 
   console.log('newUserDetails in flat features', newUserDetails);
 
@@ -144,6 +169,7 @@ const FlatFeaturesScreen = ({
     }
     navigation.goBack();
     setError('');
+    setSelectedFeaturesIds([]);
   };
   console.log(
     'characteristics in flat features',
@@ -169,14 +195,23 @@ const FlatFeaturesScreen = ({
     if (edit) {
       if (newValue || !isEqualValue(savedFeaturesIds, selectedFeaturesIds)) {
         try {
-          await editUserProfile({
+          console.log('selewcted features', selectedFeaturesIds);
+          const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
             userId: currentUser?.id ?? 0,
             actionMethod: 'matchTags',
             userType: isLessor ? 'lessor' : 'tenant',
             characteristics: newUserDetails.characteristics,
-            filter: !isLessor ? selectedFeaturesIds : undefined,
-            flatFeatures: isLessor ? selectedFeaturesIds : undefined,
-          }).unwrap();
+            filter:
+              newUserDetails.userType === 'tenant'
+                ? selectedFeaturesIds
+                : undefined,
+            flatFeatures:
+              newUserDetails.userType === 'lessor'
+                ? selectedFeaturesIds
+                : undefined,
+          };
+          console.log('data!!!!!!!!', editParams);
+          await editUserProfile(editParams).unwrap();
 
           setError('');
 
@@ -198,6 +233,7 @@ const FlatFeaturesScreen = ({
         navigation.goBack();
         navigation.goBack();
       }
+      resetNewUserState();
     } else {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]

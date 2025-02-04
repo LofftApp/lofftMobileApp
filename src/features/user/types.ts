@@ -1,3 +1,8 @@
+import {
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+} from 'reduxFeatures/registration/types';
+
 interface UserCharacteristics {
   emoji: string;
   name: string;
@@ -65,6 +70,21 @@ interface IncomingSpecificUser {
   id: number;
   profile: IncomingUserProfile;
 }
+
+type EditUserProfileActions =
+  | 'matchTags'
+  | 'personalInfo'
+  | 'genderIdentity'
+  | 'searchPreferences'
+  | 'languages';
+type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
+  userId: number;
+  actionMethod: EditUserProfileActions;
+  userType: T;
+} & (T extends 'lessor'
+  ? Partial<NewUserLessorDetails>
+  : Partial<NewUserTenantDetails>);
+
 export type {
   User,
   UserProfile,
@@ -73,4 +93,7 @@ export type {
   IncomingUser,
   IncomingSpecificUser,
   SpecificUser,
+  IncomingUserProfile,
+  EditUserProfileActions,
+  EditUserProfileParams,
 };

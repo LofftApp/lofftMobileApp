@@ -1,24 +1,10 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {SpecificUser, User} from './types';
+import {EditUserProfileParams, SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
   NewUserTenantDetails,
   ImageFile,
-  NewUserLessorDetails,
 } from 'reduxFeatures/registration/types';
-type EditUserProfileActions =
-  | 'matchTags'
-  | 'personalInfo'
-  | 'genderIdentity'
-  | 'searchPreferences'
-  | 'languages';
-type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
-  userId: number;
-  actionMethod: EditUserProfileActions;
-  userType: T;
-} & (T extends 'lessor'
-  ? Partial<NewUserLessorDetails>
-  : Partial<NewUserTenantDetails>);
 
 import {Platform} from 'react-native';
 

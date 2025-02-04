@@ -8,7 +8,7 @@ import AboutUserFlatScreen from 'screens/registration/AboutUserFlatScreen';
 import GenderIdentityScreen from 'screens/registration/tenant/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration/tenant/SelectCityScreen';
 import BudgetScreen from 'screens/registration/tenant/BudgetScreen';
-import FlatFeaturesScreen from 'screens/registration/tenant/FlatFeaturesScreen';
+import FlatFeaturesScreen from 'screens/registration/FlatFeaturesScreen';
 import ConditionsOfUseScreen from 'screens/registration/ConditionsOfUseScreen';
 import LanguageSelectionScreen from 'screens/registration/LanguageSelectionScreen';
 

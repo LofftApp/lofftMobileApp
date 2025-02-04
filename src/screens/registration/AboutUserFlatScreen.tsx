@@ -283,6 +283,7 @@ const AboutUserFlatScreen = ({
         // from={new Rect(width * 0.29, height * 0.25, 0, 0)}
         isVisible={showPopover}
         placement={PopoverPlacement.TOP}
+        arrowSize={{width: 0, height: 0}}
         onRequestClose={() => setShowPopover(false)}>
         <View style={styles.popoverContent}>
           <View style={styles.popoverText}>
