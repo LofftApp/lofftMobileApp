@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -7,6 +7,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Components 🪢
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
@@ -16,6 +18,8 @@ import Divider from 'components/bars/Divider';
 import BackButton from 'components/buttons/BackButton';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // StylesSheet 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -35,8 +39,10 @@ import {
   MAX_SELECTED_CHARS,
   MIN_SELECTED_CHARS,
 } from 'components/componentData/constants';
+
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
+import {isEqualValue} from 'helpers/isEqualValue';
 
 // Types 🏷 ️
 import {
@@ -44,10 +50,6 @@ import {
   SettingsScreenNavigationProp,
 } from '../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 const AboutUserFlatScreen = ({
   route,
@@ -56,7 +58,9 @@ const AboutUserFlatScreen = ({
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
-  console.log('advertId', advertId);
+
+  //Safe Area
+  const insets = useSafeAreaInsets();
 
   //Navigation
   const navigation = useNavigation<
@@ -76,7 +80,7 @@ const AboutUserFlatScreen = ({
   const {isLessor} = useUserType();
   const {newUserDetails, setNewUserDetails, isNewUserLessor} =
     useNewUserDetails(isLessor, edit);
-  const savedCharsIds = newUserDetails.characteristics;
+
   const {
     data: advert,
     isLoading,
@@ -85,37 +89,38 @@ const AboutUserFlatScreen = ({
     skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
   });
-  const {data: currentUser} = useGetUserQuery();
+  const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
   console.log('currentUser', currentUser);
+  // const savedCharsIds = edit
+  //   ? isLessor
+  //     ? advert?.flat.characteristics.map(char => char.id)
+  //     : currentUser?.profile.characteristics.map(char => char.id)
+  //   : newUserDetails.characteristics;
 
-  //Safe Area
-  const insets = useSafeAreaInsets();
+  const savedCharsIds = useMemo(() => {
+    if (edit) {
+      return isLessor
+        ? advert?.flat?.characteristics.map(char => char.id)
+        : currentUser?.profile?.characteristics.map(char => char.id);
+    }
+    return newUserDetails?.characteristics;
+  }, [
+    edit,
+    isLessor,
+    advert?.flat.characteristics,
+    currentUser?.profile.characteristics,
+    newUserDetails.characteristics,
+  ]);
+  console.log('edit', edit);
+
+  console.log('newUserDetails in about user', newUserDetails);
 
   useEffect(() => {
-    // New User
-    if (savedCharsIds.length) {
+    if (savedCharsIds && savedCharsIds.length > 0) {
       setSelectedCharsIds(savedCharsIds);
     }
-    //currentUser is Lessor and is editing the advert
-    if (edit && isLessor && advert?.flat.characteristics.length) {
-      setSelectedCharsIds(advert?.flat.characteristics.map(char => char.id));
-    }
-
-    //currentUser is Tenant and is editing the profile
-    if (edit && !isLessor && currentUser?.profile.characteristics.length) {
-      setSelectedCharsIds(
-        currentUser?.profile.characteristics.map(char => char.id),
-      );
-    }
-  }, [
-    savedCharsIds,
-    edit,
-    advert,
-    advert?.flat.characteristics.length,
-    currentUser,
-    currentUser?.profile.characteristics.length,
-    isLessor,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleBackButton = () => {
     const previousScreen = currentScreen - 1;
@@ -132,7 +137,7 @@ const AboutUserFlatScreen = ({
     );
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const selectedChars = characteristics?.filter(chars =>
       selectedCharsIds.includes(chars.id),
     );
@@ -147,7 +152,11 @@ const AboutUserFlatScreen = ({
     if (edit) {
       navigation.navigate('NewUserNavigator', {
         screen: 'FlatFeaturesScreen',
-        params: {edit: true, advertId},
+        params: {
+          edit: true,
+          advertId,
+          newValue: !isEqualValue(savedCharsIds, selectedCharsIds),
+        },
       });
     } else {
       const screen = isNewUserLessor

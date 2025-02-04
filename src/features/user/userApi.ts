@@ -4,7 +4,20 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
   NewUserTenantDetails,
   ImageFile,
+  NewUserLessorDetails,
 } from 'reduxFeatures/registration/types';
+type EditUserProfileActions =
+  | 'matchTags'
+  | 'personalInfo'
+  | 'genderIdentity'
+  | 'searchPreferences'
+  | 'languages';
+type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
+  action: EditUserProfileActions;
+  userType: T;
+} & (T extends 'lessor'
+  ? Partial<NewUserLessorDetails>
+  : Partial<NewUserTenantDetails>);
 
 import {Platform} from 'react-native';
 
@@ -55,6 +68,23 @@ export const userApi = lofftApi.injectEndpoints({
       },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
+    editUserProfile: builder.mutation<
+      void,
+      EditUserProfileParams<'tenant' | 'lessor'>
+    >({
+      query: ({action, userType, ...rest}) => {
+        return {
+          url: '/api/users/edit_profile',
+          method: 'PATCH',
+          body: {
+            action,
+            userType,
+            ...rest,
+          },
+        };
+      },
+      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
+    }),
   }),
   overrideExisting: false,
 });
@@ -63,4 +93,5 @@ export const {
   useGetUserQuery,
   useGetSpecificUserQuery,
   useCompleteUserAndCreateTenantMutation,
+  useEditUserProfileMutation,
 } = userApi;

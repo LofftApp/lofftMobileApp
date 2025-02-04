@@ -57,7 +57,7 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     useNewUserDetails(isLessor, edit);
   const savedDescription = newUserDetails.selfDescription;
 
-  const {data: currentUser} = useGetUserQuery();
+  const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
   const {fadeInAnim} = useFadeInAnimation();
 

@@ -177,7 +177,9 @@ type NewUserScreens = {
 };
 
 type NewUserStackParamsList = {
-  [key in NewUserScreenNames]: undefined | {edit?: boolean; advertId?: number};
+  [key in NewUserScreenNames]:
+    | undefined
+    | {edit?: boolean; advertId?: number; newValue?: boolean};
 };
 
 type NewUserJourneyStackNavigation =
@@ -199,7 +201,7 @@ type SettingsStackParamsList = {
   SendFeedbackScreen: undefined;
   NewUserNavigator: {
     screen: keyof NewUserStackParamsList;
-    params?: {edit?: boolean; advertId?: number};
+    params?: {edit?: boolean; advertId?: number; newValue?: boolean};
   };
 };
 

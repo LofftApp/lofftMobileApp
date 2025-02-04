@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -45,19 +45,29 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {
+  useEditUserProfileMutation,
+  useGetUserQuery,
+} from 'reduxFeatures/user/userApi';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {isEqualValue} from 'helpers/isEqualValue';
 
 const FlatFeaturesScreen = ({
   route,
 }: {
-  route?: {params: {edit: boolean; advertId: number}};
+  route?: {params: {edit: boolean; advertId: number; newValue: boolean}};
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
+  const newValue = route?.params?.newValue;
+  console.log('newValue', newValue);
   // Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
   >();
+
+  //Safe Area
+  const insets = useSafeAreaInsets();
 
   //initial State
   const {data} = useGetAssetsQuery();
@@ -80,45 +90,31 @@ const FlatFeaturesScreen = ({
     refetchOnMountOrArgChange: true,
   });
 
-  const {data: currentUser} = useGetUserQuery();
+  const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
-  const savedFeaturesIds =
-    newUserDetails.userType === 'lessor'
-      ? newUserDetails.flatFeatures
-      : newUserDetails.filter;
+  const [editUserProfile, {isLoading: isEditLoading}] =
+    useEditUserProfileMutation();
 
-  const insets = useSafeAreaInsets();
+  const savedFeaturesIds = useMemo(() => {
+    if (edit) {
+      return isLessor
+        ? advert?.flat.features.map(feat => feat.id)
+        : currentUser?.profile.filter.map(feat => feat.id);
+    } else {
+      return newUserDetails.userType === 'lessor'
+        ? newUserDetails.flatFeatures
+        : newUserDetails.filter;
+    }
+  }, [edit, advert, currentUser, newUserDetails, isLessor]);
+
+  console.log('newUserDetails in flat features', newUserDetails);
 
   useEffect(() => {
-    // NewUser
-    if (savedFeaturesIds?.length) {
+    if (savedFeaturesIds && savedFeaturesIds.length > 0) {
       setSelectedFeaturesIds(savedFeaturesIds);
     }
-
-    //currentUser is Lessor and is editing the advert
-    if (edit && isLessor && advert && advert.flat.features.length > 0) {
-      setSelectedFeaturesIds(advert?.flat.features.map(feat => feat.id) ?? []);
-    }
-
-    //currentUser is Tenant and is editing the profile
-    if (
-      edit &&
-      !isLessor &&
-      currentUser?.profile.filter &&
-      currentUser?.profile.filter.length > 0
-    ) {
-      setSelectedFeaturesIds(
-        currentUser?.profile.filter.map(feat => feat.id) ?? [],
-      );
-    }
-  }, [
-    savedFeaturesIds,
-    advert,
-    edit,
-    currentUser?.profile.filter,
-    currentUser?.profile.filter.length,
-    isLessor,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSelectFeatures = (id: number) => {
     setSelectedFeaturesIds(prevIds =>
@@ -149,8 +145,12 @@ const FlatFeaturesScreen = ({
     navigation.goBack();
     setError('');
   };
+  console.log(
+    'characteristics in flat features',
+    newUserDetails.characteristics,
+  );
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const selectedFeatures = features?.filter(feat =>
       selectedFeaturesIds.includes(feat.id),
     );
@@ -167,8 +167,36 @@ const FlatFeaturesScreen = ({
     }
 
     if (edit) {
-      navigation.goBack();
-      navigation.goBack();
+      if (newValue || !isEqualValue(savedFeaturesIds, selectedFeaturesIds)) {
+        try {
+          await editUserProfile({
+            action: 'matchTags',
+            userType: isLessor ? 'lessor' : 'tenant',
+            characteristics: newUserDetails.characteristics,
+            filter: !isLessor ? selectedFeaturesIds : undefined,
+            flatFeatures: isLessor ? selectedFeaturesIds : undefined,
+          }).unwrap();
+
+          setError('');
+
+          navigation.goBack();
+          navigation.goBack();
+        } catch (err) {
+          const typedError = err as {
+            status?: number;
+          };
+          if (typedError.status === 422) {
+            setError('Please fill out all the required fields');
+          } else {
+            setError('An error occurred, please try again');
+          }
+          return;
+        }
+      } else {
+        console.log('NO CHANGES MADE');
+        navigation.goBack();
+        navigation.goBack();
+      }
     } else {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
@@ -237,8 +265,13 @@ const FlatFeaturesScreen = ({
           {error && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
-            disabled={selectedFeaturesIds.length < MIN_SELECTED_FEATURES}
+            value={
+              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+            }
+            disabled={
+              selectedFeaturesIds.length < MIN_SELECTED_FEATURES ||
+              isEditLoading
+            }
             onPress={handleContinue}
           />
         </View>
