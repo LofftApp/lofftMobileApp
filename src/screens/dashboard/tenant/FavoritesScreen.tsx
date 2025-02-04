@@ -103,7 +103,7 @@ const FavoritesScreen = () => {
         />
       </View>
       <Popover
-        mode={PopoverMode.TOOLTIP}
+     
         popoverStyle={[
           styles.popoverContainer,
           {width: width * 0.95, height: height * 0.13},

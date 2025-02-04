@@ -275,12 +275,12 @@ const AboutUserFlatScreen = ({
         </View>
       </View>
       <Popover
-        mode={PopoverMode.TOOLTIP}
+        mode={PopoverMode.RN_MODAL}
         popoverStyle={[
           styles.popoverContainer,
           {width: width * 0.95, height: height * 0.13},
         ]}
-        from={new Rect(width * 0.29, height * 0.25, 0, 0)}
+        // from={new Rect(width * 0.29, height * 0.25, 0, 0)}
         isVisible={showPopover}
         placement={PopoverPlacement.TOP}
         onRequestClose={() => setShowPopover(false)}>

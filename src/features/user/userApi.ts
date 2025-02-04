@@ -13,6 +13,7 @@ type EditUserProfileActions =
   | 'searchPreferences'
   | 'languages';
 type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
+  userId: number;
   action: EditUserProfileActions;
   userType: T;
 } & (T extends 'lessor'
@@ -72,9 +73,9 @@ export const userApi = lofftApi.injectEndpoints({
       void,
       EditUserProfileParams<'tenant' | 'lessor'>
     >({
-      query: ({action, userType, ...rest}) => {
+      query: ({userId, action, userType, ...rest}) => {
         return {
-          url: '/api/users/edit_profile',
+          url: `/api/users/${userId}`,
           method: 'PATCH',
           body: {
             action,

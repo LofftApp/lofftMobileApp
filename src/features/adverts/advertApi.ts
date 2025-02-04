@@ -286,7 +286,6 @@ export const advertApi = lofftApi.injectEndpoints({
               {type: 'Favorites', id: 'LIST'},
             ]
           : [{type: 'Favorites', id: 'LIST'}],
-      // providesTags: ['Favorites'],
       transformResponse: response => {
         console.log('getFavoritesAdverts called ❤️');
         return toCamelCaseKeys(response as Favorites);
