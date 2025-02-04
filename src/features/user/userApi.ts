@@ -14,7 +14,7 @@ type EditUserProfileActions =
   | 'languages';
 type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
   userId: number;
-  action: EditUserProfileActions;
+  actionMethod: EditUserProfileActions;
   userType: T;
 } & (T extends 'lessor'
   ? Partial<NewUserLessorDetails>
@@ -73,12 +73,12 @@ export const userApi = lofftApi.injectEndpoints({
       void,
       EditUserProfileParams<'tenant' | 'lessor'>
     >({
-      query: ({userId, action, userType, ...rest}) => {
+      query: ({userId, actionMethod, userType, ...rest}) => {
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',
           body: {
-            action,
+            actionMethod,
             userType,
             ...rest,
           },

@@ -171,7 +171,7 @@ const FlatFeaturesScreen = ({
         try {
           await editUserProfile({
             userId: currentUser?.id ?? 0,
-            action: 'matchTags',
+            actionMethod: 'matchTags',
             userType: isLessor ? 'lessor' : 'tenant',
             characteristics: newUserDetails.characteristics,
             filter: !isLessor ? selectedFeaturesIds : undefined,
