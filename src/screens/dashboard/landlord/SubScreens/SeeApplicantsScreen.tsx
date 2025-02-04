@@ -35,10 +35,21 @@ import {MAX_SELECT_ROUND1} from 'components/componentData/constants';
 // Types
 import type {SeeApplicantsScreenProp} from './types';
 import type {LessorNavigatorScreenNavigationProp} from '../../../../navigationStacks/types';
+import FilterButton from 'components/buttons/FilterButton';
+import FilterTenantsModal from 'components/modals/FilterTenantsModal';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 
 const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   const {advertId} = route.params;
   const [cleanError, setCleanError] = useState(false);
+  const [filterParams, setFilterParams] = useState({
+    moreThanEighty: false,
+    moveNow: false,
+    speakMyLanguages: false,
+    characteristics: [],
+  });
+
+  console.log('setFilterParams:', filterParams);
 
   const {
     applicationsStateRound1: applicationsState,
@@ -57,6 +68,14 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   } = useSeeApplicationsByAdvertIdQuery(advertId);
   const applications = advert?.applications;
 
+  const {
+    data: assets,
+    isLoading: isLoadingAssets,
+    isError: isErrorAssets,
+  } = useGetAssetsQuery();
+
+  const characteristics = assets?.characteristics;
+
   const [
     confirmApplications,
     {isLoading: isConfirming, error: errorConfirming},
@@ -69,6 +88,7 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
   }, [setApplicationsRound1, applications, advert]);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [openFilterModal, setFilteOpenModal] = useState(false);
 
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
 
@@ -82,6 +102,11 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
     ...selectedApplications,
     ...notSelectedApplications,
   ];
+
+  const toggleFilter = () => {
+    setFilteOpenModal(!openFilterModal);
+    console.log(openFilterModal);
+  };
 
   const toggleModal = () => {
     setModalVisible(prev => !prev);
@@ -161,8 +186,12 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
 
   return (
     <SafeAreaView style={[CoreStyleSheet.safeAreaViewShowContainer]}>
-      <BackButton title="Applicants" onPress={navigation.goBack} />
+      {/* <BackButton title="Applicants" onPress={navigation.goBack} /> */}
       <View style={styles.screenContainer}>
+        <View style={styles.topContainer}>
+          <BackButton onPress={navigation.goBack} />
+          <FilterButton onPress={toggleFilter} isSearching={false} />
+        </View>
         <ScrollView bounces={true} showsVerticalScrollIndicator={false}>
           {applicationsState?.map(application => {
             return (
@@ -206,6 +235,15 @@ const SeeApplicantsScreen = ({route}: SeeApplicantsScreenProp) => {
         </View>
       </View>
 
+      <FilterTenantsModal
+        openFilterModal={openFilterModal}
+        setFilter={setFilteOpenModal}
+        characteristics={characteristics ?? []}
+        setFilterParams={setFilterParams}
+        isError={isErrorAssets}
+        isLoading={isLoadingAssets}
+      />
+
       <ConfirmModal
         openModal={modalVisible}
         setIsModalOpen={setModalVisible}
@@ -224,9 +262,12 @@ const styles = StyleSheet.create({
     CoreStyleSheet.screenContainer,
     {paddingVertical: size(10)},
   ]),
-
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
   coreButton: {width: '100%'},
-
   iconContainer: {
     zIndex: 100,
   },

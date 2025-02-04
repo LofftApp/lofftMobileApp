@@ -259,7 +259,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: size(5),
   },
-
   inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -299,7 +298,6 @@ const styles = StyleSheet.create({
   clearAllButton: {
     width: '40%',
   },
-
 });
 
 export default SearchFilterModal;
