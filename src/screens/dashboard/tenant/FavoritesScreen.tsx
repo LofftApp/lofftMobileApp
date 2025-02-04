@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {View, Text, StyleSheet, SafeAreaView, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  useWindowDimensions,
+} from 'react-native';
 
 // Redux 🏗️
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
@@ -31,13 +38,12 @@ import {size} from 'react-native-responsive-sizes';
 
 const FIRST_APPLY_KEY = 'hasShownFirstApply';
 
-const {height, width} = Dimensions.get('window');
-
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
   const favorites = data?.favorites;
   const {data: currentUser} = useGetUserQuery();
   const credits = currentUser?.credits;
+  const {height, width} = useWindowDimensions();
 
   // Popover state
   const [showPopover, setShowPopover] = useState(false);
@@ -98,7 +104,10 @@ const FavoritesScreen = () => {
       </View>
       <Popover
         mode={PopoverMode.TOOLTIP}
-        popoverStyle={styles.popoverContainer}
+        popoverStyle={[
+          styles.popoverContainer,
+          {width: width * 0.95, height: height * 0.13},
+        ]}
         from={new Rect(width * 0.29, height * 0.9, 0, 0)}
         isVisible={showPopover}
         placement={PopoverPlacement.TOP}
@@ -138,8 +147,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(10),
     borderRadius: 12,
     borderColor: Color.Mint[20],
-    width: width * 0.95,
-    height: height * 0.13,
     flexDirection: 'row',
     alignItems: 'center',
   },

@@ -1,5 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  useWindowDimensions,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -24,6 +30,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 // StylesSheet 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
+import Color from 'styleSheets/lofftColorPallet.json';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -50,6 +57,13 @@ import {
   SettingsScreenNavigationProp,
 } from '../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {CoreButton} from 'components/buttons/CoreButton';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
+import Popover, {
+  PopoverMode,
+  PopoverPlacement,
+  Rect,
+} from 'react-native-popover-view';
 
 const AboutUserFlatScreen = ({
   route,
@@ -61,6 +75,7 @@ const AboutUserFlatScreen = ({
 
   //Safe Area
   const insets = useSafeAreaInsets();
+  const {height, width} = useWindowDimensions();
 
   //Navigation
   const navigation = useNavigation<
@@ -74,6 +89,8 @@ const AboutUserFlatScreen = ({
   // Local State
   const [selectedCharsIds, setSelectedCharsIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
+  const [showPopover, setShowPopover] = useState(false);
+  const [firstAttempt, setFirstAttempt] = useState(true);
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
@@ -115,9 +132,17 @@ const AboutUserFlatScreen = ({
   }, []);
 
   const handleBackButton = () => {
-    const previousScreen = currentScreen - 1;
+    if (!edit) {
+      const previousScreen = currentScreen - 1;
+      setCurrentScreen(previousScreen);
+    }
+    if (!isEqualValue(savedCharsIds, selectedCharsIds) && firstAttempt) {
+      setShowPopover(true);
+      setFirstAttempt(false);
+      return;
+    }
+
     navigation.goBack();
-    setCurrentScreen(previousScreen);
     setError('');
   };
 
@@ -160,6 +185,7 @@ const AboutUserFlatScreen = ({
     }
 
     setError('');
+    setShowPopover(false);
   };
 
   if (isLoading) {
@@ -248,6 +274,39 @@ const AboutUserFlatScreen = ({
           />
         </View>
       </View>
+      <Popover
+        mode={PopoverMode.TOOLTIP}
+        popoverStyle={[
+          styles.popoverContainer,
+          {width: width * 0.95, height: height * 0.13},
+        ]}
+        from={new Rect(width * 0.29, height * 0.25, 0, 0)}
+        isVisible={showPopover}
+        placement={PopoverPlacement.TOP}
+        onRequestClose={() => setShowPopover(false)}>
+        <View style={styles.popoverContent}>
+          <View style={styles.popoverText}>
+            <LofftIcon
+              name="check-verified-02"
+              size={25}
+              color={Color.Lavendar[100]}
+            />
+            <Text style={fontStyles.bodyTiny}>
+              Applied. You can find the listings in {'\n'}My Applications tab.
+            </Text>
+          </View>
+          <View style={styles.popoverText}>
+            <LofftIcon name="wallet" size={25} color={Color.Lavendar[100]} />
+            <Text style={fontStyles.headerTiny}>Remaining Tokens</Text>
+          </View>
+        </View>
+        <CoreButton
+          value="Got it"
+          onPress={() => setShowPopover(false)}
+          style={styles.buttonStyle}
+          textSize={fontStyles.bodyTiny}
+        />
+      </Popover>
     </View>
   );
 };
@@ -264,6 +323,31 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
+  },
+  popoverContainer: {
+    backgroundColor: Color.Mint[20],
+    paddingHorizontal: size(10),
+    borderRadius: 12,
+    borderColor: Color.Mint[20],
+
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  popoverContent: {
+    flex: 1,
+    paddingHorizontal: size(8),
+    justifyContent: 'center',
+    gap: size(10),
+  },
+  popoverText: {flexDirection: 'row', alignItems: 'center', gap: size(5)},
+
+  buttonStyle: {
+    backgroundColor: Color.Lavendar[100],
+    borderColor: Color.Lavendar[100],
+    borderRadius: 12,
+    borderWidth: 2,
+    width: size(70),
+    height: size(41),
   },
 });
 
