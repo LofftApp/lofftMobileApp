@@ -18,9 +18,11 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 const EditProfileScreen = () => {
   const {isLessor} = useUserType();
+  const {resetNewUserState} = useNewUserDetails(isLessor);
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
@@ -29,55 +31,65 @@ const EditProfileScreen = () => {
       id: 1,
       title: 'Match Tags',
       subtitle: 'Boost your profile to find the perfect flat',
-      onPress: () =>
+      onPress: () => {
         navigation.navigate('NewUserNavigator', {
           screen: 'AboutUserFlatScreen',
           params: {edit: true},
-        }),
+        });
+        resetNewUserState();
+      },
       icon: 'annotation-heart',
     },
     {
       id: 2,
       title: 'Personal Information',
       subtitle: 'Name and date of birth',
-      onPress: () =>
+      onPress: () => {
         navigation.navigate('NewUserNavigator', {
           screen: 'NameProfileScreen',
           params: {edit: true},
-        }),
+        });
+        resetNewUserState();
+      },
       icon: 'user-edit',
     },
     {
       id: 3,
       title: 'Gender Identity',
       subtitle: 'To get you closer to the right community',
-      onPress: () =>
+      onPress: () => {
         navigation.navigate('NewUserNavigator', {
           screen: 'GenderIdentityScreen',
           params: {edit: true},
-        }),
+        });
+        resetNewUserState();
+      },
       icon: 'face-wink',
     },
     {
       id: 4,
       title: 'Search Preferences',
       subtitle: 'City, budget, and more',
-      onPress: () =>
+      onPress: () => {
         navigation.navigate('NewUserNavigator', {
           screen: 'SelectCityScreen',
           params: {edit: true},
-        }),
+        });
+        resetNewUserState();
+      },
       icon: 'search-sm',
     },
     {
       id: 5,
       title: 'Languages',
       subtitle: 'The languages spoken in the flat',
-      onPress: () =>
+      onPress: () => {
         navigation.navigate('NewUserNavigator', {
           screen: 'LanguageSelectionScreen',
           params: {edit: true},
-        }),
+        });
+        resetNewUserState();
+      },
       icon: 'home-smile',
     },
   ];

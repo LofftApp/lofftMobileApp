@@ -102,6 +102,7 @@ export const newUserSlice = createSlice({
     },
 
     resetNewUserState: state => {
+      console.log('RESET NEW USER STATE');
       Object.assign(state, initialState);
     },
   },

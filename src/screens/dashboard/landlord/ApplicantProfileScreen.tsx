@@ -31,7 +31,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 // Types
-import type {ApplicantProfileScreenProps} from './types';
+import type {ApplicantProfileScreenProps} from '../../settings/types';
 
 const hardcodedImages = [
   'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',

@@ -2,17 +2,17 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //Screens
-import SettingsScreen from 'screens/profile/SettingsScreen';
+import SettingsScreen from 'screens/settings/SettingsScreen';
 
 //Types
 import type {SettingsStackParamsList} from './types';
-import AppLanguageScreen from 'screens/profile/AppLanguageScreen';
-import SwitchUserScreen from 'screens/profile/SwitchUserScreen';
-import TermsAndConditionsScreen from 'screens/profile/TermsAndConditionsScreen';
-import SendFeedbackScreen from 'screens/profile/SendFeedbackScreen';
-import GetTokensScreen from 'screens/profile/GetTokensScreen';
-import EditProfileScreen from 'screens/profile/EditProfileScreen';
-import EditAdvertScreen from 'screens/profile/EditAdvertScreen';
+import AppLanguageScreen from 'screens/settings/AppLanguageScreen';
+import SwitchUserScreen from 'screens/settings/SwitchUserScreen';
+import TermsAndConditionsScreen from 'screens/settings/TermsAndConditionsScreen';
+import SendFeedbackScreen from 'screens/settings/SendFeedbackScreen';
+import GetTokensScreen from 'screens/settings/GetTokensScreen';
+import EditProfileScreen from 'screens/settings/EditProfileScreen';
+import EditAdvertScreen from 'screens/settings/EditAdvertScreen';
 import NewUserNavigator from './NewUserNavigator';
 
 const Settings = createNativeStackNavigator<SettingsStackParamsList>();
