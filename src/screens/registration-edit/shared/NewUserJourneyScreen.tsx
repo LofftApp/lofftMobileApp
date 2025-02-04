@@ -22,7 +22,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import {RegistrationBackground} from 'assets';
 
 //Screens
-import {newUserScreens} from '../../navigationStacks/newUserScreens';
+import {newUserScreens} from '../../../navigationStacks/newUserScreens';
 
 //Components
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
@@ -32,7 +32,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
-import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();

@@ -12,7 +12,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Screens  📺
-import {newUserScreens} from '../../navigationStacks/newUserScreens';
+import {newUserScreens} from '../../../navigationStacks/newUserScreens';
 
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';

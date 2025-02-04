@@ -2,24 +2,24 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Find Lofft Journey
-import ConfirmEmailScreen from 'screens/registration-edit/ConfirmEmailScreen';
-import NewUserJourney from 'screens/registration-edit/NewUserJourneyScreen';
-import AboutUserFlatScreen from 'screens/registration-edit/AboutUserFlatScreen';
+import ConfirmEmailScreen from 'screens/registration-edit/shared/ConfirmEmailScreen';
+import NewUserJourney from 'screens/registration-edit/shared/NewUserJourneyScreen';
+import AboutUserFlatScreen from 'screens/registration-edit/shared/AboutUserFlatScreen';
 import GenderIdentityScreen from 'screens/registration-edit/tenant/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration-edit/tenant/SelectCityScreen';
 import BudgetScreen from 'screens/registration-edit/tenant/BudgetScreen';
-import FlatFeaturesScreen from 'screens/registration-edit/FlatFeaturesScreen/FlatFeaturesScreen';
-import ConditionsOfUseScreen from 'screens/registration-edit/ConditionsOfUseScreen';
-import LanguageSelectionScreen from 'screens/registration-edit/LanguageSelectionScreen';
+import FlatFeaturesScreen from 'screens/registration-edit/shared/FlatFeaturesScreen/FlatFeaturesScreen';
+import ConditionsOfUseScreen from 'screens/registration-edit/shared/ConditionsOfUseScreen';
+import LanguageSelectionScreen from 'screens/registration-edit/shared/LanguageSelectionScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration-edit/lessor/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration-edit/lessor/FlatLengthAvailableScreen';
-import NameProfileScreen from 'screens/registration-edit/NameProfileScreen';
-import FlatUserImageUploadScreen from 'screens/registration-edit/FlatImageUploadScreen';
+import NameProfileScreen from 'screens/registration-edit/shared/NameProfileScreen';
+import FlatUserImageUploadScreen from 'screens/registration-edit/shared/FlatImageUploadScreen';
 import FlatDetailsScreen from 'screens/registration-edit/lessor/FlatDetailsScreen';
 import SafeSpaceForScreen from 'screens/registration-edit/tenant/SafeSpaceForScreen';
-import UserImageUploadScreen from 'screens/registration-edit/UserImageUploadScreen';
+import UserImageUploadScreen from 'screens/registration-edit/shared/UserImageUploadScreen';
 import FlatDescribeScreen from 'screens/registration-edit/lessor/FlatDescribeScreen';
 import UserDescribeScreen from 'screens/registration-edit/tenant/UserDescribeScreen';
 import {NewUserStackParamsList} from './types';

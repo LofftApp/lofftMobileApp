@@ -18,7 +18,7 @@ import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 // Types 🏷 ️
-import {NewUserJourneyStackNavigation} from '../../navigationStacks/types';
+import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';

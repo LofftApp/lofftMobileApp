@@ -55,7 +55,7 @@ import {isEqualValue} from 'helpers/isEqualValue';
 import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
-} from '../../navigationStacks/types';
+} from '../../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';

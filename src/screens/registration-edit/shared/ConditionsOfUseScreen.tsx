@@ -36,12 +36,12 @@ import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // Types
-import {RootStackNavigationProp} from '../../navigationStacks/types';
+import {RootStackNavigationProp} from '../../../navigationStacks/types';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
-import { useUserType } from 'reduxFeatures/user/useUserType';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -56,9 +56,9 @@ const ConditionsOfUseScreen = () => {
 
   const {savedImages} = useImagesToUpload();
 
-
   const {isLessor} = useUserType();
-  const {isNewUserLessor, newUserDetails, setNewUserDetails} = useNewUserDetails(isLessor);
+  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
+    useNewUserDetails(isLessor);
 
   const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();
