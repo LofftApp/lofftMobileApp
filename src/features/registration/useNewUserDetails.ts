@@ -52,8 +52,6 @@ export const useNewUserDetails = (isLessor: boolean, edit: boolean = false) => {
   const resetNewUserState = () => {
     dispatch(_resetNewUserState());
   };
-  console.log('isNewUserLessor in hook', isNewUserLessor);
-  console.log('userType', userType);
 
   return {
     userType,

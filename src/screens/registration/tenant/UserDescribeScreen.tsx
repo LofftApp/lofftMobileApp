@@ -1,11 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {
+  useEditUserProfileMutation,
+  useGetUserQuery,
+} from 'reduxFeatures/user/userApi';
 
 //Hooks 🪝
 import {useUserType} from 'reduxFeatures/user/useUserType';
@@ -39,11 +42,22 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {isEqualValue} from 'helpers/isEqualValue';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
-const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const UserDescribeScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; newValue: boolean}};
+}) => {
   const edit = route?.params?.edit;
+  const newValue = route?.params?.newValue;
+  console.log('newValue in describe screen', newValue);
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
+
+  //Animation
+  const {fadeInAnim} = useFadeInAnimation();
 
   //Local State
   const [text, setText] = useState('');
@@ -55,22 +69,25 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {isLessor} = useUserType();
   const {setNewUserDetails, newUserDetails, isNewUserLessor} =
     useNewUserDetails(isLessor, edit);
-  const savedDescription = newUserDetails.selfDescription;
-
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
+  const [editUserProfile, {isLoading: isEditLoading}] =
+    useEditUserProfileMutation();
+  console.log('currentUser', currentUser);
 
-  const {fadeInAnim} = useFadeInAnimation();
+  const savedDescription = useMemo(() => {
+    if (edit) {
+      return currentUser?.profile.description;
+    } else {
+      return newUserDetails.selfDescription;
+    }
+  }, [edit, newUserDetails.selfDescription, currentUser?.profile.description]);
 
   useEffect(() => {
-    // New User
     if (savedDescription) {
       setText(savedDescription);
     }
-    // Edit User Profile
-    if (edit && currentUser?.profile.description) {
-      setText(currentUser.profile.description);
-    }
-  }, [savedDescription, currentUser, edit, currentUser?.profile.description]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -90,7 +107,7 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     navigation.goBack();
     setError('');
   };
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const trimmedText = text.trim();
     const result = selfDescriptionSchema.safeParse(trimmedText);
     if (!result.success) {
@@ -101,8 +118,33 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     setNewUserDetails({selfDescription: result.data});
 
     if (edit) {
-      navigation.goBack();
-      navigation.goBack();
+      if (newValue || !isEqualValue(savedDescription, result.data)) {
+        try {
+          await editUserProfile({
+            action: 'personalInfo',
+            userType: isLessor ? 'lessor' : 'tenant',
+            firstName: newUserDetails.firstName,
+            lastName: newUserDetails.lastName,
+            dateOfBirth: newUserDetails.dateOfBirth,
+            selfDescription: result.data,
+          }).unwrap();
+          setError('');
+          navigation.goBack();
+          navigation.goBack();
+        } catch (err) {
+          const typedError = err as {
+            status?: number;
+          };
+          if (typedError.status === 422) {
+            setError('Please fill out all the required fields');
+          } else {
+            setError('An error occurred, please try again');
+          }
+        }
+      } else {
+        navigation.goBack();
+        navigation.goBack();
+      }
     } else {
       setCurrentScreen(currentScreen + 1);
       const screen = isNewUserLessor
@@ -152,8 +194,10 @@ const UserDescribeScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           <Divider />
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
-            disabled={text.length < MIN_DESCRIPTION_CHARS}
+            value={
+              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+            }
+            disabled={text.length < MIN_DESCRIPTION_CHARS || isEditLoading}
             onPress={handleContinue}
           />
         </View>

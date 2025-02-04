@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -49,6 +49,7 @@ import {
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
+import {isEqualValue} from 'helpers/isEqualValue';
 
 const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
@@ -73,46 +74,93 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isNewUserLessor, setNewUserDetails, newUserDetails} =
     useNewUserDetails(isLessor, edit);
-  const savedFirstName = newUserDetails.firstName;
-  const savedLastName = newUserDetails.lastName;
-  const savedDate = newUserDetails.dateOfBirth;
-  console.log('NewUSerDetails', newUserDetails);
-  const {data: currentUser} = useGetUserQuery();
-  console.log('currentUser', currentUser);
+  const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
-  useEffect(() => {
-    //New User
-    if (savedFirstName) {
-      setFirstName(savedFirstName);
-    }
-    if (savedLastName) {
-      setLastName(savedLastName);
-    }
-    if (savedDate) {
-      setDate(new Date(savedDate));
-      setIsDateSelected(true);
-    }
-
-    //Edit User Profile
-    if (edit && currentUser?.profile.firstName) {
-      setFirstName(currentUser.profile.firstName);
-    }
-    if (edit && currentUser?.profile.lastName) {
-      setLastName(currentUser.profile.lastName);
-    }
-    if (edit && currentUser?.profile.dateOfBirth) {
-      setDate(new Date(currentUser.profile.dateOfBirth));
-      setIsDateSelected(true);
+  const savedProfileData = useMemo(() => {
+    if (
+      edit &&
+      (currentUser?.profile.firstName ||
+        currentUser?.profile.lastName ||
+        currentUser?.profile.dateOfBirth)
+    ) {
+      return {
+        firstName: currentUser.profile.firstName,
+        lastName: currentUser.profile.lastName,
+        dateOfBirth: new Date(currentUser.profile.dateOfBirth),
+      };
+    } else {
+      return {
+        firstName: newUserDetails.firstName,
+        lastName: newUserDetails.lastName,
+        dateOfBirth: new Date(newUserDetails.dateOfBirth),
+      };
     }
   }, [
-    savedFirstName,
-    savedLastName,
-    savedDate,
     edit,
-    currentUser?.profile.firstName,
-    currentUser?.profile.lastName,
-    currentUser?.profile.dateOfBirth,
+    currentUser?.profile?.firstName,
+    currentUser?.profile?.lastName,
+    currentUser?.profile?.dateOfBirth,
+    newUserDetails.firstName,
+    newUserDetails.lastName,
+    newUserDetails.dateOfBirth,
   ]);
+
+  useEffect(() => {
+    if (savedProfileData.firstName) {
+      setFirstName(savedProfileData.firstName);
+    }
+    if (savedProfileData.lastName) {
+      setLastName(savedProfileData.lastName);
+    }
+    if (savedProfileData.dateOfBirth) {
+      setDate(savedProfileData.dateOfBirth);
+      setIsDateSelected(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const savedFirstName = newUserDetails.firstName;
+  // const savedLastName = newUserDetails.lastName;
+  // const savedDate = newUserDetails.dateOfBirth;
+  // console.log('NewUSerDetails', newUserDetails);
+  // const {data: currentUser} = useGetUserQuery();
+  // console.log('currentUser', currentUser);
+
+  // const save
+
+  // useEffect(() => {
+  //   //New User
+  //   if (savedFirstName) {
+  //     setFirstName(savedFirstName);
+  //   }
+  //   if (savedLastName) {
+  //     setLastName(savedLastName);
+  //   }
+  //   if (savedDate) {
+  //     setDate(new Date(savedDate));
+  //     setIsDateSelected(true);
+  //   }
+
+  //   //Edit User Profile
+  //   if (edit && currentUser?.profile.firstName) {
+  //     setFirstName(currentUser.profile.firstName);
+  //   }
+  //   if (edit && currentUser?.profile.lastName) {
+  //     setLastName(currentUser.profile.lastName);
+  //   }
+  //   if (edit && currentUser?.profile.dateOfBirth) {
+  //     setDate(new Date(currentUser.profile.dateOfBirth));
+  //     setIsDateSelected(true);
+  //   }
+  // }, [
+  //   savedFirstName,
+  //   savedLastName,
+  //   savedDate,
+  //   edit,
+  //   currentUser?.profile.firstName,
+  //   currentUser?.profile.lastName,
+  //   currentUser?.profile.dateOfBirth,
+  // ]);
 
   const {fadeInAnim} = useFadeInAnimation();
 
@@ -180,16 +228,19 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     console.log('result', result);
 
     setNewUserDetails({
-      userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
       firstName: result.data.firstName,
       lastName: result.data.lastName,
       dateOfBirth: result.data.dateOfBirth.toISOString(),
     });
 
     if (edit) {
+      const newValue =
+        !isEqualValue(savedProfileData.firstName, result.data.firstName) ||
+        !isEqualValue(savedProfileData.lastName, result.data.lastName) ||
+        !isEqualValue(savedProfileData.dateOfBirth, result.data.dateOfBirth);
       navigation.navigate('NewUserNavigator', {
         screen: 'UserDescribeScreen',
-        params: {edit: true},
+        params: {edit: true, newValue},
       });
     } else {
       const screen = isNewUserLessor

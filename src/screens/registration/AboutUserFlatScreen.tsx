@@ -91,11 +91,6 @@ const AboutUserFlatScreen = ({
   });
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
   console.log('currentUser', currentUser);
-  // const savedCharsIds = edit
-  //   ? isLessor
-  //     ? advert?.flat.characteristics.map(char => char.id)
-  //     : currentUser?.profile.characteristics.map(char => char.id)
-  //   : newUserDetails.characteristics;
 
   const savedCharsIds = useMemo(() => {
     if (edit) {
@@ -111,9 +106,6 @@ const AboutUserFlatScreen = ({
     currentUser?.profile.characteristics,
     newUserDetails.characteristics,
   ]);
-  console.log('edit', edit);
-
-  console.log('newUserDetails in about user', newUserDetails);
 
   useEffect(() => {
     if (savedCharsIds && savedCharsIds.length > 0) {

@@ -58,7 +58,6 @@ const SettingsScreen = () => {
   const {resetNewUserState} = useNewUserDetails(isLessor);
   const {data} = useGetAdvertsQuery(undefined, {skip: !isLessor});
   const adverts = data?.adverts;
-  console.log('adverts', adverts);
   const {appLanguage} = useAppLanguage();
   const [signOut] = useSignOutMutation();
   const [isLoading, setIsLoading] = useState(true);
@@ -82,10 +81,8 @@ const SettingsScreen = () => {
       photo: advert.flat.photos[0],
       advertId: advert.id,
     })) || [];
-  console.log('advertPhotos', advertPhotos);
 
   const totalPhotos = [...flatImages, ...advertPhotos];
-  console.log('totalPhotos', totalPhotos);
 
   const tenantSettingsData = [
     {
@@ -157,7 +154,6 @@ const SettingsScreen = () => {
     ...tenantSettingsData.slice(indexToInsert),
   ];
 
-  console.log('lessorSettingsData', lessorSettingsData);
   const handlePressImageSwiper = (advertId: number) => {
     navigation.navigate('EditAdvertScreen', {advertId});
     resetNewUserState();
