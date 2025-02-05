@@ -21,7 +21,7 @@ import FlatDetailsScreen from 'screens/registration-edit/lessor/FlatDetailsScree
 import SafeSpaceForScreen from 'screens/registration-edit/tenant/SafeSpaceForScreen';
 import UserImageUploadScreen from 'screens/registration-edit/shared/UserImageUploadScreen';
 import FlatDescribeScreen from 'screens/registration-edit/lessor/FlatDescribeScreen';
-import UserDescribeScreen from 'screens/registration-edit/tenant/UserDescribeScreen';
+import UserDescribeScreen from 'screens/registration-edit/shared/UserDescribeScreen/UserDescribeScreen';
 import {NewUserStackParamsList} from './types';
 
 const NewUserNavigatorFlow =

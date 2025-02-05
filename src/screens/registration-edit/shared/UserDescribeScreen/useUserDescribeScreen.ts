@@ -1,5 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {View, StyleSheet, SafeAreaView, Animated} from 'react-native';
+import {useEffect, useMemo, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -9,56 +8,22 @@ import {
   useEditUserProfileMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
-
-//Hooks 🪝
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 
-// Components 🪢
-import HeadlineContainer from 'components/containers/HeadlineContainer';
-import BackButton from 'components/buttons/BackButton';
-import Divider from 'components/bars/Divider';
-import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
-
-// Styles 🖼️
-import Color from 'styleSheets/lofftColorPallet.json';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-
-//Assets 🎨
-import {RegistrationBackground} from 'assets';
-
 //Validation 🛡 ️
 import {selfDescriptionSchema} from 'lib/zodSchema';
-
-//Constants  📊
-import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
-// Helpers 🤝
-import {size} from 'react-native-responsive-sizes';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {isEqualValue} from 'helpers/isEqualValue';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import {EditUserProfileParams} from 'reduxFeatures/user/types';
 
-const UserDescribeScreen = ({
-  route,
-}: {
-  route?: {params: {edit: boolean; newValue: boolean}};
-}) => {
-  const edit = route?.params?.edit;
-  const newValue = route?.params?.newValue;
-  console.log('newValue in describe screen', newValue);
+export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
-
-  //Animation
-  const {fadeInAnim} = useFadeInAnimation();
 
   //Local State
   const [text, setText] = useState('');
@@ -166,77 +131,15 @@ const UserDescribeScreen = ({
   };
 
   console.log('NewuSer', newUserDetails);
-
-  return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={`In your own ${'\n'}words!`}
-          subDescription={
-            edit
-              ? 'Describe yourself in a short text'
-              : "Describe yourself in a short text. Don't worry, this can be updated later."
-          }
-        />
-        <View style={styles.mainContainer}>
-          <Animated.View style={{opacity: fadeInAnim}}>
-            <CustomTextInput
-              text={text}
-              textFocus={textFocus}
-              error={error}
-              handleOnChange={handleOnChange}
-              handleOnFocus={handleOnFocus}
-              handleOnBlur={handleOnBlur}
-              placeholder={'Who are you? What do you like?'}
-            />
-          </Animated.View>
-        </View>
-
-        <View style={styles.footerContainer}>
-          <Divider />
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
-            }
-            disabled={text.length < MIN_DESCRIPTION_CHARS || isEditLoading}
-            onPress={handleContinue}
-          />
-        </View>
-      </View>
-    </SafeAreaView>
-  );
+  return {
+    handleOnChange,
+    handleOnFocus,
+    handleOnBlur,
+    handleBackButton,
+    handleContinue,
+    text,
+    textFocus,
+    error,
+    isEditLoading,
+  };
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 4,
-  },
-
-  minText: {
-    color: Color.Black[80],
-  },
-
-  inputText: {
-    borderWidth: 2,
-    paddingLeft: size(10),
-    paddingVertical: size(5),
-    borderRadius: 12,
-    height: size(10),
-  },
-  footerContainer: {
-    flex: 1,
-    paddingTop: size(20),
-    paddingBottom: size(20),
-    gap: size(10),
-  },
-});
-
-export default UserDescribeScreen;
