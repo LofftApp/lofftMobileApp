@@ -57,14 +57,13 @@ import {
   SettingsScreenNavigationProp,
 } from '../../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {CoreButton} from 'components/buttons/CoreButton';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
+
 import Popover, {
   PopoverMode,
   PopoverPlacement,
-  Rect,
 } from 'react-native-popover-view';
 import PopoverContent from 'components/modals/CustomPopover';
+import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
 
 const AboutUserFlatScreen = ({
   route,
@@ -90,8 +89,7 @@ const AboutUserFlatScreen = ({
   // Local State
   const [selectedCharsIds, setSelectedCharsIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  const [showPopover, setShowPopover] = useState(false);
-  const [firstAttempt, setFirstAttempt] = useState(true);
+  // const [showPopover, setShowPopover] = useState(false);
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
@@ -132,14 +130,20 @@ const AboutUserFlatScreen = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const {
+    showPopover,
+    setShowPopover,
+    triggerPopover,
+
+    hasShownPopover,
+  } = usePopoverDisplayFirstTime('editChars');
+
   const handleBackButton = () => {
     if (!edit) {
-      const previousScreen = currentScreen - 1;
-      setCurrentScreen(previousScreen);
+      setCurrentScreen(currentScreen - 1);
     }
-    if (!isEqualValue(savedCharsIds, selectedCharsIds) && firstAttempt) {
-      setShowPopover(true);
-      setFirstAttempt(false);
+    if (!hasShownPopover && !isEqualValue(savedCharsIds, selectedCharsIds)) {
+      triggerPopover();
       return;
     }
 

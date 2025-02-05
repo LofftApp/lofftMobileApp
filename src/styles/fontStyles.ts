@@ -45,7 +45,7 @@ export const fontStyles = StyleSheet.create({
     fontFamily: InterSemiBold,
     color: color.Black[100],
     fontSize: fontSize(14),
-    lineHeight: size(18),
+    lineHeight: size(26),
   },
   bodyLarge: {
     fontFamily: InterMedium,

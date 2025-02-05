@@ -19,7 +19,7 @@ const FavoritesSubScreen = ({
   isLoading,
 }: FavoritesSubScreenProps) => {
   const isAllFavoritesApplied = favorites?.every(favorite => favorite.applied);
-
+  console.log("favorites", favorites) 
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -51,6 +51,7 @@ const FavoritesSubScreen = ({
     />
   );
 };
+
 
 const styles = StyleSheet.create({
   image: {

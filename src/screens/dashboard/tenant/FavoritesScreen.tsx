@@ -36,8 +36,7 @@ import Popover, {
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
 import PopoverContent from 'components/modals/CustomPopover';
-
-const FIRST_APPLY_KEY = 'hasShownFirstApply';
+import { usePopoverDisplayFirstTime } from 'hooks/usePopoverDisplayFirstTime';
 
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
@@ -46,45 +45,45 @@ const FavoritesScreen = () => {
   const credits = currentUser?.credits;
   const {height, width} = useWindowDimensions();
 
-  // Popover state
-  const [showPopover, setShowPopover] = useState(false);
-  const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
-
   // Check if any favorite has been applied
   const isApplied = favorites?.some(favorite => favorite.applied);
 
-  useEffect(() => {
-    // Check AsyncStorage for first-time display of popover (only once)
-    const checkFirstApply = async () => {
-      try {
-        const hasShown = await AsyncStorage.getItem(FIRST_APPLY_KEY);
-        console.log('hasShown:', hasShown);
-        if (!hasShown && isApplied) {
-          setShowPopover(true);
-          await AsyncStorage.setItem(FIRST_APPLY_KEY, 'true');
-        }
-        setHasCheckedStorage(true);
-      } catch (error) {
-        console.error('Error checking popover state:', error);
-        setHasCheckedStorage(true);
-      }
-    };
+  // useEffect(() => {
+  //   // Check AsyncStorage for first-time display of popover (only once)
+  //   const checkFirstApply = async () => {
+  //     try {
+  //       const hasShown = await AsyncStorage.getItem(FIRST_APPLY_KEY);
+  //       console.log('hasShown:', hasShown);
+  //       if (!hasShown && isApplied) {
+  //         setShowPopover(true);
+  //         await AsyncStorage.setItem(FIRST_APPLY_KEY, 'true');
+  //       }
+  //       setHasCheckedStorage(true);
+  //     } catch (error) {
+  //       console.error('Error checking popover state:', error);
+  //       setHasCheckedStorage(true);
+  //     }
+  //   };
 
-    if (!hasCheckedStorage && favorites) {
-      checkFirstApply();
-    }
-  }, [favorites, isApplied, hasCheckedStorage]);
-  console.log('isApplied:', isApplied);
-  console.log('hasCheckedStorage:', hasCheckedStorage);
+  //   if (!hasCheckedStorage && favorites) {
+  //     checkFirstApply();
+  //   }
+  // }, [favorites, isApplied, hasCheckedStorage]);
+  // console.log('isApplied:', isApplied);
+  // console.log('hasCheckedStorage:', hasCheckedStorage);
 
-  useEffect(() => {
-    if (isApplied && hasCheckedStorage) {
-      setShowPopover(true);
-    }
-  }, [isApplied, hasCheckedStorage]);
-  useEffect(() => {
-    console.log('showPopover:', showPopover);
-  }, [showPopover]);
+  // useEffect(() => {
+  //   if (isApplied && hasCheckedStorage) {
+  //     setShowPopover(true);
+  //   }
+  // }, [isApplied, hasCheckedStorage]);
+  // useEffect(() => {
+  //   console.log('showPopover:', showPopover);
+  // }, [showPopover]);
+  const {showPopover, setShowPopover} = usePopoverDisplayFirstTime(
+    'firstApply',
+    isApplied ?? false,
+  );
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -106,7 +105,7 @@ const FavoritesScreen = () => {
       <Popover
         popoverStyle={[
           styles.popoverContainer,
-          {width: width * 0.95, height: height * 0.14},
+          {width: width * 0.95, height: height * 0.15},
         ]}
         from={new Rect(width * 0.29, height * 0.9, 0, 0)}
         isVisible={showPopover}
@@ -115,7 +114,7 @@ const FavoritesScreen = () => {
         <PopoverContent
           text1={'Applied. You can find the listings in My Applications.'}
           icon1="check-verified-02"
-          text2={`Remaning Tokens: ${credits}`}
+          text2={`Remaning Tokens ${credits}`}
           icon2="wallet"
           setShowPopover={setShowPopover}
           button

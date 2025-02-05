@@ -93,6 +93,8 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
     return null;
   }
 
+  console.log('favorite', favorite.applied);
+
   return (
     <Animated.View style={[styles.flatCardContainer, {opacity: cardOpacity}]}>
       <View style={styles.flatCardButtonsOverlay}>

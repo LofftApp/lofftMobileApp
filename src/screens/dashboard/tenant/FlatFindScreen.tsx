@@ -51,6 +51,8 @@ const FlatFindScreen = () => {
     setOpenModal(prev => !prev);
   };
 
+  console.log('adverts:', adverts);
+
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
       <View style={styles.searchContainer}>
