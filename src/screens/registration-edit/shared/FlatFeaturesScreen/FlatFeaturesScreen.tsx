@@ -51,6 +51,9 @@ const FlatFeaturesScreen = ({
   //Safe Area
   const insets = useSafeAreaInsets();
 
+  const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor, edit);
+
   const {
     selectedFeaturesIds,
     handleSelectFeatures,
@@ -62,9 +65,6 @@ const FlatFeaturesScreen = ({
     isEditLoading,
     features,
   } = useFlatFeaturesScreen(edit, advertId, newValue);
-
-  const {isLessor} = useUserType();
-  const {isNewUserLessor} = useNewUserDetails(isLessor, edit);
 
   const featuresButtons = features?.map(feat => {
     return (

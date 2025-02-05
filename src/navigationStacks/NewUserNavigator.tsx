@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // Find Lofft Journey
 import ConfirmEmailScreen from 'screens/registration-edit/shared/ConfirmEmailScreen';
 import NewUserJourney from 'screens/registration-edit/shared/NewUserJourneyScreen';
-import AboutUserFlatScreen from 'screens/registration-edit/shared/AboutUserFlatScreen';
+import AboutUserFlatScreen from 'screens/registration-edit/shared/AboutUserFlatScreen/AboutUserFlatScreen';
 import GenderIdentityScreen from 'screens/registration-edit/tenant/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration-edit/tenant/SelectCityScreen';
 import BudgetScreen from 'screens/registration-edit/tenant/BudgetScreen';
