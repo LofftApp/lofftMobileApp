@@ -1,13 +1,6 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  useWindowDimensions,
-} from 'react-native';
+import {useEffect, useMemo, useState} from 'react';
+
 import {useNavigation} from '@react-navigation/native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Redux 📦
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
@@ -16,39 +9,14 @@ import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
-// Components 🪢
-import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import HeadlineContainer from 'components/containers/HeadlineContainer';
-import SelectionButton from 'components/buttons/SelectionButton';
-import Divider from 'components/bars/Divider';
-import BackButton from 'components/buttons/BackButton';
-import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-
-// StylesSheet 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import Color from 'styleSheets/lofftColorPallet.json';
-
-//Assets 🎨
-import {RegistrationBackground} from 'assets';
-
 // Data 💿
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Validation 🛡  ️
 import {characteristicsSchema} from 'lib/zodSchema';
 
-// Constants 📊
-import {
-  MAX_SELECTED_CHARS,
-  MIN_SELECTED_CHARS,
-} from 'components/componentData/constants';
-
 // Helper 🤝
-import {size} from 'react-native-responsive-sizes';
+
 import {isEqualValue} from 'helpers/isEqualValue';
 
 // Types 🏷 ️
@@ -58,14 +26,10 @@ import {
 } from '../../../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
-import Popover, {
-  PopoverMode,
-  PopoverPlacement,
-} from 'react-native-popover-view';
-import PopoverContent from 'components/modals/CustomPopover';
+// Hooks 🪝
 import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
 
-export const useAboutUserFlatScreen = (edit, advertId) => {
+export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
