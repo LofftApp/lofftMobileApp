@@ -35,6 +35,7 @@ import Popover, {
 
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
+import PopoverContent from 'components/modals/CustomPopover';
 
 const FIRST_APPLY_KEY = 'hasShownFirstApply';
 
@@ -103,38 +104,21 @@ const FavoritesScreen = () => {
         />
       </View>
       <Popover
-     
         popoverStyle={[
           styles.popoverContainer,
-          {width: width * 0.95, height: height * 0.13},
+          {width: width * 0.95, height: height * 0.14},
         ]}
         from={new Rect(width * 0.29, height * 0.9, 0, 0)}
         isVisible={showPopover}
         placement={PopoverPlacement.TOP}
         onRequestClose={() => setShowPopover(false)}>
-        <View style={styles.popoverContent}>
-          <View style={styles.popoverText}>
-            <LofftIcon
-              name="check-verified-02"
-              size={25}
-              color={Color.Lavendar[100]}
-            />
-            <Text style={fontStyles.bodyTiny}>
-              Applied. You can find the listings in {'\n'}My Applications tab.
-            </Text>
-          </View>
-          <View style={styles.popoverText}>
-            <LofftIcon name="wallet" size={25} color={Color.Lavendar[100]} />
-            <Text style={fontStyles.headerTiny}>
-              Remaining Tokens {credits}
-            </Text>
-          </View>
-        </View>
-        <CoreButton
-          value="Got it"
-          onPress={() => setShowPopover(false)}
-          style={styles.buttonStyle}
-          textSize={fontStyles.bodyTiny}
+        <PopoverContent
+          text1={'Applied. You can find the listings in My Applications.'}
+          icon1="check-verified-02"
+          text2={`Remaning Tokens: ${credits}`}
+          icon2="wallet"
+          setShowPopover={setShowPopover}
+          button
         />
       </Popover>
     </SafeAreaView>

@@ -64,6 +64,7 @@ import Popover, {
   PopoverPlacement,
   Rect,
 } from 'react-native-popover-view';
+import PopoverContent from 'components/modals/CustomPopover';
 
 const AboutUserFlatScreen = ({
   route,
@@ -278,34 +279,19 @@ const AboutUserFlatScreen = ({
         mode={PopoverMode.RN_MODAL}
         popoverStyle={[
           styles.popoverContainer,
-          {width: width * 0.95, height: height * 0.13},
+          {width: width * 0.95, height: height * 0.15},
         ]}
-        // from={new Rect(width * 0.29, height * 0.25, 0, 0)}
+        // from={new Rect(width * 0.29, height * 0.27, 0, 0)}
         isVisible={showPopover}
         placement={PopoverPlacement.TOP}
         arrowSize={{width: 0, height: 0}}
         onRequestClose={() => setShowPopover(false)}>
-        <View style={styles.popoverContent}>
-          <View style={styles.popoverText}>
-            <LofftIcon
-              name="check-verified-02"
-              size={25}
-              color={Color.Lavendar[100]}
-            />
-            <Text style={fontStyles.bodyTiny}>
-              Applied. You can find the listings in {'\n'}My Applications tab.
-            </Text>
-          </View>
-          <View style={styles.popoverText}>
-            <LofftIcon name="wallet" size={25} color={Color.Lavendar[100]} />
-            <Text style={fontStyles.headerTiny}>Remaining Tokens</Text>
-          </View>
-        </View>
-        <CoreButton
-          value="Got it"
-          onPress={() => setShowPopover(false)}
-          style={styles.buttonStyle}
-          textSize={fontStyles.bodyTiny}
+        <PopoverContent
+          text1="You have unsaved changes"
+          icon1="info-circle"
+          text2="To keep the changes, click on Continue and then Save."
+          setShowPopover={setShowPopover}
+          button
         />
       </Popover>
     </View>

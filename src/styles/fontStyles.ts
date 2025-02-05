@@ -39,12 +39,12 @@ export const fontStyles = StyleSheet.create({
     fontFamily: InterSemiBold,
     color: color.Black[100],
     fontSize: fontSize(16),
-    lineHeight: size(20),
+    lineHeight: size(28),
   },
   headerTiny: {
     fontFamily: InterSemiBold,
     color: color.Black[100],
-    fontSize: fontSize(10),
+    fontSize: fontSize(14),
     lineHeight: size(18),
   },
   bodyLarge: {
