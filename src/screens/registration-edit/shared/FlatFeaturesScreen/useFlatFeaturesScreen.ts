@@ -32,7 +32,7 @@ import {
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
 import {EditUserProfileParams} from 'reduxFeatures/user/types';
-import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -118,14 +118,8 @@ export const useFlatFeaturesScreen = (
         : [...prevIds, id],
     );
   };
-
-  const {
-    showPopover,
-    setShowPopover,
-    triggerPopover,
-
-    hasShownPopover,
-  } = usePopoverDisplayFirstTime('editChars');
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger('editChars');
 
   const handleBackButton = () => {
     if (!edit) {

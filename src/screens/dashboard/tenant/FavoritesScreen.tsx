@@ -10,6 +10,7 @@ import {
 // Redux 🏗️
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useAutoPopoverTrigger} from 'reduxFeatures/settings/useAutomaticPopoverTrigger';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -21,12 +22,12 @@ import FavoritesSubScreen from './SubScreens/FavoritesSubScreen';
 
 // Components  🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import Popover, {PopoverPlacement, Rect} from 'react-native-popover-view';
+import PopoverContent from 'components/modals/PopoverContent';
 
+// Lib 📚
+import Popover, {PopoverPlacement, Rect} from 'react-native-popover-view';
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
-import PopoverContent from 'components/modals/PopoverContent';
-import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
 
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
@@ -37,7 +38,7 @@ const FavoritesScreen = () => {
 
   const isApplied = favorites?.some(favorite => favorite.applied);
 
-  const {showPopover, setShowPopover} = usePopoverDisplayFirstTime(
+  const {showPopover, setShowPopover} = useAutoPopoverTrigger(
     'firstApply',
     isApplied ?? false,
   );

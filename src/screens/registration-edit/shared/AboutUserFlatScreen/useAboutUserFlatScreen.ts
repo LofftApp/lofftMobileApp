@@ -27,7 +27,7 @@ import {
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 // Hooks 🪝
-import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
@@ -85,13 +85,8 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const {
-    showPopover,
-    setShowPopover,
-    triggerPopover,
-
-    hasShownPopover,
-  } = usePopoverDisplayFirstTime('editChars');
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger('editChars');
 
   const handleBackButton = () => {
     if (!edit) {

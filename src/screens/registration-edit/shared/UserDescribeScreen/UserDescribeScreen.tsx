@@ -3,6 +3,7 @@ import {View, StyleSheet, SafeAreaView, Animated} from 'react-native';
 
 //Hooks 🪝
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
+import {useUserDescribeScreen} from './useUserDescribeScreen';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -11,6 +12,8 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
+import EditScreensPopover from 'components/modals/EditScreensPopover';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -23,11 +26,6 @@ import {RegistrationBackground} from 'assets';
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-
-//Types 🏷️
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import {useUserDescribeScreen} from './useUserDescribeScreen';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
 
 const UserDescribeScreen = ({
   route,

@@ -10,7 +10,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {isEqualValue} from 'helpers/isEqualValue';
 
 // Hooks 🪝
-import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -95,8 +95,9 @@ export const useNameProfileScreen = (edit?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const {showPopover, setShowPopover, triggerPopover, hasShownPopover} =
-    usePopoverDisplayFirstTime('editName');
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger('editName');
+  console.log('hasShownPopover', hasShownPopover);
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -124,6 +125,7 @@ export const useNameProfileScreen = (edit?: boolean) => {
   };
 
   const handleBackButton = () => {
+    // resetPopover();
     if (!edit) {
       setCurrentScreen(currentScreen - 1);
     }
