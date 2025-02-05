@@ -2,9 +2,6 @@ import React from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-//Redux 📦
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
@@ -13,6 +10,10 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import Divider from 'components/bars/Divider';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {useFlatFeaturesScreen} from './useFlatFeaturesScreen';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -26,16 +27,6 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants 📊
 import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
-
-// Types 🧩
-
-import {useUserType} from 'reduxFeatures/user/useUserType';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-
-import {useFlatFeaturesScreen} from './useFlatFeaturesScreen';
 
 const FlatFeaturesScreen = ({
   route,
@@ -51,9 +42,6 @@ const FlatFeaturesScreen = ({
   //Safe Area
   const insets = useSafeAreaInsets();
 
-  const {isLessor} = useUserType();
-  const {isNewUserLessor} = useNewUserDetails(isLessor, edit);
-
   const {
     selectedFeaturesIds,
     handleSelectFeatures,
@@ -64,6 +52,8 @@ const FlatFeaturesScreen = ({
     isAdvertError,
     isEditLoading,
     features,
+    isLessor,
+    isNewUserLessor,
   } = useFlatFeaturesScreen(edit, advertId, newValue);
 
   const featuresButtons = features?.map(feat => {

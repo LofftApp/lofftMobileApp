@@ -211,5 +211,7 @@ export const useFlatFeaturesScreen = (
     isAdvertLoading,
     isAdvertError,
     features,
+    isLessor,
+    isNewUserLessor,
   };
 };

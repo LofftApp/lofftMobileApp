@@ -46,8 +46,12 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
-  const {newUserDetails, setNewUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor, edit);
+  const {
+    newUserDetails,
+    setNewUserDetails,
+    isNewUserLessor,
+    resetNewUserState,
+  } = useNewUserDetails(isLessor, edit);
 
   const {
     data: advert,
@@ -100,6 +104,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
 
     navigation.goBack();
     setError('');
+    resetNewUserState();
   };
 
   const handleSelectChars = (id: number) => {
@@ -154,5 +159,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     characteristics,
     showPopover,
     setShowPopover,
+    isLessor,
+    isNewUserLessor,
   };
 };

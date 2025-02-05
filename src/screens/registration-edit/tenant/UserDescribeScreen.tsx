@@ -44,6 +44,7 @@ import {size} from 'react-native-responsive-sizes';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {isEqualValue} from 'helpers/isEqualValue';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {EditUserProfileParams} from 'reduxFeatures/user/types';
 
 const UserDescribeScreen = ({
   route,
@@ -67,8 +68,12 @@ const UserDescribeScreen = ({
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
-  const {setNewUserDetails, newUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor, edit);
+  const {
+    setNewUserDetails,
+    newUserDetails,
+    isNewUserLessor,
+    resetNewUserState,
+  } = useNewUserDetails(isLessor, edit);
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
   const [editUserProfile, {isLoading: isEditLoading}] =
     useEditUserProfileMutation();
@@ -120,14 +125,17 @@ const UserDescribeScreen = ({
     if (edit) {
       if (newValue || !isEqualValue(savedDescription, result.data)) {
         try {
-          await editUserProfile({
-            action: 'personalInfo',
+          const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+            userId: currentUser?.id ?? 0,
+            actionMethod: 'personalInfo',
             userType: isLessor ? 'lessor' : 'tenant',
             firstName: newUserDetails.firstName,
             lastName: newUserDetails.lastName,
             dateOfBirth: newUserDetails.dateOfBirth,
             selfDescription: result.data,
-          }).unwrap();
+          };
+          console.log('editParams', editParams);
+          await editUserProfile(editParams).unwrap();
           setError('');
           navigation.goBack();
           navigation.goBack();
@@ -145,6 +153,7 @@ const UserDescribeScreen = ({
         navigation.goBack();
         navigation.goBack();
       }
+      resetNewUserState();
     } else {
       setCurrentScreen(currentScreen + 1);
       const screen = isNewUserLessor

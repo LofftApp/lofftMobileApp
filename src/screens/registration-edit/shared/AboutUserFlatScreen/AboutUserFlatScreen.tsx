@@ -1,16 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  useWindowDimensions,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
-//Redux 📦
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //Screens 📺
 import {useAboutUserFlatScreen} from './useAboutUserFlatScreen';
@@ -25,18 +15,11 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import PopoverContent from 'components/modals/CustomPopover';
-
-// Lib 📚
-import Popover, {
-  PopoverMode,
-  PopoverPlacement,
-} from 'react-native-popover-view';
+import EditScreensPopover from 'components/modals/EditScreensPopover';
 
 // StylesSheet 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import Color from 'styleSheets/lofftColorPallet.json';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -62,10 +45,6 @@ const AboutUserFlatScreen = ({
 
   //Safe Area
   const insets = useSafeAreaInsets();
-  const {height, width} = useWindowDimensions();
-
-  const {isLessor} = useUserType();
-  const {isNewUserLessor} = useNewUserDetails(isLessor, edit);
 
   const {
     selectedCharsIds,
@@ -78,6 +57,8 @@ const AboutUserFlatScreen = ({
     characteristics,
     showPopover,
     setShowPopover,
+    isLessor,
+    isNewUserLessor,
   } = useAboutUserFlatScreen(edit, advertId);
 
   if (isAdvertLoading) {
@@ -166,25 +147,11 @@ const AboutUserFlatScreen = ({
           />
         </View>
       </View>
-      <Popover
-        mode={PopoverMode.RN_MODAL}
-        popoverStyle={[
-          styles.popoverContainer,
-          {width: width * 0.95, height: height * 0.15},
-        ]}
-        // from={new Rect(width * 0.29, height * 0.27, 0, 0)}
-        isVisible={showPopover}
-        placement={PopoverPlacement.TOP}
-        arrowSize={{width: 0, height: 0}}
-        onRequestClose={() => setShowPopover(false)}>
-        <PopoverContent
-          text1="You have unsaved changes"
-          icon1="info-circle"
-          text2="To keep the changes, click on Continue and then Save."
-          setShowPopover={setShowPopover}
-          button
-        />
-      </Popover>
+
+      <EditScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </View>
   );
 };
@@ -201,31 +168,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     paddingTop: size(20),
-  },
-  popoverContainer: {
-    backgroundColor: Color.Mint[20],
-    paddingHorizontal: size(10),
-    borderRadius: 12,
-    borderColor: Color.Mint[20],
-
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  popoverContent: {
-    flex: 1,
-    paddingHorizontal: size(8),
-    justifyContent: 'center',
-    gap: size(10),
-  },
-  popoverText: {flexDirection: 'row', alignItems: 'center', gap: size(5)},
-
-  buttonStyle: {
-    backgroundColor: Color.Lavendar[100],
-    borderColor: Color.Lavendar[100],
-    borderRadius: 12,
-    borderWidth: 2,
-    width: size(70),
-    height: size(41),
   },
 });
 

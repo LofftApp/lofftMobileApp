@@ -25,7 +25,7 @@ import Popover, {PopoverPlacement, Rect} from 'react-native-popover-view';
 
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
-import PopoverContent from 'components/modals/CustomPopover';
+import PopoverContent from 'components/modals/PopoverContent';
 import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
 
 const FavoritesScreen = () => {
