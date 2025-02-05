@@ -27,6 +27,7 @@ import {size} from 'react-native-responsive-sizes';
 //Types 🏷️
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import {useUserDescribeScreen} from './useUserDescribeScreen';
+import EditScreensPopover from 'components/modals/EditScreensPopover';
 
 const UserDescribeScreen = ({
   route,
@@ -49,6 +50,8 @@ const UserDescribeScreen = ({
     handleContinue,
     handleBackButton,
     isEditLoading,
+    showPopover,
+    setShowPopover,
   } = useUserDescribeScreen(edit, newValue);
 
   return (
@@ -95,6 +98,10 @@ const UserDescribeScreen = ({
           />
         </View>
       </View>
+      <EditScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </SafeAreaView>
   );
 };

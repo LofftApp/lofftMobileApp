@@ -20,6 +20,7 @@ import {selfDescriptionSchema} from 'lib/zodSchema';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {isEqualValue} from 'helpers/isEqualValue';
 import {EditUserProfileParams} from 'reduxFeatures/user/types';
+import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   //Navigation
@@ -59,6 +60,9 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const {showPopover, setShowPopover, triggerPopover, hasShownPopover} =
+    usePopoverDisplayFirstTime('editName');
+
   const handleOnChange = (input: string) => {
     setText(input);
   };
@@ -73,6 +77,10 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   const handleBackButton = () => {
     if (!edit) {
       setCurrentScreen(currentScreen - 1);
+    }
+    if (!hasShownPopover && !isEqualValue(savedDescription, text)) {
+      triggerPopover();
+      return;
     }
     navigation.goBack();
     setError('');
@@ -141,5 +149,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     textFocus,
     error,
     isEditLoading,
+    showPopover,
+    setShowPopover,
   };
 };

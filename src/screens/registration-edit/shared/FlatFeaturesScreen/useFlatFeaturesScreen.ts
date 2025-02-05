@@ -32,6 +32,7 @@ import {
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
 import {EditUserProfileParams} from 'reduxFeatures/user/types';
+import {usePopoverDisplayFirstTime} from 'hooks/usePopoverDisplayFirstTime';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -118,11 +119,27 @@ export const useFlatFeaturesScreen = (
     );
   };
 
+  const {
+    showPopover,
+    setShowPopover,
+    triggerPopover,
+
+    hasShownPopover,
+  } = usePopoverDisplayFirstTime('editChars');
+
   const handleBackButton = () => {
     if (!edit) {
-      const previousScreen = currentScreen - 1;
-      setCurrentScreen(previousScreen);
+      setCurrentScreen(currentScreen - 1);
     }
+
+    if (
+      !hasShownPopover &&
+      !isEqualValue(savedFeaturesIds, selectedFeaturesIds)
+    ) {
+      triggerPopover();
+      return;
+    }
+
     navigation.goBack();
     setError('');
     setSelectedFeaturesIds([]);
@@ -213,5 +230,7 @@ export const useFlatFeaturesScreen = (
     features,
     isLessor,
     isNewUserLessor,
+    showPopover,
+    setShowPopover,
   };
 };

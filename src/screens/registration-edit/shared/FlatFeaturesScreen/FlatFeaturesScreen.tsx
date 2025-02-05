@@ -27,6 +27,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants 📊
 import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
+import EditScreensPopover from 'components/modals/EditScreensPopover';
 
 const FlatFeaturesScreen = ({
   route,
@@ -54,6 +55,8 @@ const FlatFeaturesScreen = ({
     features,
     isLessor,
     isNewUserLessor,
+    showPopover,
+    setShowPopover,
   } = useFlatFeaturesScreen(edit, advertId, newValue);
 
   const featuresButtons = features?.map(feat => {
@@ -137,6 +140,10 @@ const FlatFeaturesScreen = ({
           />
         </View>
       </View>
+      <EditScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </View>
   );
 };
