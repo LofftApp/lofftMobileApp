@@ -1,14 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
-//Redux
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-
-// Screens 📺
-import {newUserScreens} from '../../../navigationStacks/newUserScreens';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+//Hooks 🪝
+import {useSafeSpaceForScreen} from './useSafeSpaceForScreen';
 
 //Styles 🎨
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
@@ -25,113 +19,48 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import Divider from 'components/bars/Divider';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
 
-//Validation 🛡   ️
-import {safeSpacesSchema} from 'lib/zodSchema';
-
 //Constants
 import {MAX_GENDERS} from 'components/componentData/constants';
-
-//Types 🏷  ️
-import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import EditScreensPopover from 'components/modals/EditScreensPopover';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const SafeSpaceForScreen = ({
   route,
 }: {
-  route?: {params: {edit: boolean; advertId: number}};
+  route?: {params: {edit: boolean; advertId: number; newValue: boolean}};
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
-  //Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
+  const newValue = route?.params?.newValue;
 
-  // initial state
-  const {data} = useGetAssetsQuery();
-  const safeSpaces = data?.safeSpaces;
-
-  // Local State
-  const [selectedSafeSpaceIds, setSelectedSafeSpaceIds] = useState<number[]>(
-    [],
-  );
-  const [error, setError] = useState<string | undefined>('');
-
-  //Redux
-  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {isLessor} = useUserType();
-  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor, edit);
   const {
-    data: advert,
-    isLoading,
-    isError,
-  } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit,
-    refetchOnMountOrArgChange: true,
-  });
-  const savedSafeSpacesIds = newUserDetails.safeSpaces;
+    handleBackButton,
+    handleContinue,
+    selectSafeSpace,
+    selectedSafeSpaceIds,
+    safeSpaces,
+    error,
+    isAdvertLoading,
+    isAdvertError,
+    isLessor,
+    isNewUserLessor,
+    showPopover,
+    setShowPopover,
+    isEditLoading,
+    isEditError,
+  } = useSafeSpaceForScreen(edit, advertId, newValue);
 
-  useEffect(() => {
-    if (savedSafeSpacesIds.length) {
-      setSelectedSafeSpaceIds(savedSafeSpacesIds);
-    }
-  }, [savedSafeSpacesIds]);
-
-  const selectSafeSpace = (id: number) => {
-    setSelectedSafeSpaceIds(prevIds =>
-      prevIds.includes(id)
-        ? prevIds.filter(safeSpId => safeSpId !== id)
-        : [...prevIds, id],
-    );
-  };
-
-  const handleBackButton = () => {
-    setCurrentScreen(currentScreen - 1);
-    navigation.goBack();
-    setError('');
-  };
-
-  const handleContinue = () => {
-    const selectedSafeSpaces = safeSpaces?.filter(sp =>
-      selectedSafeSpaceIds.includes(sp.id),
-    );
-    const result = safeSpacesSchema.safeParse(selectedSafeSpaces);
-    if (!result.success) {
-      setError(result.error?.flatten().formErrors.at(0));
-      return;
-    }
-
-    setNewUserDetails({safeSpaces: selectedSafeSpaceIds});
-    if (edit) {
-      if (isLessor) {
-        navigation.goBack();
-      } else {
-        navigation.goBack();
-        navigation.goBack();
-      }
-    } else {
-      const screen = isNewUserLessor
-        ? newUserScreens.lessor[currentScreen + 1]
-        : newUserScreens.tenant[currentScreen + 1];
-
-      navigation.navigate(screen);
-      setCurrentScreen(currentScreen + 1);
-    }
-
-    setError('');
-  };
-
-  if (isLoading) {
+  if (isAdvertLoading) {
     return <LoadingComponent />;
   }
 
-  if (isError) {
+  if (isAdvertError) {
     return (
       <NotFoundComponent
         message="We couldn't retrieve the advert details"
@@ -184,15 +113,22 @@ const SafeSpaceForScreen = ({
           {error && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
+            value={
+              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+            }
             disabled={
               selectedSafeSpaceIds.length === 0 ||
-              selectedSafeSpaceIds.length > MAX_GENDERS
+              selectedSafeSpaceIds.length > MAX_GENDERS ||
+              isEditLoading
             }
             onPress={handleContinue}
           />
         </View>
       </View>
+      <EditScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </SafeAreaView>
   );
 };

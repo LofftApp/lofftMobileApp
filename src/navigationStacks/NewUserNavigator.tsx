@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ConfirmEmailScreen from 'screens/registration-edit/shared/ConfirmEmailScreen';
 import NewUserJourney from 'screens/registration-edit/shared/NewUserJourneyScreen';
 import AboutUserFlatScreen from 'screens/registration-edit/shared/AboutUserFlatScreen/AboutUserFlatScreen';
-import GenderIdentityScreen from 'screens/registration-edit/tenant/GenderIdentityScreen';
+import GenderIdentityScreen from 'screens/registration-edit/shared/GenderIdentityScreen/GenderIdentityScreen';
 import SelectCityScreen from 'screens/registration-edit/tenant/SelectCityScreen';
 import BudgetScreen from 'screens/registration-edit/tenant/BudgetScreen';
 import FlatFeaturesScreen from 'screens/registration-edit/shared/FlatFeaturesScreen/FlatFeaturesScreen';
@@ -18,7 +18,7 @@ import FlatLengthAvailableScreen from 'screens/registration-edit/lessor/FlatLeng
 import NameProfileScreen from 'screens/registration-edit/shared/NameProfileScreen/NameProfileScreen';
 import FlatUserImageUploadScreen from 'screens/registration-edit/shared/FlatImageUploadScreen';
 import FlatDetailsScreen from 'screens/registration-edit/lessor/FlatDetailsScreen';
-import SafeSpaceForScreen from 'screens/registration-edit/tenant/SafeSpaceForScreen';
+import SafeSpaceForScreen from 'screens/registration-edit/shared/SafeSpaceForScreen/SafeSpaceForScreen';
 import UserImageUploadScreen from 'screens/registration-edit/shared/UserImageUploadScreen';
 import FlatDescribeScreen from 'screens/registration-edit/lessor/FlatDescribeScreen';
 import UserDescribeScreen from 'screens/registration-edit/shared/UserDescribeScreen/UserDescribeScreen';

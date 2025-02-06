@@ -18,6 +18,7 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   genderIdentity: string;
+  safeSpaces: number[];
   userPhotos: string[];
 }
 interface User {
@@ -71,7 +72,7 @@ interface IncomingSpecificUser {
   profile: IncomingUserProfile;
 }
 
-type EditUserProfileActions =
+type EditUserActionMethodsType =
   | 'matchTags'
   | 'personalInfo'
   | 'genderIdentity'
@@ -79,11 +80,26 @@ type EditUserProfileActions =
   | 'languages';
 type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
   userId: number;
-  actionMethod: EditUserProfileActions;
+  actionMethod: EditUserActionMethodsType;
   userType: T;
 } & (T extends 'lessor'
   ? Partial<NewUserLessorDetails>
   : Partial<NewUserTenantDetails>);
+
+enum EditActionMethods {
+  matchTags = 'matchTags',
+  personalInfo = 'personalInfo',
+  genderIdentity = 'genderIdentity',
+  searchPreferences = 'searchPreferences',
+  languages = 'languages',
+}
+
+enum UserType {
+  newuser = 'newuser',
+  tenant = 'tenant',
+  lessor = 'lessor',
+  admin = 'admin',
+}
 
 export type {
   User,
@@ -94,6 +110,8 @@ export type {
   IncomingSpecificUser,
   SpecificUser,
   IncomingUserProfile,
-  EditUserProfileActions,
+  EditUserActionMethodsType,
   EditUserProfileParams,
 };
+
+export {EditActionMethods, UserType};
