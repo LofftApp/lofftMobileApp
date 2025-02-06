@@ -61,7 +61,7 @@ export const userApi = lofftApi.injectEndpoints({
     >({
       query: ({userId, actionMethod, userType, ...rest}) => {
         return {
-          url: `/api/users/${userId}`,
+          url: `/.api/users/${userId}`,
           method: 'PATCH',
           body: {
             actionMethod,

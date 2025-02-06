@@ -34,7 +34,7 @@ export const useSafeSpaceForScreen = (
   newValue?: boolean,
 ) => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
-
+  console.log('newValue in safe space screen', newValue);
   // initial state
   const {data} = useGetAssetsQuery();
   const safeSpaces = data?.safeSpaces;
@@ -120,51 +120,53 @@ export const useSafeSpaceForScreen = (
     }
 
     setNewUserDetails({safeSpaces: selectedSafeSpaceIds});
-    if (edit) {
-      if (newValue || !isEqualValue(savedSafeSpacesIds, selectedSafeSpaceIds)) {
-        try {
-          if (isLessor) {
-            navigation.goBack();
-          } else {
-            const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
-              userId: currentUser?.id ?? 0,
-              actionMethod: EditActionMethods.genderIdentity,
-              userType: isLessor ? UserType.lessor : UserType.tenant,
-              genderIdentity: newUserDetails.genderIdentity,
-              safeSpaces: selectedSafeSpaceIds,
-            };
-            await editUserProfile(editParams).unwrap();
-            setError('');
-            navigation.goBack();
-            navigation.goBack();
-          }
-        } catch (err) {
-          const typedError = err as {
-            status?: number;
-          };
-          if (typedError.status === 422) {
-            setError('Please fill out all the required fields');
-          } else {
-            setError('An error occurred, please try again');
-          }
-          return;
-        }
-      } else {
-        navigation.goBack();
-        navigation.goBack();
-      }
-      resetNewUserState();
-    } else {
+    if (!edit) {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
 
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
+      setError('');
+      return;
     }
 
+    if (newValue || !isEqualValue(savedSafeSpacesIds, selectedSafeSpaceIds)) {
+      if (isLessor) {
+        navigation.goBack();
+        return;
+      }
+
+      try {
+        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+          userId: currentUser?.id ?? 0,
+          actionMethod: EditActionMethods.genderIdentity,
+          userType: isLessor ? UserType.lessor : UserType.tenant,
+          genderIdentity: newUserDetails.genderIdentity,
+          safeSpaces: selectedSafeSpaceIds,
+        };
+        await editUserProfile(editParams).unwrap();
+        setError('');
+        navigation.goBack();
+        navigation.goBack();
+      } catch (err) {
+        const typedError = err as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setError('Please fill out all the required fields');
+        } else {
+          setError('An error occurred, please try again');
+        }
+        return;
+      }
+    }
+    navigation.goBack();
+    navigation.goBack();
+    resetNewUserState();
     setError('');
   };
+
   return {
     selectSafeSpace,
     handleContinue,

@@ -110,7 +110,7 @@ const SafeSpaceForScreen = ({
               }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
           </View>
 
-          {error && <ErrorMessage message={error} />}
+          {(error || isEditError) && <ErrorMessage message={error as string} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value={
