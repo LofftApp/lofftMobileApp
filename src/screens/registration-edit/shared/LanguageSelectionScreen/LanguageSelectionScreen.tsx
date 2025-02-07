@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import {ScrollView, View, Text, StyleSheet, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -12,7 +12,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Screens  📺
-import {newUserScreens} from '../../../navigationStacks/newUserScreens';
+import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
 
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';
@@ -63,6 +63,32 @@ const LanguageSelectionScreen = ({
   const {data} = useGetAssetsQuery();
   const languagesData = data?.languages;
 
+  const sortedLanguages = useMemo(() => {
+    const prioritizedLanguages = [40, 51, 148, 128, 85, 156, 47, 70, 126];
+
+    return languagesData?.slice().sort((a, b) => {
+      // Get the index in the prioritized list (or -1 if not found)
+      const indexA = prioritizedLanguages.indexOf(a.id);
+      const indexB = prioritizedLanguages.indexOf(b.id);
+
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+
+      if (indexA !== -1) {
+        return -1;
+      }
+
+      if (indexB !== -1) {
+        return 1;
+      }
+
+      return a.name.localeCompare(b.name);
+    });
+  }, [languagesData]);
+
+  console.log(sortedLanguages);
+
   // Redux
   const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
@@ -92,9 +118,9 @@ const LanguageSelectionScreen = ({
   }, [savedLanguages]);
 
   useEffect(() => {
-    if (languagesData) {
+    if (sortedLanguages) {
       setIsLoading(true);
-      const filteredLanguages = languagesData
+      const filteredLanguages = sortedLanguages
         .filter(
           language =>
             language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
@@ -104,7 +130,7 @@ const LanguageSelectionScreen = ({
       setLanguages(filteredLanguages);
       setIsLoading(false);
     }
-  }, [searchValue, languagesIds, languagesData]);
+  }, [searchValue, languagesIds, sortedLanguages]);
 
   const handleSelectedLanguages = (id: number) => {
     setLanguagesIds(prevIds =>
@@ -134,7 +160,7 @@ const LanguageSelectionScreen = ({
   };
 
   const handleContinue = () => {
-    const selectedLanguages = languagesData?.filter(lang =>
+    const selectedLanguages = sortedLanguages?.filter(lang =>
       languagesIds.includes(lang.id),
     );
     const result = languagesSchema.safeParse(selectedLanguages);
@@ -158,7 +184,9 @@ const LanguageSelectionScreen = ({
     setError('');
   };
 
-  const selectedLanguageNames = languagesData
+  console.log('languagesData', sortedLanguages);
+
+  const selectedLanguageNames = sortedLanguages
     ?.filter(language => languagesIds.includes(language.id))
     .map(language => language.name);
 
@@ -225,7 +253,8 @@ const LanguageSelectionScreen = ({
                     selected={true}
                     handleSelectedLanguages={() =>
                       handleSelectedLanguages(
-                        languagesData?.find(l => l.name === language)?.id || 0,
+                        sortedLanguages?.find(l => l.name === language)?.id ||
+                          0,
                       )
                     }
                   />
@@ -252,7 +281,7 @@ const LanguageSelectionScreen = ({
                   selected={false}
                   handleSelectedLanguages={() =>
                     handleSelectedLanguages(
-                      languagesData?.find(l => l.name === language)?.id || 0,
+                      sortedLanguages?.find(l => l.name === language)?.id || 0,
                     )
                   }
                 />

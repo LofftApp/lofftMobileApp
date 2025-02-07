@@ -10,7 +10,7 @@ import SelectCityScreen from 'screens/registration-edit/shared/SelectCityScreen/
 import BudgetScreen from 'screens/registration-edit/tenant/BudgetScreen';
 import FlatFeaturesScreen from 'screens/registration-edit/shared/FlatFeaturesScreen/FlatFeaturesScreen';
 import ConditionsOfUseScreen from 'screens/registration-edit/shared/ConditionsOfUseScreen';
-import LanguageSelectionScreen from 'screens/registration-edit/shared/LanguageSelectionScreen';
+import LanguageSelectionScreen from 'screens/registration-edit/shared/LanguageSelectionScreen/LanguageSelectionScreen';
 
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration-edit/lessor/WhereIsFlatScreen';
