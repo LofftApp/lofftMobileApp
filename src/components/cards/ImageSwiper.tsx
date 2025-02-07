@@ -1,5 +1,12 @@
 import React, {useState, useCallback} from 'react';
-import {StyleSheet, FlatList, Image, View, Pressable} from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  Image,
+  View,
+  Pressable,
+  Animated,
+} from 'react-native';
 
 // Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
@@ -28,6 +35,7 @@ const ImageSwiper = ({
   deleteImage,
   onPress,
   isLoading,
+  selectedIndex,
 }: ImageSwiperProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
@@ -45,6 +53,12 @@ const ImageSwiper = ({
     }
   };
 
+  const handlePress = (index: number) => {
+    if (onPress?.(index)) {
+      onPress?.(index);
+    }
+  };
+
   return (
     <View>
       <FlatList
@@ -57,6 +71,7 @@ const ImageSwiper = ({
         contentContainerStyle={{paddingVertical: size(5)}}
         renderItem={({item, index}) => {
           const source = deleteImage ? item.uri : item;
+          const isSelected = selectedIndex === index;
 
           return (
             <>
@@ -69,20 +84,21 @@ const ImageSwiper = ({
               )}
 
               <Pressable
-                onPress={() => onPress?.(index)}
-                style={styles.pressContainer}>
+                onPress={() => handlePress(index)}
+                style={[styles.pressContainer]}>
                 {isLoading && (
                   <View style={styles.loadingContainer}>
                     <LoadingButtonIcon size="small" />
                   </View>
                 )}
                 {item.uri || item ? (
-                  <Image
+                  <Animated.Image
                     style={[
                       styles.imageContainer,
                       {height: imageContainerHeight},
                       {width: imageContainerWidth},
                       {marginHorizontal: size(marginHorizontal)},
+                      isSelected && styles.selectedImage,
                     ]}
                     source={{uri: source}}
                     key={index + 1}
@@ -150,6 +166,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '40%',
     zIndex: 1,
+  },
+
+  selectedImage: {
+    borderWidth: 4,
+    borderRadius: 12,
+    borderColor: Color.Lavendar[100],
   },
 });
 

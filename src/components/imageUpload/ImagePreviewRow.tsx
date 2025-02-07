@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🐰
@@ -27,7 +27,17 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
         ? savedImages.lessor.userImages
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
+  const [selectedImage, setSelectedImage] = useState<{
+    uri: string;
+    source: 'saved' | 'upload';
+  } | null>(null);
 
+  console.log('savedImagesDisplay', savedImagesDisplay);
+  console.log('Selected Image', selectedImage);
+
+  const handleImageSelection = (uri: string, source: 'saved' | 'upload') => {
+    setSelectedImage({uri, source});
+  };
   return (
     <>
       {savedImagesDisplay.length > 0 && (
@@ -42,6 +52,19 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               imageContainerHeight={size(110)}
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
+              selectedIndex={
+                selectedImage?.source === 'saved'
+                  ? savedImagesDisplay.findIndex(
+                      img => img.uri === selectedImage.uri,
+                    )
+                  : null
+              }
+              onPress={index =>
+                handleImageSelection(
+                  savedImagesDisplay[index as number].uri,
+                  'saved',
+                )
+              }
               deleteImage={fileName =>
                 deleteSavedImage({
                   userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
@@ -67,6 +90,19 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               imageContainerHeight={size(110)}
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
+              selectedIndex={
+                selectedImage?.source === 'upload'
+                  ? imagesToUpload.findIndex(
+                      img => img.uri === selectedImage.uri,
+                    )
+                  : null
+              }
+              onPress={index =>
+                handleImageSelection(
+                  imagesToUpload[index as number].uri,
+                  'upload',
+                )
+              }
               deleteImage={fileName => deleteImageToUpload(fileName)}
             />
           </View>
