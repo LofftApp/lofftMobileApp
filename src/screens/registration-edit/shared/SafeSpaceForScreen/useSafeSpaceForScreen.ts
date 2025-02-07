@@ -70,7 +70,7 @@ export const useSafeSpaceForScreen = (
 
   const savedSafeSpacesIds = useMemo(() => {
     if (edit) {
-      return currentUser?.profile.safeSpaces;
+      return currentUser?.profile.safeSpaces.map(sp => sp.id);
     }
     return newUserDetails.safeSpaces;
   }, [edit, currentUser?.profile.safeSpaces, newUserDetails.safeSpaces]);
@@ -108,6 +108,9 @@ export const useSafeSpaceForScreen = (
     setError('');
     setSelectedSafeSpaceIds([]);
   };
+
+  console.log('selectedSafeSpaceIds', selectedSafeSpaceIds);
+  console.log('savedSafeSpacesIds', savedSafeSpacesIds);
 
   const handleContinue = async () => {
     const selectedSafeSpaces = safeSpaces?.filter(sp =>

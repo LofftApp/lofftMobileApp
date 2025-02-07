@@ -26,17 +26,16 @@ import {
 } from '../../../../navigationStacks/types';
 
 const genders: Gender[] = [
-  {name: 'Male', id: 1, toggle: false, emoji: '👨'},
-  {name: 'Female', id: 2, toggle: false, emoji: '👩'},
-  {name: 'Non-Binary', id: 3, toggle: false, emoji: '💁'},
+  {name: 'Male', id: 1, emoji: '👨'},
+  {name: 'Female', id: 2, emoji: '👩'},
+  {name: 'Non-Binary', id: 3, emoji: '💁'},
   {
     name: 'Another gender identity not listed',
     id: 4,
-    toggle: false,
     emoji: '🙆',
   },
 
-  {name: 'Prefer not to say', id: 5, toggle: false, emoji: '🤐'},
+  {name: 'Prefer not to say', id: 5, emoji: '🤐'},
 ];
 
 export const useGenderIdentityScreen = (edit?: boolean) => {
@@ -106,6 +105,8 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     resetNewUserState();
     setShowPopover(false);
   };
+  console.log('selectedGenderIds', selectedGenderIds);
+  console.log('savedGenderIds', savedGenderIds);
 
   const handleContinue = () => {
     const selectedGenders = genders?.filter(g =>

@@ -1,7 +1,6 @@
 // Needs refactoring to work with TypeScript
 import {useState, useEffect, useRef, useMemo} from 'react';
 import {Animated} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -114,9 +113,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   ]);
 
   console.log('currentUser', currentUser);
-
-  //Safe Area
-  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (savedCityId) {
