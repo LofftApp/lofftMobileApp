@@ -61,11 +61,11 @@ PODS:
   - hermes-engine (0.76.6):
     - hermes-engine/Pre-built (= 0.76.6)
   - hermes-engine/Pre-built (0.76.6)
-  - MapboxCommon (23.11.2)
+  - MapboxCommon (23.11.4)
   - MapboxCoreMaps (10.19.2):
     - MapboxCommon (~> 23.11)
-  - MapboxMaps (10.19.1):
-    - MapboxCommon (= 23.11.2)
+  - MapboxMaps (10.19.3):
+    - MapboxCommon (= 23.11.4)
     - MapboxCoreMaps (= 10.19.2)
     - MapboxMobileEvents (= 2.0.0)
     - Turf (= 2.8.0)
@@ -1311,7 +1311,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-date-picker (5.0.8):
+  - react-native-date-picker (5.0.10):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1711,15 +1711,15 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNFBApp (21.7.0):
+  - RNFBApp (21.7.2):
     - Firebase/CoreOnly (= 11.7.0)
     - React-Core
-  - RNFBMessaging (21.7.0):
+  - RNFBMessaging (21.7.2):
     - Firebase/Messaging (= 11.7.0)
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.22.0):
+  - RNGestureHandler (2.23.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2155,9 +2155,9 @@ SPEC CHECKSUMS:
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   hermes-engine: 1949ca944b195a8bde7cbf6316b9068e19cf53c6
-  MapboxCommon: 873b75dd0e8c5d7029e0c849437eba365f4887e5
+  MapboxCommon: cc47fafe3fe5408ca49240aa80fa64f27f275711
   MapboxCoreMaps: 35685edba03e44468aed57c3dfd7f8795edafda8
-  MapboxMaps: 05822ab0ee74f7d626e6471572439afe35c1c116
+  MapboxMaps: 429db75b136978f8b2dc2456da5d8b6b03c22cea
   MapboxMobileEvents: d044b9edbe0ec7df60f6c2c9634fe9a7f449266b
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -2190,7 +2190,7 @@ SPEC CHECKSUMS:
   React-logger: d42a53754a7252cc7a851315f0da2e46b450ea92
   React-Mapbuffer: 5e03437905ef365c5b29cc261403fd5246cba292
   React-microtasksnativemodule: 7f4d1c22c4de3425995c30f6bf9136cff922aadc
-  react-native-date-picker: 0df233236b40b6f561372af793d4eb3fb5af790f
+  react-native-date-picker: 7e678233a126da0e2521fd024f88cd7f00f29af4
   react-native-encrypted-storage: 569d114e329b1c2c2d9f8c84bcdbe4478dda2258
   react-native-image-picker: 3d0b0a3d29c978434e810e92b5da40c995d16a04
   react-native-safe-area-context: ee5c70aeb80909cebc0007f13a1cb44230f8e307
@@ -2223,9 +2223,9 @@ SPEC CHECKSUMS:
   ReactCodegen: 2f96de87b7680e294a46fc52b4399d51ec90cb6b
   ReactCommon: 09e5005e0ea50a4e36f412990212140e5b8f1db3
   RNCAsyncStorage: 1cfcd2e83cc2741d069ffe5731b6eed61905da53
-  RNFBApp: 8fa507c28406d26386fd0c1149a1475c3521d0de
-  RNFBMessaging: 372bd34c8efae561f1126864ac1a4104f67353eb
-  RNGestureHandler: c3cd88852db9aa6910d270da3246875fca3a4256
+  RNFBApp: 69750135ad1f87f2b4b49734c1d9e94179525c1f
+  RNFBMessaging: 40c231be6be1e1f0f3620e6ae2d4d5a3536a9b21
+  RNGestureHandler: 8ac4e7e57fe3f77dae2dc0f98da7100eb7ecd3b9
   rnmapbox-maps: d6e6d15c7d7418f3fa6d73e74f6f0e5fdd9bd9b5
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNScreens: 303afdda2f789b33f290e060699ff8a769e39525
