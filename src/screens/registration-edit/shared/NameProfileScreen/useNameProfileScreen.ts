@@ -125,7 +125,6 @@ export const useNameProfileScreen = (edit?: boolean) => {
   };
 
   const handleBackButton = () => {
-    // resetPopover();
     if (!edit) {
       setCurrentScreen(currentScreen - 1);
     }
@@ -141,11 +140,8 @@ export const useNameProfileScreen = (edit?: boolean) => {
     }
 
     navigation.goBack();
-    setErrorFirstName('');
-    setErrorLastName('');
-    setErrorDate('');
-    setErrorImage('');
     resetNewUserState();
+    setShowPopover(false);
   };
 
   const handleContinue = () => {
@@ -183,22 +179,22 @@ export const useNameProfileScreen = (edit?: boolean) => {
       dateOfBirth: result.data.dateOfBirth.toISOString(),
     });
 
-    if (edit) {
-      const newValue =
-        !isEqualValue(savedProfileData.firstName, result.data.firstName) ||
-        !isEqualValue(savedProfileData.lastName, result.data.lastName) ||
-        !isEqualValue(savedProfileData.dateOfBirth, result.data.dateOfBirth);
-      navigation.navigate('NewUserNavigator', {
-        screen: 'UserDescribeScreen',
-        params: {edit: true, newValue},
-      });
-    } else {
+    if (!edit) {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
     }
+
+    const newValue =
+      !isEqualValue(savedProfileData.firstName, result.data.firstName) ||
+      !isEqualValue(savedProfileData.lastName, result.data.lastName) ||
+      !isEqualValue(savedProfileData.dateOfBirth, result.data.dateOfBirth);
+    navigation.navigate('NewUserNavigator', {
+      screen: 'UserDescribeScreen',
+      params: {edit: true, newValue},
+    });
 
     setErrorFirstName('');
     setErrorLastName('');

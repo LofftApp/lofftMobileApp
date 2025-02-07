@@ -41,7 +41,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     resetNewUserState,
   } = useNewUserDetails(isLessor, edit);
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
-  const [editUserProfile, {isLoading: isEditLoading}] =
+  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
   console.log('currentUser', currentUser);
 
@@ -95,39 +95,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
 
     setNewUserDetails({selfDescription: result.data});
 
-    if (edit) {
-      if (newValue || !isEqualValue(savedDescription, result.data)) {
-        try {
-          const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
-            userId: currentUser?.id ?? 0,
-            actionMethod: 'personalInfo',
-            userType: isLessor ? 'lessor' : 'tenant',
-            firstName: newUserDetails.firstName,
-            lastName: newUserDetails.lastName,
-            dateOfBirth: newUserDetails.dateOfBirth,
-            selfDescription: result.data,
-          };
-          console.log('editParams', editParams);
-          await editUserProfile(editParams).unwrap();
-          setError('');
-          navigation.goBack();
-          navigation.goBack();
-        } catch (err) {
-          const typedError = err as {
-            status?: number;
-          };
-          if (typedError.status === 422) {
-            setError('Please fill out all the required fields');
-          } else {
-            setError('An error occurred, please try again');
-          }
-        }
-      } else {
-        navigation.goBack();
-        navigation.goBack();
-      }
-      resetNewUserState();
-    } else {
+    if (!edit) {
       setCurrentScreen(currentScreen + 1);
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
@@ -135,7 +103,39 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
       navigation.navigate(screen);
     }
 
+    if (newValue || !isEqualValue(savedDescription, result.data)) {
+      try {
+        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+          userId: currentUser?.id ?? 0,
+          actionMethod: 'personalInfo',
+          userType: isLessor ? 'lessor' : 'tenant',
+          firstName: newUserDetails.firstName,
+          lastName: newUserDetails.lastName,
+          dateOfBirth: newUserDetails.dateOfBirth,
+          selfDescription: result.data,
+        };
+        console.log('editParams', editParams);
+        await editUserProfile(editParams).unwrap();
+        setError('');
+        navigation.goBack();
+        navigation.goBack();
+      } catch (err) {
+        const typedError = err as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setError('Please fill out all the required fields');
+        } else {
+          setError('An error occurred, please try again');
+        }
+        return;
+      }
+    }
+    navigation.goBack();
+    navigation.goBack();
+    resetNewUserState();
     setError('');
+    setShowPopover(false);
   };
 
   console.log('NewuSer', newUserDetails);
@@ -149,6 +149,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     textFocus,
     error,
     isEditLoading,
+    isEditError,
     showPopover,
     setShowPopover,
   };

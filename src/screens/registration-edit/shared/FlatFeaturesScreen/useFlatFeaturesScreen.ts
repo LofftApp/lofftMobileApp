@@ -31,7 +31,10 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
-import {EditUserProfileParams} from 'reduxFeatures/user/types';
+import {
+  EditActionMethods,
+  EditUserProfileParams,
+} from 'reduxFeatures/user/types';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 export const useFlatFeaturesScreen = (
@@ -71,7 +74,7 @@ export const useFlatFeaturesScreen = (
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
-  const [editUserProfile, {isLoading: isEditLoading}] =
+  const [editUserProfile, {isLoading: isEditLoading, isError:isEditError}] =
     useEditUserProfileMutation();
 
   const newUserLessorDetails = newUserDetails as NewUserLessorDetails;
@@ -137,6 +140,7 @@ export const useFlatFeaturesScreen = (
     navigation.goBack();
     setError('');
     setSelectedFeaturesIds([]);
+    setShowPopover(false);
   };
   console.log(
     'characteristics in flat features',
@@ -159,57 +163,60 @@ export const useFlatFeaturesScreen = (
       setNewUserDetails({filter: selectedFeaturesIds});
     }
 
-    if (edit) {
-      if (newValue || !isEqualValue(savedFeaturesIds, selectedFeaturesIds)) {
-        try {
-          console.log('selewcted features', selectedFeaturesIds);
-          const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
-            userId: currentUser?.id ?? 0,
-            actionMethod: 'matchTags',
-            userType: isLessor ? 'lessor' : 'tenant',
-            characteristics: newUserDetails.characteristics,
-            filter:
-              newUserDetails.userType === 'tenant'
-                ? selectedFeaturesIds
-                : undefined,
-            flatFeatures:
-              newUserDetails.userType === 'lessor'
-                ? selectedFeaturesIds
-                : undefined,
-          };
-          console.log('data!!!!!!!!', editParams);
-          await editUserProfile(editParams).unwrap();
-
-          setError('');
-
-          navigation.goBack();
-          navigation.goBack();
-        } catch (err) {
-          const typedError = err as {
-            status?: number;
-          };
-          if (typedError.status === 422) {
-            setError('Please fill out all the required fields');
-          } else {
-            setError('An error occurred, please try again');
-          }
-          return;
-        }
-      } else {
-        console.log('NO CHANGES MADE');
-        navigation.goBack();
-        navigation.goBack();
-      }
-      resetNewUserState();
-    } else {
+    if (!edit) {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
+
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
+      setError('');
+      return;
     }
 
+    if (newValue || !isEqualValue(savedFeaturesIds, selectedFeaturesIds)) {
+      try {
+        console.log('selewcted features', selectedFeaturesIds);
+        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+          userId: currentUser?.id ?? 0,
+          actionMethod: EditActionMethods.matchTags,
+          userType: isLessor ? 'lessor' : 'tenant',
+          characteristics: newUserDetails.characteristics,
+          filter:
+            newUserDetails.userType === 'tenant'
+              ? selectedFeaturesIds
+              : undefined,
+          flatFeatures:
+            newUserDetails.userType === 'lessor'
+              ? selectedFeaturesIds
+              : undefined,
+        };
+        console.log('data!!!!!!!!', editParams);
+        await editUserProfile(editParams).unwrap();
+
+        setError('');
+
+        navigation.goBack();
+        navigation.goBack();
+      } catch (err) {
+        const typedError = err as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setError('Please fill out all the required fields');
+        } else {
+          setError('An error occurred, please try again');
+        }
+        return;
+      }
+    }
+
+    console.log('NO CHANGES MADE');
+    navigation.goBack();
+    navigation.goBack();
+    resetNewUserState();
     setError('');
+    setShowPopover(false);
   };
 
   return {

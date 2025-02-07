@@ -26,6 +26,7 @@ import {RegistrationBackground} from 'assets';
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const UserDescribeScreen = ({
   route,
@@ -48,6 +49,7 @@ const UserDescribeScreen = ({
     handleContinue,
     handleBackButton,
     isEditLoading,
+    isEditError,
     showPopover,
     setShowPopover,
   } = useUserDescribeScreen(edit, newValue);
@@ -75,7 +77,6 @@ const UserDescribeScreen = ({
             <CustomTextInput
               text={text}
               textFocus={textFocus}
-              error={error}
               handleOnChange={handleOnChange}
               handleOnFocus={handleOnFocus}
               handleOnBlur={handleOnBlur}
@@ -86,6 +87,7 @@ const UserDescribeScreen = ({
 
         <View style={styles.footerContainer}>
           <Divider />
+          {(error || isEditError) && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value={

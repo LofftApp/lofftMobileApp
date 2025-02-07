@@ -100,6 +100,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     navigation.goBack();
     setError('');
     resetNewUserState();
+    setShowPopover(false);
   };
 
   const handleSelectChars = (id: number) => {
@@ -122,23 +123,25 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     }
 
     setNewUserDetails({characteristics: selectedCharsIds});
-    if (edit) {
-      navigation.navigate('NewUserNavigator', {
-        screen: 'FlatFeaturesScreen',
-        params: {
-          edit: true,
-          advertId,
-          newValue: !isEqualValue(savedCharsIds, selectedCharsIds),
-        },
-      });
-    } else {
+
+    if (!edit) {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
-
       setCurrentScreen(currentScreen + 1);
+      setError('');
+      return;
     }
+
+    navigation.navigate('NewUserNavigator', {
+      screen: 'FlatFeaturesScreen',
+      params: {
+        edit: true,
+        advertId,
+        newValue: !isEqualValue(savedCharsIds, selectedCharsIds),
+      },
+    });
 
     setError('');
     setShowPopover(false);

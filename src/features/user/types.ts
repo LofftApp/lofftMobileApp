@@ -1,3 +1,4 @@
+import {City, District, Language, SafeSpace} from 'reduxFeatures/assets/types';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
@@ -18,8 +19,11 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   genderIdentity: string;
-  safeSpaces: number[];
   userPhotos: string[];
+  city: City;
+  districts: District[];
+  profileLanguages: Language[];
+  safeSpaces: SafeSpace[];
 }
 interface User {
   admin: boolean;

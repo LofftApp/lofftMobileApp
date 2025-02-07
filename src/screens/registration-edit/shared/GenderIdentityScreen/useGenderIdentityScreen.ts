@@ -104,6 +104,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     navigation.goBack();
     setError('');
     resetNewUserState();
+    setShowPopover(false);
   };
 
   const handleContinue = () => {

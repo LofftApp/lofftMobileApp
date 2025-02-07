@@ -36,7 +36,6 @@ const characteristicSchema = z.object({
   id: z.number(),
   name: z.string(),
   emoji: z.string(),
-  toggle: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -52,7 +51,6 @@ const characteristicsSchema = z
 
 const genderIdentitySchema = z.object({
   id: z.number(),
-  toggle: z.boolean(),
   name: z.string(),
   emoji: z.string(),
 });
@@ -68,7 +66,6 @@ const genderIdentitiesSchema = z
 
 const safeSpaceSchema = z.object({
   id: z.number(),
-  toggle: z.boolean(),
   name: z.string(),
   emoji: z.string(),
   createdAt: z.string(),
@@ -87,7 +84,6 @@ const safeSpacesSchema = z
 const districtSchema = z.object({
   id: z.number(),
   name: z.string(),
-  toggle: z.boolean(),
   emoji: z.string().optional(),
 });
 
@@ -129,7 +125,6 @@ const budgetSchema = z
 const featureSchema = z.object({
   id: z.number(),
   name: z.string(),
-  toggle: z.boolean(),
   emoji: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),

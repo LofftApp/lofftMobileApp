@@ -1,61 +1,44 @@
 // Needs refactoring to work with TypeScript
-import React, {useState, useEffect, useRef, useMemo} from 'react';
-import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
+import {useState, useEffect, useRef, useMemo} from 'react';
+import {Animated} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {
+  useEditUserProfileMutation,
+  useGetUserQuery,
+} from 'reduxFeatures/user/userApi';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
-
-// Components 🪢
-import HeadlineContainer from 'components/containers/HeadlineContainer';
-import SelectionButton from 'components/buttons/SelectionButton';
-import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
-import Divider from 'components/bars/Divider';
-import BackButton from 'components/buttons/BackButton';
-import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-
-// Styles 🖼️
-import {fontStyles} from 'styleSheets/fontStyles';
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-
-//Assets
-import {RegistrationBackground} from 'assets';
 
 //Validation 🛡 ️
 import {cityDistrictsSchema} from 'lib/zodSchema';
 
 // Helper 🤝
-import {size} from 'react-native-responsive-sizes';
-import {useNavigation} from '@react-navigation/native';
 import {capitalize} from 'helpers/capitalize';
+import {isEqualValue} from 'helpers/isEqualValue';
 
 // Types
-
 import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import {
+  EditActionMethods,
+  EditUserProfileParams,
+  UserType,
+} from 'reduxFeatures/user/types';
 
-const SelectCityScreen = ({
-  route,
-}: {
-  route?: {params: {edit: boolean; advertId: number}};
-}) => {
-  const edit = route?.params?.edit;
-  const advertId = route?.params?.advertId;
+export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -83,18 +66,54 @@ const SelectCityScreen = ({
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
-  const {setNewUserDetails, newUserDetails, isNewUserLessor} =
-    useNewUserDetails(isLessor, edit);
+  const {
+    setNewUserDetails,
+    newUserDetails,
+    isNewUserLessor,
+    resetNewUserState,
+  } = useNewUserDetails(isLessor, edit);
   const {
     data: advert,
-    isLoading,
-    isError,
+    isLoading: isAdvertLoading,
+    isError: isAdvertError,
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
   });
-  const savedCityId = newUserDetails.city;
-  const savedDistrictIds = newUserDetails.districts;
+  const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
+
+  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
+    useEditUserProfileMutation();
+
+  const savedDistrictIds = useMemo(() => {
+    if (edit) {
+      return isLessor
+        ? advert?.flat.district
+        : currentUser?.profile.districts.map(d => d.id);
+    }
+    return newUserDetails.districts;
+  }, [
+    edit,
+    isLessor,
+    advert?.flat.district,
+    currentUser?.profile.districts,
+    newUserDetails.districts,
+  ]);
+
+  const savedCityId = useMemo(() => {
+    if (edit) {
+      return isLessor ? advert?.flat.city : currentUser?.profile.city.id;
+    }
+    return newUserDetails.city;
+  }, [
+    edit,
+    isLessor,
+    advert?.flat.city,
+    currentUser?.profile.city,
+    newUserDetails.city,
+  ]);
+
+  console.log('currentUser', currentUser);
 
   //Safe Area
   const insets = useSafeAreaInsets();
@@ -132,8 +151,13 @@ const SelectCityScreen = ({
         );
       }
     }
-  }, [savedCityId, savedDistrictIds, cities, edit, advert, advert?.flat.city]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   console.log('Cities', cities);
+
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger('editCity');
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     if (districts.length >= 1 && city !== '') {
@@ -193,19 +217,6 @@ const SelectCityScreen = ({
     setError('');
   };
 
-  const allDistrictsButtons = districts.map(district => {
-    return (
-      <SelectionButton
-        key={district.id}
-        id={district.id}
-        value={district.name}
-        emojiIcon={district.emoji}
-        toggle={selectedDistrictIds.includes(district.id)}
-        selectFn={selectFn}
-      />
-    );
-  });
-
   const formattedDropDownContent = (citiesArr: CityAssets[]) =>
     citiesArr.map(cityData => `${cityData.flag} ${capitalize(cityData.name)} `);
 
@@ -230,12 +241,24 @@ const SelectCityScreen = ({
   };
 
   const handleBackButton = () => {
+    if (!edit) {
+      setCurrentScreen(currentScreen - 1);
+    }
+    if (
+      !hasShownPopover &&
+      (!isEqualValue(savedDistrictIds, selectedDistrictIds) ||
+        !isEqualValue(savedCityId, selectedCityId))
+    ) {
+      triggerPopover();
+      return;
+    }
     navigation.goBack();
-    setCurrentScreen(currentScreen - 1);
     setError('');
+    resetNewUserState();
+    setShowPopover(false);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const selectedCity = cities.find(c => c.id === selectedCityId);
     const selectedDistricts = districts.filter(d =>
       selectedDistrictIds.includes(d.id),
@@ -260,17 +283,8 @@ const SelectCityScreen = ({
       city: selectedCityId,
       districts: selectedDistrictIds,
     });
-    if (edit) {
-      isLessor
-        ? navigation.navigate('NewUserNavigator', {
-            screen: 'WhereIsFlatScreen',
-            params: {edit: true, advertId},
-          })
-        : navigation.navigate('NewUserNavigator', {
-            screen: 'FinderBudgetScreen',
-            params: {edit: true},
-          });
-    } else {
+
+    if (!edit) {
       navigation.navigate(
         isNewUserLessor || isLessor
           ? newUserScreens.lessor[currentScreen + 1]
@@ -278,147 +292,65 @@ const SelectCityScreen = ({
       );
       setCurrentScreen(currentScreen + 1);
       setError('');
+      return;
     }
+
+    if (isLessor) {
+      navigation.navigate('NewUserNavigator', {
+        screen: 'WhereIsFlatScreen',
+        params: {edit: true, advertId},
+      });
+    }
+
+    try {
+      const editParams: EditUserProfileParams<'tenant' | 'lessor'> = {
+        userId: currentUser?.id ?? 0,
+        actionMethod: EditActionMethods.searchPreferences,
+        userType: isLessor ? UserType.lessor : UserType.tenant,
+        city: selectedCityId,
+        districts: selectedDistrictIds,
+      };
+      await editUserProfile(editParams).unwrap();
+    } catch (err) {
+      const typedError = err as {
+        status?: number;
+      };
+      if (typedError.status === 422) {
+        setError('Please fill out all the required fields');
+      } else {
+        setError('An error occurred, please try again');
+      }
+      return;
+    }
+
+    navigation.goBack();
+    resetNewUserState();
+    setError('');
   };
-
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
-
-  if (isError) {
-    return (
-      <NotFoundComponent
-        message="We couldn't retrieve the advert details"
-        backButton
-        onPress={handleBackButton}
-      />
-    );
-  }
-  console.log('isError', isError);
-
-  return (
-    <View
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        {
-          paddingTop: insets.top,
-          // paddingBottom: insets.bottom,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={styles.mainContainer}>
-        <HeadlineContainer
-          headlineText={
-            isNewUserLessor || isLessor
-              ? 'In which city and district is your flat located?'
-              : 'Where are you looking for the flat?'
-          }
-        />
-        <View style={styles.inputContainer}>
-          <InputFieldText
-            type="search"
-            placeholder="Berlin for instance?"
-            onChangeText={handleOnChangeSearch}
-            onClear={handleClearSearch}
-            value={city}
-            dropdown={isQuery}
-            dropDownContent={formattedDropDownContent(
-              dropdownContent as CityAssets[],
-            )}
-            dropDownPressAction={handleDropDownPress}
-          />
-        </View>
-
-        <View style={styles.resultWrapper}>
-          <Animated.View
-            style={[
-              styles.districtTitleContainer,
-              {
-                opacity: fadeAnim,
-              },
-            ]}>
-            <Text style={[fontStyles.headerMedium]}>Districts</Text>
-            {(!isNewUserLessor || !isLessor) && (
-              <View style={styles.switchContainer}>
-                <Text style={fontStyles.bodySmall}>Select All</Text>
-                <CustomSwitch
-                  value={isAllDistricts}
-                  onValueChange={selectAllDistrictsTags}
-                />
-              </View>
-            )}
-          </Animated.View>
-
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.selectionContainer}>{allDistrictsButtons}</View>
-          </ScrollView>
-        </View>
-
-        <Divider />
-      </View>
-
-      <View style={styles.footerContainer}>
-        {error ||
-          (isError && (
-            <ErrorMessage
-              message={error || 'An error occorrued fetching adverts'}
-            />
-          ))}
-        {!edit && <NewUserPaginationBar />}
-
-        <NewUserJourneyContinueButton
-          value="Continue"
-          onPress={handleContinue}
-        />
-      </View>
-    </View>
-  );
+  return {
+    city,
+    districts,
+    selectedDistrictIds,
+    selectFn,
+    isQuery,
+    dropdownContent,
+    handleOnChangeSearch,
+    handleClearSearch,
+    formattedDropDownContent,
+    handleDropDownPress,
+    fadeAnim,
+    isAllDistricts,
+    selectAllDistrictsTags,
+    error,
+    handleContinue,
+    handleBackButton,
+    isAdvertLoading,
+    isAdvertError,
+    isEditLoading,
+    isEditError,
+    isLessor,
+    isNewUserLessor,
+    showPopover,
+    setShowPopover,
+  };
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    paddingVertical: size(20),
-    paddingHorizontal: size(16),
-  },
-  inputContainer: {
-    paddingTop: size(10),
-  },
-  districtTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: size(10),
-    paddingBottom: size(20),
-  },
-
-  resultWrapper: {
-    marginTop: size(10),
-    flex: 1,
-    height: '100%',
-  },
-
-  selectionContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    height: '100%',
-    paddingHorizontal: size(10),
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(16),
-  },
-  footerContainer: {
-    paddingHorizontal: size(16),
-    width: '100%',
-    marginTop: 'auto',
-  },
-});
-
-export default SelectCityScreen;

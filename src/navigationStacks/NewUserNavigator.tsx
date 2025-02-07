@@ -6,7 +6,7 @@ import ConfirmEmailScreen from 'screens/registration-edit/shared/ConfirmEmailScr
 import NewUserJourney from 'screens/registration-edit/shared/NewUserJourneyScreen';
 import AboutUserFlatScreen from 'screens/registration-edit/shared/AboutUserFlatScreen/AboutUserFlatScreen';
 import GenderIdentityScreen from 'screens/registration-edit/shared/GenderIdentityScreen/GenderIdentityScreen';
-import SelectCityScreen from 'screens/registration-edit/tenant/SelectCityScreen';
+import SelectCityScreen from 'screens/registration-edit/shared/SelectCityScreen/SelectCityScreen';
 import BudgetScreen from 'screens/registration-edit/tenant/BudgetScreen';
 import FlatFeaturesScreen from 'screens/registration-edit/shared/FlatFeaturesScreen/FlatFeaturesScreen';
 import ConditionsOfUseScreen from 'screens/registration-edit/shared/ConditionsOfUseScreen';
