@@ -19,25 +19,30 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import PopoverContent from 'components/modals/PopoverContent';
 
 // Lib 📚
-import Popover, {PopoverPlacement, Rect} from 'react-native-popover-view';
+import Popover, {
+  PopoverMode,
+  PopoverPlacement,
+  Rect,
+} from 'react-native-popover-view';
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
-  const favorites = data?.favorites;
   const {data: currentUser} = useGetUserQuery();
-  const credits = currentUser?.credits;
   const {height, width} = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
+  const credits = currentUser?.credits;
+  const favorites = data?.favorites;
   const isApplied = favorites?.some(favorite => favorite.applied);
 
-  const {showPopover, setShowPopover} = useAutoPopoverTrigger(
-    'firstApply',
-    isApplied ?? false,
-  );
+  const {showPopover, setShowPopover} = useAutoPopoverTrigger({
+    userId: currentUser?.id ?? 0,
+    key: 'firstApply',
+    condition: isApplied ?? false,
+  });
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -62,6 +67,7 @@ const FavoritesScreen = () => {
         />
       </View>
       <Popover
+        mode={PopoverMode.TOOLTIP}
         popoverStyle={[
           styles.popoverContainer,
           {width: width * 0.95, height: height * 0.15},

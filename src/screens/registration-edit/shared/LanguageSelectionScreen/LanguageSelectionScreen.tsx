@@ -19,7 +19,7 @@ import Divider from 'components/bars/Divider';
 import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
@@ -176,9 +176,10 @@ const LanguageSelectionScreen = ({
           onPress={handleContinue}
         />
       </View>
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
+        save={edit}
       />
     </View>
   );

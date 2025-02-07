@@ -1,4 +1,5 @@
 enum PopoverKeys {
+  NewUser = 'newUser',
   Chars = 'editChars',
   Name = 'editName',
   Gender = 'editGender',

@@ -24,7 +24,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants 📊
 import {MAX_GENDERS} from 'components/componentData/constants';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 //Types 🏷  ️
 
@@ -85,9 +85,10 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           />
         </View>
       </View>
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
+        save={isLessor && edit}
       />
     </SafeAreaView>
   );

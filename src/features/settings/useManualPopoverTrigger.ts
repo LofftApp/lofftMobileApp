@@ -6,26 +6,36 @@ import {
   showPopoverForKey,
 } from 'reduxFeatures/settings/settingsSlice';
 
-export const useManualPopoverTrigger = (key: string) => {
+export const useManualPopoverTrigger = ({
+  userId: userId,
+  key: key,
+}: {
+  userId: number;
+  key: string;
+}) => {
   const dispatch = useDispatch();
 
   const hasShownPopover = useAppSelector(
-    state => state.settings.popovers?.[key] || false,
+    state => state.settings.popovers?.[userId]?.[key] ?? false,
   );
+
+  const allPopovers = useAppSelector(state => state.settings.popovers);
+
+  console.log('allPopovers', allPopovers);
 
   const [showPopover, setShowPopover] = useState(false);
 
   const triggerPopover = useCallback(() => {
     if (!hasShownPopover) {
       setShowPopover(true);
-      dispatch(showPopoverForKey(key));
+      dispatch(showPopoverForKey({userId, key}));
     }
-  }, [hasShownPopover, dispatch, key]);
+  }, [hasShownPopover, dispatch, key, userId]);
 
   const resetPopover = useCallback(() => {
     setShowPopover(false);
-    dispatch(resetPopoverForKey(key));
-  }, [dispatch, key]);
+    dispatch(resetPopoverForKey({userId, key}));
+  }, [dispatch, key, userId]);
 
   return {
     showPopover,

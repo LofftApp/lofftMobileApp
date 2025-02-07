@@ -34,7 +34,7 @@ import {size} from 'react-native-responsive-sizes';
 
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import {useNameProfileScreen} from './useNameProfileScreen';
 
 const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
@@ -147,9 +147,10 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
         </View>
       </View>
 
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
+        
       />
     </SafeAreaView>
   );

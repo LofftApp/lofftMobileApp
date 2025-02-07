@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     borderRadius: 12,
     borderWidth: 2,
-    width: size(70),
+    width: size(72),
     height: size(41),
     marginLeft: size(10),
   },

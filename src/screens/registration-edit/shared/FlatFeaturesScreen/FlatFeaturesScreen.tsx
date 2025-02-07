@@ -27,7 +27,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants 📊
 import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 const FlatFeaturesScreen = ({
   route,
@@ -89,6 +89,7 @@ const FlatFeaturesScreen = ({
     <View
       style={[
         CoreStyleSheet.safeAreaViewShowContainer,
+        styles.zIndex,
         {
           paddingTop: insets.top,
           paddingBottom: !edit ? insets.bottom : undefined,
@@ -139,15 +140,19 @@ const FlatFeaturesScreen = ({
           />
         </View>
       </View>
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
+        save={edit}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  zIndex: {
+    zIndex: 1,
+  },
   selectionContainer: {
     marginTop: size(10),
     flexDirection: 'row',

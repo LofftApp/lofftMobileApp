@@ -8,15 +8,17 @@ import Popover, {
 import Color from 'styleSheets/lofftColorPallet.json';
 import {size} from 'react-native-responsive-sizes';
 
-type EditScreensPopoverProps = {
+type NewUserScreensPopoverProps = {
   showPopover: boolean;
   setShowPopover: (value: boolean) => void;
+  save?: boolean;
 };
 
-const EditScreensPopover = ({
+const NewUserScreensPopover = ({
   showPopover,
   setShowPopover,
-}: EditScreensPopoverProps) => {
+  save = false,
+}: NewUserScreensPopoverProps) => {
   const {width, height} = useWindowDimensions();
   return (
     <Popover
@@ -32,7 +34,11 @@ const EditScreensPopover = ({
       <PopoverContent
         text1="You have unsaved changes"
         icon1="info-circle"
-        text2="To keep the changes, click on Continue and then Save."
+        text2={
+          save
+            ? 'To keep the changes, click on Save.'
+            : 'To keep the changes, click on Continue and then Save.'
+        }
         setShowPopover={setShowPopover}
         button
       />
@@ -58,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditScreensPopover;
+export default NewUserScreensPopover;

@@ -94,14 +94,13 @@ export const useLanguageSelectionScreen = (
     refetchOnMountOrArgChange: true,
   });
 
-
   const {data: currentUser} = useGetUserQuery();
   const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
 
   const savedLanguages = useMemo(() => {
     if (edit) {
-      console.log("edit in language screen", edit)
+      console.log('edit in language screen', edit);
       return isLessor
         ? advert?.languages
         : currentUser?.profile?.profileLanguages?.map(lang => lang.id);
@@ -141,8 +140,10 @@ export const useLanguageSelectionScreen = (
   const {fadeInAnim} = useFadeInAnimation(!isLoading);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger(PopoverKeys.Language);
-
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Language : PopoverKeys.NewUser,
+    });
   const handleSelectedLanguages = (id: number) => {
     setLanguagesIds(prevIds =>
       prevIds.includes(id)

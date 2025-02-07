@@ -27,7 +27,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants
 import {MAX_GENDERS} from 'components/componentData/constants';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const SafeSpaceForScreen = ({
@@ -125,9 +125,10 @@ const SafeSpaceForScreen = ({
           />
         </View>
       </View>
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
+        save={edit}
       />
     </SafeAreaView>
   );

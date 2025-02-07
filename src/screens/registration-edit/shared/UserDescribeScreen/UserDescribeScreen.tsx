@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, SafeAreaView, Animated} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Hooks 🪝
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
@@ -12,8 +13,9 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import CustomTextInput from 'components/coreComponents/inputField/inputs/CustomTextInput';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -26,7 +28,6 @@ import {RegistrationBackground} from 'assets';
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 const UserDescribeScreen = ({
   route,
@@ -38,6 +39,7 @@ const UserDescribeScreen = ({
   console.log('newValue in describe screen', newValue);
   //Animation
   const {fadeInAnim} = useFadeInAnimation();
+  const insets = useSafeAreaInsets();
 
   const {
     text,
@@ -55,7 +57,14 @@ const UserDescribeScreen = ({
   } = useUserDescribeScreen(edit, newValue);
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
@@ -98,9 +107,10 @@ const UserDescribeScreen = ({
           />
         </View>
       </View>
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
+        save={edit}
       />
     </SafeAreaView>
   );

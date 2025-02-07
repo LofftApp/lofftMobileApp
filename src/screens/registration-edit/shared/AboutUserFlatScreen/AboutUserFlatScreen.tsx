@@ -15,7 +15,7 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import EditScreensPopover from 'components/modals/EditScreensPopover';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 // StylesSheet 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -150,7 +150,7 @@ const AboutUserFlatScreen = ({
         </View>
       </View>
 
-      <EditScreensPopover
+      <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
       />

@@ -1,8 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {PURGE} from 'redux-persist';
 export type AppLanguages = 'EN' | 'DE';
 interface SettingsState {
   appLanguage: AppLanguages;
-  popovers: {[key: string]: boolean};
+  popovers: {[userId: number]: {[key: string]: boolean}};
 }
 
 const initialState: SettingsState = {
@@ -17,18 +18,37 @@ export const settings = createSlice({
     setAppLanguage: (state, action: PayloadAction<AppLanguages>) => {
       state.appLanguage = action.payload;
     },
-    showPopoverForKey: (state, action: PayloadAction<string>) => {
+    showPopoverForKey: (
+      state,
+      action: PayloadAction<{userId: number; key: string}>,
+    ) => {
+      const {userId, key} = action.payload;
       if (!state.popovers) {
         state.popovers = {};
-      } // ✅ Ensure it's initialized
-      state.popovers[action.payload] = true; // ✅ No more errors
+      }
+      if (!state.popovers[userId]) {
+        state.popovers[userId] = {};
+      }
+      state.popovers[userId][key] = true;
     },
-    resetPopoverForKey: (state, action: PayloadAction<string>) => {
+    resetPopoverForKey: (
+      state,
+      action: PayloadAction<{userId: number; key: string}>,
+    ) => {
+      const {userId, key} = action.payload;
       if (!state.popovers) {
         state.popovers = {};
-      } // ✅ Ensure it's initialized
-      state.popovers[action.payload] = false;
+      }
+      if (!state.popovers[userId]) {
+        state.popovers[userId] = {};
+      }
+      state.popovers[userId][key] = false;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => {
+      return initialState;
+    });
   },
 });
 

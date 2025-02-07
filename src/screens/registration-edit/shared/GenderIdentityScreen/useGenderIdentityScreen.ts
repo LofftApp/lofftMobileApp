@@ -77,7 +77,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   const [error, setError] = useState<string | undefined>('');
   console.log('savedGender', savedGender);
   console.log('selectedGenderIds', selectedGenderIds);
-  console.log("currentUser", currentUser)
+  console.log('currentUser', currentUser);
 
   useEffect(() => {
     if (savedGender && savedGender.length > 0) {
@@ -91,7 +91,10 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   };
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger(PopoverKeys.Gender);
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Gender : PopoverKeys.NewUser,
+    });
 
   const handleBackButton = () => {
     if (edit) {

@@ -63,7 +63,10 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger(PopoverKeys.Name);
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: PopoverKeys.Name,
+    });
 
   const handleOnChange = (input: string) => {
     setText(input);

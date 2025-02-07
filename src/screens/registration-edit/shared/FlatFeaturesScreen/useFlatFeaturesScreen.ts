@@ -123,7 +123,10 @@ export const useFlatFeaturesScreen = (
     );
   };
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger(PopoverKeys.Chars);
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Chars : PopoverKeys.NewUser,
+    });
 
   const handleBackButton = () => {
     if (

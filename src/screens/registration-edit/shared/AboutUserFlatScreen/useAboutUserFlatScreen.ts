@@ -28,6 +28,7 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 
 // Hooks 🪝
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
@@ -86,8 +87,10 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editChars');
-
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Chars : PopoverKeys.NewUser,
+    });
   const handleBackButton = () => {
     if (!hasShownPopover && !isEqualValue(savedCharsIds, selectedCharsIds)) {
       triggerPopover();
