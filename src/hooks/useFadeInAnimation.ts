@@ -8,7 +8,7 @@ export const useFadeInAnimation = (isReady?: boolean) => {
 
   useEffect(() => {
     if (isReady === undefined || isReady) {
-      fadeInAnim.setValue(0); 
+      fadeInAnim.setValue(0);
       Animated.timing(fadeInAnim, {
         toValue: 1,
         duration: 800,

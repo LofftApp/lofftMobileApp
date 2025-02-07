@@ -1,18 +1,13 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
+import React from 'react';
 import {ScrollView, View, Text, StyleSheet, Animated} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-//Redux
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+//Hooks 🪝
+import {useLanguageSelectionScreen} from './useLanguageSelectionScreen';
+
 // Styles 🎨
 import {fontStyles} from 'styleSheets/fontStyles';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-
-//Screens  📺
-import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
 
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';
@@ -24,23 +19,15 @@ import Divider from 'components/bars/Divider';
 import UserJourneyPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import EditScreensPopover from 'components/modals/EditScreensPopover';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 //Assets 🎨
-// import languagesData from 'Assets/coreText/languagesText.json';
 import {RegistrationBackground} from 'assets';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
-
-//Validation 🛡️
-import {languagesSchema} from 'lib/zodSchema';
-
-//Types 🏷️
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 const LanguageSelectionScreen = ({
   route,
@@ -49,146 +36,33 @@ const LanguageSelectionScreen = ({
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
-  // Navigation
-  const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
-  // Local State
-  const [searchValue, setSearchValue] = useState('');
-  const [languages, setLanguages] = useState<string[]>([]);
-  const [languagesIds, setLanguagesIds] = useState<number[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | undefined>('');
-
-  // initial state
-  const {data} = useGetAssetsQuery();
-  const languagesData = data?.languages;
-
-  const sortedLanguages = useMemo(() => {
-    const prioritizedLanguages = [40, 51, 148, 128, 85, 156, 47, 70, 126];
-
-    return languagesData?.slice().sort((a, b) => {
-      // Get the index in the prioritized list (or -1 if not found)
-      const indexA = prioritizedLanguages.indexOf(a.id);
-      const indexB = prioritizedLanguages.indexOf(b.id);
-
-      if (indexA !== -1 && indexB !== -1) {
-        return indexA - indexB;
-      }
-
-      if (indexA !== -1) {
-        return -1;
-      }
-
-      if (indexB !== -1) {
-        return 1;
-      }
-
-      return a.name.localeCompare(b.name);
-    });
-  }, [languagesData]);
-
-  console.log(sortedLanguages);
-
-  // Redux
-  const {isLessor} = useUserType();
-  const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor, edit);
-  const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {
-    data: advert,
-    isLoading: advertIsLoading,
-    isError: advertIsError,
-  } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit || !advertId,
-    refetchOnMountOrArgChange: true,
-  });
-  const savedLanguages = newUserDetails.languages;
-  console.log('savedLanguages', savedLanguages);
-  console.log('newUserDetails', newUserDetails);
-
-  // Safe Area
+  //safeArea
   const insets = useSafeAreaInsets();
 
-  const {fadeInAnim} = useFadeInAnimation(!isLoading);
-
-  useEffect(() => {
-    if (savedLanguages && savedLanguages.length > 0) {
-      setLanguagesIds(savedLanguages);
-    }
-  }, [savedLanguages]);
-
-  useEffect(() => {
-    if (sortedLanguages) {
-      setIsLoading(true);
-      const filteredLanguages = sortedLanguages
-        .filter(
-          language =>
-            language.name.toLowerCase().startsWith(searchValue.toLowerCase()) &&
-            !languagesIds.includes(language.id),
-        )
-        .map(language => language.name);
-      setLanguages(filteredLanguages);
-      setIsLoading(false);
-    }
-  }, [searchValue, languagesIds, sortedLanguages]);
-
-  const handleSelectedLanguages = (id: number) => {
-    setLanguagesIds(prevIds =>
-      prevIds.includes(id)
-        ? prevIds.filter(langId => langId !== id)
-        : [...prevIds, id],
-    );
-
-    scrollViewRef.current?.scrollTo({y: 0, animated: true});
-  };
-
-  const scrollViewRef = useRef<ScrollView>(null);
-
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-  };
-  const handleClearSearch = () => {
-    setSearchValue('');
-  };
-
-  const handleBackButton = () => {
-    navigation.goBack();
-
-    setCurrentScreen(1);
-    handleClearSearch();
-    setError('');
-  };
-
-  const handleContinue = () => {
-    const selectedLanguages = sortedLanguages?.filter(lang =>
-      languagesIds.includes(lang.id),
-    );
-    const result = languagesSchema.safeParse(selectedLanguages);
-    if (!result.success) {
-      setError(result.error?.flatten().formErrors.at(0));
-      return;
-    }
-    setNewUserDetails({languages: languagesIds});
-
-    if (edit) {
-      navigation.goBack();
-    } else {
-      const screen = isNewUserLessor
-        ? newUserScreens.lessor[currentScreen + 1]
-        : newUserScreens.tenant[currentScreen + 1];
-      navigation.navigate(screen);
-      setCurrentScreen(currentScreen + 1);
-    }
-
-    handleClearSearch();
-    setError('');
-  };
-
-  console.log('languagesData', sortedLanguages);
-
-  const selectedLanguageNames = sortedLanguages
-    ?.filter(language => languagesIds.includes(language.id))
-    .map(language => language.name);
+  const {
+    searchValue,
+    handleSearch,
+    handleClearSearch,
+    languages,
+    sortedLanguages,
+    selectedLanguageNames,
+    handleSelectedLanguages,
+    error,
+    isLoading,
+    advertIsLoading,
+    advertIsError,
+    handleContinue,
+    handleBackButton,
+    fadeInAnim,
+    scrollViewRef,
+    isLessor,
+    isNewUserLessor,
+    showPopover,
+    setShowPopover,
+    isEditLoading,
+    isEditError,
+  } = useLanguageSelectionScreen(edit, advertId);
 
   if (isLoading || advertIsLoading) {
     return <LoadingComponent />;
@@ -292,15 +166,20 @@ const LanguageSelectionScreen = ({
         <Divider />
       </View>
       <View style={styles.footerContainer}>
-        {error && <ErrorMessage message={error} />}
+        {(error || isEditError) && <ErrorMessage message={error as string} />}
         {!edit && <UserJourneyPaginationBar />}
 
         <NewUserJourneyContinueButton
-          value={edit ? 'Save' : 'Continue'}
-          disabled={languagesIds.length === 0}
+          value={
+            edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+          }
           onPress={handleContinue}
         />
       </View>
+      <EditScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </View>
   );
 };

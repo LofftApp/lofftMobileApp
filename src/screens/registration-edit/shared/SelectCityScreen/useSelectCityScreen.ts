@@ -237,9 +237,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   };
 
   const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
     if (
       !hasShownPopover &&
       (!isEqualValue(savedDistrictIds, selectedDistrictIds) ||
@@ -248,9 +245,13 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
       triggerPopover();
       return;
     }
+    if (edit) {
+      resetNewUserState();
+    } else {
+      setCurrentScreen(currentScreen - 1);
+    }
     navigation.goBack();
     setError('');
-    resetNewUserState();
     setShowPopover(false);
   };
 
