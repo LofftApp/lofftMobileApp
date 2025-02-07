@@ -33,7 +33,7 @@ const ImageSwiper = ({
 
   const onViewableItemsChanged = useCallback(
     ({viewableItems}: OnViewableItemsChangedParams) => {
-      const index = viewableItems[0].index ?? 0;
+      const index = viewableItems[0]?.index ?? 0;
       setCurrentCardIndex(index);
     },
     [],

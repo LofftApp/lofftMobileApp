@@ -24,6 +24,7 @@ import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
 } from '../../../../navigationStacks/types';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 const genders: Gender[] = [
   {name: 'Male', id: 1, emoji: '👨'},
@@ -76,6 +77,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   const [error, setError] = useState<string | undefined>('');
   console.log('savedGender', savedGender);
   console.log('selectedGenderIds', selectedGenderIds);
+  console.log("currentUser", currentUser)
 
   useEffect(() => {
     if (savedGender && savedGender.length > 0) {
@@ -89,10 +91,12 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   };
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editGender');
+    useManualPopoverTrigger(PopoverKeys.Gender);
 
   const handleBackButton = () => {
-    if (!edit) {
+    if (edit) {
+      resetNewUserState();
+    } else {
       setCurrentScreen(currentScreen - 1);
     }
     if (!hasShownPopover && !isEqualValue(savedGenderIds, selectedGenderIds)) {
@@ -102,7 +106,6 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
 
     navigation.goBack();
     setError('');
-    resetNewUserState();
     setShowPopover(false);
   };
   console.log('selectedGenderIds', selectedGenderIds);

@@ -31,6 +31,7 @@ import {
 } from 'reduxFeatures/user/types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {isEqualValue} from 'helpers/isEqualValue';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useLanguageSelectionScreen = (
   edit?: boolean,
@@ -93,23 +94,25 @@ export const useLanguageSelectionScreen = (
     refetchOnMountOrArgChange: true,
   });
 
+
   const {data: currentUser} = useGetUserQuery();
   const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
 
   const savedLanguages = useMemo(() => {
     if (edit) {
-      isLessor
+      console.log("edit in language screen", edit)
+      return isLessor
         ? advert?.languages
-        : currentUser?.profile.profileLanguages.map(lang => lang.id);
+        : currentUser?.profile?.profileLanguages?.map(lang => lang.id);
     }
     return newUserDetails.languages;
   }, [
     edit,
     isLessor,
     advert?.languages,
-    currentUser?.profile.profileLanguages,
-    newUserDetails.languages,
+    currentUser?.profile?.profileLanguages,
+    newUserDetails?.languages,
   ]);
 
   console.log('savedLanguages', savedLanguages);
@@ -118,7 +121,8 @@ export const useLanguageSelectionScreen = (
     if (savedLanguages && savedLanguages.length > 0) {
       setLanguagesIds(savedLanguages);
     }
-  }, [savedLanguages]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (sortedLanguages) {
@@ -137,7 +141,7 @@ export const useLanguageSelectionScreen = (
   const {fadeInAnim} = useFadeInAnimation(!isLoading);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editLanguages');
+    useManualPopoverTrigger(PopoverKeys.Language);
 
   const handleSelectedLanguages = (id: number) => {
     setLanguagesIds(prevIds =>
@@ -194,6 +198,8 @@ export const useLanguageSelectionScreen = (
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
+      setError('');
+      handleClearSearch();
       return;
     }
 

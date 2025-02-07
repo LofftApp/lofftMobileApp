@@ -28,6 +28,7 @@ import {
   EditUserProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 export const useSafeSpaceForScreen = (
   edit?: boolean,
   advertId?: number,
@@ -83,7 +84,9 @@ export const useSafeSpaceForScreen = (
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger(isLessor ? 'editSafeSpace' : 'editGender');
+    useManualPopoverTrigger(
+      isLessor ? PopoverKeys.SafeSpace : PopoverKeys.Gender,
+    );
 
   const selectSafeSpace = (id: number) => {
     setSelectedSafeSpaceIds(prevIds =>
@@ -94,9 +97,6 @@ export const useSafeSpaceForScreen = (
   };
 
   const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
     if (
       !hasShownPopover &&
       !isEqualValue(savedSafeSpacesIds, selectedSafeSpaceIds)
@@ -104,9 +104,13 @@ export const useSafeSpaceForScreen = (
       triggerPopover();
       return;
     }
+    if (edit) {
+      setSelectedSafeSpaceIds([]);
+    } else {
+      setCurrentScreen(currentScreen - 1);
+    }
     navigation.goBack();
     setError('');
-    setSelectedSafeSpaceIds([]);
   };
 
   console.log('selectedSafeSpaceIds', selectedSafeSpaceIds);

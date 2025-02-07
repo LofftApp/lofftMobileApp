@@ -54,7 +54,7 @@ const FlatFindScreen = () => {
   console.log('adverts:', adverts);
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
+    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <View style={styles.searchContainer}>
         <InputFieldText
           type="search"

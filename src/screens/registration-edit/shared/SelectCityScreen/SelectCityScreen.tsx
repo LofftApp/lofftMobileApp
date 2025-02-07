@@ -103,7 +103,7 @@ const SelectCityScreen = ({
         CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
-          // paddingBottom: insets.bottom,
+          paddingBottom: !edit ? insets.bottom : undefined,
         },
       ]}>
       <BackButton onPress={handleBackButton} />

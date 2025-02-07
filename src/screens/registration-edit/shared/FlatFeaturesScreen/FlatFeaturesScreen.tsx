@@ -38,7 +38,6 @@ const FlatFeaturesScreen = ({
   const advertId = route?.params?.advertId;
   const newValue = route?.params?.newValue;
   console.log('newValue', newValue);
-  // Navigation
 
   //Safe Area
   const insets = useSafeAreaInsets();
@@ -92,7 +91,7 @@ const FlatFeaturesScreen = ({
         CoreStyleSheet.safeAreaViewShowContainer,
         {
           paddingTop: insets.top,
-          // paddingBottom: insets.bottom,
+          paddingBottom: !edit ? insets.bottom : undefined,
         },
       ]}>
       <BackButton onPress={handleBackButton} />
@@ -154,6 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: size(10),
+    zIndex: -1,
   },
   tagInfoContainer: {
     marginBottom: size(5),

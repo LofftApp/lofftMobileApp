@@ -89,17 +89,19 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     useManualPopoverTrigger('editChars');
 
   const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
     if (!hasShownPopover && !isEqualValue(savedCharsIds, selectedCharsIds)) {
       triggerPopover();
       return;
     }
 
+    if (edit) {
+      resetNewUserState();
+    } else {
+      setCurrentScreen(currentScreen - 1);
+    }
+
     navigation.goBack();
     setError('');
-    resetNewUserState();
     setShowPopover(false);
   };
 

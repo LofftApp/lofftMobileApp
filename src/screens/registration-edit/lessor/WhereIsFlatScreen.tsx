@@ -282,7 +282,7 @@ const WhereIsFlatScreen = ({
   }
 
   return (
-    <SafeAreaView
+    <View
       style={[
         CoreStyleSheet.safeAreaViewShowContainer,
         {
@@ -299,36 +299,35 @@ const WhereIsFlatScreen = ({
       <View style={[CoreStyleSheet.screenContainer]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.mainContainer}>
-            <View>
-              <HeadlineContainer headlineText={'Where is your flat?'} />
-              <Animated.View
-                style={{
-                  opacity: fadeInAnim,
-                }}>
-                <InputFieldText
-                  type="search"
-                  placeholder="Address of the flat"
-                  value={location}
-                  onChangeText={handleOnChangeSearch}
-                  dropdown={isSearching}
-                  dropDownContent={addresses}
-                  dropDownPressAction={handleDropdownPress}
-                  onClear={handleClearSearch}
-                  style={styles.inputContainer}
-                />
-              </Animated.View>
-              <ErrorMessage isInputField message={errorAddress} />
+            <HeadlineContainer headlineText={'Where is your flat?'} />
+            <Animated.View
+              style={{
+                opacity: fadeInAnim,
+              }}>
+              <InputFieldText
+                type="search"
+                placeholder="Address of the flat"
+                value={location}
+                onChangeText={handleOnChangeSearch}
+                dropdown={isSearching}
+                dropDownContent={addresses}
+                dropDownPressAction={handleDropdownPress}
+                onClear={handleClearSearch}
+                style={styles.inputContainer}
+              />
+            </Animated.View>
+            <ErrorMessage isInputField message={errorAddress} />
 
-              <ErrorMessage message={errorSearch || ''} />
+            <ErrorMessage message={errorSearch || ''} />
 
-              {isLoading && isSearching && (
-                <ActivityIndicator
-                  size="large"
-                  color={Color.Lavendar[100]}
-                  style={styles.loading}
-                />
-              )}
-            </View>
+            {isLoading && isSearching && (
+              <ActivityIndicator
+                size="large"
+                color={Color.Lavendar[100]}
+                style={styles.loading}
+              />
+            )}
+
             {!isSearching && (
               <View>
                 <HeadlineContainer headlineText="How much is the monthly rent?" />
@@ -382,7 +381,7 @@ const WhereIsFlatScreen = ({
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

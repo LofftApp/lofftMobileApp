@@ -9,6 +9,7 @@ import {
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -16,11 +17,13 @@ import {newUserScreens} from 'navigationStacks/newUserScreens';
 //Validation 🛡 ️
 import {selfDescriptionSchema} from 'lib/zodSchema';
 
+// helpers
+import {isEqualValue} from 'helpers/isEqualValue';
+
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {isEqualValue} from 'helpers/isEqualValue';
 import {EditUserProfileParams} from 'reduxFeatures/user/types';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   //Navigation
@@ -60,7 +63,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editName');
+    useManualPopoverTrigger(PopoverKeys.Name);
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -75,12 +78,12 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   console.log('hasShwonPopover in describe', hasShownPopover);
 
   const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
     if (!hasShownPopover && !isEqualValue(savedDescription, text)) {
       triggerPopover();
       return;
+    }
+    if (!edit) {
+      setCurrentScreen(currentScreen - 1);
     }
     navigation.goBack();
     setError('');
@@ -101,6 +104,8 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
+      setError('');
+      return;
     }
 
     if (newValue || !isEqualValue(savedDescription, result.data)) {

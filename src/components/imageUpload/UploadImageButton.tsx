@@ -13,6 +13,8 @@ import {
   MAX_USER_IMAGES,
 } from 'components/componentData/constants';
 import {size} from 'react-native-responsive-sizes';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 // import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 
 type UploadImageButtonProps = {
@@ -26,11 +28,18 @@ const UploadImageButton = ({
   imageType,
 }: UploadImageButtonProps) => {
   const {imagesToUpload, savedImages} = useImagesToUpload();
+  console.log('image to upload', imagesToUpload.length);
+  console.log('saved images', savedImages.lessor.userImages.length);
+  const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor);
   const displayTotalImagesNumber = () => {
     if (imageType === 'user') {
       return (
         MAX_USER_IMAGES -
-        (imagesToUpload.length + savedImages.lessor.userImages.length)
+        (imagesToUpload.length +
+          (isLessor || isNewUserLessor
+            ? savedImages.lessor.userImages.length
+            : savedImages.tenant.userImages.length))
       );
     } else {
       return (

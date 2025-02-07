@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  useWindowDimensions,
-} from 'react-native';
+import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
 
 // Redux 🏗️
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
@@ -28,6 +22,7 @@ import PopoverContent from 'components/modals/PopoverContent';
 import Popover, {PopoverPlacement, Rect} from 'react-native-popover-view';
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
@@ -35,6 +30,7 @@ const FavoritesScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const credits = currentUser?.credits;
   const {height, width} = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
   const isApplied = favorites?.some(favorite => favorite.applied);
 
@@ -47,9 +43,14 @@ const FavoritesScreen = () => {
     return <LoadingComponent />;
   }
   return (
-    <SafeAreaView
-      style={CoreStyleSheet.safeAreaViewListContainer}
-      testID="favorites-screen">
+    <View
+      testID="favorites-screen"
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+        },
+      ]}>
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Saved Listings</Text>
       </View>
@@ -78,7 +79,7 @@ const FavoritesScreen = () => {
           button
         />
       </Popover>
-    </SafeAreaView>
+    </View>
   );
 };
 

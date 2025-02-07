@@ -36,6 +36,7 @@ import {
   EditUserProfileParams,
 } from 'reduxFeatures/user/types';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -74,7 +75,7 @@ export const useFlatFeaturesScreen = (
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
-  const [editUserProfile, {isLoading: isEditLoading, isError:isEditError}] =
+  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
 
   const newUserLessorDetails = newUserDetails as NewUserLessorDetails;
@@ -122,13 +123,9 @@ export const useFlatFeaturesScreen = (
     );
   };
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editChars');
+    useManualPopoverTrigger(PopoverKeys.Chars);
 
   const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
-
     if (
       !hasShownPopover &&
       !isEqualValue(savedFeaturesIds, selectedFeaturesIds)
@@ -136,10 +133,14 @@ export const useFlatFeaturesScreen = (
       triggerPopover();
       return;
     }
+    if (edit) {
+      setCurrentScreen(currentScreen - 1);
+    } else {
+      setSelectedFeaturesIds([]);
+    }
 
     navigation.goBack();
     setError('');
-    setSelectedFeaturesIds([]);
     setShowPopover(false);
   };
   console.log(

@@ -23,6 +23,7 @@ import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useNameProfileScreen = (edit?: boolean) => {
   //Navigation
@@ -53,18 +54,24 @@ export const useNameProfileScreen = (edit?: boolean) => {
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
   const savedProfileData = useMemo(() => {
-    if (
-      edit &&
-      (currentUser?.profile.firstName ||
+    if (edit) {
+      if (
+        currentUser?.profile.firstName ||
         currentUser?.profile.lastName ||
-        currentUser?.profile.dateOfBirth)
+        currentUser?.profile.dateOfBirth
+      ) {
+        return {
+          firstName: currentUser.profile.firstName,
+          lastName: currentUser.profile.lastName,
+          dateOfBirth: new Date(currentUser.profile.dateOfBirth),
+        };
+      }
+    }
+    if (
+      newUserDetails.firstName ||
+      newUserDetails.lastName ||
+      newUserDetails.dateOfBirth
     ) {
-      return {
-        firstName: currentUser.profile.firstName,
-        lastName: currentUser.profile.lastName,
-        dateOfBirth: new Date(currentUser.profile.dateOfBirth),
-      };
-    } else {
       return {
         firstName: newUserDetails.firstName,
         lastName: newUserDetails.lastName,
@@ -80,15 +87,16 @@ export const useNameProfileScreen = (edit?: boolean) => {
     newUserDetails.lastName,
     newUserDetails.dateOfBirth,
   ]);
+  console.log('DATE', date);
 
   useEffect(() => {
-    if (savedProfileData.firstName) {
+    if (savedProfileData?.firstName) {
       setFirstName(savedProfileData.firstName);
     }
-    if (savedProfileData.lastName) {
+    if (savedProfileData?.lastName) {
       setLastName(savedProfileData.lastName);
     }
-    if (savedProfileData.dateOfBirth) {
+    if (savedProfileData?.dateOfBirth) {
       setDate(savedProfileData.dateOfBirth);
       setIsDateSelected(true);
     }
@@ -96,8 +104,9 @@ export const useNameProfileScreen = (edit?: boolean) => {
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editName');
+    useManualPopoverTrigger(PopoverKeys.Name);
   console.log('hasShownPopover', hasShownPopover);
+  console.log('savedProfileData', savedProfileData);
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -125,22 +134,23 @@ export const useNameProfileScreen = (edit?: boolean) => {
   };
 
   const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
-
     if (
       !hasShownPopover &&
-      (!isEqualValue(savedProfileData.firstName, firstName) ||
-        !isEqualValue(savedProfileData.lastName, lastName) ||
-        !isEqualValue(savedProfileData.dateOfBirth, date))
+      (!isEqualValue(savedProfileData?.firstName, firstName) ||
+        !isEqualValue(savedProfileData?.lastName, lastName) ||
+        !isEqualValue(savedProfileData?.dateOfBirth, date))
     ) {
       triggerPopover();
       return;
     }
 
+    if (edit) {
+      resetNewUserState();
+    } else {
+      setCurrentScreen(currentScreen - 1);
+    }
+
     navigation.goBack();
-    resetNewUserState();
     setShowPopover(false);
   };
 
@@ -185,6 +195,11 @@ export const useNameProfileScreen = (edit?: boolean) => {
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
+      setErrorFirstName('');
+      setErrorLastName('');
+      setErrorDate('');
+      setErrorImage('');
+      return;
     }
 
     const newValue =

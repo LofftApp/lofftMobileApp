@@ -95,8 +95,10 @@ const AboutUserFlatScreen = ({
     <View
       style={[
         CoreStyleSheet.safeAreaViewShowContainer,
+        styles.zIndex,
         {
           paddingTop: insets.top,
+          paddingBottom: !edit ? insets.bottom : undefined,
         },
       ]}>
       <BackButton onPress={handleBackButton} />
@@ -157,6 +159,9 @@ const AboutUserFlatScreen = ({
 };
 
 const styles = StyleSheet.create({
+  zIndex: {
+    zIndex: 1,
+  },
   selectionContainer: {
     marginTop: size(10),
     flexDirection: 'row',

@@ -36,6 +36,7 @@ import {
   EditUserProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
+import { PopoverKeys } from 'reduxFeatures/settings/types';
 
 export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
@@ -88,14 +89,14 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     if (edit) {
       return isLessor
         ? advert?.flat.district
-        : currentUser?.profile.districts.map(d => d.id);
+        : currentUser?.profile?.districts.map(d => d.id);
     }
     return newUserDetails.districts;
   }, [
     edit,
     isLessor,
     advert?.flat.district,
-    currentUser?.profile.districts,
+    currentUser?.profile?.districts,
     newUserDetails.districts,
   ]);
 
@@ -152,7 +153,7 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   console.log('Cities', cities);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger('editCity');
+    useManualPopoverTrigger(PopoverKeys.City);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
