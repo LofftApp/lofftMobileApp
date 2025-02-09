@@ -15,8 +15,8 @@ import PaginationBar from 'components/bars/PaginationBar';
 import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷
-import type {ImageSwiperProps} from './types';
-import type {OnViewableItemsChangedParams} from './types';
+import type {ImageSwiperProps} from '../cards/types';
+import type {OnViewableItemsChangedParams} from '../cards/types';
 import ImageEditButton from 'components/buttons/ImageEditButton';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import Color from 'styleSheets/lofftColorPallet.json';

@@ -103,6 +103,8 @@ export const useNameProfileScreen = (edit?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log('currentUser', currentUser);
+
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
@@ -206,9 +208,9 @@ export const useNameProfileScreen = (edit?: boolean) => {
     }
 
     const newValue =
-      !isEqualValue(savedProfileData.firstName, result.data.firstName) ||
-      !isEqualValue(savedProfileData.lastName, result.data.lastName) ||
-      !isEqualValue(savedProfileData.dateOfBirth, result.data.dateOfBirth);
+      !isEqualValue(savedProfileData?.firstName, result.data.firstName) ||
+      !isEqualValue(savedProfileData?.lastName, result.data.lastName) ||
+      !isEqualValue(savedProfileData?.dateOfBirth, result.data.dateOfBirth);
     navigation.navigate('NewUserNavigator', {
       screen: 'UserDescribeScreen',
       params: {edit: true, newValue},

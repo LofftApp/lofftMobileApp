@@ -8,7 +8,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import useRefetchNotifications from 'hooks/useRefetchNotifications';
 
 // Components 🪢
-import {tabIcons} from './tabIcons';
+import {tabIcons} from '../helpers/tabIcons';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';

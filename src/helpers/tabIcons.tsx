@@ -1,7 +1,10 @@
 import React from 'react';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {RouteProp} from '@react-navigation/native';
-import {LessorTabParamsList, TenantTabParamsList} from './types';
+import {
+  LessorTabParamsList,
+  TenantTabParamsList,
+} from '../navigationStacks/types';
 type CombinedParams = TenantTabParamsList & LessorTabParamsList;
 
 export const tabIcons = ({

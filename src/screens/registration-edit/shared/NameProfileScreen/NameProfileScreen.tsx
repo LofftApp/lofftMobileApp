@@ -150,7 +150,6 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
       <NewUserScreensPopover
         showPopover={showPopover}
         setShowPopover={setShowPopover}
-        
       />
     </SafeAreaView>
   );

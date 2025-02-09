@@ -12,7 +12,7 @@ import {useImagesToUpload} from '../../features/imageHandling/useImagesToUpload'
 import {size} from 'react-native-responsive-sizes';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
-import ImageSwiper from 'components/cards/ImageSwiper';
+import ImageSwiper from 'components/images/ImageSwiper';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
@@ -29,14 +29,19 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
       : savedImages.tenant.userImages;
   const [selectedImage, setSelectedImage] = useState<{
     uri: string;
+    type: string
     source: 'saved' | 'upload';
   } | null>(null);
 
   console.log('savedImagesDisplay', savedImagesDisplay);
   console.log('Selected Image', selectedImage);
 
-  const handleImageSelection = (uri: string, source: 'saved' | 'upload') => {
-    setSelectedImage({uri, source});
+  const handleImageSelection = (
+    uri: string,
+    type: string,
+    source: 'saved' | 'upload',
+  ) => {
+    setSelectedImage({uri, type, source});
   };
   return (
     <>
@@ -62,6 +67,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               onPress={index =>
                 handleImageSelection(
                   savedImagesDisplay[index as number].uri,
+                  savedImagesDisplay[index as number].type,
                   'saved',
                 )
               }
@@ -100,6 +106,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               onPress={index =>
                 handleImageSelection(
                   imagesToUpload[index as number].uri,
+                  savedImagesDisplay[index as number].type,
                   'upload',
                 )
               }

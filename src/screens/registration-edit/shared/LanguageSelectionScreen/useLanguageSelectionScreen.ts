@@ -181,6 +181,7 @@ export const useLanguageSelectionScreen = (
   };
 
   console.log('languagesIds', languagesIds);
+  console.log('currentUser', currentUser);
 
   const handleContinue = async () => {
     const selectedLanguages = sortedLanguages?.filter(lang =>

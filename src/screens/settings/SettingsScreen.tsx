@@ -11,7 +11,7 @@ import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //Components
 import {RegistrationBackground, Trail} from 'assets';
-import ImageSwiper from 'components/cards/ImageSwiper';
+import ImageSwiper from 'components/images/ImageSwiper';
 import SettingsUserImage from 'components/images/SettingsUserImages';
 import SettingsCard from 'components/cards/SettingsCard';
 
