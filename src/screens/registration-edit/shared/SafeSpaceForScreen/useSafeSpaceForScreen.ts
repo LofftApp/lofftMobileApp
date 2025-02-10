@@ -84,9 +84,10 @@ export const useSafeSpaceForScreen = (
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger(
-      isLessor ? PopoverKeys.SafeSpace : PopoverKeys.Gender,
-    );
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: isLessor ? PopoverKeys.SafeSpace : PopoverKeys.Gender,
+    });
 
   const selectSafeSpace = (id: number) => {
     setSelectedSafeSpaceIds(prevIds =>

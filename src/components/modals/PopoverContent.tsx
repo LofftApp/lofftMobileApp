@@ -41,7 +41,7 @@ const PopoverContent = ({
           <Text style={fontStyles.headerTiny}>{text1}</Text>
         </View>
         {text2 && (
-          <View style={[styles.popoverText, !icon2 && {marginLeft: size(18)}]}>
+          <View style={[styles.popoverText, !icon2 && {marginLeft: size(38)}]}>
             {icon2 && (
               <LofftIcon
                 name={icon2 ?? ''}
@@ -69,12 +69,6 @@ const PopoverContent = ({
 };
 
 const styles = StyleSheet.create({
-  popoverContainer: {
-    paddingHorizontal: size(10),
-    borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   popoverContent: {
     paddingHorizontal: size(8),
     justifyContent: 'center',

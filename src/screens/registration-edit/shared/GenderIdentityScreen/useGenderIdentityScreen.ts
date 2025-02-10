@@ -140,15 +140,15 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
 
     if (isLessor) {
       navigation.goBack();
+    } else {
+      navigation.navigate('NewUserNavigator', {
+        screen: 'SafeSpaceForScreen',
+        params: {
+          edit: true,
+          newValue: !isEqualValue(savedGenderIds, selectedGenderIds),
+        },
+      });
     }
-
-    navigation.navigate('NewUserNavigator', {
-      screen: 'SafeSpaceForScreen',
-      params: {
-        edit: true,
-        newValue: !isEqualValue(savedGenderIds, selectedGenderIds),
-      },
-    });
 
     setError('');
     setShowPopover(false);
