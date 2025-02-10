@@ -25,6 +25,7 @@ import {size} from 'react-native-responsive-sizes';
 //Constants 📊
 import {MAX_GENDERS} from 'components/componentData/constants';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //Types 🏷  ️
 
@@ -41,6 +42,8 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     isLessor,
     showPopover,
     setShowPopover,
+    isEditError,
+    isEditLoading,
   } = useGenderIdentityScreen(edit);
 
   return (
@@ -73,13 +76,28 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
         <Divider />
 
         <View style={styles.footerContainer}>
-          {error && <ErrorMessage message={error} />}
+          {(error || isEditError) && <ErrorMessage message={error as string} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? (isLessor ? 'Save' : 'Continue') : 'Continue'}
+            value={
+              edit ? (
+                isLessor ? (
+                  isEditLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              ) : (
+                'Continue'
+              )
+            }
             disabled={
               selectedGenderIds.length === 0 ||
-              selectedGenderIds.length > MAX_GENDERS
+              selectedGenderIds.length > MAX_GENDERS ||
+              isEditLoading
             }
             onPress={handleContinue}
           />

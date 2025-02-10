@@ -7,7 +7,10 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {Gender} from 'reduxFeatures/assets/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {
+  useEditUserProfileMutation,
+  useGetUserQuery,
+} from 'reduxFeatures/user/userApi';
 
 // Screens 📺
 import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
@@ -25,6 +28,11 @@ import {
   SettingsScreenNavigationProp,
 } from '../../../../navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {
+  EditActionMethods,
+  EditUserProfileParams,
+  UserType,
+} from 'reduxFeatures/user/types';
 
 const genders: Gender[] = [
   {name: 'Male', id: 1, emoji: '👨'},
@@ -55,8 +63,11 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     resetNewUserState,
   } = useNewUserDetails(isLessor, edit);
 
-  // const savedGender = newUserDetails.genderIdentity;
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
+
+  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
+    useEditUserProfileMutation();
+
   const savedGender = useMemo(() => {
     if (edit) {
       return genders.filter(g =>
@@ -86,15 +97,15 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const selectGender = (id: number) => {
-    setSelectedGenderIds(prevIds => (prevIds.includes(id) ? [] : [id]));
-  };
-
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Gender : PopoverKeys.NewUser,
     });
+
+  const selectGender = (id: number) => {
+    setSelectedGenderIds(prevIds => (prevIds.includes(id) ? [] : [id]));
+  };
 
   const handleBackButton = () => {
     if (edit) {
@@ -114,7 +125,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   console.log('selectedGenderIds', selectedGenderIds);
   console.log('savedGenderIds', savedGenderIds);
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const selectedGenders = genders?.filter(g =>
       selectedGenderIds.includes(g.id),
     );
@@ -139,7 +150,27 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     }
 
     if (isLessor) {
-      navigation.goBack();
+      try {
+        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+          userId: currentUser?.id ?? 0,
+          actionMethod: EditActionMethods.genderIdentity,
+          userType: UserType.lessor,
+          genderIdentity: newUserDetails.genderIdentity,
+        };
+        await editUserProfile(editParams).unwrap();
+        setError('');
+        navigation.goBack();
+      } catch (err) {
+        const typedError = err as {
+          status?: number;
+        };
+        if (typedError.status === 422) {
+          setError('Please fill out all the required fields');
+        } else {
+          setError('An error occurred, please try again');
+        }
+        return;
+      }
     } else {
       navigation.navigate('NewUserNavigator', {
         screen: 'SafeSpaceForScreen',
@@ -163,5 +194,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     isLessor,
     showPopover,
     setShowPopover,
+    isEditLoading,
+    isEditError,
   };
 };
