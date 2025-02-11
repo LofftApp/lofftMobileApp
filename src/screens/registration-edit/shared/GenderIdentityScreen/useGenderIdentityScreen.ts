@@ -149,36 +149,40 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
       return;
     }
 
-    if (isLessor) {
-      try {
-        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
-          userId: currentUser?.id ?? 0,
-          actionMethod: EditActionMethods.genderIdentity,
-          userType: UserType.lessor,
-          genderIdentity: selectedGenderNames,
-        };
-        await editUserProfile(editParams).unwrap();
-        setError('');
-        navigation.goBack();
-      } catch (err) {
-        const typedError = err as {
-          status?: number;
-        };
-        if (typedError.status === 422) {
-          setError('Please fill out all the required fields');
-        } else {
-          setError('An error occurred, please try again');
+    if (!isEqualValue(savedGenderIds, selectedGenderIds)) {
+      if (isLessor) {
+        try {
+          const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+            userId: currentUser?.id ?? 0,
+            actionMethod: EditActionMethods.genderIdentity,
+            userType: UserType.lessor,
+            genderIdentity: selectedGenderNames,
+          };
+
+          await editUserProfile(editParams).unwrap();
+          navigation.goBack();
+
+          setError('');
+        } catch (err) {
+          const typedError = err as {
+            status?: number;
+          };
+          if (typedError.status === 422) {
+            setError('Please fill out all the required fields');
+          } else {
+            setError('An error occurred, please try again');
+          }
+          return;
         }
-        return;
+      } else {
+        navigation.navigate('NewUserNavigator', {
+          screen: 'SafeSpaceForScreen',
+          params: {
+            edit: true,
+            newValue: !isEqualValue(savedGenderIds, selectedGenderIds),
+          },
+        });
       }
-    } else {
-      navigation.navigate('NewUserNavigator', {
-        screen: 'SafeSpaceForScreen',
-        params: {
-          edit: true,
-          newValue: !isEqualValue(savedGenderIds, selectedGenderIds),
-        },
-      });
     }
 
     setError('');

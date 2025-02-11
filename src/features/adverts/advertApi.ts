@@ -25,6 +25,11 @@ import {
   initialMinPrice,
 } from 'components/componentData/constants';
 
+type EditAdvertParams = {
+  advertId: number;
+  actionMethod: string;
+} & Partial<Advert>;
+
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
     getAdverts: builder.query<AdvertsAndFeatures, GetAdvertsParams>({
@@ -290,6 +295,42 @@ export const advertApi = lofftApi.injectEndpoints({
         console.log('getFavoritesAdverts called ❤️');
         return toCamelCaseKeys(response as Favorites);
       },
+    }),
+    editAdvert: builder.mutation<void, EditAdvertParams>({
+      query: ({id, actionMethod, ...rest}) => {
+        return {
+          url: `/api/adverts/${id}`,
+          method: 'PATCH',
+          body: {
+            actionMethod,
+            ...rest,
+          },
+        };
+      },
+      invalidatesTags: (result, error, {id}) => [
+        {type: 'Adverts', id},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id},
+      ],
+    }),
+    editFlat: builder.mutation<void, EditAdvertParams>({
+      query: ({id, actionMethod, ...rest}) => {
+        return {
+          url: `/api/flats/${id}`,
+          method: 'PATCH',
+          body: {
+            actionMethod,
+            ...rest,
+          },
+        };
+      },
+      invalidatesTags: (result, error, {id}) => [
+        {type: 'Adverts', id},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id},
+      ],
     }),
   }),
   overrideExisting: false,

@@ -301,6 +301,7 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
         screen: 'WhereIsFlatScreen',
         params: {edit: true, advertId},
       });
+      return;
     }
 
     try {

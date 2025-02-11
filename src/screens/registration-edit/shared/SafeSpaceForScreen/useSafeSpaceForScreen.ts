@@ -71,7 +71,9 @@ export const useSafeSpaceForScreen = (
 
   const savedSafeSpacesIds = useMemo(() => {
     if (edit) {
-      return currentUser?.profile.safeSpaces.map(sp => sp.id);
+      return isLessor
+        ? advert?.flat.safeSpace
+        : currentUser?.profile.safeSpaces.map(sp => sp.id);
     }
     return newUserDetails.safeSpaces;
   }, [edit, currentUser?.profile.safeSpaces, newUserDetails.safeSpaces]);
