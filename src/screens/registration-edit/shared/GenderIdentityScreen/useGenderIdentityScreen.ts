@@ -155,7 +155,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
           userId: currentUser?.id ?? 0,
           actionMethod: EditActionMethods.genderIdentity,
           userType: UserType.lessor,
-          genderIdentity: newUserDetails.genderIdentity,
+          genderIdentity: selectedGenderNames,
         };
         await editUserProfile(editParams).unwrap();
         setError('');
