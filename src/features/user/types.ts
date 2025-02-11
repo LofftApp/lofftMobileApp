@@ -82,7 +82,7 @@ type EditUserActionMethodsType =
   | 'genderIdentity'
   | 'searchPreferences'
   | 'languages';
-type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
+type EditProfileParams<T extends 'tenant' | 'lessor'> = {
   userId: number;
   actionMethod: EditUserActionMethodsType;
   userType: T;
@@ -90,7 +90,7 @@ type EditUserProfileParams<T extends 'tenant' | 'lessor'> = {
   ? Partial<NewUserLessorDetails>
   : Partial<NewUserTenantDetails>);
 
-enum EditActionMethods {
+enum EditProfileActions {
   matchTags = 'matchTags',
   personalInfo = 'personalInfo',
   genderIdentity = 'genderIdentity',
@@ -115,7 +115,7 @@ export type {
   SpecificUser,
   IncomingUserProfile,
   EditUserActionMethodsType,
-  EditUserProfileParams,
+  EditProfileParams,
 };
 
-export {EditActionMethods, UserType};
+export {EditProfileActions, UserType};

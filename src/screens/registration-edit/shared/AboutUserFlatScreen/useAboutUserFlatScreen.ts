@@ -91,6 +91,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Chars : PopoverKeys.NewUser,
     });
+
   const handleBackButton = () => {
     if (!hasShownPopover && !isEqualValue(savedCharsIds, selectedCharsIds)) {
       triggerPopover();

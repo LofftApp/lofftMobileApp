@@ -1,13 +1,12 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {
   Advert,
-  AdvertsAndFeatures,
+  Adverts,
   AdvertWithApplications,
+  EditAdvertParams,
+  EditFlatParams,
   Favorites,
   GetAdvertsParams,
-  IncomingAdvert,
-  IncomingAdvertAndFeatures,
-  IncomingAdvertWithApplications,
 } from './types';
 
 import {Platform} from 'react-native';
@@ -25,14 +24,9 @@ import {
   initialMinPrice,
 } from 'components/componentData/constants';
 
-type EditAdvertParams = {
-  advertId: number;
-  actionMethod: string;
-} & Partial<Advert>;
-
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
-    getAdverts: builder.query<AdvertsAndFeatures, GetAdvertsParams>({
+    getAdverts: builder.query<Adverts, GetAdvertsParams>({
       query: ({
         features = '',
         minPrice = initialMinPrice,
@@ -53,10 +47,10 @@ export const advertApi = lofftApi.injectEndpoints({
           : baseEndpoint;
       },
 
-      transformResponse: (response: IncomingAdvertAndFeatures) => {
+      transformResponse: response => {
         console.log('getAdverts called 🚨');
 
-        return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
+        return toCamelCaseKeys(response as Adverts);
       },
       providesTags: result =>
         result
@@ -74,17 +68,17 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Adverts', id: 'LIST'},
         {type: 'Applications', id: 'LIST'},
       ],
-      transformResponse: (response: IncomingAdvert) => {
+      transformResponse: response => {
         console.log('getAdvertById called 🌈');
-        return toCamelCaseKeys(response as unknown as Advert);
+        return toCamelCaseKeys(response as Advert);
       },
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
-      transformResponse: (response: IncomingAdvertWithApplications) => {
+      transformResponse: response => {
         console.log('seeApplicationsByAdvertId called 🎉');
 
-        return toCamelCaseKeys(response as unknown as AdvertWithApplications);
+        return toCamelCaseKeys(response as AdvertWithApplications);
       },
     }),
     toggleFavorite: builder.mutation<
@@ -297,9 +291,9 @@ export const advertApi = lofftApi.injectEndpoints({
       },
     }),
     editAdvert: builder.mutation<void, EditAdvertParams>({
-      query: ({id, actionMethod, ...rest}) => {
+      query: ({advertId, actionMethod, ...rest}) => {
         return {
-          url: `/api/adverts/${id}`,
+          url: `/api/adverts/${advertId}`,
           method: 'PATCH',
           body: {
             actionMethod,
@@ -307,17 +301,17 @@ export const advertApi = lofftApi.injectEndpoints({
           },
         };
       },
-      invalidatesTags: (result, error, {id}) => [
-        {type: 'Adverts', id},
+      invalidatesTags: (result, error, {advertId}) => [
+        {type: 'Adverts', id: advertId},
         {type: 'Adverts', id: 'LIST'},
         {type: 'Applications', id: 'LIST'},
-        {type: 'Applications', id},
+        {type: 'Applications', id: advertId},
       ],
     }),
-    editFlat: builder.mutation<void, EditAdvertParams>({
-      query: ({id, actionMethod, ...rest}) => {
+    editFlat: builder.mutation<void, EditFlatParams>({
+      query: ({advertId, actionMethod, ...rest}) => {
         return {
-          url: `/api/flats/${id}`,
+          url: `/api/flats/${advertId}`,
           method: 'PATCH',
           body: {
             actionMethod,
@@ -325,11 +319,11 @@ export const advertApi = lofftApi.injectEndpoints({
           },
         };
       },
-      invalidatesTags: (result, error, {id}) => [
-        {type: 'Adverts', id},
+      invalidatesTags: (result, error, {advertId}) => [
+        {type: 'Adverts', id: advertId},
         {type: 'Adverts', id: 'LIST'},
         {type: 'Applications', id: 'LIST'},
-        {type: 'Applications', id},
+        {type: 'Applications', id: advertId},
       ],
     }),
   }),
@@ -345,4 +339,6 @@ export const {
   useConfirmApplicationsMutation,
   useCompleteLessorAndCreateAdvertMutation,
   useGetFavoritesAdvertsQuery,
+  useEditAdvertMutation,
+  useEditFlatMutation,
 } = advertApi;

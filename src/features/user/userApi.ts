@@ -1,5 +1,5 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {EditUserProfileParams, SpecificUser, User} from './types';
+import {EditProfileParams, SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {
   NewUserTenantDetails,
@@ -57,7 +57,7 @@ export const userApi = lofftApi.injectEndpoints({
     }),
     editUserProfile: builder.mutation<
       void,
-      EditUserProfileParams<'tenant' | 'lessor'>
+      EditProfileParams<'tenant' | 'lessor'>
     >({
       query: ({userId, actionMethod, userType, ...rest}) => {
         return {

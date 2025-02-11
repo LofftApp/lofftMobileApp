@@ -4,11 +4,15 @@ import {useEffect, useMemo, useState} from 'react';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {
+  useEditFlatMutation,
+  useGetAdvertByIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
 import {
   useEditUserProfileMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -31,12 +35,9 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
-import {
-  EditActionMethods,
-  EditUserProfileParams,
-} from 'reduxFeatures/user/types';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {EditProfileActions, EditProfileParams} from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -46,6 +47,8 @@ export const useFlatFeaturesScreen = (
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
   >();
+
+  console.log('NewValue', newValue);
 
   //initial State
   const {data} = useGetAssetsQuery();
@@ -75,8 +78,13 @@ export const useFlatFeaturesScreen = (
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
-  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
-    useEditUserProfileMutation();
+  const [
+    editUserProfile,
+    {isLoading: isEditProfileLoading, isError: isEditProfileError},
+  ] = useEditUserProfileMutation();
+
+  const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
+    useEditFlatMutation();
 
   const newUserLessorDetails = newUserDetails as NewUserLessorDetails;
   const newUserTenantDetails = newUserDetails as NewUserTenantDetails;
@@ -115,6 +123,12 @@ export const useFlatFeaturesScreen = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Chars : PopoverKeys.NewUser,
+    });
+
   const handleSelectFeatures = (id: number) => {
     setSelectedFeaturesIds(prevIds =>
       prevIds.includes(id)
@@ -122,11 +136,6 @@ export const useFlatFeaturesScreen = (
         : [...prevIds, id],
     );
   };
-  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
-      userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Chars : PopoverKeys.NewUser,
-    });
 
   const handleBackButton = () => {
     if (
@@ -150,6 +159,17 @@ export const useFlatFeaturesScreen = (
     'characteristics in flat features',
     newUserDetails.characteristics,
   );
+
+  const createError = (err: unknown) => {
+    const typedError = err as {
+      status?: number;
+    };
+    if (typedError.status === 422) {
+      setError('We could not save your changes, please try again');
+    } else {
+      setError('An error occurred, please try again');
+    }
+  };
 
   const handleContinue = async () => {
     const selectedFeatures = features?.filter(feat =>
@@ -178,40 +198,52 @@ export const useFlatFeaturesScreen = (
       return;
     }
 
-    if (newValue || !isEqualValue(savedFeaturesIds, selectedFeaturesIds)) {
-      try {
-        console.log('selewcted features', selectedFeaturesIds);
-        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
-          userId: currentUser?.id ?? 0,
-          actionMethod: EditActionMethods.matchTags,
-          userType: isLessor ? 'lessor' : 'tenant',
-          characteristics: newUserDetails.characteristics,
-          filter:
-            newUserDetails.userType === 'tenant'
-              ? selectedFeaturesIds
-              : undefined,
-          flatFeatures:
-            newUserDetails.userType === 'lessor'
-              ? selectedFeaturesIds
-              : undefined,
-        };
-        console.log('data!!!!!!!!', editParams);
-        await editUserProfile(editParams).unwrap();
-
-        setError('');
-
-        navigation.goBack();
-        navigation.goBack();
-      } catch (err) {
-        const typedError = err as {
-          status?: number;
-        };
-        if (typedError.status === 422) {
-          setError('Please fill out all the required fields');
-        } else {
-          setError('An error occurred, please try again');
+    if (
+      edit &&
+      (newValue || !isEqualValue(savedFeaturesIds, selectedFeaturesIds))
+    ) {
+      if (isLessor) {
+        try {
+          console.log('selewcted features', selectedFeaturesIds);
+          const editFlatParams: EditFlatParams = {
+            advertId: advertId ?? 0,
+            actionMethod: EditAdvertActions.MatchTags,
+            characteristics: newUserDetails.characteristics,
+            flatFeatures: selectedFeaturesIds,
+          };
+          console.log('data!!!!!!!! PARAMS', editFlatParams);
+          await editFlat(editFlatParams).unwrap();
+        } catch (err) {
+          createError(err);
+          return;
         }
-        return;
+      } else {
+        try {
+          const editProfileParams: EditProfileParams<'lessor' | 'tenant'> = {
+            userId: currentUser?.id ?? 0,
+            actionMethod: EditProfileActions.matchTags,
+            userType: isLessor ? 'lessor' : 'tenant',
+            characteristics: newUserDetails.characteristics,
+            filter:
+              newUserDetails.userType === 'tenant'
+                ? selectedFeaturesIds
+                : undefined,
+            flatFeatures:
+              newUserDetails.userType === 'lessor'
+                ? selectedFeaturesIds
+                : undefined,
+          };
+          console.log('data!!!!!!!!', editProfileParams);
+          await editUserProfile(editProfileParams).unwrap();
+
+          setError('');
+
+          navigation.goBack();
+          navigation.goBack();
+        } catch (err) {
+          createError(err);
+          return;
+        }
       }
     }
 
@@ -229,7 +261,10 @@ export const useFlatFeaturesScreen = (
     handleContinue,
     selectedFeaturesIds,
     error,
-    isEditLoading,
+    isEditProfileLoading,
+    isEditProfileError,
+    isEditFlatLoading,
+    isEditFlatError,
     isAdvertLoading,
     isAdvertError,
     features,

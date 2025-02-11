@@ -3,7 +3,7 @@ import {
   UserFilter,
   UserProfile,
 } from 'reduxFeatures/user/types';
-import {Application, IncomingApplication} from '../applications/types';
+import {Application} from '../applications/types';
 import {Currency} from 'reduxFeatures/assets/types';
 import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 interface AdvertUser {
@@ -67,7 +67,7 @@ interface Advert {
   applicants?: AdvertApplicant[];
 }
 
-interface AdvertsAndFeatures {
+interface Adverts {
   adverts: Advert[];
 }
 
@@ -81,71 +81,6 @@ type GetAdvertsParams =
 
 interface AdvertWithApplications extends Advert {
   applications: Application[];
-}
-
-interface AdvertState {
-  loading: boolean;
-  adverts: Advert[];
-  error: string | null;
-  advert: Advert | null;
-}
-interface IncomingAdvertUser {
-  id: number;
-  email: string;
-  created_at: string;
-  updated_at: string;
-  terms_accepted: boolean;
-  user_type: string;
-  admin: boolean;
-}
-
-interface IncomingAdvertApplicant extends IncomingAdvertUser {}
-
-interface IncomingAdvertFlat {
-  id: number;
-  address: string;
-  tag_line: string;
-  price: number;
-  description: string;
-  size: number;
-  measurement_unit: string;
-  district: string;
-  characteristics: AdvertCharacteristics[];
-  features: AdvertFeatures[];
-  city: string;
-  photos: {url: string}[];
-}
-
-interface IncomingAdvert {
-  id: number;
-  monthly_rent: number;
-  currency: string;
-  warm_rent: boolean;
-  from_date: number;
-  to_date: number;
-  created_at: string;
-  status: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
-  match_score: number;
-  favorite: boolean;
-  applied: boolean;
-  user: IncomingAdvertUser;
-  lessor: boolean;
-  flat: IncomingAdvertFlat;
-  applicants?: IncomingAdvertApplicant[];
-}
-
-interface IncomingAdvertAndFeatures {
-  adverts: IncomingAdvert[];
-  all_flat_features_from_db: AdvertFeatures[];
-}
-
-interface IncomingAdvertWithApplications extends IncomingAdvert {
-  applications: IncomingApplication[];
-  applicants: IncomingAdvertApplicant[];
-}
-
-interface IncomingAdverts {
-  adverts: IncomingAdvert[];
 }
 
 type Image = {
@@ -166,25 +101,36 @@ interface Favorites {
   favorites: Favorite[];
 }
 
+enum EditAdvertActions {
+  MatchTags = 'matchTags',
+  Location = 'location',
+  FlatDetails = 'flatDetails',
+  Availability = 'availability',
+  SafeSpace = 'safeSpace',
+  Languages = 'languages',
+}
+type EditAdvertParams = {
+  advertId: number;
+  actionMethod: EditAdvertActions;
+} & Partial<NewUserLessorDetails>;
+
+type EditFlatParams = EditAdvertParams;
+
 export type {
   Advert,
-  AdvertState,
   AdvertCharacteristics,
   AdvertFeatures,
   AdvertFlat,
   AdvertUser,
   AdvertApplicant,
   AdvertWithApplications,
-  AdvertsAndFeatures,
-  IncomingAdverts,
-  IncomingAdvert,
-  IncomingAdvertFlat,
-  IncomingAdvertUser,
-  IncomingAdvertAndFeatures,
-  IncomingAdvertApplicant,
-  IncomingAdvertWithApplications,
+  Adverts,
   GetAdvertsParams,
   LessorSignUpParams,
   Favorite,
   Favorites,
+  EditAdvertParams,
+  EditFlatParams,
 };
+
+export {EditAdvertActions};

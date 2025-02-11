@@ -25,8 +25,8 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {
-  EditActionMethods,
-  EditUserProfileParams,
+  EditProfileActions,
+  EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
@@ -206,9 +206,9 @@ export const useLanguageSelectionScreen = (
     }
 
     try {
-      const editParams: EditUserProfileParams<'tenant' | 'lessor'> = {
+      const editParams: EditProfileParams<'tenant' | 'lessor'> = {
         userId: currentUser?.id ?? 0,
-        actionMethod: EditActionMethods.languages,
+        actionMethod: EditProfileActions.languages,
         userType: isLessor ? UserType.lessor : UserType.tenant,
         languages: languagesIds,
       };

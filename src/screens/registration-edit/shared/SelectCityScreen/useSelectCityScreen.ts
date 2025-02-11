@@ -32,8 +32,8 @@ import {
 } from 'navigationStacks/types';
 import {CityAssets, District} from 'reduxFeatures/assets/types';
 import {
-  EditActionMethods,
-  EditUserProfileParams,
+  EditProfileActions,
+  EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
@@ -305,9 +305,9 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     }
 
     try {
-      const editParams: EditUserProfileParams<'tenant' | 'lessor'> = {
+      const editParams: EditProfileParams<'tenant' | 'lessor'> = {
         userId: currentUser?.id ?? 0,
-        actionMethod: EditActionMethods.searchPreferences,
+        actionMethod: EditProfileActions.searchPreferences,
         userType: isLessor ? UserType.lessor : UserType.tenant,
         city: selectedCityId,
         districts: selectedDistrictIds,

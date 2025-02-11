@@ -50,7 +50,10 @@ const FlatFeaturesScreen = ({
     error,
     isAdvertLoading,
     isAdvertError,
-    isEditLoading,
+    isEditProfileError,
+    isEditProfileLoading,
+    isEditFlatLoading,
+    isEditFlatError,
     features,
     isLessor,
     isNewUserLessor,
@@ -126,15 +129,26 @@ const FlatFeaturesScreen = ({
                 fontStyles.bodySmall
               }>{`* Select at least ${MIN_SELECTED_FEATURES} tags`}</Text>
           </View>
-          {error && <ErrorMessage message={error} />}
+          {(error || isEditProfileError || isEditFlatError) && (
+            <ErrorMessage message={error as string} />
+          )}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value={
-              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+              edit ? (
+                isEditProfileLoading || isEditFlatLoading ? (
+                  <LoadingButtonIcon />
+                ) : (
+                  'Save'
+                )
+              ) : (
+                'Continue'
+              )
             }
             disabled={
               selectedFeaturesIds.length < MIN_SELECTED_FEATURES ||
-              isEditLoading
+              isEditProfileLoading ||
+              isEditFlatLoading
             }
             onPress={handleContinue}
           />

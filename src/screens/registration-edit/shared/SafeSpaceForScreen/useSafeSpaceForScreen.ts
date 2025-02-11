@@ -24,8 +24,8 @@ import {
 } from 'reduxFeatures/user/userApi';
 import {isEqualValue} from 'helpers/isEqualValue';
 import {
-  EditActionMethods,
-  EditUserProfileParams,
+  EditProfileActions,
+  EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
@@ -148,9 +148,9 @@ export const useSafeSpaceForScreen = (
       }
 
       try {
-        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+        const editParams: EditProfileParams<'lessor' | 'tenant'> = {
           userId: currentUser?.id ?? 0,
-          actionMethod: EditActionMethods.genderIdentity,
+          actionMethod: EditProfileActions.genderIdentity,
           userType: isLessor ? UserType.lessor : UserType.tenant,
           genderIdentity: newUserDetails.genderIdentity,
           safeSpaces: selectedSafeSpaceIds,

@@ -22,7 +22,7 @@ import {isEqualValue} from 'helpers/isEqualValue';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {EditUserProfileParams} from 'reduxFeatures/user/types';
+import {EditProfileParams} from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
@@ -113,7 +113,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
 
     if (newValue || !isEqualValue(savedDescription, result.data)) {
       try {
-        const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+        const editParams: EditProfileParams<'lessor' | 'tenant'> = {
           userId: currentUser?.id ?? 0,
           actionMethod: 'personalInfo',
           userType: isLessor ? 'lessor' : 'tenant',

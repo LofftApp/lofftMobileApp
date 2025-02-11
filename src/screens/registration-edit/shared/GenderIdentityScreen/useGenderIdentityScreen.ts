@@ -29,8 +29,8 @@ import {
 } from '../../../../navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {
-  EditActionMethods,
-  EditUserProfileParams,
+  EditProfileActions,
+  EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
 
@@ -152,9 +152,9 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     if (!isEqualValue(savedGenderIds, selectedGenderIds)) {
       if (isLessor) {
         try {
-          const editParams: EditUserProfileParams<'lessor' | 'tenant'> = {
+          const editParams: EditProfileParams<'lessor' | 'tenant'> = {
             userId: currentUser?.id ?? 0,
-            actionMethod: EditActionMethods.genderIdentity,
+            actionMethod: EditProfileActions.genderIdentity,
             userType: UserType.lessor,
             genderIdentity: selectedGenderNames,
           };
