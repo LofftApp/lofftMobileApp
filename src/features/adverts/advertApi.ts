@@ -309,9 +309,9 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
     }),
     editFlat: builder.mutation<void, EditFlatParams>({
-      query: ({advertId, actionMethod, ...rest}) => {
+      query: ({flatId, actionMethod, ...rest}) => {
         return {
-          url: `/api/flats/${advertId}`,
+          url: `/api/flats/${flatId}`,
           method: 'PATCH',
           body: {
             actionMethod,
@@ -319,11 +319,11 @@ export const advertApi = lofftApi.injectEndpoints({
           },
         };
       },
-      invalidatesTags: (result, error, {advertId}) => [
-        {type: 'Adverts', id: advertId},
+      invalidatesTags: (result, error, {flatId}) => [
+        {type: 'Adverts', id: flatId},
         {type: 'Adverts', id: 'LIST'},
         {type: 'Applications', id: 'LIST'},
-        {type: 'Applications', id: advertId},
+        {type: 'Applications', id: flatId},
       ],
     }),
   }),

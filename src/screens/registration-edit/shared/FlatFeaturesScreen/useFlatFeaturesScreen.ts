@@ -206,7 +206,7 @@ export const useFlatFeaturesScreen = (
         try {
           console.log('selewcted features', selectedFeaturesIds);
           const editFlatParams: EditFlatParams = {
-            advertId: advertId ?? 0,
+            flatId: advert?.flat.id ?? 0,
             actionMethod: EditAdvertActions.MatchTags,
             characteristics: newUserDetails.characteristics,
             flatFeatures: selectedFeaturesIds,

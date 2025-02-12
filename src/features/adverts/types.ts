@@ -114,7 +114,10 @@ type EditAdvertParams = {
   actionMethod: EditAdvertActions;
 } & Partial<NewUserLessorDetails>;
 
-type EditFlatParams = EditAdvertParams;
+type EditFlatParams = {
+  flatId: number;
+  actionMethod: EditAdvertActions;
+} & Partial<NewUserLessorDetails>;
 
 export type {
   Advert,
