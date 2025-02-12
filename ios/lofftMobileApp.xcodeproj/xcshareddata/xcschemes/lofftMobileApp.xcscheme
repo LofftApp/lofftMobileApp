@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "lofftMobileAppTests.xctest"
+               BuildableName = "lofftMobileAppTests"
                BlueprintName = "lofftMobileAppTests"
                ReferencedContainer = "container:lofftMobileApp.xcodeproj">
             </BuildableReference>
