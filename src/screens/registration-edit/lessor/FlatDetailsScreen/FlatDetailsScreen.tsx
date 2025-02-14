@@ -1,13 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, SafeAreaView, Animated, Text} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
-//Redux
-import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-
-// Screens 📺
-import {newUserScreens} from 'navigationStacks/newUserScreens';
+//Hooks 🪝
+import {useFlatDetailsScreen} from './useFlatDetailsScreen';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -17,6 +12,8 @@ import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -26,22 +23,11 @@ import {fontStyles} from 'styleSheets/fontStyles';
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
 
-//Validation 🛡 ️
-import {flatDetailsSchema} from 'lib/zodSchema';
-
 // Helpers 🤝
 import {size as _size} from 'react-native-responsive-sizes';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 //Types 🏷️
-import {
-  NewUserJourneyStackNavigation,
-  SettingsScreenNavigationProp,
-} from 'navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 const FlatDetailsScreen = ({
   route,
@@ -50,117 +36,21 @@ const FlatDetailsScreen = ({
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
-  //Navigation
-  const navigation = useNavigation<
-    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
-  >();
-
-  //Local State
-  const [tagLine, setTagLine] = useState('');
-  const [size, setSize] = useState('');
-  const [errorTagLine, setErrorTagLine] = useState('');
-  const [errorSize, setErrorSize] = useState('');
-
-  //Redux
-  const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {isLessor} = useUserType();
-  const {setNewUserDetails, newUserDetails} = useNewUserDetails(isLessor, edit);
   const {
-    data: advert,
+    tagLine,
+    size,
+    errorTagLine,
+    errorSize,
+    handleTagLineChange,
+    handleSizeChange,
+    handleContinue,
+    handleBackButton,
+    fadeInAnim,
     isLoading,
     isError,
-  } = useGetAdvertByIdQuery(advertId ?? 0, {
-    skip: !edit,
-    refetchOnMountOrArgChange: true,
-  });
-  const savedTagLine =
-    newUserDetails.userType === 'lessor' && newUserDetails.tagLine;
-  const savedSize = newUserDetails.userType === 'lessor' && newUserDetails.size;
-
-  useEffect(() => {
-    if (savedTagLine) {
-      setTagLine(savedTagLine);
-    }
-    if (savedSize) {
-      setSize(savedSize.toString());
-    }
-
-    if (edit && advert?.flat.tagLine) {
-      setTagLine(advert.flat.tagLine);
-    }
-    if (edit && advert?.flat.size) {
-      setSize(advert.flat.size.toString());
-    }
-  }, [
-    savedTagLine,
-    savedSize,
-    edit,
-    advert,
-    advert?.flat.tagLine,
-    advert?.flat.size,
-  ]);
-
-  //animation
-  const {fadeInAnim} = useFadeInAnimation();
-
-  const handleTagLineChange = (input: string) => {
-    setTagLine(input);
-    setErrorTagLine('');
-  };
-
-  const handleSizeChange = (input: string) => {
-    setSize(input);
-    setErrorSize('');
-  };
-
-  const handleBackButton = () => {
-    if (!edit) {
-      setCurrentScreen(currentScreen - 1);
-    }
-    navigation.goBack();
-    setErrorTagLine('');
-    setErrorSize('');
-  };
-  const handleContinue = () => {
-    const trimmedtagLine = tagLine.trim();
-    const trimmedSize = size.trim();
-    const result = flatDetailsSchema.safeParse({
-      tagLine: trimmedtagLine,
-      size: Number(trimmedSize),
-    });
-
-    if (!result.success) {
-      const errTagLine = result.error.flatten().fieldErrors?.tagLine?.[0];
-      const errSize = result.error.flatten().fieldErrors?.size?.[0];
-      if (errTagLine) {
-        setErrorTagLine(errTagLine);
-      }
-      if (errSize) {
-        setErrorSize(errSize);
-      }
-      return;
-    }
-
-    setNewUserDetails({
-      tagLine: result.data.tagLine,
-      size: result.data.size,
-    });
-
-    if (edit) {
-      navigation.navigate('NewUserNavigator', {
-        screen: 'FlatDescribeScreen',
-        params: {edit: true, advertId},
-      });
-    } else {
-      setCurrentScreen(currentScreen + 1);
-
-      const screen = newUserScreens.lessor[currentScreen + 1];
-      navigation.navigate(screen);
-    }
-
-    setErrorTagLine('');
-    setErrorSize('');
-  };
+    showPopover,
+    setShowPopover,
+  } = useFlatDetailsScreen(edit, advertId);
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -228,6 +118,10 @@ const FlatDetailsScreen = ({
           </View>
         </View>
       </View>
+      <NewUserScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </SafeAreaView>
   );
 };
