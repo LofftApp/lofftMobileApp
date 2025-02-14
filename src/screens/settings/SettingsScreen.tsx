@@ -63,7 +63,6 @@ const SettingsScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -81,8 +80,6 @@ const SettingsScreen = () => {
       photo: advert.flat.photos[0],
       advertId: advert.id,
     })) || [];
-
-  const totalPhotos = [...flatImages, ...advertPhotos];
 
   const tenantSettingsData = [
     {
@@ -181,19 +178,23 @@ const SettingsScreen = () => {
             />
 
             {isLessor && (
-              <ImageSwiper
-                imageContainerHeight={90}
-                imageContainerWidth={90}
-                images={totalPhotos.map(photo => photo.photo)}
-                snapToInterval={30}
-                editButton
-                onPress={index => {
-                  if (index !== undefined) {
-                    handlePressImageSwiper(totalPhotos[index].advertId);
-                  }
-                }}
-                isLoading={isLoading}
-              />
+              <View style={styles.listingsContainer}>
+                <Text style={styles.advertTitle}>Your active listings</Text>
+                <ImageSwiper
+                  imageContainerHeight={90}
+                  imageContainerWidth={90}
+                  images={advertPhotos.map(photo => photo.photo)}
+                  snapToInterval={30}
+                  editButton
+                  onPress={index => {
+                    if (index !== undefined) {
+                      handlePressImageSwiper(advertPhotos[index].advertId);
+                    }
+                  }}
+                  isLoading={isLoading}
+                  selectedIndex={null}
+                />
+              </View>
             )}
           </View>
           <FlatList
@@ -218,7 +219,7 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    gap: size(24),
+    gap: size(10),
   },
 
   backgroundImageExtra: {
@@ -230,6 +231,13 @@ const styles = StyleSheet.create({
   },
   imagesContainer: {
     gap: size(20),
+  },
+  listingsContainer: {
+    gap: size(10),
+  },
+  advertTitle: {
+    ...fontStyles.headerSmall,
+    textAlign: 'center',
   },
 
   cardsContainer: {
