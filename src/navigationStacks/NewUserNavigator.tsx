@@ -14,7 +14,7 @@ import LanguageSelectionScreen from 'screens/registration-edit/shared/LanguageSe
 
 // Lessor Journey
 import WhereIsFlatScreen from 'screens/registration-edit/lessor/WhereIsFlatScreen/WhereIsFlatScreen';
-import FlatLengthAvailableScreen from 'screens/registration-edit/lessor/FlatLengthAvailableScreen';
+import FlatLengthAvailableScreen from 'screens/registration-edit/lessor/FlatLengthAvailableScreen/FlatLengthAvailableScreen';
 import NameProfileScreen from 'screens/registration-edit/shared/NameProfileScreen/NameProfileScreen';
 import FlatUserImageUploadScreen from 'screens/registration-edit/shared/FlatImageUploadScreen';
 import FlatDetailsScreen from 'screens/registration-edit/lessor/FlatDetailsScreen/FlatDetailsScreen';

@@ -78,6 +78,12 @@ export const useSafeSpaceForScreen = (
   const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
     useEditFlatMutation();
 
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
+    });
+
   const savedSafeSpacesIds = useMemo(() => {
     if (edit) {
       return isLessor
@@ -99,12 +105,6 @@ export const useSafeSpaceForScreen = (
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
-      userId: currentUser?.id ?? 0,
-      key: isLessor ? PopoverKeys.Edit : PopoverKeys.Gender,
-    });
 
   const selectSafeSpace = (id: number) => {
     setSelectedSafeSpaceIds(prevIds =>
@@ -139,7 +139,7 @@ export const useSafeSpaceForScreen = (
       status?: number;
     };
     if (typedError.status === 422) {
-      setError('');
+      setError('We could not save your changes, please try again');
     } else {
       setError('An error occurred, please try again');
     }
@@ -171,13 +171,11 @@ export const useSafeSpaceForScreen = (
         try {
           const editFlatParams = {
             flatId: advert?.flat.id ?? 0,
-            actionMethod: EditAdvertActions.SafeSpace,
+            actionMethod: EditAdvertActions.SafeSpaces,
             safeSpaces: selectedSafeSpaceIds,
           };
           await editFlat(editFlatParams).unwrap();
           console.log('WAS EDITED IN LESSOR');
-          navigation.goBack();
-          return;
         } catch (err) {
           createError(err);
           return;
@@ -193,16 +191,20 @@ export const useSafeSpaceForScreen = (
           };
           await editUserProfile(editProfileParams).unwrap();
           setError('');
-          navigation.goBack();
-          navigation.goBack();
         } catch (err) {
           createError(err);
           return;
         }
       }
     }
-    navigation.goBack();
-    navigation.goBack();
+
+    if (isLessor) {
+      navigation.goBack();
+    } else {
+      navigation.goBack();
+      navigation.goBack();
+    }
+
     resetNewUserState();
     setError('');
   };

@@ -114,7 +114,7 @@ enum EditAdvertActions {
   Location = 'location',
   FlatDetails = 'flatDetails',
   Availability = 'availability',
-  SafeSpace = 'safeSpace',
+  SafeSpaces = 'safeSpaces',
   Languages = 'languages',
 }
 type EditAdvertParams = {
