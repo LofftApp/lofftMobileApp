@@ -24,6 +24,8 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import CurrencyButton from 'components/buttons/CurrencyButton';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //Assets
 import {RegistrationBackground} from 'assets';
@@ -38,17 +40,17 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {Currency} from 'reduxFeatures/assets/types';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
 const WhereIsFlatScreen = ({
   route,
 }: {
-  route?: {params: {edit: boolean; advertId: number}};
+  route?: {params: {edit: boolean; advertId: number; newValue?: boolean}};
 }) => {
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
+  const newValue = route?.params?.newValue;
 
   // Safe Area
   const insets = useSafeAreaInsets();
@@ -72,7 +74,6 @@ const WhereIsFlatScreen = ({
     isEditAdvertError,
     isEditFlatError,
     isEditFlatLoading,
-
     handleOnChangeSearch,
     handleDropdownPress,
     handleClearSearch,
@@ -81,7 +82,9 @@ const WhereIsFlatScreen = ({
     handleToggleWarmRent,
     handleContinue,
     handleBackButton,
-  } = useWhereIsFlatScreen(edit, advertId);
+    showPopover,
+    setShowPopover,
+  } = useWhereIsFlatScreen(edit, advertId, newValue);
 
   if (isLoadingAdvert || !isReady) {
     return <LoadingComponent />;
@@ -225,6 +228,10 @@ const WhereIsFlatScreen = ({
           />
         </View>
       </View>
+      <NewUserScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
     </View>
   );
 };

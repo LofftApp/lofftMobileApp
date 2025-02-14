@@ -10,6 +10,8 @@ import {
   useEditFlatMutation,
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 // Screen 📺
@@ -20,15 +22,21 @@ import {useFindAddress} from 'hooks/useFindAddress';
 
 //Validation 🛡️
 import {addressSchema} from 'lib/zodSchema';
-import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Currency} from 'reduxFeatures/assets/types';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+
+//Helpers 🤝
 import {isEqualValue} from 'helpers/isEqualValue';
+
+// Types 🏷️
+import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 
-export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
+export const useWhereIsFlatScreen = (
+  edit?: boolean,
+  advertId?: number,
+  newValue?: boolean,
+) => {
   // Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -143,39 +151,8 @@ export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
     if (savedCurrency) {
       setCurrency(savedCurrency);
     }
-
-    // if (edit && advert?.flat.address) {
-    //   setLocation(advert?.flat.address);
-    //   setAddressDetails({
-    //     address: advert?.flat.address,
-    //     district: advert?.flat.district.name,
-    //   });
-    // }
-
-    // if (edit && advert?.monthlyRent) {
-    //   setPrice(advert?.monthlyRent.toString());
-    // }
-
-    // if (edit && advert?.currency) {
-    //   setCurrency('eur');
-    // }
-
-    // if (edit && advert?.warmRent) {
-    //   setWarmRent(advert?.warmRent);
-    // }
-  }, [
-    savedAddress,
-    savedPrice,
-    savedWarmRent,
-    savedCurrency,
-    advert,
-    edit,
-    advert?.flat.address,
-    advert?.flat.district,
-    advert?.monthlyRent,
-    advert?.currency,
-    advert?.warmRent,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!location) {
@@ -196,17 +173,17 @@ export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Where : PopoverKeys.NewUser,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
   const isNotEqualAllValues =
-    !isEqualValue(savedAddress, addressDetails.address) ||
-    !isEqualValue(savedPrice, price) ||
+    !isEqualValue(savedAddress?.address, addressDetails.address) ||
+    !isEqualValue(savedPrice?.toString(), price) ||
     !isEqualValue(savedWarmRent, warmRent) ||
     !isEqualValue(savedCurrency, currency);
 
   const handleBackButton = () => {
-    if (!hasShownPopover && !isNotEqualAllValues) {
+    if (!hasShownPopover && isNotEqualAllValues) {
       triggerPopover();
       return;
     }
@@ -252,17 +229,16 @@ export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
     setCurrency(id);
   };
 
-  // const createError = (err: unknown) => {
-  //   const typedError = err as {
-  //     status?: number;
-  //   };
-  //   if (typedError.status === 422) {
-  //     setError('We could not save your changes, please try again');
-  //   } else {
-  //     setError('An error occurred, please try again');
-  //   }
-  // };
+  console.log(
+    'isEqualAddress',
+    !isEqualValue(savedAddress?.address, addressDetails.address),
+  );
+  console.log('isEqualPrice', !isEqualValue(savedPrice?.toString(), price));
+  console.log('isEqualWarmRent', !isEqualValue(savedWarmRent, warmRent));
+  console.log('isEqualCurrency', !isEqualValue(savedCurrency, currency));
 
+  console.log('NEW VALUE', newValue);
+  console.log('IS NOT EQUAL ALL VALUES', isNotEqualAllValues);
   const handleContinue = async () => {
     const trimmedPrice = price.trim();
     const result = addressSchema.safeParse({
@@ -305,7 +281,7 @@ export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
       return;
     }
 
-    if (edit && isNotEqualAllValues) {
+    if (edit && (newValue || isNotEqualAllValues)) {
       if (isLessor) {
         try {
           const editFlatParams: EditFlatParams = {
@@ -326,28 +302,27 @@ export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
             currency: result.data.currency,
             warmRent: result.data.warmRent,
           };
+          console.log('editFlatParams', editFlatParams);
+          console.log('editAdvertParams', editAdvertParams);
           await Promise.all([
             editFlat(editFlatParams).unwrap(),
             editAdvert(editAdvertParams).unwrap(),
           ]);
-          console.log('editFlatParams', editFlatParams);
-          console.log('editAdvertParams', editAdvertParams);
         } catch (err) {
-          console.log('error', err);
           return;
         }
       }
-      console.log('NO CHANGES MADE');
-
-      navigation.goBack();
-      navigation.goBack();
-
-      resetNewUserState();
-
-      setErrorAddress('');
-      setErrorPrice('');
-      setErrorSearch('');
+      console.log('CHANGES WERE MADE');
     }
+
+    navigation.goBack();
+    navigation.goBack();
+
+    resetNewUserState();
+
+    setErrorAddress('');
+    setErrorPrice('');
+    setErrorSearch('');
   };
 
   return {

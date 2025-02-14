@@ -79,6 +79,9 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     newUserDetails.characteristics,
   ]);
 
+  console.log('savedCharsIds', savedCharsIds);
+  console.log('selectedCharsIds', selectedCharsIds);
+
   useEffect(() => {
     if (savedCharsIds && savedCharsIds.length > 0) {
       setSelectedCharsIds(savedCharsIds);

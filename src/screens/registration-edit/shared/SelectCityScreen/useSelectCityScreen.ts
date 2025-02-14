@@ -48,19 +48,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   const {data} = useGetAssetsQuery();
   const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
 
-  //Local State
-  const [city, setCity] = useState('');
-  const [selectedCityId, setSelectedCityId] = useState<number>(0);
-  const [dropdownContent, setDropdownContent] = useState<
-    CityAssets[] | Partial<CityAssets>[]
-  >([]);
-  const [districts, setDistricts] = useState<District[]>([]);
-  const [isAllDistricts, setIsAllDistricts] = useState(false);
-  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>([]);
-
-  const [isQuery, setIsQuery] = useState(false);
-  const [error, setError] = useState<string | undefined>('');
-
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
@@ -115,6 +102,21 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     newUserDetails.districts,
   ]);
 
+  //Local State
+  const [city, setCity] = useState('');
+  const [selectedCityId, setSelectedCityId] = useState<number>(0);
+  const [dropdownContent, setDropdownContent] = useState<
+    CityAssets[] | Partial<CityAssets>[]
+  >([]);
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [isAllDistricts, setIsAllDistricts] = useState(false);
+  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>(
+    savedDistrictIds ?? [],
+  );
+
+  const [isQuery, setIsQuery] = useState(false);
+  const [error, setError] = useState<string | undefined>('');
+
   // console.log('currentUser', currentUser);
   console.log('saved city id', savedCityId);
   console.log('selectedCityId', selectedCityId);
@@ -142,7 +144,7 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.City : PopoverKeys.NewUser,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -235,7 +237,9 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
       return;
     }
     if (edit) {
-      resetNewUserState();
+      if (!isLessor) {
+        resetNewUserState();
+      }
     } else {
       setCurrentScreen(currentScreen - 1);
     }
@@ -284,7 +288,13 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     if (isLessor) {
       navigation.navigate('NewUserNavigator', {
         screen: 'WhereIsFlatScreen',
-        params: {edit: true, advertId},
+        params: {
+          edit: true,
+          advertId,
+          newValue:
+            !isEqualValue(savedCityId, selectedCityId) ||
+            !isEqualValue(savedDistrictIds, selectedDistrictIds),
+        },
       });
       return;
     }
