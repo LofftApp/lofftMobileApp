@@ -313,7 +313,10 @@ export const useWhereIsFlatScreen = (edit?: boolean, advertId?: number) => {
             actionMethod: EditAdvertActions.Location,
             city: newUserDetails.city,
             districts: newUserDetails.districts,
-            address: result.data.address,
+            address: {
+              address: result.data.address,
+              district: result.data.district,
+            },
           };
 
           const editAdvertParams = {

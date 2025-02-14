@@ -133,7 +133,13 @@ const WhereIsFlatScreen = ({
               />
             </Animated.View>
             {(errorAddress || isEditFlatError) && (
-              <ErrorMessage isInputField message={errorAddress} />
+              <ErrorMessage
+                isInputField
+                message={
+                  errorAddress ||
+                  'We could not save your changes, please try again'
+                }
+              />
             )}
 
             <ErrorMessage message={errorSearch || ''} />
@@ -163,7 +169,13 @@ const WhereIsFlatScreen = ({
                   />
 
                   {(errorPrice || isEditAdvertError) && (
-                    <ErrorMessage isInputField message={errorPrice || "Error in editing"} />
+                    <ErrorMessage
+                      isInputField
+                      message={
+                        errorPrice ||
+                        'We could not save your changes, please try again'
+                      }
+                    />
                   )}
 
                   <View style={styles.currencyContainer}>
