@@ -126,7 +126,7 @@ export const useFlatFeaturesScreen = (
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Chars : PopoverKeys.NewUser,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
   const handleSelectFeatures = (id: number) => {

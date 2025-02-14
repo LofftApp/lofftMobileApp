@@ -239,6 +239,20 @@ export const useWhereIsFlatScreen = (
 
   console.log('NEW VALUE', newValue);
   console.log('IS NOT EQUAL ALL VALUES', isNotEqualAllValues);
+
+  const createError = (err: unknown) => {
+    const typedError = err as {
+      status?: number;
+    };
+    if (typedError.status === 422) {
+      setErrorPrice('We could not save your changes, please try again');
+      setErrorAddress('We could not save your changes, please try again');
+    } else {
+      setErrorPrice('An error occurred, please try again');
+      setErrorAddress('An error occurred, please try again');
+    }
+  };
+
   const handleContinue = async () => {
     const trimmedPrice = price.trim();
     const result = addressSchema.safeParse({
@@ -309,6 +323,7 @@ export const useWhereIsFlatScreen = (
             editAdvert(editAdvertParams).unwrap(),
           ]);
         } catch (err) {
+          createError(err);
           return;
         }
       }

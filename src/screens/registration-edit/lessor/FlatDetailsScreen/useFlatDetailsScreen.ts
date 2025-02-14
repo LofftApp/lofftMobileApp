@@ -92,6 +92,10 @@ export const useFlatDetailsScreen = (edit?: boolean, advertId?: number) => {
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
+  const isNotEqualAllValues =
+    !isEqualValue(savedTagLine, tagLine) ||
+    !isEqualValue(savedSize?.toString(), size);
+
   const handleTagLineChange = (input: string) => {
     setTagLine(input);
     setErrorTagLine('');
@@ -103,10 +107,7 @@ export const useFlatDetailsScreen = (edit?: boolean, advertId?: number) => {
   };
 
   const handleBackButton = () => {
-    if (
-      !hasShownPopover &&
-      (!isEqualValue(savedTagLine, tagLine) || !isEqualValue(savedSize, size))
-    ) {
+    if (!hasShownPopover && isNotEqualAllValues) {
       triggerPopover();
       return;
     }
@@ -162,9 +163,7 @@ export const useFlatDetailsScreen = (edit?: boolean, advertId?: number) => {
       params: {
         edit: true,
         advertId,
-        newValue:
-          !isEqualValue(savedTagLine, tagLine) ||
-          !isEqualValue(savedSize, size),
+        newValue: isNotEqualAllValues,
       },
     });
 
