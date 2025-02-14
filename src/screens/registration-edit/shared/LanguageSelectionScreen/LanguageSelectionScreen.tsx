@@ -60,8 +60,10 @@ const LanguageSelectionScreen = ({
     isNewUserLessor,
     showPopover,
     setShowPopover,
-    isEditLoading,
-    isEditError,
+    isEditProfileLoading,
+    isEditProfileError,
+    isEditFlatLoading,
+    isEditFlatError,
   } = useLanguageSelectionScreen(edit, advertId);
 
   if (isLoading || advertIsLoading) {
@@ -166,12 +168,22 @@ const LanguageSelectionScreen = ({
         <Divider />
       </View>
       <View style={styles.footerContainer}>
-        {(error || isEditError) && <ErrorMessage message={error as string} />}
+        {(error || isEditProfileError || isEditFlatError) && (
+          <ErrorMessage message={error as string} />
+        )}
         {!edit && <UserJourneyPaginationBar />}
 
         <NewUserJourneyContinueButton
           value={
-            edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+            edit ? (
+              isEditProfileLoading || isEditFlatLoading ? (
+                <LoadingButtonIcon />
+              ) : (
+                'Save'
+              )
+            ) : (
+              'Continue'
+            )
           }
           onPress={handleContinue}
         />

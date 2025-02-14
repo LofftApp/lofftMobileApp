@@ -26,6 +26,9 @@ import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
 //Validation 🛡️
 import {languagesSchema} from 'lib/zodSchema';
 
+//Helpers 🤝
+import {isEqualValue} from 'helpers/isEqualValue';
+
 //Types 🏷️
 import {
   EditProfileActions,
@@ -33,7 +36,6 @@ import {
   UserType,
 } from 'reduxFeatures/user/types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {isEqualValue} from 'helpers/isEqualValue';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 
@@ -99,8 +101,10 @@ export const useLanguageSelectionScreen = (
   });
 
   const {data: currentUser} = useGetUserQuery();
-  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
-    useEditUserProfileMutation();
+  const [
+    editUserProfile,
+    {isLoading: isEditProfileLoading, isError: isEditProfileError},
+  ] = useEditUserProfileMutation();
   const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
     useEditFlatMutation();
 
@@ -280,7 +284,9 @@ export const useLanguageSelectionScreen = (
     isNewUserLessor,
     showPopover,
     setShowPopover,
-    isEditLoading,
-    isEditError,
+    isEditProfileLoading,
+    isEditProfileError,
+    isEditFlatLoading,
+    isEditFlatError,
   };
 };
