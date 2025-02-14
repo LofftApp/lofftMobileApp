@@ -13,7 +13,7 @@ import ConditionsOfUseScreen from 'screens/registration-edit/shared/ConditionsOf
 import LanguageSelectionScreen from 'screens/registration-edit/shared/LanguageSelectionScreen/LanguageSelectionScreen';
 
 // Lessor Journey
-import WhereIsFlatScreen from 'screens/registration-edit/lessor/WhereIsFlatScreen';
+import WhereIsFlatScreen from 'screens/registration-edit/lessor/WhereIsFlatScreen/WhereIsFlatScreen';
 import FlatLengthAvailableScreen from 'screens/registration-edit/lessor/FlatLengthAvailableScreen';
 import NameProfileScreen from 'screens/registration-edit/shared/NameProfileScreen/NameProfileScreen';
 import FlatUserImageUploadScreen from 'screens/registration-edit/shared/FlatImageUploadScreen';

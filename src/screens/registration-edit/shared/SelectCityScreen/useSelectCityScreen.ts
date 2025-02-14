@@ -48,6 +48,19 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   const {data} = useGetAssetsQuery();
   const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
 
+  //Local State
+  const [city, setCity] = useState('');
+  const [selectedCityId, setSelectedCityId] = useState<number>(0);
+  const [dropdownContent, setDropdownContent] = useState<
+    CityAssets[] | Partial<CityAssets>[]
+  >([]);
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [isAllDistricts, setIsAllDistricts] = useState(false);
+  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>([]);
+
+  const [isQuery, setIsQuery] = useState(false);
+  const [error, setError] = useState<string | undefined>('');
+
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
@@ -90,7 +103,7 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
       return isLessor
         ? [advert?.flat.district.id].filter(
             (id): id is number => id !== undefined,
-          ) // Filters out undefined
+          )
         : currentUser?.profile?.districts.map(d => d.id);
     }
     return newUserDetails.districts;
@@ -101,23 +114,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     currentUser?.profile.districts,
     newUserDetails.districts,
   ]);
-
-  //Local State
-  const [city, setCity] = useState('');
-  const [selectedCityId, setSelectedCityId] = useState<number>(
-    savedCityId ?? 0,
-  );
-  const [dropdownContent, setDropdownContent] = useState<
-    CityAssets[] | Partial<CityAssets>[]
-  >([]);
-  const [districts, setDistricts] = useState<District[]>([]);
-  const [isAllDistricts, setIsAllDistricts] = useState(false);
-  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>(
-    savedDistrictIds ?? [],
-  );
-
-  const [isQuery, setIsQuery] = useState(false);
-  const [error, setError] = useState<string | undefined>('');
 
   // console.log('currentUser', currentUser);
   console.log('saved city id', savedCityId);
