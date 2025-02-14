@@ -66,7 +66,7 @@ export const useFlatLengthAvailableScreen = (
   });
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
-
+  console.log('currentUser', currentUser);
   const [
     editAdvert,
     {isLoading: isEditAdvertLoading, isError: isEditAdvertError},

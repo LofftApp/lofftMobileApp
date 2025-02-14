@@ -6,7 +6,10 @@ import {useNavigation} from '@react-navigation/native';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {
+  useEditFlatMutation,
+  useGetAdvertByIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {
   useEditUserProfileMutation,
@@ -32,6 +35,7 @@ import {
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {isEqualValue} from 'helpers/isEqualValue';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 
 export const useLanguageSelectionScreen = (
   edit?: boolean,
@@ -97,19 +101,21 @@ export const useLanguageSelectionScreen = (
   const {data: currentUser} = useGetUserQuery();
   const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
+  const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
+    useEditFlatMutation();
 
   const savedLanguages = useMemo(() => {
     if (edit) {
       console.log('edit in language screen', edit);
       return isLessor
-        ? advert?.languages
+        ? advert?.flat.flatLanguages.map(lang => lang.id)
         : currentUser?.profile?.profileLanguages?.map(lang => lang.id);
     }
     return newUserDetails.languages;
   }, [
     edit,
     isLessor,
-    advert?.languages,
+    advert?.flat?.flatLanguages,
     currentUser?.profile?.profileLanguages,
     newUserDetails?.languages,
   ]);
@@ -183,6 +189,17 @@ export const useLanguageSelectionScreen = (
   console.log('languagesIds', languagesIds);
   console.log('currentUser', currentUser);
 
+  const createError = (err: unknown) => {
+    const typedError = err as {
+      status?: number;
+    };
+    if (typedError.status === 422) {
+      setError('Please fill out all the required fields');
+    } else {
+      setError('An error occurred, please try again');
+    }
+  };
+
   const handleContinue = async () => {
     const selectedLanguages = sortedLanguages?.filter(lang =>
       languagesIds.includes(lang.id),
@@ -205,24 +222,31 @@ export const useLanguageSelectionScreen = (
       return;
     }
 
-    try {
-      const editParams: EditProfileParams<'tenant' | 'lessor'> = {
-        userId: currentUser?.id ?? 0,
-        actionMethod: EditProfileActions.languages,
-        userType: isLessor ? UserType.lessor : UserType.tenant,
-        languages: languagesIds,
-      };
-      await editUserProfile(editParams).unwrap();
-    } catch (err) {
-      const typedError = err as {
-        status?: number;
-      };
-      if (typedError.status === 422) {
-        setError('Please fill out all the required fields');
-      } else {
-        setError('An error occurred, please try again');
+    if (isLessor) {
+      try {
+        const editFlatParams: EditFlatParams = {
+          flatId: advertId ?? 0,
+          actionMethod: EditAdvertActions.Languages,
+          languages: languagesIds,
+        };
+        await editFlat(editFlatParams).unwrap();
+      } catch (err) {
+        createError(err);
+        return;
       }
-      return;
+    } else {
+      try {
+        const editParams: EditProfileParams<'tenant' | 'lessor'> = {
+          userId: currentUser?.id ?? 0,
+          actionMethod: EditProfileActions.languages,
+          userType: isLessor ? UserType.lessor : UserType.tenant,
+          languages: languagesIds,
+        };
+        await editUserProfile(editParams).unwrap();
+      } catch (err) {
+        createError(err);
+        return;
+      }
     }
     navigation.goBack();
     resetNewUserState();
