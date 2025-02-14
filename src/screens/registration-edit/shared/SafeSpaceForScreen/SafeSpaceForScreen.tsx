@@ -52,8 +52,10 @@ const SafeSpaceForScreen = ({
     isNewUserLessor,
     showPopover,
     setShowPopover,
-    isEditLoading,
-    isEditError,
+    isEditProfileLoading,
+    isEditProfileError,
+    isEditFlatLoading,
+    isEditFlatError,
   } = useSafeSpaceForScreen(edit, advertId, newValue);
 
   if (isAdvertLoading) {
@@ -110,16 +112,27 @@ const SafeSpaceForScreen = ({
               }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
           </View>
 
-          {(error || isEditError) && <ErrorMessage message={error as string} />}
+          {(error || isEditProfileError || isEditFlatError) && (
+            <ErrorMessage message={error as string} />
+          )}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
             value={
-              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+              edit ? (
+                isEditProfileLoading || isEditFlatLoading ? (
+                  <LoadingButtonIcon />
+                ) : (
+                  'Save'
+                )
+              ) : (
+                'Continue'
+              )
             }
             disabled={
               selectedSafeSpaceIds.length === 0 ||
               selectedSafeSpaceIds.length > MAX_GENDERS ||
-              isEditLoading
+              isEditProfileLoading ||
+              isEditFlatLoading
             }
             onPress={handleContinue}
           />

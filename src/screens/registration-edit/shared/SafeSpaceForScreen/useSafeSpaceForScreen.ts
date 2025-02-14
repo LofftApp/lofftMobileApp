@@ -15,7 +15,10 @@ import {safeSpacesSchema} from 'lib/zodSchema';
 //Types 🏷  ️
 import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {
+  useEditFlatMutation,
+  useGetAdvertByIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
 
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {
@@ -29,6 +32,7 @@ import {
   UserType,
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {EditAdvertActions} from 'reduxFeatures/adverts/types';
 export const useSafeSpaceForScreen = (
   edit?: boolean,
   advertId?: number,
@@ -66,17 +70,28 @@ export const useSafeSpaceForScreen = (
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
-  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
-    useEditUserProfileMutation();
+  const [
+    editUserProfile,
+    {isLoading: isEditProfileLoading, isError: isEditProfileError},
+  ] = useEditUserProfileMutation();
+
+  const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
+    useEditFlatMutation();
 
   const savedSafeSpacesIds = useMemo(() => {
     if (edit) {
       return isLessor
-        ? advert?.flat.safeSpace
+        ? advert?.flat.flatSafeSpaces.map(sp => sp.id)
         : currentUser?.profile.safeSpaces.map(sp => sp.id);
     }
     return newUserDetails.safeSpaces;
-  }, [edit, currentUser?.profile.safeSpaces, newUserDetails.safeSpaces]);
+  }, [
+    edit,
+    currentUser?.profile.safeSpaces,
+    newUserDetails.safeSpaces,
+    advert?.flat.flatSafeSpaces,
+    isLessor,
+  ]);
 
   useEffect(() => {
     if (savedSafeSpacesIds && savedSafeSpacesIds.length) {
@@ -88,7 +103,7 @@ export const useSafeSpaceForScreen = (
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: isLessor ? PopoverKeys.SafeSpace : PopoverKeys.Gender,
+      key: isLessor ? PopoverKeys.Edit : PopoverKeys.Gender,
     });
 
   const selectSafeSpace = (id: number) => {
@@ -119,6 +134,16 @@ export const useSafeSpaceForScreen = (
   console.log('selectedSafeSpaceIds', selectedSafeSpaceIds);
   console.log('savedSafeSpacesIds', savedSafeSpacesIds);
 
+  const createError = (err: unknown) => {
+    const typedError = err as {
+      status?: number;
+    };
+    if (typedError.status === 422) {
+      setError('');
+    } else {
+      setError('An error occurred, please try again');
+    }
+  };
   const handleContinue = async () => {
     const selectedSafeSpaces = safeSpaces?.filter(sp =>
       selectedSafeSpaceIds.includes(sp.id),
@@ -143,32 +168,37 @@ export const useSafeSpaceForScreen = (
 
     if (newValue || !isEqualValue(savedSafeSpacesIds, selectedSafeSpaceIds)) {
       if (isLessor) {
-        navigation.goBack();
-        return;
-      }
-
-      try {
-        const editParams: EditProfileParams<'lessor' | 'tenant'> = {
-          userId: currentUser?.id ?? 0,
-          actionMethod: EditProfileActions.genderIdentity,
-          userType: isLessor ? UserType.lessor : UserType.tenant,
-          genderIdentity: newUserDetails.genderIdentity,
-          safeSpaces: selectedSafeSpaceIds,
-        };
-        await editUserProfile(editParams).unwrap();
-        setError('');
-        navigation.goBack();
-        navigation.goBack();
-      } catch (err) {
-        const typedError = err as {
-          status?: number;
-        };
-        if (typedError.status === 422) {
-          setError('Please fill out all the required fields');
-        } else {
-          setError('An error occurred, please try again');
+        try {
+          const editFlatParams = {
+            flatId: advert?.flat.id ?? 0,
+            actionMethod: EditAdvertActions.SafeSpace,
+            safeSpaces: selectedSafeSpaceIds,
+          };
+          await editFlat(editFlatParams).unwrap();
+          console.log('WAS EDITED IN LESSOR');
+          navigation.goBack();
+          return;
+        } catch (err) {
+          createError(err);
+          return;
         }
-        return;
+      } else {
+        try {
+          const editProfileParams: EditProfileParams<'lessor' | 'tenant'> = {
+            userId: currentUser?.id ?? 0,
+            actionMethod: EditProfileActions.genderIdentity,
+            userType: isLessor ? UserType.lessor : UserType.tenant,
+            genderIdentity: newUserDetails.genderIdentity,
+            safeSpaces: selectedSafeSpaceIds,
+          };
+          await editUserProfile(editProfileParams).unwrap();
+          setError('');
+          navigation.goBack();
+          navigation.goBack();
+        } catch (err) {
+          createError(err);
+          return;
+        }
       }
     }
     navigation.goBack();
@@ -188,8 +218,10 @@ export const useSafeSpaceForScreen = (
     setShowPopover,
     isLessor,
     isNewUserLessor,
-    isEditLoading,
-    isEditError,
+    isEditProfileLoading,
+    isEditProfileError,
+    isEditFlatLoading,
+    isEditFlatError,
     isAdvertLoading,
     isAdvertError,
     advert,
