@@ -4,7 +4,7 @@ import {
   UserProfile,
 } from 'reduxFeatures/user/types';
 import {Application} from '../applications/types';
-import {Currency} from 'reduxFeatures/assets/types';
+import {City, Currency, District} from 'reduxFeatures/assets/types';
 import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 interface AdvertUser {
   id: number;
@@ -42,10 +42,10 @@ interface AdvertFlat {
   description: string;
   size: number;
   measurementUnit: string;
-  district: string;
+  district: District;
   characteristics: AdvertCharacteristics[];
   features: AdvertFeatures[];
-  city: string;
+  city: City;
   photos: string[];
 }
 

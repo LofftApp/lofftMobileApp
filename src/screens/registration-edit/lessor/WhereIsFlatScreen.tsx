@@ -135,7 +135,7 @@ const WhereIsFlatScreen = ({
       setLocation(advert?.flat.address);
       setAddressDetails({
         address: advert?.flat.address,
-        district: advert?.flat.district,
+        district: advert?.flat.district.name,
       });
     }
 
@@ -270,6 +270,7 @@ const WhereIsFlatScreen = ({
   if (isLoadingAdvert || !isReady) {
     return <LoadingComponent />;
   }
+  console.log('newUserDetails in where is flat', newUserDetails);
 
   if (isErrorAdvert) {
     return (

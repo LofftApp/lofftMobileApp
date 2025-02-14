@@ -78,7 +78,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
             {advert.flat.tagLine}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {advert.flat.district}, {advert.flat.city}
+            {advert.flat.district.name}, {advert.flat.city.name}
           </Text>
         </View>
 

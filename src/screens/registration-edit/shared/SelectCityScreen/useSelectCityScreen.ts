@@ -48,21 +48,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   const {data} = useGetAssetsQuery();
   const cities: CityAssets[] = useMemo(() => data?.cities || [], [data]);
 
-  //Local State
-  const [city, setCity] = useState('');
-  const [selectedCityId, setSelectedCityId] = useState<number | undefined>(
-    undefined,
-  );
-  const [dropdownContent, setDropdownContent] = useState<
-    CityAssets[] | Partial<CityAssets>[]
-  >([]);
-  const [districts, setDistricts] = useState<District[]>([]);
-  const [isAllDistricts, setIsAllDistricts] = useState(false);
-  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>([]);
-
-  const [isQuery, setIsQuery] = useState(false);
-  const [error, setError] = useState<string | undefined>('');
-
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
@@ -72,6 +57,7 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     isNewUserLessor,
     resetNewUserState,
   } = useNewUserDetails(isLessor, edit);
+
   const {
     data: advert,
     isLoading: isAdvertLoading,
@@ -80,15 +66,31 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     skip: !edit || !advertId,
     refetchOnMountOrArgChange: true,
   });
+
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
   const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
 
+  const savedCityId = useMemo(() => {
+    if (edit) {
+      return isLessor ? advert?.flat.city.id : currentUser?.profile.city.id;
+    }
+    return newUserDetails.city;
+  }, [
+    edit,
+    isLessor,
+    advert?.flat?.city?.id,
+    currentUser?.profile?.city?.id,
+    newUserDetails.city,
+  ]);
+
   const savedDistrictIds = useMemo(() => {
     if (edit) {
       return isLessor
-        ? advert?.flat.district
+        ? [advert?.flat.district.id].filter(
+            (id): id is number => id !== undefined,
+          ) // Filters out undefined
         : currentUser?.profile?.districts.map(d => d.id);
     }
     return newUserDetails.districts;
@@ -96,24 +98,32 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     edit,
     isLessor,
     advert?.flat.district,
-    currentUser?.profile?.districts,
+    currentUser?.profile.districts,
     newUserDetails.districts,
   ]);
 
-  const savedCityId = useMemo(() => {
-    if (edit) {
-      return isLessor ? advert?.flat.city : currentUser?.profile.city.id;
-    }
-    return newUserDetails.city;
-  }, [
-    edit,
-    isLessor,
-    advert?.flat.city,
-    currentUser?.profile.city,
-    newUserDetails.city,
-  ]);
+  //Local State
+  const [city, setCity] = useState('');
+  const [selectedCityId, setSelectedCityId] = useState<number>(
+    savedCityId ?? 0,
+  );
+  const [dropdownContent, setDropdownContent] = useState<
+    CityAssets[] | Partial<CityAssets>[]
+  >([]);
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [isAllDistricts, setIsAllDistricts] = useState(false);
+  const [selectedDistrictIds, setSelectedDistrictIds] = useState<number[]>(
+    savedDistrictIds ?? [],
+  );
 
-  console.log('currentUser', currentUser);
+  const [isQuery, setIsQuery] = useState(false);
+  const [error, setError] = useState<string | undefined>('');
+
+  // console.log('currentUser', currentUser);
+  console.log('saved city id', savedCityId);
+  console.log('selectedCityId', selectedCityId);
+  console.log('savedDistrictIds', savedDistrictIds);
+  console.log('selectedDistrictIds', selectedDistrictIds);
 
   useEffect(() => {
     if (savedCityId) {
@@ -123,33 +133,14 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
         setCity(`${matchedCity.flag} ${capitalize(matchedCity.name)}`);
         setSelectedCityId(matchedCity.id);
         setDistricts(matchedCity.districts);
-        setSelectedDistrictIds(savedDistrictIds);
+        setSelectedDistrictIds(savedDistrictIds ?? []);
         setIsAllDistricts(
-          savedDistrictIds.length === matchedCity.districts.length,
-        );
-      }
-    }
-
-    if (edit && advert && advert.flat.city) {
-      const matchedCity = cities.find(c => c.name === advert.flat.city);
-
-      const matchedDistricts = matchedCity?.districts
-        .filter(d => advert.flat.district.includes(d.name))
-        .map(d => d.id);
-      console.log('matchedCity', matchedCity);
-      console.log('matchedDistricts', matchedDistricts);
-      if (matchedCity) {
-        setCity(`${matchedCity.flag} ${capitalize(matchedCity.name)}`);
-        setSelectedCityId(matchedCity.id);
-        setDistricts(matchedCity.districts);
-        setSelectedDistrictIds(matchedDistricts ?? []);
-        setIsAllDistricts(
-          matchedDistricts?.length === matchedCity.districts.length,
+          savedDistrictIds?.length === matchedCity.districts.length,
         );
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cities]);
   console.log('Cities', cities);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
@@ -176,11 +167,9 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   }, [districts, city, fadeAnim]);
 
   const selectAllDistrictsTags = () => {
-    if (isAllDistricts) {
-      setSelectedDistrictIds([]);
-    } else {
-      setSelectedDistrictIds(districts.map(dist => dist.id));
-    }
+    isAllDistricts
+      ? setSelectedDistrictIds([])
+      : setSelectedDistrictIds(districts.map(dist => dist.id));
 
     setIsAllDistricts(!isAllDistricts);
   };

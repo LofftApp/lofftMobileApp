@@ -1,11 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  DimensionValue,
-  Animated,
-} from 'react-native';
+import {Text, View, StyleSheet, DimensionValue, Animated} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
@@ -166,7 +160,7 @@ const ListFlatApplicationCard = ({
       <View style={styles.locationContainer}>
         {advert?.flat.district && (
           <Text style={[fontStyles.bodySmall, styles.locationData]}>
-            {advert?.flat.district}, {advert?.flat.city}
+            {advert?.flat.district.name}, {advert?.flat.city.name}
           </Text>
         )}
       </View>

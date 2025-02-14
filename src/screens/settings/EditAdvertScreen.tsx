@@ -151,7 +151,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
         ) : (
           <Text style={[fontStyles.bodyMedium, styles.titleAddress]}>
             {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
-            {advert?.flat.city || 'Berlin'}
+            {advert?.flat.city.name || 'Berlin'}
           </Text>
         )}
         <View style={styles.mainContainer}>
