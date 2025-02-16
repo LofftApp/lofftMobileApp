@@ -106,25 +106,26 @@ const FlatImageUploadScreen = ({
   //   return savedImages.lessor.flatImages;
   // }, [edit, advert?.flat.mainPic, advert?.flat.photos, savedImages]);
   console.log('displaySavedImages', displaySavedImages);
+  const firstImageRef = useRef<ImageRecord | null>(null);
   useEffect(() => {
-    let firstImage;
     if (displaySavedImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'flat',
         images: displaySavedImages,
       });
-      firstImage = displaySavedImages[0] as ImageRecord;
+      firstImageRef.current = displaySavedImages[0] as ImageRecord;
+      console.log('First Image', firstImageRef.current);
       setSelectedImage({
-        uri: firstImage.uri,
+        uri: firstImageRef.current.uri,
         source: 'saved',
-        blobId: firstImage?.blobId,
+        blobId: firstImageRef.current?.blobId,
       });
 
       console.log('SelectedImage in use', selectedImage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [firstImageRef.current, displaySavedImages]);
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {

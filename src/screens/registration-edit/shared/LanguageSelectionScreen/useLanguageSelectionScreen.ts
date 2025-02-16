@@ -229,7 +229,7 @@ export const useLanguageSelectionScreen = (
     if (isLessor) {
       try {
         const editFlatParams: EditFlatParams = {
-          flatId: advertId ?? 0,
+          flatId: advert?.flat.id ?? 0,
           actionMethod: EditAdvertActions.Languages,
           languages: languagesIds,
         };
