@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, View, SafeAreaView, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -134,49 +134,8 @@ const FlatImageUploadScreen = ({
 
   // Then, in your effect that runs when displaySavedImages changes:
   useEffect(() => {
-    // --- EDIT MODE ---
-    if (edit && displaySavedImages.length > 0) {
-      // Find the index of the currently selected image
-      const currentIndex = displaySavedImages.findIndex(
-        img => img.uri === selectedImage?.uri,
-      );
-
-      if (currentIndex === -1) {
-        // The previously selected image is gone.
-        // Use the stored index (if any) as a starting point; default to 0.
-        let newIndex = currentSelectionIndexRef.current ?? 0;
-        if (newIndex >= displaySavedImages.length) {
-          newIndex = displaySavedImages.length - 1;
-        }
-        const newSelected = displaySavedImages[newIndex] as ImageRecord;
-        setSelectedImage({
-          uri: newSelected.uri,
-          source: 'saved',
-          blobId: newSelected.blobId,
-        });
-        // Update both refs.
-        currentSelectionRef.current = newSelected.uri;
-        currentSelectionIndexRef.current = newIndex;
-        console.log(
-          'Edit mode: Selected image was deleted. New selection:',
-          newSelected,
-        );
-      } else {
-        // The current selection still exists.
-        // Update the index ref so we know its position.
-        currentSelectionIndexRef.current = currentIndex;
-        console.log(
-          'Edit mode: Current selection exists at index:',
-          currentIndex,
-        );
-      }
-    }
-
     // --- NON-EDIT MODE ---
-    else if (
-      !edit &&
-      (imagesToUpload.length > 0 || displaySavedImages.length > 0)
-    ) {
+    if (!edit && (imagesToUpload.length > 0 || displaySavedImages.length > 0)) {
       if (selectedImage) {
         // Check if the selected image still exists in either uploads or saved images.
         const inUploaded = imagesToUpload.find(
@@ -326,6 +285,43 @@ const FlatImageUploadScreen = ({
   // }, [displaySavedImages, imagesToUpload, setSelectedImage, edit]);
 
   useEffect(() => {
+    // --- EDIT MODE ---
+    if (edit && displaySavedImages.length > 0) {
+      // Find the index of the currently selected image
+      const currentIndex = displaySavedImages.findIndex(
+        img => img.uri === selectedImage?.uri,
+      );
+
+      if (currentIndex === -1) {
+        // The previously selected image is gone.
+        // Use the stored index (if any) as a starting point; default to 0.
+        let newIndex = currentSelectionIndexRef.current ?? 0;
+        if (newIndex >= displaySavedImages.length) {
+          newIndex = displaySavedImages.length - 1;
+        }
+        const newSelected = displaySavedImages[newIndex] as ImageRecord;
+        setSelectedImage({
+          uri: newSelected.uri,
+          source: 'saved',
+          blobId: newSelected.blobId,
+        });
+        // Update both refs.
+        currentSelectionRef.current = newSelected.uri;
+        currentSelectionIndexRef.current = newIndex;
+        console.log(
+          'Edit mode: Selected image was deleted. New selection:',
+          newSelected,
+        );
+      } else {
+        // The current selection still exists.
+        // Update the index ref so we know its position.
+        currentSelectionIndexRef.current = currentIndex;
+        console.log(
+          'Edit mode: Current selection exists at index:',
+          currentIndex,
+        );
+      }
+    }
     if (edit && displaySavedImages.length === 0 && imagesToUpload.length > 0) {
       const firstUploadedImage = imagesToUpload[0];
       currentSelectionRef.current = firstUploadedImage.uri;
@@ -338,6 +334,7 @@ const FlatImageUploadScreen = ({
         firstUploadedImage,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imagesToUpload, displaySavedImages, setSelectedImage, edit]);
 
   useEffect(() => {
