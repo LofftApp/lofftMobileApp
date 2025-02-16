@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Animated, StyleSheet, View, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -36,9 +36,17 @@ import {flatImagesSchema} from 'lib/zodSchema';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+import {ImageToUpload} from 'reduxFeatures/imageHandling/types';
 
-const FlatImageUploadScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
+const FlatImageUploadScreen = ({
+  route,
+}: {
+  route?: {params: {edit: boolean; advertId: number}};
+}) => {
   const edit = route?.params?.edit;
+  const advertId = route?.params?.advertId;
+
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -55,15 +63,27 @@ const FlatImageUploadScreen = ({route}: {route?: {params: {edit: boolean}}}) => 
   const totalImages =
     imagesToUpload.length + savedImages.lessor.flatImages.length;
 
+  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+    skip: !edit || !advertId,
+  });
+
+  const displaySavedImages = useMemo(() => {
+    const dbImages = advert?.flat.mainPic
+      ? [advert?.flat.mainPic, ...(advert?.flat.photos || [])]
+      : advert?.flat.photos || [];
+    return edit ? dbImages : savedImages.lessor.flatImages;
+  }, [edit, advert?.flat.mainPic, advert?.flat.photos, savedImages]);
+
+  console.log('displaySavedImages', displaySavedImages);
   useEffect(() => {
-    if (savedImages.lessor.flatImages.length > 0) {
+    if (displaySavedImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'flat',
-        images: savedImages.lessor.flatImages,
+        images: displaySavedImages,
       });
     }
-  }, [savedImages.lessor.flatImages, setSavedImages]);
+  }, []);
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {
@@ -95,11 +115,14 @@ const FlatImageUploadScreen = ({route}: {route?: {params: {edit: boolean}}}) => 
 
   const handleContinue = () => {
     const concatImages = [...imagesToUpload, ...savedImages.lessor.flatImages];
+    console.log('concatImages', concatImages);
     const result = flatImagesSchema.safeParse(concatImages);
+    console.log('Result', result);
 
     if (!result.success) {
-      const err = result.error.flatten().formErrors?.[0];
-      setError(err);
+      const err = result.error.errors[0].message;
+      console.log('Error', err);
+      setError('');
       return;
     }
 
@@ -111,17 +134,17 @@ const FlatImageUploadScreen = ({route}: {route?: {params: {edit: boolean}}}) => 
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
+      setTimeout(() => {
+        setSavedImages({
+          userType: 'lessor',
+          imageType: 'flat',
+          images: result.data as ImageToUpload[],
+        });
+        clearImagesToUpload();
+      }, 1000);
     }
 
     setError('');
-    setTimeout(() => {
-      setSavedImages({
-        userType: 'lessor',
-        imageType: 'flat',
-        images: result.data,
-      });
-      clearImagesToUpload();
-    }, 1000);
   };
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

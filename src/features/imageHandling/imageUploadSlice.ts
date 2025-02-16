@@ -2,6 +2,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
   DeleteSavedImagePayload,
+  ImageBase,
   ImageToUpload,
   ImageUploadState,
   SetSavedImagesPayload,
@@ -21,6 +22,13 @@ const initialState: ImageUploadState = {
   },
 };
 
+const deleteImageByUri = <T extends ImageBase>(
+  images: T[],
+  uri: string,
+): T[] => {
+  return images.filter(image => image.uri !== uri);
+};
+
 export const imageUploadSlice = createSlice({
   name: 'imageUpload',
   initialState,
@@ -31,7 +39,7 @@ export const imageUploadSlice = createSlice({
 
     deleteImageToUpload: (state, action: PayloadAction<string>) => {
       state.imagesToUpload = state.imagesToUpload.filter(
-        image => image.fileName !== action.payload,
+        image => image.uri !== action.payload,
       );
     },
 
@@ -56,24 +64,25 @@ export const imageUploadSlice = createSlice({
       state,
       action: PayloadAction<DeleteSavedImagePayload>,
     ) => {
-      const {userType, imageType, fileName} = action.payload;
+      const {userType, imageType, uri} = action.payload;
+      console.log('deleteSavedImage', action.payload);
 
       if (userType === 'tenant') {
-        state.savedImages.tenant.userImages =
-          state.savedImages.tenant.userImages.filter(
-            image => image.fileName !== fileName,
-          );
+        state.savedImages.tenant.userImages = deleteImageByUri(
+          state.savedImages.tenant.userImages,
+          uri,
+        );
       } else if (userType === 'lessor') {
         if (imageType === 'user') {
-          state.savedImages.lessor.userImages =
-            state.savedImages.lessor.userImages.filter(
-              image => image.fileName !== fileName,
-            );
+          state.savedImages.lessor.userImages = deleteImageByUri(
+            state.savedImages.lessor.userImages,
+            uri,
+          );
         } else {
-          state.savedImages.lessor.flatImages =
-            state.savedImages.lessor.flatImages.filter(
-              image => image.fileName !== fileName,
-            );
+          state.savedImages.lessor.flatImages = deleteImageByUri(
+            state.savedImages.lessor.flatImages,
+            uri,
+          );
         }
       }
     },

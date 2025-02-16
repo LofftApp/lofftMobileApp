@@ -236,20 +236,26 @@ const userImagesSchema = z
     message: `You can upload up to ${MAX_USER_IMAGES} images only`,
   });
 
+const newImageSchema = z.object({
+  fileName: z.string(),
+  fileSize: z.number(),
+  height: z.number(),
+  type: z.string(),
+  uri: z.string(),
+  width: z.number(),
+});
+
+const existingImageSchema = z.object({
+  uri: z.string(),
+  blobId: z.number(),
+});
+
+const imageSchema = z.union([newImageSchema, existingImageSchema]);
+
+// Final array schema
 const flatImagesSchema = z
-  .array(
-    z.object({
-      fileName: z.string(),
-      fileSize: z.number(),
-      height: z.number(),
-      type: z.string(),
-      uri: z.string(),
-      width: z.number(),
-    }),
-  )
-  .nonempty({
-    message: 'Please upload at least one image',
-  })
+  .array(imageSchema)
+  .nonempty({message: 'Please upload at least one image'})
   .max(MAX_FLAT_IMAGES, {
     message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
   });

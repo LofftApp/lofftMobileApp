@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🐰
@@ -14,12 +14,21 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
 import ImageSwiper from 'components/images/ImageSwiper';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
+
+
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
-  const {imagesToUpload, deleteImageToUpload, savedImages, deleteSavedImage} =
-    useImagesToUpload();
+  const {
+    imagesToUpload,
+    deleteImageToUpload,
+    savedImages,
+    setSavedImages,
+    deleteSavedImage,
+  } = useImagesToUpload();
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
+
   console.log('savedImages', savedImages);
   const savedImagesDisplay =
     isNewUserLessor || isLessor
@@ -29,7 +38,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
       : savedImages.tenant.userImages;
   const [selectedImage, setSelectedImage] = useState<{
     uri: string;
-    type: string
+    type: string;
     source: 'saved' | 'upload';
   } | null>(null);
 
@@ -71,11 +80,11 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                   'saved',
                 )
               }
-              deleteImage={fileName =>
+              deleteImage={uri =>
                 deleteSavedImage({
                   userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
                   imageType,
-                  fileName,
+                  uri,
                 })
               }
             />
@@ -110,7 +119,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                   'upload',
                 )
               }
-              deleteImage={fileName => deleteImageToUpload(fileName)}
+              deleteImage={uri => deleteImageToUpload(uri)}
             />
           </View>
         </>

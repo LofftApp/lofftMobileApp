@@ -47,9 +47,9 @@ const ImageSwiper = ({
     [],
   );
 
-  const handleDeleteImage = (fileName: string) => {
+  const handleDeleteImage = (uri: string) => {
     if (deleteImage) {
-      deleteImage(fileName);
+      deleteImage(uri);
     }
   };
 
@@ -70,7 +70,6 @@ const ImageSwiper = ({
         onViewableItemsChanged={onViewableItemsChanged}
         contentContainerStyle={{paddingVertical: size(5)}}
         renderItem={({item, index}) => {
-          const source = deleteImage ? item.uri : item;
           const isSelected = selectedIndex === index;
 
           return (
@@ -78,7 +77,7 @@ const ImageSwiper = ({
               {deleteImage && (
                 <Pressable
                   style={styles.closeButton}
-                  onPress={() => handleDeleteImage(item.fileName)}>
+                  onPress={() => handleDeleteImage(item.uri)}>
                   <LofftIcon name="x-close" size={14} color="white" />
                 </Pressable>
               )}
@@ -91,7 +90,7 @@ const ImageSwiper = ({
                     <LoadingButtonIcon size="small" />
                   </View>
                 )}
-                {item.uri || item ? (
+                {item.uri ? (
                   <Animated.Image
                     style={[
                       styles.imageContainer,
@@ -100,7 +99,7 @@ const ImageSwiper = ({
                       {marginHorizontal: size(marginHorizontal)},
                       isSelected && styles.selectedImage,
                     ]}
-                    source={{uri: source}}
+                    source={{uri: item.uri}}
                     key={index + 1}
                     blurRadius={activeBlur || isLoading ? 30 : 0}
                   />

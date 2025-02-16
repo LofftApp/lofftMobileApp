@@ -43,7 +43,7 @@ const LofftHeaderPhoto = ({
             return (
               <Image
                 style={[styles.imageContainer, {height: imageContainerHeight}]}
-                source={{uri: item.url}}
+                source={{uri: item.uri}}
                 key={index + 1}
                 blurRadius={activeBlur ? 65 : 0}
               />

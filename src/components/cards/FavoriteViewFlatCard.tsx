@@ -129,7 +129,7 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
             {favorite.flat.tagLine}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {favorite.flat.district}, {favorite.flat.city}
+            {favorite.flat.district.name}, {favorite.flat.city.name}
           </Text>
         </View>
 

@@ -1,21 +1,35 @@
-interface ImageToUpload {
+interface ImageBase {
+  uri: string;
+}
+
+interface ImageToUpload extends ImageBase {
   fileName: string;
   fileSize: number;
   height: number;
   type: string;
-  uri: string;
   width: number;
+}
+
+interface ImageRecord extends ImageBase {
+  blobId: string;
+}
+
+type SavedImage = ImageToUpload | ImageRecord;
+
+interface ImageToBackend extends ImageBase {
+  type: string;
+  name: string;
 }
 
 interface ImageUploadState {
   imagesToUpload: ImageToUpload[];
   savedImages: {
     tenant: {
-      userImages: ImageToUpload[];
+      userImages: SavedImage[];
     };
     lessor: {
-      userImages: ImageToUpload[];
-      flatImages: ImageToUpload[];
+      userImages: SavedImage[];
+      flatImages: SavedImage[];
     };
   };
 }
@@ -24,25 +38,14 @@ type ImageType = 'user' | 'flat';
 interface SetSavedImagesPayload {
   userType: 'tenant' | 'lessor';
   imageType: ImageType;
-  images: ImageToUpload[];
+  images: ImageToUpload[] | ImageRecord[];
 }
 
 interface DeleteSavedImagePayload {
   userType: 'tenant' | 'lessor';
   imageType: ImageType;
-  fileName: string;
-}
-
-type ImageToBackend = {
   uri: string;
-  type: string;
-  name: string;
-};
-
-type ImageRecord = {
-  blobId: number;
-  url: string;
-};
+}
 
 export type {
   ImageUploadState,
@@ -52,4 +55,5 @@ export type {
   ImageType,
   ImageToBackend,
   ImageRecord,
+  ImageBase,
 };

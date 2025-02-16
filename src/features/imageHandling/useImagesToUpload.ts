@@ -43,9 +43,9 @@ export const useImagesToUpload = () => {
   const deleteSavedImage = ({
     userType,
     imageType,
-    fileName,
+    uri,
   }: DeleteSavedImagePayload) => {
-    dispatch(_deleteSavedImage({userType, imageType, fileName}));
+    dispatch(_deleteSavedImage({userType, imageType, uri}));
   };
 
   return {
