@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🐰
@@ -14,17 +14,16 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
 import ImageSwiper from 'components/images/ImageSwiper';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-
-
+import {SelectedImage} from 'reduxFeatures/imageHandling/types';
 
 const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {
     imagesToUpload,
     deleteImageToUpload,
     savedImages,
-    setSavedImages,
     deleteSavedImage,
+    setSelectedImage,
+    selectedImage,
   } = useImagesToUpload();
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
@@ -36,21 +35,16 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
         ? savedImages.lessor.userImages
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
-  const [selectedImage, setSelectedImage] = useState<{
-    uri: string;
-    type: string;
-    source: 'saved' | 'upload';
-  } | null>(null);
 
   console.log('savedImagesDisplay', savedImagesDisplay);
   console.log('Selected Image', selectedImage);
 
-  const handleImageSelection = (
-    uri: string,
-    type: string,
-    source: 'saved' | 'upload',
-  ) => {
-    setSelectedImage({uri, type, source});
+  const handleImageSelection = ({uri, source, blobId}: SelectedImage) => {
+    if (blobId !== undefined) {
+      setSelectedImage({uri, source, blobId});
+    } else {
+      setSelectedImage({uri, source});
+    }
   };
   return (
     <>
@@ -73,13 +67,15 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                     )
                   : null
               }
-              onPress={index =>
-                handleImageSelection(
-                  savedImagesDisplay[index as number].uri,
-                  savedImagesDisplay[index as number].type,
-                  'saved',
-                )
-              }
+              onPress={index => {
+                const image = savedImagesDisplay[index as number];
+                const blobId = 'blobId' in image ? image.blobId : undefined;
+                handleImageSelection({
+                  uri: image.uri,
+                  source: 'saved',
+                  blobId,
+                });
+              }}
               deleteImage={uri =>
                 deleteSavedImage({
                   userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
@@ -113,11 +109,10 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                   : null
               }
               onPress={index =>
-                handleImageSelection(
-                  imagesToUpload[index as number].uri,
-                  savedImagesDisplay[index as number].type,
-                  'upload',
-                )
+                handleImageSelection({
+                  uri: imagesToUpload[index as number].uri,
+                  source: 'upload',
+                })
               }
               deleteImage={uri => deleteImageToUpload(uri)}
             />

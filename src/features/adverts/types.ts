@@ -12,7 +12,11 @@ import {
   SafeSpace,
 } from 'reduxFeatures/assets/types';
 import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
-import {ImageRecord, ImageToBackend} from 'reduxFeatures/imageHandling/types';
+import {
+  ImageRecord,
+  ImagesToBackend,
+  ImageToBackend,
+} from 'reduxFeatures/imageHandling/types';
 interface AdvertUser {
   id: number;
   email: string;
@@ -112,6 +116,7 @@ enum EditAdvertActions {
   Availability = 'availability',
   SafeSpaces = 'safeSpaces',
   Languages = 'languages',
+  Images = 'images',
 }
 type EditAdvertParams = {
   advertId: number;
@@ -121,7 +126,7 @@ type EditAdvertParams = {
 type EditFlatParams = {
   flatId: number;
   actionMethod: EditAdvertActions;
-} & Partial<NewUserLessorDetails>;
+} & Partial<NewUserLessorDetails & ImagesToBackend>;
 
 export type {
   Advert,

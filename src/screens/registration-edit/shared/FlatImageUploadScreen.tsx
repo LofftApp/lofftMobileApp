@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, StyleSheet, View, SafeAreaView} from 'react-native';
+import {Animated, StyleSheet, View, SafeAreaView, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
@@ -36,8 +36,19 @@ import {flatImagesSchema} from 'lib/zodSchema';
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
-import {ImageToUpload} from 'reduxFeatures/imageHandling/types';
+import {
+  useEditFlatMutation,
+  useGetAdvertByIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
+import {
+  ImageRecord,
+  ImageToUpload,
+  NewImage,
+} from 'reduxFeatures/imageHandling/types';
+import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
 const FlatImageUploadScreen = ({
   route,
@@ -56,16 +67,30 @@ const FlatImageUploadScreen = ({
 
   //Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {imagesToUpload, clearImagesToUpload, setSavedImages, savedImages} =
-    useImagesToUpload();
+  const {
+    imagesToUpload,
+    clearImagesToUpload,
+    setSavedImages,
+    savedImages,
+    deletedRecordImages,
+    selectedImage,
+    setSelectedImage,
+  } = useImagesToUpload();
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
   const totalImages =
     imagesToUpload.length + savedImages.lessor.flatImages.length;
 
-  const {data: advert} = useGetAdvertByIdQuery(advertId ?? 0, {
+  const {
+    data: advert,
+    isLoading: isAdvertLoading,
+    isError: isAdvertError,
+  } = useGetAdvertByIdQuery(advertId ?? 0, {
     skip: !edit || !advertId,
   });
+
+  const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
+    useEditFlatMutation();
 
   const displaySavedImages = useMemo(() => {
     const dbImages = advert?.flat.mainPic
@@ -74,15 +99,31 @@ const FlatImageUploadScreen = ({
     return edit ? dbImages : savedImages.lessor.flatImages;
   }, [edit, advert?.flat.mainPic, advert?.flat.photos, savedImages]);
 
+  // const displaySavedImages = useMemo(() => {
+  //   const dbImages = advert?.flat.mainPic
+  //     ? [advert?.flat.mainPic, ...(advert?.flat.photos || [])]
+  //     : advert?.flat.photos || [];
+  //   return savedImages.lessor.flatImages;
+  // }, [edit, advert?.flat.mainPic, advert?.flat.photos, savedImages]);
   console.log('displaySavedImages', displaySavedImages);
   useEffect(() => {
+    let firstImage;
     if (displaySavedImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'flat',
         images: displaySavedImages,
       });
+      firstImage = displaySavedImages[0] as ImageRecord;
+      setSelectedImage({
+        uri: firstImage.uri,
+        source: 'saved',
+        blobId: firstImage?.blobId,
+      });
+
+      console.log('SelectedImage in use', selectedImage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -113,8 +154,9 @@ const FlatImageUploadScreen = ({
     clearImagesToUpload();
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const concatImages = [...imagesToUpload, ...savedImages.lessor.flatImages];
+
     console.log('concatImages', concatImages);
     const result = flatImagesSchema.safeParse(concatImages);
     console.log('Result', result);
@@ -122,11 +164,52 @@ const FlatImageUploadScreen = ({
     if (!result.success) {
       const err = result.error.errors[0].message;
       console.log('Error', err);
-      setError('');
+      setError(err);
       return;
+    }
+    const filteredImagesToUpload = imagesToUpload.filter(
+      img => img.uri !== selectedImage?.uri,
+    );
+
+    const newImages = filteredImagesToUpload.map(img => ({
+      uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
+      type: img.type,
+      name: `flatImage-${img.fileName}`,
+    }));
+
+    const filteredExistingImages = savedImages.lessor.flatImages.filter(
+      img => img.uri !== selectedImage?.uri,
+    ) as ImageRecord[];
+
+    const deletedIds = deletedRecordImages.map(img => img.blobId);
+
+    const findMainImage = concatImages.find(
+      img => img.uri === selectedImage?.uri,
+    );
+
+    let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
+    if (findMainImage && !('blobId' in findMainImage)) {
+      mainImage = {
+        uri:
+          Platform.OS === 'ios'
+            ? findMainImage?.uri.replace('file://', '')
+            : findMainImage?.uri,
+        type: (findMainImage as ImageToUpload)?.type,
+        name: `flatImage-${(findMainImage as ImageToUpload)?.fileName}`,
+      };
     }
 
     if (edit) {
+      const imagesParams: EditFlatParams = {
+        flatId: advert?.flat.id ?? 0,
+        actionMethod: EditAdvertActions.Images,
+        existingImages: filteredExistingImages,
+        newImages: newImages,
+        deletedImages: deletedIds,
+        mainImage: mainImage,
+      };
+      console.log('imagesParams', imagesParams);
+      await editFlat(imagesParams).unwrap();
       navigation.goBack();
     } else {
       const screen = isNewUserLessor
@@ -134,18 +217,32 @@ const FlatImageUploadScreen = ({
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
-      setTimeout(() => {
-        setSavedImages({
-          userType: 'lessor',
-          imageType: 'flat',
-          images: result.data as ImageToUpload[],
-        });
-        clearImagesToUpload();
-      }, 1000);
     }
 
+    setTimeout(() => {
+      setSavedImages({
+        userType: 'lessor',
+        imageType: 'flat',
+        images: result.data,
+      });
+      clearImagesToUpload();
+    }, 1000);
     setError('');
   };
+
+  if (isAdvertLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (isAdvertError) {
+    return (
+      <NotFoundComponent
+        message="We couldn't retrieve the advert details"
+        backButton
+        onPress={handleBackButton}
+      />
+    );
+  }
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <BackButton onPress={handleBackButton} />
@@ -172,8 +269,18 @@ const FlatImageUploadScreen = ({
           {error && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
-            disabled={totalImages > MAX_FLAT_IMAGES}
+            value={
+              edit ? (
+                isEditFlatLoading ? (
+                  <LoadingButtonIcon />
+                ) : (
+                  'Save'
+                )
+              ) : (
+                'Continue'
+              )
+            }
+            disabled={totalImages > MAX_FLAT_IMAGES || isEditFlatLoading}
             onPress={handleContinue}
           />
         </View>

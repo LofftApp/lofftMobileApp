@@ -6,8 +6,9 @@ import {
   clearImagesToUpload as _clearImagesToUpload,
   setSavedImages as _setSavedImages,
   deleteSavedImage as _deleteSavedImage,
+  setSelectedImage as _setSelectedImage,
 } from './imageUploadSlice';
-import {DeleteSavedImagePayload, ImageToUpload} from './types';
+import {DeleteSavedImagePayload, ImageToUpload, SelectedImage} from './types';
 import {SetSavedImagesPayload} from './types';
 
 export const useImagesToUpload = () => {
@@ -32,10 +33,24 @@ export const useImagesToUpload = () => {
   };
 
   const savedImages = useAppSelector(state => state.imageUpload.savedImages);
+  const selectedImage = useAppSelector(
+    state => state.imageUpload.selectedImage,
+  );
+  const deletedRecordImages = useAppSelector(
+    state => state.imageUpload.deletedRecordImages,
+  );
+  console.log('deletedRecordImages', deletedRecordImages);
 
   const setSavedImages = useCallback(
     ({userType, imageType, images}: SetSavedImagesPayload) => {
       dispatch(_setSavedImages({userType, imageType, images}));
+    },
+    [dispatch],
+  );
+
+  const setSelectedImage = useCallback(
+    ({uri, source, blobId}: SelectedImage) => {
+      dispatch(_setSelectedImage({uri, source, blobId}));
     },
     [dispatch],
   );
@@ -56,5 +71,8 @@ export const useImagesToUpload = () => {
     setSavedImages,
     savedImages,
     deleteSavedImage,
+    deletedRecordImages,
+    setSelectedImage,
+    selectedImage,
   };
 };

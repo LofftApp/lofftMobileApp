@@ -3,8 +3,8 @@ import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 import {
   ImageRecord,
-  ImageToBackend,
-  ImageToUpload,
+  SavedImage,
+  SelectedImage,
 } from 'reduxFeatures/imageHandling/types';
 import {AppLanguages} from 'reduxFeatures/settings/settingsSlice';
 
@@ -25,11 +25,11 @@ type ImageSwiperProps = {
   imageContainerWidth: number;
   pagination?: boolean;
   snapToInterval: number;
-  images: ImageToUpload[] | ImageToBackend[] | ImageRecord[];
+  images: SavedImage[] | SelectedImage[];
   activeBlur?: boolean;
   marginHorizontal?: number;
   editButton?: boolean;
-  deleteImage?: (fileName: string) => void;
+  deleteImage?: (uri: string) => void;
   onPress?: (index?: number) => void;
   isLoading?: boolean;
   selectedIndex: number | null;

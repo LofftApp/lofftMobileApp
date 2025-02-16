@@ -3,8 +3,10 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
   DeleteSavedImagePayload,
   ImageBase,
+  ImageRecord,
   ImageToUpload,
   ImageUploadState,
+  SavedImage,
   SetSavedImagesPayload,
 } from './types';
 import {PURGE} from 'redux-persist';
@@ -20,13 +22,17 @@ const initialState: ImageUploadState = {
       flatImages: [],
     },
   },
+  deletedRecordImages: [],
+  selectedImage: null,
 };
 
 const deleteImageByUri = <T extends ImageBase>(
   images: T[],
   uri: string,
-): T[] => {
-  return images.filter(image => image.uri !== uri);
+): {remaining: T[]; deleted: T[]} => {
+  const remaining = images.filter(image => image.uri !== uri);
+  const deleted = images.filter(image => image.uri === uri);
+  return {remaining, deleted};
 };
 
 export const imageUploadSlice = createSlice({
@@ -37,6 +43,20 @@ export const imageUploadSlice = createSlice({
       state.imagesToUpload = [...state.imagesToUpload, ...action.payload];
     },
 
+    setSelectedImage: (
+      state,
+      action: PayloadAction<{
+        uri: string;
+        source: 'saved' | 'upload';
+        blobId?: number;
+      }>,
+    ) => {
+      const {uri, source, blobId} = action.payload;
+
+      state.selectedImage =
+        blobId !== undefined ? {uri, source, blobId} : {uri, source};
+    },
+
     deleteImageToUpload: (state, action: PayloadAction<string>) => {
       state.imagesToUpload = state.imagesToUpload.filter(
         image => image.uri !== action.payload,
@@ -45,6 +65,8 @@ export const imageUploadSlice = createSlice({
 
     clearImagesToUpload: state => {
       state.imagesToUpload = [];
+      state.deletedRecordImages = [];
+      state.selectedImage = null;
     },
 
     setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
@@ -66,25 +88,30 @@ export const imageUploadSlice = createSlice({
     ) => {
       const {userType, imageType, uri} = action.payload;
       console.log('deleteSavedImage', action.payload);
+      let result: {remaining: SavedImage[]; deleted: SavedImage[]} = {
+        remaining: [],
+        deleted: [],
+      };
 
       if (userType === 'tenant') {
-        state.savedImages.tenant.userImages = deleteImageByUri(
-          state.savedImages.tenant.userImages,
-          uri,
-        );
+        result = deleteImageByUri(state.savedImages.tenant.userImages, uri);
+        state.savedImages.tenant.userImages = result.remaining;
       } else if (userType === 'lessor') {
         if (imageType === 'user') {
-          state.savedImages.lessor.userImages = deleteImageByUri(
-            state.savedImages.lessor.userImages,
-            uri,
-          );
+          result = deleteImageByUri(state.savedImages.lessor.userImages, uri);
+          state.savedImages.lessor.userImages = result.remaining;
         } else {
-          state.savedImages.lessor.flatImages = deleteImageByUri(
-            state.savedImages.lessor.flatImages,
-            uri,
-          );
+          result = deleteImageByUri(state.savedImages.lessor.flatImages, uri);
+          state.savedImages.lessor.flatImages = result.remaining;
         }
       }
+
+      const deletedWithBlobId = result.deleted.filter(
+        (image): image is ImageRecord =>
+          'blobId' in image && Boolean(image.blobId),
+      );
+
+      state.deletedRecordImages.push(...deletedWithBlobId);
     },
   },
   extraReducers: builder => {
@@ -96,6 +123,7 @@ export const imageUploadSlice = createSlice({
 
 export const {
   setImagesToUpload,
+  setSelectedImage,
   deleteImageToUpload,
   clearImagesToUpload,
   setSavedImages,

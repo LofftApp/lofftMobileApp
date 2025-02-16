@@ -18,9 +18,6 @@ import {z} from 'zod';
 const languageSchema = z.object({
   id: z.number(),
   name: z.string(),
-  toggle: z.boolean(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const languagesSchema = z
@@ -36,8 +33,6 @@ const characteristicSchema = z.object({
   id: z.number(),
   name: z.string(),
   emoji: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const characteristicsSchema = z
@@ -68,8 +63,6 @@ const safeSpaceSchema = z.object({
   id: z.number(),
   name: z.string(),
   emoji: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const safeSpacesSchema = z
@@ -252,7 +245,6 @@ const existingImageSchema = z.object({
 
 const imageSchema = z.union([newImageSchema, existingImageSchema]);
 
-// Final array schema
 const flatImagesSchema = z
   .array(imageSchema)
   .nonempty({message: 'Please upload at least one image'})
