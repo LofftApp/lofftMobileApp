@@ -7,6 +7,7 @@ import {
   ImageToUpload,
   ImageUploadState,
   SavedImage,
+  SelectedImage,
   SetSavedImagesPayload,
 } from './types';
 import {PURGE} from 'redux-persist';
@@ -43,18 +44,15 @@ export const imageUploadSlice = createSlice({
       state.imagesToUpload = [...state.imagesToUpload, ...action.payload];
     },
 
-    setSelectedImage: (
-      state,
-      action: PayloadAction<{
-        uri: string;
-        source: 'saved' | 'upload';
-        blobId?: number;
-      }>,
-    ) => {
+    setSelectedImage: (state, action: PayloadAction<SelectedImage>) => {
       const {uri, source, blobId} = action.payload;
 
-      state.selectedImage =
-        blobId !== undefined ? {uri, source, blobId} : {uri, source};
+      if (!uri) {
+        state.selectedImage = null;
+      } else {
+        state.selectedImage =
+          blobId !== undefined ? {uri, source, blobId} : {uri, source};
+      }
     },
 
     deleteImageToUpload: (state, action: PayloadAction<string>) => {
@@ -66,6 +64,9 @@ export const imageUploadSlice = createSlice({
     clearImagesToUpload: state => {
       state.imagesToUpload = [];
       state.deletedRecordImages = [];
+    },
+
+    clearImageSelection: state => {
       state.selectedImage = null;
     },
 

@@ -55,7 +55,7 @@ interface SetSavedImagesPayload {
   userType: 'tenant' | 'lessor';
   imageType: ImageType;
   images: SavedImage[];
-}
+} 
 
 interface DeleteSavedImagePayload {
   userType: 'tenant' | 'lessor';

@@ -36,8 +36,8 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
 
-  console.log('savedImagesDisplay', savedImagesDisplay);
-  console.log('Selected Image', selectedImage);
+  // console.log('savedImagesDisplay', savedImagesDisplay);
+  // console.log('Selected Image', selectedImage);
 
   const handleImageSelection = ({uri, source, blobId}: SelectedImage) => {
     if (blobId !== undefined) {

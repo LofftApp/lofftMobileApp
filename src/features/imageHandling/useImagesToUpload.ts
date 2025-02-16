@@ -49,8 +49,12 @@ export const useImagesToUpload = () => {
   );
 
   const setSelectedImage = useCallback(
-    ({uri, source, blobId}: SelectedImage) => {
-      dispatch(_setSelectedImage({uri, source, blobId}));
+    (image: SelectedImage | null) => {
+      if (image) {
+        dispatch(_setSelectedImage(image));
+      } else {
+        dispatch(_setSelectedImage({uri: '', source: 'saved'}));
+      }
     },
     [dispatch],
   );

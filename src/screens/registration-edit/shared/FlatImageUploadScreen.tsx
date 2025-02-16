@@ -44,6 +44,7 @@ import {
   ImageRecord,
   ImageToUpload,
   NewImage,
+  SavedImage,
 } from 'reduxFeatures/imageHandling/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
@@ -92,40 +93,252 @@ const FlatImageUploadScreen = ({
   const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
     useEditFlatMutation();
 
-  const displaySavedImages = useMemo(() => {
-    const dbImages = advert?.flat.mainPic
-      ? [advert?.flat.mainPic, ...(advert?.flat.photos || [])]
-      : advert?.flat.photos || [];
-    return edit ? dbImages : savedImages.lessor.flatImages;
-  }, [edit, advert?.flat.mainPic, advert?.flat.photos, savedImages]);
+  const dbImages = advert?.flat.mainPic
+    ? [advert?.flat.mainPic, ...(advert?.flat.photos || [])]
+    : advert?.flat.photos || [];
+  const displaySavedImages = savedImages.lessor.flatImages;
 
-  // const displaySavedImages = useMemo(() => {
-  //   const dbImages = advert?.flat.mainPic
-  //     ? [advert?.flat.mainPic, ...(advert?.flat.photos || [])]
-  //     : advert?.flat.photos || [];
-  //   return savedImages.lessor.flatImages;
-  // }, [edit, advert?.flat.mainPic, advert?.flat.photos, savedImages]);
   console.log('displaySavedImages', displaySavedImages);
-  const firstImageRef = useRef<ImageRecord | null>(null);
+  console.log('dbImages', dbImages);
+  console.log('selectedImage', selectedImage);
+
   useEffect(() => {
-    if (displaySavedImages.length > 0) {
+    if (edit && dbImages.length > 0) {
+      setSavedImages({
+        userType: 'lessor',
+        imageType: 'flat',
+        images: dbImages,
+      });
+
+      console.log('SelectedImage in use', selectedImage);
+    }
+
+    if (!edit && displaySavedImages.length > 0) {
       setSavedImages({
         userType: 'lessor',
         imageType: 'flat',
         images: displaySavedImages,
       });
-      firstImageRef.current = displaySavedImages[0] as ImageRecord;
-      console.log('First Image', firstImageRef.current);
-      setSelectedImage({
-        uri: firstImageRef.current.uri,
-        source: 'saved',
-        blobId: firstImageRef.current?.blobId,
-      });
-
-      console.log('SelectedImage in use', selectedImage);
+      if (selectedImage) {
+        currentSelectionRef.current = selectedImage.uri;
+        setSelectedImage(selectedImage);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [firstImageRef.current, displaySavedImages]);
+  }, []);
+  // In your hook (useImagesToUpload), add an index ref:
+  const currentSelectionIndexRef = useRef<number | null>(null);
+
+  // Your existing ref to store the selected URI:
+  const currentSelectionRef = useRef<string | null>(selectedImage?.uri || null);
+
+  // Then, in your effect that runs when displaySavedImages changes:
+  useEffect(() => {
+    // --- EDIT MODE ---
+    if (edit && displaySavedImages.length > 0) {
+      // Find the index of the currently selected image
+      const currentIndex = displaySavedImages.findIndex(
+        img => img.uri === selectedImage?.uri,
+      );
+
+      if (currentIndex === -1) {
+        // The previously selected image is gone.
+        // Use the stored index (if any) as a starting point; default to 0.
+        let newIndex = currentSelectionIndexRef.current ?? 0;
+        if (newIndex >= displaySavedImages.length) {
+          newIndex = displaySavedImages.length - 1;
+        }
+        const newSelected = displaySavedImages[newIndex] as ImageRecord;
+        setSelectedImage({
+          uri: newSelected.uri,
+          source: 'saved',
+          blobId: newSelected.blobId,
+        });
+        // Update both refs.
+        currentSelectionRef.current = newSelected.uri;
+        currentSelectionIndexRef.current = newIndex;
+        console.log(
+          'Edit mode: Selected image was deleted. New selection:',
+          newSelected,
+        );
+      } else {
+        // The current selection still exists.
+        // Update the index ref so we know its position.
+        currentSelectionIndexRef.current = currentIndex;
+        console.log(
+          'Edit mode: Current selection exists at index:',
+          currentIndex,
+        );
+      }
+    }
+
+    // --- NON-EDIT MODE ---
+    else if (
+      !edit &&
+      (imagesToUpload.length > 0 || displaySavedImages.length > 0)
+    ) {
+      if (selectedImage) {
+        // Check if the selected image still exists in either uploads or saved images.
+        const inUploaded = imagesToUpload.find(
+          img => img.uri === selectedImage.uri,
+        );
+        const inSaved = displaySavedImages.find(
+          img => img.uri === selectedImage.uri,
+        );
+        if (!inUploaded && !inSaved) {
+          // The selected image was deleted—choose a default.
+          let defaultImage: SavedImage | undefined;
+          let source: 'upload' | 'saved' = 'saved';
+          if (imagesToUpload.length > 0) {
+            defaultImage = imagesToUpload[0];
+            source = 'upload';
+          } else if (displaySavedImages.length > 0) {
+            defaultImage = displaySavedImages[0];
+            source = 'saved';
+          }
+          if (defaultImage) {
+            currentSelectionRef.current = defaultImage.uri;
+            setSelectedImage({
+              uri: defaultImage.uri,
+              source,
+            });
+            console.log(
+              'Non-edit mode: selected image was deleted, defaulting to:',
+              defaultImage,
+            );
+          }
+        } else {
+          // The selected image still exists—update its source if needed.
+          let newSource: 'upload' | 'saved' = selectedImage.source;
+          if (inSaved) {
+            newSource = 'saved';
+          } else if (inUploaded) {
+            newSource = 'upload';
+          }
+          if (newSource !== selectedImage.source) {
+            setSelectedImage({
+              ...selectedImage,
+              source: newSource,
+            });
+            console.log(
+              'Non-edit mode: updating selection source to:',
+              newSource,
+            );
+          } else {
+            console.log(
+              'Non-edit mode: keeping current selection:',
+              selectedImage,
+            );
+          }
+        }
+      } else {
+        // No selection exists yet: choose a default.
+        let defaultImage: SavedImage | undefined;
+        let source: 'upload' | 'saved' = 'saved';
+        if (imagesToUpload.length > 0) {
+          defaultImage = imagesToUpload[0];
+          source = 'upload';
+        } else if (displaySavedImages.length > 0) {
+          defaultImage = displaySavedImages[0];
+          source = 'saved';
+        }
+        if (defaultImage) {
+          currentSelectionRef.current = defaultImage.uri;
+          setSelectedImage({
+            uri: defaultImage.uri,
+            source,
+          });
+          console.log(
+            'Non-edit mode: no selection, defaulting to:',
+            defaultImage,
+          );
+        }
+      }
+    }
+
+    // --- CLEAR SELECTION ---
+    if (displaySavedImages.length === 0 && imagesToUpload.length === 0) {
+      setSelectedImage(null);
+      currentSelectionRef.current = null;
+      console.log('No images available – selection cleared');
+    }
+  }, [
+    displaySavedImages,
+    imagesToUpload,
+    edit,
+    selectedImage,
+    setSelectedImage,
+  ]);
+
+  // useEffect(() => {
+  //   if (edit && displaySavedImages.length > 0) {
+  //     const currentSelectionStillExists = displaySavedImages.some(
+  //       img => img.uri === currentSelectionRef.current,
+  //     );
+  //     console.log('currentSelectionStillExists', currentSelectionStillExists);
+
+  //     if (!currentSelectionStillExists) {
+  //       firstImageRef.current = displaySavedImages[0] as ImageRecord;
+  //       currentSelectionRef.current = firstImageRef.current.uri;
+  //       setSelectedImage({
+  //         uri: firstImageRef.current.uri,
+  //         source: 'saved',
+  //         blobId: firstImageRef.current?.blobId,
+  //       });
+  //       console.log('SelectedImage updated to:', firstImageRef.current);
+  //     }
+  //   }
+
+  //   if (!edit && (imagesToUpload.length > 0 || displaySavedImages.length > 0)) {
+  //     // First, try to find the selected image among imagesToUpload
+  //     let findSelectedImage: SavedImage | undefined;
+  //     findSelectedImage = imagesToUpload.find(
+  //       img => img.uri === currentSelectionRef.current,
+  //     );
+
+  //     if (findSelectedImage) {
+  //       setSelectedImage({
+  //         uri: findSelectedImage.uri,
+  //         source: 'upload',
+  //       });
+  //       console.log('SelectedImage set to upload image:', findSelectedImage);
+  //     } else {
+  //       // If not found there, try to find it among saved images.
+  //       findSelectedImage = displaySavedImages.find(
+  //         img => img.uri === currentSelectionRef.current,
+  //       );
+  //       if (findSelectedImage) {
+  //         setSelectedImage({
+  //           uri: findSelectedImage.uri,
+  //           source: 'saved',
+  //         });
+  //         console.log('SelectedImage set to saved image:', findSelectedImage);
+  //       }
+  //     }
+  //   }
+
+  //   if (displaySavedImages.length === 0 && imagesToUpload.length === 0) {
+  //     // If no images left, clear selection
+  //     setSelectedImage(null);
+  //     currentSelectionRef.current = null;
+  //     console.log('SelectedImage cleared');
+  //   }
+  // }, [displaySavedImages, imagesToUpload, setSelectedImage, edit]);
+
+  useEffect(() => {
+    if (edit && displaySavedImages.length === 0 && imagesToUpload.length > 0) {
+      const firstUploadedImage = imagesToUpload[0];
+      currentSelectionRef.current = firstUploadedImage.uri;
+      setSelectedImage({
+        uri: firstUploadedImage.uri,
+        source: 'upload',
+      });
+      console.log(
+        'SelectedImage set to first uploaded image:',
+        firstUploadedImage,
+      );
+    }
+  }, [imagesToUpload, displaySavedImages, setSelectedImage, edit]);
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {
@@ -200,34 +413,51 @@ const FlatImageUploadScreen = ({
       };
     }
 
-    if (edit) {
-      const imagesParams: EditFlatParams = {
-        flatId: advert?.flat.id ?? 0,
-        actionMethod: EditAdvertActions.Images,
-        existingImages: filteredExistingImages,
-        newImages: newImages,
-        deletedImages: deletedIds,
-        mainImage: mainImage,
+    const createError = (err: unknown) => {
+      const typedError = err as {
+        status?: number;
       };
-      console.log('imagesParams', imagesParams);
-      await editFlat(imagesParams).unwrap();
-      navigation.goBack();
+      if (typedError.status === 422) {
+        setError('We could not save your changes, please try again');
+      } else {
+        setError('An error occurred, please try again');
+      }
+    };
+
+    if (edit) {
+      try {
+        const imagesParams: EditFlatParams = {
+          flatId: advert?.flat.id ?? 0,
+          actionMethod: EditAdvertActions.Images,
+          existingImages: filteredExistingImages,
+          newImages: newImages,
+          deletedImages: deletedIds,
+          mainImage: mainImage,
+        };
+        console.log('imagesParams', imagesParams);
+        await editFlat(imagesParams).unwrap();
+        navigation.goBack();
+        clearImagesToUpload();
+      } catch (err) {
+        createError(err);
+        return;
+      }
     } else {
       const screen = isNewUserLessor
         ? newUserScreens.lessor[currentScreen + 1]
         : newUserScreens.tenant[currentScreen + 1];
       navigation.navigate(screen);
       setCurrentScreen(currentScreen + 1);
+      setTimeout(() => {
+        setSavedImages({
+          userType: 'lessor',
+          imageType: 'flat',
+          images: result.data,
+        });
+        clearImagesToUpload();
+      }, 1000);
     }
 
-    setTimeout(() => {
-      setSavedImages({
-        userType: 'lessor',
-        imageType: 'flat',
-        images: result.data,
-      });
-      clearImagesToUpload();
-    }, 1000);
     setError('');
   };
 
