@@ -119,8 +119,7 @@ const featureSchema = z.object({
   id: z.number(),
   name: z.string(),
   emoji: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+
 });
 const featuresSchema = z.array(featureSchema).min(MIN_SELECTED_FEATURES, {
   message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
