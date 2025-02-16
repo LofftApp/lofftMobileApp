@@ -32,10 +32,24 @@ interface DeleteSavedImagePayload {
   imageType: ImageType;
   fileName: string;
 }
+
+type ImageToBackend = {
+  uri: string;
+  type: string;
+  name: string;
+};
+
+type ImageRecord = {
+  blobId: number;
+  url: string;
+};
+
 export type {
   ImageUploadState,
   ImageToUpload,
   SetSavedImagesPayload,
   DeleteSavedImagePayload,
   ImageType,
+  ImageToBackend,
+  ImageRecord,
 };

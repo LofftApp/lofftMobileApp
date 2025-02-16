@@ -132,7 +132,8 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
         )}
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert?.flat.photos ?? []}
+          mainImage={advert?.flat.mainPic || null}
+          otherImages={advert?.flat.photos ?? []}
           activeBlur={isModalOpen}
         />
       </View>

@@ -120,7 +120,8 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
     <View style={CoreStyleSheet.showContainer}>
       <View>
         <LofftHeaderPhoto
-          images={applicant.profile.userPhotos || hardcodedImages}
+          mainImage={applicant.profile.avatar}
+          otherImages={applicant.profile.userPhotos || hardcodedImages}
           imageContainerHeight={size(350)}
         />
         <HighlightButtons heartPresent={false} />

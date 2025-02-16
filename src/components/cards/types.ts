@@ -1,7 +1,11 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
-import {ImageFile} from 'reduxFeatures/registration/types';
+import {
+  ImageRecord,
+  ImageToBackend,
+  ImageToUpload,
+} from 'reduxFeatures/imageHandling/types';
 import {AppLanguages} from 'reduxFeatures/settings/settingsSlice';
 
 type ListFlatApplicationCardProps = {
@@ -11,7 +15,8 @@ type ListFlatApplicationCardProps = {
 
 type LofftHeaderPhotoProps = {
   imageContainerHeight: number;
-  images: string[];
+  otherImages: ImageRecord[];
+  mainImage: ImageRecord | null;
   activeBlur?: boolean;
 };
 
@@ -20,7 +25,7 @@ type ImageSwiperProps = {
   imageContainerWidth: number;
   pagination?: boolean;
   snapToInterval: number;
-  images: string[] | ImageFile[];
+  images: ImageToUpload[] | ImageToBackend[] | ImageRecord[];
   activeBlur?: boolean;
   marginHorizontal?: number;
   editButton?: boolean;

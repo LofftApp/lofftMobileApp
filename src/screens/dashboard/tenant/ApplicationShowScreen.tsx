@@ -95,7 +95,8 @@ const ApplicationShowScreen = ({route}: ApplicationShowScreenProp) => {
 
         <LofftHeaderPhoto
           imageContainerHeight={300}
-          images={advert?.flat.photos ?? []}
+          mainImage={advert?.flat.mainPic || null}
+          otherImages={advert?.flat.photos ?? []}
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>

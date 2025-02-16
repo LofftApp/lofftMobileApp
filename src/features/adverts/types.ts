@@ -12,6 +12,7 @@ import {
   SafeSpace,
 } from 'reduxFeatures/assets/types';
 import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
+import {ImageRecord, ImageToBackend} from 'reduxFeatures/imageHandling/types';
 interface AdvertUser {
   id: number;
   email: string;
@@ -54,7 +55,8 @@ interface AdvertFlat {
   city: City;
   flatSafeSpaces: SafeSpace[];
   flatLanguages: Language[];
-  photos: string[];
+  mainPic: ImageRecord;
+  photos: ImageRecord[];
 }
 
 interface Advert {
@@ -91,16 +93,10 @@ interface AdvertWithApplications extends Advert {
   applications: Application[];
 }
 
-type Image = {
-  uri: string;
-  type: string;
-  name: string;
-};
-
 interface LessorSignUpParams {
   userChoices: NewUserLessorDetails;
-  flatImages: Image[];
-  userImages: Image[];
+  flatImages: ImageToBackend[];
+  userImages: ImageToBackend[];
 }
 
 interface Favorite extends Advert {}

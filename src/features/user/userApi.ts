@@ -1,12 +1,10 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {EditProfileParams, SpecificUser, User} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
-import {
-  NewUserTenantDetails,
-  ImageFile,
-} from 'reduxFeatures/registration/types';
+import {NewUserTenantDetails} from 'reduxFeatures/registration/types';
 
 import {Platform} from 'react-native';
+import {ImageToBackend} from 'reduxFeatures/imageHandling/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -31,7 +29,7 @@ export const userApi = lofftApi.injectEndpoints({
       {
         id: number;
         userChoices: NewUserTenantDetails;
-        photos?: ImageFile[];
+        photos?: ImageToBackend[];
       }
     >({
       query: ({id, userChoices, photos}) => {
@@ -42,8 +40,8 @@ export const userApi = lofftApi.injectEndpoints({
             formData.append(`photos[${index}]`, {
               uri:
                 Platform.OS === 'ios' ? el.uri.replace('file://', '') : el.uri,
-              name: `photo_${index}.jpg`,
               type: el.type,
+              name: `photo_${index}.jpg`,
             });
           });
         }

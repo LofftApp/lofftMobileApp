@@ -59,7 +59,8 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert.flat.photos ?? []}
+          mainImage={advert.flat.mainPic}
+          otherImages={advert.flat.photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoContainer}>

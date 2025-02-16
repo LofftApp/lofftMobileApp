@@ -11,12 +11,10 @@ import {
 
 import {Platform} from 'react-native';
 
-import {
-  NewUserLessorDetails,
-  ImageFile,
-} from 'reduxFeatures/registration/types';
+import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
+import {ImageToBackend} from 'reduxFeatures/imageHandling/types';
 
 import {applicationApi} from 'reduxFeatures/applications/applicationApi';
 import {
@@ -228,8 +226,8 @@ export const advertApi = lofftApi.injectEndpoints({
       {
         id: number;
         userChoices: NewUserLessorDetails;
-        flatImages: ImageFile[];
-        lessorProfileImages: ImageFile[];
+        flatImages: ImageToBackend[];
+        lessorProfileImages: ImageToBackend[];
       }
     >({
       query: ({id, userChoices, flatImages, lessorProfileImages}) => {

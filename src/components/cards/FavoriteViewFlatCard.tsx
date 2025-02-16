@@ -107,7 +107,8 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={favorite.flat.photos ?? []}
+          mainImage={favorite.flat.mainPic}
+          otherImages={favorite.flat.photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoContainer}>

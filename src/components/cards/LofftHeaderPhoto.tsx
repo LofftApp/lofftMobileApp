@@ -11,7 +11,8 @@ import type {OnViewableItemsChangedParams} from './types';
 
 const LofftHeaderPhoto = ({
   imageContainerHeight,
-  images,
+  otherImages,
+  mainImage,
   activeBlur = false,
 }: LofftHeaderPhotoProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -23,6 +24,8 @@ const LofftHeaderPhoto = ({
     },
     [],
   );
+
+  const images = mainImage ? [mainImage, ...otherImages] : otherImages;
 
   const hasImages = images && images.length > 0;
 
@@ -40,7 +43,7 @@ const LofftHeaderPhoto = ({
             return (
               <Image
                 style={[styles.imageContainer, {height: imageContainerHeight}]}
-                source={{uri: item}}
+                source={{uri: item.url}}
                 key={index + 1}
                 blurRadius={activeBlur ? 65 : 0}
               />

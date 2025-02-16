@@ -1,4 +1,5 @@
 import {City, District, Language, SafeSpace} from 'reduxFeatures/assets/types';
+import {ImageRecord} from 'reduxFeatures/imageHandling/types';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
@@ -19,7 +20,8 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   genderIdentity: string;
-  userPhotos: string[];
+  avatar: ImageRecord;
+  userPhotos: ImageRecord[];
   city: City;
   districts: District[];
   profileLanguages: Language[];
@@ -82,6 +84,7 @@ type EditUserActionMethodsType =
   | 'genderIdentity'
   | 'searchPreferences'
   | 'languages';
+
 type EditProfileParams<T extends 'tenant' | 'lessor'> = {
   userId: number;
   actionMethod: EditUserActionMethodsType;
