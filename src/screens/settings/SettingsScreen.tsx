@@ -79,10 +79,10 @@ const SettingsScreen = () => {
   const userView = isLessor ? UserType.LESSOR : UserType.TENANT;
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const advertPhotos =
-    adverts?.map(advert => ({
-      photo: advert?.flat?.photos[0] ?? fallBackAdvertPic,
-      advertId: advert?.id,
-    })) || [];
+  adverts?.map(advert => ({
+    photo: advert?.flat?.photos?.[0] ?? fallBackAdvertPic,
+    advertId: advert?.id,
+  }))?.filter(item => item.photo) || [];
 
   const tenantSettingsData = [
     {
