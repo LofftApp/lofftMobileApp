@@ -63,6 +63,14 @@ interface AdvertFlat {
   photos: ImageRecord[];
 }
 
+enum AdvertStatus {
+  Open = 'open',
+  Review = 'review',
+  Viewing = 'viewing',
+  Offered = 'offered',
+  Closed = 'closed',
+}
+
 interface Advert {
   id: number;
   monthlyRent: number;
@@ -71,7 +79,7 @@ interface Advert {
   fromDate: number;
   toDate: number;
   createdAt: string;
-  status: 'open' | 'review' | 'viewing' | 'offered' | 'closed';
+  status: AdvertStatus;
   matchScore: number;
   favorite: boolean;
   applied: boolean;
@@ -152,4 +160,4 @@ export type {
   EditFlatImageParams,
 };
 
-export {EditAdvertActions};
+export {EditAdvertActions, AdvertStatus};

@@ -3,18 +3,22 @@ import {
   Text,
   View,
   StyleSheet,
-  Dimensions,
   DimensionValue,
   Animated,
   Easing,
+  useWindowDimensions,
 } from 'react-native';
 
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
 
+//Hooks
+import {useUserType} from 'reduxFeatures/user/useUserType';
+
 // Components
 import {useNavigation} from '@react-navigation/native';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 // Assets 🪴
 import LofftIcon from 'components/lofftIcons/LofftIcon';
@@ -27,9 +31,10 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 
 // Types
 import {StatusBarNavigationProp, StatusBarProps} from './types';
-import {CoreButton} from 'components/buttons/CoreButton';
 import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
+import {UserType} from 'reduxFeatures/user/types';
+import {AdvertStatus} from 'reduxFeatures/adverts/types';
+import {ApplicationStatus} from 'reduxFeatures/applications/types';
 
 const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const {isLessor} = useUserType();
@@ -41,27 +46,71 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   >();
 
   const currentApplicationStatus = applicationStatusIndex(application?.status);
-  const currentAdvertStatus = advertStatusIndex(advert?.status ?? '');
+  const currentAdvertStatus = advertStatusIndex(
+    advert?.status ?? AdvertStatus.Open,
+  );
   const round1 = application?.round1;
   const round2 = application?.round2;
   const round3 = application?.round3;
   const chatroomId = application?.chatroomId;
 
   const active = isLessor
-    ? !['closed'].includes(advert?.status ?? '')
-    : ['active'].includes(application?.status ?? '') &&
-      !['closed'].includes(advert?.status ?? '');
+    ? ![AdvertStatus.Closed].includes(advert?.status ?? AdvertStatus.Open)
+    : [ApplicationStatus.Active].includes(
+        application?.status ?? ApplicationStatus.Active,
+      ) && ![AdvertStatus.Closed].includes(advert?.status ?? AdvertStatus.Open);
 
-  const screenheight = Dimensions.get('window').height;
+  const {height: screenHeight} = useWindowDimensions();
 
-  const iconsCreated = statusBarText[isLessor ? 'lessor' : 'tenant'].map(
-    (key, index: number) => {
-      return (
-        <LofftIcon
-          key={index + 1}
-          name={key.icon}
-          size={28}
-          color={
+  const iconsCreated = statusBarText[
+    isLessor ? UserType.LESSOR : UserType.TENANT
+  ].map((key, index: number) => {
+    return (
+      <LofftIcon
+        key={index + 1}
+        name={key.icon}
+        size={28}
+        color={
+          active
+            ? isLessor
+              ? (currentAdvertStatus === 0 && index <= 0) ||
+                (currentAdvertStatus === 1 && index <= 1) ||
+                (currentAdvertStatus === 2 && index <= 2) ||
+                currentAdvertStatus === index ||
+                currentAdvertStatus > index
+                ? Color.White[100]
+                : Color.Lavendar[50]
+              : (currentApplicationStatus === 0 &&
+                  currentAdvertStatus === 1 &&
+                  round1 &&
+                  index <= 2) ||
+                (currentApplicationStatus === 0 &&
+                  currentAdvertStatus === 2 &&
+                  round2 &&
+                  index <= 3) ||
+                (currentApplicationStatus === 0 &&
+                  currentAdvertStatus === 3 &&
+                  round3 &&
+                  index <= 4) ||
+                currentApplicationStatus === index ||
+                currentApplicationStatus > index
+              ? Color.White[100]
+              : Color.Lavendar[50]
+            : Color.Black[50]
+        }
+      />
+    );
+  });
+
+  const statusText = statusBarText[
+    isLessor ? UserType.LESSOR : UserType.TENANT
+  ].map((key, index: number) => {
+    return (
+      <View key={key.icon}>
+        <Text
+          style={[
+            fontStyles.headerSmall,
+            styles.infoBlockHeader,
             active
               ? isLessor
                 ? (currentAdvertStatus === 0 && index <= 0) ||
@@ -69,8 +118,8 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                   (currentAdvertStatus === 2 && index <= 2) ||
                   currentAdvertStatus === index ||
                   currentAdvertStatus > index
-                  ? Color.White[100]
-                  : Color.Lavendar[50]
+                  ? styles.infoBlockActive
+                  : styles.infoBlock
                 : (currentApplicationStatus === 0 &&
                     currentAdvertStatus === 1 &&
                     round1 &&
@@ -85,150 +134,109 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                     index <= 4) ||
                   currentApplicationStatus === index ||
                   currentApplicationStatus > index
-                ? Color.White[100]
-                : Color.Lavendar[50]
-              : Color.Black[50]
-          }
-        />
-      );
-    },
-  );
-
-  const statusText = statusBarText[isLessor ? 'lessor' : 'tenant'].map(
-    (key, index: number) => {
-      return (
-        <View key={key.icon}>
-          <Text
-            style={[
-              fontStyles.headerSmall,
-              styles.infoBlockHeader,
-              active
-                ? isLessor
-                  ? (currentAdvertStatus === 0 && index <= 0) ||
-                    (currentAdvertStatus === 1 && index <= 1) ||
-                    (currentAdvertStatus === 2 && index <= 2) ||
-                    currentAdvertStatus === index ||
-                    currentAdvertStatus > index
-                    ? styles.infoBlockActive
-                    : styles.infoBlock
-                  : (currentApplicationStatus === 0 &&
-                      currentAdvertStatus === 1 &&
-                      round1 &&
-                      index <= 2) ||
-                    (currentApplicationStatus === 0 &&
-                      currentAdvertStatus === 2 &&
-                      round2 &&
-                      index <= 3) ||
-                    (currentApplicationStatus === 0 &&
-                      currentAdvertStatus === 3 &&
-                      round3 &&
-                      index <= 4) ||
-                    currentApplicationStatus === index ||
-                    currentApplicationStatus > index
+                ? styles.infoBlockActive
+                : styles.infoBlock
+              : styles.infoBlock,
+          ]}>
+          {key.header}
+        </Text>
+        <Text
+          style={[
+            fontStyles.bodySmall,
+            active
+              ? isLessor
+                ? (currentAdvertStatus === 0 && index <= 0) ||
+                  (currentAdvertStatus === 1 && index <= 1) ||
+                  (currentAdvertStatus === 2 && index <= 2) ||
+                  currentAdvertStatus === index ||
+                  currentAdvertStatus > index
                   ? styles.infoBlockActive
                   : styles.infoBlock
-                : styles.infoBlock,
-            ]}>
-            {key.header}
-          </Text>
-          <Text
-            style={[
-              fontStyles.bodySmall,
-              active
-                ? isLessor
-                  ? (currentAdvertStatus === 0 && index <= 0) ||
-                    (currentAdvertStatus === 1 && index <= 1) ||
-                    (currentAdvertStatus === 2 && index <= 2) ||
-                    currentAdvertStatus === index ||
-                    currentAdvertStatus > index
-                    ? styles.infoBlockActive
-                    : styles.infoBlock
-                  : (currentApplicationStatus === 0 &&
-                      currentAdvertStatus === 1 &&
-                      round1 &&
-                      index <= 2) ||
-                    (currentApplicationStatus === 0 &&
-                      currentAdvertStatus === 2 &&
-                      round2 &&
-                      index <= 3) ||
-                    (currentApplicationStatus === 0 &&
-                      currentAdvertStatus === 3 &&
-                      round3 &&
-                      index <= 4) ||
-                    currentApplicationStatus === index ||
-                    currentApplicationStatus > index
-                  ? styles.infoBlockActive
-                  : styles.infoBlock
-                : styles.infoBlock,
-            ]}>
-            {key.subText}
-          </Text>
+                : (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 1 &&
+                    round1 &&
+                    index <= 2) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 2 &&
+                    round2 &&
+                    index <= 3) ||
+                  (currentApplicationStatus === 0 &&
+                    currentAdvertStatus === 3 &&
+                    round3 &&
+                    index <= 4) ||
+                  currentApplicationStatus === index ||
+                  currentApplicationStatus > index
+                ? styles.infoBlockActive
+                : styles.infoBlock
+              : styles.infoBlock,
+          ]}>
+          {key.subText}
+        </Text>
 
-          {isLessor ? (
-            <>
-              {currentAdvertStatus === 0 && currentAdvertStatus === index && (
-                <CoreButton
-                  value="See Applicants"
-                  style={styles.button}
-                  onPress={() =>
-                    navigation.navigate('SeeApplicantsScreen', {
-                      advertId: advert?.id ?? 0,
-                    })
-                  }
-                />
-              )}
-              {currentAdvertStatus === 1 && currentAdvertStatus === index && (
-                <CoreButton
-                  value="See Profiles"
-                  style={styles.button}
-                  onPress={() =>
-                    navigation.navigate('SeeProfilesScreen', {
-                      advertId: advert?.id ?? 0,
-                    })
-                  }
-                />
-              )}
-              {currentAdvertStatus === 2 && currentAdvertStatus === index && (
-                <CoreButton
-                  value="Go to chats"
-                  style={styles.button}
-                  onPress={() =>
-                    navigation.navigate('ChatroomsNavigator', {
-                      screen: 'ChatIndex',
-                    })
-                  }
-                  icon={
-                    <LofftIcon name="send" size={20} color={Color.White[100]} />
-                  }
-                />
-              )}
-            </>
-          ) : (
-            currentAdvertStatus === 2 &&
-            currentAdvertStatus === index &&
-            currentApplicationStatus === 0 &&
-            round2 && (
+        {isLessor ? (
+          <>
+            {currentAdvertStatus === 0 && currentAdvertStatus === index && (
               <CoreButton
-                value="Go to chat"
-                style={[styles.button, styles.greenButton]}
+                value="See Applicants"
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('SeeApplicantsScreen', {
+                    advertId: advert?.id ?? 0,
+                  })
+                }
+              />
+            )}
+            {currentAdvertStatus === 1 && currentAdvertStatus === index && (
+              <CoreButton
+                value="See Profiles"
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('SeeProfilesScreen', {
+                    advertId: advert?.id ?? 0,
+                  })
+                }
+              />
+            )}
+            {currentAdvertStatus === 2 && currentAdvertStatus === index && (
+              <CoreButton
+                value="Go to chats"
+                style={styles.button}
                 onPress={() =>
                   navigation.navigate('ChatroomsNavigator', {
-                    screen: 'ChatShow',
-                    params: {
-                      chatroomId: chatroomId,
-                    },
+                    screen: 'ChatIndex',
                   })
                 }
                 icon={
                   <LofftIcon name="send" size={20} color={Color.White[100]} />
                 }
               />
-            )
-          )}
-        </View>
-      );
-    },
-  );
+            )}
+          </>
+        ) : (
+          currentAdvertStatus === 2 &&
+          currentAdvertStatus === index &&
+          currentApplicationStatus === 0 &&
+          round2 && (
+            <CoreButton
+              value="Go to chat"
+              style={[styles.button, styles.greenButton]}
+              onPress={() =>
+                navigation.navigate('ChatroomsNavigator', {
+                  screen: 'ChatShow',
+                  params: {
+                    chatroomId: chatroomId,
+                  },
+                })
+              }
+              icon={
+                <LofftIcon name="send" size={20} color={Color.White[100]} />
+              }
+            />
+          )
+        )}
+      </View>
+    );
+  });
 
   const calculateStatusBar = useCallback(
     (currentStatusIndex: number) => {
@@ -253,32 +261,16 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const animatedHeight = useRef(new Animated.Value(1)).current;
   useEffect(() => {
     const index = active
-      ? advertStatusIndex(advert?.status ?? '')
-      : advertStatusIndex('offered');
+      ? advertStatusIndex(advert?.status ?? AdvertStatus.Open)
+      : advertStatusIndex(AdvertStatus.Offered);
     calculateStatusBar(index);
     Animated.timing(animatedHeight, {
       toValue: Number(statusBar),
       duration: 1500,
-      easing: Easing.out(Easing.ease),
-      // duration: 1000,
-      // easing: Easing.out(Easing.exp),
-      // easing: Easing.bezier(0.42, 0, 0.58, 1),
+      easing: Easing.bezier(0.2, 0, 0.68, 1),
       useNativeDriver: false,
     }).start();
   }, [animatedHeight, calculateStatusBar, active, advert?.status, statusBar]);
-
-  // The background color height of the statusbar is set here 👨🏻‍🍳
-  // The Index needs to be stored in state or in the advert.status enum for the color to change
-  // useEffect(() => {
-  //   calculateStatusBar(currentAdvertStatus);
-  // }, [currentAdvertStatus, calculateStatusBar]);
-
-  // useEffect(() => {
-  //   const index = active
-  //     ? advertStatusIndex(advert?.status ?? '')
-  //     : advertStatusIndex('offered');
-  //   calculateStatusBar(index);
-  // }, [advert?.status, active, calculateStatusBar]);
 
   return (
     <>
@@ -287,7 +279,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
           style={[
             styles.progressContainer,
             {
-              maxHeight: isLessor ? screenheight / 1.2 : screenheight / 1.6,
+              maxHeight: isLessor ? screenHeight / 1.2 : screenHeight / 1.6,
             },
           ]}>
           <Animated.View
@@ -308,7 +300,7 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                 {
                   height: animatedHeight.interpolate({
                     inputRange: [0, 100],
-                    outputRange: ['0%', '100%'], // Maps values to % height
+                    outputRange: ['0%', '100%'],
                   }) as DimensionValue,
                   backgroundColor: active
                     ? isLessor

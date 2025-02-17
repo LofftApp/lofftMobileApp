@@ -1,38 +1,20 @@
-import {
-  Advert,
-  AdvertApplicant,
-  IncomingAdvert,
-  IncomingAdvertApplicant,
-} from 'reduxFeatures/adverts/types';
-
-interface IncomingApplication {
-  id: number;
-  advert_id: number;
-  applicant_id: number;
-  status: 'active' | 'closed' | 'offered' | 'deleted';
-  created_at: string;
-  updated_at: string;
-  round_1: boolean;
-  round_2: boolean;
-  round_3: boolean;
-  advert?: IncomingAdvert;
-  applicant?: IncomingAdvertApplicant;
-  chatroomId?: number;
-}
-
-interface IncomingApplications {
-  applications: IncomingApplication[];
-}
+import {Advert, AdvertApplicant} from 'reduxFeatures/adverts/types';
 
 interface Applications {
   applications: Application[];
+}
+enum ApplicationStatus {
+  Active = 'active',
+  Closed = 'closed',
+  Offered = 'offered',
+  Deleted = 'deleted',
 }
 
 interface Application {
   id: number;
   advertId: number;
   applicantId: number;
-  status: 'active' | 'closed' | 'offered' | 'deleted';
+  status: ApplicationStatus;
   createdAt: string;
   updatedAt: string;
   round1: boolean;
@@ -53,10 +35,5 @@ interface ApplicationState {
   applicationsNotSelectedRound2: Partial<Application>[];
 }
 
-export type {
-  Application,
-  ApplicationState,
-  IncomingApplication,
-  IncomingApplications,
-  Applications,
-};
+export type {Application, ApplicationState, Applications};
+export {ApplicationStatus};

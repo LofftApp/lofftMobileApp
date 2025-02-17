@@ -1,21 +1,22 @@
-import {Application} from 'reduxFeatures/applications/types';
+import { AdvertStatus } from 'reduxFeatures/adverts/types';
+import {Applications, ApplicationStatus} from 'reduxFeatures/applications/types';
 
-export const applicationPartition = (applications: Application[]) => {
-  const active = applications
-    .filter(
+export const applicationPartition = (applications: Applications) => {
+  const active = applications.applications
+    ?.filter(
       app =>
-        app.status === 'active' &&
-        app.advert?.status !== 'closed' &&
-        app.advert?.status !== 'offered',
+        app.status === ApplicationStatus.Active &&
+        app.advert?.status !== AdvertStatus.Closed &&
+        app.advert?.status !== AdvertStatus.Offered,
     )
     .sort((a, b) => (b.advert?.matchScore ?? 0) - (a.advert?.matchScore ?? 0));
 
-  const inactive = applications
-    .filter(
+  const inactive = applications.applications
+    ?.filter(
       app =>
-        app.status !== 'active' ||
-        app.advert?.status === 'closed' ||
-        app.advert?.status === 'offered',
+        app.status !== ApplicationStatus.Active ||
+        app.advert?.status === AdvertStatus.Closed ||
+        app.advert?.status === AdvertStatus.Offered,
     )
     .sort((a, b) => (b.advert?.matchScore ?? 0) - (a.advert?.matchScore ?? 0));
 

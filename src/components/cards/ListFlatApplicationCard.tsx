@@ -1,5 +1,12 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {Text, View, StyleSheet, DimensionValue, Animated} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  DimensionValue,
+  Animated,
+  Easing,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Components 🧬
@@ -27,6 +34,8 @@ import {
 } from '../../navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {AdvertStatus} from 'reduxFeatures/adverts/types';
+import {ApplicationStatus} from 'reduxFeatures/applications/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
@@ -45,9 +54,10 @@ const ListFlatApplicationCard = ({
   >();
 
   const active = isLessor
-    ? !['closed'].includes(advert?.status ?? '')
-    : ['active'].includes(application?.status ?? '') &&
-      !['closed'].includes(advert?.status ?? '');
+    ? ![AdvertStatus.Closed].includes(advert?.status ?? AdvertStatus.Open)
+    : [ApplicationStatus.Active].includes(
+        application?.status ?? ApplicationStatus.Active,
+      ) && ![AdvertStatus.Closed].includes(advert?.status ?? AdvertStatus.Open);
 
   const tenantActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
   const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
@@ -79,13 +89,19 @@ const ListFlatApplicationCard = ({
   const animatedWidth = useRef(new Animated.Value(1)).current;
   useEffect(() => {
     const index = active
-      ? advertStatusIndex(advert?.status ?? '')
-      : advertStatusIndex('offered');
+      ? advertStatusIndex(advert?.status ?? AdvertStatus.Open)
+      : advertStatusIndex(AdvertStatus.Offered);
     calculateStatusBar(index);
-    Animated.spring(animatedWidth, {
+    // Animated.spring(animatedWidth, {
+    //   toValue: Number(currentStatusBar),
+    //   speed: 0.1,
+    //   bounciness: 1,
+    //   useNativeDriver: false,
+    // }).start();
+    Animated.timing(animatedWidth, {
       toValue: Number(currentStatusBar),
-      speed: 0.1,
-      bounciness: 1,
+      duration: 1500,
+      easing: Easing.bezier(0.2, 1, 0.68, 1),
       useNativeDriver: false,
     }).start();
   }, [
@@ -95,13 +111,6 @@ const ListFlatApplicationCard = ({
     advert?.status,
     currentStatusBar,
   ]);
-
-  // useEffect(() => {
-  //   const index = active
-  //     ? advertStatusIndex(advert?.status ?? '')
-  //     : advertStatusIndex('offered');
-  //   calculateStatusBar(index);
-  // }, [advert?.status, application?.status, active]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : tenantActiveStatus;
 
@@ -187,7 +196,7 @@ const ListFlatApplicationCard = ({
               {
                 width: animatedWidth.interpolate({
                   inputRange: [0, 100],
-                  outputRange: ['0%', '100%'], // Maps values to % height
+                  outputRange: ['0%', '100%'],
                 }) as DimensionValue,
                 backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
               },
