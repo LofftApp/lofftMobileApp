@@ -233,6 +233,7 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
         navigation.goBack();
 
         clearImagesToUpload();
+        setSelectedImage(null);
       } catch (err) {
         createError(err);
         return;

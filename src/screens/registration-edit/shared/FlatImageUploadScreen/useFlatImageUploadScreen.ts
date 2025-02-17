@@ -214,6 +214,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
         await editFlat(imagesParams).unwrap();
         navigation.goBack();
         clearImagesToUpload();
+        setSelectedImage(null);
       } catch (err) {
         createError(err);
         return;
