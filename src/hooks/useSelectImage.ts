@@ -29,7 +29,6 @@ export const useSelectImage = ({
   const {imagesToUpload, setSavedImages, selectedImage, setSelectedImage} =
     useImagesToUpload();
 
-  // NEW USER MODE
   useEffect(() => {
     if (edit && dbImages.length > 0) {
       setSavedImages({
@@ -60,6 +59,8 @@ export const useSelectImage = ({
 
   // Track the currently selected URI
   const currentSelectionRef = useRef<string | null>(selectedImage?.uri || null);
+
+  // NEW USER MODE
 
   // Find an existing image in either list
   const findImageByUri = useCallback(

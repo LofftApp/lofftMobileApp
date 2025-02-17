@@ -19,7 +19,7 @@ import NameProfileScreen from 'screens/registration-edit/shared/NameProfileScree
 import FlatUserImageUploadScreen from 'screens/registration-edit/shared/FlatImageUploadScreen/FlatImageUploadScreen';
 import FlatDetailsScreen from 'screens/registration-edit/lessor/FlatDetailsScreen/FlatDetailsScreen';
 import SafeSpaceForScreen from 'screens/registration-edit/shared/SafeSpaceForScreen/SafeSpaceForScreen';
-import UserImageUploadScreen from 'screens/registration-edit/shared/UserImageUploadScreen';
+import UserImageUploadScreen from 'screens/registration-edit/shared/UserImageUploadScreen/UserImageUploadScreen';
 import FlatDescribeScreen from 'screens/registration-edit/lessor/FlatDescribeScreen/FlatDescribeScreen';
 import UserDescribeScreen from 'screens/registration-edit/shared/UserDescribeScreen/UserDescribeScreen';
 import {NewUserStackParamsList} from './types';

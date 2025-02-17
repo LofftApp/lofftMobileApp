@@ -15,7 +15,7 @@ import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 import {
   ImageRecord,
   ImagesToBackend,
-  ImageToBackend,
+  NewImage,
 } from 'reduxFeatures/imageHandling/types';
 interface AdvertUser {
   id: number;
@@ -99,8 +99,8 @@ interface AdvertWithApplications extends Advert {
 
 interface LessorSignUpParams {
   userChoices: NewUserLessorDetails;
-  flatImages: ImageToBackend[];
-  userImages: ImageToBackend[];
+  flatImages: NewImage[];
+  userImages: NewImage[];
 }
 
 interface Favorite extends Advert {}

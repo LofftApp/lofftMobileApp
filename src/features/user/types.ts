@@ -1,5 +1,5 @@
 import {City, District, Language, SafeSpace} from 'reduxFeatures/assets/types';
-import {ImageRecord} from 'reduxFeatures/imageHandling/types';
+import {ImageRecord, ImagesToBackend} from 'reduxFeatures/imageHandling/types';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
@@ -78,28 +78,22 @@ interface IncomingSpecificUser {
   profile: IncomingUserProfile;
 }
 
-type EditUserActionMethodsType =
-  | 'matchTags'
-  | 'personalInfo'
-  | 'genderIdentity'
-  | 'searchPreferences'
-  | 'languages';
-
-type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
-  userId: number;
-  actionMethod: EditUserActionMethodsType;
-  userType: T;
-} & (T extends UserType.LESSOR
-  ? Partial<NewUserLessorDetails>
-  : Partial<NewUserTenantDetails>);
-
 enum EditProfileActions {
   matchTags = 'matchTags',
   personalInfo = 'personalInfo',
   genderIdentity = 'genderIdentity',
   searchPreferences = 'searchPreferences',
   languages = 'languages',
+  images = 'images',
 }
+type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
+  userId: number;
+  actionMethod: EditProfileActions;
+  userType: T;
+} & (T extends UserType.LESSOR
+  ? Partial<NewUserLessorDetails>
+  : Partial<NewUserTenantDetails>) &
+  ImagesToBackend;
 
 enum UserType {
   NEWUSER = 'newuser',
@@ -117,7 +111,6 @@ export type {
   IncomingSpecificUser,
   SpecificUser,
   IncomingUserProfile,
-  EditUserActionMethodsType,
   EditProfileParams,
 };
 

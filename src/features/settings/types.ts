@@ -4,15 +4,8 @@ enum PopoverKeys {
   Edit = 'edit',
   FlatImage = 'flatImage',
   EditFlatImage = 'editFlatImage',
-  Images = 'images',
-  EditImages = 'editImages',
-  Chars = 'editChars',
-  Name = 'editName',
-  Gender = 'editGender',
-  City = 'editCity',
-  Language = 'editLanguage',
-  SafeSpace = 'editSafeSpace',
-  Where = 'editWhere',
+  ProfileImage = 'profileImage',
+  EditProfileImage = 'editProfileImage',
 }
 
 export {PopoverKeys};
