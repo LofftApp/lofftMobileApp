@@ -159,7 +159,7 @@ const SettingsScreen = () => {
     resetNewUserState();
   };
 
-  const userImageUri = currentUser?.profile?.avatar.uri ?? fallBackProfilePic;
+  const userImageUri = currentUser?.profile?.avatar?.uri ?? fallBackProfilePic;
   console.log('userImageUri', userImageUri);
   console.log('currentUser', currentUser);
 
