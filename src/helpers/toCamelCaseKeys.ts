@@ -1,3 +1,5 @@
+import {getCurrencySymbol} from './getCurrencySymbol';
+
 const toCamelCase = (str: string): string => {
   return str.replace(/_([a-zA-Z0-9])/g, (match, letter) =>
     letter.toUpperCase(),
@@ -16,11 +18,11 @@ export const toCamelCaseKeys = <T>(obj: T): T => {
       const value = obj[key];
       acc[camelKey as keyof typeof acc] = toCamelCaseKeys(value);
 
-      // // Special case for photos: map URLs if the key is photos
-      // if (key === 'photosu' && Array.isArray(value)) {
-      //   acc[camelKey as keyof typeof acc] = value.map(photo => photo.url);
-      // } else {
-      // }
+      if (key === 'currency') {
+        const currency = getCurrencySymbol(value as string);
+        acc[camelKey as keyof typeof acc] = currency;
+        console.log('currency', currency);
+      }
 
       return acc;
     }, {} as Record<string, unknown>) as T;

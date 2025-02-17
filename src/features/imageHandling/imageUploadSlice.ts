@@ -68,10 +68,6 @@ export const imageUploadSlice = createSlice({
       state.deletedRecordImages = [];
     },
 
-    clearImageSelection: state => {
-      state.selectedImage = null;
-    },
-
     setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
       const {userType, imageType, images} = action.payload;
       if (userType === UserType.TENANT) {
@@ -90,7 +86,6 @@ export const imageUploadSlice = createSlice({
       action: PayloadAction<DeleteSavedImagePayload>,
     ) => {
       const {userType, imageType, uri} = action.payload;
-      console.log('deleteSavedImage', action.payload);
       let result: {remaining: SavedImage[]; deleted: SavedImage[]} = {
         remaining: [],
         deleted: [],

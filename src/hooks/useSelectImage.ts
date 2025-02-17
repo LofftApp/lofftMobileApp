@@ -54,7 +54,6 @@ export const useSelectImage = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const currentSelectionIndexRef = useRef<number | null>(null);
   const currentSelectionRef = useRef<string | null>(selectedImage?.uri || null);
 
   // Find an existing image in one of the lists
@@ -130,6 +129,5 @@ export const useSelectImage = ({
 
   return {
     currentSelectionRef,
-    currentSelectionIndexRef,
   };
 };

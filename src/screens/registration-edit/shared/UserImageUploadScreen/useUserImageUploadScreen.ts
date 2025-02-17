@@ -134,11 +134,9 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       return (
         !isEqualValue(dbImages, displaySavedImages) ||
         !isEqualValue(dbImages, imagesToUpload) ||
-        !isEqualValue(dbImages, imagesToUpload) ||
         !isEqualValue(selectedImage?.uri, currentSelectionRef.current)
       );
     } else {
-      !isEqualValue(displaySavedImages, imagesToUpload);
       !isEqualValue(displaySavedImages, imagesToUpload) ||
         !isEqualValue(selectedImage?.uri, currentSelectionRef.current);
     }
