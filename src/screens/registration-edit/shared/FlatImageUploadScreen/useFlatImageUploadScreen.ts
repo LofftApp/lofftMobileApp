@@ -14,6 +14,7 @@ import {useSelectImage} from 'hooks/useSelectImage';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 import {
   useEditFlatImageMutation,
+  useEditFlatMutation,
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
 import {useUserType} from 'reduxFeatures/user/useUserType';
@@ -74,7 +75,10 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   });
 
   const {data: currentUser} = useGetUserQuery();
-
+  // const [
+  //   editFlat,
+  //   {isLoading: isEditFlatLoading, isError: isEditFlatError},
+  // ] = useEditFlatMutation();
   const [
     editFlatImage,
     {isLoading: isEditFlatLoading, isError: isEditFlatError},
@@ -118,7 +122,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     setError('');
   };
 
-  const isNotAllEqual = () => {
+const isNotAllEqual = () => {
     if (edit) {
       return (
         !isEqualValue(dbImages, displaySavedImages) ||
@@ -195,7 +199,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
         img => img.uri === selectedImage?.uri,
       );
 
-      let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
+      let mainImage: ImageRecord | NewImage | ImageToUpload = findMainImage as ImageRecord;
       if (findMainImage && !('blobId' in findMainImage)) {
         mainImage = {
           uri:

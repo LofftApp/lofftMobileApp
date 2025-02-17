@@ -84,7 +84,7 @@ export const userApi = lofftApi.injectEndpoints({
         const formData = new FormData();
         formData.append('actionMethod', actionMethod);
         formData.append('userType', userType);
-        formData.append('data', data);
+        formData.append('data', JSON.stringify(data));
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',

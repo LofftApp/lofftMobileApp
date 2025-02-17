@@ -309,6 +309,16 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     editFlat: builder.mutation<void, EditFlatParams>({
       query: ({flatId, actionMethod, ...rest}) => {
+        // if (actionMethod === 'images') {
+        //   const formData = new FormData();
+        //   formData.append('actionMethod', actionMethod);
+        //   formData.append('data', JSON.stringify(rest));
+        //   return {
+        //     url: `/api/flats/${flatId}`,
+        //     method: 'PATCH',
+        //     body: formData,
+        //   };
+        // }
         return {
           url: `/api/flats/${flatId}`,
           method: 'PATCH',
@@ -329,7 +339,7 @@ export const advertApi = lofftApi.injectEndpoints({
       query: ({flatId, actionMethod, data}) => {
         const formData = new FormData();
         formData.append('actionMethod', actionMethod);
-        formData.append('data', data);
+        formData.append('data', JSON.stringify(data));
         return {
           url: `/api/flats/${flatId}`,
           method: 'PATCH',
