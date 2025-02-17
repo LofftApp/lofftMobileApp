@@ -1,6 +1,6 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {
-  EditProfileActions,
+  EditProfileImageParams,
   EditProfileParams,
   SpecificUser,
   User,
@@ -64,18 +64,6 @@ export const userApi = lofftApi.injectEndpoints({
       EditProfileParams<UserType.LESSOR | UserType.TENANT>
     >({
       query: ({userId, actionMethod, userType, ...rest}) => {
-        if (actionMethod === EditProfileActions.images) {
-          const formData = new FormData();
-
-          formData.append('actionMethod', actionMethod);
-          formData.append('data', JSON.stringify(rest.data));
-          formData.append('userType', userType);
-          return {
-            url: `/api/users/${userId}`,
-            method: 'PATCH',
-            body: formData,
-          };
-        }
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',
@@ -84,6 +72,23 @@ export const userApi = lofftApi.injectEndpoints({
             userType,
             ...rest,
           },
+        };
+      },
+      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
+    }),
+    editProfileImage: builder.mutation<
+      void,
+      EditProfileImageParams<UserType.LESSOR | UserType.TENANT>
+    >({
+      query: ({userId, actionMethod, userType, data}) => {
+        const formData = new FormData();
+        formData.append('actionMethod', actionMethod);
+        formData.append('userType', userType);
+        formData.append('data', data);
+        return {
+          url: `/api/users/${userId}`,
+          method: 'PATCH',
+          body: formData,
         };
       },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],
@@ -97,4 +102,5 @@ export const {
   useGetSpecificUserQuery,
   useCompleteUserAndCreateTenantMutation,
   useEditUserProfileMutation,
+  useEditProfileImageMutation,
 } = userApi;

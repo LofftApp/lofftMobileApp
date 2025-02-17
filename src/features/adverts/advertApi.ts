@@ -3,8 +3,8 @@ import {
   Advert,
   Adverts,
   AdvertWithApplications,
-  EditAdvertActions,
   EditAdvertParams,
+  EditFlatImageParams,
   EditFlatParams,
   Favorites,
   GetAdvertsParams,
@@ -309,16 +309,6 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     editFlat: builder.mutation<void, EditFlatParams>({
       query: ({flatId, actionMethod, ...rest}) => {
-        if (actionMethod === EditAdvertActions.Images) {
-          const formData = new FormData();
-          formData.append('actionMethod', actionMethod);
-          formData.append('data', JSON.stringify(rest.data));
-          return {
-            url: `/api/flats/${flatId}`,
-            method: 'PATCH',
-            body: formData,
-          };
-        }
         return {
           url: `/api/flats/${flatId}`,
           method: 'PATCH',
@@ -326,6 +316,24 @@ export const advertApi = lofftApi.injectEndpoints({
             actionMethod,
             ...rest,
           },
+        };
+      },
+      invalidatesTags: (result, error, {flatId}) => [
+        {type: 'Adverts', id: flatId},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id: flatId},
+      ],
+    }),
+    editFlatImage: builder.mutation<void, EditFlatImageParams>({
+      query: ({flatId, actionMethod, data}) => {
+        const formData = new FormData();
+        formData.append('actionMethod', actionMethod);
+        formData.append('data', data);
+        return {
+          url: `/api/flats/${flatId}`,
+          method: 'PATCH',
+          body: formData,
         };
       },
       invalidatesTags: (result, error, {flatId}) => [
@@ -350,4 +358,5 @@ export const {
   useGetFavoritesAdvertsQuery,
   useEditAdvertMutation,
   useEditFlatMutation,
+  useEditFlatImageMutation,
 } = advertApi;

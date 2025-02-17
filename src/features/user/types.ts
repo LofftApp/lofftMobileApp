@@ -94,6 +94,12 @@ type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
   ? Partial<NewUserLessorDetails>
   : Partial<NewUserTenantDetails>) & {data: ImagesToBackend};
 
+type EditProfileImageParams<T extends UserType.TENANT | UserType.LESSOR> = {
+  userId: number;
+  actionMethod: EditProfileActions;
+  userType: T;
+} & {data: ImagesToBackend};
+
 enum UserType {
   NEWUSER = 'newuser',
   TENANT = 'tenant',
@@ -111,6 +117,7 @@ export type {
   SpecificUser,
   IncomingUserProfile,
   EditProfileParams,
+  EditProfileImageParams,
 };
 
 export {EditProfileActions, UserType};

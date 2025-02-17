@@ -6,11 +6,14 @@ import {useNavigation} from '@react-navigation/native';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {
+  EditAdvertActions,
+  EditFlatImageParams,
+} from 'reduxFeatures/adverts/types';
 import {useSelectImage} from 'hooks/useSelectImage';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 import {
-  useEditFlatMutation,
+  useEditFlatImageMutation,
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
 import {useUserType} from 'reduxFeatures/user/useUserType';
@@ -72,8 +75,10 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
 
   const {data: currentUser} = useGetUserQuery();
 
-  const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
-    useEditFlatMutation();
+  const [
+    editFlatImage,
+    {isLoading: isEditFlatLoading, isError: isEditFlatError},
+  ] = useEditFlatImageMutation();
 
   const dbImages = advert?.flat.mainPic
     ? [advert?.flat?.mainPic, ...(advert?.flat?.photos || [])]
@@ -203,7 +208,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
       }
 
       try {
-        const imagesParams: EditFlatParams = {
+        const imagesParams: EditFlatImageParams = {
           flatId: advert?.flat.id ?? 0,
           actionMethod: EditAdvertActions.Images,
           data: {
@@ -214,7 +219,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
           },
         };
         console.log('imagesParams', imagesParams);
-        await editFlat(imagesParams).unwrap();
+        await editFlatImage(imagesParams).unwrap();
         navigation.goBack();
         clearImagesToUpload();
         setSelectedImage(null);

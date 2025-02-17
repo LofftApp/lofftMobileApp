@@ -126,7 +126,13 @@ type EditAdvertParams = {
 type EditFlatParams = {
   flatId: number;
   actionMethod: EditAdvertActions;
-} & Partial<NewUserLessorDetails> & {data: ImagesToBackend};
+} & Partial<NewUserLessorDetails>;
+
+type EditFlatImageParams = {
+  flatId: number;
+  actionMethod: EditAdvertActions;
+  data: ImagesToBackend;
+};
 
 export type {
   Advert,
@@ -143,6 +149,7 @@ export type {
   Favorites,
   EditAdvertParams,
   EditFlatParams,
+  EditFlatImageParams,
 };
 
 export {EditAdvertActions};

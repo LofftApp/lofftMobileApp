@@ -10,7 +10,7 @@ import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTr
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 import {
-  useEditUserProfileMutation,
+  useEditProfileImageMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
 import {useSelectImage} from 'hooks/useSelectImage';
@@ -73,7 +73,7 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
   const [
     editUserProfile,
     {isLoading: isEditProfileLoading, isError: isEditProfileError},
-  ] = useEditUserProfileMutation();
+  ] = useEditProfileImageMutation();
 
   const totalImages =
     isNewUserLessor || isLessor
