@@ -54,15 +54,10 @@ export const useSelectImage = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Track the currently selected index
   const currentSelectionIndexRef = useRef<number | null>(null);
-
-  // Track the currently selected URI
   const currentSelectionRef = useRef<string | null>(selectedImage?.uri || null);
 
-  // NEW USER MODE
-
-  // Find an existing image in either list
+  // Find an existing image in one of the lists
   const findImageByUri = useCallback(
     (uri: string) =>
       imagesToUpload.find(img => img.uri === uri) ||
@@ -79,10 +74,6 @@ export const useSelectImage = ({
   }, [imagesToUpload, displaySavedImages]);
 
   useEffect(() => {
-    if (edit) {
-      return;
-    }
-
     // 1. If the selected image was deleted
     if (selectedImage && !findImageByUri(selectedImage.uri)) {
       const defaultImage = getDefaultImage();
@@ -94,7 +85,7 @@ export const useSelectImage = ({
       console.log('Selected image was deleted – defaulting to:', defaultImage);
     }
 
-    // 2️  If the selected image is still in the uploads but now saved
+    // 2️  Image is upload but moved to saved
     if (selectedImage && selectedImage.source === 'upload') {
       const savedImage = displaySavedImages.find(
         img => img.uri === selectedImage.uri,
@@ -136,54 +127,6 @@ export const useSelectImage = ({
     findImageByUri,
     getDefaultImage,
   ]);
-
-  //EDIT MODE
-  useEffect(() => {
-    if (!edit) {
-      return;
-    }
-
-    // 1. Handle selected image deletion
-    const currentIndex = displaySavedImages.findIndex(
-      img => img.uri === currentSelectionRef.current,
-    );
-
-    if (displaySavedImages.length > 0) {
-      if (currentIndex === -1) {
-        const newIndex = Math.min(
-          currentSelectionIndexRef.current ?? 0,
-          displaySavedImages.length - 1,
-        );
-        const newSelected = displaySavedImages[newIndex] as ImageRecord;
-        setSelectedImage({
-          uri: newSelected.uri,
-          source: ImageSource.Saved,
-          blobId: newSelected.blobId,
-        });
-        currentSelectionRef.current = newSelected.uri;
-        currentSelectionIndexRef.current = newIndex;
-      } else {
-        currentSelectionIndexRef.current = currentIndex;
-      }
-    }
-
-    // 2. Select first uploaded image if no saved images exist
-    if (displaySavedImages.length === 0 && imagesToUpload.length > 0) {
-      const firstUploaded = imagesToUpload[0];
-      currentSelectionRef.current = firstUploaded.uri;
-      setSelectedImage({
-        uri: firstUploaded.uri,
-        source: ImageSource.Upload,
-      });
-    }
-
-    // 3. If all images are gone, clear selection
-    if (imagesToUpload.length === 0 && displaySavedImages.length === 0) {
-      setSelectedImage(null);
-      currentSelectionRef.current = null;
-      console.log('SelectedImage cleared');
-    }
-  }, [imagesToUpload, displaySavedImages, edit, setSelectedImage]);
 
   return {
     currentSelectionRef,

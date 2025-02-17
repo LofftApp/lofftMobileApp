@@ -14,9 +14,14 @@ import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {fontStyles} from 'styleSheets/fontStyles';
 import ImageSwiper from 'components/images/ImageSwiper';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {SelectedImage} from 'reduxFeatures/imageHandling/types';
+import {
+  ImageSource,
+  ImageType,
+  SelectedImage,
+} from 'reduxFeatures/imageHandling/types';
+import {UserType} from 'reduxFeatures/user/types';
 
-const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
+const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
   const {
     imagesToUpload,
     deleteImageToUpload,
@@ -28,16 +33,12 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
 
-  console.log('savedImages', savedImages);
   const savedImagesDisplay =
     isNewUserLessor || isLessor
       ? imageType === 'user'
         ? savedImages.lessor.userImages
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
-
-  // console.log('savedImagesDisplay', savedImagesDisplay);
-  // console.log('Selected Image', selectedImage);
 
   const handleImageSelection = ({uri, source, blobId}: SelectedImage) => {
     if (blobId !== undefined) {
@@ -72,13 +73,16 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
                 const blobId = 'blobId' in image ? image.blobId : undefined;
                 handleImageSelection({
                   uri: image.uri,
-                  source: 'saved',
+                  source: ImageSource.Saved,
                   blobId,
                 });
               }}
               deleteImage={uri =>
                 deleteSavedImage({
-                  userType: isNewUserLessor || isLessor ? 'lessor' : 'tenant',
+                  userType:
+                    isNewUserLessor || isLessor
+                      ? UserType.LESSOR
+                      : UserType.TENANT,
                   imageType,
                   uri,
                 })
@@ -102,7 +106,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
               selectedIndex={
-                selectedImage?.source === 'upload'
+                selectedImage?.source === ImageSource.Upload
                   ? imagesToUpload.findIndex(
                       img => img.uri === selectedImage.uri,
                     )
@@ -111,7 +115,7 @@ const ImagePreviewRow = ({imageType}: {imageType: 'user' | 'flat'}) => {
               onPress={index =>
                 handleImageSelection({
                   uri: imagesToUpload[index as number].uri,
-                  source: 'upload',
+                  source: ImageSource.Upload,
                 })
               }
               deleteImage={uri => deleteImageToUpload(uri)}

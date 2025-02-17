@@ -28,8 +28,7 @@ const UploadImageButton = ({
   imageType,
 }: UploadImageButtonProps) => {
   const {imagesToUpload, savedImages} = useImagesToUpload();
-  console.log('image to upload', imagesToUpload.length);
-  console.log('saved images', savedImages.lessor.userImages.length);
+
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
   const displayTotalImagesNumber = () => {

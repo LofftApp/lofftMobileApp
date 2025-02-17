@@ -44,7 +44,6 @@ export const useImagesToUpload = () => {
   const deletedRecordImages = useAppSelector(
     state => state.imageUpload.deletedRecordImages,
   );
-  console.log('deletedRecordImages', deletedRecordImages);
 
   const setSavedImages = useCallback(
     ({userType, imageType, images}: SetSavedImagesPayload) => {

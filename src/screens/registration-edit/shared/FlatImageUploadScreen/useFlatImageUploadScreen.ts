@@ -89,10 +89,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     : advert?.flat?.photos || [];
   const displaySavedImages = savedImages.lessor.flatImages;
 
-  console.log('displaySavedImages', displaySavedImages);
-  console.log('dbImages', dbImages);
-  console.log('selectedImage', selectedImage);
-
   const {currentSelectionRef} = useSelectImage({
     edit: edit ?? false,
     userType: UserType.LESSOR,
@@ -122,7 +118,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     setError('');
   };
 
-const isNotAllEqual = () => {
+  const isNotAllEqual = () => {
     if (edit) {
       return (
         !isEqualValue(dbImages, displaySavedImages) ||
@@ -167,13 +163,10 @@ const isNotAllEqual = () => {
   const handleContinue = async () => {
     const concatImages = [...imagesToUpload, ...savedImages.lessor.flatImages];
 
-    console.log('concatImages', concatImages);
     const result = flatImagesSchema.safeParse(concatImages);
-    console.log('Result', result);
 
     if (!result.success) {
       const err = result.error.errors[0].message;
-      console.log('Error', err);
       setError(err);
       return;
     }
@@ -199,7 +192,8 @@ const isNotAllEqual = () => {
         img => img.uri === selectedImage?.uri,
       );
 
-      let mainImage: ImageRecord | NewImage | ImageToUpload = findMainImage as ImageRecord;
+      let mainImage: ImageRecord | NewImage | ImageToUpload =
+        findMainImage as ImageRecord;
       if (findMainImage && !('blobId' in findMainImage)) {
         mainImage = {
           uri:
