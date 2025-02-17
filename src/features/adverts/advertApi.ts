@@ -3,6 +3,7 @@ import {
   Advert,
   Adverts,
   AdvertWithApplications,
+  EditAdvertActions,
   EditAdvertParams,
   EditFlatParams,
   Favorites,
@@ -308,6 +309,16 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     editFlat: builder.mutation<void, EditFlatParams>({
       query: ({flatId, actionMethod, ...rest}) => {
+        if (actionMethod === EditAdvertActions.Images) {
+          const formData = new FormData();
+          formData.append('actionMethod', actionMethod);
+          formData.append('data', JSON.stringify(rest.data));
+          return {
+            url: `/api/flats/${flatId}`,
+            method: 'PATCH',
+            body: formData,
+          };
+        }
         return {
           url: `/api/flats/${flatId}`,
           method: 'PATCH',

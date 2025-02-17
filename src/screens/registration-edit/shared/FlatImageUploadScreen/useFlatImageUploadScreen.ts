@@ -76,8 +76,8 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     useEditFlatMutation();
 
   const dbImages = advert?.flat.mainPic
-    ? [advert?.flat.mainPic, ...(advert?.flat.photos || [])]
-    : advert?.flat.photos || [];
+    ? [advert?.flat?.mainPic, ...(advert?.flat?.photos || [])]
+    : advert?.flat?.photos || [];
   const displaySavedImages = savedImages.lessor.flatImages;
 
   console.log('displaySavedImages', displaySavedImages);
@@ -205,10 +205,12 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
         const imagesParams: EditFlatParams = {
           flatId: advert?.flat.id ?? 0,
           actionMethod: EditAdvertActions.Images,
-          existingImages: filteredExistingImages,
-          newImages: newImages,
-          deletedImages: deletedIds,
-          mainImage: mainImage,
+          data: {
+            existingImages: filteredExistingImages,
+            newImages: newImages,
+            deletedImages: deletedIds,
+            mainImage: mainImage,
+          },
         };
         console.log('imagesParams', imagesParams);
         await editFlat(imagesParams).unwrap();

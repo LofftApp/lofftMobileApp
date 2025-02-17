@@ -1,5 +1,11 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {EditProfileParams, SpecificUser, User, UserType} from './types';
+import {
+  EditProfileActions,
+  EditProfileParams,
+  SpecificUser,
+  User,
+  UserType,
+} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {NewUserTenantDetails} from 'reduxFeatures/registration/types';
 
@@ -58,6 +64,18 @@ export const userApi = lofftApi.injectEndpoints({
       EditProfileParams<UserType.LESSOR | UserType.TENANT>
     >({
       query: ({userId, actionMethod, userType, ...rest}) => {
+        if (actionMethod === EditProfileActions.images) {
+          const formData = new FormData();
+
+          formData.append('actionMethod', actionMethod);
+          formData.append('data', JSON.stringify(rest.data));
+          formData.append('userType', userType);
+          return {
+            url: `/api/users/${userId}`,
+            method: 'PATCH',
+            body: formData,
+          };
+        }
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',

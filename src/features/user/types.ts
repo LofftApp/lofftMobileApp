@@ -92,8 +92,7 @@ type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
   userType: T;
 } & (T extends UserType.LESSOR
   ? Partial<NewUserLessorDetails>
-  : Partial<NewUserTenantDetails>) &
-  ImagesToBackend;
+  : Partial<NewUserTenantDetails>) & {data: ImagesToBackend};
 
 enum UserType {
   NEWUSER = 'newuser',

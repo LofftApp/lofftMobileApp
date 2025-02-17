@@ -80,11 +80,14 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       ? imagesToUpload.length + savedImages.lessor.userImages.length
       : imagesToUpload.length + savedImages.tenant.userImages.length;
 
-  const dbImages = currentUser?.profile.avatar
-    ? [currentUser.profile.avatar, ...(currentUser.profile.userPhotos || [])]
-    : currentUser?.profile.userPhotos || [];
+  const dbImages = currentUser?.profile?.avatar
+    ? [
+        currentUser?.profile?.avatar,
+        ...(currentUser?.profile?.userPhotos || []),
+      ]
+    : currentUser?.profile?.userPhotos || [];
 
-  console.log('dbImages in prfile', dbImages);
+  console.log('dbImages in profile', dbImages);
 
   const displaySavedImages =
     isLessor || isNewUserLessor
@@ -223,10 +226,12 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
           actionMethod: EditProfileActions.images,
           userType:
             isLessor || isNewUserLessor ? UserType.LESSOR : UserType.TENANT,
-          existingImages: filteredExistingImages,
-          newImages: newImages,
-          deletedImages: deletedIds,
-          mainImage: mainImage,
+          data: {
+            existingImages: filteredExistingImages,
+            newImages: newImages,
+            deletedImages: deletedIds,
+            mainImage: mainImage,
+          },
         };
         console.log('imagesProfilesParams', imagesParams);
         await editUserProfile(imagesParams).unwrap();
