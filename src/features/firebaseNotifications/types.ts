@@ -1,4 +1,5 @@
 import {Application} from 'reduxFeatures/applications/types';
+import {UserType} from 'reduxFeatures/user/types';
 
 interface Notification {
   id: number;
@@ -29,7 +30,7 @@ type LessorNotificationType =
 
 interface LessorNotification extends Notification {
   notificationType: LessorNotificationType;
-  userType: 'lessor';
+  userType: UserType.LESSOR;
 }
 
 type TenantNotificationType =
@@ -41,7 +42,7 @@ type TenantNotificationType =
 
 interface TenantNotification extends Notification {
   notificationType: TenantNotificationType;
-  userType: 'tenant';
+  userType: UserType.TENANT;
   application: Application;
 }
 

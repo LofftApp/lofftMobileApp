@@ -7,6 +7,7 @@ import {
   NewUserTenantDetails,
   UserJourneyState,
 } from './types';
+import {UserType} from 'reduxFeatures/user/types';
 
 const initialState: UserJourneyState = {
   currentScreen: 1,
@@ -16,7 +17,7 @@ const initialState: UserJourneyState = {
   lessorJourney: createNewUserJourney(newUserScreens.lessor),
   newUserDetails: {
     tenant: {
-      userType: 'tenant',
+      userType: UserType.TENANT,
       languages: [],
       characteristics: [],
       genderIdentity: [],
@@ -36,7 +37,7 @@ const initialState: UserJourneyState = {
       deviceToken: '',
     },
     lessor: {
-      userType: 'lessor',
+      userType: UserType.LESSOR,
       languages: [],
       characteristics: [],
       genderIdentity: [],
@@ -71,11 +72,14 @@ export const newUserSlice = createSlice({
   name: 'newUser',
   initialState,
   reducers: {
-    setUserType: (state, action: PayloadAction<'lessor' | 'tenant' | ''>) => {
+    setUserType: (
+      state,
+      action: PayloadAction<UserType.LESSOR | UserType.TENANT | ''>,
+    ) => {
       state.userType = action.payload;
-      action.payload === 'lessor'
-        ? (state.userJourney = 'lessor')
-        : (state.userJourney = 'tenant');
+      action.payload === UserType.LESSOR
+        ? (state.userJourney = UserType.LESSOR)
+        : (state.userJourney = UserType.TENANT);
     },
 
     setCurrentScreen: (state, action: PayloadAction<number>) => {
@@ -88,7 +92,7 @@ export const newUserSlice = createSlice({
         Partial<NewUserLessorDetails> | Partial<NewUserTenantDetails>
       >,
     ) => {
-      if (state.userType === 'lessor') {
+      if (state.userType === UserType.LESSOR) {
         state.newUserDetails.lessor = {
           ...state.newUserDetails.lessor,
           ...(action.payload as Partial<NewUserLessorDetails>),

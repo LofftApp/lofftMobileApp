@@ -8,7 +8,12 @@ import {
   deleteSavedImage as _deleteSavedImage,
   setSelectedImage as _setSelectedImage,
 } from './imageUploadSlice';
-import {DeleteSavedImagePayload, ImageToUpload, SelectedImage} from './types';
+import {
+  DeleteSavedImagePayload,
+  ImageSource,
+  ImageToUpload,
+  SelectedImage,
+} from './types';
 import {SetSavedImagesPayload} from './types';
 
 export const useImagesToUpload = () => {
@@ -53,7 +58,7 @@ export const useImagesToUpload = () => {
       if (image) {
         dispatch(_setSelectedImage(image));
       } else {
-        dispatch(_setSelectedImage({uri: '', source: 'saved'}));
+        dispatch(_setSelectedImage({uri: '', source: ImageSource.Saved}));
       }
     },
     [dispatch],

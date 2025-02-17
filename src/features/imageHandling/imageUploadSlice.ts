@@ -5,12 +5,14 @@ import {
   ImageBase,
   ImageRecord,
   ImageToUpload,
+  ImageType,
   ImageUploadState,
   SavedImage,
   SelectedImage,
   SetSavedImagesPayload,
 } from './types';
 import {PURGE} from 'redux-persist';
+import {UserType} from 'reduxFeatures/user/types';
 
 const initialState: ImageUploadState = {
   imagesToUpload: [],
@@ -72,10 +74,10 @@ export const imageUploadSlice = createSlice({
 
     setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
       const {userType, imageType, images} = action.payload;
-      if (userType === 'tenant') {
+      if (userType === UserType.TENANT) {
         state.savedImages.tenant.userImages = images;
-      } else if (userType === 'lessor') {
-        if (imageType === 'user') {
+      } else if (userType === UserType.LESSOR) {
+        if (imageType === ImageType.User) {
           state.savedImages.lessor.userImages = images;
         } else {
           state.savedImages.lessor.flatImages = images;
@@ -94,11 +96,11 @@ export const imageUploadSlice = createSlice({
         deleted: [],
       };
 
-      if (userType === 'tenant') {
+      if (userType === UserType.TENANT) {
         result = deleteImageByUri(state.savedImages.tenant.userImages, uri);
         state.savedImages.tenant.userImages = result.remaining;
-      } else if (userType === 'lessor') {
-        if (imageType === 'user') {
+      } else if (userType === UserType.LESSOR) {
+        if (imageType === ImageType.User) {
           result = deleteImageByUri(state.savedImages.lessor.userImages, uri);
           state.savedImages.lessor.userImages = result.remaining;
         } else {

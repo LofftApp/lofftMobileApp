@@ -6,14 +6,15 @@ import {
 } from './newUserSlice';
 import {NewUserLessorDetails, NewUserTenantDetails} from './types';
 import {useEffect, useCallback} from 'react';
+import {UserType} from 'reduxFeatures/user/types';
 
 export const useNewUserDetails = (isLessor: boolean, edit: boolean = false) => {
   const dispatch = useAppDispatch();
   const userType = useAppSelector(state => state.newUser.userType);
-  const isNewUserLessor = userType === 'lessor';
-  const isNewUserTenant = userType === 'tenant';
+  const isNewUserLessor = userType === UserType.LESSOR;
+  const isNewUserTenant = userType === UserType.TENANT;
   const setUserType = useCallback(
-    (type: 'lessor' | 'tenant' | '') => {
+    (type: UserType.LESSOR | UserType.TENANT | '') => {
       dispatch(_setUserType(type));
     },
     [dispatch],
@@ -23,10 +24,10 @@ export const useNewUserDetails = (isLessor: boolean, edit: boolean = false) => {
     if (edit) {
       if (isLessor) {
         console.log('BECOME LESSOR');
-        setUserType('lessor');
+        setUserType(UserType.LESSOR);
       } else {
         console.log('BECOME TENANT');
-        setUserType('tenant');
+        setUserType(UserType.TENANT);
       }
     }
   }, [edit, isLessor, userType, setUserType]);

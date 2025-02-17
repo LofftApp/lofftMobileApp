@@ -152,7 +152,7 @@ export const useLanguageSelectionScreen = (
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Language : PopoverKeys.NewUser,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
   const handleSelectedLanguages = (id: number) => {
     setLanguagesIds(prevIds =>
@@ -187,7 +187,6 @@ export const useLanguageSelectionScreen = (
     navigation.goBack();
     handleClearSearch();
     setError('');
-    setShowPopover(false);
   };
 
   console.log('languagesIds', languagesIds);
@@ -198,7 +197,7 @@ export const useLanguageSelectionScreen = (
       status?: number;
     };
     if (typedError.status === 422) {
-      setError('Please fill out all the required fields');
+      setError('We could not save your changes, please try again');
     } else {
       setError('An error occurred, please try again');
     }
@@ -240,12 +239,13 @@ export const useLanguageSelectionScreen = (
       }
     } else {
       try {
-        const editParams: EditProfileParams<'tenant' | 'lessor'> = {
-          userId: currentUser?.id ?? 0,
-          actionMethod: EditProfileActions.languages,
-          userType: isLessor ? UserType.lessor : UserType.tenant,
-          languages: languagesIds,
-        };
+        const editParams: EditProfileParams<UserType.LESSOR | UserType.TENANT> =
+          {
+            userId: currentUser?.id ?? 0,
+            actionMethod: EditProfileActions.languages,
+            userType: isLessor ? UserType.LESSOR : UserType.TENANT,
+            languages: languagesIds,
+          };
         await editUserProfile(editParams).unwrap();
       } catch (err) {
         createError(err);

@@ -1,10 +1,10 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
-import {EditProfileParams, SpecificUser, User} from './types';
+import {EditProfileParams, SpecificUser, User, UserType} from './types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {NewUserTenantDetails} from 'reduxFeatures/registration/types';
 
 import {Platform} from 'react-native';
-import {ImageToBackend} from 'reduxFeatures/imageHandling/types';
+import {NewImage} from 'reduxFeatures/imageHandling/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -29,7 +29,7 @@ export const userApi = lofftApi.injectEndpoints({
       {
         id: number;
         userChoices: NewUserTenantDetails;
-        photos?: ImageToBackend[];
+        photos?: NewImage[];
       }
     >({
       query: ({id, userChoices, photos}) => {
@@ -55,7 +55,7 @@ export const userApi = lofftApi.injectEndpoints({
     }),
     editUserProfile: builder.mutation<
       void,
-      EditProfileParams<'tenant' | 'lessor'>
+      EditProfileParams<UserType.LESSOR | UserType.TENANT>
     >({
       query: ({userId, actionMethod, userType, ...rest}) => {
         return {

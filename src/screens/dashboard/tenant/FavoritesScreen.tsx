@@ -27,6 +27,7 @@ import Popover, {
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
@@ -40,7 +41,7 @@ const FavoritesScreen = () => {
 
   const {showPopover, setShowPopover} = useAutoPopoverTrigger({
     userId: currentUser?.id ?? 0,
-    key: 'firstApply',
+    key: PopoverKeys.FirstApply,
     condition: isApplied ?? false,
   });
 

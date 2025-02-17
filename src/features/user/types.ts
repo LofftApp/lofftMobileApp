@@ -33,7 +33,7 @@ interface User {
   id: number;
   email: string;
   termsAccepted: boolean;
-  userType: 'newuser' | 'tenant' | 'lessor' | 'admin';
+  userType: UserType;
   profile: UserProfile;
   confirmedEmail: boolean;
 }
@@ -44,7 +44,7 @@ interface IncomingUser {
   id: number;
   email: string;
   terms_accepted: boolean;
-  user_type: 'newuser' | 'tenant' | 'lessor' | 'admin';
+  user_type: UserType;
   profile: IncomingUserProfile;
   confirmedEmail: boolean;
 }
@@ -85,11 +85,11 @@ type EditUserActionMethodsType =
   | 'searchPreferences'
   | 'languages';
 
-type EditProfileParams<T extends 'tenant' | 'lessor'> = {
+type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
   userId: number;
   actionMethod: EditUserActionMethodsType;
   userType: T;
-} & (T extends 'lessor'
+} & (T extends UserType.LESSOR
   ? Partial<NewUserLessorDetails>
   : Partial<NewUserTenantDetails>);
 
@@ -102,10 +102,10 @@ enum EditProfileActions {
 }
 
 enum UserType {
-  newuser = 'newuser',
-  tenant = 'tenant',
-  lessor = 'lessor',
-  admin = 'admin',
+  NEWUSER = 'newuser',
+  TENANT = 'tenant',
+  LESSOR = 'lessor',
+  ADMIN = 'admin',
 }
 
 export type {

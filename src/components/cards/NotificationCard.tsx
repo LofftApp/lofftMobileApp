@@ -27,6 +27,7 @@ import {
   TenantNotificationType,
 } from 'reduxFeatures/firebaseNotifications/types';
 import {NotificationsScreenNavigationProp} from 'navigationStacks/types';
+import {UserType} from 'reduxFeatures/user/types';
 
 const NotificationCard = ({
   notification,
@@ -35,7 +36,7 @@ const NotificationCard = ({
 }) => {
   const navigation = useNavigation<NotificationsScreenNavigationProp>();
   const {width} = useWindowDimensions();
-  const isLessorNotification = notification.userType === 'lessor';
+  const isLessorNotification = notification.userType === UserType.LESSOR;
   const isRead = notification.read;
 
   const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];

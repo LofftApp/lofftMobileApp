@@ -22,7 +22,11 @@ import {isEqualValue} from 'helpers/isEqualValue';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {EditProfileParams} from 'reduxFeatures/user/types';
+import {
+  EditProfileActions,
+  EditProfileParams,
+  UserType,
+} from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
@@ -65,7 +69,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: PopoverKeys.Name,
+      key: PopoverKeys.Edit,
     });
 
   const handleOnChange = (input: string) => {
@@ -113,15 +117,16 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
 
     if (newValue || !isEqualValue(savedDescription, result.data)) {
       try {
-        const editParams: EditProfileParams<'lessor' | 'tenant'> = {
-          userId: currentUser?.id ?? 0,
-          actionMethod: 'personalInfo',
-          userType: isLessor ? 'lessor' : 'tenant',
-          firstName: newUserDetails.firstName,
-          lastName: newUserDetails.lastName,
-          dateOfBirth: newUserDetails.dateOfBirth,
-          selfDescription: result.data,
-        };
+        const editParams: EditProfileParams<UserType.LESSOR | UserType.TENANT> =
+          {
+            userId: currentUser?.id ?? 0,
+            actionMethod: EditProfileActions.personalInfo,
+            userType: isLessor ? UserType.LESSOR : UserType.TENANT,
+            firstName: newUserDetails.firstName,
+            lastName: newUserDetails.lastName,
+            dateOfBirth: newUserDetails.dateOfBirth,
+            selfDescription: result.data,
+          };
         console.log('editParams', editParams);
         await editUserProfile(editParams).unwrap();
         setError('');

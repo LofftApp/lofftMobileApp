@@ -27,30 +27,31 @@ import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
 import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {UserType} from 'reduxFeatures/user/types';
 
-const picUrl =
+const fallBackPic =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
-const flatImages = [
-  {
-    photo:
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    advertId: 3,
-  },
-  {
-    photo: '',
-    advertId: 4,
-  },
-  {
-    photo:
-      'https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    advertId: 5,
-  },
-  {
-    photo:
-      'https://images.unsplash.com/photo-1585128792020-803d29415281?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    advertId: 6,
-  },
-];
+// const flatImages = [
+//   {
+//     photo:
+//       'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     advertId: 3,
+//   },
+//   {
+//     photo: '',
+//     advertId: 4,
+//   },
+//   {
+//     photo:
+//       'https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     advertId: 5,
+//   },
+//   {
+//     photo:
+//       'https://images.unsplash.com/photo-1585128792020-803d29415281?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+//     advertId: 6,
+//   },
+// ];
 
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
@@ -73,7 +74,7 @@ const SettingsScreen = () => {
     };
   }, []);
 
-  const userView = isLessor ? 'tenant' : 'lessor';
+  const userView = isLessor ? UserType.LESSOR : UserType.TENANT;
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const advertPhotos =
     adverts?.map(advert => ({
@@ -156,7 +157,9 @@ const SettingsScreen = () => {
     resetNewUserState();
   };
 
-  const userImageUri = currentUser?.profile?.userPhotos?.[0] || picUrl;
+  const userImageUri = currentUser?.profile?.avatar.uri ?? fallBackPic;
+  console.log('userImageUri', userImageUri);
+  console.log('currentUser', currentUser);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

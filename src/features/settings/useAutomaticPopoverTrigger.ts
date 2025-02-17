@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from 'reduxCore/hooks';
 import {showPopoverForKey} from 'reduxFeatures/settings/settingsSlice';
+import {PopoverKeys} from './types';
 
 export const useAutoPopoverTrigger = ({
   userId,
@@ -9,7 +10,7 @@ export const useAutoPopoverTrigger = ({
   condition,
 }: {
   userId: number;
-  key: string;
+  key: PopoverKeys;
   condition: boolean;
 }) => {
   const dispatch = useDispatch();

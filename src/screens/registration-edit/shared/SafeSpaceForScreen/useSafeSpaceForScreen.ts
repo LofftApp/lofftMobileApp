@@ -182,10 +182,12 @@ export const useSafeSpaceForScreen = (
         }
       } else {
         try {
-          const editProfileParams: EditProfileParams<'lessor' | 'tenant'> = {
+          const editProfileParams: EditProfileParams<
+            UserType.LESSOR | UserType.TENANT
+          > = {
             userId: currentUser?.id ?? 0,
             actionMethod: EditProfileActions.genderIdentity,
-            userType: isLessor ? UserType.lessor : UserType.tenant,
+            userType: isLessor ? UserType.LESSOR : UserType.TENANT,
             genderIdentity: newUserDetails.genderIdentity,
             safeSpaces: selectedSafeSpaceIds,
           };

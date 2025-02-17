@@ -108,7 +108,7 @@ export const useNameProfileScreen = (edit?: boolean) => {
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Name : PopoverKeys.NewUser,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
   console.log('hasShownPopover', hasShownPopover);
   console.log('savedProfileData', savedProfileData);

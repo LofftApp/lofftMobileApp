@@ -1,4 +1,9 @@
 import {useCallback, useEffect, useRef} from 'react';
+//Hooks 🪝
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {UserType} from 'reduxFeatures/user/types';
+
+//Types 🏷️
 import {
   ImageRecord,
   ImageSource,
@@ -6,8 +11,7 @@ import {
   SavedImage,
   SelectedImage,
 } from 'reduxFeatures/imageHandling/types';
-import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {UserType} from 'reduxFeatures/user/types';
+
 type UseSelectImageProps = {
   edit: boolean;
   userType: UserType;
@@ -25,6 +29,7 @@ export const useSelectImage = ({
   const {imagesToUpload, setSavedImages, selectedImage, setSelectedImage} =
     useImagesToUpload();
 
+  // NEW USER MODE
   useEffect(() => {
     if (edit && dbImages.length > 0) {
       setSavedImages({
@@ -50,12 +55,13 @@ export const useSelectImage = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Track the currently selected index
   const currentSelectionIndexRef = useRef<number | null>(null);
 
   // Track the currently selected URI
   const currentSelectionRef = useRef<string | null>(selectedImage?.uri || null);
 
-  // Helper: Find an existing image in either list
+  // Find an existing image in either list
   const findImageByUri = useCallback(
     (uri: string) =>
       imagesToUpload.find(img => img.uri === uri) ||
@@ -63,7 +69,7 @@ export const useSelectImage = ({
     [imagesToUpload, displaySavedImages],
   );
 
-  // Helper: Get the first available image
+  // Get the first available image
   const getDefaultImage = useCallback((): SelectedImage | null => {
     const defaultImage = imagesToUpload[0] || displaySavedImages[0];
     const source =
@@ -76,7 +82,7 @@ export const useSelectImage = ({
       return;
     }
 
-    // 1️⃣ Case 1: If the selected image was deleted
+    // 1️⃣  If the selected image was deleted
     if (selectedImage && !findImageByUri(selectedImage.uri)) {
       const defaultImage = getDefaultImage();
       if (defaultImage) {
@@ -87,7 +93,7 @@ export const useSelectImage = ({
       console.log('Selected image was deleted – defaulting to:', defaultImage);
     }
 
-    // 2️⃣ Case 2: If the selected image is still in the uploads but now saved
+    // 2️⃣  If the selected image is still in the uploads but now saved
     if (selectedImage && selectedImage.source === 'upload') {
       const savedImage = displaySavedImages.find(
         img => img.uri === selectedImage.uri,
@@ -104,7 +110,7 @@ export const useSelectImage = ({
       }
     }
 
-    // 3️⃣ Case 3: If no image is selected, select the default one
+    // 3️⃣  If no image is selected, select the default one
     if (!selectedImage) {
       const defaultImage = getDefaultImage();
       if (defaultImage) {
@@ -114,7 +120,7 @@ export const useSelectImage = ({
       console.log('No image selected – defaulting to:', defaultImage);
     }
 
-    // 4️⃣ Case 4: If no images are available at all
+    // 4️⃣  If no images are available at all
     if (imagesToUpload.length === 0 && displaySavedImages.length === 0) {
       setSelectedImage(null);
       currentSelectionRef.current = null;
@@ -136,7 +142,7 @@ export const useSelectImage = ({
       return;
     }
 
-    // Case 1: Handle selected image deletion
+    // 1. Handle selected image deletion
     const currentIndex = displaySavedImages.findIndex(
       img => img.uri === currentSelectionRef.current,
     );
@@ -160,7 +166,7 @@ export const useSelectImage = ({
       }
     }
 
-    // Case 2: Select first uploaded image if no saved images exist
+    // 2. Select first uploaded image if no saved images exist
     if (displaySavedImages.length === 0 && imagesToUpload.length > 0) {
       const firstUploaded = imagesToUpload[0];
       currentSelectionRef.current = firstUploaded.uri;
@@ -170,7 +176,7 @@ export const useSelectImage = ({
       });
     }
 
-    // Case 3: If all images are gone, clear selection
+    // 3. If all images are gone, clear selection
     if (imagesToUpload.length === 0 && displaySavedImages.length === 0) {
       setSelectedImage(null);
       currentSelectionRef.current = null;

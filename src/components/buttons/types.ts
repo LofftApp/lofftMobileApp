@@ -5,6 +5,7 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
+import {UserType} from 'reduxFeatures/user/types';
 
 type HeaderPageContentSwitchProps = {
   toggleNames: string[];
@@ -75,7 +76,7 @@ type NewUserJourneyButtonProps = {
   icon: string;
   style?: StyleProp<ViewStyle>;
   onPress: () => void;
-  type: 'lessor' | 'tenant';
+  type: UserType.LESSOR | UserType.TENANT;
   isActive: boolean;
 };
 

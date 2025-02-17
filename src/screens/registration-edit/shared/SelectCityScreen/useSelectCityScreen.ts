@@ -300,10 +300,10 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     }
 
     try {
-      const editParams: EditProfileParams<'tenant' | 'lessor'> = {
+      const editParams: EditProfileParams<UserType.LESSOR | UserType.TENANT> = {
         userId: currentUser?.id ?? 0,
         actionMethod: EditProfileActions.searchPreferences,
-        userType: isLessor ? UserType.lessor : UserType.tenant,
+        userType: isLessor ? UserType.LESSOR : UserType.TENANT,
         city: selectedCityId,
         districts: selectedDistrictIds,
       };

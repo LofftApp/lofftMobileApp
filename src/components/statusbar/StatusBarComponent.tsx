@@ -9,9 +9,6 @@ import {
   Easing,
 } from 'react-native';
 
-//Redux 🏗️
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-
 // Styles
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -32,10 +29,10 @@ import {advertStatusIndex} from 'helpers/advertStatusIndex';
 import {StatusBarNavigationProp, StatusBarProps} from './types';
 import {CoreButton} from 'components/buttons/CoreButton';
 import {LessorNavigatorScreenNavigationProp} from '../../navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
-  const {data: currentUser} = useGetUserQuery();
-  const isLessor = currentUser?.userType === 'lessor';
+  const {isLessor} = useUserType();
   const advert = isLessor ? _advert : application?.advert;
 
   const [statusBar, setStatusBar] = useState('');

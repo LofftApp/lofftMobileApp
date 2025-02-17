@@ -9,9 +9,10 @@ import AdminNavigator from './AdminNavigator';
 
 //Types
 import type {RootStackParamsList} from './types';
+import {UserType} from 'reduxFeatures/user/types';
 
 type AuthenticatedNavigatorProps = {
-  userType?: string;
+  userType?: UserType;
   admin?: boolean;
 };
 
@@ -22,17 +23,19 @@ const AuthenticatedNavigator = ({
 }: AuthenticatedNavigatorProps) => {
   return (
     <AuthStack.Navigator screenOptions={{headerShown: false}}>
-      {admin && <AuthStack.Screen name="AdminStack" component={AdminNavigator} />}
-      {userType === 'newuser' && (
+      {admin && (
+        <AuthStack.Screen name="AdminStack" component={AdminNavigator} />
+      )}
+      {userType === UserType.NEWUSER && (
         <AuthStack.Screen name="NewUserStack" component={NewUserNavigator} />
       )}
-      {userType === 'lessor' && (
+      {userType === UserType.LESSOR && (
         <AuthStack.Screen
           name="LessorDashboardStack"
           component={LessorNavigator}
         />
       )}
-      {userType === 'tenant' && (
+      {userType === UserType.TENANT && (
         <AuthStack.Screen
           name="TenantDashboardStack"
           component={TenantNavigator}

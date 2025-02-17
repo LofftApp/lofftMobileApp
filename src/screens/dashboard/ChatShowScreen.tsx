@@ -42,6 +42,7 @@ import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import {fontStyles} from 'styleSheets/fontStyles';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 Dayjs.extend(utc);
 Dayjs.extend(timezone);
@@ -58,7 +59,7 @@ const ChatShowScreen = ({route}: ChatShowProp) => {
   const navigation = useNavigation();
   // Redux
   const {data: currentUser} = useGetUserQuery();
-  const isLessor = currentUser?.userType === 'lessor';
+  const {isLessor} = useUserType();
   const {data, isLoading} = useGetChatroombyIdQuery(chatroomId, {
     refetchOnMountOrArgChange: true,
   });

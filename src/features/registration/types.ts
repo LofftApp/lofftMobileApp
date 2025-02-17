@@ -1,8 +1,9 @@
 import {Currency} from 'reduxFeatures/assets/types';
+import {UserType} from 'reduxFeatures/user/types';
 
 // newUserSlice
 interface NewUserTenantDetails {
-  userType: 'tenant';
+  userType: UserType.TENANT;
   languages: number[];
   characteristics: number[];
   genderIdentity: string[];
@@ -22,7 +23,7 @@ interface NewUserTenantDetails {
   deviceToken: string;
 }
 interface NewUserLessorDetails {
-  userType: 'lessor';
+  userType: UserType.LESSOR;
   languages: number[];
   characteristics: number[];
 
@@ -57,7 +58,7 @@ type NewUserDetails = {
   lessor: NewUserLessorDetails;
 };
 interface UserJourneyState {
-  userType: 'lessor' | 'tenant' | '';
+  userType: UserType.TENANT | UserType.LESSOR | '';
   tenantJourney: {[key: number]: boolean};
   lessorJourney: {[key: number]: boolean};
   currentScreen: number;
@@ -65,14 +66,9 @@ interface UserJourneyState {
   newUserDetails: NewUserDetails;
 }
 
-
-
-
-
 export type {
   UserJourneyState,
   NewUserTenantDetails,
   NewUserLessorDetails,
   NewUserDetails,
-
 };

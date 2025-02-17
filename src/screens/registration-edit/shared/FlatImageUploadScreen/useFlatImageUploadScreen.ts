@@ -1,31 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, SafeAreaView, Platform} from 'react-native';
+import {useEffect, useState} from 'react';
+import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {useSelectImage} from 'hooks/useSelectImage';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
+import {
+  useEditFlatMutation,
+  useGetAdvertByIdQuery,
+} from 'reduxFeatures/adverts/advertApi';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
-
-//Components 🪢
-import {RegistrationBackground} from 'assets';
-import Divider from 'components/bars/Divider';
-import BackButton from 'components/buttons/BackButton';
-import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
-import HeadlineContainer from 'components/containers/HeadlineContainer';
-import UploadImageModal from 'components/modals/UploadImageModal';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import UploadImageSection from 'components/imageUpload/UploadImageSection';
-
-//Helpers 🤝
-import {size} from 'react-native-responsive-sizes';
-
-//Styles 🖼️
-import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
 //Constants 📊
 import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
@@ -35,33 +26,19 @@ import {flatImagesSchema} from 'lib/zodSchema';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
-import {
-  useEditFlatMutation,
-  useGetAdvertByIdQuery,
-} from 'reduxFeatures/adverts/advertApi';
 import {
   ImageRecord,
   ImageToUpload,
   ImageType,
   NewImage,
 } from 'reduxFeatures/imageHandling/types';
-import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import {useSelectImage} from 'hooks/useSelectImage';
 import {UserType} from 'reduxFeatures/user/types';
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {isEqualValue} from 'helpers/isEqualValue';
 
-const FlatImageUploadScreen = ({
-  route,
-}: {
-  route?: {params: {edit: boolean; advertId: number}};
-}) => {
-  const edit = route?.params?.edit;
-  const advertId = route?.params?.advertId;
-
+export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -78,7 +55,6 @@ const FlatImageUploadScreen = ({
     savedImages,
     deletedRecordImages,
     selectedImage,
-    setSelectedImage,
   } = useImagesToUpload();
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
@@ -93,6 +69,8 @@ const FlatImageUploadScreen = ({
     skip: !edit || !advertId,
   });
 
+  const {data: currentUser} = useGetUserQuery();
+
   const [editFlat, {isLoading: isEditFlatLoading, isError: isEditFlatError}] =
     useEditFlatMutation();
 
@@ -105,9 +83,9 @@ const FlatImageUploadScreen = ({
   console.log('dbImages', dbImages);
   console.log('selectedImage', selectedImage);
 
-  useSelectImage({
+  const {currentSelectionRef} = useSelectImage({
     edit: edit ?? false,
-    userType: UserType.lessor,
+    userType: UserType.LESSOR,
     imageType: ImageType.Flat,
     dbImages,
     displaySavedImages,
@@ -123,15 +101,44 @@ const FlatImageUploadScreen = ({
 
   const {fadeInAnim} = useFadeInAnimation();
 
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopoverTrigger({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.EditFlatImage : PopoverKeys.FlatImage,
+    });
+
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
     setError('');
   };
   const handleBackButton = () => {
-    setCurrentScreen(currentScreen - 1);
+    if (
+      !hasShownPopover &&
+      (!isEqualValue(displaySavedImages, savedImages.lessor.flatImages) ||
+        !isEqualValue(selectedImage, currentSelectionRef.current))
+    ) {
+      triggerPopover();
+      return;
+    }
+
+    if (edit) {
+      setCurrentScreen(currentScreen - 1);
+    }
+
     navigation.goBack();
     setError('');
     clearImagesToUpload();
+  };
+
+  const createError = (err: unknown) => {
+    const typedError = err as {
+      status?: number;
+    };
+    if (typedError.status === 422) {
+      setError('We could not save your changes, please try again');
+    } else {
+      setError('An error occurred, please try again');
+    }
   };
 
   const handleContinue = async () => {
@@ -179,17 +186,6 @@ const FlatImageUploadScreen = ({
       };
     }
 
-    const createError = (err: unknown) => {
-      const typedError = err as {
-        status?: number;
-      };
-      if (typedError.status === 422) {
-        setError('We could not save your changes, please try again');
-      } else {
-        setError('An error occurred, please try again');
-      }
-    };
-
     if (edit) {
       try {
         const imagesParams: EditFlatParams = {
@@ -216,7 +212,7 @@ const FlatImageUploadScreen = ({
       setCurrentScreen(currentScreen + 1);
       setTimeout(() => {
         setSavedImages({
-          userType: UserType.lessor,
+          userType: UserType.LESSOR,
           imageType: ImageType.Flat,
           images: result.data,
         });
@@ -227,83 +223,20 @@ const FlatImageUploadScreen = ({
     setError('');
   };
 
-  if (isAdvertLoading) {
-    return <LoadingComponent />;
-  }
-
-  if (isAdvertError) {
-    return (
-      <NotFoundComponent
-        message="We couldn't retrieve the advert details"
-        backButton
-        onPress={handleBackButton}
-      />
-    );
-  }
-  return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={'Upload images of your flat'}
-          subDescription={
-            'Time to show off your space! The more images, more chances of getting a match!'
-          }
-        />
-        <UploadImageSection
-          toggleModal={toggleModal}
-          fadeAnim={fadeInAnim}
-          error={error}
-          imageType={ImageType.Flat}
-        />
-        <View style={styles.footerContainer}>
-          <Divider />
-          {error && <ErrorMessage message={error} />}
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditFlatLoading ? (
-                  <LoadingButtonIcon />
-                ) : (
-                  'Save'
-                )
-              ) : (
-                'Continue'
-              )
-            }
-            disabled={totalImages > MAX_FLAT_IMAGES || isEditFlatLoading}
-            onPress={handleContinue}
-          />
-        </View>
-      </View>
-      <UploadImageModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
-    </SafeAreaView>
-  );
+  return {
+    isModalOpen,
+    toggleModal,
+    error,
+    handleBackButton,
+    handleContinue,
+    fadeInAnim,
+    isAdvertLoading,
+    isEditFlatLoading,
+    isAdvertError,
+    isEditFlatError,
+    totalImages,
+    setIsModalOpen,
+    showPopover,
+    setShowPopover,
+  };
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  imageContainer: {
-    flex: 1,
-    gap: size(20),
-    marginTop: size(10),
-    paddingHorizontal: size(10),
-  },
-  footerContainer: {
-    gap: size(10),
-  },
-});
-
-export default FlatImageUploadScreen;

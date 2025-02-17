@@ -35,7 +35,11 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
-import {EditProfileActions, EditProfileParams} from 'reduxFeatures/user/types';
+import {
+  EditProfileActions,
+  EditProfileParams,
+  UserType,
+} from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 
@@ -219,17 +223,19 @@ export const useFlatFeaturesScreen = (
         }
       } else {
         try {
-          const editProfileParams: EditProfileParams<'lessor' | 'tenant'> = {
+          const editProfileParams: EditProfileParams<
+            UserType.LESSOR | UserType.TENANT
+          > = {
             userId: currentUser?.id ?? 0,
             actionMethod: EditProfileActions.matchTags,
-            userType: isLessor ? 'lessor' : 'tenant',
+            userType: isLessor ? UserType.LESSOR : UserType.TENANT,
             characteristics: newUserDetails.characteristics,
             filter:
-              newUserDetails.userType === 'tenant'
+              newUserDetails.userType === UserType.TENANT
                 ? selectedFeaturesIds
                 : undefined,
             flatFeatures:
-              newUserDetails.userType === 'lessor'
+              newUserDetails.userType === UserType.LESSOR
                 ? selectedFeaturesIds
                 : undefined,
           };

@@ -6,6 +6,7 @@ import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
 } from 'reduxFeatures/firebaseNotifications/fcmApi';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 //Components
 import NotificationCard from 'components/cards/NotificationCard';
@@ -19,7 +20,6 @@ import Color from 'styleSheets/lofftColorPallet.json';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {
   LessorNotification,
   TenantNotification,
@@ -28,8 +28,7 @@ import {
 const NotificationsScreen = () => {
   const navigation = useNavigation();
 
-  const {data: currentUser} = useGetUserQuery();
-  const isLessor = currentUser?.userType === 'lessor';
+  const {isLessor} = useUserType();
 
   const {data, isLoading, isError, refetch} = useGetNotificationsQuery();
   const notifications = data?.notifications;

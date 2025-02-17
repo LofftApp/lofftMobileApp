@@ -100,7 +100,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Gender : PopoverKeys.NewUser,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
   const selectGender = (id: number) => {
@@ -152,10 +152,12 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     if (!isEqualValue(savedGenderIds, selectedGenderIds)) {
       if (isLessor) {
         try {
-          const editParams: EditProfileParams<'lessor' | 'tenant'> = {
+          const editParams: EditProfileParams<
+            UserType.LESSOR | UserType.TENANT
+          > = {
             userId: currentUser?.id ?? 0,
             actionMethod: EditProfileActions.genderIdentity,
-            userType: UserType.lessor,
+            userType: UserType.LESSOR,
             genderIdentity: selectedGenderNames,
           };
 

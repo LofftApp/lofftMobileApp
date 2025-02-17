@@ -5,13 +5,14 @@ import {
   resetPopoverForKey,
   showPopoverForKey,
 } from 'reduxFeatures/settings/settingsSlice';
+import {PopoverKeys} from './types';
 
 export const useManualPopoverTrigger = ({
   userId: userId,
   key: key,
 }: {
   userId: number;
-  key: string;
+  key: PopoverKeys;
 }) => {
   const dispatch = useDispatch();
 
