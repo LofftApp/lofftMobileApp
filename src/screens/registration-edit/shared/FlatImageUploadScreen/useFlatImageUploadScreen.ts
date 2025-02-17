@@ -168,39 +168,40 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
       setError(err);
       return;
     }
-    const filteredImagesToUpload = imagesToUpload.filter(
-      img => img.uri !== selectedImage?.uri,
-    );
-
-    const newImages = filteredImagesToUpload.map(img => ({
-      uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
-      type: img.type,
-      name: `flatImage-${img.fileName}`,
-    }));
-
-    const filteredExistingImages = savedImages.lessor.flatImages.filter(
-      img => img.uri !== selectedImage?.uri,
-    ) as ImageRecord[];
-
-    const deletedIds = deletedRecordImages.map(img => img.blobId);
-
-    const findMainImage = concatImages.find(
-      img => img.uri === selectedImage?.uri,
-    );
-
-    let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
-    if (findMainImage && !('blobId' in findMainImage)) {
-      mainImage = {
-        uri:
-          Platform.OS === 'ios'
-            ? findMainImage?.uri.replace('file://', '')
-            : findMainImage?.uri,
-        type: (findMainImage as ImageToUpload)?.type,
-        name: `flatImage-${(findMainImage as ImageToUpload)?.fileName}`,
-      };
-    }
 
     if (edit) {
+      const filteredImagesToUpload = imagesToUpload.filter(
+        img => img.uri !== selectedImage?.uri,
+      );
+
+      const newImages = filteredImagesToUpload.map(img => ({
+        uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
+        type: img.type,
+        name: `flatImage-${img.fileName}`,
+      }));
+
+      const filteredExistingImages = displaySavedImages.filter(
+        img => img.uri !== selectedImage?.uri,
+      ) as ImageRecord[];
+
+      const deletedIds = deletedRecordImages.map(img => img.blobId);
+
+      const findMainImage = concatImages.find(
+        img => img.uri === selectedImage?.uri,
+      );
+
+      let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
+      if (findMainImage && !('blobId' in findMainImage)) {
+        mainImage = {
+          uri:
+            Platform.OS === 'ios'
+              ? findMainImage?.uri.replace('file://', '')
+              : findMainImage?.uri,
+          type: (findMainImage as ImageToUpload)?.type,
+          name: `flatImage-${(findMainImage as ImageToUpload)?.fileName}`,
+        };
+      }
+
       try {
         const imagesParams: EditFlatParams = {
           flatId: advert?.flat.id ?? 0,
