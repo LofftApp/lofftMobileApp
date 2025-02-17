@@ -29,8 +29,10 @@ import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {UserType} from 'reduxFeatures/user/types';
 
-const fallBackPic =
+const fallBackProfilePic =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
+const fallBackAdvertPic =
+  'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 // const flatImages = [
 //   {
 //     photo:
@@ -78,7 +80,7 @@ const SettingsScreen = () => {
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const advertPhotos =
     adverts?.map(advert => ({
-      photo: advert.flat.photos[0],
+      photo: advert.flat.photos[0] ?? fallBackAdvertPic,
       advertId: advert.id,
     })) || [];
 
@@ -157,7 +159,7 @@ const SettingsScreen = () => {
     resetNewUserState();
   };
 
-  const userImageUri = currentUser?.profile?.avatar.uri ?? fallBackPic;
+  const userImageUri = currentUser?.profile?.avatar.uri ?? fallBackProfilePic;
   console.log('userImageUri', userImageUri);
   console.log('currentUser', currentUser);
 
