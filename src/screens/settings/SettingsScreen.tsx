@@ -80,8 +80,8 @@ const SettingsScreen = () => {
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const advertPhotos =
     adverts?.map(advert => ({
-      photo: advert.flat.photos[0] ?? fallBackAdvertPic,
-      advertId: advert.id,
+      photo: advert?.flat?.photos[0] ?? fallBackAdvertPic,
+      advertId: advert?.id,
     })) || [];
 
   const tenantSettingsData = [
