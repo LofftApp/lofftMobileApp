@@ -21,6 +21,7 @@ export const useManualPopoverTrigger = ({
   );
 
   const allPopovers = useAppSelector(state => state.settings.popovers);
+  console.log('allPopovers', allPopovers);
 
   const [showPopover, setShowPopover] = useState(false);
 

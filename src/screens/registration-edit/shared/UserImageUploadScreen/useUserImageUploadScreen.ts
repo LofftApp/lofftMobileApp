@@ -118,14 +118,30 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     setIsModalOpen(prev => !prev);
     setError('');
   };
-  const isNotAllEqual =
-    isLessor || isNewUserLessor
-      ? !isEqualValue(displaySavedImages, savedImages.lessor.userImages)
-      : !isEqualValue(displaySavedImages, savedImages.tenant.userImages) ||
-        !isEqualValue(selectedImage, currentSelectionRef.current);
+  console.log('SelectedImage in use', selectedImage);
+  console.log('CurrentSelectionRef in use', currentSelectionRef.current);
+  console.log('displaySavedImages', displaySavedImages);
+  console.log('dbImages', dbImages);
+  console.log('savedImages', savedImages.lessor.userImages);
+  console.log('imagesToUpload', imagesToUpload);
+
+  const isNotAllEqual = () => {
+    if (edit) {
+      return (
+        !isEqualValue(dbImages, displaySavedImages) ||
+        !isEqualValue(dbImages, imagesToUpload) ||
+        !isEqualValue(dbImages, imagesToUpload) ||
+        !isEqualValue(selectedImage?.uri, currentSelectionRef.current)
+      );
+    } else {
+      !isEqualValue(displaySavedImages, imagesToUpload);
+      !isEqualValue(displaySavedImages, imagesToUpload) ||
+        !isEqualValue(selectedImage?.uri, currentSelectionRef.current);
+    }
+  };
 
   const handleBackButton = () => {
-    if (!hasShownPopover && isNotAllEqual) {
+    if (!hasShownPopover && isNotAllEqual()) {
       triggerPopover();
       return;
     }

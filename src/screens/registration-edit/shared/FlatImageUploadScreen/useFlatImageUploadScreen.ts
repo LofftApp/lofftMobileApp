@@ -111,12 +111,24 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     setIsModalOpen(prev => !prev);
     setError('');
   };
+
+  const isNotAllEqual = () => {
+    if (edit) {
+      return (
+        !isEqualValue(dbImages, displaySavedImages) ||
+        !isEqualValue(dbImages, imagesToUpload) ||
+        !isEqualValue(dbImages, imagesToUpload) ||
+        !isEqualValue(selectedImage?.uri, currentSelectionRef.current)
+      );
+    } else {
+      !isEqualValue(displaySavedImages, imagesToUpload);
+      !isEqualValue(displaySavedImages, imagesToUpload) ||
+        !isEqualValue(selectedImage?.uri, currentSelectionRef.current);
+    }
+  };
+
   const handleBackButton = () => {
-    if (
-      !hasShownPopover &&
-      (!isEqualValue(displaySavedImages, savedImages.lessor.flatImages) ||
-        !isEqualValue(selectedImage, currentSelectionRef.current))
-    ) {
+    if (!hasShownPopover && isNotAllEqual()) {
       triggerPopover();
       return;
     }
