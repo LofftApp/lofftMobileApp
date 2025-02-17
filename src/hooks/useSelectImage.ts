@@ -83,7 +83,7 @@ export const useSelectImage = ({
       return;
     }
 
-    // 1️⃣  If the selected image was deleted
+    // 1. If the selected image was deleted
     if (selectedImage && !findImageByUri(selectedImage.uri)) {
       const defaultImage = getDefaultImage();
       if (defaultImage) {
@@ -94,7 +94,7 @@ export const useSelectImage = ({
       console.log('Selected image was deleted – defaulting to:', defaultImage);
     }
 
-    // 2️⃣  If the selected image is still in the uploads but now saved
+    // 2️  If the selected image is still in the uploads but now saved
     if (selectedImage && selectedImage.source === 'upload') {
       const savedImage = displaySavedImages.find(
         img => img.uri === selectedImage.uri,
@@ -111,7 +111,7 @@ export const useSelectImage = ({
       }
     }
 
-    // 3️⃣  If no image is selected, select the default one
+    // 3️ If no image is selected, select the default one
     if (!selectedImage) {
       const defaultImage = getDefaultImage();
       if (defaultImage) {
@@ -121,7 +121,7 @@ export const useSelectImage = ({
       console.log('No image selected – defaulting to:', defaultImage);
     }
 
-    // 4️⃣  If no images are available at all
+    // 4️ If no images are available at all
     if (imagesToUpload.length === 0 && displaySavedImages.length === 0) {
       setSelectedImage(null);
       currentSelectionRef.current = null;

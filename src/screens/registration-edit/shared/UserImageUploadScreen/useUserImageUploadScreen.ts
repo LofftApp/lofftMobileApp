@@ -59,6 +59,7 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     savedImages,
     deletedRecordImages,
     selectedImage,
+    setSelectedImage,
   } = useImagesToUpload();
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
@@ -153,6 +154,7 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     navigation.goBack();
     setError('');
     clearImagesToUpload();
+    setSelectedImage(null);
   };
 
   const createError = (err: unknown) => {
