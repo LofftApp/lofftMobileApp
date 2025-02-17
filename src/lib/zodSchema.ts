@@ -119,7 +119,6 @@ const featureSchema = z.object({
   id: z.number(),
   name: z.string(),
   emoji: z.string(),
-
 });
 const featuresSchema = z.array(featureSchema).min(MIN_SELECTED_FEATURES, {
   message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
@@ -210,24 +209,6 @@ const flatDescriptionSchema = z
     message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
   });
 
-const userImagesSchema = z
-  .array(
-    z.object({
-      fileName: z.string(),
-      fileSize: z.number(),
-      height: z.number(),
-      type: z.string(),
-      uri: z.string(),
-      width: z.number(),
-    }),
-  )
-  .nonempty({
-    message: 'Please upload at least one image',
-  })
-  .max(MAX_USER_IMAGES, {
-    message: `You can upload up to ${MAX_USER_IMAGES} images only`,
-  });
-
 const newImageSchema = z.object({
   fileName: z.string(),
   fileSize: z.number(),
@@ -243,6 +224,15 @@ const existingImageSchema = z.object({
 });
 
 const imageSchema = z.union([newImageSchema, existingImageSchema]);
+
+const userImagesSchema = z
+  .array(imageSchema)
+  .nonempty({
+    message: 'Please upload at least one image',
+  })
+  .max(MAX_USER_IMAGES, {
+    message: `You can upload up to ${MAX_USER_IMAGES} images only`,
+  });
 
 const flatImagesSchema = z
   .array(imageSchema)
