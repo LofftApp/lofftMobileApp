@@ -1,3 +1,5 @@
+import {UserType} from 'reduxFeatures/user/types';
+
 interface ImageBase {
   uri: string;
 }
@@ -14,8 +16,13 @@ interface ImageRecord extends ImageBase {
   blobId: number;
 }
 
+enum ImageSource {
+  Saved = 'saved',
+  Upload = 'upload',
+}
+
 interface SelectedImage extends ImageBase {
-  source: 'saved' | 'upload';
+  source: ImageSource;
   blobId?: number;
 }
 
@@ -49,16 +56,20 @@ interface ImageUploadState {
   deletedRecordImages: ImageRecord[];
   selectedImage: SelectedImage | null;
 }
-type ImageType = 'user' | 'flat';
+
+enum ImageType {
+  User = 'user',
+  Flat = 'flat',
+}
 
 interface SetSavedImagesPayload {
-  userType: 'tenant' | 'lessor';
+  userType: UserType;
   imageType: ImageType;
   images: SavedImage[];
-} 
+}
 
 interface DeleteSavedImagePayload {
-  userType: 'tenant' | 'lessor';
+  userType: UserType;
   imageType: ImageType;
   uri: string;
   blobId?: number;
@@ -69,7 +80,6 @@ export type {
   ImageToUpload,
   SetSavedImagesPayload,
   DeleteSavedImagePayload,
-  ImageType,
   NewImage,
   ImageRecord,
   ImageBase,
@@ -78,3 +88,4 @@ export type {
   BlobId,
   ImagesToBackend,
 };
+export {ImageType, ImageSource};
