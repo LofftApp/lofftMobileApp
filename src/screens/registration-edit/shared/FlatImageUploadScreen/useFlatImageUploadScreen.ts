@@ -74,6 +74,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   });
 
   const {data: currentUser} = useGetUserQuery();
+  console.log('currentUser', currentUser);
 
   const [
     editFlatImage,
@@ -84,6 +85,8 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     ? [advert?.flat?.mainPic, ...(advert?.flat?.photos || [])]
     : advert?.flat?.photos || [];
   const displaySavedImages = savedImages.lessor.flatImages;
+  console.log('dbImages', dbImages);
+  console.log('displaySavedImages', displaySavedImages);
 
   const {currentSelectionRef} = useSelectImage({
     edit: edit ?? false,
@@ -92,6 +95,13 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     dbImages,
     displaySavedImages,
   });
+
+  console.log('currentSelectionRef', currentSelectionRef.current);
+  console.log('selectedImage', selectedImage);
+  console.log('imagesToUpload', imagesToUpload);
+  console.log('savedImages', savedImages);
+  console.log('deletedRecordImages', deletedRecordImages);
+
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {

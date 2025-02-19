@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+//Hooks  🪝
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 // Components 🧬
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
@@ -24,7 +26,8 @@ import {fontStyles} from 'styleSheets/fontStyles';
 // helpers 🧰
 import {size} from 'react-native-responsive-sizes';
 import {advertStatusIndex} from 'helpers/advertStatusIndex';
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import {getCurrencySymbol} from 'helpers/getCurrencySymbol';
+import dayjs from 'dayjs';
 
 // Types 🏷
 import type {ListFlatApplicationCardProps} from './types';
@@ -32,7 +35,6 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {AdvertStatus} from 'reduxFeatures/adverts/types';
 import {ApplicationStatus} from 'reduxFeatures/applications/types';
@@ -147,7 +149,7 @@ const ListFlatApplicationCard = ({
 
       <View style={styles.metaDataContainer}>
         <Text style={[fontStyles.headerSmall]}>
-          {advert?.monthlyRent} {advert?.currency}
+          {advert?.monthlyRent} {getCurrencySymbol(advert?.currency ?? 'eur')}
         </Text>
         <Text style={[fontStyles.headerSmall]}>
           {advert?.flat.size} {advert?.flat.measurementUnit}
@@ -158,12 +160,10 @@ const ListFlatApplicationCard = ({
             {color: isLessor ? Color.Black[50] : Color.Mint[100]},
           ]}>
           {isLessor
-            ? `Posted on ${dateFormatConverter({
-                date: advert?.createdAt ?? '',
-              })}`
-            : `Applied on ${dateFormatConverter({
-                date: application?.createdAt ?? '',
-              })}`}
+            ? `Posted on ${dayjs(advert?.createdAt).format('DD.MM.YYYY')}`
+            : `Applied on ${dayjs(application?.createdAt).format(
+                'DD.MM.YYYY',
+              )}`}
         </Text>
       </View>
 

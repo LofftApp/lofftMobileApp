@@ -117,7 +117,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
 
     if (newValue || !isEqualValue(savedDescription, result.data)) {
       try {
-        const editParams: EditProfileParams<UserType.LESSOR | UserType.TENANT> =
+        const editParams: EditProfileParams<UserType.TENANT | UserType.LESSOR> =
           {
             userId: currentUser?.id ?? 0,
             actionMethod: EditProfileActions.personalInfo,

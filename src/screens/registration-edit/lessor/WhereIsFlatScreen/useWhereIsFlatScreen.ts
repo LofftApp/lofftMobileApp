@@ -31,6 +31,7 @@ import {isEqualValue} from 'helpers/isEqualValue';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {UserType} from 'reduxFeatures/user/types';
 
 export const useWhereIsFlatScreen = (
   edit?: boolean,
@@ -90,13 +91,21 @@ export const useWhereIsFlatScreen = (
   ] = useEditAdvertMutation();
 
   const newUserAddress =
-    newUserDetails.userType === 'lessor' ? newUserDetails.address : undefined;
+    newUserDetails.userType === UserType.LESSOR
+      ? newUserDetails.address
+      : undefined;
   const newUserPrice =
-    newUserDetails.userType === 'lessor' ? newUserDetails.price : undefined;
+    newUserDetails.userType === UserType.LESSOR
+      ? newUserDetails.price
+      : undefined;
   const newUserWarmRent =
-    newUserDetails.userType === 'lessor' ? newUserDetails.warmRent : undefined;
+    newUserDetails.userType === UserType.LESSOR
+      ? newUserDetails.warmRent
+      : undefined;
   const newUserCurrency =
-    newUserDetails.userType === 'lessor' ? newUserDetails.currency : undefined;
+    newUserDetails.userType === UserType.LESSOR
+      ? newUserDetails.currency
+      : undefined;
 
   const savedAddress = useMemo(() => {
     if (edit) {

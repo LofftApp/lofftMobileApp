@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // Redux 🏗️
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {Advert} from 'reduxFeatures/adverts/types';
 
 // StyleSheet 🖼️
@@ -16,13 +17,11 @@ import SeeMoreButton from 'components/buttons/SeeMoreButton';
 import Collapsible from 'react-native-collapsible';
 
 // Helpers
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
 import {size} from 'react-native-responsive-sizes';
 import {truncateTextAtWord} from 'helpers/truncateTextAtWord';
 import {tagSorter} from 'helpers/tagSorter';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-
-// Types 🏷
+import {getCurrencySymbol} from 'helpers/getCurrencySymbol';
+import dayjs from 'dayjs';
 
 const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
   const {data: currentUser} = useGetUserQuery();
@@ -99,7 +98,7 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
             <View style={styles.iconContainer}>
               <LofftIcon name="banke-note" size={23} color={Color.Black[30]} />
               <Text style={[fontStyles.bodyMedium, styles.iconMargin]}>
-                {advert.monthlyRent} {advert.currency}
+                {advert.monthlyRent} {getCurrencySymbol(advert.currency)}
               </Text>
             </View>
             <View style={styles.iconContainer}>
@@ -113,10 +112,8 @@ const FlatInfoSubScreen = ({advert}: {advert: Advert}) => {
           <View style={styles.secondRowLegendContainer}>
             <LofftIcon name="calendar" size={23} color={Color.Black[30]} />
             <Text style={fontStyles.bodyMedium}>
-              From: {dateFormatConverter({date: {seconds: advert.fromDate}})}{' '}
-              {`- ${dateFormatConverter({
-                date: {seconds: advert.toDate || 1715990400},
-              })}`}
+              From: {dayjs(advert.fromDate).format('DD.MM.YYYY')}
+              {`- ${dayjs(advert.toDate).format('DD.MM.YYYY')}`}
             </Text>
           </View>
         </View>

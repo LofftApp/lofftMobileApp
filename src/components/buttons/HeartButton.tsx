@@ -1,6 +1,14 @@
 import React, {useRef} from 'react';
-import {Animated, Pressable, StyleProp, ViewStyle} from 'react-native';
-import {HeartDefault, HeartSaved} from 'assets'; // Assuming these are your SVG assets
+import {
+  Animated,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+} from 'react-native';
+import Color from 'styleSheets/lofftColorPallet.json';
+import {HeartDefault, HeartSaved} from 'assets';
+import {size} from 'react-native-responsive-sizes';
 
 type HeartButtonProps = {
   style?: StyleProp<ViewStyle>;
@@ -8,7 +16,11 @@ type HeartButtonProps = {
   onPress?: () => void;
 };
 
-const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
+const HeartButton = ({
+  style = styles.iconContainer,
+  favorite,
+  onPress,
+}: HeartButtonProps) => {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const opacityValue = useRef(new Animated.Value(1)).current;
 
@@ -57,5 +69,16 @@ const HeartButton = ({style, favorite, onPress}: HeartButtonProps) => {
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    paddingLeft: size(10),
+    paddingRight: size(10),
+    paddingTop: size(7),
+    paddingBottom: size(7),
+    borderRadius: 12,
+    backgroundColor: Color.White[80],
+  },
+});
 
 export default HeartButton;

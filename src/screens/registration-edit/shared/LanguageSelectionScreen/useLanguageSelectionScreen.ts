@@ -54,8 +54,11 @@ export const useLanguageSelectionScreen = (
   const [error, setError] = useState<string | undefined>('');
 
   // initial state
-  const {data} = useGetAssetsQuery();
+  const {data} = useGetAssetsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const languagesData = data?.languages;
+  console.log('languagesData', data);
 
   const sortedLanguages = useMemo(() => {
     const prioritizedLanguages = [40, 51, 148, 128, 85, 156, 47, 70, 126];
@@ -110,7 +113,6 @@ export const useLanguageSelectionScreen = (
 
   const savedLanguages = useMemo(() => {
     if (edit) {
-      console.log('edit in language screen', edit);
       return isLessor
         ? advert?.flat.flatLanguages.map(lang => lang.id)
         : currentUser?.profile?.profileLanguages?.map(lang => lang.id);

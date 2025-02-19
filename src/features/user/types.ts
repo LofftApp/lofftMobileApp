@@ -92,7 +92,7 @@ type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
   userType: T;
 } & (T extends UserType.LESSOR
   ? Partial<NewUserLessorDetails>
-  : Partial<NewUserTenantDetails>) & {data: ImagesToBackend};
+  : Partial<NewUserTenantDetails>) & {data?: ImagesToBackend};
 
 type EditProfileImageParams<T extends UserType.TENANT | UserType.LESSOR> = {
   userId: number;

@@ -27,6 +27,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 
 const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   const advertId = route?.params?.advertId;
@@ -39,6 +40,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
     refetchOnMountOrArgChange: true,
   });
   const {isLessor} = useUserType();
+  const {clearImagesToUpload} = useImagesToUpload();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
@@ -82,11 +84,13 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       id: 4,
       title: 'Upload Photos',
       subtitle: 'Show off your flat',
-      onPress: () =>
+      onPress: () => {
+        clearImagesToUpload();
         navigation.navigate('NewUserNavigator', {
           screen: 'FlatImageUploadScreen',
           params: {edit: true, advertId},
-        }),
+        });
+      },
       icon: 'upload',
     },
     {

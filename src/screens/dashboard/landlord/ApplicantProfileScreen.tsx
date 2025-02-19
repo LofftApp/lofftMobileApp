@@ -34,16 +34,28 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import type {ApplicantProfileScreenProps} from '../../settings/types';
 
 const hardcodedImages = [
-  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
-  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
-  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
-  'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
+  {
+    uri: 'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4524.jpg.webp',
+  },
+  {
+    uri: 'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4286.jpg.webp',
+  },
+  {
+    uri: 'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-4203.jpg.webp',
+  },
+  {
+    uri: 'https://www.friendsoffriends.com/app/uploads/andreas-kokkino-david-daniels/Freunde-von-Freunden_Andreas-Kokkino-3849.jpg.webp',
+  },
 ];
 
 const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
   const {advertId, applicantId, applicationId} = route.params;
 
-  const {data: advert} = useSeeApplicationsByAdvertIdQuery(advertId);
+  const {
+    data: advert,
+    isLoading: isAdvertLoading,
+    isError: isAdvertError,
+  } = useSeeApplicationsByAdvertIdQuery(advertId);
 
   const dispatch = useAppDispatch();
 
@@ -106,15 +118,18 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
     applicant.profile.description &&
     applicant.profile.description?.length > truncatedDescription.length;
 
-  if (isLoading) {
+  if (isLoading || isAdvertLoading) {
     return <LoadingComponent />;
   }
 
-  if (error) {
+  if (error || isAdvertError) {
     return (
       <NotFoundComponent backButton message="We could not find the applicant" />
     );
   }
+  console.log('applicant.profile.avatar', applicant.profile.avatar);
+  console.log('applicant.profile.userPhotos', applicant.profile.userPhotos);
+  console.log('applicant.profile', applicant);
 
   return (
     <View style={CoreStyleSheet.showContainer}>
