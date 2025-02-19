@@ -58,6 +58,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
   const handleNavigate = () => {
     navigation.navigate('FlatShowScreen', {advertId: advert.id});
   };
+  console.log('advertPic', advert.flat.mainPic);
 
   return (
     <View style={styles.boundryContainer}>
@@ -66,9 +67,9 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
           <Pressable onPress={handleNavigate}>
             <Image
               source={
-                advert.flat.photos.length > 0
+                advert.flat.mainPic.uri
                   ? {
-                      uri: advert.flat.photos[0],
+                      uri: advert.flat.mainPic.uri,
                       width: width(200),
                       height: height(300),
                     }
@@ -111,7 +112,7 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
                     fontStyles.bodySmall,
                     styles.flatCardMetadataLocation,
                   ]}>
-                  {advert.flat.district}, {advert.flat.city}
+                  {advert.flat.district.name}, {advert.flat.city.name}
                 </Text>
               </View>
             </View>
