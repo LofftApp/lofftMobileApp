@@ -21,7 +21,7 @@ import {
   initialMaxPrice,
   initialMinPrice,
 } from 'components/componentData/constants';
-import {NewImage} from 'reduxFeatures/imageHandling/types';
+import {ImageToUpload, SavedImage} from 'reduxFeatures/imageHandling/types';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -124,7 +124,7 @@ export const advertApi = lofftApi.injectEndpoints({
             'getApplications',
             undefined,
             draft => {
-              draft.forEach(application => {
+              draft.applications.forEach(application => {
                 if (application.advert?.id === id) {
                   application.advert.favorite = !application.advert.favorite;
                 }
@@ -227,40 +227,71 @@ export const advertApi = lofftApi.injectEndpoints({
       {
         id: number;
         userChoices: NewUserLessorDetails;
-        flatImages: NewImage[];
-        lessorProfileImages: NewImage[];
+        flatImages: SavedImage[];
+        mainFlatImage: SavedImage | null;
+        lessorProfileImages: SavedImage[];
+        avatar: SavedImage | null;
       }
     >({
-      query: ({id, userChoices, flatImages, lessorProfileImages}) => {
+      query: ({
+        id,
+        userChoices,
+        flatImages,
+        mainFlatImage,
+        lessorProfileImages,
+        avatar,
+      }) => {
         const formData = new FormData();
         formData.append('userChoices', JSON.stringify(userChoices));
 
-        if (flatImages) {
+        if (flatImages.length > 0) {
           flatImages.forEach((image, index) => {
             formData.append(`flatImages[${index}]`, {
               uri:
                 Platform.OS === 'ios'
                   ? image.uri.replace('file://', '')
                   : image.uri,
-              type: image.type,
-              name: `flatImage-${index}.jpg`,
+              type: (image as ImageToUpload).type,
+              name: `flatImage_${(image as ImageToUpload).fileName}`,
             });
           });
         }
 
-        if (lessorProfileImages) {
+        if (mainFlatImage) {
+          formData.append('mainFlatImage', {
+            uri:
+              Platform.OS === 'ios'
+                ? mainFlatImage.uri.replace('file://', '')
+                : mainFlatImage.uri,
+            type: (mainFlatImage as ImageToUpload).type,
+            name: `mainFlatImage_${(mainFlatImage as ImageToUpload).fileName}`,
+          });
+        }
+
+        if (lessorProfileImages.length > 0) {
           lessorProfileImages.forEach((image, index) => {
             formData.append(`lessorProfileImages[${index}]`, {
               uri:
                 Platform.OS === 'ios'
                   ? image.uri.replace('file://', '')
                   : image.uri,
-              type: image.type,
-              name: `lessorProfileImage-${index}.jpg`,
+              type: (image as ImageToUpload).type,
+              name: `lessorProfileImage_${(image as ImageToUpload).fileName}`,
             });
           });
         }
 
+        if (avatar) {
+          formData.append('avatar', {
+            uri:
+              Platform.OS === 'ios'
+                ? avatar.uri.replace('file://', '')
+                : avatar.uri,
+            type: (avatar as ImageToUpload).type,
+            name: `avatar_${(avatar as ImageToUpload).fileName}`,
+          });
+        }
+        console.log('formData in lessor', formData);
         return {
           url: `/api/adverts/${id}/complete_lessor_sign_up`,
           method: 'POST',
@@ -309,16 +340,6 @@ export const advertApi = lofftApi.injectEndpoints({
     }),
     editFlat: builder.mutation<void, EditFlatParams>({
       query: ({flatId, actionMethod, ...rest}) => {
-        // if (actionMethod === 'images') {
-        //   const formData = new FormData();
-        //   formData.append('actionMethod', actionMethod);
-        //   formData.append('data', JSON.stringify(rest));
-        //   return {
-        //     url: `/api/flats/${flatId}`,
-        //     method: 'PATCH',
-        //     body: formData,
-        //   };
-        // }
         return {
           url: `/api/flats/${flatId}`,
           method: 'PATCH',

@@ -16,7 +16,7 @@ import {
 import {useSelectImage} from 'hooks/useSelectImage';
 import {
   EditProfileActions,
-  EditProfileParams,
+  EditProfileImageParams,
   UserType,
 } from 'reduxFeatures/user/types';
 
@@ -94,12 +94,18 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       ? savedImages.lessor.userImages
       : savedImages.tenant.userImages;
 
+  const avatar =
+    isNewUserLessor || isLessor
+      ? savedImages.lessor.avatar
+      : savedImages.tenant.avatar;
+
   const {currentSelectionRef} = useSelectImage({
     edit: edit ?? false,
     userType: isLessor || isNewUserLessor ? UserType.LESSOR : UserType.TENANT,
     imageType: ImageType.User,
     dbImages,
     displaySavedImages,
+    avatar,
   });
 
   useEffect(() => {
@@ -126,7 +132,7 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
   console.log('CurrentSelectionRef in use', currentSelectionRef.current);
   console.log('displaySavedImages', displaySavedImages);
   console.log('dbImages', dbImages);
-  console.log('savedImages', savedImages.lessor.userImages);
+  console.log('savedImages', savedImages);
   console.log('imagesToUpload', imagesToUpload);
 
   const isNotAllEqual = () => {
@@ -184,40 +190,40 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       return;
     }
 
+    const filteredImagesToUpload = imagesToUpload.filter(
+      img => img.uri !== selectedImage?.uri,
+    );
+    const newImages = filteredImagesToUpload.map(img => ({
+      uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
+      type: img.type,
+      name: `userImage_${img.fileName}`,
+    }));
+
+    const filteredExistingImages = displaySavedImages.filter(
+      img => img.uri !== selectedImage?.uri,
+    ) as ImageRecord[];
+
+    const deletedIds = deletedRecordImages.map(img => img.blobId);
+
+    const findMainImage = concatImages.find(
+      img => img.uri === selectedImage?.uri,
+    );
+
+    let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
+    if (findMainImage && !('blobId' in findMainImage)) {
+      mainImage = {
+        uri:
+          Platform.OS === 'ios'
+            ? findMainImage?.uri.replace('file://', '')
+            : findMainImage?.uri,
+        type: (findMainImage as ImageToUpload)?.type,
+        name: `userImage_${(findMainImage as ImageToUpload)?.fileName}`,
+      };
+    }
+
     if (edit) {
-      const filteredImagesToUpload = imagesToUpload.filter(
-        img => img.uri !== selectedImage?.uri,
-      );
-      const newImages = filteredImagesToUpload.map(img => ({
-        uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
-        type: img.type,
-        name: `userImage-${img.fileName}`,
-      }));
-
-      const filteredExistingImages = displaySavedImages.filter(
-        img => img.uri !== selectedImage?.uri,
-      ) as ImageRecord[];
-
-      const deletedIds = deletedRecordImages.map(img => img.blobId);
-
-      const findMainImage = concatImages.find(
-        img => img.uri === selectedImage?.uri,
-      );
-
-      let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
-      if (findMainImage && !('blobId' in findMainImage)) {
-        mainImage = {
-          uri:
-            Platform.OS === 'ios'
-              ? findMainImage?.uri.replace('file://', '')
-              : findMainImage?.uri,
-          type: (findMainImage as ImageToUpload)?.type,
-          name: `userImage-${(findMainImage as ImageToUpload)?.fileName}`,
-        };
-      }
-
       try {
-        const imagesParams: EditProfileParams<
+        const imagesParams: EditProfileImageParams<
           UserType.LESSOR | UserType.TENANT
         > = {
           userId: currentUser?.id ?? 0,
@@ -253,6 +259,8 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
             isNewUserLessor || isLessor ? UserType.LESSOR : UserType.TENANT,
           imageType: ImageType.User,
           images: result.data,
+          avatar: findMainImage ?? null,
+          mainFlatImage: null,
         });
         clearImagesToUpload();
       }, 1000);

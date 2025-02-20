@@ -26,7 +26,6 @@ interface NewUserLessorDetails {
   userType: UserType.LESSOR;
   languages: number[];
   characteristics: number[];
-
   genderIdentity: string[];
   safeSpaces: number[];
   city: number;
@@ -51,7 +50,6 @@ interface NewUserLessorDetails {
   flatDescription: string;
   selfDescription: string;
   deviceToken: string;
-  advertsIds?: number[];
 }
 type NewUserDetails = {
   tenant: NewUserTenantDetails;

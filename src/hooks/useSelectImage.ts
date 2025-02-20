@@ -18,6 +18,8 @@ type UseSelectImageProps = {
   imageType: ImageType;
   dbImages: ImageRecord[];
   displaySavedImages: SavedImage[];
+  avatar?: SavedImage | null;
+  mainFlatImage?: SavedImage | null;
 };
 export const useSelectImage = ({
   edit,
@@ -25,16 +27,20 @@ export const useSelectImage = ({
   imageType,
   dbImages,
   displaySavedImages,
+  avatar,
+  mainFlatImage,
 }: UseSelectImageProps) => {
   const {imagesToUpload, setSavedImages, selectedImage, setSelectedImage} =
     useImagesToUpload();
-  const initialSetupDoneRef = useRef(false);
+
   useEffect(() => {
     if (edit && dbImages.length > 0) {
       setSavedImages({
         userType,
         imageType,
         images: dbImages,
+        avatar: avatar || null,
+        mainFlatImage: mainFlatImage || null,
       });
 
       console.log('SelectedImage in use', selectedImage);
@@ -45,13 +51,15 @@ export const useSelectImage = ({
         userType,
         imageType,
         images: displaySavedImages,
+        avatar: avatar || null,
+        mainFlatImage: mainFlatImage || null,
       });
+
       if (selectedImage) {
         currentSelectionRef.current = selectedImage.uri;
         setSelectedImage(selectedImage);
       }
     }
-    initialSetupDoneRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

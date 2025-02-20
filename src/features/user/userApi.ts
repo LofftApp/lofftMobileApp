@@ -10,7 +10,11 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {NewUserTenantDetails} from 'reduxFeatures/registration/types';
 
 import {Platform} from 'react-native';
-import {NewImage} from 'reduxFeatures/imageHandling/types';
+import {
+  ImageToUpload,
+  NewImage,
+  SavedImage,
+} from 'reduxFeatures/imageHandling/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -35,22 +39,39 @@ export const userApi = lofftApi.injectEndpoints({
       {
         id: number;
         userChoices: NewUserTenantDetails;
-        photos?: NewImage[];
+        photos: SavedImage[];
+        avatar: SavedImage | null;
       }
     >({
-      query: ({id, userChoices, photos}) => {
+      query: ({id, userChoices, photos, avatar}) => {
         const formData = new FormData();
         formData.append('userChoices', JSON.stringify(userChoices));
-        if (photos) {
-          photos.forEach((el, index) => {
+
+        if (photos.length > 0) {
+          photos.forEach((photo, index) => {
             formData.append(`photos[${index}]`, {
               uri:
-                Platform.OS === 'ios' ? el.uri.replace('file://', '') : el.uri,
-              type: el.type,
-              name: `photo_${index}.jpg`,
+                Platform.OS === 'ios'
+                  ? photo.uri.replace('file://', '')
+                  : photo.uri,
+              type: (photo as ImageToUpload).type,
+              name: `photo_${(photo as ImageToUpload).fileName}`,
             });
           });
         }
+
+        if (avatar) {
+          formData.append('avatar', {
+            uri:
+              Platform.OS === 'ios'
+                ? avatar.uri.replace('file://', '')
+                : avatar.uri,
+            type: (avatar as ImageToUpload).type,
+            name: `avatar_${(avatar as ImageToUpload).fileName}`,
+          });
+        }
+
+        console.log('formData in tenant', formData);
         return {
           url: `/api/users/${id}/complete_tenant_sign_up`,
           method: 'POST',

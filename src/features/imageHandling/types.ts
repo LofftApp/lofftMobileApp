@@ -47,10 +47,13 @@ interface ImageUploadState {
   savedImages: {
     tenant: {
       userImages: SavedImage[];
+      avatar: SavedImage | null;
     };
     lessor: {
       userImages: SavedImage[];
+      avatar: SavedImage | null;
       flatImages: SavedImage[];
+      mainFlatImage: SavedImage | null;
     };
   };
   deletedRecordImages: ImageRecord[];
@@ -66,6 +69,8 @@ interface SetSavedImagesPayload {
   userType: UserType;
   imageType: ImageType;
   images: SavedImage[];
+  avatar: SavedImage | null;
+  mainFlatImage: SavedImage | null;
 }
 
 interface DeleteSavedImagePayload {

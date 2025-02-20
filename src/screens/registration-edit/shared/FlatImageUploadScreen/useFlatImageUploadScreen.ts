@@ -84,9 +84,11 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   const dbImages = advert?.flat.mainPic
     ? [advert?.flat?.mainPic, ...(advert?.flat?.photos || [])]
     : advert?.flat?.photos || [];
-  const displaySavedImages = savedImages.lessor.flatImages;
+  const mainSavedImage = savedImages.lessor.mainFlatImage;
+  const displaySavedImages = savedImages.lessor.flatImages || [];
   console.log('dbImages', dbImages);
   console.log('displaySavedImages', displaySavedImages);
+  console.log('mainSavedImage', mainSavedImage);
 
   const {currentSelectionRef} = useSelectImage({
     edit: edit ?? false,
@@ -94,6 +96,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     imageType: ImageType.Flat,
     dbImages,
     displaySavedImages,
+    mainFlatImage: mainSavedImage,
   });
 
   console.log('currentSelectionRef', currentSelectionRef.current);
@@ -101,7 +104,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   console.log('imagesToUpload', imagesToUpload);
   console.log('savedImages', savedImages);
   console.log('deletedRecordImages', deletedRecordImages);
-
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {
@@ -177,39 +179,38 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
       return;
     }
 
+    const filteredImagesToUpload = imagesToUpload.filter(
+      img => img.uri !== selectedImage?.uri,
+    );
+
+    const newImages = filteredImagesToUpload.map(img => ({
+      uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
+      type: img.type,
+      name: `flatImage_${img.fileName}`,
+    }));
+
+    const filteredExistingImages = displaySavedImages.filter(
+      img => img.uri !== selectedImage?.uri,
+    ) as ImageRecord[];
+
+    const deletedIds = deletedRecordImages.map(img => img.blobId);
+
+    const findMainImage = concatImages.find(
+      img => img.uri === selectedImage?.uri,
+    );
+
+    let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
+    if (findMainImage && !('blobId' in findMainImage)) {
+      mainImage = {
+        uri:
+          Platform.OS === 'ios'
+            ? findMainImage?.uri.replace('file://', '')
+            : findMainImage?.uri,
+        type: (findMainImage as ImageToUpload)?.type,
+        name: `flatImage_${(findMainImage as ImageToUpload)?.fileName}`,
+      };
+    }
     if (edit) {
-      const filteredImagesToUpload = imagesToUpload.filter(
-        img => img.uri !== selectedImage?.uri,
-      );
-
-      const newImages = filteredImagesToUpload.map(img => ({
-        uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
-        type: img.type,
-        name: `flatImage-${img.fileName}`,
-      }));
-
-      const filteredExistingImages = displaySavedImages.filter(
-        img => img.uri !== selectedImage?.uri,
-      ) as ImageRecord[];
-
-      const deletedIds = deletedRecordImages.map(img => img.blobId);
-
-      const findMainImage = concatImages.find(
-        img => img.uri === selectedImage?.uri,
-      );
-
-      let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
-      if (findMainImage && !('blobId' in findMainImage)) {
-        mainImage = {
-          uri:
-            Platform.OS === 'ios'
-              ? findMainImage?.uri.replace('file://', '')
-              : findMainImage?.uri,
-          type: (findMainImage as ImageToUpload)?.type,
-          name: `flatImage-${(findMainImage as ImageToUpload)?.fileName}`,
-        };
-      }
-
       try {
         const imagesParams: EditFlatImageParams = {
           flatId: advert?.flat.id ?? 0,
@@ -241,6 +242,8 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
           userType: UserType.LESSOR,
           imageType: ImageType.Flat,
           images: result.data,
+          avatar: null,
+          mainFlatImage: findMainImage ?? null,
         });
         clearImagesToUpload();
       }, 1000);

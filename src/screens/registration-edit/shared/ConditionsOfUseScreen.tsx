@@ -89,15 +89,27 @@ const ConditionsOfUseScreen = () => {
 
   const handleNewUserJourneyCheckout = async () => {
     if (isNewUserLessor) {
-      const flatImagesArray = savedImages.lessor.flatImages;
-      const lessorProfileImagesArray = savedImages.lessor.userImages;
-      handleGetDeviceToken();
       try {
+        await handleGetDeviceToken();
+        const mainFlatImage = savedImages.lessor.mainFlatImage;
+        const flatImages = savedImages.lessor.flatImages;
+        const flatImagesWithNoMainFlatImage = flatImages.filter(
+          image => image.uri !== mainFlatImage?.uri,
+        );
+
+        const avatar = savedImages.lessor.avatar;
+        const lessorProfileImages = savedImages.lessor.userImages;
+        const lessorProfileImagesWithNoAvatar = lessorProfileImages.filter(
+          image => image.uri !== avatar?.uri,
+        );
+
         const result = await completeLessorAndCreateAdvert({
           id: currentUser?.id || 0,
           userChoices: newUserDetails as NewUserLessorDetails,
-          flatImages: flatImagesArray,
-          lessorProfileImages: lessorProfileImagesArray,
+          flatImages: flatImagesWithNoMainFlatImage,
+          mainFlatImage,
+          lessorProfileImages: lessorProfileImagesWithNoAvatar,
+          avatar,
         }).unwrap();
         setErrorMessage('');
         setIsNavigating(true);
@@ -121,12 +133,18 @@ const ConditionsOfUseScreen = () => {
         }
       }
     } else {
-      handleGetDeviceToken();
       try {
+        const avatar = savedImages.tenant.avatar;
+        const photos = savedImages.tenant.userImages;
+        const photosWithNoAvatar = photos.filter(
+          image => image.uri !== avatar?.uri,
+        );
+        await handleGetDeviceToken();
         const result = await completeUserAndCreateTenant({
           id: currentUser?.id || 0,
           userChoices: newUserDetails as NewUserTenantDetails,
-          photos: savedImages.tenant.userImages,
+          photos: photosWithNoAvatar,
+          avatar,
         }).unwrap();
         setErrorMessage('');
         setIsNavigating(true);

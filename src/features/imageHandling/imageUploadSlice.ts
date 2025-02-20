@@ -19,10 +19,13 @@ const initialState: ImageUploadState = {
   savedImages: {
     tenant: {
       userImages: [],
+      avatar: null,
     },
     lessor: {
       userImages: [],
+      avatar: null,
       flatImages: [],
+      mainFlatImage: null,
     },
   },
   deletedRecordImages: [],
@@ -69,14 +72,17 @@ export const imageUploadSlice = createSlice({
     },
 
     setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
-      const {userType, imageType, images} = action.payload;
+      const {userType, imageType, images, avatar, mainFlatImage} = action.payload;
       if (userType === UserType.TENANT) {
         state.savedImages.tenant.userImages = images;
+        state.savedImages.tenant.avatar = avatar || null;
       } else if (userType === UserType.LESSOR) {
         if (imageType === ImageType.User) {
           state.savedImages.lessor.userImages = images;
+          state.savedImages.lessor.avatar = avatar || null;
         } else {
           state.savedImages.lessor.flatImages = images;
+          state.savedImages.lessor.mainFlatImage = mainFlatImage || null;
         }
       }
     },
