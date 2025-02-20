@@ -52,8 +52,6 @@ export const useFlatFeaturesScreen = (
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
   >();
 
-  console.log('NewValue', newValue);
-
   //initial State
   const {data} = useGetAssetsQuery();
   const features = data?.features;
@@ -69,7 +67,7 @@ export const useFlatFeaturesScreen = (
     newUserDetails,
     setNewUserDetails,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {
     data: advert,
@@ -115,11 +113,6 @@ export const useFlatFeaturesScreen = (
     isLessor,
   ]);
 
-  console.log('savedFeaturesIds in flat features', savedFeaturesIds);
-  console.log('selectedFeaturesIds in flat features', selectedFeaturesIds);
-
-  console.log('newUserDetails in flat features', newUserDetails);
-
   useEffect(() => {
     if (savedFeaturesIds && savedFeaturesIds.length > 0) {
       setSelectedFeaturesIds(savedFeaturesIds);
@@ -159,10 +152,6 @@ export const useFlatFeaturesScreen = (
     setError('');
     setShowPopover(false);
   };
-  console.log(
-    'characteristics in flat features',
-    newUserDetails.characteristics,
-  );
 
   const createError = (err: unknown) => {
     const typedError = err as {
@@ -208,14 +197,12 @@ export const useFlatFeaturesScreen = (
     ) {
       if (isLessor) {
         try {
-          console.log('selewcted features', selectedFeaturesIds);
           const editFlatParams: EditFlatParams = {
             flatId: advert?.flat.id ?? 0,
             actionMethod: EditAdvertActions.MatchTags,
             characteristics: newUserDetails.characteristics,
             flatFeatures: selectedFeaturesIds,
           };
-          console.log('data!!!!!!!! PARAMS', editFlatParams);
           await editFlat(editFlatParams).unwrap();
         } catch (err) {
           createError(err);
@@ -239,7 +226,6 @@ export const useFlatFeaturesScreen = (
                 ? selectedFeaturesIds
                 : undefined,
           };
-          console.log('data!!!!!!!!', editProfileParams);
           await editUserProfile(editProfileParams).unwrap();
 
           setError('');
@@ -253,7 +239,6 @@ export const useFlatFeaturesScreen = (
       }
     }
 
-    console.log('NO CHANGES MADE');
     navigation.goBack();
     navigation.goBack();
     resetNewUserState();

@@ -52,7 +52,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     setNewUserDetails,
     isNewUserLessor,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
 
   const {
     data: advert,
@@ -78,9 +78,6 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     currentUser?.profile.characteristics,
     newUserDetails.characteristics,
   ]);
-
-  console.log('savedCharsIds', savedCharsIds);
-  console.log('selectedCharsIds', selectedCharsIds);
 
   useEffect(() => {
     if (savedCharsIds && savedCharsIds.length > 0) {
@@ -124,7 +121,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
     const selectedChars = characteristics?.filter(chars =>
       selectedCharsIds.includes(chars.id),
     );
-    console.log('selectedChars', selectedChars);
+
     const result = characteristicsSchema.safeParse(selectedChars);
     if (!result.success) {
       setError(result.error?.flatten().formErrors.at(0));

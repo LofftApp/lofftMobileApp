@@ -127,9 +127,6 @@ const ApplicantProfileScreen = ({route}: ApplicantProfileScreenProps) => {
       <NotFoundComponent backButton message="We could not find the applicant" />
     );
   }
-  console.log('applicant.profile.avatar', applicant.profile.avatar);
-  console.log('applicant.profile.userPhotos', applicant.profile.userPhotos);
-  console.log('applicant.profile', applicant);
 
   return (
     <View style={CoreStyleSheet.showContainer}>

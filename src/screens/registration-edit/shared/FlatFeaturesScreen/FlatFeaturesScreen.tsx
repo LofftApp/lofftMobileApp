@@ -37,7 +37,6 @@ const FlatFeaturesScreen = ({
   const edit = route?.params?.edit;
   const advertId = route?.params?.advertId;
   const newValue = route?.params?.newValue;
-  console.log('newValue', newValue);
 
   //Safe Area
   const insets = useSafeAreaInsets();

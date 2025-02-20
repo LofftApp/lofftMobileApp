@@ -71,7 +71,7 @@ export const useWhereIsFlatScreen = (
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
   const {isLessor} = useUserType();
   const {newUserDetails, setNewUserDetails, resetNewUserState} =
-    useNewUserDetails(isLessor, edit);
+    useNewUserDetails(edit);
   const {
     data: advert,
     isLoading: isLoadingAdvert,
@@ -137,11 +137,6 @@ export const useWhereIsFlatScreen = (
     }
     return newUserCurrency;
   }, [newUserCurrency, advert?.currency, edit]);
-
-  console.log('savedAddress', savedAddress);
-  console.log('savedPrice', savedPrice);
-  console.log('savedWarmRent', savedWarmRent);
-  console.log('savedCurrency', savedCurrency);
 
   useEffect(() => {
     if (savedAddress) {
@@ -238,17 +233,6 @@ export const useWhereIsFlatScreen = (
     setCurrency(id);
   };
 
-  console.log(
-    'isEqualAddress',
-    !isEqualValue(savedAddress?.address, addressDetails.address),
-  );
-  console.log('isEqualPrice', !isEqualValue(savedPrice?.toString(), price));
-  console.log('isEqualWarmRent', !isEqualValue(savedWarmRent, warmRent));
-  console.log('isEqualCurrency', !isEqualValue(savedCurrency, currency));
-
-  console.log('NEW VALUE', newValue);
-  console.log('IS NOT EQUAL ALL VALUES', isNotEqualAllValues);
-
   const createError = (err: unknown) => {
     const typedError = err as {
       status?: number;
@@ -325,8 +309,7 @@ export const useWhereIsFlatScreen = (
             currency: result.data.currency,
             warmRent: result.data.warmRent,
           };
-          console.log('editFlatParams', editFlatParams);
-          console.log('editAdvertParams', editAdvertParams);
+
           await Promise.all([
             editFlat(editFlatParams).unwrap(),
             editAdvert(editAdvertParams).unwrap(),
@@ -336,7 +319,6 @@ export const useWhereIsFlatScreen = (
           return;
         }
       }
-      console.log('CHANGES WERE MADE');
     }
 
     navigation.goBack();

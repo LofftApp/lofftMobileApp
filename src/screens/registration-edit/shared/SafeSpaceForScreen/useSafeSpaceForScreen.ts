@@ -39,7 +39,6 @@ export const useSafeSpaceForScreen = (
   newValue?: boolean,
 ) => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
-  console.log('newValue in safe space screen', newValue);
   // initial state
   const {data} = useGetAssetsQuery();
   const safeSpaces = data?.safeSpaces;
@@ -58,7 +57,7 @@ export const useSafeSpaceForScreen = (
     newUserDetails,
     setNewUserDetails,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
   const {
     data: advert,
     isLoading: isAdvertLoading,
@@ -131,9 +130,6 @@ export const useSafeSpaceForScreen = (
     setError('');
   };
 
-  console.log('selectedSafeSpaceIds', selectedSafeSpaceIds);
-  console.log('savedSafeSpacesIds', savedSafeSpacesIds);
-
   const createError = (err: unknown) => {
     const typedError = err as {
       status?: number;
@@ -175,7 +171,6 @@ export const useSafeSpaceForScreen = (
             safeSpaces: selectedSafeSpaceIds,
           };
           await editFlat(editFlatParams).unwrap();
-          console.log('WAS EDITED IN LESSOR');
         } catch (err) {
           createError(err);
           return;

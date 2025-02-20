@@ -72,7 +72,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
-  console.log('applyIsLoading', applyIsLoading);
 
   const completeProfile = currentUser?.userType !== 'newuser';
   const hasTokens = currentUser?.credits && currentUser?.credits > 0;

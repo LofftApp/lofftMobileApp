@@ -41,7 +41,6 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -55,10 +54,8 @@ const ConditionsOfUseScreen = () => {
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
 
   const {savedImages} = useImagesToUpload();
-
-  const {isLessor} = useUserType();
   const {isNewUserLessor, newUserDetails, setNewUserDetails} =
-    useNewUserDetails(isLessor);
+    useNewUserDetails();
 
   const [completeUserAndCreateTenant, {isLoading: isLoadingTenant}] =
     useCompleteUserAndCreateTenantMutation();

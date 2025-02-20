@@ -58,7 +58,6 @@ const MapViewFlatCard = ({advert}: {advert: Advert}) => {
   const handleNavigate = () => {
     navigation.navigate('FlatShowScreen', {advertId: advert.id});
   };
-  console.log('advertPic', advert.flat.mainPic);
 
   return (
     <View style={styles.boundryContainer}>

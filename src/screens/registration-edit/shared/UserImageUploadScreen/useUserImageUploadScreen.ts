@@ -60,7 +60,7 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     deletedRecordImages,
     selectedImage,
     setSelectedImage,
-  } = useImagesToUpload();
+  } = useImagesToUpload(ImageType.User);
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
 
@@ -129,23 +129,20 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     setError('');
   };
   console.log('SelectedImage in use', selectedImage);
-  console.log('CurrentSelectionRef in use', currentSelectionRef.current);
+  console.log('CurrentSelectionRef in use', currentSelectionRef);
   console.log('displaySavedImages', displaySavedImages);
   console.log('dbImages', dbImages);
   console.log('savedImages', savedImages);
   console.log('imagesToUpload', imagesToUpload);
 
   const isNotAllEqual = () => {
-    if (edit) {
-      return (
-        !isEqualValue(dbImages, displaySavedImages) ||
-        !isEqualValue(dbImages, imagesToUpload) ||
-        !isEqualValue(selectedImage?.uri, currentSelectionRef.current)
-      );
-    } else {
-      !isEqualValue(displaySavedImages, imagesToUpload) ||
-        !isEqualValue(selectedImage?.uri, currentSelectionRef.current);
-    }
+    return (
+      imagesToUpload.length > 0 ||
+      !isEqualValue(
+        selectedImage?.uri ? selectedImage?.uri : selectedImage,
+        currentSelectionRef.current,
+      )
+    );
   };
 
   const handleBackButton = () => {

@@ -47,7 +47,7 @@ export const useFlatDescribeScreen = (
     newUserDetails,
     isNewUserLessor,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
   const {
     data: advert,
     isLoading: isAdvertLoading,
@@ -85,8 +85,6 @@ export const useFlatDescribeScreen = (
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log('NEW VALUE', newValue);
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -154,8 +152,7 @@ export const useFlatDescribeScreen = (
             size: lessorSize,
             flatDescription: result.data,
           };
-        await editFlat(editFlatParams).unwrap();
-          console.log('IT HAS BEEN EDITED');
+          await editFlat(editFlatParams).unwrap();
         } catch (err) {
           createError(err);
           return;

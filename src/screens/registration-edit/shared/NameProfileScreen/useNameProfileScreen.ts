@@ -50,7 +50,7 @@ export const useNameProfileScreen = (edit?: boolean) => {
     setNewUserDetails,
     newUserDetails,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
   const savedProfileData = useMemo(() => {
@@ -87,7 +87,6 @@ export const useNameProfileScreen = (edit?: boolean) => {
     newUserDetails.lastName,
     newUserDetails.dateOfBirth,
   ]);
-  console.log('DATE', date);
 
   useEffect(() => {
     if (savedProfileData?.firstName) {
@@ -103,15 +102,11 @@ export const useNameProfileScreen = (edit?: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('currentUser', currentUser);
-
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
-  console.log('hasShownPopover', hasShownPopover);
-  console.log('savedProfileData', savedProfileData);
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -186,7 +181,6 @@ export const useNameProfileScreen = (edit?: boolean) => {
 
       return;
     }
-    console.log('result', result);
 
     setNewUserDetails({
       firstName: result.data.firstName,

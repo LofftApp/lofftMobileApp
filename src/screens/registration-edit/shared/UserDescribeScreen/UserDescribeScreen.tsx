@@ -36,7 +36,6 @@ const UserDescribeScreen = ({
 }) => {
   const edit = route?.params?.edit;
   const newValue = route?.params?.newValue;
-  console.log('newValue in describe screen', newValue);
   //Animation
   const {fadeInAnim} = useFadeInAnimation();
   const insets = useSafeAreaInsets();

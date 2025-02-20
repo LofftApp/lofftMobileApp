@@ -61,7 +61,7 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     newUserDetails,
     setNewUserDetails,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
 
@@ -86,9 +86,6 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
   // Local State
   const [selectedGenderIds, setSelectedGenderIds] = useState<number[]>([]);
   const [error, setError] = useState<string | undefined>('');
-  console.log('savedGender', savedGender);
-  console.log('selectedGenderIds', selectedGenderIds);
-  console.log('currentUser', currentUser);
 
   useEffect(() => {
     if (savedGender && savedGender.length > 0) {
@@ -122,8 +119,6 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     setError('');
     setShowPopover(false);
   };
-  console.log('selectedGenderIds', selectedGenderIds);
-  console.log('savedGenderIds', savedGenderIds);
 
   const handleContinue = async () => {
     const selectedGenders = genders?.filter(g =>

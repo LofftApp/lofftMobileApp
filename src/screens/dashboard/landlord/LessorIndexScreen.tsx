@@ -25,7 +25,6 @@ const LessorIndexScreen = () => {
   const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
   const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const adverts = data?.adverts;
-  console.log('adverts', adverts);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>

@@ -58,7 +58,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     savedImages,
     deletedRecordImages,
     selectedImage,
-  } = useImagesToUpload();
+  } = useImagesToUpload(ImageType.Flat);
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
   const totalImages =
@@ -98,7 +98,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     mainFlatImage: mainSavedImage,
   });
 
-  console.log('currentSelectionRef', currentSelectionRef.current);
+  console.log('currentSelectionRef', currentSelectionRef);
   console.log('selectedImage', selectedImage);
   console.log('imagesToUpload', imagesToUpload);
   console.log('savedImages', savedImages);
@@ -126,19 +126,32 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   };
 
   const isNotAllEqual = () => {
-    if (edit) {
-      return (
-        !isEqualValue(dbImages, displaySavedImages) ||
-        !isEqualValue(dbImages, imagesToUpload) ||
-        !isEqualValue(selectedImage?.uri, currentSelectionRef.current)
-      );
-    } else {
-      return (
-        !isEqualValue(displaySavedImages, imagesToUpload) ||
-        !isEqualValue(selectedImage?.uri, currentSelectionRef.current)
-      );
-    }
+    return (
+      imagesToUpload.length > 0 ||
+      !isEqualValue(
+        selectedImage?.uri ? selectedImage?.uri : selectedImage,
+        currentSelectionRef.current,
+      )
+    );
   };
+
+  console.log('selectedImage?.uri', selectedImage);
+  console.log('currentSelectionRef.current', currentSelectionRef.current);
+
+  console.log(
+    '!isEqualValue(dbImages, displaySavedImages)',
+    !isEqualValue(dbImages, displaySavedImages),
+  );
+  console.log(
+    '!isEqualValue(dbImages, imagesToUpload)',
+    !isEqualValue(dbImages, imagesToUpload),
+  );
+
+  console.log('imagesToUpload.length > 0', imagesToUpload.length > 0);
+  console.log(
+    '!isEqualValue(selectedImage?.uri, currentSelectionRef.current)',
+    !isEqualValue(selectedImage, currentSelectionRef.current),
+  );
 
   const handleBackButton = () => {
     if (!hasShownPopover && isNotAllEqual()) {

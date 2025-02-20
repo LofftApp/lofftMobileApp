@@ -79,10 +79,12 @@ const SettingsScreen = () => {
   const userView = isLessor ? UserType.LESSOR : UserType.TENANT;
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
   const advertPhotos =
-  adverts?.map(advert => ({
-    photo: advert?.flat?.mainPic ?? fallBackAdvertPic,
-    advertId: advert?.id,
-  }))?.filter(item => item.photo) || [];
+    adverts
+      ?.map(advert => ({
+        photo: advert?.flat?.mainPic ?? fallBackAdvertPic,
+        advertId: advert?.id,
+      }))
+      ?.filter(item => item.photo) || [];
 
   const tenantSettingsData = [
     {
@@ -160,8 +162,6 @@ const SettingsScreen = () => {
   };
 
   const userImageUri = currentUser?.profile?.avatar?.uri ?? fallBackProfilePic;
-  console.log('userImageUri', userImageUri);
-  console.log('currentUser', currentUser);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

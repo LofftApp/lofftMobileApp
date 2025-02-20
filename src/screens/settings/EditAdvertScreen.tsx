@@ -28,10 +28,10 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
+import {ImageType} from 'reduxFeatures/imageHandling/types';
 
 const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   const advertId = route?.params?.advertId;
-  console.log('advertId', advertId);
   const {
     data: advert,
     isLoading,
@@ -40,7 +40,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
     refetchOnMountOrArgChange: true,
   });
   const {isLessor} = useUserType();
-  const {clearImagesToUpload} = useImagesToUpload();
+  const {clearImagesToUpload} = useImagesToUpload(ImageType.Flat);
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 

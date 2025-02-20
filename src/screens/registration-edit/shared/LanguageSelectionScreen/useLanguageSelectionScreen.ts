@@ -58,7 +58,6 @@ export const useLanguageSelectionScreen = (
     refetchOnMountOrArgChange: true,
   });
   const languagesData = data?.languages;
-  console.log('languagesData', data);
 
   const sortedLanguages = useMemo(() => {
     const prioritizedLanguages = [40, 51, 148, 128, 85, 156, 47, 70, 126];
@@ -83,8 +82,6 @@ export const useLanguageSelectionScreen = (
     });
   }, [languagesData]);
 
-  console.log(sortedLanguages);
-
   // Redux
   const {isLessor} = useUserType();
   const {
@@ -92,7 +89,7 @@ export const useLanguageSelectionScreen = (
     newUserDetails,
     setNewUserDetails,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
   const {
     data: advert,
@@ -125,8 +122,6 @@ export const useLanguageSelectionScreen = (
     currentUser?.profile?.profileLanguages,
     newUserDetails?.languages,
   ]);
-
-  console.log('savedLanguages', savedLanguages);
 
   useEffect(() => {
     if (savedLanguages && savedLanguages.length > 0) {
@@ -190,9 +185,6 @@ export const useLanguageSelectionScreen = (
     handleClearSearch();
     setError('');
   };
-
-  console.log('languagesIds', languagesIds);
-  console.log('currentUser', currentUser);
 
   const createError = (err: unknown) => {
     const typedError = err as {
@@ -259,8 +251,6 @@ export const useLanguageSelectionScreen = (
     handleClearSearch();
     setError('');
   };
-
-  console.log('languagesData', sortedLanguages);
 
   const selectedLanguageNames = sortedLanguages
     ?.filter(language => languagesIds.includes(language.id))

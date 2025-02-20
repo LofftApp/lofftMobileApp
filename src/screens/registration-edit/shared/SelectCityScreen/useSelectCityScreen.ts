@@ -56,7 +56,7 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     newUserDetails,
     isNewUserLessor,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
 
   const {
     data: advert,
@@ -117,12 +117,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
   const [isQuery, setIsQuery] = useState(false);
   const [error, setError] = useState<string | undefined>('');
 
-  // console.log('currentUser', currentUser);
-  console.log('saved city id', savedCityId);
-  console.log('selectedCityId', selectedCityId);
-  console.log('savedDistrictIds', savedDistrictIds);
-  console.log('selectedDistrictIds', selectedDistrictIds);
-
   useEffect(() => {
     if (savedCityId) {
       const matchedCity = cities.find(c => c.id === savedCityId);
@@ -139,7 +133,6 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cities]);
-  console.log('Cities', cities);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({

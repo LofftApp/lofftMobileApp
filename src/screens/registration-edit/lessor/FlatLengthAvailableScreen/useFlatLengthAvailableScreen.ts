@@ -20,7 +20,6 @@ dayjs.extend(isToday);
 
 // Types
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 import {
   useEditAdvertMutation,
@@ -53,9 +52,8 @@ export const useFlatLengthAvailableScreen = (
 
   // Redux
   const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
-  const {isLessor} = useUserType();
   const {newUserDetails, setNewUserDetails, resetNewUserState} =
-    useNewUserDetails(isLessor, edit);
+    useNewUserDetails(edit);
   const {
     data: advert,
     isLoading: isAdvertLoading,
@@ -66,7 +64,6 @@ export const useFlatLengthAvailableScreen = (
   });
 
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
-  console.log('currentUser', currentUser);
   const [
     editAdvert,
     {isLoading: isEditAdvertLoading, isError: isEditAdvertError},
@@ -75,7 +72,7 @@ export const useFlatLengthAvailableScreen = (
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
       userId: currentUser?.id ?? 0,
-      key: edit ? PopoverKeys.Edit : PopoverKeys.Gender,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
   const lessorFromDate =
@@ -92,13 +89,6 @@ export const useFlatLengthAvailableScreen = (
     return edit ? advert?.toDate : lessorUntilDate;
   }, [edit, advert?.toDate, lessorUntilDate]);
 
-  console.log('savedFromDate', savedFromDate);
-  console.log('savedUntilDate', savedUntilDate);
-  console.log('From date', fromDate);
-  console.log('Until date', untilDate);
-  console.log('Today', today);
-  console.log('FromDateSelected', fromDateSelected);
-  console.log('UntilDateSelected', untilDateSelected);
   useEffect(() => {
     if (savedFromDate) {
       if (dayjs(new Date(savedFromDate)).isToday()) {
@@ -247,7 +237,6 @@ export const useFlatLengthAvailableScreen = (
           permanent: result.data.permanent,
         };
         await editAdvert(editAdvertParams).unwrap();
-        console.log('editAdvertParams', editAdvertParams);
       } catch (err) {
         createError(err);
         return;

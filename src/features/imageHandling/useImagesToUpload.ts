@@ -8,15 +8,17 @@ import {
   deleteSavedImage as _deleteSavedImage,
   setSelectedImage as _setSelectedImage,
 } from './imageUploadSlice';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {
   DeleteSavedImagePayload,
-  ImageSource,
   ImageToUpload,
+  ImageType,
   SelectedImage,
 } from './types';
 import {SetSavedImagesPayload} from './types';
 
-export const useImagesToUpload = () => {
+export const useImagesToUpload = (_imageType?: ImageType) => {
   const dispatch = useAppDispatch();
 
   const imagesToUpload = useAppSelector(
@@ -38,9 +40,10 @@ export const useImagesToUpload = () => {
   };
 
   const savedImages = useAppSelector(state => state.imageUpload.savedImages);
-  const selectedImage = useAppSelector(
+  const _selectedImage = useAppSelector(
     state => state.imageUpload.selectedImage,
   );
+  console.log('SelectedImage OBJECT', _selectedImage);
   const deletedRecordImages = useAppSelector(
     state => state.imageUpload.deletedRecordImages,
   );
@@ -62,11 +65,7 @@ export const useImagesToUpload = () => {
 
   const setSelectedImage = useCallback(
     (image: SelectedImage | null) => {
-      if (image) {
-        dispatch(_setSelectedImage(image));
-      } else {
-        dispatch(_setSelectedImage({uri: '', source: ImageSource.Saved}));
-      }
+      dispatch(_setSelectedImage(image));
     },
     [dispatch],
   );
@@ -78,6 +77,24 @@ export const useImagesToUpload = () => {
   }: DeleteSavedImagePayload) => {
     dispatch(_deleteSavedImage({userType, imageType, uri}));
   };
+
+  const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor);
+
+  const getSelectedImage = useCallback(() => {
+    if (!_imageType) {
+      return null;
+    }
+
+    if (isLessor || isNewUserLessor) {
+      return _imageType === ImageType.User
+        ? _selectedImage?.lessor?.user
+        : _selectedImage?.lessor?.flat;
+    }
+    return _selectedImage?.tenant?.user;
+  }, [isLessor, isNewUserLessor, _imageType, _selectedImage]);
+
+  const selectedImage = getSelectedImage();
 
   return {
     imagesToUpload,

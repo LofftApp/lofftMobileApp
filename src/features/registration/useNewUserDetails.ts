@@ -7,9 +7,11 @@ import {
 import {NewUserLessorDetails, NewUserTenantDetails} from './types';
 import {useEffect, useCallback} from 'react';
 import {UserType} from 'reduxFeatures/user/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
-export const useNewUserDetails = (isLessor: boolean, edit: boolean = false) => {
+export const useNewUserDetails = (edit: boolean = false) => {
   const dispatch = useAppDispatch();
+  const {isLessor} = useUserType();
   const userType = useAppSelector(state => state.newUser.userType);
   const isNewUserLessor = userType === UserType.LESSOR;
   const isNewUserTenant = userType === UserType.TENANT;

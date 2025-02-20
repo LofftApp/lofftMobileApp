@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🐰
@@ -29,24 +29,13 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
     deleteSavedImage,
     setSelectedImage,
     selectedImage,
-  } = useImagesToUpload();
+  } = useImagesToUpload(imageType);
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
 
-  const getSelectedImage = () => {
-    if (isLessor || isNewUserLessor) {
-      return imageType === ImageType.User
-        ? selectedImage?.lessor?.user
-        : selectedImage?.lessor?.flat;
-    }
-    return selectedImage?.tenant?.user;
-  };
-
-  console.log('getSelectedImage()', getSelectedImage());
-
   const savedImagesDisplay =
     isNewUserLessor || isLessor
-      ? imageType === ImageType.User
+      ? imageType === 'user'
         ? savedImages.lessor.userImages
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
@@ -78,9 +67,9 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
               selectedIndex={
-                getSelectedImage()?.source === ImageSource.Saved
+                selectedImage?.source === 'saved'
                   ? savedImagesDisplay.findIndex(
-                      img => img.uri === getSelectedImage()?.uri,
+                      img => img.uri === selectedImage.uri,
                     )
                   : null
               }
@@ -127,9 +116,9 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
               selectedIndex={
-                getSelectedImage()?.source === ImageSource.Upload
+                selectedImage?.source === ImageSource.Upload
                   ? imagesToUpload.findIndex(
-                      img => img.uri === getSelectedImage()?.uri,
+                      img => img.uri === selectedImage.uri,
                     )
                   : null
               }

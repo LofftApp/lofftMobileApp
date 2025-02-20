@@ -46,11 +46,10 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     newUserDetails,
     isNewUserLessor,
     resetNewUserState,
-  } = useNewUserDetails(isLessor, edit);
+  } = useNewUserDetails(edit);
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
   const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
     useEditUserProfileMutation();
-  console.log('currentUser', currentUser);
 
   const savedDescription = useMemo(() => {
     if (edit) {
@@ -82,7 +81,6 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   const handleOnBlur = () => {
     setTextFocus(false);
   };
-  console.log('hasShwonPopover in describe', hasShownPopover);
 
   const handleBackButton = () => {
     if (!hasShownPopover && !isEqualValue(savedDescription, text)) {
@@ -127,7 +125,6 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
             dateOfBirth: newUserDetails.dateOfBirth,
             selfDescription: result.data,
           };
-        console.log('editParams', editParams);
         await editUserProfile(editParams).unwrap();
         setError('');
         navigation.goBack();
@@ -151,7 +148,6 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
     setShowPopover(false);
   };
 
-  console.log('NewuSer', newUserDetails);
   return {
     handleOnChange,
     handleOnFocus,
