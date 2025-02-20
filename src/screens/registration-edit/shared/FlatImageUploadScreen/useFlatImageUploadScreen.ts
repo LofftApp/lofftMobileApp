@@ -16,7 +16,8 @@ import {
   useEditFlatImageMutation,
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 
 //Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -27,6 +28,9 @@ import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
 //Validation 🛡 ️
 import {flatImagesSchema} from 'lib/zodSchema';
 
+// Helpers
+import {isEqualValue} from 'helpers/isEqualValue';
+
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {
@@ -36,10 +40,7 @@ import {
   NewImage,
 } from 'reduxFeatures/imageHandling/types';
 import {UserType} from 'reduxFeatures/user/types';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {isEqualValue} from 'helpers/isEqualValue';
 
 export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
   //Navigation
@@ -59,8 +60,8 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     deletedRecordImages,
     selectedImage,
   } = useImagesToUpload(ImageType.Flat);
-  const {isLessor} = useUserType();
-  const {isNewUserLessor} = useNewUserDetails(isLessor);
+
+  const {isNewUserLessor} = useNewUserDetails();
   const totalImages =
     imagesToUpload.length + savedImages.lessor.flatImages.length;
 

@@ -61,8 +61,9 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     selectedImage,
     setSelectedImage,
   } = useImagesToUpload(ImageType.User);
+
   const {isLessor} = useUserType();
-  const {isNewUserLessor} = useNewUserDetails(isLessor);
+  const {isNewUserLessor} = useNewUserDetails();
 
   const {
     data: currentUser,

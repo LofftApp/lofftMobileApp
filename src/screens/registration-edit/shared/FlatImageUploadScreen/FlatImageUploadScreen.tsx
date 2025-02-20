@@ -31,6 +31,7 @@ import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
 
 import {ImageType} from 'reduxFeatures/imageHandling/types';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const FlatImageUploadScreen = ({
   route,
@@ -96,17 +97,7 @@ const FlatImageUploadScreen = ({
           {(error || isEditFlatError) && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditFlatLoading ? (
-                  <LoadingButtonIcon />
-                ) : (
-                  'Save'
-                )
-              ) : (
-                'Continue'
-              )
-            }
+            value={edit ? 'Save' : 'Continue'}
             disabled={totalImages > MAX_FLAT_IMAGES || isEditFlatLoading}
             onPress={handleContinue}
           />
@@ -120,6 +111,7 @@ const FlatImageUploadScreen = ({
         showPopover={showPopover}
         setShowPopover={setShowPopover}
       />
+      <OpacityOverlay loadingState={isEditFlatLoading} />
     </SafeAreaView>
   );
 };
