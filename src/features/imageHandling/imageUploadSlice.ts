@@ -29,7 +29,15 @@ const initialState: ImageUploadState = {
     },
   },
   deletedRecordImages: [],
-  selectedImage: null,
+  selectedImage: {
+    tenant: {
+      user: null,
+    },
+    lessor: {
+      user: null,
+      flat: null,
+    },
+  },
 };
 
 const deleteImageByUri = <T extends ImageBase>(
@@ -49,14 +57,28 @@ export const imageUploadSlice = createSlice({
       state.imagesToUpload = [...state.imagesToUpload, ...action.payload];
     },
 
-    setSelectedImage: (state, action: PayloadAction<SelectedImage>) => {
-      const {uri, source, blobId} = action.payload;
+    setSelectedImage: (state, action: PayloadAction<SelectedImage | null>) => {
+      if (action.payload === null) {
+        state.selectedImage = initialState.selectedImage;
+        return;
+      }
 
-      if (!uri) {
-        state.selectedImage = null;
-      } else {
-        state.selectedImage =
-          blobId !== undefined ? {uri, source, blobId} : {uri, source};
+      const {uri, source, blobId, userType, imageType} = action.payload;
+      const hasBlobId = blobId !== undefined;
+      if (userType === UserType.TENANT) {
+        state.selectedImage.tenant.user = hasBlobId
+          ? {uri, source, blobId, userType, imageType}
+          : {uri, source, userType, imageType};
+      } else if (userType === UserType.LESSOR) {
+        if (imageType === ImageType.User) {
+          state.selectedImage.lessor.user = hasBlobId
+            ? {uri, source, blobId, userType, imageType}
+            : {uri, source, userType, imageType};
+        } else {
+          state.selectedImage.lessor.flat = hasBlobId
+            ? {uri, source, blobId, userType, imageType}
+            : {uri, source, userType, imageType};
+        }
       }
     },
 
@@ -72,7 +94,8 @@ export const imageUploadSlice = createSlice({
     },
 
     setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
-      const {userType, imageType, images, avatar, mainFlatImage} = action.payload;
+      const {userType, imageType, images, avatar, mainFlatImage} =
+        action.payload;
       if (userType === UserType.TENANT) {
         state.savedImages.tenant.userImages = images;
         state.savedImages.tenant.avatar = avatar || null;

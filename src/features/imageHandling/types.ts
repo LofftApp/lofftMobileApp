@@ -24,6 +24,8 @@ enum ImageSource {
 interface SelectedImage extends ImageBase {
   source: ImageSource;
   blobId?: number;
+  userType: UserType;
+  imageType: ImageType;
 }
 
 type SavedImage = ImageToUpload | ImageRecord | SelectedImage;
@@ -57,7 +59,15 @@ interface ImageUploadState {
     };
   };
   deletedRecordImages: ImageRecord[];
-  selectedImage: SelectedImage | null;
+  selectedImage: {
+    tenant: {
+      user: SelectedImage | null;
+    };
+    lessor: {
+      user: SelectedImage | null;
+      flat: SelectedImage | null;
+    };
+  };
 }
 
 enum ImageType {

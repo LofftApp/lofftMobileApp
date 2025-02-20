@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 // Redux 🐰
@@ -33,18 +33,34 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
 
+  const getSelectedImage = () => {
+    if (isLessor || isNewUserLessor) {
+      return imageType === ImageType.User
+        ? selectedImage?.lessor?.user
+        : selectedImage?.lessor?.flat;
+    }
+    return selectedImage?.tenant?.user;
+  };
+
+  console.log('getSelectedImage()', getSelectedImage());
+
   const savedImagesDisplay =
     isNewUserLessor || isLessor
-      ? imageType === 'user'
+      ? imageType === ImageType.User
         ? savedImages.lessor.userImages
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
 
-  const handleImageSelection = ({uri, source, blobId}: SelectedImage) => {
+  const handleImageSelection = ({
+    uri,
+    source,
+    blobId,
+    userType,
+  }: SelectedImage) => {
     if (blobId !== undefined) {
-      setSelectedImage({uri, source, blobId});
+      setSelectedImage({uri, source, blobId, userType, imageType});
     } else {
-      setSelectedImage({uri, source});
+      setSelectedImage({uri, source, userType, imageType});
     }
   };
   return (
@@ -62,9 +78,9 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
               selectedIndex={
-                selectedImage?.source === 'saved'
+                getSelectedImage()?.source === ImageSource.Saved
                   ? savedImagesDisplay.findIndex(
-                      img => img.uri === selectedImage.uri,
+                      img => img.uri === getSelectedImage()?.uri,
                     )
                   : null
               }
@@ -75,6 +91,11 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
                   uri: image.uri,
                   source: ImageSource.Saved,
                   blobId,
+                  userType:
+                    isNewUserLessor || isLessor
+                      ? UserType.LESSOR
+                      : UserType.TENANT,
+                  imageType,
                 });
               }}
               deleteImage={uri =>
@@ -106,9 +127,9 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
               selectedIndex={
-                selectedImage?.source === ImageSource.Upload
+                getSelectedImage()?.source === ImageSource.Upload
                   ? imagesToUpload.findIndex(
-                      img => img.uri === selectedImage.uri,
+                      img => img.uri === getSelectedImage()?.uri,
                     )
                   : null
               }
@@ -116,6 +137,11 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
                 handleImageSelection({
                   uri: imagesToUpload[index as number].uri,
                   source: ImageSource.Upload,
+                  userType:
+                    isNewUserLessor || isLessor
+                      ? UserType.LESSOR
+                      : UserType.TENANT,
+                  imageType,
                 })
               }
               deleteImage={uri => deleteImageToUpload(uri)}

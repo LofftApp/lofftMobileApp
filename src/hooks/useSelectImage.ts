@@ -33,6 +33,17 @@ export const useSelectImage = ({
   const {imagesToUpload, setSavedImages, selectedImage, setSelectedImage} =
     useImagesToUpload();
 
+  const getSelectedImage = useCallback(() => {
+    if (userType === UserType.LESSOR) {
+      return imageType === ImageType.User
+        ? selectedImage?.lessor?.user
+        : selectedImage?.lessor?.flat;
+    }
+    return selectedImage?.tenant?.user;
+  }, [userType, imageType, selectedImage]);
+
+  console.log ('getSelectedImage in use select hook', getSelectedImage());
+
   useEffect(() => {
     if (edit && dbImages.length > 0) {
       setSavedImages({
@@ -54,12 +65,12 @@ export const useSelectImage = ({
         avatar: avatar || null,
         mainFlatImage: mainFlatImage || null,
       });
-
-      if (selectedImage) {
-        currentSelectionRef.current = selectedImage.uri;
-        setSelectedImage(selectedImage);
-      }
     }
+
+    // setSelectedImage(null);
+    // currentSelectionRef.current = null;
+
+    console.log('Initial selected image:', getSelectedImage());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -68,9 +79,11 @@ export const useSelectImage = ({
   // Find an existing image in one of the lists
 
   const findImageByUri = useCallback(
-    (uri: string) =>
-      imagesToUpload.find(img => img.uri === uri) ||
-      displaySavedImages.find(img => img.uri === uri),
+    (uri?: string) =>
+      uri
+        ? imagesToUpload.find(img => img.uri === uri) ||
+          displaySavedImages.find(img => img.uri === uri)
+        : null,
     [imagesToUpload, displaySavedImages],
   );
 
@@ -92,12 +105,22 @@ export const useSelectImage = ({
 
     const source =
       imagesToUpload.length > 0 ? ImageSource.Upload : ImageSource.Saved;
-    return defaultImage ? {uri: defaultImage.uri, source} : null;
-  }, [imagesToUpload, displaySavedImages, dbImages, edit, selectedImage]);
+    return defaultImage
+      ? {uri: defaultImage.uri, source, userType, imageType}
+      : null;
+  }, [
+    imagesToUpload,
+    displaySavedImages,
+    dbImages,
+    edit,
+    selectedImage,
+    userType,
+    imageType,
+  ]);
 
   useEffect(() => {
     // 1. If the selected image was deleted
-    if (selectedImage && !findImageByUri(selectedImage.uri)) {
+    if (getSelectedImage() && !findImageByUri(getSelectedImage()?.uri)) {
       const defaultImage = getDefaultImage();
       if (defaultImage) {
         currentSelectionRef.current = defaultImage.uri;
@@ -108,14 +131,19 @@ export const useSelectImage = ({
     }
 
     // 2️  Image is upload but moved to saved
-    if (selectedImage && selectedImage.source === ImageSource.Upload) {
+    if (
+      getSelectedImage() &&
+      getSelectedImage()?.source === ImageSource.Upload
+    ) {
       const savedImage = displaySavedImages.find(
-        img => img.uri === selectedImage.uri,
+        img => img.uri === getSelectedImage()?.uri,
       );
       if (savedImage) {
         const updatedImage: SelectedImage = {
           uri: savedImage.uri,
           source: ImageSource.Saved,
+          userType,
+          imageType,
         };
         currentSelectionRef.current = updatedImage.uri;
         setSelectedImage(updatedImage);
@@ -149,6 +177,9 @@ export const useSelectImage = ({
     findImageByUri,
     getDefaultImage,
     dbImages,
+    userType,
+    imageType,
+    getSelectedImage,
   ]);
 
   return {

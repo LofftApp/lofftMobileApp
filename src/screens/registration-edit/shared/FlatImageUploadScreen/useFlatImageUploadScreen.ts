@@ -58,7 +58,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     savedImages,
     deletedRecordImages,
     selectedImage,
-    setSelectedImage,
   } = useImagesToUpload();
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails(isLessor);
@@ -154,7 +153,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     navigation.goBack();
     setError('');
     clearImagesToUpload();
-    setSelectedImage(null);
   };
 
   const createError = (err: unknown) => {
@@ -226,7 +224,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
         await editFlatImage(imagesParams).unwrap();
         navigation.goBack();
         clearImagesToUpload();
-        setSelectedImage(null);
       } catch (err) {
         createError(err);
         return;
