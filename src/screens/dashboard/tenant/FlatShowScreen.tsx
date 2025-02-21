@@ -78,6 +78,7 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log('apoplied', advert?.applied);
 
   // Local state
   const [isApplied, setIsApplied] = useState(false);

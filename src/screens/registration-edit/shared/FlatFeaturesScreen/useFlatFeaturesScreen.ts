@@ -42,6 +42,8 @@ import {
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -112,6 +114,8 @@ export const useFlatFeaturesScreen = (
     newUserDetails,
     isLessor,
   ]);
+
+  const {showToast} = useToast();
 
   useEffect(() => {
     if (savedFeaturesIds && savedFeaturesIds.length > 0) {
@@ -241,6 +245,10 @@ export const useFlatFeaturesScreen = (
 
     navigation.goBack();
     navigation.goBack();
+    showToast({
+      message: 'Your changes have been saved',
+      type: ToastTypes.Success,
+    });
     resetNewUserState();
     setError('');
     setShowPopover(false);

@@ -37,7 +37,12 @@ const FavoritesScreen = () => {
 
   const credits = currentUser?.credits;
   const favorites = data?.favorites;
+  console.log('favorites', favorites);
   const isApplied = favorites?.some(favorite => favorite.applied);
+  console.log('isApplied', isApplied);
+
+  const allApplied = favorites?.map(el => el.applied);
+  console.log('allAplied', allApplied);
 
   const {showPopover, setShowPopover} = useAutoPopoverTrigger({
     userId: currentUser?.id ?? 0,

@@ -3,7 +3,12 @@ import React from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import Color from 'styles/lofftColorPallet.json';
 
-const OpacityOverlay = ({loadingState}: {loadingState: boolean}) => {
+type OpacityOverlayProps = {
+  loadingState: boolean;
+  icon?: boolean;
+};
+
+const OpacityOverlay = ({loadingState, icon = false}: OpacityOverlayProps) => {
   const overlayOpacity = React.useMemo(
     () => new Animated.Value(loadingState ? 1 : 0),
     [loadingState],
@@ -19,7 +24,7 @@ const OpacityOverlay = ({loadingState}: {loadingState: boolean}) => {
 
   return (
     <Animated.View style={[styles.overlay, {opacity: overlayOpacity}]}>
-      <LoadingButtonIcon size="large" />
+      {icon && <LoadingButtonIcon size="large" color={Color.Lavendar[100]} />}
     </Animated.View>
   );
 };

@@ -34,6 +34,8 @@ import {useRequestUserPermissionForNotifications} from 'hooks/useRequestUserPerm
 import {useFCMToken} from 'hooks/useFcmToken';
 import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
 import {View} from 'react-native';
+import Toast from 'components/toast/Toast';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 // Remove ErrorBoundary in production
 
@@ -84,6 +86,8 @@ const App = () => {
   //Foreground Notifications
   useForegroundNotifications(isAuth);
 
+  const {visible, message, type} = useToast();
+
   const handleBackButton = () => {
     signOut();
   };
@@ -108,6 +112,10 @@ const App = () => {
 
   return (
     <>
+      {visible && message && type && (
+        <Toast message={message} type={type} condition={visible} />
+      )}
+
       {!isAuth ? (
         <>
           <GuestStackNavigator />

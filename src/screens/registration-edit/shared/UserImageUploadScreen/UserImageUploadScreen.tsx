@@ -30,6 +30,7 @@ import {MAX_USER_IMAGES} from 'components/componentData/constants';
 //Types 🏷️
 import {ImageType} from 'reduxFeatures/imageHandling/types';
 import OpacityOverlay from 'components/modals/OpacityOverlay';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const UserImageUploadScreen = ({
   route,
@@ -95,7 +96,17 @@ const UserImageUploadScreen = ({
           {(error || isEditProfileError) && <ErrorMessage message={error} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
+            value={
+              edit ? (
+                isEditProfileLoading ? (
+                  <LoadingButtonIcon />
+                ) : (
+                  'Save'
+                )
+              ) : (
+                'Continue'
+              )
+            }
             disabled={totalImages > MAX_USER_IMAGES || isEditProfileLoading}
             onPress={handleContinue}
           />
