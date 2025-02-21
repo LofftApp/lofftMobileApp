@@ -60,6 +60,7 @@ export const imageUploadSlice = createSlice({
     setSelectedImage: (state, action: PayloadAction<SelectedImage | null>) => {
       if (action.payload === null) {
         state.selectedImage = initialState.selectedImage;
+        console.log('SelectedImage cleared');
         return;
       }
 
@@ -91,9 +92,18 @@ export const imageUploadSlice = createSlice({
     clearImagesToUpload: state => {
       state.imagesToUpload = [];
       state.deletedRecordImages = [];
+      console.log('ImagesToUpload cleared');
     },
 
-    setSavedImages: (state, action: PayloadAction<SetSavedImagesPayload>) => {
+    setSavedImages: (
+      state,
+      action: PayloadAction<SetSavedImagesPayload | null>,
+    ) => {
+      if (action.payload === null) {
+        state.savedImages = initialState.savedImages;
+        console.log('SavedImages cleared');
+        return;
+      }
       const {userType, imageType, images, avatar, mainFlatImage} =
         action.payload;
       if (userType === UserType.TENANT) {

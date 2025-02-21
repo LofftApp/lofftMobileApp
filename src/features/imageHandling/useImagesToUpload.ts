@@ -49,16 +49,8 @@ export const useImagesToUpload = (_imageType?: ImageType) => {
   );
 
   const setSavedImages = useCallback(
-    ({
-      userType,
-      imageType,
-      images,
-      avatar,
-      mainFlatImage,
-    }: SetSavedImagesPayload) => {
-      dispatch(
-        _setSavedImages({userType, imageType, images, avatar, mainFlatImage}),
-      );
+    (image: SetSavedImagesPayload | null) => {
+      dispatch(_setSavedImages(image));
     },
     [dispatch],
   );

@@ -154,12 +154,12 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
 
     if (edit) {
       setCurrentScreen(currentScreen - 1);
+      setSelectedImage(null);
     }
 
     navigation.goBack();
     setError('');
     clearImagesToUpload();
-    setSelectedImage(null);
   };
 
   const createError = (err: unknown) => {

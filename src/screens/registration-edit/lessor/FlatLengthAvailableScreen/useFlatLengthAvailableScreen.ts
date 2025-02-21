@@ -236,6 +236,7 @@ export const useFlatLengthAvailableScreen = (
           untilDate: result.data.permanent ? null : untilDate?.toISOString(),
           permanent: result.data.permanent,
         };
+        console.log('editAdvertParams', editAdvertParams);
         await editAdvert(editAdvertParams).unwrap();
       } catch (err) {
         createError(err);

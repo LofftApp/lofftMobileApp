@@ -85,7 +85,7 @@ export const useSelectImage = ({
         ? (defaultImage = dbImages[0])
         : (defaultImage = displaySavedImages[0] || imagesToUpload[0]);
       console.log('default images comes from dbImages', dbImages[0]);
-      if (edit && 'blobId' in defaultImage) {
+      if (edit && defaultImage && 'blobId' in defaultImage) {
         defaultImage = {
           uri: defaultImage.uri,
           source,
