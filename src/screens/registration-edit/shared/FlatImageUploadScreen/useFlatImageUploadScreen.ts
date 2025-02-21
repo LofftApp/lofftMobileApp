@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
@@ -37,7 +36,6 @@ import {
   ImageRecord,
   ImageToUpload,
   ImageType,
-  NewImage,
 } from 'reduxFeatures/imageHandling/types';
 import {UserType} from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
@@ -199,15 +197,9 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
       return;
     }
 
-    const filteredImagesToUpload = imagesToUpload.filter(
+    const newImages = imagesToUpload.filter(
       img => img.uri !== selectedImage?.uri,
     );
-
-    const newImages = filteredImagesToUpload.map(img => ({
-      uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
-      type: img.type,
-      name: `flatImage_${img.fileName}`,
-    }));
 
     const filteredExistingImages = displaySavedImages.filter(
       img => img.uri !== selectedImage?.uri,
@@ -215,21 +207,15 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
 
     const deletedIds = deletedRecordImages.map(img => img.blobId);
 
-    const findMainImage = concatImages.find(
+    const mainImage = concatImages.find(
       img => img.uri === selectedImage?.uri,
-    );
+    ) as ImageRecord | ImageToUpload;
 
-    let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
-    if (findMainImage && !('blobId' in findMainImage)) {
-      mainImage = {
-        uri:
-          Platform.OS === 'ios'
-            ? findMainImage?.uri.replace('file://', '')
-            : findMainImage?.uri,
-        type: (findMainImage as ImageToUpload)?.type,
-        name: `flatImage_${(findMainImage as ImageToUpload)?.fileName}`,
-      };
+    if (!mainImage) {
+      setError('Please select a valid main image.');
+      return;
     }
+
     if (edit) {
       try {
         const imagesParams: EditFlatImageParams = {
@@ -237,9 +223,9 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
           actionMethod: EditAdvertActions.Images,
           data: {
             existingImages: filteredExistingImages,
-            newImages: newImages,
+            newImages,
             deletedImages: deletedIds,
-            mainImage: mainImage,
+            mainImage,
           },
         };
         console.log('imagesParams', imagesParams);
@@ -263,7 +249,7 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
           imageType: ImageType.Flat,
           images: result.data,
           avatar: null,
-          mainFlatImage: findMainImage ?? null,
+          mainFlatImage: mainImage ?? null,
         });
         clearImagesToUpload();
       }, 1000);

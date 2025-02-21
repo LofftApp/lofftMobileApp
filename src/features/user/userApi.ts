@@ -10,11 +10,7 @@ import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {NewUserTenantDetails} from 'reduxFeatures/registration/types';
 
 import {Platform} from 'react-native';
-import {
-  ImageToUpload,
-  NewImage,
-  SavedImage,
-} from 'reduxFeatures/imageHandling/types';
+import {ImageToUpload, SavedImage} from 'reduxFeatures/imageHandling/types';
 
 export const userApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -97,15 +93,50 @@ export const userApi = lofftApi.injectEndpoints({
       },
       invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
+
     editProfileImage: builder.mutation<
       void,
       EditProfileImageParams<UserType.LESSOR | UserType.TENANT>
     >({
-      query: ({userId, actionMethod, userType, data}) => {
+      query: ({
+        userId,
+        actionMethod,
+        userType,
+        data: {existingImages, newImages, deletedImages, mainImage},
+      }) => {
         const formData = new FormData();
         formData.append('actionMethod', actionMethod);
         formData.append('userType', userType);
-        formData.append('data', JSON.stringify(data));
+        formData.append('existingImages', JSON.stringify(existingImages));
+        formData.append('deletedImages', JSON.stringify(deletedImages));
+
+        if (newImages.length > 0) {
+          newImages.forEach((image, index) => {
+            formData.append(`newImages[${index}]`, {
+              uri:
+                Platform.OS === 'ios'
+                  ? image.uri.replace('file://', '')
+                  : image.uri,
+              type: image.type,
+              name: `newImage_${image.fileName}`,
+            });
+          });
+        }
+
+        if (mainImage) {
+          if ('blobId' in mainImage) {
+            formData.append('mainImage', JSON.stringify(mainImage));
+          } else {
+            formData.append('mainImage', {
+              uri:
+                Platform.OS === 'ios'
+                  ? mainImage.uri.replace('file://', '')
+                  : mainImage.uri,
+              type: mainImage.type,
+              name: `mainImage_${mainImage.fileName}`,
+            });
+          }
+        }
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',

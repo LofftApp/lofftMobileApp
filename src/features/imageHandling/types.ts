@@ -37,11 +37,11 @@ interface NewImage extends ImageBase {
 
 type BlobId = number;
 
-interface ImagesToBackend {
+interface EditImagesToBackend {
   existingImages: ImageRecord[];
-  newImages: NewImage[];
+  newImages: ImageToUpload[];
   deletedImages: BlobId[];
-  mainImage: ImageRecord | NewImage;
+  mainImage: ImageRecord | ImageToUpload;
 }
 
 interface ImageUploadState {
@@ -101,6 +101,6 @@ export type {
   SavedImage,
   SelectedImage,
   BlobId,
-  ImagesToBackend,
+  EditImagesToBackend,
 };
 export {ImageType, ImageSource};

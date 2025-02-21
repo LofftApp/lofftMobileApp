@@ -166,15 +166,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
                     ) : (
                       'Apply'
                     )}
-                    {/* {applyIsLoading ? ( // Show spinner while loading
-                      <LoadingButtonIcon />
-                    ) : favorite?.applied ? ( // Show "Applied" after loading completes
-                      'Applied'
-                    ) : applyError ? ( // Show error message if there's an error
-                      'Error. Try Again'
-                    ) : (
-                      'Apply'
-                    )} */}
                   </Text>
                 </Animated.View>
               </TouchableOpacity>

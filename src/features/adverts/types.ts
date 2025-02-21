@@ -14,7 +14,7 @@ import {
 import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 import {
   ImageRecord,
-  ImagesToBackend,
+  EditImagesToBackend,
   NewImage,
 } from 'reduxFeatures/imageHandling/types';
 interface AdvertUser {
@@ -139,7 +139,7 @@ type EditFlatParams = {
 type EditFlatImageParams = {
   flatId: number;
   actionMethod: EditAdvertActions;
-  data: ImagesToBackend;
+  data: EditImagesToBackend;
 };
 
 export type {

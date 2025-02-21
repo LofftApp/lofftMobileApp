@@ -1,5 +1,8 @@
 import {City, District, Language, SafeSpace} from 'reduxFeatures/assets/types';
-import {ImageRecord, ImagesToBackend} from 'reduxFeatures/imageHandling/types';
+import {
+  ImageRecord,
+  EditImagesToBackend,
+} from 'reduxFeatures/imageHandling/types';
 import {
   NewUserLessorDetails,
   NewUserTenantDetails,
@@ -92,13 +95,13 @@ type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
   userType: T;
 } & (T extends UserType.LESSOR
   ? Partial<NewUserLessorDetails>
-  : Partial<NewUserTenantDetails>) & {data?: ImagesToBackend};
+  : Partial<NewUserTenantDetails>) & {data?: EditImagesToBackend};
 
 type EditProfileImageParams<T extends UserType.TENANT | UserType.LESSOR> = {
   userId: number;
   actionMethod: EditProfileActions;
   userType: T;
-} & {data: ImagesToBackend};
+} & {data: EditImagesToBackend};
 
 enum UserType {
   NEWUSER = 'newuser',

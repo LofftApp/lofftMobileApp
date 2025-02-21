@@ -14,7 +14,6 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageSection from 'components/imageUpload/UploadImageSection';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 

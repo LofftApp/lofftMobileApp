@@ -356,11 +356,48 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Applications', id: flatId},
       ],
     }),
+
     editFlatImage: builder.mutation<void, EditFlatImageParams>({
-      query: ({flatId, actionMethod, data}) => {
+      query: ({
+        flatId,
+        actionMethod,
+        data: {existingImages, newImages, deletedImages, mainImage},
+      }) => {
         const formData = new FormData();
         formData.append('actionMethod', actionMethod);
-        formData.append('data', JSON.stringify(data));
+        formData.append('existingImages', JSON.stringify(existingImages));
+        formData.append('deletedImages', JSON.stringify(deletedImages));
+
+        if (newImages.length > 0) {
+          newImages.forEach((image, index) => {
+            formData.append(`newImages[${index}]`, {
+              uri:
+                Platform.OS === 'ios'
+                  ? image.uri.replace('file://', '')
+                  : image.uri,
+              type: image.type,
+              name: `newImage_${image.fileName}`,
+            });
+          });
+        }
+
+        if (mainImage) {
+          if ('blobId' in mainImage) {
+            formData.append('mainImage', JSON.stringify(mainImage));
+          } else {
+            formData.append('mainImage', {
+              uri:
+                Platform.OS === 'ios'
+                  ? mainImage.uri.replace('file://', '')
+                  : mainImage.uri,
+              type: mainImage.type,
+              name: `mainImage_${mainImage.fileName}`,
+            });
+          }
+        }
+
+        console.log('formData in editFlatImage', formData);
+
         return {
           url: `/api/flats/${flatId}`,
           method: 'PATCH',

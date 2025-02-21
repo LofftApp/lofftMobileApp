@@ -14,7 +14,6 @@ import HeadlineContainer from 'components/containers/HeadlineContainer';
 import UploadImageModal from 'components/modals/UploadImageModal';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageSection from 'components/imageUpload/UploadImageSection';

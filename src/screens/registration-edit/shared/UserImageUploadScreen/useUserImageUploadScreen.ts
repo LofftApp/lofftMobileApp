@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
@@ -38,7 +37,6 @@ import {
   ImageRecord,
   ImageToUpload,
   ImageType,
-  NewImage,
 } from 'reduxFeatures/imageHandling/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 
@@ -188,14 +186,9 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       return;
     }
 
-    const filteredImagesToUpload = imagesToUpload.filter(
+    const newImages = imagesToUpload.filter(
       img => img.uri !== selectedImage?.uri,
     );
-    const newImages = filteredImagesToUpload.map(img => ({
-      uri: Platform.OS === 'ios' ? img.uri.replace('file://', '') : img.uri,
-      type: img.type,
-      name: `userImage_${img.fileName}`,
-    }));
 
     const filteredExistingImages = displaySavedImages.filter(
       img => img.uri !== selectedImage?.uri,
@@ -207,16 +200,13 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       img => img.uri === selectedImage?.uri,
     );
 
-    let mainImage: ImageRecord | NewImage = findMainImage as ImageRecord;
-    if (findMainImage && !('blobId' in findMainImage)) {
-      mainImage = {
-        uri:
-          Platform.OS === 'ios'
-            ? findMainImage?.uri.replace('file://', '')
-            : findMainImage?.uri,
-        type: (findMainImage as ImageToUpload)?.type,
-        name: `userImage_${(findMainImage as ImageToUpload)?.fileName}`,
-      };
+    const mainImage = concatImages.find(
+      img => img.uri === selectedImage?.uri,
+    ) as ImageRecord | ImageToUpload;
+
+    if (!mainImage) {
+      setError('Please select a valid main image.');
+      return;
     }
 
     if (edit) {
@@ -230,9 +220,9 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
             isLessor || isNewUserLessor ? UserType.LESSOR : UserType.TENANT,
           data: {
             existingImages: filteredExistingImages,
-            newImages: newImages,
+            newImages,
             deletedImages: deletedIds,
-            mainImage: mainImage,
+            mainImage,
           },
         };
         console.log('imagesProfilesParams', imagesParams);
