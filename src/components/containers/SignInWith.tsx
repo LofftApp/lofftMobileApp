@@ -29,7 +29,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const messageText =
     "Our amazing team is working on this feature. It's coming soon!";
 
-  const {showToast} = useToast({
+  const {showToast, visible} = useToast({
     condition: !!authMessage,
     message: authMessage,
     type: ToastTypes.Info,
@@ -58,7 +58,8 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
     console.log('sign in with google');
     showToast({
       message: messageText,
-      type: ToastTypes.Info,
+      type: ToastTypes.Error,
+      position: 'bottom',
     });
   };
   return (
@@ -70,12 +71,14 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={handleSignInWithApple}
-            style={styles.logInWithButton}>
+            style={[styles.logInWithButton, visible && styles.disabledButton]}
+            disabled={visible}>
             <AppleIcon />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSignInWithGoogle}
-            style={styles.logInWithButton}>
+            style={[styles.logInWithButton, visible && styles.disabledButton]}
+            disabled={visible}>
             <GoogleIcon />
           </TouchableOpacity>
         </View>
@@ -123,6 +126,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.Lavendar[100],
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  disabledButton: {
+    backgroundColor: Colors.Black[30],
+    borderColor: Colors.Black[30],
   },
 });
 

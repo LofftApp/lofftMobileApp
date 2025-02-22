@@ -86,7 +86,7 @@ const App = () => {
   //Foreground Notifications
   useForegroundNotifications(isAuth);
 
-  const {visible, message, type} = useToast();
+  const {visible, message, type, position} = useToast();
 
   const handleBackButton = () => {
     signOut();
@@ -112,8 +112,13 @@ const App = () => {
 
   return (
     <>
-      {visible && message && type && (
-        <Toast message={message} type={type} condition={visible} />
+      {visible && message && type && position && (
+        <Toast
+          message={message}
+          type={type}
+          condition={visible}
+          position={position}
+        />
       )}
 
       {!isAuth ? (

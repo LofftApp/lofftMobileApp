@@ -8,11 +8,9 @@ import {
   View,
 } from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 import {useToast} from 'reduxFeatures/settings/useToast';
 import {fontStyles} from 'styleSheets/fontStyles';
-import Color from 'styleSheets/lofftColorPallet.json';
 
 type ToastProps = {
   condition: boolean;
@@ -24,12 +22,10 @@ type ToastProps = {
 const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
   const {getStyles} = useToast({type, message, condition});
   const {bg, icon, iconColor} = getStyles(type);
-  const insets = useSafeAreaInsets();
-  const {width, height} = useWindowDimensions();
-  const topPosition = position === 'top' ? height * 0.1 : height * 0.816;
+  const {height} = useWindowDimensions();
+  const top = position === 'top';
 
-  // Animated value for slide-up effect
-  const translateY = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(top ? 0 : height * 0.1)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -37,7 +33,7 @@ const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
     if (condition) {
       Animated.parallel([
         Animated.timing(translateY, {
-          toValue: height * 0.04,
+          toValue: top ? height * 0.04 : 0,
           duration: 400,
           useNativeDriver: true,
         }),
@@ -50,13 +46,13 @@ const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
         timer = setTimeout(() => {
           Animated.parallel([
             Animated.timing(translateY, {
-              toValue: 0,
-              duration: 300,
+              toValue: top ? 0 : height * 0.1,
+              duration: 400,
               useNativeDriver: true,
             }),
             Animated.timing(opacity, {
               toValue: 0,
-              duration: 300,
+              duration: 400,
               useNativeDriver: true,
             }),
           ]).start();
@@ -64,19 +60,15 @@ const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
       });
       return () => clearTimeout(timer);
     }
-  }, [condition, translateY, opacity, height]);
+  }, [condition, translateY, opacity, height, top]);
 
   return (
     <Animated.View
       style={[
         styles.messageContainer,
         {
-          // backgroundColor: getStyles(type).bg,
-          // width: width * 0.9,
-          top: topPosition,
-          // left: width * 0.05,
-          // height: height * 0.1,
-          // transform: [{translateY}],
+          top: top ? height * 0.1 : undefined,
+          bottom: top ? undefined : height * 0.1,
           backgroundColor: bg,
           opacity,
           transform: [{translateY}],
@@ -110,7 +102,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5, // For Android shadow
+    elevation: 5,
   },
   messageTextContainer: {
     flexDirection: 'row',

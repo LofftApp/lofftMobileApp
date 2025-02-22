@@ -16,6 +16,7 @@ interface SettingsState {
     type: ToastTypes;
     message: string;
     visible: boolean;
+    position?: 'top' | 'bottom';
   };
 }
 
@@ -26,6 +27,7 @@ const initialState: SettingsState = {
     type: ToastTypes.Success,
     message: '',
     visible: false,
+    position: 'top',
   },
 };
 
@@ -39,12 +41,17 @@ export const settings = createSlice({
 
     showToast: (
       state,
-      action: PayloadAction<{type: ToastTypes; message: string}>,
+      action: PayloadAction<{
+        type: ToastTypes;
+        message: string;
+        position?: 'top' | 'bottom';
+      }>,
     ) => {
       state.toast = {
         type: action.payload.type,
         message: action.payload.message,
         visible: true,
+        position: action.payload.position || 'top',
       };
     },
 

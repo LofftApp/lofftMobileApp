@@ -11,15 +11,22 @@ type useToastProps = {
   condition?: boolean;
   message?: string;
   type?: ToastTypes;
+  position?: 'top' | 'bottom';
 };
 
-export const useToast = ({condition, message, type}: useToastProps = {}) => {
+export const useToast = ({
+  condition,
+  message,
+  type,
+  position,
+}: useToastProps = {}) => {
   const dispatch = useDispatch();
 
   const {
     visible,
     message: toastMessage,
     type: toastType,
+    position: toastPosition,
   } = useAppSelector(state => state.settings.toast);
   const toast = useAppSelector(state => state.settings.toast);
   console.log('toast', toast);
@@ -29,7 +36,7 @@ export const useToast = ({condition, message, type}: useToastProps = {}) => {
       case ToastTypes.Error:
         return {
           bg: Color.Tomato[20],
-          icon: 'alert-circle',
+          icon: 'info-circle',
           iconColor: Color.Tomato[100],
         };
       case ToastTypes.Success:
@@ -62,8 +69,18 @@ export const useToast = ({condition, message, type}: useToastProps = {}) => {
 
   const showToast = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    ({message, type}: {message: string; type: ToastTypes}) => {
-      dispatch(_showToast({message: message, type: type}));
+    ({
+      message: _message,
+      type: _type,
+      position: _position,
+    }: {
+      message: string;
+      type: ToastTypes;
+      position?: 'top' | 'bottom';
+    }) => {
+      dispatch(
+        _showToast({message: _message, type: _type, position: _position}),
+      );
 
       const timer = setTimeout(() => dispatch(_hideToast()), 5000);
 
@@ -73,10 +90,10 @@ export const useToast = ({condition, message, type}: useToastProps = {}) => {
   );
 
   useEffect(() => {
-    if (condition && message && type) {
+    if (condition && message && type && position) {
       showToast({message, type});
     }
-  }, [condition, message, type, showToast]);
+  }, [condition, message, type, showToast, position]);
 
   return {
     getStyles,
@@ -84,5 +101,7 @@ export const useToast = ({condition, message, type}: useToastProps = {}) => {
     visible,
     message: toastMessage,
     type: toastType,
+    position: toastPosition,
+    
   };
 };
