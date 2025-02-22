@@ -1,4 +1,5 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
+import {useLoadImages} from 'hooks/useLoadImages';
 import {
   StyleSheet,
   FlatList,
@@ -10,6 +11,13 @@ import {
 
 // Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {NoFlatImage} from 'assets';
+import ImageEditButton from 'components/buttons/ImageEditButton';
+
+// Styles 🖼️
+import Color from 'styleSheets/lofftColorPallet.json';
+import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 //Helpers
 import {size} from 'react-native-responsive-sizes';
@@ -17,11 +25,6 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷
 import type {ImageSwiperProps} from '../cards/types';
 import type {OnViewableItemsChangedParams} from '../cards/types';
-import ImageEditButton from 'components/buttons/ImageEditButton';
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-import Color from 'styleSheets/lofftColorPallet.json';
-import {NoFlatImage} from 'assets';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const ImageSwiper = ({
   imageContainerHeight,
@@ -34,10 +37,13 @@ const ImageSwiper = ({
   editButton = false,
   deleteImage,
   onPress,
-  isLoading,
   selectedIndex,
 }: ImageSwiperProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+
+  const imagesUri = useMemo(() => images.map(image => image.uri), [images]);
+
+  const {loadingStatuses} = useLoadImages(imagesUri);
 
   const onViewableItemsChanged = useCallback(
     ({viewableItems}: OnViewableItemsChangedParams) => {
@@ -85,7 +91,7 @@ const ImageSwiper = ({
               <Pressable
                 onPress={() => handlePress(index)}
                 style={[styles.pressContainer]}>
-                {isLoading && (
+                {!loadingStatuses[index] && (
                   <View style={styles.loadingContainer}>
                     <LoadingButtonIcon size="small" />
                   </View>
@@ -100,8 +106,9 @@ const ImageSwiper = ({
                       isSelected && styles.selectedImage,
                     ]}
                     source={{uri: item.uri}}
+                    loadingIndicatorSource={NoFlatImage}
                     key={index + 1}
-                    blurRadius={activeBlur || isLoading ? 30 : 0}
+                    blurRadius={activeBlur || !loadingStatuses[index] ? 30 : 0}
                   />
                 ) : (
                   <Image
@@ -112,7 +119,7 @@ const ImageSwiper = ({
                       {marginHorizontal: size(marginHorizontal)},
                     ]}
                     source={NoFlatImage}
-                    blurRadius={activeBlur || isLoading ? 65 : 0}
+                    blurRadius={activeBlur || !loadingStatuses[index] ? 65 : 0}
                   />
                 )}
                 {editButton && <ImageEditButton right={10} />}

@@ -68,7 +68,6 @@ export const useToast = ({
   };
 
   const showToast = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     ({
       message: _message,
       type: _type,
@@ -102,6 +101,5 @@ export const useToast = ({
     message: toastMessage,
     type: toastType,
     position: toastPosition,
-    
   };
 };

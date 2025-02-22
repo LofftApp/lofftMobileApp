@@ -31,7 +31,6 @@ type ImageSwiperProps = {
   editButton?: boolean;
   deleteImage?: (uri: string) => void;
   onPress?: (index?: number) => void;
-  isLoading?: boolean;
   selectedIndex: number | null;
 };
 

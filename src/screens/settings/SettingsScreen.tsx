@@ -196,7 +196,6 @@ const SettingsScreen = () => {
                       handlePressImageSwiper(advertPhotos[index].advertId);
                     }
                   }}
-                  isLoading={isLoading}
                   selectedIndex={null}
                 />
               </View>

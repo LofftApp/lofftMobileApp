@@ -13,7 +13,7 @@ interface Notification {
     chatroomId?: number;
     createdAt: string;
     flat: {
-      url: string;
+      uri: string;
       id: number;
       tagLine: string;
     };

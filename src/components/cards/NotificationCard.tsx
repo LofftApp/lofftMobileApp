@@ -41,6 +41,7 @@ const NotificationCard = ({
 
   const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
   const advertStatus = notification.advert.status;
+  console.log(notification);
 
   console.log(notification.advert.chatroomId);
 
@@ -279,11 +280,11 @@ const NotificationCard = ({
             <Image
               style={styles.advertImage}
               source={
-                notification.advert.flat.url
-                  ? {uri: notification.advert.flat.url}
+                notification.advert.flat.uri
+                  ? {uri: notification.advert.flat.uri}
                   : NoFlatImage
               }
-              testID={notification.advert.flat.url ? 'flat-image' : 'no-flat'}
+              testID={notification.advert.flat.uri ? 'flat-image' : 'no-flat'}
             />
           </View>
         </View>

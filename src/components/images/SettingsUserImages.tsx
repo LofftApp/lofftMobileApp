@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NoAvatarImage} from 'assets';
 import ImageEditButton from 'components/buttons/ImageEditButton';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {useLoadImages} from 'hooks/useLoadImages';
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import React from 'react';
 import {
@@ -15,7 +16,6 @@ import {size} from 'react-native-responsive-sizes';
 
 const SettingsUserImage = ({
   userImageUri,
-  isLoading,
 }: {
   userImageUri?: string;
   isLoading?: boolean;
@@ -23,16 +23,21 @@ const SettingsUserImage = ({
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   const {height} = useWindowDimensions();
 
+  const {allImagesLoaded, setAllImagesLoaded} = useLoadImages(
+    userImageUri ? [userImageUri] : [],
+  );
+
   const handlePress = () => {
     navigation.navigate('NewUserNavigator', {
       screen: 'UserImageUploadScreen',
       params: {edit: true},
     });
   };
+
   return (
     <Pressable style={styles.imageContainer} onPress={handlePress}>
       <View style={styles.loadingContainer}>
-        {isLoading && <LoadingButtonIcon size="large" />}
+        {!allImagesLoaded && <LoadingButtonIcon size="large" />}
       </View>
 
       <View style={styles.profilePicWrapper}>
@@ -42,7 +47,10 @@ const SettingsUserImage = ({
             {height: height * 0.18, width: height * 0.18},
           ]}
           source={userImageUri ? {uri: userImageUri} : NoAvatarImage}
-          blurRadius={isLoading ? 30 : 0}
+          blurRadius={!allImagesLoaded ? 30 : 0}
+          onLoadStart={() => setAllImagesLoaded(false)}
+          onLoad={() => setAllImagesLoaded(true)}
+          onError={() => setAllImagesLoaded(false)}
         />
 
         <Pressable style={styles.editButtonContainer}>
@@ -85,4 +93,5 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+
 export default SettingsUserImage;
