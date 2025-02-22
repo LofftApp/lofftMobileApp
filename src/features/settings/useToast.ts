@@ -50,6 +50,7 @@ export const useToast = ({condition, message, type}: useToastProps = {}) => {
           icon: 'help-circle',
           iconColor: Color.Lavendar[100],
         };
+
       default:
         return {
           bg: Color.Mint[20],

@@ -32,34 +32,23 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const messageText =
     "Our amazing team is working on this feature. It's coming soon!";
 
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage('');
-      }, 3000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [message]);
   const {showToast} = useToast({
     condition: !!authMessage,
     message: authMessage,
     type: ToastTypes.Info,
   });
 
-  // useEffect(() => {
-  //   if (authMessage && isSignInScreen) {
-  //     setMessage(authMessage);
-  //     const timer = setTimeout(() => {
-  //       setMessage('');
-  //       setAuthMessage('');
-  //     }, 3000);
-  //     return () => {
-  //       clearTimeout(timer);
-  //     };
-  //   }
-  // }, [authMessage, isSignInScreen, setAuthMessage]);
+  useEffect(() => {
+    if (authMessage && isSignInScreen) {
+      const timer = setTimeout(() => {
+        setMessage('');
+        setAuthMessage('');
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [authMessage, isSignInScreen, setAuthMessage]);
 
   const handleSignInWithApple = () => {
     console.log('sign in with apple');

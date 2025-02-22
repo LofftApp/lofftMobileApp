@@ -28,6 +28,7 @@ import {size} from 'react-native-responsive-sizes';
 //Constants 📊
 import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const FlatFeaturesScreen = ({
   route,
@@ -157,6 +158,9 @@ const FlatFeaturesScreen = ({
         showPopover={showPopover}
         setShowPopover={setShowPopover}
         save={edit}
+      />
+      <OpacityOverlay
+        loadingState={isEditProfileLoading || isEditFlatLoading}
       />
     </View>
   );

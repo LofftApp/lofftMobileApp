@@ -208,6 +208,10 @@ export const useFlatFeaturesScreen = (
             flatFeatures: selectedFeaturesIds,
           };
           await editFlat(editFlatParams).unwrap();
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
         } catch (err) {
           createError(err);
           return;
@@ -232,7 +236,10 @@ export const useFlatFeaturesScreen = (
           };
           await editUserProfile(editProfileParams).unwrap();
 
-          setError('');
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
 
           navigation.goBack();
           navigation.goBack();
@@ -245,10 +252,7 @@ export const useFlatFeaturesScreen = (
 
     navigation.goBack();
     navigation.goBack();
-    showToast({
-      message: 'Your changes have been saved',
-      type: ToastTypes.Success,
-    });
+
     resetNewUserState();
     setError('');
     setShowPopover(false);

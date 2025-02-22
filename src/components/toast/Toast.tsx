@@ -29,42 +29,42 @@ const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
   const topPosition = position === 'top' ? height * 0.1 : height * 0.816;
 
   // Animated value for slide-up effect
-  const translateY = useRef(new Animated.Value(100)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (condition) {
-      // First, bring the toast into view
       Animated.parallel([
         Animated.timing(translateY, {
-          toValue: 0, // Move into view
-          duration: 300,
+          toValue: height * 0.04,
+          duration: 400,
           useNativeDriver: true,
         }),
         Animated.timing(opacity, {
-          toValue: 1, // Fade in
-          duration: 300,
+          toValue: 1,
+          duration: 400,
           useNativeDriver: true,
         }),
       ]).start(() => {
-        // After delay, slide and fade out
-        setTimeout(() => {
+        timer = setTimeout(() => {
           Animated.parallel([
             Animated.timing(translateY, {
-              toValue: 100, // Move out of view
+              toValue: 0,
               duration: 300,
               useNativeDriver: true,
             }),
             Animated.timing(opacity, {
-              toValue: 0, // Fade out
+              toValue: 0,
               duration: 300,
               useNativeDriver: true,
             }),
           ]).start();
-        }, 3000); // Stay visible for 3 seconds
+        }, 3000);
       });
+      return () => clearTimeout(timer);
     }
-  }, [condition, translateY, opacity]);
+  }, [condition, translateY, opacity, height]);
 
   return (
     <Animated.View
@@ -83,8 +83,10 @@ const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
         },
       ]}>
       <View style={styles.messageTextContainer}>
-        {icon && <LofftIcon name={icon} size={size(20)} color={iconColor} />}
-        <Text style={[fontStyles.bodySmall, {color: Color.Black[100]}]}>
+        {icon && <LofftIcon name={icon} size={size(25)} color={iconColor} />}
+        <Text
+          style={[fontStyles.bodySmall, styles.messageText]}
+          numberOfLines={2}>
           {message}
         </Text>
       </View>
@@ -100,8 +102,9 @@ const styles = StyleSheet.create({
     padding: size(10),
     borderRadius: 12,
     zIndex: 1000,
-    height: size(75),
+
     width: '90%',
+    height: 'auto',
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
@@ -110,10 +113,20 @@ const styles = StyleSheet.create({
     elevation: 5, // For Android shadow
   },
   messageTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: size(10),
+    flexDirection: 'row', // Ensure icon and text are side by side
+    alignItems: 'center', // Align icon and text vertically
+    gap: size(10), // Space between icon and text
     justifyContent: 'center',
+    padding: size(10),
+    width: '100%', // Make sure it takes full width
+    flexWrap: 'wrap', // Enable wrapping
+  },
+
+  messageText: {
+    flexShrink: 1, // Allows text to shrink instead of overflowing
+    flexWrap: 'wrap', // Ensure wrapping
+    textAlign: 'left', // Align text properly
+    maxWidth: '95%', // Prevents text from stretching too far
   },
 });
 
