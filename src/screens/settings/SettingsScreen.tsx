@@ -162,6 +162,7 @@ const SettingsScreen = () => {
   };
 
   const userImageUri = currentUser?.profile?.avatar?.uri ?? fallBackProfilePic;
+  console.log('userImageUri', userImageUri);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

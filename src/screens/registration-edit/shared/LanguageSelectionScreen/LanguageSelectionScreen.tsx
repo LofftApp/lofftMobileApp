@@ -28,6 +28,7 @@ import {RegistrationBackground} from 'assets';
 
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const LanguageSelectionScreen = ({
   route,
@@ -192,6 +193,9 @@ const LanguageSelectionScreen = ({
         showPopover={showPopover}
         setShowPopover={setShowPopover}
         save={edit}
+      />
+      <OpacityOverlay
+        loadingState={isEditProfileLoading || isEditFlatLoading}
       />
     </View>
   );

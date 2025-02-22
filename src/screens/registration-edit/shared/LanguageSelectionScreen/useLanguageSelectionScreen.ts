@@ -38,6 +38,8 @@ import {
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 
 export const useLanguageSelectionScreen = (
   edit?: boolean,
@@ -151,6 +153,9 @@ export const useLanguageSelectionScreen = (
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
+
+  const {showToast} = useToast();
+
   const handleSelectedLanguages = (id: number) => {
     setLanguagesIds(prevIds =>
       prevIds.includes(id)
@@ -169,6 +174,12 @@ export const useLanguageSelectionScreen = (
   const handleClearSearch = () => {
     setSearchValue('');
   };
+  console.log('savedLanguages', savedLanguages);
+  console.log('languagesIds', languagesIds);
+  console.log(
+    'isEqualValue(savedLanguages, languagesIds)',
+    !isEqualValue(savedLanguages, languagesIds),
+  );
 
   const handleBackButton = () => {
     if (!hasShownPopover && !isEqualValue(savedLanguages, languagesIds)) {
@@ -218,32 +229,42 @@ export const useLanguageSelectionScreen = (
       handleClearSearch();
       return;
     }
-
-    if (isLessor) {
-      try {
-        const editFlatParams: EditFlatParams = {
-          flatId: advert?.flat.id ?? 0,
-          actionMethod: EditAdvertActions.Languages,
-          languages: languagesIds,
-        };
-        await editFlat(editFlatParams).unwrap();
-      } catch (err) {
-        createError(err);
-        return;
-      }
-    } else {
-      try {
-        const editParams: EditProfileParams<UserType.LESSOR | UserType.TENANT> =
-          {
+    if (!isEqualValue(savedLanguages, languagesIds)) {
+      if (isLessor) {
+        try {
+          const editFlatParams: EditFlatParams = {
+            flatId: advert?.flat.id ?? 0,
+            actionMethod: EditAdvertActions.Languages,
+            languages: languagesIds,
+          };
+          await editFlat(editFlatParams).unwrap();
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
+        } catch (err) {
+          createError(err);
+          return;
+        }
+      } else {
+        try {
+          const editParams: EditProfileParams<
+            UserType.LESSOR | UserType.TENANT
+          > = {
             userId: currentUser?.id ?? 0,
             actionMethod: EditProfileActions.languages,
             userType: isLessor ? UserType.LESSOR : UserType.TENANT,
             languages: languagesIds,
           };
-        await editUserProfile(editParams).unwrap();
-      } catch (err) {
-        createError(err);
-        return;
+          await editUserProfile(editParams).unwrap();
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
+        } catch (err) {
+          createError(err);
+          return;
+        }
       }
     }
     navigation.goBack();

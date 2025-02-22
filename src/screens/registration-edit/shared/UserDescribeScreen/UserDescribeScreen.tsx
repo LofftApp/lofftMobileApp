@@ -28,6 +28,7 @@ import {RegistrationBackground} from 'assets';
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const UserDescribeScreen = ({
   route,
@@ -111,6 +112,7 @@ const UserDescribeScreen = ({
         setShowPopover={setShowPopover}
         save={edit}
       />
+      <OpacityOverlay loadingState={isEditLoading} />
     </SafeAreaView>
   );
 };

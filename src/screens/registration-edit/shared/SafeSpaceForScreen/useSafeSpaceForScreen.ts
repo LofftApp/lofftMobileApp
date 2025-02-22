@@ -33,6 +33,8 @@ import {
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions} from 'reduxFeatures/adverts/types';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {useToast} from 'reduxFeatures/settings/useToast';
 export const useSafeSpaceForScreen = (
   edit?: boolean,
   advertId?: number,
@@ -82,6 +84,8 @@ export const useSafeSpaceForScreen = (
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
+
+  const {showToast} = useToast();
 
   const savedSafeSpacesIds = useMemo(() => {
     if (edit) {
@@ -171,6 +175,11 @@ export const useSafeSpaceForScreen = (
             safeSpaces: selectedSafeSpaceIds,
           };
           await editFlat(editFlatParams).unwrap();
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
+          navigation.goBack();
         } catch (err) {
           createError(err);
           return;
@@ -187,18 +196,19 @@ export const useSafeSpaceForScreen = (
             safeSpaces: selectedSafeSpaceIds,
           };
           await editUserProfile(editProfileParams).unwrap();
+          navigation.goBack();
+          navigation.goBack();
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
           setError('');
         } catch (err) {
           createError(err);
           return;
         }
       }
-    }
-
-    if (isLessor) {
-      navigation.goBack();
     } else {
-      navigation.goBack();
       navigation.goBack();
     }
 

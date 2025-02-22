@@ -29,6 +29,7 @@ import {size} from 'react-native-responsive-sizes';
 import {MAX_GENDERS} from 'components/componentData/constants';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const SafeSpaceForScreen = ({
   route,
@@ -142,6 +143,9 @@ const SafeSpaceForScreen = ({
         showPopover={showPopover}
         setShowPopover={setShowPopover}
         save={edit}
+      />
+      <OpacityOverlay
+        loadingState={isEditProfileLoading || isEditFlatLoading}
       />
     </SafeAreaView>
   );

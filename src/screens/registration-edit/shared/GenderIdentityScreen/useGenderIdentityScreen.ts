@@ -33,6 +33,8 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 
 const genders: Gender[] = [
   {name: 'Male', id: 1, emoji: '👨'},
@@ -100,6 +102,8 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
+  const {showToast} = useToast();
+
   const selectGender = (id: number) => {
     setSelectedGenderIds(prevIds => (prevIds.includes(id) ? [] : [id]));
   };
@@ -119,6 +123,11 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
     setError('');
     setShowPopover(false);
   };
+
+  console.log(
+    'isEqualValue(savedGenderIds, selectedGenderIds)',
+    !isEqualValue(savedGenderIds, selectedGenderIds),
+  );
 
   const handleContinue = async () => {
     const selectedGenders = genders?.filter(g =>
@@ -158,8 +167,11 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
 
           await editUserProfile(editParams).unwrap();
           navigation.goBack();
-
-          setError('');
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
+          resetNewUserState();
         } catch (err) {
           const typedError = err as {
             status?: number;
@@ -180,6 +192,8 @@ export const useGenderIdentityScreen = (edit?: boolean) => {
           },
         });
       }
+    } else {
+      navigation.goBack();
     }
 
     setError('');

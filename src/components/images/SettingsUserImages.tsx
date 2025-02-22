@@ -23,8 +23,8 @@ const SettingsUserImage = ({
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   const {height} = useWindowDimensions();
 
-  const {loadingStatuses} = useLoadImages(userImageUri ?? '');
-  console.log('loadingStatuses in user settings image', loadingStatuses[0]);
+  const {allImagesLoaded} = useLoadImages(userImageUri ?? '');
+  console.log('allImagesLoaded in user settings image', !allImagesLoaded);
 
   const handlePress = () => {
     navigation.navigate('NewUserNavigator', {
@@ -36,9 +36,8 @@ const SettingsUserImage = ({
   return (
     <Pressable style={styles.imageContainer} onPress={handlePress}>
       <View style={styles.loadingContainer}>
-        {!loadingStatuses[0] && <LoadingButtonIcon size="large" />}
+        {!allImagesLoaded && <LoadingButtonIcon size="large" />}
       </View>
-
       <View style={styles.profilePicWrapper}>
         <Image
           style={[
@@ -46,7 +45,7 @@ const SettingsUserImage = ({
             {height: height * 0.18, width: height * 0.18},
           ]}
           source={userImageUri ? {uri: userImageUri} : NoAvatarImage}
-          blurRadius={!loadingStatuses[0] ? 30 : 0}
+          blurRadius={!allImagesLoaded ? 30 : 0}
         />
 
         <Pressable style={styles.editButtonContainer}>

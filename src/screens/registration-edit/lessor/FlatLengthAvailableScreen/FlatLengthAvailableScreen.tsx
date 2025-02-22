@@ -2,6 +2,9 @@ import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Animated} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
+// Hooks 🪝
+import {useFlatLengthAvailableScreen} from './useFlatLengthAvailableScreen';
+
 // Assets 🎨
 import {RegistrationBackground} from 'assets';
 
@@ -14,6 +17,11 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
+import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -26,11 +34,6 @@ import isToday from 'dayjs/plugin/isToday';
 dayjs.extend(isToday);
 
 // Types
-
-import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
-import {useFlatLengthAvailableScreen} from './useFlatLengthAvailableScreen';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 const FlatLengthAvailableScreen = ({
   route,
@@ -183,6 +186,11 @@ const FlatLengthAvailableScreen = ({
         onConfirm={handleDateChange}
         onCancel={handleCancelDate}
       />
+      <NewUserScreensPopover
+        showPopover={isModalOpen}
+        setShowPopover={handleCancelDate}
+      />
+      <OpacityOverlay loadingState={isEditAdvertLoading} />
     </SafeAreaView>
   );
 };

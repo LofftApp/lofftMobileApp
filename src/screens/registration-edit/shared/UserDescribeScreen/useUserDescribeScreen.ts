@@ -28,6 +28,8 @@ import {
   UserType,
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   //Navigation
@@ -70,6 +72,8 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
       userId: currentUser?.id ?? 0,
       key: PopoverKeys.Edit,
     });
+
+  const {showToast} = useToast();
 
   const handleOnChange = (input: string) => {
     setText(input);
@@ -129,6 +133,10 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
         setError('');
         navigation.goBack();
         navigation.goBack();
+        showToast({
+          message: 'Your changes have been saved',
+          type: ToastTypes.Success,
+        });
       } catch (err) {
         const typedError = err as {
           status?: number;

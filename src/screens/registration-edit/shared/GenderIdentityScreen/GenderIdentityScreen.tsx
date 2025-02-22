@@ -26,6 +26,7 @@ import {size} from 'react-native-responsive-sizes';
 import {MAX_GENDERS} from 'components/componentData/constants';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 //Types 🏷  ️
 
@@ -108,6 +109,7 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
         setShowPopover={setShowPopover}
         save={isLessor && edit}
       />
+      {isLessor && <OpacityOverlay loadingState={isEditLoading} />}
     </SafeAreaView>
   );
 };
