@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 //Redux
@@ -6,10 +6,8 @@ import {useAuth} from 'reduxFeatures/auth/useAuth';
 
 //Assets 🎨
 import {AppleIcon, GoogleIcon} from 'assets';
-import {fontStyles} from 'styleSheets/fontStyles';
 
 //Components 🧰
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 //Helpers 🥷  🏻
 import {size} from 'react-native-responsive-sizes';
@@ -26,7 +24,6 @@ type SignInWithProps = {
 };
 
 const SignInWith = ({isSignInScreen}: SignInWithProps) => {
-  const [message, setMessage] = useState('');
   const {authMessage, setAuthMessage} = useAuth();
 
   const messageText =
@@ -41,7 +38,6 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   useEffect(() => {
     if (authMessage && isSignInScreen) {
       const timer = setTimeout(() => {
-        setMessage('');
         setAuthMessage('');
       }, 3000);
       return () => {
@@ -52,7 +48,10 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
 
   const handleSignInWithApple = () => {
     console.log('sign in with apple');
-    setMessage(messageText);
+    showToast({
+      message: messageText,
+      type: ToastTypes.Info,
+    });
   };
 
   const handleSignInWithGoogle = () => {
@@ -64,22 +63,6 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   };
   return (
     <>
-      {message && (
-        <View style={styles.messageContainer}>
-          <View style={styles.messageTextContainer}>
-            {authMessage && (
-              <LofftIcon
-                name={'log-out'}
-                size={size(20)}
-                color={Colors.Black[100]}
-              />
-            )}
-            <Text style={[fontStyles.bodySmall, {color: Colors.Black[100]}]}>
-              {message}
-            </Text>
-          </View>
-        </View>
-      )}
       <View style={styles.mainContainer}>
         <Text style={styles.signInWithText}>
           ────────{'   '}Or sign in with {'   '}────────

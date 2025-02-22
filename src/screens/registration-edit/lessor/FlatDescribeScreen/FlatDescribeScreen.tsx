@@ -26,6 +26,8 @@ import {RegistrationBackground} from 'assets';
 import {MIN_DESCRIPTION_CHARS} from 'components/componentData/constants';
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const FlatDescribeScreen = ({
   route,
@@ -51,6 +53,8 @@ const FlatDescribeScreen = ({
     isEditFlatLoading,
     isNewUserLessor,
     isLessor,
+    showPopover,
+    setShowPopover,
   } = useFlatDescribeScreen(edit, advertId, newValue);
   if (isAdvertLoading) {
     return <LoadingComponent />;
@@ -117,6 +121,11 @@ const FlatDescribeScreen = ({
           />
         </View>
       </View>
+      <NewUserScreensPopover
+        showPopover={showPopover}
+        setShowPopover={setShowPopover}
+      />
+      <OpacityOverlay loadingState={isEditFlatLoading} />
     </SafeAreaView>
   );
 };

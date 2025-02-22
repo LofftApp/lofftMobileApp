@@ -85,7 +85,7 @@ const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
       <View style={styles.messageTextContainer}>
         {icon && <LofftIcon name={icon} size={size(25)} color={iconColor} />}
         <Text
-          style={[fontStyles.bodySmall, styles.messageText]}
+          style={[fontStyles.headerTiny, styles.messageText]}
           numberOfLines={2}>
           {message}
         </Text>
@@ -113,20 +113,20 @@ const styles = StyleSheet.create({
     elevation: 5, // For Android shadow
   },
   messageTextContainer: {
-    flexDirection: 'row', // Ensure icon and text are side by side
-    alignItems: 'center', // Align icon and text vertically
-    gap: size(10), // Space between icon and text
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: size(10),
     justifyContent: 'center',
     padding: size(10),
-    width: '100%', // Make sure it takes full width
-    flexWrap: 'wrap', // Enable wrapping
+    width: '100%',
+    flexWrap: 'wrap',
   },
 
   messageText: {
-    flexShrink: 1, // Allows text to shrink instead of overflowing
-    flexWrap: 'wrap', // Ensure wrapping
-    textAlign: 'left', // Align text properly
-    maxWidth: '95%', // Prevents text from stretching too far
+    flexShrink: 1,
+    flexWrap: 'wrap',
+    textAlign: 'left',
+    maxWidth: '95%',
   },
 });
 

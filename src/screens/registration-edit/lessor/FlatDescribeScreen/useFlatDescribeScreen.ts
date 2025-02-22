@@ -25,6 +25,8 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {isEqualValue} from 'helpers/isEqualValue';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 
 export const useFlatDescribeScreen = (
   edit?: boolean,
@@ -67,6 +69,8 @@ export const useFlatDescribeScreen = (
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
+
+  const {showToast} = useToast();
 
   const lessorDescription =
     newUserDetails.userType === 'lessor' && newUserDetails.flatDescription;
@@ -153,6 +157,10 @@ export const useFlatDescribeScreen = (
             flatDescription: result.data,
           };
           await editFlat(editFlatParams).unwrap();
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
         } catch (err) {
           createError(err);
           return;

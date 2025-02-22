@@ -17,7 +17,6 @@ import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
@@ -41,8 +40,7 @@ export const useFlatDetailsScreen = (edit?: boolean, advertId?: number) => {
 
   //Redux
   const {setCurrentScreen, currentScreen} = useNewUserCurrentScreen();
-  const {isLessor} = useUserType();
-  const {setNewUserDetails, newUserDetails} = useNewUserDetails(isLessor, edit);
+  const {setNewUserDetails, newUserDetails} = useNewUserDetails(edit);
   const {
     data: advert,
     isLoading,

@@ -32,6 +32,8 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {UserType} from 'reduxFeatures/user/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
 
 export const useWhereIsFlatScreen = (
   edit?: boolean,
@@ -180,6 +182,8 @@ export const useWhereIsFlatScreen = (
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
 
+  const {showToast} = useToast();
+
   const isNotEqualAllValues =
     !isEqualValue(savedAddress?.address, addressDetails.address) ||
     !isEqualValue(savedPrice?.toString(), price) ||
@@ -314,6 +318,10 @@ export const useWhereIsFlatScreen = (
             editFlat(editFlatParams).unwrap(),
             editAdvert(editAdvertParams).unwrap(),
           ]);
+          showToast({
+            message: 'Your changes have been saved',
+            type: ToastTypes.Success,
+          });
         } catch (err) {
           createError(err);
           return;

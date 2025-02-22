@@ -40,6 +40,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {Currency} from 'reduxFeatures/assets/types';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
@@ -220,6 +221,7 @@ const WhereIsFlatScreen = ({
         showPopover={showPopover}
         setShowPopover={setShowPopover}
       />
+      <OpacityOverlay loadingState={isEditAdvertLoading || isEditFlatLoading} />
     </View>
   );
 };
