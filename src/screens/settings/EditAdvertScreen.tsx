@@ -2,9 +2,6 @@ import React from 'react';
 import {View, StyleSheet, SafeAreaView, FlatList, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-//Hooks
-import {useUserType} from 'reduxFeatures/user/useUserType';
-
 //Components
 import {RegistrationBackground} from 'assets';
 import SettingsCard from 'components/cards/SettingsCard';
@@ -18,11 +15,7 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {
-  useGetAdvertByIdQuery,
-  useGetAdvertsQuery,
-} from 'reduxFeatures/adverts/advertApi';
+import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
@@ -39,7 +32,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     refetchOnMountOrArgChange: true,
   });
-  const {isLessor} = useUserType();
+
   const {clearImagesToUpload} = useImagesToUpload(ImageType.Flat);
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
@@ -189,7 +182,7 @@ const styles = StyleSheet.create({
     paddingTop: size(0),
     paddingBottom: size(10),
     textAlign: 'center',
-    minHeight: size(60),
+    minHeight: size(80),
     flexWrap: 'wrap',
     flexShrink: 1,
   },

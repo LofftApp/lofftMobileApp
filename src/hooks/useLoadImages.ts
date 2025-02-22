@@ -1,43 +1,48 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {Image} from 'react-native';
 
-export const useLoadImages = (uris: string[], retryCount = 2) => {
+export const useLoadImages = (uris: string[] | string, retryCount = 2) => {
   const [loadingStatuses, setLoadingStatuses] = useState<boolean[]>([]);
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+  console.log('loadingStatuses', loadingStatuses);
+  console.log('allImagesLoaded', allImagesLoaded);
+
+  const filteredUris = useMemo(() => {
+    return Array.isArray(uris)
+      ? uris.filter(uri => uri)
+      : [uris].filter(uri => uri);
+  }, [uris]);
 
   useEffect(() => {
-    if (!uris || uris.length === 0) {
+    if (
+      !filteredUris ||
+      (Array.isArray(filteredUris) && filteredUris.length === 0)
+    ) {
       setAllImagesLoaded(false);
       return;
     }
 
-    const uriArray = Array.isArray(uris) ? uris : [uris];
+    const uriArray = Array.isArray(filteredUris)
+      ? filteredUris
+      : [filteredUris];
 
-    const prefetchWithRetry = async (
-      uri: string,
-      attempts = 0,
-    ): Promise<boolean> => {
+    const prefetch = async (uri: string): Promise<boolean> => {
       try {
         return await Image.prefetch(uri);
       } catch (error) {
-        if (attempts < retryCount) {
-          return prefetchWithRetry(uri, attempts + 1);
-        }
         return false;
       }
     };
 
     const prefetchImages = async () => {
-      const results = await Promise.all(
-        uriArray.map(uri => prefetchWithRetry(uri)),
-      );
+      const results = await Promise.all(uriArray.map(uri => prefetch(uri)));
 
       setLoadingStatuses(results);
       setAllImagesLoaded(results.some(success => success));
     };
 
     prefetchImages();
-  }, [uris, retryCount]);
+  }, [filteredUris, retryCount]);
 
   return {
     allImagesLoaded,

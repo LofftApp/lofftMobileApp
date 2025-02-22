@@ -33,7 +33,6 @@ const LofftHeaderPhoto = ({
 
   const imagesUri = useMemo(() => images.map(image => image.uri), [images]);
   const {loadingStatuses} = useLoadImages(imagesUri);
-  console.log('loadindStatuses', loadingStatuses);
   const hasImages = images && images.length > 0;
 
   return (
@@ -53,6 +52,7 @@ const LofftHeaderPhoto = ({
                 source={{uri: item.uri}}
                 key={index + 1}
                 blurRadius={activeBlur || !loadingStatuses[index] ? 65 : 0}
+                loadingIndicatorSource={NoFlatImage}
               />
             );
           }}
