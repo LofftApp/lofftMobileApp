@@ -4,6 +4,11 @@ enum ToastTypes {
   Info = 'info',
   Warning = 'warning',
 }
+
+enum Messages {
+  ChangesSaved = 'Your changes have been saved',
+}
+
 type AppLanguages = 'EN' | 'DE';
 
 interface SettingsState {
@@ -11,7 +16,7 @@ interface SettingsState {
   popovers: {[userId: number]: {[key: string]: boolean}};
   toast: {
     type: ToastTypes;
-    message: string;
+    message: Messages | '';
     visible: boolean;
     position: 'top' | 'bottom';
   };
@@ -19,7 +24,7 @@ interface SettingsState {
 
 type ShowToastPayload = {
   type: ToastTypes;
-  message: string;
+  message: Messages | '';
   position?: 'top' | 'bottom';
 };
 
@@ -33,4 +38,4 @@ enum PopoverKeys {
   EditProfileImage = 'editProfileImage',
 }
 export type {SettingsState, AppLanguages, ShowToastPayload};
-export {PopoverKeys, ToastTypes};
+export {PopoverKeys, ToastTypes, Messages};

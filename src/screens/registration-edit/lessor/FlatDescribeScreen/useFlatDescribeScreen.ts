@@ -20,7 +20,7 @@ import {
 } from 'reduxFeatures/adverts/advertApi';
 
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {isEqualValue} from 'helpers/isEqualValue';
@@ -158,7 +158,7 @@ export const useFlatDescribeScreen = (
           };
           await editFlat(editFlatParams).unwrap();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
         } catch (err) {

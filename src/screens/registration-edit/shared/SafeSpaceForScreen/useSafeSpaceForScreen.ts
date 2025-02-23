@@ -31,7 +31,7 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions} from 'reduxFeatures/adverts/types';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
@@ -176,7 +176,7 @@ export const useSafeSpaceForScreen = (
           };
           await editFlat(editFlatParams).unwrap();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
           navigation.goBack();

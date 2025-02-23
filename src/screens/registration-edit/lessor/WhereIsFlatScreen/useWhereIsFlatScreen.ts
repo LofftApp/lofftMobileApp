@@ -29,7 +29,7 @@ import {isEqualValue} from 'helpers/isEqualValue';
 
 // Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {UserType} from 'reduxFeatures/user/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
@@ -319,7 +319,7 @@ export const useWhereIsFlatScreen = (
             editAdvert(editAdvertParams).unwrap(),
           ]);
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
         } catch (err) {

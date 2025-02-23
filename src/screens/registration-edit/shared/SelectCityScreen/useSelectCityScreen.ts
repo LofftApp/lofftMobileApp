@@ -36,9 +36,10 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
-export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
+export const useSelectCityScreen = (edit: boolean, advertId: number) => {
   //Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp
@@ -139,6 +140,8 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
+
+  const {showToast} = useToast();
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -301,6 +304,10 @@ export const useSelectCityScreen = (edit?: boolean, advertId?: number) => {
         districts: selectedDistrictIds,
       };
       await editUserProfile(editParams).unwrap();
+      showToast({
+        message: Messages.ChangesSaved,
+        type: ToastTypes.Success,
+      });
     } catch (err) {
       const typedError = err as {
         status?: number;

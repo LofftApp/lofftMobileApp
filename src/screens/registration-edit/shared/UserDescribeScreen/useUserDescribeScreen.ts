@@ -27,7 +27,7 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 
@@ -134,7 +134,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
         navigation.goBack();
         navigation.goBack();
         showToast({
-          message: 'Your changes have been saved',
+          message: Messages.ChangesSaved,
           type: ToastTypes.Success,
         });
       } catch (err) {

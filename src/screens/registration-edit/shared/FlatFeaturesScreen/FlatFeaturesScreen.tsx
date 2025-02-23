@@ -120,6 +120,8 @@ const FlatFeaturesScreen = ({
           )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.selectionContainer}
+          numColumns={1}
+
         />
 
         <Divider />
@@ -176,13 +178,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: size(10),
-    zIndex: -1,
   },
   tagInfoContainer: {
     marginBottom: size(5),
   },
   footerContainer: {
     paddingTop: size(20),
+  },
+  row: {
+    gap: size(5),
+    justifyContent: 'space-between',
   },
 });
 

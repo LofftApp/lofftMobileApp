@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Redux
@@ -26,6 +26,7 @@ import {size} from 'react-native-responsive-sizes';
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
 import {UserType} from 'reduxFeatures/user/types';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const fallBackProfilePic =
   'https://www.friendsoffriends.com/app/uploads/an-artists-farm-in-upstate-new-york-envisions-a-path-towards-food-sovereignty/Friends-of-Friends-SkyHighFarm-Tompkins-061.jpg.webp';
@@ -62,6 +63,7 @@ const SettingsScreen = () => {
   const {appLanguage} = useAppLanguage();
   const [signOut] = useSignOutMutation();
   const [isLoading, setIsLoading] = useState(true);
+  const insets = useSafeAreaInsets();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   useEffect(() => {
@@ -163,7 +165,16 @@ const SettingsScreen = () => {
   console.log('userImageUri', userImageUri);
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        styles.zIndex,
+
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
       <Trail height="100%" width="100%" style={styles.backgroundImageExtra} />
       <RegistrationBackground
         height="100%"
@@ -215,7 +226,7 @@ const SettingsScreen = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -223,6 +234,9 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: size(10),
+  },
+  zIndex: {
+    zIndex: 1,
   },
 
   backgroundImageExtra: {

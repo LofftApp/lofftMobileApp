@@ -37,7 +37,8 @@ import {
   ImageType,
 } from 'reduxFeatures/imageHandling/types';
 import {UserType} from 'reduxFeatures/user/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
   //Navigation
@@ -116,6 +117,8 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.EditFlatImage : PopoverKeys.FlatImage,
     });
+
+  const {showToast} = useToast();
 
   const toggleModal = () => {
     setIsModalOpen(prev => !prev);
@@ -227,6 +230,10 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
         };
         console.log('imagesParams', imagesParams);
         await editFlatImage(imagesParams).unwrap();
+        showToast({
+          message: Messages.ChangesSaved,
+          type: ToastTypes.Success,
+        });
         navigation.goBack();
         clearImagesToUpload();
         setSelectedImage(null);

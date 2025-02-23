@@ -36,7 +36,7 @@ import {
   UserType,
 } from 'reduxFeatures/user/types';
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
 import {ToastTypes} from 'reduxFeatures/settings/types';
@@ -239,7 +239,7 @@ export const useLanguageSelectionScreen = (
           };
           await editFlat(editFlatParams).unwrap();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
         } catch (err) {

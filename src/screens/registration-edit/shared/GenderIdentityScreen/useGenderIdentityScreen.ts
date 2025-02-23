@@ -27,7 +27,7 @@ import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
 } from '../../../../navigationStacks/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {
   EditProfileActions,
   EditProfileParams,
@@ -168,7 +168,7 @@ export const useGenderIdentityScreen = (edit: boolean) => {
           await editUserProfile(editParams).unwrap();
           navigation.goBack();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
           resetNewUserState();

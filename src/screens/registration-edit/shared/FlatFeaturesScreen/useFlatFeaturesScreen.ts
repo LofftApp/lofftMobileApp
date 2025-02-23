@@ -42,7 +42,7 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useFlatFeaturesScreen = (
@@ -207,10 +207,9 @@ export const useFlatFeaturesScreen = (
             characteristics: newUserDetails.characteristics,
             flatFeatures: selectedFeaturesIds,
           };
-          const payload = await editFlat(editFlatParams).unwrap();
-          console.log('payload', payload);
+          await editFlat(editFlatParams).unwrap();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
         } catch (err) {

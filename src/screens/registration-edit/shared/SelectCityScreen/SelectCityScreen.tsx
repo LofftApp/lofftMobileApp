@@ -32,14 +32,15 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types
 import {CityAssets} from 'reduxFeatures/assets/types';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const SelectCityScreen = ({
   route,
 }: {
   route?: {params: {edit: boolean; advertId: number}};
 }) => {
-  const edit = route?.params?.edit;
-  const advertId = route?.params?.advertId;
+  const edit = route?.params?.edit || false;
+  const advertId = route?.params?.advertId || 0;
 
   const insets = useSafeAreaInsets();
 
@@ -157,6 +158,7 @@ const SelectCityScreen = ({
             )}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.selectionContainer}
+            numColumns={1}
           />
         </View>
 
@@ -192,6 +194,7 @@ const SelectCityScreen = ({
         setShowPopover={setShowPopover}
         save={edit}
       />
+      <OpacityOverlay loadingState={isEditLoading} />
     </View>
   );
 };
@@ -204,6 +207,12 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     paddingTop: size(10),
+  },
+
+  selectionContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: size(10),
   },
   districtTitleContainer: {
     flexDirection: 'row',
@@ -219,12 +228,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 
-  selectionContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    height: '100%',
-    paddingHorizontal: size(10),
-  },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
