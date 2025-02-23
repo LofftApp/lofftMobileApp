@@ -17,8 +17,9 @@ const SelectionButton = ({
   toggle,
   selectFn,
   disabled = false,
+  isReady,
 }: SelectionButtonProps) => {
-  const {fadeInAnim} = useFadeInAnimation();
+  const {fadeInAnim} = useFadeInAnimation(isReady);
 
   const colorText = {color: toggle ? Color.White[100] : Color.Black[100]};
 

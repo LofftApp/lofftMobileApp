@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
+import {View, Text, StyleSheet, Animated, FlatList} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Hooks 🪝
@@ -69,19 +69,6 @@ const SelectCityScreen = ({
     showPopover,
     setShowPopover,
   } = useSelectCityScreen(edit, advertId);
-
-  const allDistrictsButtons = districts.map(district => {
-    return (
-      <SelectionButton
-        key={district.id}
-        id={district.id}
-        value={district.name}
-        emojiIcon={district.emoji}
-        toggle={selectedDistrictIds.includes(district.id)}
-        selectFn={selectFn}
-      />
-    );
-  });
 
   if (isAdvertLoading) {
     return <LoadingComponent />;
@@ -155,9 +142,22 @@ const SelectCityScreen = ({
             )}
           </Animated.View>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.selectionContainer}>{allDistrictsButtons}</View>
-          </ScrollView>
+          <FlatList
+            data={districts}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => (
+              <SelectionButton
+                key={item.id}
+                id={item.id}
+                value={item.name}
+                emojiIcon={item.emoji}
+                toggle={selectedDistrictIds.includes(item.id)}
+                selectFn={selectFn}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.selectionContainer}
+          />
         </View>
 
         <Divider />

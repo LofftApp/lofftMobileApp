@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import {View, StyleSheet, Text, FlatList} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // Components 🪢
@@ -61,19 +61,6 @@ const FlatFeaturesScreen = ({
     setShowPopover,
   } = useFlatFeaturesScreen(edit, advertId, newValue);
 
-  const featuresButtons = features?.map(feat => {
-    return (
-      <SelectionButton
-        key={feat.id}
-        id={feat.id}
-        emojiIcon={feat.emoji}
-        value={feat.name}
-        toggle={selectedFeaturesIds.includes(feat.id)}
-        selectFn={handleSelectFeatures}
-      />
-    );
-  });
-
   if (isAdvertLoading) {
     return <LoadingComponent />;
   }
@@ -117,9 +104,23 @@ const FlatFeaturesScreen = ({
               : 'Select all the tags that match the place you are looking for.'
           }
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.selectionContainer}>{featuresButtons}</View>
-        </ScrollView>
+
+        <FlatList
+          data={features}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({item}) => (
+            <SelectionButton
+              id={item.id}
+              emojiIcon={item.emoji}
+              value={item.name}
+              toggle={selectedFeaturesIds.includes(item.id)}
+              selectFn={handleSelectFeatures}
+              isReady={!isAdvertLoading}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.selectionContainer}
+        />
 
         <Divider />
         <View style={styles.footerContainer}>

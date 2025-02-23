@@ -13,6 +13,8 @@ import {
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -41,8 +43,6 @@ import {
   UserType,
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
-import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
-import {useToast} from 'reduxFeatures/settings/useToast';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useFlatFeaturesScreen = (

@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 //Hooks 🪝
 import {useSafeSpaceForScreen} from './useSafeSpaceForScreen';
@@ -36,9 +36,9 @@ const SafeSpaceForScreen = ({
 }: {
   route?: {params: {edit: boolean; advertId: number; newValue: boolean}};
 }) => {
-  const edit = route?.params?.edit;
-  const advertId = route?.params?.advertId;
-  const newValue = route?.params?.newValue;
+  const edit = route?.params?.edit || false;
+  const advertId = route?.params?.advertId || 0;
+  const newValue = route?.params?.newValue || false;
 
   const {
     handleBackButton,
@@ -89,20 +89,27 @@ const SafeSpaceForScreen = ({
               : 'What is a safe place for you?'
           }
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.selectionContainer}>
-            {safeSpaces?.map(el => (
-              <SelectionButton
-                key={el.id}
-                value={el.name}
-                toggle={selectedSafeSpaceIds.includes(el.id)}
-                id={el.id}
-                emojiIcon={el.emoji}
-                selectFn={selectSafeSpace}
-              />
-            ))}
-          </View>
-        </ScrollView>
+
+        <FlatList
+          data={safeSpaces}
+          keyExtractor={space => space.id.toString()}
+          renderItem={({item}) => (
+            <SelectionButton
+              id={item.id}
+              emojiIcon={item.emoji}
+              value={item.name}
+              toggle={selectedSafeSpaceIds.includes(item.id)}
+              selectFn={selectSafeSpace}
+              disabled={
+                selectedSafeSpaceIds.length === MAX_GENDERS &&
+                !selectedSafeSpaceIds.includes(item.id)
+              }
+              isReady={!isAdvertLoading}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.selectionContainer}
+        />
         <Divider />
 
         <View style={styles.footerContainer}>

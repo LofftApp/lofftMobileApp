@@ -7,7 +7,6 @@ import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurr
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {useUserType} from 'reduxFeatures/user/useUserType';
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 import {
   useEditProfileImageMutation,
   useGetUserQuery,
@@ -40,7 +39,7 @@ import {
 } from 'reduxFeatures/imageHandling/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 
-export const useUserImageUploadScreen = (edit?: boolean) => {
+export const useUserImageUploadScreen = (edit: boolean) => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -114,8 +113,6 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
       setError('');
     }
   }, [totalImages]);
-
-  const {fadeInAnim} = useFadeInAnimation();
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
@@ -263,7 +260,6 @@ export const useUserImageUploadScreen = (edit?: boolean) => {
     error,
     handleBackButton,
     handleContinue,
-    fadeInAnim,
     totalImages,
     setError,
     isEditProfileLoading,

@@ -10,7 +10,6 @@ import {
   EditFlatImageParams,
 } from 'reduxFeatures/adverts/types';
 import {useSelectImage} from 'hooks/useSelectImage';
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 import {
   useEditFlatImageMutation,
   useGetAdvertByIdQuery,
@@ -40,7 +39,7 @@ import {
 import {UserType} from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 
-export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
+export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
   //Navigation
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
 
@@ -111,8 +110,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
       setError('');
     }
   }, [totalImages]);
-
-  const {fadeInAnim} = useFadeInAnimation();
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
     useManualPopoverTrigger({
@@ -264,7 +261,6 @@ export const useFlatImageUploadScreen = (edit?: boolean, advertId?: number) => {
     error,
     handleBackButton,
     handleContinue,
-    fadeInAnim,
     isAdvertLoading,
     isEditFlatLoading,
     isAdvertError,

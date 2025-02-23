@@ -341,7 +341,7 @@ export const advertApi = lofftApi.injectEndpoints({
     editFlat: builder.mutation<void, EditFlatParams>({
       query: ({flatId, actionMethod, ...rest}) => {
         return {
-          url: `/api/fulats/${flatId}`,
+          url: `/api/flats/${flatId}`,
           method: 'PATCH',
           body: {
             actionMethod,

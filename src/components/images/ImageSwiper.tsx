@@ -1,13 +1,6 @@
 import React, {useState, useCallback, useMemo} from 'react';
 import {useLoadImages} from 'hooks/useLoadImages';
-import {
-  StyleSheet,
-  FlatList,
-  Image,
-  View,
-  Pressable,
-  Animated,
-} from 'react-native';
+import {StyleSheet, FlatList, Image, View, Pressable} from 'react-native';
 
 // Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
@@ -97,7 +90,7 @@ const ImageSwiper = ({
                   </View>
                 )}
                 {item.uri ? (
-                  <Animated.Image
+                  <Image
                     style={[
                       styles.imageContainer,
                       {height: imageContainerHeight},

@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 
 //Hooks 🪝
 import {useGenderIdentityScreen} from './useGenderIdentityScreen';
@@ -18,20 +18,18 @@ import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyConti
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import Divider from 'components/bars/Divider';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 // Helper 🤝
 import {size} from 'react-native-responsive-sizes';
 
 //Constants 📊
 import {MAX_GENDERS} from 'components/componentData/constants';
-import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
-import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import OpacityOverlay from 'components/modals/OpacityOverlay';
-
-//Types 🏷  ️
 
 const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
-  const edit = route?.params?.edit;
+  const edit = route?.params?.edit || false;
 
   const {
     handleBackButton,
@@ -60,20 +58,26 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           headlineText={'What is your gender identity?'}
           subDescription={'To help you find the right match'}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.selectionContainer}>
-            {genders.map(el => (
-              <SelectionButton
-                key={el.id}
-                value={el.name}
-                toggle={selectedGenderIds.includes(el.id)}
-                id={el.id}
-                emojiIcon={el.emoji}
-                selectFn={selectGender}
-              />
-            ))}
-          </View>
-        </ScrollView>
+
+        <FlatList
+          data={genders}
+          keyExtractor={gender => gender.id.toString()}
+          renderItem={({item}) => (
+            <SelectionButton
+              id={item.id}
+              emojiIcon={item.emoji}
+              value={item.name}
+              toggle={selectedGenderIds.includes(item.id)}
+              selectFn={selectGender}
+              disabled={
+                selectedGenderIds.length === MAX_GENDERS &&
+                !selectedGenderIds.includes(item.id)
+              }
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.selectionContainer}
+        />
         <Divider />
 
         <View style={styles.footerContainer}>

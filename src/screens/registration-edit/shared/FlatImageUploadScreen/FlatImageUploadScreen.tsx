@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 // Hooks 🪝
 import {useFlatImageUploadScreen} from './useFlatImageUploadScreen';
@@ -16,6 +16,8 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import UploadImageSection from 'components/imageUpload/UploadImageSection';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -29,16 +31,15 @@ import {MAX_FLAT_IMAGES} from 'components/componentData/constants';
 //Types 🏷️
 
 import {ImageType} from 'reduxFeatures/imageHandling/types';
-import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
-import OpacityOverlay from 'components/modals/OpacityOverlay';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const FlatImageUploadScreen = ({
   route,
 }: {
   route?: {params: {edit: boolean; advertId: number}};
 }) => {
-  const edit = route?.params?.edit;
-  const advertId = route?.params?.advertId;
+  const edit = route?.params?.edit || false;
+  const advertId = route?.params?.advertId || 0;
 
   const {
     isModalOpen,
@@ -46,7 +47,6 @@ const FlatImageUploadScreen = ({
     error,
     handleBackButton,
     handleContinue,
-    fadeInAnim,
     isAdvertLoading,
     isEditFlatLoading,
     isAdvertError,
@@ -56,6 +56,8 @@ const FlatImageUploadScreen = ({
     setShowPopover,
     setIsModalOpen,
   } = useFlatImageUploadScreen(edit, advertId);
+
+  const insets = useSafeAreaInsets();
 
   if (isAdvertLoading) {
     return <LoadingComponent />;
@@ -70,8 +72,15 @@ const FlatImageUploadScreen = ({
       />
     );
   }
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+        },
+      ]}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
@@ -87,7 +96,7 @@ const FlatImageUploadScreen = ({
         />
         <UploadImageSection
           toggleModal={toggleModal}
-          fadeAnim={fadeInAnim}
+          isReady={edit ? !isAdvertLoading : undefined}
           error={error}
           imageType={ImageType.Flat}
         />
@@ -111,7 +120,7 @@ const FlatImageUploadScreen = ({
         setShowPopover={setShowPopover}
       />
       <OpacityOverlay loadingState={isEditFlatLoading} />
-    </SafeAreaView>
+    </View>
   );
 };
 

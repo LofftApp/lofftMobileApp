@@ -36,9 +36,9 @@ import {EditAdvertActions} from 'reduxFeatures/adverts/types';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
 export const useSafeSpaceForScreen = (
-  edit?: boolean,
-  advertId?: number,
-  newValue?: boolean,
+  edit: boolean,
+  advertId: number,
+  newValue: boolean,
 ) => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
   // initial state

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Screens 📺
@@ -75,22 +75,6 @@ const AboutUserFlatScreen = ({
     );
   }
 
-  const charsButtons = characteristics?.map(char => {
-    return (
-      <SelectionButton
-        key={char.id}
-        id={char.id}
-        emojiIcon={char.emoji}
-        value={char.name}
-        toggle={selectedCharsIds.includes(char.id)}
-        selectFn={handleSelectChars}
-        disabled={
-          selectedCharsIds.length === MAX_SELECTED_CHARS &&
-          !selectedCharsIds.includes(char.id)
-        }
-      />
-    );
-  });
   return (
     <View
       style={[
@@ -120,9 +104,27 @@ const AboutUserFlatScreen = ({
               : `Select at least ${MIN_SELECTED_CHARS} tags that describe who you are and your lifestyles. More tags selected, more likelihood you'll find the right crowd in a Lofft!`
           }
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.selectionContainer}>{charsButtons}</View>
-        </ScrollView>
+
+        <FlatList
+          data={characteristics}
+          keyExtractor={char => char.id.toString()}
+          renderItem={({item}) => (
+            <SelectionButton
+              id={item.id}
+              emojiIcon={item.emoji}
+              value={item.name}
+              toggle={selectedCharsIds.includes(item.id)}
+              selectFn={handleSelectChars}
+              disabled={
+                selectedCharsIds.length === MAX_SELECTED_CHARS &&
+                !selectedCharsIds.includes(item.id)
+              }
+              isReady={!isAdvertLoading}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.selectionContainer}
+        />
         <Divider />
         <View style={[styles.footerContainer]}>
           <View style={styles.tagInfoContainer}>

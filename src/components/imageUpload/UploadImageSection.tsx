@@ -4,23 +4,25 @@ import UploadImageButton from './UploadImageButton';
 import ImagePreviewRow from './ImagePreviewRow';
 import {size} from 'react-native-responsive-sizes';
 import {ImageType} from 'reduxFeatures/imageHandling/types';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 type UploadImageSectionProps = {
   toggleModal: () => void;
-  fadeAnim: Animated.Value;
+  isReady: boolean | undefined;
   error: string;
   imageType: ImageType;
 };
 const UploadImageSection = ({
   toggleModal,
-  fadeAnim,
+  isReady,
   error,
   imageType,
 }: UploadImageSectionProps) => {
+  const {fadeInAnim} = useFadeInAnimation(isReady);
   return (
     <View style={styles.mainContainer}>
       <ScrollView>
-        <Animated.View style={[styles.imageContainer, {opacity: fadeAnim}]}>
+        <Animated.View style={[styles.imageContainer, {opacity: fadeInAnim}]}>
           <ImagePreviewRow imageType={imageType} />
           <UploadImageButton
             onPress={toggleModal}

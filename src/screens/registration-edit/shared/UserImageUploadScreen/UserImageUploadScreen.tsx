@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 // Hooks 🪝
 import {useUserImageUploadScreen} from './useUserImageUploadScreen';
@@ -31,13 +31,14 @@ import {MAX_USER_IMAGES} from 'components/componentData/constants';
 import {ImageType} from 'reduxFeatures/imageHandling/types';
 import OpacityOverlay from 'components/modals/OpacityOverlay';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const UserImageUploadScreen = ({
   route,
 }: {
   route?: {params: {edit: boolean}};
 }) => {
-  const edit = route?.params?.edit;
+  const edit = route?.params?.edit || false;
 
   const {
     isModalOpen,
@@ -46,7 +47,6 @@ const UserImageUploadScreen = ({
     error,
     handleBackButton,
     handleContinue,
-    fadeInAnim,
     totalImages,
     isEditProfileLoading,
     isEditProfileError,
@@ -55,6 +55,8 @@ const UserImageUploadScreen = ({
     isProfileLoading,
     isProfileError,
   } = useUserImageUploadScreen(edit);
+
+  const insets = useSafeAreaInsets();
 
   if (isProfileLoading) {
     return <LoadingComponent />;
@@ -71,7 +73,13 @@ const UserImageUploadScreen = ({
   }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+        },
+      ]}>
       <BackButton onPress={handleBackButton} />
       <RegistrationBackground
         height="100%"
@@ -87,7 +95,7 @@ const UserImageUploadScreen = ({
         />
         <UploadImageSection
           imageType={ImageType.User}
-          fadeAnim={fadeInAnim}
+          isReady={edit ? !isEditProfileLoading : undefined}
           error={error}
           toggleModal={toggleModal}
         />
@@ -121,7 +129,7 @@ const UserImageUploadScreen = ({
         setShowPopover={setShowPopover}
       />
       <OpacityOverlay loadingState={isEditProfileLoading} />
-    </SafeAreaView>
+    </View>
   );
 };
 

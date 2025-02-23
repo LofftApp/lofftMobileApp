@@ -49,7 +49,7 @@ const genders: Gender[] = [
   {name: 'Prefer not to say', id: 5, emoji: '🤐'},
 ];
 
-export const useGenderIdentityScreen = (edit?: boolean) => {
+export const useGenderIdentityScreen = (edit: boolean) => {
   // Navigation
   const navigation = useNavigation<
     NewUserJourneyStackNavigation & SettingsScreenNavigationProp

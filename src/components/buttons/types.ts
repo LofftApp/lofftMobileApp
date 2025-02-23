@@ -69,6 +69,7 @@ type SelectionButtonProps = {
   toggle: boolean;
   selectFn: (id: number) => void;
   disabled?: boolean;
+  isReady?: boolean;
 };
 
 type NewUserJourneyButtonProps = {
