@@ -33,7 +33,7 @@ import {
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions} from 'reduxFeatures/adverts/types';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
 export const useSafeSpaceForScreen = (
   edit?: boolean,

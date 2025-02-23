@@ -22,6 +22,7 @@ import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
 import {ImageType} from 'reduxFeatures/imageHandling/types';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   const advertId = route?.params?.advertId;
@@ -32,6 +33,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   } = useGetAdvertByIdQuery(advertId ?? 0, {
     refetchOnMountOrArgChange: true,
   });
+  const insets = useSafeAreaInsets();
 
   const {clearImagesToUpload} = useImagesToUpload(ImageType.Flat);
 
@@ -131,7 +133,15 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
   ];
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
       <BackButton title="Edit Advert" onPress={navigation.goBack} />
 
       <RegistrationBackground
@@ -141,16 +151,18 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
       />
 
       <View style={CoreStyleSheet.screenContainer}>
-        {isLoading ? (
-          <LoadingButtonIcon />
-        ) : isError ? (
-          <ErrorMessage message="We couldn't retrieve the advert details" />
-        ) : (
-          <Text style={[fontStyles.bodyMedium, styles.titleAddress]}>
-            {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
-            {advert?.flat.city.name || 'Berlin'}
-          </Text>
-        )}
+        <View style={styles.addressContainer}>
+          {isLoading ? (
+            <LoadingButtonIcon />
+          ) : isError ? (
+            <ErrorMessage message="We couldn't retrieve the advert details" />
+          ) : (
+            <Text style={[fontStyles.bodyMedium, styles.titleAddress]}>
+              {advert?.flat.address || 'Rudi-Dutschke-Str. 26, 10969'} -{' '}
+              {advert?.flat.city.name || 'Berlin'}
+            </Text>
+          )}
+        </View>
         <View style={styles.mainContainer}>
           <FlatList
             data={editAdvertData}
@@ -167,7 +179,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -177,12 +189,16 @@ const styles = StyleSheet.create({
     gap: size(24),
   },
 
-  titleAddress: {
-    color: Color.Black[100],
+  addressContainer: {
+    minHeight: size(80),
     paddingTop: size(0),
     paddingBottom: size(10),
+  },
+  titleAddress: {
+    color: Color.Black[100],
+
     textAlign: 'center',
-    minHeight: size(80),
+
     flexWrap: 'wrap',
     flexShrink: 1,
   },

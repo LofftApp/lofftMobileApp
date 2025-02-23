@@ -39,7 +39,7 @@ import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useLanguageSelectionScreen = (
   edit?: boolean,

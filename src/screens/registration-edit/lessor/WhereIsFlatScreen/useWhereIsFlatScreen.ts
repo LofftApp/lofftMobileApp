@@ -33,7 +33,7 @@ import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {UserType} from 'reduxFeatures/user/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useWhereIsFlatScreen = (
   edit?: boolean,

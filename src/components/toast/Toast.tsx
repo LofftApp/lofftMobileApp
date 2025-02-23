@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {size} from 'react-native-responsive-sizes';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import { ToastTypes } from 'reduxFeatures/settings/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
 import {fontStyles} from 'styleSheets/fontStyles';
 
@@ -20,8 +20,8 @@ type ToastProps = {
 };
 
 const Toast = ({condition, message, type, position = 'top'}: ToastProps) => {
-  const {getStyles} = useToast({type, message, condition});
-  const {bg, icon, iconColor} = getStyles(type);
+  const {getToastStyles} = useToast({type, message, condition});
+  const {bg, icon, iconColor} = getToastStyles(type);
   const {height} = useWindowDimensions();
   const top = position === 'top';
 

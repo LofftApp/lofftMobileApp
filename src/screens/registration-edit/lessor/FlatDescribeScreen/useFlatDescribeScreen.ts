@@ -26,7 +26,7 @@ import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTr
 import {isEqualValue} from 'helpers/isEqualValue';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useFlatDescribeScreen = (
   edit?: boolean,

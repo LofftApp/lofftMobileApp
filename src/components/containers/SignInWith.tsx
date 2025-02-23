@@ -17,7 +17,7 @@ import {size} from 'react-native-responsive-sizes';
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 type SignInWithProps = {
   isSignInScreen: boolean;

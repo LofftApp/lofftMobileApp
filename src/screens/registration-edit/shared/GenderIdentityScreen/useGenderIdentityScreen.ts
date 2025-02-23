@@ -34,7 +34,7 @@ import {
   UserType,
 } from 'reduxFeatures/user/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 const genders: Gender[] = [
   {name: 'Male', id: 1, emoji: '👨'},

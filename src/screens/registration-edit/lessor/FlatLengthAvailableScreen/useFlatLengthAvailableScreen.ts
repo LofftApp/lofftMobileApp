@@ -32,7 +32,7 @@ import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {isEqualValue} from 'helpers/isEqualValue';
 import {EditAdvertActions, EditAdvertParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 export const useFlatLengthAvailableScreen = (
   edit?: boolean,
   advertId?: number,

@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {ToastTypes} from './settingsSlice';
+
 import Color from 'styleSheets/lofftColorPallet.json';
 import {
   showToast as _showToast,
@@ -7,6 +7,7 @@ import {
 } from './settingsSlice';
 import {useCallback, useEffect} from 'react';
 import {useAppSelector} from 'reduxCore/hooks';
+import {ToastTypes} from './types';
 type useToastProps = {
   condition?: boolean;
   message?: string;
@@ -23,15 +24,15 @@ export const useToast = ({
   const dispatch = useDispatch();
 
   const {
-    visible,
-    message: toastMessage,
+    visible = false,
+    message: toastMessage = '',
     type: toastType,
-    position: toastPosition,
+    position: toastPosition = 'top',
   } = useAppSelector(state => state.settings.toast);
   const toast = useAppSelector(state => state.settings.toast);
   console.log('toast', toast);
 
-  const getStyles = (t: ToastTypes) => {
+  const getToastStyles = (t: ToastTypes) => {
     switch (t) {
       case ToastTypes.Error:
         return {
@@ -77,6 +78,7 @@ export const useToast = ({
       type: ToastTypes;
       position?: 'top' | 'bottom';
     }) => {
+      console.log('show toast called');
       dispatch(
         _showToast({message: _message, type: _type, position: _position}),
       );
@@ -95,7 +97,7 @@ export const useToast = ({
   }, [condition, message, type, showToast, position]);
 
   return {
-    getStyles,
+    getToastStyles,
     showToast,
     visible,
     message: toastMessage,

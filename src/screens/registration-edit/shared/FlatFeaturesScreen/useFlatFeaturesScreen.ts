@@ -43,7 +43,7 @@ import {
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -207,7 +207,8 @@ export const useFlatFeaturesScreen = (
             characteristics: newUserDetails.characteristics,
             flatFeatures: selectedFeaturesIds,
           };
-          await editFlat(editFlatParams).unwrap();
+          const payload = await editFlat(editFlatParams).unwrap();
+          console.log('payload', payload);
           showToast({
             message: 'Your changes have been saved',
             type: ToastTypes.Success,

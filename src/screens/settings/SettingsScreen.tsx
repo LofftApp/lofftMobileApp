@@ -5,9 +5,9 @@ import {useNavigation} from '@react-navigation/native';
 // Redux
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useSignOutMutation} from 'reduxFeatures/auth/authApi';
-
-//Hooks
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 
 //Components
 import {RegistrationBackground, Trail} from 'assets';
@@ -25,8 +25,6 @@ import {size} from 'react-native-responsive-sizes';
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useAppLanguage} from 'reduxFeatures/settings/useAppLanguage';
-import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {UserType} from 'reduxFeatures/user/types';
 
 const fallBackProfilePic =
@@ -58,7 +56,7 @@ const fallBackAdvertPic =
 const SettingsScreen = () => {
   const {data: currentUser} = useGetUserQuery();
   const {isLessor} = useUserType();
-  const {resetNewUserState} = useNewUserDetails(isLessor);
+  const {resetNewUserState} = useNewUserDetails();
   const {data} = useGetAdvertsQuery(undefined, {skip: !isLessor});
   const adverts = data?.adverts;
   const {appLanguage} = useAppLanguage();

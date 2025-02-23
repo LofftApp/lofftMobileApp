@@ -29,7 +29,7 @@ import {
 } from 'reduxFeatures/user/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/settingsSlice';
+import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   //Navigation
