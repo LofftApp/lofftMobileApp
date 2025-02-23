@@ -85,6 +85,11 @@ export const useFlatLengthAvailableScreen = (
   const lessorUntilDate =
     newUserDetails.userType === 'lessor' && newUserDetails.untilDate;
 
+  console.log('lessorFromDate', lessorFromDate);
+  console.log('lessorUntilDate', lessorUntilDate);
+  console.log('advert.fromDate', advert?.fromDate);
+  console.log('advert.toDate', advert?.toDate);
+
   const savedFromDate = useMemo(() => {
     return edit ? advert?.fromDate : lessorFromDate;
   }, [edit, advert?.fromDate, lessorFromDate]);
@@ -95,17 +100,20 @@ export const useFlatLengthAvailableScreen = (
 
   useEffect(() => {
     if (savedFromDate) {
-      if (dayjs(new Date(savedFromDate)).isToday()) {
+      const fromDateMillis = dayjs.unix(Number(savedFromDate)).toDate();
+      if (dayjs(fromDateMillis).isToday()) {
         setToday(true);
       }
-      setFromDate(new Date(savedFromDate));
+      setFromDate(fromDateMillis);
       setFromDateSelected(true);
     }
+
     if (savedUntilDate) {
-      setUntilDate(new Date(savedUntilDate));
+      const untilDateMillis = dayjs.unix(Number(savedUntilDate)).toDate();
+      setUntilDate(untilDateMillis);
       setUntilDateSelected(true);
     }
-    if (savedUntilDate === null) {
+    if (!savedUntilDate) {
       setPermanent(true);
       setUntilDateSelected(true);
     }
