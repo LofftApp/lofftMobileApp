@@ -31,7 +31,8 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
     selectedImage,
   } = useImagesToUpload(imageType);
   const {isLessor} = useUserType();
-  const {isNewUserLessor} = useNewUserDetails(isLessor);
+  const {isNewUserLessor} = useNewUserDetails();
+  console.log('imagesToUpload', imagesToUpload);
 
   const savedImagesDisplay =
     isNewUserLessor || isLessor

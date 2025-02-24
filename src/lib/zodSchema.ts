@@ -1,7 +1,10 @@
 import {
+  ALLOWED_IMAGE_TYPES,
   initialMaxPrice,
   initialMinPrice,
   MAX_DESCRIPTION_CHARS,
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
   MAX_FLAT_IMAGES,
   MAX_GENDERS,
   MAX_LANGUAGES,
@@ -211,9 +214,14 @@ const flatDescriptionSchema = z
 
 const newImageSchema = z.object({
   fileName: z.string(),
-  fileSize: z.number(),
+  fileSize: z
+    .number()
+    .max(MAX_FILE_SIZE_BYTES, `File must be less than ${MAX_FILE_SIZE_MB}MB`),
   height: z.number(),
-  type: z.string(),
+  type: z.string().refine(type => ALLOWED_IMAGE_TYPES.includes(type), {
+    message:
+      'Invalid image type. Only JPEG, PNG, WebP, TIFF, SVG, BMP, HEIF, and HEIC are allowed.',
+  }),
   uri: z.string(),
   width: z.number(),
 });
