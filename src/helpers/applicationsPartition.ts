@@ -1,7 +1,13 @@
-import { AdvertStatus } from 'reduxFeatures/adverts/types';
-import {Applications, ApplicationStatus} from 'reduxFeatures/applications/types';
+import {AdvertStatus} from 'reduxFeatures/adverts/types';
+import {
+  Applications,
+  ApplicationStatus,
+} from 'reduxFeatures/applications/types';
 
-export const applicationPartition = (applications: Applications) => {
+export const applicationPartition = (applications?: Applications) => {
+  if (!applications) {
+    return [[], []];
+  }
   const active = applications.applications
     ?.filter(
       app =>

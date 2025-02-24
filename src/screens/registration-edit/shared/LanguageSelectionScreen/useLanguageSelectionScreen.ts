@@ -248,7 +248,7 @@ export const useLanguageSelectionScreen = (
           };
           await editUserProfile(editParams).unwrap();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
         } catch (err) {

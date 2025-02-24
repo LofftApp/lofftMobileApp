@@ -4,8 +4,6 @@ import {Image} from 'react-native';
 export const useLoadImages = (uris: string[] | string) => {
   const [loadingStatuses, setLoadingStatuses] = useState<boolean[]>([]);
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
-  console.log('loadingStatuses', loadingStatuses);
-  console.log('allImagesLoaded', allImagesLoaded);
 
   const filteredUris = useMemo(() => {
     return Array.isArray(uris)

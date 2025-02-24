@@ -226,7 +226,7 @@ export const useFlatFeaturesScreen = (
           await editUserProfile(editProfileParams).unwrap();
 
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
 

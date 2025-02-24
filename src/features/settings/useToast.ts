@@ -7,10 +7,10 @@ import {
 } from './settingsSlice';
 import {useCallback, useEffect} from 'react';
 import {useAppSelector} from 'reduxCore/hooks';
-import {ToastTypes} from './types';
+import {Messages, ToastTypes} from './types';
 type useToastProps = {
   condition?: boolean;
-  message?: string;
+  message?: Messages;
   type?: ToastTypes;
   position?: 'top' | 'bottom';
 };
@@ -74,7 +74,7 @@ export const useToast = ({
       type: _type,
       position: _position,
     }: {
-      message: string;
+      message: Messages;
       type: ToastTypes;
       position?: 'top' | 'bottom';
     }) => {

@@ -192,7 +192,7 @@ export const useSafeSpaceForScreen = (
           navigation.goBack();
           navigation.goBack();
           showToast({
-            message: 'Your changes have been saved',
+            message: Messages.ChangesSaved,
             type: ToastTypes.Success,
           });
           setError('');
