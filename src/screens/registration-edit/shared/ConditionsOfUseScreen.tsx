@@ -41,6 +41,7 @@ import {
   NewUserLessorDetails,
   NewUserTenantDetails,
 } from 'reduxFeatures/registration/types';
+import {Messages} from 'reduxFeatures/settings/types';
 
 const ConditionsOfUseScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -80,6 +81,17 @@ const ConditionsOfUseScreen = () => {
     const token = await messaging().getToken();
     console.log('Token in conditionsScreen', token);
     setNewUserDetails({...newUserDetails, deviceToken: token});
+  };
+
+  const createNewUserError = (err: unknown) => {
+    const typedError = err as {
+      status?: number;
+    };
+    if (typedError.status === 422) {
+      setErrorMessage(Messages.RequiredFields);
+    } else {
+      setErrorMessage(Messages.ErrorOccurred);
+    }
   };
 
   console.log('newUserDetails token', newUserDetails.deviceToken);
@@ -154,14 +166,7 @@ const ConditionsOfUseScreen = () => {
         console.log('Tenent successfully completed', result);
       } catch (error) {
         setIsNavigating(false);
-        const typedError = error as {
-          status?: number;
-        };
-        if (typedError.status === 422) {
-          setErrorMessage('Please fill out all the required fields');
-        } else {
-          setErrorMessage('An error occurred, please try again');
-        }
+        createNewUserError(error);
       }
     }
   };

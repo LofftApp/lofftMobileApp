@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from 'react';
 import {Image} from 'react-native';
 
-export const useLoadImages = (uris: string[] | string, retryCount = 2) => {
+export const useLoadImages = (uris: string[] | string) => {
   const [loadingStatuses, setLoadingStatuses] = useState<boolean[]>([]);
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   console.log('loadingStatuses', loadingStatuses);
@@ -42,7 +42,7 @@ export const useLoadImages = (uris: string[] | string, retryCount = 2) => {
     };
 
     prefetchImages();
-  }, [filteredUris, retryCount]);
+  }, [filteredUris]);
 
   return {
     allImagesLoaded,

@@ -16,6 +16,7 @@ import {
 } from 'reduxFeatures/adverts/advertApi';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 //Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -28,6 +29,7 @@ import {flatImagesSchema} from 'lib/zodSchema';
 
 // Helpers
 import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
@@ -38,7 +40,6 @@ import {
 } from 'reduxFeatures/imageHandling/types';
 import {UserType} from 'reduxFeatures/user/types';
 import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
-import {useToast} from 'reduxFeatures/settings/useToast';
 
 export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
   //Navigation
@@ -175,17 +176,6 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
     setSelectedImage(null);
   };
 
-  const createError = (err: unknown) => {
-    const typedError = err as {
-      status?: number;
-    };
-    if (typedError.status === 422) {
-      setError('We could not save your changes, please try again');
-    } else {
-      setError('An error occurred, please try again');
-    }
-  };
-
   const handleContinue = async () => {
     const concatImages = [...imagesToUpload, ...savedImages.lessor.flatImages];
 
@@ -238,7 +228,7 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
         clearImagesToUpload();
         setSelectedImage(null);
       } catch (err) {
-        createError(err);
+        createEditError(err, setError);
         return;
       }
     } else {

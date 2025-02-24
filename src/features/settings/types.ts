@@ -7,6 +7,9 @@ enum ToastTypes {
 
 enum Messages {
   ChangesSaved = 'Your changes have been saved',
+  ChangesNotSaved = 'We could not save your changes, please try again',
+  ErrorOccurred = 'An error occurred, please try again',
+  RequiredFields = 'Please fill out all the required fields',
 }
 
 type AppLanguages = 'EN' | 'DE';

@@ -3,18 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 
 //Redux
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
-
-// Screens 📺
-import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
-import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
-import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
-
-//Validation 🛡   ️
-import {safeSpacesSchema} from 'lib/zodSchema';
-
-//Types 🏷  ️
-import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
-import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useToast} from 'reduxFeatures/settings/useToast';
 import {
   useEditFlatMutation,
   useGetAdvertByIdQuery,
@@ -25,16 +14,30 @@ import {
   useEditUserProfileMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
+
+// Screens 📺
+import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
+
+//Validation 🛡   ️
+import {safeSpacesSchema} from 'lib/zodSchema';
+
+//Helpers   🤝
 import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
+
+//Types 🏷  ️
+import {NewUserJourneyStackNavigation} from '../../../../navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 import {
   EditProfileActions,
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
 import {EditAdvertActions} from 'reduxFeatures/adverts/types';
-import {ToastTypes} from 'reduxFeatures/settings/types';
-import {useToast} from 'reduxFeatures/settings/useToast';
+
 export const useSafeSpaceForScreen = (
   edit: boolean,
   advertId: number,
@@ -134,16 +137,6 @@ export const useSafeSpaceForScreen = (
     setError('');
   };
 
-  const createError = (err: unknown) => {
-    const typedError = err as {
-      status?: number;
-    };
-    if (typedError.status === 422) {
-      setError('We could not save your changes, please try again');
-    } else {
-      setError('An error occurred, please try again');
-    }
-  };
   const handleContinue = async () => {
     const selectedSafeSpaces = safeSpaces?.filter(sp =>
       selectedSafeSpaceIds.includes(sp.id),
@@ -181,7 +174,7 @@ export const useSafeSpaceForScreen = (
           });
           navigation.goBack();
         } catch (err) {
-          createError(err);
+          createEditError(err, setError);
           return;
         }
       } else {
@@ -204,7 +197,7 @@ export const useSafeSpaceForScreen = (
           });
           setError('');
         } catch (err) {
-          createError(err);
+          createEditError(err, setError);
           return;
         }
       }

@@ -1,4 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 //Redux 📦
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
@@ -15,19 +16,19 @@ import {
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
+import {useUserType} from 'reduxFeatures/user/useUserType';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
 
 // Helper 🤝
-import {useNavigation} from '@react-navigation/native';
 import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
 
 // Validation 🛡  ️
 import {featuresSchema} from 'lib/zodSchema';
 
 // Types 🧩
-import {useUserType} from 'reduxFeatures/user/useUserType';
 import {
   NewUserJourneyStackNavigation,
   SettingsScreenNavigationProp,
@@ -42,8 +43,7 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
-import {ToastTypes} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useFlatFeaturesScreen = (
   edit?: boolean,
@@ -157,17 +157,6 @@ export const useFlatFeaturesScreen = (
     setShowPopover(false);
   };
 
-  const createError = (err: unknown) => {
-    const typedError = err as {
-      status?: number;
-    };
-    if (typedError.status === 422) {
-      setError('We could not save your changes, please try again');
-    } else {
-      setError('An error occurred, please try again');
-    }
-  };
-
   const handleContinue = async () => {
     const selectedFeatures = features?.filter(feat =>
       selectedFeaturesIds.includes(feat.id),
@@ -213,7 +202,7 @@ export const useFlatFeaturesScreen = (
             type: ToastTypes.Success,
           });
         } catch (err) {
-          createError(err);
+          createEditError(err, setError);
           return;
         }
       } else {
@@ -244,7 +233,7 @@ export const useFlatFeaturesScreen = (
           navigation.goBack();
           navigation.goBack();
         } catch (err) {
-          createError(err);
+          createEditError(err, setError);
           return;
         }
       }

@@ -16,6 +16,7 @@ import {
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 //Hooks 🪝
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
@@ -28,6 +29,7 @@ import {languagesSchema} from 'lib/zodSchema';
 
 //Helpers 🤝
 import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
 
 //Types 🏷️
 import {
@@ -38,7 +40,6 @@ import {
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
-import {useToast} from 'reduxFeatures/settings/useToast';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useLanguageSelectionScreen = (
@@ -197,17 +198,6 @@ export const useLanguageSelectionScreen = (
     setError('');
   };
 
-  const createError = (err: unknown) => {
-    const typedError = err as {
-      status?: number;
-    };
-    if (typedError.status === 422) {
-      setError('We could not save your changes, please try again');
-    } else {
-      setError('An error occurred, please try again');
-    }
-  };
-
   const handleContinue = async () => {
     const selectedLanguages = sortedLanguages?.filter(lang =>
       languagesIds.includes(lang.id),
@@ -243,7 +233,7 @@ export const useLanguageSelectionScreen = (
             type: ToastTypes.Success,
           });
         } catch (err) {
-          createError(err);
+          createEditError(err, setError);
           return;
         }
       } else {
@@ -262,7 +252,7 @@ export const useLanguageSelectionScreen = (
             type: ToastTypes.Success,
           });
         } catch (err) {
-          createError(err);
+          createEditError(err, setError);
           return;
         }
       }

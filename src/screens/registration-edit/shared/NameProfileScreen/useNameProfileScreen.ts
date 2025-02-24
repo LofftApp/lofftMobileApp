@@ -134,13 +134,13 @@ export const useNameProfileScreen = (edit?: boolean) => {
     setIsDatePickerOpen(false);
   };
 
+  const isNotAllEqual =
+    !isEqualValue(savedProfileData?.firstName, firstName) ||
+    !isEqualValue(savedProfileData?.lastName, lastName) ||
+    !isEqualValue(savedProfileData?.dateOfBirth, date);
+
   const handleBackButton = () => {
-    if (
-      !hasShownPopover &&
-      (!isEqualValue(savedProfileData?.firstName, firstName) ||
-        !isEqualValue(savedProfileData?.lastName, lastName) ||
-        !isEqualValue(savedProfileData?.dateOfBirth, date))
-    ) {
+    if (!hasShownPopover && isNotAllEqual) {
       triggerPopover();
       return;
     }
@@ -202,13 +202,9 @@ export const useNameProfileScreen = (edit?: boolean) => {
       return;
     }
 
-    const newValue =
-      !isEqualValue(savedProfileData?.firstName, result.data.firstName) ||
-      !isEqualValue(savedProfileData?.lastName, result.data.lastName) ||
-      !isEqualValue(savedProfileData?.dateOfBirth, result.data.dateOfBirth);
     navigation.navigate('NewUserNavigator', {
       screen: 'UserDescribeScreen',
-      params: {edit: true, newValue},
+      params: {edit: true, newValue: isNotAllEqual},
     });
 
     setErrorFirstName('');

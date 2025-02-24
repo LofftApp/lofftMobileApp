@@ -1,5 +1,4 @@
 import {useEffect, useMemo, useState} from 'react';
-
 import {useNavigation} from '@react-navigation/native';
 
 //Redux
@@ -11,6 +10,7 @@ import {
   useEditUserProfileMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 // Screens 📺
 import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
@@ -21,6 +21,7 @@ import {genderIdentitiesSchema} from 'lib/zodSchema';
 
 // Helper   🤝
 import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
 
 //Types 🏷  ️
 import {
@@ -33,7 +34,6 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {useToast} from 'reduxFeatures/settings/useToast';
 import {ToastTypes} from 'reduxFeatures/settings/types';
 
 const genders: Gender[] = [
@@ -173,14 +173,7 @@ export const useGenderIdentityScreen = (edit: boolean) => {
           });
           resetNewUserState();
         } catch (err) {
-          const typedError = err as {
-            status?: number;
-          };
-          if (typedError.status === 422) {
-            setError('Please fill out all the required fields');
-          } else {
-            setError('An error occurred, please try again');
-          }
+          createEditError(err, setError);
           return;
         }
       } else {

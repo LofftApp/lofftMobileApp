@@ -10,6 +10,7 @@ import {
 } from 'reduxFeatures/user/userApi';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -19,6 +20,7 @@ import {selfDescriptionSchema} from 'lib/zodSchema';
 
 // helpers
 import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
 
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
@@ -27,9 +29,7 @@ import {
   EditProfileParams,
   UserType,
 } from 'reduxFeatures/user/types';
-import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
-import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/types';
+import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
 
 export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
   //Navigation
@@ -138,14 +138,7 @@ export const useUserDescribeScreen = (edit?: boolean, newValue?: boolean) => {
           type: ToastTypes.Success,
         });
       } catch (err) {
-        const typedError = err as {
-          status?: number;
-        };
-        if (typedError.status === 422) {
-          setError('Please fill out all the required fields');
-        } else {
-          setError('An error occurred, please try again');
-        }
+        createEditError(err, setError);
         return;
       }
     }

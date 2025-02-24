@@ -38,7 +38,8 @@ import {
   ImageType,
 } from 'reduxFeatures/imageHandling/types';
 import {Messages, PopoverKeys, ToastTypes} from 'reduxFeatures/settings/types';
-import { useToast } from 'reduxFeatures/settings/useToast';
+import {useToast} from 'reduxFeatures/settings/useToast';
+import {createEditError} from 'helpers/createEditError';
 
 export const useUserImageUploadScreen = (edit: boolean) => {
   //Navigation
@@ -160,17 +161,6 @@ export const useUserImageUploadScreen = (edit: boolean) => {
     clearImagesToUpload();
   };
 
-  const createError = (err: unknown) => {
-    const typedError = err as {
-      status?: number;
-    };
-    if (typedError.status === 422) {
-      setError('We could not save your changes, please try again');
-    } else {
-      setError('An error occurred, please try again');
-    }
-  };
-
   const handleContinue = async () => {
     const concatImages =
       isNewUserLessor || isLessor
@@ -236,7 +226,7 @@ export const useUserImageUploadScreen = (edit: boolean) => {
         clearImagesToUpload();
         setSelectedImage(null);
       } catch (err) {
-        createError(err);
+        createEditError(err, setError);
         return;
       }
     } else {

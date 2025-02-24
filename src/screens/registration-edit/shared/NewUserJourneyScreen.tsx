@@ -33,6 +33,7 @@ import {size} from 'react-native-responsive-sizes';
 
 // Types 🏷 ️
 import {NewUserJourneyStackNavigation} from '../../../navigationStacks/types';
+import {UserType} from 'reduxFeatures/user/types';
 
 const NewUserJourneyScreen = () => {
   const navigation = useNavigation<NewUserJourneyStackNavigation>();
@@ -66,7 +67,7 @@ const NewUserJourneyScreen = () => {
     signOut();
   };
 
-  const handleSelected = (type: 'lessor' | 'tenant') => {
+  const handleSelected = (type: UserType.TENANT | UserType.LESSOR) => {
     setUserType(type);
     setTypeSelected(true);
     setCurrentScreen(1);
@@ -108,16 +109,14 @@ const NewUserJourneyScreen = () => {
             <NewUserJourneyButton
               text="I'm looking for a flat"
               icon="search-sm"
-              onPress={() => handleSelected('tenant')}
-              type="tenant"
-              isActive={userType === 'tenant'}
+              onPress={() => handleSelected(UserType.TENANT)}
+              isActive={userType === UserType.TENANT}
             />
             <NewUserJourneyButton
               text="I have a room to rent"
               icon="home-door"
-              onPress={() => handleSelected('lessor')}
-              type="lessor"
-              isActive={userType === 'lessor'}
+              onPress={() => handleSelected(UserType.LESSOR)}
+              isActive={userType === UserType.LESSOR}
             />
           </View>
         </View>
