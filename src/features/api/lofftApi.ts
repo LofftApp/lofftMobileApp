@@ -45,11 +45,8 @@ export const lofftApi = createApi({
 
     return result;
   },
-  keepUnusedDataFor: 10,
+  keepUnusedDataFor: 60 * 5, // 5 minutes
 
-
-  // refetchOnReconnect: true, // Refetch when network reconnects
-  // refetchOnMountOrArgChange: 10,
   tagTypes: [
     'Adverts',
     'Applications',
