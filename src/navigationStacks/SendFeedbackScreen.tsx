@@ -1,14 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {View} from 'react-native';
 
 const SendFeedbackScreen = () => {
-  return (
-    <View>
-      
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({})
+  return <View>Send feedback screen</View>;
+};
 
 export default SendFeedbackScreen;
