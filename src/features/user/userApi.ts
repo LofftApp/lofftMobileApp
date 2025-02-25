@@ -67,7 +67,6 @@ export const userApi = lofftApi.injectEndpoints({
           });
         }
 
-        console.log('formData in tenant', formData);
         return {
           url: `/api/users/${id}/complete_tenant_sign_up`,
           method: 'POST',
@@ -137,6 +136,8 @@ export const userApi = lofftApi.injectEndpoints({
             });
           }
         }
+
+        console.log('formData in tenant', formData);
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',

@@ -23,13 +23,12 @@ export const useToast = ({
 }: useToastProps = {}) => {
   const dispatch = useDispatch();
 
-  const {
-    visible = false,
-    message: toastMessage = '',
-    type: toastType,
-    position: toastPosition = 'top',
-  } = useAppSelector(state => state.settings.toast);
-  const toast = useAppSelector(state => state.settings.toast);
+  const toast = useAppSelector(state => state?.settings?.toast);
+  const visible = toast?.visible || false;
+  const toastMessage = toast?.message || '';
+  const toastType = toast?.type;
+  const toastPosition = toast?.position || 'top';
+
   console.log('toast', toast);
 
   const getToastStyles = (t: ToastTypes) => {

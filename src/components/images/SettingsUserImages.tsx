@@ -14,12 +14,7 @@ import {
 } from 'react-native';
 import {size} from 'react-native-responsive-sizes';
 
-const SettingsUserImage = ({
-  userImageUri,
-}: {
-  userImageUri?: string;
-  isLoading?: boolean;
-}) => {
+const SettingsUserImage = ({userImageUri}: {userImageUri?: string}) => {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   const {height} = useWindowDimensions();
 

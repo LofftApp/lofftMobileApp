@@ -97,6 +97,13 @@ type NewUserJourneyContinueButtonProps = {
   disabled?: boolean;
 };
 
+enum ButtonValues {
+  TryAgain = 'Try Again',
+  Continue = 'Continue',
+  Save = 'Save',
+  Cancel = 'Cancel',
+}
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
@@ -110,3 +117,5 @@ export type {
   IconButtonProps,
   NewUserJourneyContinueButtonProps,
 };
+
+export {ButtonValues};

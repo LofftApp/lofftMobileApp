@@ -3,10 +3,11 @@ import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
 import {
   ImageRecord,
+  ImageType,
   SavedImage,
   SelectedImage,
 } from 'reduxFeatures/imageHandling/types';
-import {AppLanguages} from 'reduxFeatures/settings/settingsSlice';
+import {AppLanguages} from 'reduxFeatures/settings/types';
 
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
@@ -32,6 +33,7 @@ type ImageSwiperProps = {
   deleteImage?: (uri: string) => void;
   onPress?: (index?: number) => void;
   selectedIndex: number | null;
+  imageType: ImageType;
 };
 
 type OnViewableItemsChangedParams = {

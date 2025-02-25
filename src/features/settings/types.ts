@@ -10,7 +10,10 @@ enum Messages {
   ChangesNotSaved = 'We could not save your changes, please try again',
   ErrorOccurred = 'An error occurred, please try again',
   RequiredFields = 'Please fill out all the required fields',
+  CouldNotLoad = 'We could not load the data, please try again',
 }
+
+
 
 type AppLanguages = 'EN' | 'DE';
 

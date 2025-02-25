@@ -104,6 +104,7 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
   console.log('imagesToUpload', imagesToUpload);
   console.log('savedImages', savedImages);
   console.log('deletedRecordImages', deletedRecordImages);
+  console.log('advert?.flat?.mainPic', advert?.flat?.mainPic);
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {

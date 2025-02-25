@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //Screens
-import SettingsScreen from 'screens/settings/SettingsScreen';
+import SettingsScreen from 'screens/settings/SettingsScreen/SettingsScreen';
 
 //Types
 import type {SettingsStackParamsList} from './types';

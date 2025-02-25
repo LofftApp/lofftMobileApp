@@ -5,7 +5,7 @@ import {StyleSheet, FlatList, Image, View, Pressable} from 'react-native';
 // Components 🪢
 import PaginationBar from 'components/bars/PaginationBar';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import {NoFlatImage} from 'assets';
+import {NoAvatarImage, NoFlatImage} from 'assets';
 import ImageEditButton from 'components/buttons/ImageEditButton';
 
 // Styles 🖼️
@@ -18,6 +18,7 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷
 import type {ImageSwiperProps} from '../cards/types';
 import type {OnViewableItemsChangedParams} from '../cards/types';
+import {ImageType} from 'reduxFeatures/imageHandling/types';
 
 const ImageSwiper = ({
   imageContainerHeight,
@@ -31,6 +32,7 @@ const ImageSwiper = ({
   deleteImage,
   onPress,
   selectedIndex,
+  imageType,
 }: ImageSwiperProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
@@ -111,7 +113,9 @@ const ImageSwiper = ({
                       {width: imageContainerWidth},
                       {marginHorizontal: size(marginHorizontal)},
                     ]}
-                    source={NoFlatImage}
+                    source={
+                      imageType === ImageType.Flat ? NoFlatImage : NoAvatarImage
+                    }
                     blurRadius={activeBlur || !loadingStatuses[index] ? 65 : 0}
                   />
                 )}

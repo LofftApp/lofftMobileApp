@@ -88,6 +88,7 @@ export const useUserImageUploadScreen = (edit: boolean) => {
     : currentUser?.profile?.userPhotos || [];
 
   console.log('dbImages in profile', dbImages);
+  console.log('currentuser', currentUser);
 
   const displaySavedImages =
     isLessor || isNewUserLessor
