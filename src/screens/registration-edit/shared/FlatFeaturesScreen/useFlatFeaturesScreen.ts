@@ -13,7 +13,7 @@ import {
   useEditUserProfileMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {EditAdvertActions, EditFlatParams} from 'reduxFeatures/adverts/types';
 import {useToast} from 'reduxFeatures/settings/useToast';
 import {useUserType} from 'reduxFeatures/user/useUserType';
@@ -125,7 +125,7 @@ export const useFlatFeaturesScreen = (
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

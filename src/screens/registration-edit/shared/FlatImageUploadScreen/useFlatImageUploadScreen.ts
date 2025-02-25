@@ -14,7 +14,7 @@ import {
   useEditFlatImageMutation,
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useToast} from 'reduxFeatures/settings/useToast';
 
@@ -115,7 +115,7 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
   }, [totalImages]);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.EditFlatImage : PopoverKeys.FlatImage,
     });

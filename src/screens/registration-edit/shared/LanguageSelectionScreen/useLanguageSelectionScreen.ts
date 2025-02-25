@@ -15,7 +15,7 @@ import {
   useEditUserProfileMutation,
   useGetUserQuery,
 } from 'reduxFeatures/user/userApi';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {useToast} from 'reduxFeatures/settings/useToast';
 
 //Hooks 🪝
@@ -150,7 +150,7 @@ export const useLanguageSelectionScreen = (
   const {fadeInAnim} = useFadeInAnimation(!isLoading);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
 // Redux 🏗️
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {useAutoPopoverTrigger} from 'reduxFeatures/settings/useAutomaticPopoverTrigger';
+import {useAutoPopover} from 'reduxFeatures/settings/useAutoPopover';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -44,7 +44,7 @@ const FavoritesScreen = () => {
   const allApplied = favorites?.map(el => el.applied);
   console.log('allAplied', allApplied);
 
-  const {showPopover, setShowPopover} = useAutoPopoverTrigger({
+  const {showPopover, setShowPopover} = useAutoPopover({
     userId: currentUser?.id ?? 0,
     key: PopoverKeys.FirstApply,
     condition: isApplied ?? false,

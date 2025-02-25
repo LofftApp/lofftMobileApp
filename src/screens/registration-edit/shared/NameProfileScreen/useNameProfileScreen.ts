@@ -10,7 +10,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {isEqualValue} from 'helpers/isEqualValue';
 
 // Hooks 🪝
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 
 // Screens 📺
 import {newUserScreens} from 'navigationStacks/newUserScreens';
@@ -104,7 +104,7 @@ export const useNameProfileScreen = (edit?: boolean) => {
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

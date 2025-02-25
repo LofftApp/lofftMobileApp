@@ -4,7 +4,7 @@ import {useAppSelector} from 'reduxCore/hooks';
 import {showPopoverForKey} from 'reduxFeatures/settings/settingsSlice';
 import {PopoverKeys} from './types';
 
-export const useAutoPopoverTrigger = ({
+export const useAutoPopover = ({
   userId,
   key,
   condition,

@@ -9,7 +9,7 @@ import {
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
 
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {
   useEditUserProfileMutation,
   useGetUserQuery,
@@ -83,7 +83,7 @@ export const useSafeSpaceForScreen = (
     useEditFlatMutation();
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

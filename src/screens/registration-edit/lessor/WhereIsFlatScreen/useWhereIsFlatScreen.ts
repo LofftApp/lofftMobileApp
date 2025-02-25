@@ -10,7 +10,7 @@ import {
   useEditFlatMutation,
   useGetAdvertByIdQuery,
 } from 'reduxFeatures/adverts/advertApi';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
@@ -177,7 +177,7 @@ export const useWhereIsFlatScreen = (
   const {fadeInAnim} = useFadeInAnimation(isReady);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
 import {useImagesToUpload} from 'reduxFeatures/imageHandling/useImagesToUpload';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {useUserType} from 'reduxFeatures/user/useUserType';
 import {
   useEditProfileImageMutation,
@@ -118,7 +118,7 @@ export const useUserImageUploadScreen = (edit: boolean) => {
   }, [totalImages]);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.EditProfileImage : PopoverKeys.ProfileImage,
     });

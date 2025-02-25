@@ -27,7 +27,7 @@ import {
 import {useUserType} from 'reduxFeatures/user/useUserType';
 
 // Hooks 🪝
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
@@ -87,7 +87,7 @@ export const useAboutUserFlatScreen = (edit?: boolean, advertId?: number) => {
   }, []);
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

@@ -27,7 +27,7 @@ import {
 } from 'reduxFeatures/adverts/advertApi';
 
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
 import {isEqualValue} from 'helpers/isEqualValue';
 import {EditAdvertActions, EditAdvertParams} from 'reduxFeatures/adverts/types';
@@ -72,7 +72,7 @@ export const useFlatLengthAvailableScreen = (
   ] = useEditAdvertMutation();
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });

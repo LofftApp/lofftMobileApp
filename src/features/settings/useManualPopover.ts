@@ -7,7 +7,7 @@ import {
 } from 'reduxFeatures/settings/settingsSlice';
 import {PopoverKeys} from './types';
 
-export const useManualPopoverTrigger = ({
+export const useManualPopover = ({
   userId: userId,
   key: key,
 }: {

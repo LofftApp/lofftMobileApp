@@ -20,7 +20,7 @@ import {
 import {useGetAdvertByIdQuery} from 'reduxFeatures/adverts/advertApi';
 
 import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
-import {useManualPopoverTrigger} from 'reduxFeatures/settings/useManualPopoverTrigger';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
 import {isEqualValue} from 'helpers/isEqualValue';
@@ -85,7 +85,7 @@ export const useFlatDetailsScreen = (edit?: boolean, advertId?: number) => {
   const {fadeInAnim} = useFadeInAnimation();
 
   const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
-    useManualPopoverTrigger({
+    useManualPopover({
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
