@@ -1,12 +1,14 @@
+import {ApplicationStatus} from 'reduxFeatures/applications/types';
 import {
   LessorNotification,
   TenantNotification,
 } from 'reduxFeatures/firebaseNotifications/types';
+import {UserType} from 'reduxFeatures/user/types';
 
 export const lessorNotificationMock: LessorNotification = {
   id: 1,
   read: false,
-  userType: 'lessor',
+  userType: UserType.LESSOR,
   notificationType: 'new_applicant',
   createdAt: '2023-12-01T00:00:00.000Z',
   title: 'New Applicant',
@@ -15,14 +17,14 @@ export const lessorNotificationMock: LessorNotification = {
     id: 42,
     status: 'open',
     createdAt: '2023-12-01T00:00:00.000Z',
-    flat: {id: 1, tagLine: 'Beautiful Apartment', url: 'https://example.com'},
+    flat: {id: 1, tagLine: 'Beautiful Apartment', uri: 'https://example.com'},
   },
 };
 
 export const tenantNotificationMock: TenantNotification = {
   id: 2,
   read: false,
-  userType: 'tenant',
+  userType: UserType.TENANT,
   notificationType: 'round_1',
   createdAt: '2023-12-01T00:00:00.000Z',
   title: 'New Applicant',
@@ -31,11 +33,11 @@ export const tenantNotificationMock: TenantNotification = {
     id: 42,
     status: 'open',
     createdAt: '2023-12-01T00:00:00.000Z',
-    flat: {id: 1, tagLine: 'Beautiful Apartment', url: ''},
+    flat: {id: 1, tagLine: 'Beautiful Apartment', uri: ''},
   },
   application: {
     id: 1,
-    status: 'active',
+    status: ApplicationStatus.Active,
     advertId: 42,
     applicantId: 2,
     createdAt: '2023-12-01T00:00:00.000Z',
