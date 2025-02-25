@@ -1,9 +1,12 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useState, useRef} from 'react';
 import {Image} from 'react-native';
 
-export const useLoadImages = (uris: string[] | string) => {
+export const useLoadImages = (uris: string[]) => {
   const [loadingStatuses, setLoadingStatuses] = useState<boolean[]>([]);
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+
+  // Store previous URIs to prevent unnecessary re-renders
+  const previousUrisRef = useRef<string[]>([]);
 
   const filteredUris = useMemo(() => {
     return Array.isArray(uris)
@@ -12,17 +15,18 @@ export const useLoadImages = (uris: string[] | string) => {
   }, [uris]);
 
   useEffect(() => {
-    if (
-      !filteredUris ||
-      (Array.isArray(filteredUris) && filteredUris.length === 0)
-    ) {
+    if (!filteredUris.length) {
       setAllImagesLoaded(false);
+      setLoadingStatuses([]);
       return;
     }
 
-    const uriArray = Array.isArray(filteredUris)
-      ? filteredUris
-      : [filteredUris];
+    if (
+      JSON.stringify(filteredUris) === JSON.stringify(previousUrisRef.current)
+    ) {
+      return;
+    }
+    previousUrisRef.current = filteredUris;
 
     const prefetch = async (uri: string): Promise<boolean> => {
       try {
@@ -33,10 +37,10 @@ export const useLoadImages = (uris: string[] | string) => {
     };
 
     const prefetchImages = async () => {
-      const results = await Promise.all(uriArray.map(uri => prefetch(uri)));
+      const results = await Promise.all(filteredUris.map(uri => prefetch(uri)));
 
       setLoadingStatuses(results);
-      setAllImagesLoaded(results.some(success => success));
+      setAllImagesLoaded(results.every(success => success));
     };
 
     prefetchImages();
@@ -45,7 +49,5 @@ export const useLoadImages = (uris: string[] | string) => {
   return {
     allImagesLoaded,
     loadingStatuses,
-    setLoadingStatuses,
-    setAllImagesLoaded,
   };
 };
