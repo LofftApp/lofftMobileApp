@@ -107,24 +107,28 @@ const AboutUserFlatScreen = ({
 
         <FlatList
           data={characteristics}
-          keyExtractor={char => char.id.toString()}
-          renderItem={({item}) => (
-            <SelectionButton
-              id={item.id}
-              emojiIcon={item.emoji}
-              value={item.name}
-              toggle={selectedCharsIds.includes(item.id)}
-              selectFn={handleSelectChars}
-              disabled={
-                selectedCharsIds.length === MAX_SELECTED_CHARS &&
-                !selectedCharsIds.includes(item.id)
-              }
-              isReady={!isAdvertLoading}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapper}
           contentContainerStyle={styles.selectionContainer}
+          renderItem={({item}) => (
+            <View style={styles.buttonsContainer}>
+              <SelectionButton
+                id={item.id}
+                emojiIcon={item.emoji}
+                value={item.name}
+                toggle={selectedCharsIds.includes(item.id)}
+                selectFn={handleSelectChars}
+                disabled={
+                  selectedCharsIds.length === MAX_SELECTED_CHARS &&
+                  !selectedCharsIds.includes(item.id)
+                }
+                isReady={!isAdvertLoading}
+              />
+            </View>
+          )}
         />
+
         <Divider />
         <View style={[styles.footerContainer]}>
           <View style={styles.tagInfoContainer}>
@@ -164,11 +168,20 @@ const styles = StyleSheet.create({
   zIndex: {
     zIndex: 1,
   },
+
+  buttonsContainer: {
+    flex: 1,
+    marginVertical: size(4),
+  },
+
   selectionContainer: {
     marginTop: size(10),
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: size(10),
+    paddingHorizontal: size(8),
+  },
+
+  columnWrapper: {
+    alignItems: 'center',
+    gap: size(10),
   },
   tagInfoContainer: {
     marginBottom: size(5),

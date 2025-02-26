@@ -66,7 +66,10 @@ const FlatLengthAvailableScreen = ({
     isEditAdvertLoading,
     isEditAdvertError,
     fadeInAnim,
+    showPopover,
+    setShowPopover,
   } = useFlatLengthAvailableScreen(edit, advertId);
+  console.log('isEditAdvertLoading: ', isEditAdvertLoading);
 
   if (isAdvertLoading) {
     return <LoadingComponent />;
@@ -83,115 +86,117 @@ const FlatLengthAvailableScreen = ({
   }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
+    <>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
+        />
 
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer headlineText="How long is the flat available for rent?" />
-        <View style={styles.mainContainer}>
-          <View>
-            <View style={styles.datePickerContainer}>
-              <Text style={fontStyles.headerSmall}>From</Text>
-              <Animated.View
-                style={[styles.buttonContainer, {opacity: fadeInAnim}]}>
-                <DatePickerInput
-                  date={fromDate}
-                  error={errorFromDate}
-                  placeholder="First Day"
-                  height={60}
-                  dateSelected={fromDateSelected}
-                  disabled={today}
-                  handleOnPress={handleFromDate}
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer headlineText="How long is the flat available for rent?" />
+          <View style={styles.mainContainer}>
+            <View>
+              <View style={styles.datePickerContainer}>
+                <Text style={fontStyles.headerSmall}>From</Text>
+                <Animated.View
+                  style={[styles.buttonContainer, {opacity: fadeInAnim}]}>
+                  <DatePickerInput
+                    date={fromDate}
+                    error={errorFromDate}
+                    placeholder="First Day"
+                    height={60}
+                    dateSelected={fromDateSelected}
+                    disabled={today}
+                    handleOnPress={handleFromDate}
+                  />
+
+                  <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
+                  <IconButton
+                    text="Today"
+                    onPress={handleToggleToday}
+                    isActive={today}
+                    style={styles.setDateButton}
+                  />
+                </Animated.View>
+
+                {(errorFromDate || isEditAdvertError) && (
+                  <ErrorMessage isInputField message={errorFromDate} />
+                )}
+              </View>
+
+              <View style={styles.datePickerContainer}>
+                <Text style={fontStyles.headerSmall}>Until</Text>
+                <Animated.View
+                  style={[styles.buttonContainer, {opacity: fadeInAnim}]}>
+                  <DatePickerInput
+                    date={untilDate}
+                    error={errorUntilDate}
+                    placeholder="Last Day"
+                    height={60}
+                    disabled={permanent}
+                    handleOnPress={handleUntilDate}
+                    dateSelected={untilDateSelected}
+                  />
+
+                  <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
+                  <IconButton
+                    text="Permanent"
+                    onPress={handleTogglePermanent}
+                    isActive={permanent}
+                    style={styles.setDateButton}
+                  />
+                </Animated.View>
+              </View>
+
+              {(errorUntilDate || isEditAdvertError) && (
+                <ErrorMessage
+                  style={styles.errorMessage}
+                  isInputField
+                  message={errorUntilDate}
                 />
-
-                <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
-                <IconButton
-                  text="Today"
-                  onPress={handleToggleToday}
-                  isActive={today}
-                  style={styles.setDateButton}
-                />
-              </Animated.View>
-
-              {(errorFromDate || isEditAdvertError) && (
-                <ErrorMessage isInputField message={errorFromDate} />
               )}
             </View>
+          </View>
+          <View style={styles.footerContainer}>
+            <Divider />
+            {!edit && <NewUserPaginationBar />}
 
-            <View style={styles.datePickerContainer}>
-              <Text style={fontStyles.headerSmall}>Until</Text>
-              <Animated.View
-                style={[styles.buttonContainer, {opacity: fadeInAnim}]}>
-                <DatePickerInput
-                  date={untilDate}
-                  error={errorUntilDate}
-                  placeholder="Last Day"
-                  height={60}
-                  disabled={permanent}
-                  handleOnPress={handleUntilDate}
-                  dateSelected={untilDateSelected}
-                />
-
-                <Text style={[fontStyles.bodyMedium, styles.orText]}>or</Text>
-                <IconButton
-                  text="Permanent"
-                  onPress={handleTogglePermanent}
-                  isActive={permanent}
-                  style={styles.setDateButton}
-                />
-              </Animated.View>
-            </View>
-
-            {(errorUntilDate || isEditAdvertError) && (
-              <ErrorMessage
-                style={styles.errorMessage}
-                isInputField
-                message={errorUntilDate}
-              />
-            )}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditAdvertLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              }
+              onPress={handleContinue}
+              disabled={isEditAdvertLoading}
+            />
           </View>
         </View>
-        <View style={styles.footerContainer}>
-          <Divider />
-          {!edit && <NewUserPaginationBar />}
-
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditAdvertLoading ? (
-                  <LoadingButtonIcon />
-                ) : (
-                  'Save'
-                )
-              ) : (
-                'Continue'
-              )
-            }
-            onPress={handleContinue}
-            disabled={isEditAdvertLoading}
-          />
-        </View>
-      </View>
-      {/* Date Picker */}
-      <DatePicker
-        modal
-        mode="date"
-        open={isModalOpen}
-        date={fromDate ?? new Date()}
-        onConfirm={handleDateChange}
-        onCancel={handleCancelDate}
-      />
-      <NewUserScreensPopover
-        showPopover={isModalOpen}
-        setShowPopover={handleCancelDate}
-      />
+        {/* Date Picker */}
+        <DatePicker
+          modal
+          mode="date"
+          open={isModalOpen}
+          date={fromDate ?? new Date()}
+          onConfirm={handleDateChange}
+          onCancel={handleCancelDate}
+        />
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+        />
+      </SafeAreaView>
       <OpacityOverlay loadingState={isEditAdvertLoading} />
-    </SafeAreaView>
+    </>
   );
 };
 

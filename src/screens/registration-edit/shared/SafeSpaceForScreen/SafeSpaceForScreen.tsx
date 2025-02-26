@@ -74,87 +74,89 @@ const SafeSpaceForScreen = ({
   }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={
-            isNewUserLessor || isLessor
-              ? 'Your flat is a safe place for...'
-              : 'What is a safe place for you?'
-          }
+    <>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-
-        <FlatList
-          data={safeSpaces}
-          keyExtractor={space => space.id.toString()}
-          renderItem={({item}) => (
-            <SelectionButton
-              id={item.id}
-              emojiIcon={item.emoji}
-              value={item.name}
-              toggle={selectedSafeSpaceIds.includes(item.id)}
-              selectFn={selectSafeSpace}
-              disabled={
-                selectedSafeSpaceIds.length === MAX_GENDERS &&
-                !selectedSafeSpaceIds.includes(item.id)
-              }
-              isReady={!isAdvertLoading}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.selectionContainer}
-        />
-        <Divider />
-
-        <View style={styles.footerContainer}>
-          <View style={styles.tagInfoContainer}>
-            <Text
-              style={
-                fontStyles.bodySmall
-              }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
-          </View>
-
-          {(error || isEditProfileError || isEditFlatError) && (
-            <ErrorMessage message={error as string} />
-          )}
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditProfileLoading || isEditFlatLoading ? (
-                  <LoadingButtonIcon />
-                ) : (
-                  'Save'
-                )
-              ) : (
-                'Continue'
-              )
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText={
+              isNewUserLessor || isLessor
+                ? 'Your flat is a safe place for...'
+                : 'What is a safe place for you?'
             }
-            disabled={
-              selectedSafeSpaceIds.length === 0 ||
-              selectedSafeSpaceIds.length > MAX_GENDERS ||
-              isEditProfileLoading ||
-              isEditFlatLoading
-            }
-            onPress={handleContinue}
           />
+
+          <FlatList
+            data={safeSpaces}
+            keyExtractor={space => space.id.toString()}
+            renderItem={({item}) => (
+              <SelectionButton
+                id={item.id}
+                emojiIcon={item.emoji}
+                value={item.name}
+                toggle={selectedSafeSpaceIds.includes(item.id)}
+                selectFn={selectSafeSpace}
+                disabled={
+                  selectedSafeSpaceIds.length === MAX_GENDERS &&
+                  !selectedSafeSpaceIds.includes(item.id)
+                }
+                isReady={!isAdvertLoading}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.selectionContainer}
+          />
+          <Divider />
+
+          <View style={styles.footerContainer}>
+            <View style={styles.tagInfoContainer}>
+              <Text
+                style={
+                  fontStyles.bodySmall
+                }>{`* Select up to ${MAX_GENDERS} tags`}</Text>
+            </View>
+
+            {(error || isEditProfileError || isEditFlatError) && (
+              <ErrorMessage message={error as string} />
+            )}
+            {!edit && <NewUserPaginationBar />}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditProfileLoading || isEditFlatLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              }
+              disabled={
+                selectedSafeSpaceIds.length === 0 ||
+                selectedSafeSpaceIds.length > MAX_GENDERS ||
+                isEditProfileLoading ||
+                isEditFlatLoading
+              }
+              onPress={handleContinue}
+            />
+          </View>
         </View>
-      </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-        save={edit}
-      />
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          save={edit}
+        />
+      </SafeAreaView>
       <OpacityOverlay
         loadingState={isEditProfileLoading || isEditFlatLoading}
       />
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
   selectionContainer: {
     marginTop: size(10),
     paddingHorizontal: size(10),
+    gap: size(10),
   },
   tagInfoContainer: {
     marginBottom: size(5),

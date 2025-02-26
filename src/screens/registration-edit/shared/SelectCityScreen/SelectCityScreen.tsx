@@ -86,116 +86,121 @@ const SelectCityScreen = ({
   }
 
   return (
-    <View
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        {
-          paddingTop: insets.top,
-          paddingBottom: !edit ? insets.bottom : undefined,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={styles.mainContainer}>
-        <HeadlineContainer
-          headlineText={
-            isNewUserLessor || isLessor
-              ? 'In which city and district is your flat located?'
-              : 'Where are you looking for the flat?'
-          }
+    <>
+      <View
+        style={[
+          CoreStyleSheet.safeAreaViewShowContainer,
+          {
+            paddingTop: insets.top,
+            paddingBottom: !edit ? insets.bottom : undefined,
+          },
+        ]}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-        <View style={styles.inputContainer}>
-          <InputFieldText
-            type="search"
-            placeholder="Berlin for instance?"
-            onChangeText={handleOnChangeSearch}
-            onClear={handleClearSearch}
-            value={city}
-            dropdown={isQuery}
-            dropDownContent={formattedDropDownContent(
-              dropdownContent as CityAssets[],
-            )}
-            dropDownPressAction={handleDropDownPress}
+        <View style={styles.mainContainer}>
+          <HeadlineContainer
+            headlineText={
+              isNewUserLessor || isLessor
+                ? 'In which city and district is your flat located?'
+                : 'Where are you looking for the flat?'
+            }
           />
+          <View style={styles.inputContainer}>
+            <InputFieldText
+              type="search"
+              placeholder="Berlin for instance?"
+              onChangeText={handleOnChangeSearch}
+              onClear={handleClearSearch}
+              value={city}
+              dropdown={isQuery}
+              dropDownContent={formattedDropDownContent(
+                dropdownContent as CityAssets[],
+              )}
+              dropDownPressAction={handleDropDownPress}
+            />
+          </View>
+
+          <View style={styles.resultWrapper}>
+            <Animated.View
+              style={[
+                styles.districtTitleContainer,
+                {
+                  opacity: fadeAnim,
+                },
+              ]}>
+              <Text style={[fontStyles.headerMedium]}>Districts</Text>
+              {(!isNewUserLessor || !isLessor) && (
+                <View style={styles.switchContainer}>
+                  <Text style={fontStyles.bodySmall}>Select All</Text>
+                  <CustomSwitch
+                    value={isAllDistricts}
+                    onValueChange={selectAllDistrictsTags}
+                  />
+                </View>
+              )}
+            </Animated.View>
+
+            <FlatList
+              data={districts}
+              keyExtractor={item => item.id.toString()}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapper}
+              contentContainerStyle={styles.selectionContainer}
+              renderItem={({item}) => (
+                <View style={styles.buttonsContainer}>
+                  <SelectionButton
+                    key={item.id}
+                    id={item.id}
+                    value={item.name}
+                    emojiIcon={item.emoji}
+                    toggle={selectedDistrictIds.includes(item.id)}
+                    selectFn={selectFn}
+                  />
+                </View>
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+
+          <Divider />
         </View>
 
-        <View style={styles.resultWrapper}>
-          <Animated.View
-            style={[
-              styles.districtTitleContainer,
-              {
-                opacity: fadeAnim,
-              },
-            ]}>
-            <Text style={[fontStyles.headerMedium]}>Districts</Text>
-            {(!isNewUserLessor || !isLessor) && (
-              <View style={styles.switchContainer}>
-                <Text style={fontStyles.bodySmall}>Select All</Text>
-                <CustomSwitch
-                  value={isAllDistricts}
-                  onValueChange={selectAllDistrictsTags}
-                />
-              </View>
-            )}
-          </Animated.View>
+        <View style={styles.footerContainer}>
+          {(error || isEditError) && <ErrorMessage message={error as string} />}
+          {!edit && <NewUserPaginationBar />}
 
-          <FlatList
-            data={districts}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => (
-              <SelectionButton
-                key={item.id}
-                id={item.id}
-                value={item.name}
-                emojiIcon={item.emoji}
-                toggle={selectedDistrictIds.includes(item.id)}
-                selectFn={selectFn}
-              />
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.selectionContainer}
-            numColumns={1}
-          />
-        </View>
-
-        <Divider />
-      </View>
-
-      <View style={styles.footerContainer}>
-        {(error || isEditError) && <ErrorMessage message={error as string} />}
-        {!edit && <NewUserPaginationBar />}
-
-        <NewUserJourneyContinueButton
-          value={
-            edit ? (
-              !isLessor ? (
-                isEditLoading ? (
-                  <LoadingButtonIcon />
+          <NewUserJourneyContinueButton
+            value={
+              edit ? (
+                !isLessor ? (
+                  isEditLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
                 ) : (
-                  'Save'
+                  'Continue'
                 )
               ) : (
                 'Continue'
               )
-            ) : (
-              'Continue'
-            )
-          }
-          onPress={handleContinue}
-          disabled={isEditLoading}
+            }
+            onPress={handleContinue}
+            disabled={isEditLoading}
+          />
+        </View>
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          save={edit}
         />
       </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-        save={edit}
-      />
       <OpacityOverlay loadingState={isEditLoading} />
-    </View>
+    </>
   );
 };
 
@@ -209,19 +214,26 @@ const styles = StyleSheet.create({
     paddingTop: size(10),
   },
 
+  buttonsContainer: {
+    flex: 1,
+    marginVertical: size(4),
+  },
+
   selectionContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: size(10),
+    paddingHorizontal: size(4),
+  },
+
+  columnWrapper: {
+    alignItems: 'center',
+    gap: size(10),
   },
   districtTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: size(10),
-    paddingBottom: size(20),
+    paddingBottom: size(10),
   },
-
   resultWrapper: {
     marginTop: size(10),
     flex: 1,

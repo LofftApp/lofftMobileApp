@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, FlatList} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useFlatFeaturesScreen} from './useFlatFeaturesScreen';
 
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -13,7 +14,8 @@ import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
-import {useFlatFeaturesScreen} from './useFlatFeaturesScreen';
+import OpacityOverlay from 'components/modals/OpacityOverlay';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 //Assets 🎨
 import {RegistrationBackground} from 'assets';
@@ -27,8 +29,6 @@ import {size} from 'react-native-responsive-sizes';
 
 //Constants 📊
 import {MIN_SELECTED_FEATURES} from 'components/componentData/constants';
-import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
-import OpacityOverlay from 'components/modals/OpacityOverlay';
 
 const FlatFeaturesScreen = ({
   route,
@@ -61,6 +61,9 @@ const FlatFeaturesScreen = ({
     setShowPopover,
   } = useFlatFeaturesScreen(edit, advertId, newValue);
 
+  console.log('isEditProfileLoading Parent: ', isEditProfileLoading);
+  console.log('isEditFlatLoading: ', isEditFlatLoading);
+
   if (isAdvertLoading) {
     return <LoadingComponent />;
   }
@@ -76,96 +79,99 @@ const FlatFeaturesScreen = ({
   }
 
   return (
-    <View
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        styles.zIndex,
-        {
-          paddingTop: insets.top,
-          paddingBottom: !edit ? insets.bottom : undefined,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={
-            isNewUserLessor || isLessor
-              ? 'What is your flat like?'
-              : 'What is your ideal flat like?'
-          }
-          subDescription={
-            isNewUserLessor || isLessor
-              ? 'Select all the tags that match your place.'
-              : 'Select all the tags that match the place you are looking for.'
-          }
+    <>
+      <View
+        style={[
+          CoreStyleSheet.safeAreaViewShowContainer,
+          styles.zIndex,
+          {
+            paddingTop: insets.top,
+            paddingBottom: !edit ? insets.bottom : undefined,
+          },
+        ]}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-
-        <FlatList
-          data={features}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => (
-            <SelectionButton
-              id={item.id}
-              emojiIcon={item.emoji}
-              value={item.name}
-              toggle={selectedFeaturesIds.includes(item.id)}
-              selectFn={handleSelectFeatures}
-              isReady={!isAdvertLoading}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.selectionContainer}
-          numColumns={1}
-
-        />
-
-        <Divider />
-        <View style={styles.footerContainer}>
-          <View style={styles.tagInfoContainer}>
-            <Text
-              style={
-                fontStyles.bodySmall
-              }>{`* Select at least ${MIN_SELECTED_FEATURES} tags`}</Text>
-          </View>
-          {(error || isEditProfileError || isEditFlatError) && (
-            <ErrorMessage message={error as string} />
-          )}
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditProfileLoading || isEditFlatLoading ? (
-                  <LoadingButtonIcon />
-                ) : (
-                  'Save'
-                )
-              ) : (
-                'Continue'
-              )
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText={
+              isNewUserLessor || isLessor
+                ? 'What is your flat like?'
+                : 'What is your ideal flat like?'
             }
-            disabled={
-              selectedFeaturesIds.length < MIN_SELECTED_FEATURES ||
-              isEditProfileLoading ||
-              isEditFlatLoading
+            subDescription={
+              isNewUserLessor || isLessor
+                ? 'Select all the tags that match your place.'
+                : 'Select all the tags that match the place you are looking for.'
             }
-            onPress={handleContinue}
           />
+          <FlatList
+            data={features}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
+            contentContainerStyle={styles.selectionContainer}
+            renderItem={({item}) => (
+              <View style={styles.buttonsContainer}>
+                <SelectionButton
+                  id={item.id}
+                  emojiIcon={item.emoji}
+                  value={item.name}
+                  toggle={selectedFeaturesIds.includes(item.id)}
+                  selectFn={handleSelectFeatures}
+                  isReady={!isAdvertLoading}
+                />
+              </View>
+            )}
+          />
+
+          <Divider />
+          <View style={styles.footerContainer}>
+            <View style={styles.tagInfoContainer}>
+              <Text
+                style={
+                  fontStyles.bodySmall
+                }>{`* Select at least ${MIN_SELECTED_FEATURES} tags`}</Text>
+            </View>
+            {(error || isEditProfileError || isEditFlatError) && (
+              <ErrorMessage message={error as string} />
+            )}
+            {!edit && <NewUserPaginationBar />}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditProfileLoading || isEditFlatLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              }
+              disabled={
+                selectedFeaturesIds.length < MIN_SELECTED_FEATURES ||
+                isEditProfileLoading ||
+                isEditFlatLoading
+              }
+              onPress={handleContinue}
+            />
+          </View>
         </View>
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          save={edit}
+        />
       </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-        save={edit}
-      />
+
       <OpacityOverlay
         loadingState={isEditProfileLoading || isEditFlatLoading}
       />
-    </View>
+    </>
   );
 };
 
@@ -173,11 +179,19 @@ const styles = StyleSheet.create({
   zIndex: {
     zIndex: 1,
   },
+  buttonsContainer: {
+    flex: 1,
+    marginVertical: size(4),
+  },
+
   selectionContainer: {
     marginTop: size(10),
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: size(10),
+    paddingHorizontal: size(8),
+  },
+
+  columnWrapper: {
+    alignItems: 'center',
+    gap: size(10),
   },
   tagInfoContainer: {
     marginBottom: size(5),

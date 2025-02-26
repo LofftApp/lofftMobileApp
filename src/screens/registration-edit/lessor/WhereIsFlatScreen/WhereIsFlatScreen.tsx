@@ -102,127 +102,131 @@ const WhereIsFlatScreen = ({
   }
 
   return (
-    <View
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        {
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={[CoreStyleSheet.screenContainer]}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.mainContainer}>
-            <HeadlineContainer headlineText={'Where is your flat?'} />
-            <Animated.View
-              style={{
-                opacity: fadeInAnim,
-              }}>
-              <InputFieldText
-                type="search"
-                placeholder="Address of the flat"
-                value={location}
-                onChangeText={handleOnChangeSearch}
-                dropdown={isSearching}
-                dropDownContent={addresses}
-                dropDownPressAction={handleDropdownPress}
-                onClear={handleClearSearch}
-                style={styles.inputContainer}
-              />
-            </Animated.View>
-            {(errorAddress || isEditFlatError) && (
-              <ErrorMessage isInputField message={errorAddress} />
-            )}
+    <>
+      <View
+        style={[
+          CoreStyleSheet.safeAreaViewShowContainer,
+          {
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+          },
+        ]}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
+        />
+        <View style={[CoreStyleSheet.screenContainer]}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.mainContainer}>
+              <HeadlineContainer headlineText={'Where is your flat?'} />
+              <Animated.View
+                style={{
+                  opacity: fadeInAnim,
+                }}>
+                <InputFieldText
+                  type="search"
+                  placeholder="Address of the flat"
+                  value={location}
+                  onChangeText={handleOnChangeSearch}
+                  dropdown={isSearching}
+                  dropDownContent={addresses}
+                  dropDownPressAction={handleDropdownPress}
+                  onClear={handleClearSearch}
+                  style={styles.inputContainer}
+                />
+              </Animated.View>
+              {(errorAddress || isEditFlatError) && (
+                <ErrorMessage isInputField message={errorAddress} />
+              )}
 
-            <ErrorMessage message={errorSearch || ''} />
+              <ErrorMessage message={errorSearch || ''} />
 
-            {isLoading && isSearching && (
-              <ActivityIndicator
-                size="large"
-                color={Color.Lavendar[100]}
-                style={styles.loading}
-              />
-            )}
+              {isLoading && isSearching && (
+                <ActivityIndicator
+                  size="large"
+                  color={Color.Lavendar[100]}
+                  style={styles.loading}
+                />
+              )}
 
-            {!isSearching && (
-              <View>
-                <HeadlineContainer headlineText="How much is the monthly rent?" />
-                <Animated.View
-                  style={{
-                    opacity: fadeInAnim,
-                  }}>
-                  <InputFieldText
-                    value={price}
-                    onChangeText={handleOnChangePrice}
-                    keyboardType="numeric"
-                    type="currency"
-                    style={styles.inputContainer}
-                    currency={currency}
-                  />
-
-                  {(errorPrice || isEditAdvertError) && (
-                    <ErrorMessage isInputField message={errorPrice} />
-                  )}
-
-                  <View style={styles.currencyContainer}>
-                    {currencies.map((cur, index) => (
-                      <CurrencyButton
-                        key={currency + index}
-                        currency={cur as Currency}
-                        toggle={currency === cur}
-                        selectFn={handleSelectCurrency}
-                      />
-                    ))}
-                  </View>
-                  <View style={styles.toggleContainer}>
-                    <CustomSwitch
-                      value={warmRent}
-                      onValueChange={handleToggleWarmRent}
+              {!isSearching && (
+                <View>
+                  <HeadlineContainer headlineText="How much is the monthly rent?" />
+                  <Animated.View
+                    style={{
+                      opacity: fadeInAnim,
+                    }}>
+                    <InputFieldText
+                      value={price}
+                      onChangeText={handleOnChangePrice}
+                      keyboardType="numeric"
+                      type="currency"
+                      style={styles.inputContainer}
+                      currency={currency}
                     />
-                    <Text style={[fontStyles.bodyMedium, styles.warmRentText]}>
-                      This is warm rent
-                    </Text>
-                  </View>
-                </Animated.View>
-              </View>
-            )}
-          </View>
-        </ScrollView>
-        <Divider />
-        <View style={styles.footerContainer}>
-          {!edit && <NewUserPaginationBar />}
 
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditAdvertLoading || isEditFlatLoading ? (
-                  <LoadingButtonIcon />
+                    {(errorPrice || isEditAdvertError) && (
+                      <ErrorMessage isInputField message={errorPrice} />
+                    )}
+
+                    <View style={styles.currencyContainer}>
+                      {currencies.map((cur, index) => (
+                        <CurrencyButton
+                          key={currency + index}
+                          currency={cur as Currency}
+                          toggle={currency === cur}
+                          selectFn={handleSelectCurrency}
+                        />
+                      ))}
+                    </View>
+                    <View style={styles.toggleContainer}>
+                      <CustomSwitch
+                        value={warmRent}
+                        onValueChange={handleToggleWarmRent}
+                      />
+                      <Text
+                        style={[fontStyles.bodyMedium, styles.warmRentText]}>
+                        This is warm rent
+                      </Text>
+                    </View>
+                  </Animated.View>
+                </View>
+              )}
+            </View>
+          </ScrollView>
+          <Divider />
+          <View style={styles.footerContainer}>
+            {!edit && <NewUserPaginationBar />}
+
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditAdvertLoading || isEditFlatLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
                 ) : (
-                  'Save'
+                  'Continue'
                 )
-              ) : (
-                'Continue'
-              )
-            }
-            disabled={
-              !location || !price || isEditAdvertLoading || isEditFlatLoading
-            }
-            onPress={handleContinue}
-          />
+              }
+              disabled={
+                !location || !price || isEditAdvertLoading || isEditFlatLoading
+              }
+              onPress={handleContinue}
+            />
+          </View>
         </View>
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+        />
       </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-      />
+
       <OpacityOverlay loadingState={isEditAdvertLoading || isEditFlatLoading} />
-    </View>
+    </>
   );
 };
 

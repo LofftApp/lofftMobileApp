@@ -71,62 +71,66 @@ const FlatDescribeScreen = ({
   }
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={"It's your turn!"}
-          subDescription={
-            'Describe your flat in a short text. This can be edited later!'
-          }
+    <>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-        <View style={styles.mainContainer}>
-          <Animated.View style={{opacity: fadeInAnim}}>
-            <CustomTextInput
-              text={text}
-              textFocus={textFocus}
-              error={error}
-              handleOnChange={handleOnChange}
-              handleOnFocus={handleOnFocus}
-              handleOnBlur={handleOnBlur}
-              placeholder={'Tell us about your lofft.'}
-              isFlat={isNewUserLessor || isLessor}
-            />
-          </Animated.View>
-        </View>
 
-        <View style={styles.footerContainer}>
-          <Divider />
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isEditFlatLoading ? (
-                  <LoadingButtonIcon />
-                ) : (
-                  'Save'
-                )
-              ) : (
-                'Continue'
-              )
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText={"It's your turn!"}
+            subDescription={
+              'Describe your flat in a short text. This can be edited later!'
             }
-            disabled={text.length < MIN_DESCRIPTION_CHARS || isEditFlatLoading}
-            onPress={handleContinue}
           />
+          <View style={styles.mainContainer}>
+            <Animated.View style={{opacity: fadeInAnim}}>
+              <CustomTextInput
+                text={text}
+                textFocus={textFocus}
+                error={error}
+                handleOnChange={handleOnChange}
+                handleOnFocus={handleOnFocus}
+                handleOnBlur={handleOnBlur}
+                placeholder={'Tell us about your lofft.'}
+                isFlat={isNewUserLessor || isLessor}
+              />
+            </Animated.View>
+          </View>
+
+          <View style={styles.footerContainer}>
+            <Divider />
+            {!edit && <NewUserPaginationBar />}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditFlatLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              }
+              disabled={
+                text.length < MIN_DESCRIPTION_CHARS || isEditFlatLoading
+              }
+              onPress={handleContinue}
+            />
+          </View>
         </View>
-      </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-      />
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+        />
+      </SafeAreaView>
       <OpacityOverlay loadingState={isEditFlatLoading} />
-    </SafeAreaView>
+    </>
   );
 };
 

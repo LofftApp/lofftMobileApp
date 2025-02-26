@@ -24,6 +24,7 @@ import {
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
+import { useFadeInAnimation } from 'hooks/useFadeInAnimation';
 
 export const useNameProfileScreen = (edit?: boolean) => {
   //Navigation
@@ -108,6 +109,8 @@ export const useNameProfileScreen = (edit?: boolean) => {
       userId: currentUser?.id ?? 0,
       key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
     });
+
+  const {fadeInAnim} = useFadeInAnimation();
 
   const handleFirstName = (input: string) => {
     setFirstName(input);
@@ -235,5 +238,6 @@ export const useNameProfileScreen = (edit?: boolean) => {
     isNewUserLessor,
     showPopover,
     setShowPopover,
+    fadeInAnim,
   };
 };

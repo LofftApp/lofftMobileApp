@@ -57,63 +57,73 @@ const UserDescribeScreen = ({
   } = useUserDescribeScreen(edit, newValue);
 
   return (
-    <SafeAreaView
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        {
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={`In your own ${'\n'}words!`}
-          subDescription={
-            edit
-              ? 'Describe yourself in a short text'
-              : "Describe yourself in a short text. Don't worry, this can be updated later."
-          }
+    <>
+      <SafeAreaView
+        style={[
+          CoreStyleSheet.safeAreaViewShowContainer,
+          {
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+          },
+        ]}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-        <View style={styles.mainContainer}>
-          <Animated.View style={{opacity: fadeInAnim}}>
-            <CustomTextInput
-              text={text}
-              textFocus={textFocus}
-              handleOnChange={handleOnChange}
-              handleOnFocus={handleOnFocus}
-              handleOnBlur={handleOnBlur}
-              placeholder={'Who are you? What do you like?'}
-            />
-          </Animated.View>
-        </View>
 
-        <View style={styles.footerContainer}>
-          <Divider />
-          {(error || isEditError) && <ErrorMessage message={error} />}
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? isEditLoading ? <LoadingButtonIcon /> : 'Save' : 'Continue'
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText={`In your own ${'\n'}words!`}
+            subDescription={
+              edit
+                ? 'Describe yourself in a short text'
+                : "Describe yourself in a short text. Don't worry, this can be updated later."
             }
-            disabled={text.length < MIN_DESCRIPTION_CHARS || isEditLoading}
-            onPress={handleContinue}
           />
+          <View style={styles.mainContainer}>
+            <Animated.View style={{opacity: fadeInAnim}}>
+              <CustomTextInput
+                text={text}
+                textFocus={textFocus}
+                handleOnChange={handleOnChange}
+                handleOnFocus={handleOnFocus}
+                handleOnBlur={handleOnBlur}
+                placeholder={'Who are you? What do you like?'}
+              />
+            </Animated.View>
+          </View>
+
+          <View style={styles.footerContainer}>
+            <Divider />
+            {(error || isEditError) && <ErrorMessage message={error} />}
+            {!edit && <NewUserPaginationBar />}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              }
+              disabled={text.length < MIN_DESCRIPTION_CHARS || isEditLoading}
+              onPress={handleContinue}
+            />
+          </View>
         </View>
-      </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-        save={edit}
-      />
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          save={edit}
+        />
+      </SafeAreaView>
       <OpacityOverlay loadingState={isEditLoading} />
-    </SafeAreaView>
+    </>
   );
 };
 

@@ -82,52 +82,81 @@ const LanguageSelectionScreen = ({
   }
 
   return (
-    <View
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        {
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={styles.mainContainer}>
-        <HeadlineContainer
-          headlineText={
-            isNewUserLessor || isLessor
-              ? 'What are the common language(s) in your Lofft?'
-              : 'What language(s) do you speak?'
-          }
+    <>
+      <View
+        style={[
+          CoreStyleSheet.safeAreaViewShowContainer,
+          {
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+          },
+        ]}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-
-        <Animated.View style={[styles.inputContainer, {opacity: fadeInAnim}]}>
-          <InputFieldText
-            type="search"
-            placeholder="Search for your language"
-            value={searchValue}
-            onChangeText={handleSearch}
-            onClear={handleClearSearch}
+        <View style={styles.mainContainer}>
+          <HeadlineContainer
+            headlineText={
+              isNewUserLessor || isLessor
+                ? 'What are the common language(s) in your Lofft?'
+                : 'What language(s) do you speak?'
+            }
           />
-        </Animated.View>
 
-        <ScrollView ref={scrollViewRef}>
-          {selectedLanguageNames && selectedLanguageNames.length > 0 && (
-            <>
-              <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
-                Your current Selection:
-              </Text>
+          <Animated.View style={[styles.inputContainer, {opacity: fadeInAnim}]}>
+            <InputFieldText
+              type="search"
+              placeholder="Search for your language"
+              value={searchValue}
+              onChangeText={handleSearch}
+              onClear={handleClearSearch}
+            />
+          </Animated.View>
+
+          <ScrollView ref={scrollViewRef}>
+            {selectedLanguageNames && selectedLanguageNames.length > 0 && (
+              <>
+                <Text style={[fontStyles.headerSmall, styles.currentSelection]}>
+                  Your current Selection:
+                </Text>
+                <Animated.View
+                  style={[styles.languagesContainer, {opacity: fadeInAnim}]}>
+                  {selectedLanguageNames?.map(language => (
+                    <LanguagesCard
+                      key={language}
+                      language={language}
+                      selected={true}
+                      handleSelectedLanguages={() =>
+                        handleSelectedLanguages(
+                          sortedLanguages?.find(l => l.name === language)?.id ||
+                            0,
+                        )
+                      }
+                    />
+                  ))}
+                </Animated.View>
+              </>
+            )}
+            <Divider />
+            <View
+              style={
+                selectedLanguageNames &&
+                selectedLanguageNames?.length > 0 &&
+                styles.notSelected
+              }>
+              {selectedLanguageNames && selectedLanguageNames.length > 0 && (
+                <Text style={fontStyles.headerSmall}>Other languages</Text>
+              )}
               <Animated.View
                 style={[styles.languagesContainer, {opacity: fadeInAnim}]}>
-                {selectedLanguageNames?.map(language => (
+                {languages.map(language => (
                   <LanguagesCard
                     key={language}
                     language={language}
-                    selected={true}
+                    selected={false}
                     handleSelectedLanguages={() =>
                       handleSelectedLanguages(
                         sortedLanguages?.find(l => l.name === language)?.id ||
@@ -137,67 +166,41 @@ const LanguageSelectionScreen = ({
                   />
                 ))}
               </Animated.View>
-            </>
-          )}
+            </View>
+          </ScrollView>
           <Divider />
-          <View
-            style={
-              selectedLanguageNames &&
-              selectedLanguageNames?.length > 0 &&
-              styles.notSelected
-            }>
-            {selectedLanguageNames && selectedLanguageNames.length > 0 && (
-              <Text style={fontStyles.headerSmall}>Other languages</Text>
-            )}
-            <Animated.View
-              style={[styles.languagesContainer, {opacity: fadeInAnim}]}>
-              {languages.map(language => (
-                <LanguagesCard
-                  key={language}
-                  language={language}
-                  selected={false}
-                  handleSelectedLanguages={() =>
-                    handleSelectedLanguages(
-                      sortedLanguages?.find(l => l.name === language)?.id || 0,
-                    )
-                  }
-                />
-              ))}
-            </Animated.View>
-          </View>
-        </ScrollView>
-        <Divider />
-      </View>
-      <View style={styles.footerContainer}>
-        {(error || isEditProfileError || isEditFlatError) && (
-          <ErrorMessage message={error as string} />
-        )}
-        {!edit && <UserJourneyPaginationBar />}
+        </View>
+        <View style={styles.footerContainer}>
+          {(error || isEditProfileError || isEditFlatError) && (
+            <ErrorMessage message={error as string} />
+          )}
+          {!edit && <UserJourneyPaginationBar />}
 
-        <NewUserJourneyContinueButton
-          value={
-            edit ? (
-              isEditProfileLoading || isEditFlatLoading ? (
-                <LoadingButtonIcon />
+          <NewUserJourneyContinueButton
+            value={
+              edit ? (
+                isEditProfileLoading || isEditFlatLoading ? (
+                  <LoadingButtonIcon />
+                ) : (
+                  'Save'
+                )
               ) : (
-                'Save'
+                'Continue'
               )
-            ) : (
-              'Continue'
-            )
-          }
-          onPress={handleContinue}
+            }
+            onPress={handleContinue}
+          />
+        </View>
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          save={edit}
         />
       </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-        save={edit}
-      />
       <OpacityOverlay
         loadingState={isEditProfileLoading || isEditFlatLoading}
       />
-    </View>
+    </>
   );
 };
 

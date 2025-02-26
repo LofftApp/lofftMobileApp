@@ -8,6 +8,9 @@ import {
   Animated,
 } from 'react-native';
 
+//Hooks 🪝
+import {useNameProfileScreen} from './useNameProfileScreen';
+
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import BackButton from 'components/buttons/BackButton';
@@ -18,6 +21,7 @@ import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import DatePicker from 'react-native-date-picker';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
+import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -29,13 +33,9 @@ import {RegistrationBackground} from 'assets';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import {ButtonValues} from 'components/buttons/types';
 
 //Types 🏷 ️
-
-import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
-
-import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
-import {useNameProfileScreen} from './useNameProfileScreen';
 
 const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
@@ -59,9 +59,8 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
     errorLastName,
     errorDate,
     errorImage,
+    fadeInAnim,
   } = useNameProfileScreen(edit);
-
-  const {fadeInAnim} = useFadeInAnimation();
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
@@ -140,7 +139,7 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           {errorImage && <ErrorMessage message={errorImage} />}
           {!edit && <NewUserPaginationBar />}
           <NewUserJourneyContinueButton
-            value={'Continue'}
+            value={ButtonValues.Continue}
             onPress={handleContinue}
             disabled={!isDateSelected || !firstName || !lastName}
           />

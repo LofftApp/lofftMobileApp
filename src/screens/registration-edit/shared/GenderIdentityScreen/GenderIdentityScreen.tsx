@@ -46,75 +46,79 @@ const GenderIdentityScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   } = useGenderIdentityScreen(edit);
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={'What is your gender identity?'}
-          subDescription={'To help you find the right match'}
+    <>
+      <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText={'What is your gender identity?'}
+            subDescription={'To help you find the right match'}
+          />
 
-        <FlatList
-          data={genders}
-          keyExtractor={gender => gender.id.toString()}
-          renderItem={({item}) => (
-            <SelectionButton
-              id={item.id}
-              emojiIcon={item.emoji}
-              value={item.name}
-              toggle={selectedGenderIds.includes(item.id)}
-              selectFn={selectGender}
-              disabled={
-                selectedGenderIds.length === MAX_GENDERS &&
-                !selectedGenderIds.includes(item.id)
-              }
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.selectionContainer}
-        />
-        <Divider />
+          <FlatList
+            data={genders}
+            keyExtractor={gender => gender.id.toString()}
+            renderItem={({item}) => (
+              <SelectionButton
+                id={item.id}
+                emojiIcon={item.emoji}
+                value={item.name}
+                toggle={selectedGenderIds.includes(item.id)}
+                selectFn={selectGender}
+                disabled={
+                  selectedGenderIds.length === MAX_GENDERS &&
+                  !selectedGenderIds.includes(item.id)
+                }
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.selectionContainer}
+          />
+          <Divider />
 
-        <View style={styles.footerContainer}>
-          {(error || isEditError) && <ErrorMessage message={error as string} />}
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={
-              edit ? (
-                isLessor ? (
-                  isEditLoading ? (
-                    <LoadingButtonIcon />
+          <View style={styles.footerContainer}>
+            {(error || isEditError) && (
+              <ErrorMessage message={error as string} />
+            )}
+            {!edit && <NewUserPaginationBar />}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isLessor ? (
+                    isEditLoading ? (
+                      <LoadingButtonIcon />
+                    ) : (
+                      'Save'
+                    )
                   ) : (
-                    'Save'
+                    'Continue'
                   )
                 ) : (
                   'Continue'
                 )
-              ) : (
-                'Continue'
-              )
-            }
-            disabled={
-              selectedGenderIds.length === 0 ||
-              selectedGenderIds.length > MAX_GENDERS ||
-              isEditLoading
-            }
-            onPress={handleContinue}
-          />
+              }
+              disabled={
+                selectedGenderIds.length === 0 ||
+                selectedGenderIds.length > MAX_GENDERS ||
+                isEditLoading
+              }
+              onPress={handleContinue}
+            />
+          </View>
         </View>
-      </View>
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-        save={isLessor && edit}
-      />
-      {isLessor && <OpacityOverlay loadingState={isEditLoading} />}
-    </SafeAreaView>
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+          save={isLessor && edit}
+        />
+      </SafeAreaView>
+      <OpacityOverlay loadingState={isEditLoading} />
+    </>
   );
 };
 
@@ -122,6 +126,7 @@ const styles = StyleSheet.create({
   selectionContainer: {
     marginTop: size(10),
     paddingHorizontal: size(10),
+    gap: size(10),
   },
   tagInfoContainer: {
     marginBottom: size(5),

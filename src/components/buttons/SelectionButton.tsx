@@ -57,11 +57,10 @@ const styles = StyleSheet.create({
   buttonStyle: {
     paddingVertical: size(12),
     paddingHorizontal: size(16),
-
-    marginRight: size(8),
-    marginBottom: size(16),
+    marginBottom: size(8),
     borderRadius: size(16),
     borderWidth: size(2),
+    width: '100%',
   },
   disabled: {
     backgroundColor: Color.Black[5],

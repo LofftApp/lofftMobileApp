@@ -18,6 +18,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
 import OpacityOverlay from 'components/modals/OpacityOverlay';
+import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
@@ -74,53 +75,65 @@ const FlatImageUploadScreen = ({
   }
 
   return (
-    <View
-      style={[
-        CoreStyleSheet.safeAreaViewShowContainer,
-        {
-          paddingTop: insets.top,
-        },
-      ]}>
-      <BackButton onPress={handleBackButton} />
-      <RegistrationBackground
-        height="100%"
-        width="100%"
-        style={CoreStyleSheet.backgroundImage}
-      />
-      <View style={CoreStyleSheet.screenContainer}>
-        <HeadlineContainer
-          headlineText={'Upload images of your flat'}
-          subDescription={
-            'Time to show off your space! The more images, more chances of getting a match!'
-          }
+    <>
+      <View
+        style={[
+          CoreStyleSheet.safeAreaViewShowContainer,
+          {
+            paddingTop: insets.top,
+          },
+        ]}>
+        <BackButton onPress={handleBackButton} />
+        <RegistrationBackground
+          height="100%"
+          width="100%"
+          style={CoreStyleSheet.backgroundImage}
         />
-        <UploadImageSection
-          toggleModal={toggleModal}
-          isReady={edit ? !isAdvertLoading : undefined}
-          error={error}
-          imageType={ImageType.Flat}
-        />
-        <View style={styles.footerContainer}>
-          <Divider />
-          {(error || isEditFlatError) && <ErrorMessage message={error} />}
-          {!edit && <NewUserPaginationBar />}
-          <NewUserJourneyContinueButton
-            value={edit ? 'Save' : 'Continue'}
-            disabled={totalImages > MAX_FLAT_IMAGES || isEditFlatLoading}
-            onPress={handleContinue}
+        <View style={CoreStyleSheet.screenContainer}>
+          <HeadlineContainer
+            headlineText={'Upload images of your flat'}
+            subDescription={
+              'Time to show off your space! The more images, more chances of getting a match!'
+            }
           />
+          <UploadImageSection
+            toggleModal={toggleModal}
+            isReady={edit ? !isAdvertLoading : undefined}
+            error={error}
+            imageType={ImageType.Flat}
+          />
+          <View style={styles.footerContainer}>
+            <Divider />
+            {(error || isEditFlatError) && <ErrorMessage message={error} />}
+            {!edit && <NewUserPaginationBar />}
+            <NewUserJourneyContinueButton
+              value={
+                edit ? (
+                  isEditFlatLoading ? (
+                    <LoadingButtonIcon />
+                  ) : (
+                    'Save'
+                  )
+                ) : (
+                  'Continue'
+                )
+              }
+              disabled={totalImages > MAX_FLAT_IMAGES || isEditFlatLoading}
+              onPress={handleContinue}
+            />
+          </View>
         </View>
+        <UploadImageModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+        <NewUserScreensPopover
+          showPopover={showPopover}
+          setShowPopover={setShowPopover}
+        />
       </View>
-      <UploadImageModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
-      <NewUserScreensPopover
-        showPopover={showPopover}
-        setShowPopover={setShowPopover}
-      />
       <OpacityOverlay loadingState={isEditFlatLoading} />
-    </View>
+    </>
   );
 };
 
