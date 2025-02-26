@@ -34,7 +34,7 @@ const FlatFindScreen = () => {
   } = useGetAssetsQuery();
   const features = assets?.features;
 
-  const {data, isLoading, isError, isSuccess} = useGetAdvertsQuery(searchTerm, {
+  const {data, isLoading, isError, isSuccess, refetch} = useGetAdvertsQuery(searchTerm, {
     refetchOnMountOrArgChange: true,
   });
   const adverts = data?.adverts;
@@ -80,6 +80,7 @@ const FlatFindScreen = () => {
             isError={isError}
             isLoading={isLoading}
             toggleModal={toggleModal}
+            refetch={refetch}
           />
         </View>
       ) : (

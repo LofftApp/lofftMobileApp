@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Hooks
@@ -19,10 +19,12 @@ import {size} from 'react-native-responsive-sizes';
 //Types
 import {SettingsScreenNavigationProp} from 'navigationStacks/types';
 import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const EditProfileScreen = () => {
   const {isLessor} = useUserType();
   const {resetNewUserState} = useNewUserDetails(isLessor);
+  const insets = useSafeAreaInsets();
 
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
@@ -97,7 +99,16 @@ const EditProfileScreen = () => {
   const editLessorProfile = editTenantProfile.slice(1, 3);
 
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <View
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        styles.zIndex,
+
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}>
       <BackButton title="Edit Profile" onPress={navigation.goBack} />
 
       <RegistrationBackground
@@ -119,7 +130,7 @@ const EditProfileScreen = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -127,6 +138,9 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: size(24),
+  },
+  zIndex: {
+    zIndex: 1,
   },
 
   backgroundImageExtra: {

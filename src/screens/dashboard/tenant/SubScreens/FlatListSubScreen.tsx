@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {FlatList, RefreshControl} from 'react-native';
 
 // Components 🪢
 import ListViewFlatCard from 'components/cards/ListViewFlatCard';
@@ -9,13 +9,16 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 // Types 🏷️
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {FlatListSubScreenProps} from './types';
+import {useOnRefresh} from 'hooks/useOnRefresh';
 
 const FlatListSubScreen = ({
   adverts,
   isError,
   isLoading,
   toggleModal,
+  refetch,
 }: FlatListSubScreenProps) => {
+  const {refreshing, onRefresh} = useOnRefresh(refetch);
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -31,12 +34,17 @@ const FlatListSubScreen = ({
       />
     );
   }
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {adverts?.map((advert: Advert) => {
-        return <ListViewFlatCard key={advert.id} advert={advert} />;
-      })}
-    </ScrollView>
+    <FlatList
+      data={adverts as Advert[]}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({item}) => <ListViewFlatCard advert={item} />}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}
+    />
   );
 };
 

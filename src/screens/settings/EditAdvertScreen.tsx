@@ -136,6 +136,7 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
     <View
       style={[
         CoreStyleSheet.safeAreaViewShowContainer,
+        styles.zIndex,
 
         {
           paddingTop: insets.top,
@@ -187,6 +188,10 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: size(24),
+  },
+
+  zIndex: {
+    zIndex: 1,
   },
 
   addressContainer: {
