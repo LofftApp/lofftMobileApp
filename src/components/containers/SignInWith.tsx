@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: size(10),
     justifyContent: 'center',
+
   },
 
   mainContainer: {

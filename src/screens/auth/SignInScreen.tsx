@@ -27,7 +27,7 @@ const SignInScreen = () => {
 
   const insets = useSafeAreaInsets();
   const {height} = useWindowDimensions();
-  const imageMarginTop = height < 700 ? size(10) : size(10);
+  const imageMarginTop = height < 700 ? size(-30) : size(10);
   const [clearErrors, setClearErrors] = useState(false);
 
   const handleSignUp = () => {
@@ -48,7 +48,6 @@ const SignInScreen = () => {
 
         {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
         },
       ]}>
       <SignInBackground

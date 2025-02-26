@@ -164,13 +164,13 @@ const SignUpForm = () => {
         </View>
       </View>
       <View style={styles.signUpContainer}>
+        <ErrorMessage message={errorSignUp || errorTerms} />
         <CoreButton
           value={isLoading ? '' : 'Sign Up'}
           icon={isLoading ? <LoadingButtonIcon /> : undefined}
           onPress={handleSignUp}
           disabled={isLoading}
         />
-        <ErrorMessage message={errorSignUp || errorTerms} />
       </View>
     </View>
   );
@@ -178,7 +178,7 @@ const SignUpForm = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingTop: size(35),
+    paddingTop: size(16),
     alignItems: 'center',
     flex: 1,
   },
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     width: '100%',
-    gap: size(5),
+
   },
   inputContainer: {gap: size(3)},
 
@@ -198,14 +198,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(16),
-    marginTop: size(-5),
+    marginTop: size(-30),
     marginBottom: size(10),
     paddingHorizontal: size(5),
   },
 
   signUpContainer: {
     width: '100%',
-    zIndex: 10,
+    marginTop: size(-10),
+    marginBottom: size(20),
+
   },
   link: {
     color: Color.Blue['100'],
