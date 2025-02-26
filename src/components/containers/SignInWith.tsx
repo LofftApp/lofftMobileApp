@@ -17,7 +17,7 @@ import {size} from 'react-native-responsive-sizes';
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
 import {useToast} from 'reduxFeatures/settings/useToast';
-import {ToastTypes} from 'reduxFeatures/settings/types';
+import {Messages, ToastTypes} from 'reduxFeatures/settings/types';
 
 type SignInWithProps = {
   isSignInScreen: boolean;
@@ -26,30 +26,23 @@ type SignInWithProps = {
 const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const {authMessage, setAuthMessage} = useAuth();
 
-  const messageText =
-    "Our amazing team is working on this feature. It's coming soon!";
-
-  const {showToast, visible} = useToast({
-    condition: !!authMessage,
-    message: authMessage,
-    type: ToastTypes.Info,
-  });
+  const {showToast, visible, hideToast} = useToast();
 
   useEffect(() => {
-    if (authMessage && isSignInScreen) {
+    if (isSignInScreen) {
       const timer = setTimeout(() => {
-        setAuthMessage('');
-      }, 3000);
+        hideToast();
+      }, 5000);
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [authMessage, isSignInScreen, setAuthMessage]);
+  }, [authMessage, isSignInScreen, setAuthMessage, hideToast]);
 
   const handleSignInWithApple = () => {
     console.log('sign in with apple');
     showToast({
-      message: messageText,
+      message: Messages.AmazingTeam,
       type: ToastTypes.Info,
     });
   };
@@ -57,7 +50,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
   const handleSignInWithGoogle = () => {
     console.log('sign in with google');
     showToast({
-      message: messageText,
+      message: Messages.AmazingTeam,
       type: ToastTypes.Error,
       position: 'bottom',
     });

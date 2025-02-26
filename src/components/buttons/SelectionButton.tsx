@@ -54,9 +54,12 @@ const styles = StyleSheet.create({
     borderColor: Color.Lavendar[100],
     backgroundColor: Color.Lavendar[100],
   },
+
   buttonStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingVertical: size(12),
-    paddingHorizontal: size(16),
+    paddingHorizontal: size(10),
     marginBottom: size(8),
     borderRadius: size(16),
     borderWidth: size(2),

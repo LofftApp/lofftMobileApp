@@ -11,9 +11,10 @@ enum Messages {
   ErrorOccurred = 'An error occurred, please try again',
   RequiredFields = 'Please fill out all the required fields',
   CouldNotLoad = 'We could not load the data, please try again',
+  SignedOut = "You're signed out",
+  SessionExpired = 'Session expired. Please log in again.',
+  AmazingTeam = "Our amazing team is working on this feature. It's coming soon!",
 }
-
-
 
 type AppLanguages = 'EN' | 'DE';
 

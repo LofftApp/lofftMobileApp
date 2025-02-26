@@ -70,11 +70,11 @@ export const settings = createSlice({
       state.popovers[userId][key] = false;
     },
   },
-  extraReducers: builder => {
-    builder.addCase(PURGE, () => {
-      return initialState;
-    });
-  },
+  // extraReducers: builder => {
+  //   builder.addCase(PURGE, () => {
+  //     return initialState;
+  //   });
+  // },
 });
 
 export const {

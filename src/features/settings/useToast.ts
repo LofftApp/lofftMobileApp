@@ -89,8 +89,13 @@ export const useToast = ({
     [dispatch],
   );
 
+  const hideToast = useCallback(() => {
+    dispatch(_hideToast());
+  }, [dispatch]);
+
   useEffect(() => {
     if (condition && message && type && position) {
+      console.log('show toast called in useEffect');
       showToast({message, type});
     }
   }, [condition, message, type, showToast, position]);
@@ -102,5 +107,6 @@ export const useToast = ({
     message: toastMessage,
     type: toastType,
     position: toastPosition,
+    hideToast,
   };
 };

@@ -33,7 +33,7 @@ import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import {useRequestUserPermissionForNotifications} from 'hooks/useRequestUserPermission';
 import {useFCMToken} from 'hooks/useFcmToken';
 import {useForegroundNotifications} from 'hooks/useForegroundNotifications';
-import {View} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import Toast from 'components/toast/Toast';
 import {useToast} from 'reduxFeatures/settings/useToast';
 
@@ -120,6 +120,8 @@ const App = () => {
           position={position}
         />
       )}
+
+<StatusBar hidden />
 
       {!isAuth ? (
         <>

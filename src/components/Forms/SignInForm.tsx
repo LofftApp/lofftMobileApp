@@ -152,11 +152,11 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingTop: size(55),
+    paddingTop: size(45),
     alignItems: 'center',
     flex: 1,
 
-    gap: size(20),
+    gap: size(10),
   },
 
   inputsContainer: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
 
   forgotPassText: {
     alignSelf: 'flex-end',
-    color: Color.Blue['100'],
+    color: Color.Blue[100],
   },
   signInContainer: {
     width: '100%',
