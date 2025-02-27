@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, FlatList, Text} from 'react-native';
+import {View, StyleSheet, FlatList, Text, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 //Components
@@ -139,7 +139,8 @@ const EditAdvertScreen = ({route}: {route?: {params: {advertId: number}}}) => {
         styles.zIndex,
 
         {
-          paddingTop: insets.top,
+          paddingTop:
+            Platform.OS === 'android' ? insets.top + size(10) : insets.top,
           paddingBottom: insets.bottom,
         },
       ]}>

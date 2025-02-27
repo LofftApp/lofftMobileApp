@@ -47,7 +47,7 @@ const ImageSwiper = ({
     if (!placeholder) {
       return images;
     }
-    const numberOfPlaceholders = placeholder - images.length + 1;
+    const numberOfPlaceholders = placeholder  - images.length;
     if (numberOfPlaceholders > 0) {
       const placeholders = Array.from({length: numberOfPlaceholders}, () => ({
         uri: null,

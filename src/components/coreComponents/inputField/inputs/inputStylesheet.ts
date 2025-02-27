@@ -9,8 +9,8 @@ export const inputStyles = StyleSheet.create({
     borderColor: Color.Black[50],
     paddingHorizontal: size(4),
     height: size(48),
-    justifyContent: 'center',
   },
+
   focus: {
     borderColor: Color.Lavendar[100],
   },

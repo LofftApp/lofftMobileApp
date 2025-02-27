@@ -21,6 +21,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
 import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
+import PasswordInput from 'components/coreComponents/inputField/inputs/PasswordInput';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
@@ -131,24 +132,20 @@ const SignUpForm = () => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <PasswordInput
             value={password}
             onChangeText={handlePasswordChange}
             placeholder="Create password"
-            type="password"
             errorMessage={errorPassword || errorSignUp}
           />
-          <ErrorMessage isInputField message={errorPassword} />
         </View>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <PasswordInput
             value={repeatPassword}
             onChangeText={handleRepeatPasswordChange}
             placeholder="Repeat password"
-            type="password"
             errorMessage={errorRepeatPassword || errorSignUp}
           />
-          <ErrorMessage isInputField message={errorRepeatPassword} />
         </View>
         <View style={styles.checkBoxContainer}>
           <CheckBox
@@ -188,7 +185,6 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     width: '100%',
-
   },
   inputContainer: {gap: size(3)},
 
@@ -206,7 +202,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: size(-10),
     marginBottom: size(20),
-
   },
   link: {
     color: Color.Blue['100'],

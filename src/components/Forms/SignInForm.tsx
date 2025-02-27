@@ -5,10 +5,11 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useSignInMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
+import PasswordInput from 'components/coreComponents/inputField/inputs/PasswordInput';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -19,7 +20,6 @@ import {signInSchema} from 'lib/zodSchema';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
 
 type SignInFormProps = {
   clearErrors: boolean;
@@ -119,15 +119,12 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <PasswordInput
             value={password}
             onChangeText={handlePasswordChange}
             placeholder="Password"
-            type="password"
             errorMessage={errorPassword || signInError}
           />
-
-          <ErrorMessage isInputField message={errorPassword} />
         </View>
         <Pressable onPress={handleForgotPassword}>
           <Text style={[fontStyles.bodyMedium, styles.forgotPassText]}>

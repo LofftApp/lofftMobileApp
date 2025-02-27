@@ -96,7 +96,7 @@ const SettingsScreen = () => {
                   }}
                   selectedIndex={null}
                   imageType={ImageType.Flat}
-                  placeholder={4}
+                  placeholder={5}
                 />
               </View>
             )}

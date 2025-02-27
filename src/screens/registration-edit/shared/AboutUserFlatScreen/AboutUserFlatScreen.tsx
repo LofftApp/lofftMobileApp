@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 //Screens 📺
@@ -81,7 +81,8 @@ const AboutUserFlatScreen = ({
         CoreStyleSheet.safeAreaViewShowContainer,
         styles.zIndex,
         {
-          paddingTop: insets.top,
+          paddingTop:
+            Platform.OS === 'android' ? insets.top + size(10) : insets.top,
           paddingBottom: !edit ? insets.bottom : undefined,
         },
       ]}>
