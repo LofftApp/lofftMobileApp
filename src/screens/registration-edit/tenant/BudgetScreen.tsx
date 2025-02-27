@@ -13,7 +13,6 @@ import {newUserScreens} from 'navigationStacks/newUserScreens';
 // Components 🪢
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import BackButton from 'components/buttons/BackButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import Divider from 'components/bars/Divider';
@@ -45,6 +44,7 @@ import {
 //Types 🏷️
 import {NewUserJourneyStackNavigation} from 'navigationStacks/types';
 import {useUserType} from 'reduxFeatures/user/useUserType';
+import CurrencyInput from 'components/coreComponents/inputField/inputs/CurrencyInput';
 
 const BudgetScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
   const edit = route?.params?.edit;
@@ -183,22 +183,20 @@ const BudgetScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
           <View style={styles.inputContainer}>
             <View style={styles.formContainer}>
               <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
-              <InputFieldText
+              <CurrencyInput
                 style={styles.priceInputContainer}
                 placeholder="0"
                 value={String(onlyNumber(minPrice))}
-                type="currency"
                 onChangeText={handleMin}
               />
             </View>
 
             <View style={styles.formContainer}>
               <Text style={fontStyles.bodyExtraSmall}>Max. price</Text>
-              <InputFieldText
+              <CurrencyInput
                 style={styles.priceInputContainer}
                 placeholder="5000"
                 value={String(onlyNumber(maxPrice))}
-                type="currency"
                 onChangeText={handleMax}
               />
             </View>

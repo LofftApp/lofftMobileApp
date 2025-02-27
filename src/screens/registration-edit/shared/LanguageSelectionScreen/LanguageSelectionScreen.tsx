@@ -12,7 +12,6 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Components 🧰
 import BackButton from 'components/buttons/BackButton';
 import LanguagesCard from 'components/cards/LanguagesCard';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import Divider from 'components/bars/Divider';
@@ -29,6 +28,7 @@ import {RegistrationBackground} from 'assets';
 // Helpers 🥷🏻
 import {size} from 'react-native-responsive-sizes';
 import OpacityOverlay from 'components/modals/OpacityOverlay';
+import SearchInput from 'components/coreComponents/inputField/inputs/SearchInput';
 
 const LanguageSelectionScreen = ({
   route,
@@ -107,12 +107,12 @@ const LanguageSelectionScreen = ({
           />
 
           <Animated.View style={[styles.inputContainer, {opacity: fadeInAnim}]}>
-            <InputFieldText
-              type="search"
+            <SearchInput
               placeholder="Search for your language"
               value={searchValue}
               onChangeText={handleSearch}
               onClear={handleClearSearch}
+              errorMessage={error}
             />
           </Animated.View>
 

@@ -13,7 +13,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useWhereIsFlatScreen} from './useWhereIsFlatScreen';
 
 // Components 🪢
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import DropdownInput from 'components/coreComponents/inputField/DropdownInput';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
 import BackButton from 'components/buttons/BackButton';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
@@ -41,6 +41,7 @@ import {size} from 'react-native-responsive-sizes';
 // Types 🏷 ️
 import {Currency} from 'reduxFeatures/assets/types';
 import OpacityOverlay from 'components/modals/OpacityOverlay';
+import CurrencyInput from 'components/coreComponents/inputField/inputs/CurrencyInput';
 
 const currencies: Currency[] = ['eur', 'gbp', 'usd'];
 
@@ -125,8 +126,7 @@ const WhereIsFlatScreen = ({
                 style={{
                   opacity: fadeInAnim,
                 }}>
-                <InputFieldText
-                  type="search"
+                <DropdownInput
                   placeholder="Address of the flat"
                   value={location}
                   onChangeText={handleOnChangeSearch}
@@ -158,11 +158,10 @@ const WhereIsFlatScreen = ({
                     style={{
                       opacity: fadeInAnim,
                     }}>
-                    <InputFieldText
+                    <CurrencyInput
                       value={price}
                       onChangeText={handleOnChangePrice}
                       keyboardType="numeric"
-                      type="currency"
                       style={styles.inputContainer}
                       currency={currency}
                     />

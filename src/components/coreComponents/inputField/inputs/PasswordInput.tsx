@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {View, TextInput, Pressable, StyleSheet} from 'react-native';
+import {View, TextInput, Pressable} from 'react-native';
 
 // Components 🪢
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
-import {size} from 'react-native-responsive-sizes';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {inputStyles} from './inputStylesheet';
 
@@ -55,7 +54,7 @@ const PasswordInput = ({
     <View>
       <View
         style={[
-          styles.inputContainerWithIcon,
+          inputStyles.inputContainerWithIcon,
           inputStyles.input,
           focus && inputStyles.focus,
           !!errorMessage && inputStyles.errorActive,
@@ -64,7 +63,7 @@ const PasswordInput = ({
           value={value}
           secureTextEntry={hidePassword}
           onChangeText={onChangeText}
-          style={[fontStyles.bodyMedium, styles.passwordInput]}
+          style={[fontStyles.bodyMedium, inputStyles.paddingLeft]}
           onBlur={handleBlur}
           onFocus={handleFocus}
           placeholder={placeholder}
@@ -72,7 +71,7 @@ const PasswordInput = ({
           keyboardType={keyboardType}
         />
         <Pressable
-          style={styles.icon}
+          style={inputStyles.paddingRight}
           onPress={() => setHidePassword(!hidePassword)}>
           <LofftIcon name={hidePassword ? 'eye' : 'eye-off'} size={20} />
         </Pressable>
@@ -82,17 +81,4 @@ const PasswordInput = ({
   );
 };
 
-const styles = StyleSheet.create({
-  inputContainerWithIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  passwordInput: {
-    paddingLeft: size(10),
-  },
-  icon: {
-    paddingRight: size(10),
-  },
-});
 export default PasswordInput;

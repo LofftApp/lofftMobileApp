@@ -54,7 +54,7 @@ const DefaultInput = ({
         style={[
           fontStyles.bodyMedium,
           inputStyles.input,
-          inputStyles.defaultInput,
+          inputStyles.paddingLeft,
           focus && inputStyles.focus,
           !!errorMessage && inputStyles.errorActive,
         ]}

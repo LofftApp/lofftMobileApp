@@ -9,7 +9,7 @@ import {useSelectCityScreen} from './useSelectCityScreen';
 import HeadlineContainer from 'components/containers/HeadlineContainer';
 import SelectionButton from 'components/buttons/SelectionButton';
 import CustomSwitch from 'components/coreComponents/interactiveElements/CustomSwitch';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
+import DropdownInput from 'components/coreComponents/inputField/DropdownInput';
 import Divider from 'components/bars/Divider';
 import BackButton from 'components/buttons/BackButton';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
@@ -110,8 +110,7 @@ const SelectCityScreen = ({
             }
           />
           <View style={styles.inputContainer}>
-            <InputFieldText
-              type="search"
+            <DropdownInput
               placeholder="Berlin for instance?"
               onChangeText={handleOnChangeSearch}
               onClear={handleClearSearch}

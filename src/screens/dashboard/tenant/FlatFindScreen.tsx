@@ -12,7 +12,6 @@ import FlatListSubScreen from './SubScreens/FlatListSubScreen';
 
 // Components 🪢
 import FilterButton from 'components/buttons/FilterButton';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import AdvertMap from 'components/Maps/AdvertMap';
 import HeaderPageContentSwitch from 'components/buttons/HeaderPageContentSwitch';
 import SearchFilterModal from 'components/modals/SearchFilterModal';
@@ -23,6 +22,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 // Types 🏷️
 import {useGetAssetsQuery} from 'reduxFeatures/assets/assetsApi';
 import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
+import SearchInput from 'components/coreComponents/inputField/inputs/SearchInput';
 
 const FlatFindScreen = () => {
   const [searchTerm, setSearchTerm] = useState<GetAdvertsParams>(undefined);
@@ -34,9 +34,12 @@ const FlatFindScreen = () => {
   } = useGetAssetsQuery();
   const features = assets?.features;
 
-  const {data, isLoading, isError, isSuccess, refetch} = useGetAdvertsQuery(searchTerm, {
-    refetchOnMountOrArgChange: true,
-  });
+  const {data, isLoading, isError, isSuccess, refetch} = useGetAdvertsQuery(
+    searchTerm,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
   const adverts = data?.adverts;
   console.log('adverts', adverts);
 
@@ -51,17 +54,16 @@ const FlatFindScreen = () => {
   const toggleModal = () => {
     setOpenModal(prev => !prev);
   };
+  console.log('openModal', openModal);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
       <View style={styles.searchContainer}>
-        <InputFieldText
-          type="search"
+        <SearchInput
           onChangeText={t => setSearch(t)}
           value={search}
           placeholder="City, Neighbourhood..."
           onClear={() => setSearch('')}
-          keyboardType="email-address"
           style={styles.inputField}
         />
         <FilterButton onPress={toggleModal} isSearching={!!searchTerm} />

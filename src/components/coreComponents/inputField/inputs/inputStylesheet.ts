@@ -17,7 +17,30 @@ export const inputStyles = StyleSheet.create({
   errorActive: {
     borderColor: Color.Tomato[100],
   },
-  defaultInput: {
+
+  inputContainerWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  paddingLeft: {
     paddingLeft: size(10),
+  },
+  paddingRight: {
+    paddingRight: size(10),
+  },
+
+  searchIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+    gap: size(5),
+  },
+  clearContainer: {
+    position: 'absolute',
+    top: size(8),
+    right: size(10),
+    padding: size(5),
+    backgroundColor: Color.White[100],
   },
 });

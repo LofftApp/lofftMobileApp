@@ -5,11 +5,12 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {CoreButton} from 'components/buttons/CoreButton';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
+import PasswordInput from 'components/coreComponents/inputField/inputs/PasswordInput';
 
 //Validation 🛡️
 import {signUpSchema} from 'lib/zodSchema';
@@ -20,8 +21,6 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
-import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
-import PasswordInput from 'components/coreComponents/inputField/inputs/PasswordInput';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);

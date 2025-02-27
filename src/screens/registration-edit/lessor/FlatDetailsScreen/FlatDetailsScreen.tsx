@@ -83,20 +83,12 @@ const FlatDetailsScreen = ({
           <View style={styles.centerContainer}>
             <Animated.View
               style={[styles.inputContainer, {opacity: fadeInAnim}]}>
-              {/* <InputFieldText
-                value={tagLine}
-                onChangeText={handleTagLineChange}
-                placeholder={'Awesome flat in Moabit'}
-              /> */}
-
               <DefaultInput
                 value={tagLine}
                 onChangeText={handleTagLineChange}
                 placeholder="Awesome flat in Moabit"
                 errorMessage={errorTagLine}
               />
-
-              {/* <ErrorMessage isInputField message={errorTagLine} /> */}
             </Animated.View>
             <Animated.View
               style={[styles.inputContainer, {opacity: fadeInAnim}]}>

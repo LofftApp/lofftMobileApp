@@ -171,6 +171,7 @@ export const useLanguageSelectionScreen = (
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
+    setError('');
   };
   const handleClearSearch = () => {
     setSearchValue('');
