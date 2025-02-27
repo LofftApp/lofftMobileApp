@@ -90,8 +90,6 @@ const InputFieldText = ({
         ) : (
           <DefaultInput
             onChangeText={onChangeText}
-            onBlur={() => setFocus(false)}
-            onFocus={() => setFocus(true)}
             value={value}
             placeholder={placeholder || ''}
             autoCapitalize={type === 'email' ? 'none' : 'sentences'}

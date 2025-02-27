@@ -19,6 +19,7 @@ import {signInSchema} from 'lib/zodSchema';
 
 // Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
 
 type SignInFormProps = {
   clearErrors: boolean;
@@ -109,11 +110,19 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
       <Text style={fontStyles.headerMedium}>Hello again!</Text>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          {/* <InputFieldText
             value={email}
             onChangeText={handleEmailChange}
             placeholder="Email"
             type="email"
+            keyboardType="email-address"
+            errorMessage={errorEmail || signInError}
+          /> */}
+
+          <DefaultInput
+            value={email}
+            onChangeText={handleEmailChange}
+            placeholder="Email"
             keyboardType="email-address"
             errorMessage={errorEmail || signInError}
           />

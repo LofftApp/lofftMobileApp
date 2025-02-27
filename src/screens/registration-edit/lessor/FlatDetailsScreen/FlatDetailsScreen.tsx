@@ -10,8 +10,6 @@ import BackButton from 'components/buttons/BackButton';
 import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
-import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import NotFoundComponent from 'components/LoadingAndNotFound/NotFoundComponent';
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 
@@ -26,6 +24,7 @@ import {RegistrationBackground} from 'assets';
 // Helpers 🤝
 import {size as _size} from 'react-native-responsive-sizes';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
 
 //Types 🏷️
 
@@ -84,13 +83,20 @@ const FlatDetailsScreen = ({
           <View style={styles.centerContainer}>
             <Animated.View
               style={[styles.inputContainer, {opacity: fadeInAnim}]}>
-              <InputFieldText
+              {/* <InputFieldText
                 value={tagLine}
                 onChangeText={handleTagLineChange}
                 placeholder={'Awesome flat in Moabit'}
+              /> */}
+
+              <DefaultInput
+                value={tagLine}
+                onChangeText={handleTagLineChange}
+                placeholder="Awesome flat in Moabit"
+                errorMessage={errorTagLine}
               />
 
-              <ErrorMessage isInputField message={errorTagLine} />
+              {/* <ErrorMessage isInputField message={errorTagLine} /> */}
             </Animated.View>
             <Animated.View
               style={[styles.inputContainer, {opacity: fadeInAnim}]}>
@@ -98,13 +104,12 @@ const FlatDetailsScreen = ({
                 Flat size in m²
               </Text>
 
-              <InputFieldText
+              <DefaultInput
                 value={size}
                 onChangeText={handleSizeChange}
                 placeholder="68"
+                errorMessage={errorSize}
               />
-
-              <ErrorMessage isInputField message={errorSize} />
             </Animated.View>
           </View>
 

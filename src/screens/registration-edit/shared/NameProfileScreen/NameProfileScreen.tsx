@@ -18,10 +18,10 @@ import Divider from 'components/bars/Divider';
 import NewUserPaginationBar from 'components/buttons/NewUserPaginationBar';
 import NewUserJourneyContinueButton from 'components/buttons/NewUserJourneyContinueButton';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import DatePicker from 'react-native-date-picker';
 import DatePickerInput from 'components/coreComponents/inputField/inputs/DatePickerInput';
 import NewUserScreensPopover from 'components/modals/NewUserScreensPopover';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
 
 // Styles 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -84,30 +84,24 @@ const NameProfileScreen = ({route}: {route?: {params: {edit: boolean}}}) => {
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   First Name
                 </Text>
-                <InputFieldText
+                <DefaultInput
                   placeholder="Which name do you go by?"
                   value={firstName}
                   onChangeText={handleFirstName}
                   errorMessage={errorFirstName}
                 />
-                {errorFirstName && (
-                  <ErrorMessage isInputField message={errorFirstName} />
-                )}
               </Animated.View>
               <Animated.View
                 style={[styles.inputContainer, {opacity: fadeInAnim}]}>
                 <Text style={[fontStyles.headerSmall, styles.minText]}>
                   Last Name
                 </Text>
-                <InputFieldText
+                <DefaultInput
                   placeholder="To be more authentic"
                   value={lastName}
                   onChangeText={handleLastName}
                   errorMessage={errorLastName}
                 />
-                {errorLastName && (
-                  <ErrorMessage isInputField message={errorLastName} />
-                )}
               </Animated.View>
               <Animated.View
                 style={[styles.inputContainer, {opacity: fadeInAnim}]}>

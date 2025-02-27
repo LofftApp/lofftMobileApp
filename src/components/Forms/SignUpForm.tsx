@@ -20,6 +20,7 @@ import {fontStyles} from 'styleSheets/fontStyles';
 
 //Helpers 🤝
 import {size} from 'react-native-responsive-sizes';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
 
 const SignUpForm = () => {
   const [checkbox, setCheckBox] = useState(false);
@@ -121,15 +122,13 @@ const SignUpForm = () => {
       </View>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <DefaultInput
             value={email}
             onChangeText={handleEmailChange}
             placeholder="Email"
-            type="email"
             keyboardType="email-address"
             errorMessage={errorEmail || errorSignUp}
           />
-          <ErrorMessage isInputField message={errorEmail} />
         </View>
         <View style={styles.inputContainer}>
           <InputFieldText

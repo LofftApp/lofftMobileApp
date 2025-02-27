@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     paddingLeft: size(10),
-    marginBottom: size(5),
+    marginBottom: size(0),
   },
   clearButton: {
     padding: 0,
