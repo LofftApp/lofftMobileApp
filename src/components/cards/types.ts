@@ -34,6 +34,7 @@ type ImageSwiperProps = {
   onPress?: (index?: number) => void;
   selectedIndex: number | null;
   imageType: ImageType;
+  placeholder?: number;
 };
 
 type OnViewableItemsChangedParams = {

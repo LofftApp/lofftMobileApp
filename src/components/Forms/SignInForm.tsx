@@ -110,15 +110,6 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
       <Text style={fontStyles.headerMedium}>Hello again!</Text>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
-          {/* <InputFieldText
-            value={email}
-            onChangeText={handleEmailChange}
-            placeholder="Email"
-            type="email"
-            keyboardType="email-address"
-            errorMessage={errorEmail || signInError}
-          /> */}
-
           <DefaultInput
             value={email}
             onChangeText={handleEmailChange}
@@ -126,8 +117,6 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
             keyboardType="email-address"
             errorMessage={errorEmail || signInError}
           />
-
-          <ErrorMessage isInputField message={errorEmail} />
         </View>
         <View style={styles.inputContainer}>
           <InputFieldText

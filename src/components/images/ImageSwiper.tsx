@@ -33,12 +33,29 @@ const ImageSwiper = ({
   onPress,
   selectedIndex,
   imageType,
+  placeholder,
 }: ImageSwiperProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   const imagesUri = useMemo(() => images.map(image => image.uri), [images]);
 
   const {loadingStatuses} = useLoadImages(imagesUri);
+  console.log('images', images);
+  console.log('loadingStatuses', loadingStatuses);
+
+  const paddedImages = useMemo(() => {
+    if (!placeholder) {
+      return images;
+    }
+    const numberOfPlaceholders = placeholder - images.length + 1;
+    if (numberOfPlaceholders > 0) {
+      const placeholders = Array.from({length: numberOfPlaceholders}, () => ({
+        uri: null,
+      }));
+      return [...images, ...placeholders];
+    }
+    return images;
+  }, [images, placeholder]);
 
   const onViewableItemsChanged = useCallback(
     ({viewableItems}: OnViewableItemsChangedParams) => {
@@ -63,7 +80,7 @@ const ImageSwiper = ({
   return (
     <View>
       <FlatList
-        data={images}
+        data={paddedImages}
         horizontal
         snapToInterval={snapToInterval}
         decelerationRate="normal"
@@ -78,37 +95,44 @@ const ImageSwiper = ({
               {deleteImage && (
                 <Pressable
                   style={styles.closeButton}
-                  onPress={() => handleDeleteImage(item.uri)}>
+                  onPress={() => handleDeleteImage(item.uri as string)}>
                   <LofftIcon name="x-close" size={14} color="white" />
                 </Pressable>
               )}
 
-              <Pressable
-                onPress={() => handlePress(index)}
-                style={[styles.pressContainer]}>
-                {!loadingStatuses[index] && (
-                  <View style={styles.loadingContainer}>
-                    <LoadingButtonIcon size="small" />
-                  </View>
-                )}
-                {item.uri ? (
+              {item.uri ? (
+                <Pressable
+                  onPress={() => handlePress(index)}
+                  style={[styles.pressContainer]}>
+                  <>
+                    {!loadingStatuses[index] && (
+                      <View style={styles.loadingContainer}>
+                        <LoadingButtonIcon size="small" />
+                      </View>
+                    )}
+                    <Image
+                      style={[
+                        styles.imageContainer,
+                        {height: imageContainerHeight},
+                        {width: imageContainerWidth},
+                        {marginHorizontal: size(marginHorizontal)},
+                        isSelected && styles.selectedImage,
+                      ]}
+                      source={{uri: item.uri}}
+                      loadingIndicatorSource={NoFlatImage}
+                      key={index + 1}
+                      blurRadius={
+                        activeBlur || !loadingStatuses[index] ? 30 : 0
+                      }
+                    />
+                    {editButton && <ImageEditButton right={10} />}
+                  </>
+                </Pressable>
+              ) : (
+                <>
                   <Image
                     style={[
-                      styles.imageContainer,
-                      {height: imageContainerHeight},
-                      {width: imageContainerWidth},
-                      {marginHorizontal: size(marginHorizontal)},
-                      isSelected && styles.selectedImage,
-                    ]}
-                    source={{uri: item.uri}}
-                    loadingIndicatorSource={NoFlatImage}
-                    key={index + 1}
-                    blurRadius={activeBlur || !loadingStatuses[index] ? 30 : 0}
-                  />
-                ) : (
-                  <Image
-                    style={[
-                      styles.imageContainer,
+                      styles.placeholder,
                       {height: imageContainerHeight},
                       {width: imageContainerWidth},
                       {marginHorizontal: size(marginHorizontal)},
@@ -116,11 +140,10 @@ const ImageSwiper = ({
                     source={
                       imageType === ImageType.Flat ? NoFlatImage : NoAvatarImage
                     }
-                    blurRadius={activeBlur || !loadingStatuses[index] ? 65 : 0}
+                    blurRadius={activeBlur ? 65 : 0}
                   />
-                )}
-                {editButton && <ImageEditButton right={10} />}
-              </Pressable>
+                </>
+              )}
             </>
           );
         }}
@@ -175,6 +198,16 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 12,
     borderColor: Color.Lavendar[100],
+  },
+
+  placeholder: {
+    borderWidth: 2,
+    backgroundColor: Color.BlackOpacity[10],
+    borderColor: Color.Black[30],
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.7,
   },
 });
 
