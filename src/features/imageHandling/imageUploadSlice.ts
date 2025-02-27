@@ -148,7 +148,10 @@ export const imageUploadSlice = createSlice({
           'blobId' in image && Boolean(image.blobId),
       );
 
-      state.deletedRecordImages.push(...deletedWithBlobId);
+      state.deletedRecordImages = [
+        ...state.deletedRecordImages,
+        ...deletedWithBlobId,
+      ];
     },
   },
   extraReducers: builder => {

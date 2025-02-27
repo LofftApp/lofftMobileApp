@@ -2,21 +2,16 @@ import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 //Redux
-import {useAuth} from 'reduxFeatures/auth/useAuth';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 //Assets 🎨
 import {AppleIcon, GoogleIcon} from 'assets';
 
-//Components 🧰
-
 //Helpers 🥷  🏻
 import {size} from 'react-native-responsive-sizes';
 
-// API 🧠
-
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
-import {useToast} from 'reduxFeatures/settings/useToast';
 import {Messages, ToastTypes} from 'reduxFeatures/settings/types';
 
 type SignInWithProps = {
@@ -24,8 +19,6 @@ type SignInWithProps = {
 };
 
 const SignInWith = ({isSignInScreen}: SignInWithProps) => {
-  const {authMessage, setAuthMessage} = useAuth();
-
   const {showToast, visible, hideToast} = useToast();
 
   useEffect(() => {
@@ -37,7 +30,7 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
         clearTimeout(timer);
       };
     }
-  }, [authMessage, isSignInScreen, setAuthMessage, hideToast]);
+  }, [isSignInScreen, hideToast]);
 
   const handleSignInWithApple = () => {
     console.log('sign in with apple');
@@ -97,7 +90,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: size(10),
     justifyContent: 'center',
-
   },
 
   mainContainer: {
