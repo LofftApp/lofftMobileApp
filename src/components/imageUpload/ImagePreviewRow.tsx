@@ -32,11 +32,10 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
   } = useImagesToUpload(imageType);
   const {isLessor} = useUserType();
   const {isNewUserLessor} = useNewUserDetails();
-  console.log('imagesToUpload', imagesToUpload);
 
   const savedImagesDisplay =
     isNewUserLessor || isLessor
-      ? imageType === 'user'
+      ? imageType === ImageType.User
         ? savedImages.lessor.userImages
         : savedImages.lessor.flatImages
       : savedImages.tenant.userImages;
@@ -68,7 +67,7 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
               imageContainerWidth={size(110)}
               snapToInterval={size(100)}
               selectedIndex={
-                selectedImage?.source === 'saved'
+                selectedImage?.source === ImageSource.Saved
                   ? savedImagesDisplay.findIndex(
                       img => img.uri === selectedImage.uri,
                     )
@@ -98,6 +97,7 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
                   uri,
                 })
               }
+              imageType={imageType}
             />
           </View>
         </>
@@ -135,6 +135,7 @@ const ImagePreviewRow = ({imageType}: {imageType: ImageType}) => {
                 })
               }
               deleteImage={uri => deleteImageToUpload(uri)}
+              imageType={imageType}
             />
           </View>
         </>
@@ -157,18 +158,6 @@ const styles = StyleSheet.create({
     height: size(120),
     borderRadius: 12,
     zIndex: 1,
-  },
-  closeButton: {
-    position: 'absolute',
-    right: -8,
-    zIndex: 2,
-    marginTop: -8,
-    width: size(25),
-    height: size(25),
-    borderRadius: 9999,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Color.Tomato['100'],
   },
 });
 

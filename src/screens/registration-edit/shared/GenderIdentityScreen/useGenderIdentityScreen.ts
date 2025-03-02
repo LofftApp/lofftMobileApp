@@ -124,11 +124,6 @@ export const useGenderIdentityScreen = (edit: boolean) => {
     setShowPopover(false);
   };
 
-  console.log(
-    'isEqualValue(savedGenderIds, selectedGenderIds)',
-    !isEqualValue(savedGenderIds, selectedGenderIds),
-  );
-
   const handleContinue = async () => {
     const selectedGenders = genders?.filter(g =>
       selectedGenderIds.includes(g.id),

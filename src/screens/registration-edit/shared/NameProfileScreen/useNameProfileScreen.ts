@@ -24,7 +24,7 @@ import {
   SettingsScreenNavigationProp,
 } from 'navigationStacks/types';
 import {PopoverKeys} from 'reduxFeatures/settings/types';
-import { useFadeInAnimation } from 'hooks/useFadeInAnimation';
+import {useFadeInAnimation} from 'hooks/useFadeInAnimation';
 
 export const useNameProfileScreen = (edit?: boolean) => {
   //Navigation
@@ -53,7 +53,6 @@ export const useNameProfileScreen = (edit?: boolean) => {
     resetNewUserState,
   } = useNewUserDetails(edit);
   const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
-  console.log('birthday', currentUser?.profile.dateOfBirth);
 
   const savedProfileData = useMemo(() => {
     if (edit) {

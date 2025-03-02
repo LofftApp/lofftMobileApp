@@ -41,9 +41,6 @@ const NotificationCard = ({
 
   const lessorBgColor = isRead ? Color.White[100] : Color.Lavendar[20];
   const advertStatus = notification.advert.status;
-  console.log(notification);
-
-  console.log(notification.advert.chatroomId);
 
   const lessorNotificationHelper = useMemo(
     () => (notificationType: LessorNotificationType) => {

@@ -87,9 +87,6 @@ export const useUserImageUploadScreen = (edit: boolean) => {
       ]
     : currentUser?.profile?.userPhotos || [];
 
-  console.log('dbImages in profile', dbImages);
-  console.log('currentuser', currentUser);
-
   const displaySavedImages =
     isLessor || isNewUserLessor
       ? savedImages.lessor.userImages
@@ -129,12 +126,6 @@ export const useUserImageUploadScreen = (edit: boolean) => {
     setIsModalOpen(prev => !prev);
     setError('');
   };
-  console.log('SelectedImage in use', selectedImage);
-  console.log('CurrentSelectionRef in use', currentSelectionRef);
-  console.log('displaySavedImages', displaySavedImages);
-  console.log('dbImages', dbImages);
-  console.log('savedImages', savedImages);
-  console.log('imagesToUpload', imagesToUpload);
 
   const isNotAllEqual = () => {
     return (
@@ -167,9 +158,8 @@ export const useUserImageUploadScreen = (edit: boolean) => {
       isNewUserLessor || isLessor
         ? [...imagesToUpload, ...savedImages.lessor.userImages]
         : [...imagesToUpload, ...savedImages.tenant.userImages];
-    console.log('concatImages', concatImages);
+
     const result = userImagesSchema.safeParse(concatImages);
-    console.log('Result', result);
 
     if (!result.success) {
       const err = result.error.errors[0].message;
@@ -216,7 +206,6 @@ export const useUserImageUploadScreen = (edit: boolean) => {
             mainImage,
           },
         };
-        console.log('imagesProfilesParams', imagesParams);
         await editUserProfile(imagesParams).unwrap();
         showToast({
           message: Messages.ChangesSaved,

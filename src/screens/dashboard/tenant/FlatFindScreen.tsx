@@ -41,7 +41,6 @@ const FlatFindScreen = () => {
     },
   );
   const adverts = data?.adverts;
-  console.log('adverts', adverts);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -54,7 +53,6 @@ const FlatFindScreen = () => {
   const toggleModal = () => {
     setOpenModal(prev => !prev);
   };
-  console.log('openModal', openModal);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>

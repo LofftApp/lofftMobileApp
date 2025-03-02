@@ -43,7 +43,6 @@ export const useImagesToUpload = (_imageType?: ImageType) => {
   const _selectedImage = useAppSelector(
     state => state.imageUpload.selectedImage,
   );
-  console.log('SelectedImage OBJECT', _selectedImage);
   const deletedRecordImages = useAppSelector(
     state => state.imageUpload.deletedRecordImages,
   );

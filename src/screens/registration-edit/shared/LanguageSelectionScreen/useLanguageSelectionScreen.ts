@@ -176,12 +176,6 @@ export const useLanguageSelectionScreen = (
   const handleClearSearch = () => {
     setSearchValue('');
   };
-  console.log('savedLanguages', savedLanguages);
-  console.log('languagesIds', languagesIds);
-  console.log(
-    'isEqualValue(savedLanguages, languagesIds)',
-    !isEqualValue(savedLanguages, languagesIds),
-  );
 
   const handleBackButton = () => {
     if (!hasShownPopover && !isEqualValue(savedLanguages, languagesIds)) {

@@ -65,6 +65,7 @@ export const imageUploadSlice = createSlice({
       }
 
       const {uri, source, blobId, userType, imageType} = action.payload;
+      console.log('SelectedImage in slice', action.payload);
       const hasBlobId = blobId !== undefined;
       if (userType === UserType.TENANT) {
         state.selectedImage.tenant.user = hasBlobId

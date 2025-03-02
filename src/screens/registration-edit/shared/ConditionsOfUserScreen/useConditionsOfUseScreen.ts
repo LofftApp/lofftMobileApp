@@ -56,7 +56,6 @@ export const useConditionsOfUseScreen = () => {
 
   const handleGetDeviceToken = async () => {
     const token = await messaging().getToken();
-    console.log('Token in conditionsScreen', token);
     setNewUserDetails({...newUserDetails, deviceToken: token});
   };
 
@@ -70,8 +69,6 @@ export const useConditionsOfUseScreen = () => {
       setErrorMessage(Messages.ErrorOccurred);
     }
   };
-
-  console.log('newUserDetails token', newUserDetails.deviceToken);
 
   const handleNewUserJourneyCheckout = async () => {
     if (isNewUserLessor) {

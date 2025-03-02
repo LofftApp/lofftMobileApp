@@ -61,9 +61,6 @@ const FlatFeaturesScreen = ({
     setShowPopover,
   } = useFlatFeaturesScreen(edit, advertId, newValue);
 
-  console.log('isEditProfileLoading Parent: ', isEditProfileLoading);
-  console.log('isEditFlatLoading: ', isEditFlatLoading);
-
   if (isAdvertLoading) {
     return <LoadingComponent />;
   }

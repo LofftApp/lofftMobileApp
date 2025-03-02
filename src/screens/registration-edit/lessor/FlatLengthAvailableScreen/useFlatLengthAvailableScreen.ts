@@ -85,11 +85,6 @@ export const useFlatLengthAvailableScreen = (
   const lessorUntilDate =
     newUserDetails.userType === 'lessor' && newUserDetails.untilDate;
 
-  console.log('lessorFromDate', lessorFromDate);
-  console.log('lessorUntilDate', lessorUntilDate);
-  console.log('advert.fromDate', advert?.fromDate);
-  console.log('advert.toDate', advert?.toDate);
-
   const savedFromDate = useMemo(() => {
     return edit ? advert?.fromDate : lessorFromDate;
   }, [edit, advert?.fromDate, lessorFromDate]);
@@ -113,7 +108,7 @@ export const useFlatLengthAvailableScreen = (
       setUntilDate(untilDateMillis);
       setUntilDateSelected(true);
     }
-    if (!savedUntilDate) {
+    if (savedUntilDate === null || savedUntilDate === 0) {
       setPermanent(true);
       setUntilDateSelected(true);
     }
@@ -248,7 +243,6 @@ export const useFlatLengthAvailableScreen = (
           untilDate: result.data.permanent ? null : untilDate?.toISOString(),
           permanent: result.data.permanent,
         };
-        console.log('editAdvertParams', editAdvertParams);
         await editAdvert(editAdvertParams).unwrap();
         showToast({
           message: Messages.ChangesSaved,

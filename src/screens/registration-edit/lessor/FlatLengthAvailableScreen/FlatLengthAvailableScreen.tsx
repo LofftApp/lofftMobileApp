@@ -69,7 +69,6 @@ const FlatLengthAvailableScreen = ({
     showPopover,
     setShowPopover,
   } = useFlatLengthAvailableScreen(edit, advertId);
-  console.log('isEditAdvertLoading: ', isEditAdvertLoading);
 
   if (isAdvertLoading) {
     return <LoadingComponent />;

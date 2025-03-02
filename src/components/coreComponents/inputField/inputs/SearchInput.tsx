@@ -54,9 +54,6 @@ const SearchInput = ({
     setFocus(false);
   };
 
-  console.log('focus', focus);
-  console.log('errorMessage', !!errorMessage);
-
   return (
     <View style={style}>
       <View

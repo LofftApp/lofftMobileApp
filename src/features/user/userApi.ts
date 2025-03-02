@@ -26,7 +26,6 @@ export const userApi = lofftApi.injectEndpoints({
       query: id => `api/users/${id}/specific_user`,
       transformResponse: response => {
         console.log('specific user called 🎉');
-        console.log('response specific user', response);
         return toCamelCaseKeys(response as SpecificUser);
       },
     }),
@@ -137,7 +136,6 @@ export const userApi = lofftApi.injectEndpoints({
           }
         }
 
-        console.log('formData in tenant', formData);
         return {
           url: `/api/users/${userId}`,
           method: 'PATCH',

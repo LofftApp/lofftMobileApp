@@ -37,7 +37,6 @@ export const useSettingsScreen = () => {
   const adverts = data?.adverts;
 
   const insets = useSafeAreaInsets();
-  console.log('data Advertisement', data);
 
   const userView = isLessor ? UserType.LESSOR : UserType.TENANT;
   const appLang = appLanguage === 'EN' ? 'English' : 'Deutsch';
@@ -125,12 +124,7 @@ export const useSettingsScreen = () => {
   };
 
   const userImageUri = currentUser?.profile?.avatar?.uri;
-  console.log(
-    'currentUser.profile.avatar.uri',
-    currentUser?.profile?.avatar?.uri,
-  );
-  console.log('currentUser', currentUser);
-  console.log('userImageUri', userImageUri);
+
   return {
     currentUser,
     isProfileLoading,

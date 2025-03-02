@@ -35,7 +35,6 @@ const ApplicationsIndexScreen = () => {
   } = useGetApplicationsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  console.log('applications', applications);
   const navigation = useNavigation<ApplicationNavigationProp>();
   const [screen, setScreen] = useState('thumbs-up');
 

@@ -10,7 +10,6 @@ type OpacityOverlayProps = {
 
 const OpacityOverlay = ({loadingState, icon = false}: OpacityOverlayProps) => {
   const overlayOpacity = useRef(new Animated.Value(0)).current;
-  console.log('loadingState: ', loadingState);
 
   useEffect(() => {
     Animated.timing(overlayOpacity, {

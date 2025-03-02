@@ -40,14 +40,12 @@ const ImageSwiper = ({
   const imagesUri = useMemo(() => images.map(image => image.uri), [images]);
 
   const {loadingStatuses} = useLoadImages(imagesUri);
-  console.log('images', images);
-  console.log('loadingStatuses', loadingStatuses);
 
   const paddedImages = useMemo(() => {
     if (!placeholder) {
       return images;
     }
-    const numberOfPlaceholders = placeholder  - images.length;
+    const numberOfPlaceholders = placeholder - images.length;
     if (numberOfPlaceholders > 0) {
       const placeholders = Array.from({length: numberOfPlaceholders}, () => ({
         uri: null,

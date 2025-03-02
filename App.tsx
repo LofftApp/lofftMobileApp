@@ -121,7 +121,7 @@ const App = () => {
         />
       )}
 
-<StatusBar hidden />
+      <StatusBar hidden />
 
       {!isAuth ? (
         <>

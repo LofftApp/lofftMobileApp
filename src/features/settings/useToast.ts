@@ -29,8 +29,6 @@ export const useToast = ({
   const toastType = toast?.type;
   const toastPosition = toast?.position || 'top';
 
-  console.log('toast', toast);
-
   const getToastStyles = (t: ToastTypes) => {
     switch (t) {
       case ToastTypes.Error:
@@ -77,7 +75,6 @@ export const useToast = ({
       type: ToastTypes;
       position?: 'top' | 'bottom';
     }) => {
-      console.log('show toast called');
       dispatch(
         _showToast({message: _message, type: _type, position: _position}),
       );
@@ -95,7 +92,6 @@ export const useToast = ({
 
   useEffect(() => {
     if (condition && message && type && position) {
-      console.log('show toast called in useEffect');
       showToast({message, type});
     }
   }, [condition, message, type, showToast, position]);

@@ -42,8 +42,6 @@ export const useSelectImage = ({
         avatar: avatar || null,
         mainFlatImage: mainFlatImage || null,
       });
-
-      console.log('SelectedImage in use first mount edit', selectedImage);
     }
 
     if (!edit && displaySavedImages.length > 0) {
@@ -58,7 +56,6 @@ export const useSelectImage = ({
       if (selectedImage) {
         currentSelectionRef.current = selectedImage.uri;
         setSelectedImage(selectedImage);
-        console.log('SelectedImage in use in first mount', selectedImage);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,7 +81,6 @@ export const useSelectImage = ({
       !selectedImage
         ? (defaultImage = dbImages[0])
         : (defaultImage = displaySavedImages[0] || imagesToUpload[0]);
-      console.log('default images comes from dbImages', dbImages[0]);
       if (edit && defaultImage && 'blobId' in defaultImage) {
         defaultImage = {
           uri: defaultImage.uri,
@@ -97,10 +93,6 @@ export const useSelectImage = ({
       }
     } else {
       defaultImage = imagesToUpload[0] || displaySavedImages[0];
-      console.log(
-        'default images comes from imagesToUpload',
-        imagesToUpload[0],
-      );
     }
 
     return defaultImage
@@ -124,8 +116,6 @@ export const useSelectImage = ({
         currentSelectionRef.current = defaultImage.uri;
         setSelectedImage(defaultImage);
       }
-
-      console.log('Selected image was deleted – changing to:', defaultImage);
     }
 
     // 2️  Image is upload but moved to saved
@@ -142,7 +132,6 @@ export const useSelectImage = ({
         };
         currentSelectionRef.current = updatedImage.uri;
         setSelectedImage(updatedImage);
-        console.log('Selected image moved to saved images:', selectedImage);
       }
     }
 
@@ -153,14 +142,12 @@ export const useSelectImage = ({
         currentSelectionRef.current = defaultImage.uri;
         setSelectedImage(defaultImage);
       }
-      console.log('No image selected – defaulting to:', defaultImage);
     }
 
     // 4️ If no images are available at all
     if (imagesToUpload.length === 0 && displaySavedImages.length === 0) {
       setSelectedImage(null);
       currentSelectionRef.current = null;
-      console.log('No images available – selection cleared');
     }
   }, [
     displaySavedImages,
@@ -174,9 +161,6 @@ export const useSelectImage = ({
     userType,
     getDefaultImage,
   ]);
-
-  console.log('currentSelectionRef in select hook', currentSelectionRef);
-  console.log('selectedImage in select hook', selectedImage);
 
   return {
     currentSelectionRef,

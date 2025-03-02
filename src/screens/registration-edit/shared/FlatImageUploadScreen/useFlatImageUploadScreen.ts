@@ -74,7 +74,6 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
   });
 
   const {data: currentUser} = useGetUserQuery();
-  console.log('currentUser', currentUser);
 
   const [
     editFlatImage,
@@ -86,9 +85,6 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
     : advert?.flat?.photos || [];
   const mainSavedImage = savedImages.lessor.mainFlatImage;
   const displaySavedImages = savedImages.lessor.flatImages || [];
-  console.log('dbImages', dbImages);
-  console.log('displaySavedImages', displaySavedImages);
-  console.log('mainSavedImage', mainSavedImage);
 
   const {currentSelectionRef} = useSelectImage({
     edit: edit ?? false,
@@ -98,13 +94,6 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
     displaySavedImages,
     mainFlatImage: mainSavedImage,
   });
-
-  console.log('currentSelectionRef', currentSelectionRef);
-  console.log('selectedImage', selectedImage);
-  console.log('imagesToUpload', imagesToUpload);
-  console.log('savedImages', savedImages);
-  console.log('deletedRecordImages', deletedRecordImages);
-  console.log('advert?.flat?.mainPic', advert?.flat?.mainPic);
 
   useEffect(() => {
     if (totalImages > MAX_FLAT_IMAGES) {
@@ -136,30 +125,6 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
       )
     );
   };
-
-  console.log('selectedImage?.uri', selectedImage);
-  console.log('currentSelectionRef.current', currentSelectionRef.current);
-
-  console.log(
-    '!isEqualValue(dbImages, displaySavedImages)',
-    !isEqualValue(dbImages, displaySavedImages),
-  );
-  console.log(
-    '!isEqualValue(dbImages, imagesToUpload)',
-    !isEqualValue(dbImages, imagesToUpload),
-  );
-
-  console.log('imagesToUpload.length > 0', imagesToUpload.length > 0);
-  console.log(
-    '!isEqualValue(selectedImage?.uri, currentSelectionRef.current)',
-    !isEqualValue(
-      selectedImage?.uri ? selectedImage?.uri : selectedImage,
-      currentSelectionRef.current,
-    ),
-    selectedImage?.uri,
-    selectedImage,
-    currentSelectionRef.current,
-  );
 
   const handleBackButton = () => {
     if (!hasShownPopover && isNotAllEqual()) {
@@ -219,7 +184,7 @@ export const useFlatImageUploadScreen = (edit: boolean, advertId: number) => {
             mainImage,
           },
         };
-        console.log('imagesParams', imagesParams);
+
         await editFlatImage(imagesParams).unwrap();
         showToast({
           message: Messages.ChangesSaved,

@@ -291,7 +291,6 @@ export const advertApi = lofftApi.injectEndpoints({
             name: `avatar_${(avatar as ImageToUpload).fileName}`,
           });
         }
-        console.log('formData in lessor', formData);
         return {
           url: `/api/adverts/${id}/complete_lessor_sign_up`,
           method: 'POST',
@@ -395,8 +394,6 @@ export const advertApi = lofftApi.injectEndpoints({
             });
           }
         }
-
-        console.log('formData in editFlatImage', formData);
 
         return {
           url: `/api/flats/${flatId}`,

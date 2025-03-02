@@ -19,7 +19,6 @@ const SettingsUserImage = ({userImageUri}: {userImageUri?: string}) => {
   const {height} = useWindowDimensions();
 
   const {loadingStatuses} = useLoadImages(userImageUri ? [userImageUri] : []);
-  console.log('loadingStatuses[0] in user settings image', !loadingStatuses[0]);
 
   const handlePress = () => {
     navigation.navigate('NewUserNavigator', {
