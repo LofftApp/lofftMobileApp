@@ -1,10 +1,12 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {LOFFT_API_CLIENT_SECRET, LOFFT_API_CLIENT_ID} from '@env';
-import {logout, setAuthenticated, setAuthMessage} from './authSlice';
+import {logout, setAuthenticated} from './authSlice';
 import {clearPersister} from 'persistance/persister';
 import {SignInArgs, SignUpArgs, SignInResponse, SignUpResponse} from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {showToast} from 'reduxFeatures/settings/settingsSlice';
+import {Messages, ToastTypes} from 'reduxFeatures/settings/types';
 
 export const authApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
@@ -59,9 +61,11 @@ export const authApi = lofftApi.injectEndpoints({
           await queryFulfilled;
 
           dispatch(logout());
-          dispatch(setAuthMessage("You're signed out"));
           dispatch(lofftApi.util.resetApiState());
           clearPersister();
+          dispatch(
+            showToast({message: Messages.SignedOut, type: ToastTypes.Success}),
+          );
           await EncryptedStorage.removeItem('token');
           await AsyncStorage.clear();
           console.log('Token removed and user signed out successfully');

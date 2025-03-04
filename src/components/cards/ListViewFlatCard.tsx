@@ -59,7 +59,8 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert.flat.photos ?? []}
+          mainImage={advert.flat.mainPic}
+          otherImages={advert.flat.photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoContainer}>
@@ -78,7 +79,7 @@ const ListViewFlatCard = ({advert}: {advert: Advert}) => {
             {advert.flat.tagLine}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {advert.flat.district}, {advert.flat.city}
+            {advert.flat.district.name}, {advert.flat.city.name}
           </Text>
         </View>
 

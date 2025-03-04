@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {FlatList, RefreshControl} from 'react-native';
 
 //Redux
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
@@ -13,6 +13,9 @@ import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
 import type {ListFlatApplicationComponentProps} from './types';
 import {Application} from 'reduxFeatures/applications/types';
 import {Advert} from 'reduxFeatures/adverts/types';
+import {useGetAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
+import {useOnRefresh} from 'hooks/useOnRefresh';
+import {useGetApplicationsQuery} from 'reduxFeatures/applications/applicationApi';
 
 // if isLessor is true, then the list will be of adverts, otherwise it will be of applications
 const ListFlatApplicationComponent = ({
@@ -23,6 +26,12 @@ const ListFlatApplicationComponent = ({
 }: ListFlatApplicationComponentProps) => {
   const {data} = useGetUserQuery();
   const isLessor = data?.userType === 'lessor';
+  const {refetch: refetchAdverts} = useGetAdvertsQuery(undefined);
+  const {refetch: refetchApplications} = useGetApplicationsQuery(undefined);
+
+  const {refreshing, onRefresh} = useOnRefresh(
+    isLessor ? refetchAdverts : refetchApplications,
+  );
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -37,6 +46,8 @@ const ListFlatApplicationComponent = ({
             ? 'There was an error getting your listings'
             : 'There was an error getting your applications'
         }
+        buttonValue="Try again"
+        onPress={() => {}}
       />
     );
   }
@@ -47,18 +58,26 @@ const ListFlatApplicationComponent = ({
     return <NotFoundComponent message="No applications found" />;
   }
 
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {(isLessor ? adverts : applications)?.map(el => {
-        return (
-          <ListFlatApplicationCard
-            key={el.id}
-            application={el as Application}
-            _advert={isLessor ? (el as Advert) : undefined}
-          />
-        );
-      })}
-    </ScrollView>
+  return isLessor ? (
+    <FlatList
+      data={adverts as Advert[]}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({item}) => <ListFlatApplicationCard _advert={item} />}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}
+    />
+  ) : (
+    <FlatList
+      data={applications as Application[]}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({item}) => <ListFlatApplicationCard application={item} />}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}
+    />
   );
 };
 

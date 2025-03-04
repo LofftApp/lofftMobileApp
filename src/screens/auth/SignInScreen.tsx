@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, useWindowDimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -20,13 +20,14 @@ import {size} from 'react-native-responsive-sizes';
 
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
-const {height} = Dimensions.get('window');
+// const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
 
   const insets = useSafeAreaInsets();
-  const imageMarginTop = height < 700 ? size(10) : size(70);
+  const {height} = useWindowDimensions();
+  const imageMarginTop = height < 700 ? size(-30) : size(10);
   const [clearErrors, setClearErrors] = useState(false);
 
   const handleSignUp = () => {
@@ -40,7 +41,15 @@ const SignInScreen = () => {
   };
 
   return (
-    <View testID="sign-in" style={styles.behindContainer}>
+    <View
+      testID="sign-in"
+      style={[
+        styles.behindContainer,
+
+        {
+          paddingTop: insets.top,
+        },
+      ]}>
       <SignInBackground
         height={height * 1.9}
         width="100%"
@@ -86,16 +95,14 @@ const styles = StyleSheet.create({
     top: '-46%',
     zIndex: 1,
   },
-  image: {
-    marginTop: height / 12,
-  },
+
   imageContainer: {
     zIndex: 3,
     flex: 1,
     alignItems: 'center',
   },
   formContainer: {
-    flex: 3,
+    flex: 4,
     paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
     borderRadius: 30,
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: size(190),
+    marginTop: size(100),
   },
   signUpContainer: {
     flexDirection: 'row',

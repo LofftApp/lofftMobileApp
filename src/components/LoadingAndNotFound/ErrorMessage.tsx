@@ -43,7 +43,10 @@ const ErrorMessage = ({
 const styles = StyleSheet.create({
   inputFieldErrorContainer: {
     marginLeft: size(10),
-    height: size(23),
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    minHeight: size(50),
+    paddingTop: size(5),
   },
   container: {
     marginTop: size(5),

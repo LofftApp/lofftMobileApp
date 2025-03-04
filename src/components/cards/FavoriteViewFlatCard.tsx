@@ -105,7 +105,8 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
       <View style={styles.flatCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={favorite.flat.photos ?? []}
+          mainImage={favorite.flat.mainPic}
+          otherImages={favorite.flat.photos ?? []}
         />
       </View>
       <View style={styles.flatCardInfoContainer}>
@@ -126,7 +127,7 @@ const FavoriteViewFlatCard = ({favorite}: {favorite: Favorite}) => {
             {favorite.flat.tagLine}
           </Text>
           <Text style={[fontStyles.bodySmall, styles.flatLocation]}>
-            {favorite.flat.district}, {favorite.flat.city}
+            {favorite.flat.district.name}, {favorite.flat.city.name}
           </Text>
         </View>
 

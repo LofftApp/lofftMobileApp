@@ -6,14 +6,14 @@ import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
-import {styles} from './styleSheet';
+import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
+import {inputStyles} from './inputStylesheet';
 
 type PasswordInputProps = {
   placeholder?: string;
   onChangeText: (text: string) => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
   value: string;
+  errorMessage?: string;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   keyboardType?:
     | 'default'
@@ -34,29 +34,49 @@ type PasswordInputProps = {
 const PasswordInput = ({
   placeholder = 'Password',
   onChangeText,
-  onFocus,
-  onBlur,
   value,
   autoCapitalize = 'none',
   keyboardType,
+  errorMessage,
 }: PasswordInputProps) => {
+  const [focus, setFocus] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
+
+  const handleFocus = () => {
+    setFocus(true);
+  };
+
+  const handleBlur = () => {
+    setFocus(false);
+  };
+
   return (
-    <View style={styles.inputContainerWithIcon}>
-      <TextInput
-        value={value}
-        secureTextEntry={hidePassword}
-        onChangeText={onChangeText}
-        style={[fontStyles.bodyMedium]}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        placeholder={placeholder}
-        autoCapitalize={autoCapitalize}
-        keyboardType={keyboardType}
-      />
-      <Pressable onPress={() => setHidePassword(!hidePassword)}>
-        <LofftIcon name={hidePassword ? 'eye' : 'eye-off'} size={20} />
-      </Pressable>
+    <View>
+      <View
+        style={[
+          inputStyles.inputContainerWithIcon,
+          inputStyles.input,
+          focus && inputStyles.focus,
+          !!errorMessage && inputStyles.errorActive,
+        ]}>
+        <TextInput
+          value={value}
+          secureTextEntry={hidePassword}
+          onChangeText={onChangeText}
+          style={[fontStyles.bodyMedium, inputStyles.paddingLeft]}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          placeholder={placeholder}
+          autoCapitalize={autoCapitalize}
+          keyboardType={keyboardType}
+        />
+        <Pressable
+          style={inputStyles.paddingRight}
+          onPress={() => setHidePassword(!hidePassword)}>
+          <LofftIcon name={hidePassword ? 'eye' : 'eye-off'} size={20} />
+        </Pressable>
+      </View>
+      <ErrorMessage isInputField message={errorMessage ?? ''} />
     </View>
   );
 };

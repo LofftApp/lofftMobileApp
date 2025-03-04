@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Text, useWindowDimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -21,21 +21,27 @@ import {size} from 'react-native-responsive-sizes';
 //Types  🧩
 import {GuestStackScreenNavigationProp} from 'navigationStacks/types';
 
-const {height} = Dimensions.get('window');
-
 const SignUpScreen = () => {
   const navigation = useNavigation<GuestStackScreenNavigationProp>();
-
+  const {height} = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const imageHeight = height * 0.3;
-  const imageMarginTop = height < 700 ? size(10) : size(20);
+  const imageMarginTop = height < 700 ? size(-35) : size(-50);
 
   const handleSignIn = () => {
     navigation.navigate('SignInScreen');
   };
 
   return (
-    <View testID="sign-up" style={styles.behindContainer}>
+    <View
+      testID="sign-up"
+      style={[
+        styles.behindContainer,
+
+        {
+          paddingTop: insets.top,
+        },
+      ]}>
       <SignUpBackground
         height={height * 1.9}
         width="100%"
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formContainer: {
-    flex: 3,
+    flex: 4,
     paddingHorizontal: size(16),
     backgroundColor: Color.White['100'],
     borderRadius: 30,

@@ -1,7 +1,10 @@
 import {
+  ALLOWED_IMAGE_TYPES,
   initialMaxPrice,
   initialMinPrice,
   MAX_DESCRIPTION_CHARS,
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
   MAX_FLAT_IMAGES,
   MAX_GENDERS,
   MAX_LANGUAGES,
@@ -18,9 +21,6 @@ import {z} from 'zod';
 const languageSchema = z.object({
   id: z.number(),
   name: z.string(),
-  toggle: z.boolean(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const languagesSchema = z
@@ -36,9 +36,6 @@ const characteristicSchema = z.object({
   id: z.number(),
   name: z.string(),
   emoji: z.string(),
-  toggle: z.boolean(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const characteristicsSchema = z
@@ -52,7 +49,6 @@ const characteristicsSchema = z
 
 const genderIdentitySchema = z.object({
   id: z.number(),
-  toggle: z.boolean(),
   name: z.string(),
   emoji: z.string(),
 });
@@ -68,11 +64,8 @@ const genderIdentitiesSchema = z
 
 const safeSpaceSchema = z.object({
   id: z.number(),
-  toggle: z.boolean(),
   name: z.string(),
   emoji: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 const safeSpacesSchema = z
@@ -87,7 +80,6 @@ const safeSpacesSchema = z
 const districtSchema = z.object({
   id: z.number(),
   name: z.string(),
-  toggle: z.boolean(),
   emoji: z.string().optional(),
 });
 
@@ -129,10 +121,7 @@ const budgetSchema = z
 const featureSchema = z.object({
   id: z.number(),
   name: z.string(),
-  toggle: z.boolean(),
   emoji: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 const featuresSchema = z.array(featureSchema).min(MIN_SELECTED_FEATURES, {
   message: `Please select at least ${MIN_SELECTED_FEATURES} tags`,
@@ -157,23 +146,6 @@ const nameSchema = z.object({
     .string({required_error: 'Please enter your last name'})
     .min(1, 'Please enter your last name'),
   dateOfBirth: z.date({required_error: 'Please enter your date of birth'}),
-  images: z
-    .array(
-      z.object({
-        fileName: z.string(),
-        fileSize: z.number(),
-        height: z.number(),
-        type: z.string(),
-        uri: z.string(),
-        width: z.number(),
-      }),
-    )
-    .nonempty({
-      message: 'Please upload at least one image',
-    })
-    .max(MAX_USER_IMAGES, {
-      message: `You can upload up to ${MAX_USER_IMAGES} images only`,
-    }),
 });
 
 const addressSchema = z.object({
@@ -240,20 +212,39 @@ const flatDescriptionSchema = z
     message: `That is great but we need to keep it less than ${MAX_DESCRIPTION_CHARS} words`,
   });
 
-const flatImagesSchema = z
-  .array(
-    z.object({
-      fileName: z.string(),
-      fileSize: z.number(),
-      height: z.number(),
-      type: z.string(),
-      uri: z.string(),
-      width: z.number(),
-    }),
-  )
+const newImageSchema = z.object({
+  fileName: z.string(),
+  fileSize: z
+    .number()
+    .max(MAX_FILE_SIZE_BYTES, `File must be less than ${MAX_FILE_SIZE_MB}MB`),
+  height: z.number(),
+  type: z.string().refine(type => ALLOWED_IMAGE_TYPES.includes(type), {
+    message:
+      'Invalid image type. Only JPEG, PNG, WebP, TIFF, SVG, BMP, HEIF, and HEIC are allowed.',
+  }),
+  uri: z.string(),
+  width: z.number(),
+});
+
+const existingImageSchema = z.object({
+  uri: z.string(),
+  blobId: z.number(),
+});
+
+const imageSchema = z.union([newImageSchema, existingImageSchema]);
+
+const userImagesSchema = z
+  .array(imageSchema)
   .nonempty({
     message: 'Please upload at least one image',
   })
+  .max(MAX_USER_IMAGES, {
+    message: `You can upload up to ${MAX_USER_IMAGES} images only`,
+  });
+
+const flatImagesSchema = z
+  .array(imageSchema)
+  .nonempty({message: 'Please upload at least one image'})
   .max(MAX_FLAT_IMAGES, {
     message: `You can upload up to ${MAX_FLAT_IMAGES} images only`,
   });
@@ -308,6 +299,7 @@ export {
   flatDescriptionSchema,
   flatDetailsSchema,
   flatImagesSchema,
+  userImagesSchema,
   signInSchema,
   signUpSchema,
 };

@@ -1,6 +1,13 @@
 import type {ViewToken} from 'react-native';
 import type {Advert} from 'reduxFeatures/adverts/types';
 import {Application} from 'reduxFeatures/applications/types';
+import {
+  ImageRecord,
+  ImageType,
+  SavedImage,
+  SelectedImage,
+} from 'reduxFeatures/imageHandling/types';
+import {AppLanguages} from 'reduxFeatures/settings/types';
 
 type ListFlatApplicationCardProps = {
   _advert?: Advert;
@@ -9,8 +16,25 @@ type ListFlatApplicationCardProps = {
 
 type LofftHeaderPhotoProps = {
   imageContainerHeight: number;
-  images: string[];
+  otherImages: ImageRecord[];
+  mainImage: ImageRecord | null;
   activeBlur?: boolean;
+};
+
+type ImageSwiperProps = {
+  imageContainerHeight: number;
+  imageContainerWidth: number;
+  pagination?: boolean;
+  snapToInterval: number;
+  images: SavedImage[] | SelectedImage[];
+  activeBlur?: boolean;
+  marginHorizontal?: number;
+  editButton?: boolean;
+  deleteImage?: (uri: string) => void;
+  onPress?: (index?: number) => void;
+  selectedIndex: number | null;
+  imageType: ImageType;
+  placeholder?: number;
 };
 
 type OnViewableItemsChangedParams = {
@@ -37,6 +61,27 @@ type LanguagesCardProps = {
   handleSelectedLanguages: (chosenLangugage: string) => void;
 };
 
+type SettingsData = {
+  id: number;
+  title: string;
+  subtitle?: string;
+  icon: string;
+  onPress: () => void;
+};
+
+type SettingsCardProps = {
+  settingsData: SettingsData;
+  hasArrowIds?: number[];
+  isDeleteId?: number;
+};
+
+type AppLanguageCardScreenProps = {
+  languageData: {
+    id: AppLanguages;
+    name: string;
+  };
+};
+
 export type {
   ListFlatApplicationCardProps,
   LofftHeaderPhotoProps,
@@ -44,4 +89,8 @@ export type {
   ApplicantCardRound1Props,
   ApplicantCardRound2Props,
   LanguagesCardProps,
+  SettingsData,
+  SettingsCardProps,
+  ImageSwiperProps,
+  AppLanguageCardScreenProps,
 };

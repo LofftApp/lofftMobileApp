@@ -17,17 +17,13 @@ import * as Color from 'styleSheets/lofftColorPallet.json';
 // Assets
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamsList } from 'navigationStacks/types';
-
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamsList>;
+import {LessorNavigatorScreenNavigationProp} from 'navigationStacks/types';
 
 const LessorIndexScreen = () => {
   const {data, isError, isLoading} = useGetAdvertsQuery(undefined);
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<LessorNavigatorScreenNavigationProp>();
   const adverts = data?.adverts;
 
   return (
@@ -35,7 +31,11 @@ const LessorIndexScreen = () => {
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>My Listings</Text>
         <View style={styles.actionContainer}>
-          <Pressable onPress={() => navigation.navigate('ChatroomsNavigator', { screen: 'ChatIndex' })} style={styles.addButton}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate('ChatroomsNavigator', {screen: 'ChatIndex'})
+            }
+            style={styles.addButton}>
             <LofftIcon
               name={'annotation-heart'}
               size={33}

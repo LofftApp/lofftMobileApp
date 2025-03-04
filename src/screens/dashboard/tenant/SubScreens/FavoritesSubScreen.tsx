@@ -19,7 +19,6 @@ const FavoritesSubScreen = ({
   isLoading,
 }: FavoritesSubScreenProps) => {
   const isAllFavoritesApplied = favorites?.every(favorite => favorite.applied);
-
   if (isLoading) {
     return <LoadingComponent />;
   }

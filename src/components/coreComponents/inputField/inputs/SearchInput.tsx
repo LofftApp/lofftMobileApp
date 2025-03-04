@@ -1,17 +1,25 @@
-import React from 'react';
-import {View, TextInput, Pressable} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import Color from 'styleSheets/lofftColorPallet.json';
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import {fontStyles} from 'styleSheets/fontStyles';
-import {styles} from './styleSheet';
+import {inputStyles} from './inputStylesheet';
+import {size} from 'react-native-responsive-sizes';
 
 type SearchInputProps = {
   placeholder?: string;
   onChangeText: (text: string) => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
+  errorMessage?: string;
   onClear: () => void;
   value: string;
+  style?: StyleProp<ViewStyle>;
   keyboardType?:
     | 'default'
     | 'email-address'
@@ -30,22 +38,39 @@ type SearchInputProps = {
 const SearchInput = ({
   placeholder = 'Search',
   onChangeText,
-  onFocus,
-  onBlur,
   onClear,
   value,
   keyboardType,
+  errorMessage,
+  style,
 }: SearchInputProps) => {
+  const [focus, setFocus] = useState(false);
+
+  const handleFocus = () => {
+    setFocus(true);
+  };
+
+  const handleBlur = () => {
+    setFocus(false);
+  };
+
   return (
-    <View style={styles.inputContainerWithIcon}>
-      <View style={styles.textContainer}>
+    <View style={style}>
+      <View
+        style={[
+          styles.searchIconContainer,
+          inputStyles.input,
+          inputStyles.paddingLeft,
+          focus && inputStyles.focus,
+          !!errorMessage && inputStyles.errorActive,
+        ]}>
         <LofftIcon name={'search-sm'} size={25} color={Color.Black[50]} />
         <TextInput
           value={value}
           onChangeText={onChangeText}
           style={[fontStyles.bodyMedium]}
-          onBlur={onBlur}
-          onFocus={onFocus}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           placeholder={placeholder}
           keyboardType={keyboardType}
         />
@@ -58,5 +83,21 @@ const SearchInput = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  searchIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+    gap: size(5),
+  },
+  clearContainer: {
+    position: 'absolute',
+    top: size(8),
+    right: size(10),
+    padding: size(5),
+    backgroundColor: Color.White[100],
+  },
+});
 
 export default SearchInput;

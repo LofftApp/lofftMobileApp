@@ -1,0 +1,203 @@
+import {useEffect, useMemo, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+
+//Redux
+import {useNewUserCurrentScreen} from 'reduxFeatures/registration/useNewUserCurrentScreen';
+import {Gender} from 'reduxFeatures/assets/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useManualPopover} from 'reduxFeatures/settings/useManualPopover';
+import {
+  useEditUserProfileMutation,
+  useGetUserQuery,
+} from 'reduxFeatures/user/userApi';
+import {useToast} from 'reduxFeatures/settings/useToast';
+
+// Screens 📺
+import {newUserScreens} from '../../../../navigationStacks/newUserScreens';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+
+//Validation 🛡  ️
+import {genderIdentitiesSchema} from 'lib/zodSchema';
+
+// Helper   🤝
+import {isEqualValue} from 'helpers/isEqualValue';
+import {createEditError} from 'helpers/createEditError';
+
+//Types 🏷  ️
+import {
+  NewUserJourneyStackNavigation,
+  SettingsScreenNavigationProp,
+} from '../../../../navigationStacks/types';
+import {Messages, PopoverKeys} from 'reduxFeatures/settings/types';
+import {
+  EditProfileActions,
+  EditProfileParams,
+  UserType,
+} from 'reduxFeatures/user/types';
+import {ToastTypes} from 'reduxFeatures/settings/types';
+
+const genders: Gender[] = [
+  {name: 'Male', id: 1, emoji: '👨'},
+  {name: 'Female', id: 2, emoji: '👩'},
+  {name: 'Non-Binary', id: 3, emoji: '💁'},
+  {
+    name: 'Another gender identity not listed',
+    id: 4,
+    emoji: '🙆',
+  },
+
+  {name: 'Prefer not to say', id: 5, emoji: '🤐'},
+];
+
+export const useGenderIdentityScreen = (edit: boolean) => {
+  // Navigation
+  const navigation = useNavigation<
+    NewUserJourneyStackNavigation & SettingsScreenNavigationProp
+  >();
+
+  //Redux
+  const {currentScreen, setCurrentScreen} = useNewUserCurrentScreen();
+  const {isLessor} = useUserType();
+  const {
+    isNewUserLessor,
+    newUserDetails,
+    setNewUserDetails,
+    resetNewUserState,
+  } = useNewUserDetails(edit);
+
+  const {data: currentUser} = useGetUserQuery(undefined, {skip: !edit});
+
+  const [editUserProfile, {isLoading: isEditLoading, isError: isEditError}] =
+    useEditUserProfileMutation();
+
+  const savedGender = useMemo(() => {
+    if (edit) {
+      return genders.filter(g =>
+        currentUser?.profile.genderIdentity?.includes(g.name),
+      );
+    }
+    return genders.filter(g => newUserDetails.genderIdentity.includes(g.name));
+  }, [
+    currentUser?.profile.genderIdentity,
+    edit,
+    newUserDetails.genderIdentity,
+  ]);
+
+  const savedGenderIds = savedGender.map(g => g.id);
+
+  // Local State
+  const [selectedGenderIds, setSelectedGenderIds] = useState<number[]>([]);
+  const [error, setError] = useState<string | undefined>('');
+
+  useEffect(() => {
+    if (savedGender && savedGender.length > 0) {
+      setSelectedGenderIds(savedGenderIds);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const {showPopover, triggerPopover, setShowPopover, hasShownPopover} =
+    useManualPopover({
+      userId: currentUser?.id ?? 0,
+      key: edit ? PopoverKeys.Edit : PopoverKeys.NewUser,
+    });
+
+  const {showToast} = useToast();
+
+  const selectGender = (id: number) => {
+    setSelectedGenderIds(prevIds => (prevIds.includes(id) ? [] : [id]));
+  };
+
+  const handleBackButton = () => {
+    if (edit) {
+      resetNewUserState();
+    } else {
+      setCurrentScreen(currentScreen - 1);
+    }
+    if (!hasShownPopover && !isEqualValue(savedGenderIds, selectedGenderIds)) {
+      triggerPopover();
+      return;
+    }
+
+    navigation.goBack();
+    setError('');
+    setShowPopover(false);
+  };
+
+  const handleContinue = async () => {
+    const selectedGenders = genders?.filter(g =>
+      selectedGenderIds.includes(g.id),
+    );
+    const result = genderIdentitiesSchema.safeParse(selectedGenders);
+    if (!result.success) {
+      setError(result.error?.flatten().formErrors.at(0));
+      return;
+    }
+
+    const selectedGenderNames = selectedGenders.map(g => g.name);
+    setNewUserDetails({genderIdentity: selectedGenderNames});
+
+    if (!edit) {
+      const screen = isNewUserLessor
+        ? newUserScreens.lessor[currentScreen + 1]
+        : newUserScreens.tenant[currentScreen + 1];
+
+      navigation.navigate(screen);
+      setCurrentScreen(currentScreen + 1);
+      setError('');
+      return;
+    }
+
+    if (!isEqualValue(savedGenderIds, selectedGenderIds)) {
+      if (isLessor) {
+        try {
+          const editParams: EditProfileParams<
+            UserType.LESSOR | UserType.TENANT
+          > = {
+            userId: currentUser?.id ?? 0,
+            actionMethod: EditProfileActions.genderIdentity,
+            userType: UserType.LESSOR,
+            genderIdentity: selectedGenderNames,
+          };
+
+          await editUserProfile(editParams).unwrap();
+          navigation.goBack();
+          showToast({
+            message: Messages.ChangesSaved,
+            type: ToastTypes.Success,
+          });
+          resetNewUserState();
+        } catch (err) {
+          createEditError(err, setError);
+          return;
+        }
+      } else {
+        navigation.navigate('NewUserNavigator', {
+          screen: 'SafeSpaceForScreen',
+          params: {
+            edit: true,
+            newValue: !isEqualValue(savedGenderIds, selectedGenderIds),
+          },
+        });
+      }
+    } else {
+      navigation.goBack();
+    }
+
+    setError('');
+    setShowPopover(false);
+  };
+  return {
+    selectGender,
+    handleBackButton,
+    handleContinue,
+    selectedGenderIds,
+    error,
+    genders,
+    isLessor,
+    showPopover,
+    setShowPopover,
+    isEditLoading,
+    isEditError,
+  };
+};

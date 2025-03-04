@@ -1,91 +1,62 @@
-import React, {useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {View, Text, StyleSheet, SafeAreaView, Dimensions} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
 
 // Redux 🏗️
 import {useGetFavoritesAdvertsQuery} from 'reduxFeatures/adverts/advertApi';
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
+import {useAutoPopover} from 'reduxFeatures/settings/useAutoPopover';
 
 // Styles 🖼️
 import {fontStyles} from 'styleSheets/fontStyles';
 import Color from 'styleSheets/lofftColorPallet.json';
 import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 
-// Assets 🪴
-import LofftIcon from 'components/lofftIcons/LofftIcon';
-
 // Screens 📺
 import FavoritesSubScreen from './SubScreens/FavoritesSubScreen';
 
 // Components  🪢
 import LoadingComponent from 'components/LoadingAndNotFound/LoadingComponent';
-import {CoreButton} from 'components/buttons/CoreButton';
+import PopoverContent from 'components/modals/PopoverContent';
+
+// Lib 📚
 import Popover, {
   PopoverMode,
   PopoverPlacement,
   Rect,
 } from 'react-native-popover-view';
-
 // Helpers 🥷 🏻
 import {size} from 'react-native-responsive-sizes';
-
-const FIRST_APPLY_KEY = 'hasShownFirstApply';
-
-const {height, width} = Dimensions.get('window');
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {PopoverKeys} from 'reduxFeatures/settings/types';
 
 const FavoritesScreen = () => {
   const {data, isLoading, isError} = useGetFavoritesAdvertsQuery();
-  const favorites = data?.favorites;
   const {data: currentUser} = useGetUserQuery();
+  const {height, width} = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+
   const credits = currentUser?.credits;
-
-  // Popover state
-  const [showPopover, setShowPopover] = useState(false);
-  const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
-
-  // Check if any favorite has been applied
+  const favorites = data?.favorites;
   const isApplied = favorites?.some(favorite => favorite.applied);
 
-  useEffect(() => {
-    // Check AsyncStorage for first-time display of popover (only once)
-    const checkFirstApply = async () => {
-      try {
-        const hasShown = await AsyncStorage.getItem(FIRST_APPLY_KEY);
-        console.log('hasShown:', hasShown);
-        if (!hasShown && isApplied) {
-          setShowPopover(true);
-          await AsyncStorage.setItem(FIRST_APPLY_KEY, 'true');
-        }
-        setHasCheckedStorage(true);
-      } catch (error) {
-        console.error('Error checking popover state:', error);
-        setHasCheckedStorage(true);
-      }
-    };
-
-    if (!hasCheckedStorage && favorites) {
-      checkFirstApply();
-    }
-  }, [favorites, isApplied, hasCheckedStorage]);
-  console.log('isApplied:', isApplied);
-  console.log('hasCheckedStorage:', hasCheckedStorage);
-
-  useEffect(() => {
-    if (isApplied && hasCheckedStorage) {
-      setShowPopover(true);
-    }
-  }, [isApplied, hasCheckedStorage]);
-  useEffect(() => {
-    console.log('showPopover:', showPopover);
-  }, [showPopover]);
+  const {showPopover, setShowPopover} = useAutoPopover({
+    userId: currentUser?.id ?? 0,
+    key: PopoverKeys.FirstApply,
+    condition: isApplied ?? false,
+  });
 
   if (isLoading) {
     return <LoadingComponent />;
   }
   return (
-    <SafeAreaView
-      style={CoreStyleSheet.safeAreaViewListContainer}
-      testID="favorites-screen">
+    <View
+      testID="favorites-screen"
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        {
+          paddingTop: insets.top,
+        },
+      ]}>
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>Saved Listings</Text>
       </View>
@@ -98,37 +69,24 @@ const FavoritesScreen = () => {
       </View>
       <Popover
         mode={PopoverMode.TOOLTIP}
-        popoverStyle={styles.popoverContainer}
+        popoverStyle={[
+          styles.popoverContainer,
+          {width: width * 0.95, height: height * 0.15},
+        ]}
         from={new Rect(width * 0.29, height * 0.9, 0, 0)}
         isVisible={showPopover}
         placement={PopoverPlacement.TOP}
         onRequestClose={() => setShowPopover(false)}>
-        <View style={styles.popoverContent}>
-          <View style={styles.popoverText}>
-            <LofftIcon
-              name="check-verified-02"
-              size={25}
-              color={Color.Lavendar[100]}
-            />
-            <Text style={fontStyles.bodyTiny}>
-              Applied. You can find the listings in {'\n'}My Applications tab.
-            </Text>
-          </View>
-          <View style={styles.popoverText}>
-            <LofftIcon name="wallet" size={25} color={Color.Lavendar[100]} />
-            <Text style={fontStyles.headerTiny}>
-              Remaining Tokens {credits}
-            </Text>
-          </View>
-        </View>
-        <CoreButton
-          value="Got it"
-          onPress={() => setShowPopover(false)}
-          style={styles.buttonStyle}
-          textSize={fontStyles.bodyTiny}
+        <PopoverContent
+          text1={'Applied. You can find the listings in My Applications.'}
+          icon1="check-verified-02"
+          text2={`Remaning Tokens ${credits}`}
+          icon2="wallet"
+          setShowPopover={setShowPopover}
+          button
         />
       </Popover>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -138,8 +96,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: size(10),
     borderRadius: 12,
     borderColor: Color.Mint[20],
-    width: width * 0.95,
-    height: height * 0.13,
     flexDirection: 'row',
     alignItems: 'center',
   },

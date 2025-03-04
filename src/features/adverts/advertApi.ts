@@ -1,21 +1,18 @@
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import {
   Advert,
-  AdvertsAndFeatures,
+  Adverts,
   AdvertWithApplications,
+  EditAdvertParams,
+  EditFlatImageParams,
+  EditFlatParams,
   Favorites,
   GetAdvertsParams,
-  IncomingAdvert,
-  IncomingAdvertAndFeatures,
-  IncomingAdvertWithApplications,
 } from './types';
 
 import {Platform} from 'react-native';
 
-import {
-  NewUserLessorDetails,
-  ImageFile,
-} from 'reduxFeatures/registration/types';
+import {NewUserLessorDetails} from 'reduxFeatures/registration/types';
 import {toCamelCaseKeys} from 'helpers/toCamelCaseKeys';
 import {Application} from 'reduxFeatures/applications/types';
 
@@ -24,10 +21,11 @@ import {
   initialMaxPrice,
   initialMinPrice,
 } from 'components/componentData/constants';
+import {ImageToUpload, SavedImage} from 'reduxFeatures/imageHandling/types';
 
 export const advertApi = lofftApi.injectEndpoints({
   endpoints: builder => ({
-    getAdverts: builder.query<AdvertsAndFeatures, GetAdvertsParams>({
+    getAdverts: builder.query<Adverts, GetAdvertsParams>({
       query: ({
         features = '',
         minPrice = initialMinPrice,
@@ -48,10 +46,10 @@ export const advertApi = lofftApi.injectEndpoints({
           : baseEndpoint;
       },
 
-      transformResponse: (response: IncomingAdvertAndFeatures) => {
+      transformResponse: response => {
         console.log('getAdverts called 🚨');
 
-        return toCamelCaseKeys(response as unknown as AdvertsAndFeatures);
+        return toCamelCaseKeys(response as Adverts);
       },
       providesTags: result =>
         result
@@ -69,17 +67,17 @@ export const advertApi = lofftApi.injectEndpoints({
         {type: 'Adverts', id: 'LIST'},
         {type: 'Applications', id: 'LIST'},
       ],
-      transformResponse: (response: IncomingAdvert) => {
+      transformResponse: response => {
         console.log('getAdvertById called 🌈');
-        return toCamelCaseKeys(response as unknown as Advert);
+        return toCamelCaseKeys(response as Advert);
       },
     }),
     seeApplicationsByAdvertId: builder.query<AdvertWithApplications, number>({
       query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
-      transformResponse: (response: IncomingAdvertWithApplications) => {
+      transformResponse: response => {
         console.log('seeApplicationsByAdvertId called 🎉');
 
-        return toCamelCaseKeys(response as unknown as AdvertWithApplications);
+        return toCamelCaseKeys(response as AdvertWithApplications);
       },
     }),
     toggleFavorite: builder.mutation<
@@ -126,7 +124,7 @@ export const advertApi = lofftApi.injectEndpoints({
             'getApplications',
             undefined,
             draft => {
-              draft.forEach(application => {
+              draft.applications.forEach(application => {
                 if (application.advert?.id === id) {
                   application.advert.favorite = !application.advert.favorite;
                 }
@@ -200,6 +198,7 @@ export const advertApi = lofftApi.injectEndpoints({
           console.error('Error in mutation:', error);
         }
       },
+      invalidatesTags: [{type: 'User', id: 'PROFILE'}],
     }),
 
     confirmApplications: builder.mutation<
@@ -228,40 +227,70 @@ export const advertApi = lofftApi.injectEndpoints({
       {
         id: number;
         userChoices: NewUserLessorDetails;
-        flatImages: ImageFile[];
-        lessorProfileImages: ImageFile[];
+        flatImages: SavedImage[];
+        mainFlatImage: SavedImage | null;
+        lessorProfileImages: SavedImage[];
+        avatar: SavedImage | null;
       }
     >({
-      query: ({id, userChoices, flatImages, lessorProfileImages}) => {
+      query: ({
+        id,
+        userChoices,
+        flatImages,
+        mainFlatImage,
+        lessorProfileImages,
+        avatar,
+      }) => {
         const formData = new FormData();
         formData.append('userChoices', JSON.stringify(userChoices));
 
-        if (flatImages) {
+        if (flatImages.length > 0) {
           flatImages.forEach((image, index) => {
             formData.append(`flatImages[${index}]`, {
               uri:
                 Platform.OS === 'ios'
                   ? image.uri.replace('file://', '')
                   : image.uri,
-              type: image.type,
-              name: `flatImage-${index}.jpg`,
+              type: (image as ImageToUpload).type,
+              name: `flatImage_${(image as ImageToUpload).fileName}`,
             });
           });
         }
 
-        if (lessorProfileImages) {
+        if (mainFlatImage) {
+          formData.append('mainFlatImage', {
+            uri:
+              Platform.OS === 'ios'
+                ? mainFlatImage.uri.replace('file://', '')
+                : mainFlatImage.uri,
+            type: (mainFlatImage as ImageToUpload).type,
+            name: `mainFlatImage_${(mainFlatImage as ImageToUpload).fileName}`,
+          });
+        }
+
+        if (lessorProfileImages.length > 0) {
           lessorProfileImages.forEach((image, index) => {
             formData.append(`lessorProfileImages[${index}]`, {
               uri:
                 Platform.OS === 'ios'
                   ? image.uri.replace('file://', '')
                   : image.uri,
-              type: image.type,
-              name: `lessorProfileImage-${index}.jpg`,
+              type: (image as ImageToUpload).type,
+              name: `lessorProfileImage_${(image as ImageToUpload).fileName}`,
             });
           });
         }
 
+        if (avatar) {
+          formData.append('avatar', {
+            uri:
+              Platform.OS === 'ios'
+                ? avatar.uri.replace('file://', '')
+                : avatar.uri,
+            type: (avatar as ImageToUpload).type,
+            name: `avatar_${(avatar as ImageToUpload).fileName}`,
+          });
+        }
         return {
           url: `/api/adverts/${id}/complete_lessor_sign_up`,
           method: 'POST',
@@ -285,11 +314,99 @@ export const advertApi = lofftApi.injectEndpoints({
               {type: 'Favorites', id: 'LIST'},
             ]
           : [{type: 'Favorites', id: 'LIST'}],
-      // providesTags: ['Favorites'],
       transformResponse: response => {
         console.log('getFavoritesAdverts called ❤️');
         return toCamelCaseKeys(response as Favorites);
       },
+    }),
+    editAdvert: builder.mutation<void, EditAdvertParams>({
+      query: ({advertId, actionMethod, ...rest}) => {
+        return {
+          url: `/api/adverts/${advertId}`,
+          method: 'PATCH',
+          body: {
+            actionMethod,
+            ...rest,
+          },
+        };
+      },
+      invalidatesTags: (result, error, {advertId}) => [
+        {type: 'Adverts', id: advertId},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id: advertId},
+      ],
+    }),
+    editFlat: builder.mutation<void, EditFlatParams>({
+      query: ({flatId, actionMethod, ...rest}) => {
+        return {
+          url: `/api/flats/${flatId}`,
+          method: 'PATCH',
+          body: {
+            actionMethod,
+            ...rest,
+          },
+        };
+      },
+      invalidatesTags: (result, error, {flatId}) => [
+        {type: 'Adverts', id: flatId},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id: flatId},
+      ],
+    }),
+
+    editFlatImage: builder.mutation<void, EditFlatImageParams>({
+      query: ({
+        flatId,
+        actionMethod,
+        data: {existingImages, newImages, deletedImages, mainImage},
+      }) => {
+        const formData = new FormData();
+        formData.append('actionMethod', actionMethod);
+        formData.append('existingImages', JSON.stringify(existingImages));
+        formData.append('deletedImages', JSON.stringify(deletedImages));
+
+        if (newImages.length > 0) {
+          newImages.forEach((image, index) => {
+            formData.append(`newImages[${index}]`, {
+              uri:
+                Platform.OS === 'ios'
+                  ? image.uri.replace('file://', '')
+                  : image.uri,
+              type: image.type,
+              name: `newImage_${image.fileName}`,
+            });
+          });
+        }
+
+        if (mainImage) {
+          if ('blobId' in mainImage) {
+            formData.append('mainImage', JSON.stringify(mainImage));
+          } else {
+            formData.append('mainImage', {
+              uri:
+                Platform.OS === 'ios'
+                  ? mainImage.uri.replace('file://', '')
+                  : mainImage.uri,
+              type: mainImage.type,
+              name: `mainImage_${mainImage.fileName}`,
+            });
+          }
+        }
+
+        return {
+          url: `/api/flats/${flatId}`,
+          method: 'PATCH',
+          body: formData,
+        };
+      },
+      invalidatesTags: (result, error, {flatId}) => [
+        {type: 'Adverts', id: flatId},
+        {type: 'Adverts', id: 'LIST'},
+        {type: 'Applications', id: 'LIST'},
+        {type: 'Applications', id: flatId},
+      ],
     }),
   }),
   overrideExisting: false,
@@ -304,4 +421,7 @@ export const {
   useConfirmApplicationsMutation,
   useCompleteLessorAndCreateAdvertMutation,
   useGetFavoritesAdvertsQuery,
+  useEditAdvertMutation,
+  useEditFlatMutation,
+  useEditFlatImageMutation,
 } = advertApi;

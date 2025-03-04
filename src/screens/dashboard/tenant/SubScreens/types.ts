@@ -13,6 +13,7 @@ type FlatListSubScreenProps = {
   isError: boolean;
   isLoading: boolean;
   toggleModal: () => void;
+  refetch: () => void;
 };
 
 type FavoritesSubScreenProps = {

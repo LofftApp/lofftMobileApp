@@ -5,11 +5,12 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useSignUpMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import CheckBox from 'components/coreComponents/interactiveElements/CheckBox';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {CoreButton} from 'components/buttons/CoreButton';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
+import PasswordInput from 'components/coreComponents/inputField/inputs/PasswordInput';
 
 //Validation 🛡️
 import {signUpSchema} from 'lib/zodSchema';
@@ -121,35 +122,29 @@ const SignUpForm = () => {
       </View>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <DefaultInput
             value={email}
             onChangeText={handleEmailChange}
             placeholder="Email"
-            type="email"
             keyboardType="email-address"
             errorMessage={errorEmail || errorSignUp}
           />
-          <ErrorMessage isInputField message={errorEmail} />
         </View>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <PasswordInput
             value={password}
             onChangeText={handlePasswordChange}
             placeholder="Create password"
-            type="password"
             errorMessage={errorPassword || errorSignUp}
           />
-          <ErrorMessage isInputField message={errorPassword} />
         </View>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <PasswordInput
             value={repeatPassword}
             onChangeText={handleRepeatPasswordChange}
             placeholder="Repeat password"
-            type="password"
             errorMessage={errorRepeatPassword || errorSignUp}
           />
-          <ErrorMessage isInputField message={errorRepeatPassword} />
         </View>
         <View style={styles.checkBoxContainer}>
           <CheckBox
@@ -164,13 +159,13 @@ const SignUpForm = () => {
         </View>
       </View>
       <View style={styles.signUpContainer}>
+        <ErrorMessage message={errorSignUp || errorTerms} />
         <CoreButton
           value={isLoading ? '' : 'Sign Up'}
           icon={isLoading ? <LoadingButtonIcon /> : undefined}
           onPress={handleSignUp}
           disabled={isLoading}
         />
-        <ErrorMessage message={errorSignUp || errorTerms} />
       </View>
     </View>
   );
@@ -178,7 +173,7 @@ const SignUpForm = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingTop: size(35),
+    paddingTop: size(16),
     alignItems: 'center',
     flex: 1,
   },
@@ -189,7 +184,6 @@ const styles = StyleSheet.create({
 
   inputsContainer: {
     width: '100%',
-    gap: size(5),
   },
   inputContainer: {gap: size(3)},
 
@@ -198,14 +192,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: size(16),
-    marginTop: size(-5),
+    marginTop: size(-30),
     marginBottom: size(10),
     paddingHorizontal: size(5),
   },
 
   signUpContainer: {
     width: '100%',
-    zIndex: 10,
+    marginTop: size(-10),
+    marginBottom: size(20),
   },
   link: {
     color: Color.Blue['100'],

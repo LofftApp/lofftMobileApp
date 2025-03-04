@@ -1,9 +1,8 @@
 import {StyleProp, ViewStyle} from 'react-native';
 import {Currency} from 'reduxFeatures/assets/types';
 
-type InputFieldTextProps = {
+type DropdownInputProps = {
   placeholder?: string | null;
-  type?: string | null;
   onChangeText: (text: string) => void;
   value: string;
   onClear?: () => void;
@@ -29,4 +28,4 @@ type InputFieldTextProps = {
   currency?: Currency;
 };
 
-export type {InputFieldTextProps};
+export type {DropdownInputProps};

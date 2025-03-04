@@ -25,6 +25,21 @@ const MAX_GENDERS = 3;
 //upload images
 const MAX_FLAT_IMAGES = 10;
 const MAX_USER_IMAGES = 5;
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
+const ALLOWED_IMAGE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/tiff',
+  'image/tif',
+  'image/svg+xml',
+  'image/bmp',
+  'image/heif',
+  'image/heic',
+];
 
 //tagline
 const MAX_TAGLINE = 60;
@@ -43,4 +58,7 @@ export {
   MAX_GENDERS,
   MAX_USER_IMAGES,
   MAX_TAGLINE,
+  MAX_FILE_SIZE_MB,
+  MAX_FILE_SIZE_BYTES,
+  ALLOWED_IMAGE_TYPES,
 };

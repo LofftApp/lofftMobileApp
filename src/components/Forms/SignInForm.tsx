@@ -5,10 +5,11 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useSignInMutation} from 'reduxFeatures/auth/authApi';
 
 // Components 🪢
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import ErrorMessage from 'components/LoadingAndNotFound/ErrorMessage';
 import {CoreButton} from 'components/buttons/CoreButton';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import DefaultInput from 'components/coreComponents/inputField/inputs/DefaultInput';
+import PasswordInput from 'components/coreComponents/inputField/inputs/PasswordInput';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -109,27 +110,21 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
       <Text style={fontStyles.headerMedium}>Hello again!</Text>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <DefaultInput
             value={email}
             onChangeText={handleEmailChange}
             placeholder="Email"
-            type="email"
             keyboardType="email-address"
             errorMessage={errorEmail || signInError}
           />
-
-          <ErrorMessage isInputField message={errorEmail} />
         </View>
         <View style={styles.inputContainer}>
-          <InputFieldText
+          <PasswordInput
             value={password}
             onChangeText={handlePasswordChange}
             placeholder="Password"
-            type="password"
             errorMessage={errorPassword || signInError}
           />
-
-          <ErrorMessage isInputField message={errorPassword} />
         </View>
         <Pressable onPress={handleForgotPassword}>
           <Text style={[fontStyles.bodyMedium, styles.forgotPassText]}>
@@ -152,11 +147,11 @@ const SignInForm = ({clearErrors, setClearErrors}: SignInFormProps) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingTop: size(55),
+    paddingTop: size(45),
     alignItems: 'center',
     flex: 1,
 
-    gap: size(20),
+    gap: size(10),
   },
 
   inputsContainer: {
@@ -170,7 +165,7 @@ const styles = StyleSheet.create({
 
   forgotPassText: {
     alignSelf: 'flex-end',
-    color: Color.Blue['100'],
+    color: Color.Blue[100],
   },
   signInContainer: {
     width: '100%',

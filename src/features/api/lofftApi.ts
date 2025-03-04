@@ -4,7 +4,9 @@ import {baseUrl} from 'helpers/baseUrl';
 import {clearPersister} from 'persistance/persister';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {RootState} from 'reduxCore/store';
-import {logout, setAuthMessage} from 'reduxFeatures/auth/authSlice';
+import {logout} from 'reduxFeatures/auth/authSlice';
+import {showToast} from 'reduxFeatures/settings/settingsSlice';
+import {Messages, ToastTypes} from 'reduxFeatures/settings/types';
 
 export const lofftApi = createApi({
   reducerPath: 'lofftApi',
@@ -35,7 +37,9 @@ export const lofftApi = createApi({
     if (result.error) {
       if (result.error.status === 401 && state.auth.isAuthenticated) {
         api.dispatch(logout());
-        api.dispatch(setAuthMessage('Session expired. Please log in again.'));
+        api.dispatch(
+          showToast({message: Messages.SessionExpired, type: ToastTypes.Error}),
+        );
         clearPersister();
         api.dispatch(lofftApi.util.resetApiState());
         await AsyncStorage.clear();
@@ -45,6 +49,8 @@ export const lofftApi = createApi({
 
     return result;
   },
+  keepUnusedDataFor: 60 * 5, // 5 minutes
+
   tagTypes: [
     'Adverts',
     'Applications',

@@ -13,7 +13,6 @@ import {Slider} from '@miblanchard/react-native-slider';
 import BackButton from 'components/buttons/BackButton';
 
 // Components 🪢
-import InputFieldText from 'components/coreComponents/inputField/InputFieldText';
 import {fontStyles} from 'styleSheets/fontStyles';
 import SelectionButton from 'components/buttons/SelectionButton';
 import {CoreButton} from 'components/buttons/CoreButton';
@@ -39,6 +38,7 @@ import {CoreStyleSheet} from 'styleSheets/CoreDesignStyleSheet';
 import type {SearchFilterModalProps} from './types';
 import {GetAdvertsParams} from 'reduxFeatures/adverts/types';
 import LoadingButtonIcon from 'components/LoadingAndNotFound/LoadingButtonIcon';
+import CurrencyInput from 'components/coreComponents/inputField/inputs/CurrencyInput';
 
 const SearchFilterModal = ({
   openModal,
@@ -147,24 +147,20 @@ const SearchFilterModal = ({
             <View style={styles.inputContainer}>
               <View style={styles.formContainer}>
                 <Text style={fontStyles.bodyExtraSmall}>Min. price</Text>
-                <InputFieldText
+                <CurrencyInput
                   style={styles.priceInputContainer}
                   placeholder="0"
-                  // String is passed as value into text form.
                   value={String(onlyNumber(minPrice))}
-                  type="currency"
                   onChangeText={handleMin}
                 />
               </View>
 
               <View style={styles.formContainer}>
                 <Text style={fontStyles.bodyExtraSmall}>Max. price</Text>
-                <InputFieldText
+                <CurrencyInput
                   style={styles.priceInputContainer}
                   placeholder="5000"
-                  // String is passed as value into text form.
                   value={String(onlyNumber(maxPrice))}
-                  type="currency"
                   onChangeText={handleMax}
                 />
               </View>
@@ -299,7 +295,6 @@ const styles = StyleSheet.create({
   clearAllButton: {
     width: '40%',
   },
-
 });
 
 export default SearchFilterModal;

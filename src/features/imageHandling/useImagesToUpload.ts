@@ -6,11 +6,19 @@ import {
   clearImagesToUpload as _clearImagesToUpload,
   setSavedImages as _setSavedImages,
   deleteSavedImage as _deleteSavedImage,
+  setSelectedImage as _setSelectedImage,
 } from './imageUploadSlice';
-import {DeleteSavedImagePayload, ImageToUpload} from './types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
+import {
+  DeleteSavedImagePayload,
+  ImageToUpload,
+  ImageType,
+  SelectedImage,
+} from './types';
 import {SetSavedImagesPayload} from './types';
 
-export const useImagesToUpload = () => {
+export const useImagesToUpload = (_imageType?: ImageType) => {
   const dispatch = useAppDispatch();
 
   const imagesToUpload = useAppSelector(
@@ -32,10 +40,23 @@ export const useImagesToUpload = () => {
   };
 
   const savedImages = useAppSelector(state => state.imageUpload.savedImages);
+  const _selectedImage = useAppSelector(
+    state => state.imageUpload.selectedImage,
+  );
+  const deletedRecordImages = useAppSelector(
+    state => state.imageUpload.deletedRecordImages,
+  );
 
   const setSavedImages = useCallback(
-    ({userType, imageType, images}: SetSavedImagesPayload) => {
-      dispatch(_setSavedImages({userType, imageType, images}));
+    (image: SetSavedImagesPayload | null) => {
+      dispatch(_setSavedImages(image));
+    },
+    [dispatch],
+  );
+
+  const setSelectedImage = useCallback(
+    (image: SelectedImage | null) => {
+      dispatch(_setSelectedImage(image));
     },
     [dispatch],
   );
@@ -43,10 +64,28 @@ export const useImagesToUpload = () => {
   const deleteSavedImage = ({
     userType,
     imageType,
-    fileName,
+    uri,
   }: DeleteSavedImagePayload) => {
-    dispatch(_deleteSavedImage({userType, imageType, fileName}));
+    dispatch(_deleteSavedImage({userType, imageType, uri}));
   };
+
+  const {isLessor} = useUserType();
+  const {isNewUserLessor} = useNewUserDetails(isLessor);
+
+  const getSelectedImage = useCallback(() => {
+    if (!_imageType) {
+      return null;
+    }
+
+    if (isLessor || isNewUserLessor) {
+      return _imageType === ImageType.User
+        ? _selectedImage?.lessor?.user
+        : _selectedImage?.lessor?.flat;
+    }
+    return _selectedImage?.tenant?.user;
+  }, [isLessor, isNewUserLessor, _imageType, _selectedImage]);
+
+  const selectedImage = getSelectedImage();
 
   return {
     imagesToUpload,
@@ -56,5 +95,8 @@ export const useImagesToUpload = () => {
     setSavedImages,
     savedImages,
     deleteSavedImage,
+    deletedRecordImages,
+    setSelectedImage,
+    selectedImage,
   };
 };

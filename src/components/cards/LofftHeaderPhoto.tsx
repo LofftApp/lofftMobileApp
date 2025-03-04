@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 import {StyleSheet, FlatList, Image, Dimensions, View} from 'react-native';
 
 // Components 🪢
@@ -8,10 +8,12 @@ import {NoFlatImage} from 'assets';
 // Types 🏷
 import type {LofftHeaderPhotoProps} from './types';
 import type {OnViewableItemsChangedParams} from './types';
+import {useLoadImages} from 'hooks/useLoadImages';
 
 const LofftHeaderPhoto = ({
   imageContainerHeight,
-  images,
+  otherImages,
+  mainImage,
   activeBlur = false,
 }: LofftHeaderPhotoProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -24,6 +26,13 @@ const LofftHeaderPhoto = ({
     [],
   );
 
+  const images = useMemo(
+    () => (mainImage ? [mainImage, ...otherImages] : otherImages),
+    [mainImage, otherImages],
+  );
+
+  const imagesUri = useMemo(() => images.map(image => image.uri), [images]);
+  const {loadingStatuses} = useLoadImages(imagesUri);
   const hasImages = images && images.length > 0;
 
   return (
@@ -40,9 +49,10 @@ const LofftHeaderPhoto = ({
             return (
               <Image
                 style={[styles.imageContainer, {height: imageContainerHeight}]}
-                source={{uri: item}}
+                source={{uri: item.uri}}
                 key={index + 1}
-                blurRadius={activeBlur ? 65 : 0}
+                blurRadius={activeBlur || !loadingStatuses[index] ? 65 : 0}
+                loadingIndicatorSource={NoFlatImage}
               />
             );
           }}

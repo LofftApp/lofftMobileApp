@@ -24,7 +24,7 @@ type GuestStackScreenNavigationProp = StackNavigationProp<GuestStackParamsList>;
 type TenantTabParamsList = {
   SearchTab: undefined;
   ApplicationsTab: undefined;
-  UserTab: undefined;
+  SettingsTab: undefined;
   AdminTab: undefined;
   NotificationsTab: undefined;
   tempTab: undefined;
@@ -72,7 +72,7 @@ type FavoritesScreenNavigationProp = CompositeNavigationProp<
 type LessorTabParamsList = {
   LessorIndexNavigator: undefined;
   NotificationsTab: undefined;
-  UserTab: undefined;
+  SettingsTab: undefined;
   AdminTab: undefined;
 };
 
@@ -96,6 +96,10 @@ type LessorNavigatorStackParamsList = {
   ChatroomsNavigator: {
     screen: keyof ChatroomsStackParamsList;
     params?: {chatroomId?: number};
+  };
+  SettingsNavigator: {
+    screen: keyof SettingsStackParamsList;
+    params?: {edit?: boolean; advertId?: number};
   };
 };
 
@@ -156,11 +160,13 @@ type NewUserScreenNames =
   | 'SelectCityScreen'
   | 'FinderBudgetScreen'
   | 'FlatFeaturesScreen'
-  | 'SelfFlatDescribeScreen'
+  | 'UserDescribeScreen'
+  | 'FlatDescribeScreen'
   | 'ConditionsOfUseScreen'
   | 'FinderBudgetScreen'
   | 'NameProfileScreen'
   | 'FlatImageUploadScreen'
+  | 'UserImageUploadScreen'
   | 'FlatDetailsScreen'
   | 'SafeSpaceForScreen'
   | 'ConfirmEmail';
@@ -170,10 +176,39 @@ type NewUserScreens = {
   lessor: Record<number, NewUserScreenNames>;
 };
 
-type NewUserStackParamsList = Record<NewUserScreenNames, undefined>;
+type NewUserStackParamsList = {
+  [key in NewUserScreenNames]:
+    | undefined
+    | {edit?: boolean; advertId?: number; newValue?: boolean};
+};
 
 type NewUserJourneyStackNavigation =
   StackNavigationProp<NewUserStackParamsList>;
+
+// Settings Navigator
+
+type SettingsTabParamsList = {
+  SettingsTab: undefined;
+};
+type SettingsStackParamsList = {
+  SettingsScreen: undefined;
+  EditProfileScreen: undefined;
+  EditAdvertScreen: {advertId: number};
+  GetTokensScreen: undefined;
+  AppLanguageScreen: undefined;
+  SwitchUserScreen: undefined;
+  TermsAndConditionsScreen: undefined;
+  SendFeedbackScreen: undefined;
+  NewUserNavigator: {
+    screen: keyof NewUserStackParamsList;
+    params?: {edit?: boolean; advertId?: number; newValue?: boolean};
+  };
+};
+
+type SettingsScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<SettingsTabParamsList, 'SettingsTab'>,
+  StackNavigationProp<SettingsStackParamsList>
+>;
 
 //Admin Navigator
 type AdminStackParamsList = {
@@ -205,4 +240,7 @@ export type {
   ChatroomNavigationProps,
   FavoritesStackParamsList,
   FavoritesScreenNavigationProp,
+  SettingsTabParamsList,
+  SettingsStackParamsList,
+  SettingsScreenNavigationProp,
 };

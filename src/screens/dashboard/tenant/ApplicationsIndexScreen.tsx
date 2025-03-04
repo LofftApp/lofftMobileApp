@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {View, Text, SafeAreaView, Pressable} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 // Redux 🏗️
 import {useGetApplicationsQuery} from 'reduxFeatures/applications/applicationApi';
@@ -22,20 +22,20 @@ import Color from 'styleSheets/lofftColorPallet.json';
 import {applicationPartition} from 'helpers/applicationsPartition';
 
 // types 🦄
-import { ApplicationStackParamsList } from 'navigationStacks/types';
+import {ApplicationStackParamsList} from 'navigationStacks/types';
 
-type ApplicationNavigationProp = NativeStackNavigationProp<ApplicationStackParamsList>;
-
+type ApplicationNavigationProp =
+  NativeStackNavigationProp<ApplicationStackParamsList>;
 
 const ApplicationsIndexScreen = () => {
-  const {data: applications, isError, isLoading} = useGetApplicationsQuery(
-    undefined,
-    {
-      refetchOnMountOrArgChange: true,
-
-    },
-  );
-  const navigation =  useNavigation<ApplicationNavigationProp>();
+  const {
+    data: applications,
+    isError,
+    isLoading,
+  } = useGetApplicationsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const navigation = useNavigation<ApplicationNavigationProp>();
   const [screen, setScreen] = useState('thumbs-up');
 
   const setActiveScreen = (activeScreen: string) => {
@@ -43,20 +43,23 @@ const ApplicationsIndexScreen = () => {
   };
 
   const [activeApplications, inactiveApplications] = useMemo(() => {
-    return applicationPartition(applications ?? []);
+    return applicationPartition(applications);
   }, [applications]);
 
   return (
     <SafeAreaView style={CoreStyleSheet.safeAreaViewListContainer}>
       <View style={CoreStyleSheet.headerContainer}>
         <Text style={fontStyles.headerLarge}>My Applications</Text>
-        <Pressable onPress={() => navigation.navigate('ChatroomsNavigator', { screen: 'ChatIndex' })}>
-            <LofftIcon
-              name={'annotation-heart'}
-              size={33}
-              color={Color.Lavendar[100]}
-            />
-          </Pressable>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('ChatroomsNavigator', {screen: 'ChatIndex'})
+          }>
+          <LofftIcon
+            name={'annotation-heart'}
+            size={33}
+            color={Color.Lavendar[100]}
+          />
+        </Pressable>
       </View>
 
       <HeaderPageContentSwitch
@@ -79,6 +82,5 @@ const ApplicationsIndexScreen = () => {
     </SafeAreaView>
   );
 };
-
 
 export default ApplicationsIndexScreen;

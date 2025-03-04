@@ -1,86 +1,55 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 //Redux
-import {useAuth} from 'reduxFeatures/auth/useAuth';
+import {useToast} from 'reduxFeatures/settings/useToast';
 
 //Assets 🎨
 import {AppleIcon, GoogleIcon} from 'assets';
-import {fontStyles} from 'styleSheets/fontStyles';
-
-//Components 🧰
-import LofftIcon from 'components/lofftIcons/LofftIcon';
 
 //Helpers 🥷  🏻
 import {size} from 'react-native-responsive-sizes';
 
-// API 🧠
-
 // Styles 🖼️
 import Colors from 'styleSheets/lofftColorPallet.json';
+import {Messages, ToastTypes} from 'reduxFeatures/settings/types';
 
 type SignInWithProps = {
   isSignInScreen: boolean;
 };
 
 const SignInWith = ({isSignInScreen}: SignInWithProps) => {
-  const [message, setMessage] = useState('');
-  const {authMessage, setAuthMessage} = useAuth();
-
-  const messageText =
-    "Our amazing team is working on this feature. It's coming soon!";
+  const {showToast, visible, hideToast} = useToast();
 
   useEffect(() => {
-    if (message) {
+    if (isSignInScreen) {
       const timer = setTimeout(() => {
-        setMessage('');
-      }, 3000);
+        hideToast();
+      }, 5000);
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [message]);
-
-  useEffect(() => {
-    if (authMessage && isSignInScreen) {
-      setMessage(authMessage);
-      const timer = setTimeout(() => {
-        setMessage('');
-        setAuthMessage('');
-      }, 3000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [authMessage, isSignInScreen, setAuthMessage]);
+  }, [isSignInScreen, hideToast]);
 
   const handleSignInWithApple = () => {
     console.log('sign in with apple');
-    setMessage(messageText);
+    showToast({
+      message: Messages.AmazingTeam,
+      type: ToastTypes.Info,
+    });
   };
 
   const handleSignInWithGoogle = () => {
     console.log('sign in with google');
-    setMessage(messageText);
+    showToast({
+      message: Messages.AmazingTeam,
+      type: ToastTypes.Error,
+      position: 'bottom',
+    });
   };
   return (
     <>
-      {message && (
-        <View style={styles.messageContainer}>
-          <View style={styles.messageTextContainer}>
-            {authMessage && (
-              <LofftIcon
-                name={'log-out'}
-                size={size(20)}
-                color={Colors.Black[100]}
-              />
-            )}
-            <Text style={[fontStyles.bodySmall, {color: Colors.Black[100]}]}>
-              {message}
-            </Text>
-          </View>
-        </View>
-      )}
       <View style={styles.mainContainer}>
         <Text style={styles.signInWithText}>
           ────────{'   '}Or sign in with {'   '}────────
@@ -88,12 +57,14 @@ const SignInWith = ({isSignInScreen}: SignInWithProps) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={handleSignInWithApple}
-            style={styles.logInWithButton}>
+            style={[styles.logInWithButton, visible && styles.disabledButton]}
+            disabled={visible}>
             <AppleIcon />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSignInWithGoogle}
-            style={styles.logInWithButton}>
+            style={[styles.logInWithButton, visible && styles.disabledButton]}
+            disabled={visible}>
             <GoogleIcon />
           </TouchableOpacity>
         </View>
@@ -141,6 +112,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.Lavendar[100],
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  disabledButton: {
+    backgroundColor: Colors.Black[30],
+    borderColor: Colors.Black[30],
   },
 });
 

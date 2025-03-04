@@ -8,7 +8,7 @@ import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import useRefetchNotifications from 'hooks/useRefetchNotifications';
 
 // Components 🪢
-import {tabIcons} from './tabIcons';
+import {tabIcons} from '../helpers/tabIcons';
 
 // StyleSheets 🖼️
 import Color from 'styleSheets/lofftColorPallet.json';
@@ -21,10 +21,10 @@ import NotificationsNavigator from './NotificationsNavigator';
 // Screens
 import AdminScreen from 'screens/admin/adminScreen';
 import ApplicationNavigator from './ApplicationNavigator';
-import UserScreen from 'screens/dashboard/tenant/UserScreen';
 
 //Types
 import {TenantTabParamsList} from './types';
+import SettingsNavigator from './SettingsNavigator';
 
 const Tab = createBottomTabNavigator<TenantTabParamsList>();
 
@@ -69,8 +69,8 @@ const TenantNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="UserTab"
-        component={UserScreen}
+        name="SettingsTab"
+        component={SettingsNavigator}
         options={{headerShown: false}}
       />
       {admin ? (

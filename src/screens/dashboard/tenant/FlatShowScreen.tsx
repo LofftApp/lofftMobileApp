@@ -72,7 +72,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
 
     {isSuccess: applyIsSuccess, isLoading: applyIsLoading, error: applyError},
   ] = useApplyForFlatMutation();
-  console.log('applyIsLoading', applyIsLoading);
 
   const completeProfile = currentUser?.userType !== 'newuser';
   const hasTokens = currentUser?.credits && currentUser?.credits > 0;
@@ -132,7 +131,8 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
         )}
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert?.flat.photos ?? []}
+          mainImage={advert?.flat.mainPic || null}
+          otherImages={advert?.flat.photos ?? []}
           activeBlur={isModalOpen}
         />
       </View>
@@ -166,15 +166,6 @@ const FlatShowScreen = ({route}: FlatShowScreenProp) => {
                     ) : (
                       'Apply'
                     )}
-                    {/* {applyIsLoading ? ( // Show spinner while loading
-                      <LoadingButtonIcon />
-                    ) : favorite?.applied ? ( // Show "Applied" after loading completes
-                      'Applied'
-                    ) : applyError ? ( // Show error message if there's an error
-                      'Error. Try Again'
-                    ) : (
-                      'Apply'
-                    )} */}
                   </Text>
                 </Animated.View>
               </TouchableOpacity>

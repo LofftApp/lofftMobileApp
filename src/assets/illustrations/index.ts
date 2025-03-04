@@ -1,6 +1,21 @@
 import HiFive from './Hi-five.svg';
 import Search from './search.svg';
 import Looking from './looking.svg';
+import Trail from './trail.svg';
+import ArmsInL from './armsInL.svg';
+import Vector1 from './vector-1.svg';
+import Vector2 from './vector-2.svg';
+import Vector3 from './vector-3.svg';
+import Vector4 from './vector-4.svg';
+import Vector5 from './vector-5.svg';
+
 export {HiFive};
 export {Search};
 export {Looking};
+export {Trail};
+export {ArmsInL};
+export {Vector1};
+export {Vector2};
+export {Vector3};
+export {Vector4};
+export {Vector5};

@@ -1,7 +1,11 @@
+import {AdvertStatus} from 'reduxFeatures/adverts/types';
 
-
-export const advertStatusIndex = (status: string) => {
-  return ['open', 'review', 'viewing', 'offered', 'closed'].indexOf(
-    status ?? '',
-  );
+export const advertStatusIndex = (status: AdvertStatus) => {
+  return [
+    AdvertStatus.Open,
+    AdvertStatus.Review,
+    AdvertStatus.Viewing,
+    AdvertStatus.Offered,
+    AdvertStatus.Closed,
+  ].indexOf(status ?? AdvertStatus.Open);
 };

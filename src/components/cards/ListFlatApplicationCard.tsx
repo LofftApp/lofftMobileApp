@@ -1,7 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, DimensionValue} from 'react-native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  DimensionValue,
+  Animated,
+  Easing,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+//Hooks  🪝
+import {useNewUserDetails} from 'reduxFeatures/registration/useNewUserDetails';
 // Components 🧬
 import LofftIcon from 'components/lofftIcons/LofftIcon';
 import LofftHeaderPhoto from './LofftHeaderPhoto';
@@ -10,7 +19,6 @@ import HeartButton from 'components/buttons/HeartButton';
 
 // Redux 🐙
 import {useToggleFavoriteMutation} from 'reduxFeatures/adverts/advertApi';
-import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 // StyleSheet 🖼
 import Color from 'styleSheets/lofftColorPallet.json';
 import {fontStyles} from 'styleSheets/fontStyles';
@@ -18,7 +26,8 @@ import {fontStyles} from 'styleSheets/fontStyles';
 // helpers 🧰
 import {size} from 'react-native-responsive-sizes';
 import {advertStatusIndex} from 'helpers/advertStatusIndex';
-import {dateFormatConverter} from 'helpers/dateFormatConverter';
+import {getCurrencySymbol} from 'helpers/getCurrencySymbol';
+import dayjs from 'dayjs';
 
 // Types 🏷
 import type {ListFlatApplicationCardProps} from './types';
@@ -26,15 +35,19 @@ import {
   LessorNavigatorScreenNavigationProp,
   SearchScreenNavigationProp,
 } from '../../navigationStacks/types';
+import {useUserType} from 'reduxFeatures/user/useUserType';
+import {AdvertStatus} from 'reduxFeatures/adverts/types';
+import {ApplicationStatus} from 'reduxFeatures/applications/types';
 
 //if isLessor is true, then the card will be of advert, otherwise it will be of application
 const ListFlatApplicationCard = ({
   application,
   _advert,
 }: ListFlatApplicationCardProps) => {
-  const {data} = useGetUserQuery();
-  const isLessor = data?.userType === 'lessor';
+  const {isLessor} = useUserType();
+
   const advert = isLessor ? _advert : application?.advert;
+  const {resetNewUserState} = useNewUserDetails(isLessor);
 
   const [toggleFavorite] = useToggleFavoriteMutation();
 
@@ -43,9 +56,10 @@ const ListFlatApplicationCard = ({
   >();
 
   const active = isLessor
-    ? !['closed'].includes(advert?.status ?? '')
-    : ['active'].includes(application?.status ?? '') &&
-      !['closed'].includes(advert?.status ?? '');
+    ? ![AdvertStatus.Closed].includes(advert?.status ?? AdvertStatus.Open)
+    : [ApplicationStatus.Active].includes(
+        application?.status ?? ApplicationStatus.Active,
+      ) && ![AdvertStatus.Closed].includes(advert?.status ?? AdvertStatus.Open);
 
   const tenantActiveStatus = ['Applied', 'In review', 'Viewing', 'Offer'];
   const lessorActiveStatus = ['Received', 'Review', 'Viewing', 'Offer'];
@@ -53,7 +67,7 @@ const ListFlatApplicationCard = ({
   const [currentStatusBar, setCurrentStatusBar] = useState('');
   const [activeStage, setActiveStage] = useState(0);
 
-  const calculateStatusBar = (currentStatusIndex: number) => {
+  const calculateStatusBar = useCallback((currentStatusIndex: number) => {
     switch (currentStatusIndex) {
       case 1:
         setCurrentStatusBar('40');
@@ -72,19 +86,46 @@ const ListFlatApplicationCard = ({
         setActiveStage(0);
         break;
     }
-  };
+  }, []);
 
+  const animatedWidth = useRef(new Animated.Value(1)).current;
   useEffect(() => {
     const index = active
-      ? advertStatusIndex(advert?.status ?? '')
-      : advertStatusIndex('offered');
+      ? advertStatusIndex(advert?.status ?? AdvertStatus.Open)
+      : advertStatusIndex(AdvertStatus.Offered);
     calculateStatusBar(index);
-  }, [advert?.status, application?.status, active]);
+    // Animated.spring(animatedWidth, {
+    //   toValue: Number(currentStatusBar),
+    //   speed: 0.1,
+    //   bounciness: 1,
+    //   useNativeDriver: false,
+    // }).start();
+    Animated.timing(animatedWidth, {
+      toValue: Number(currentStatusBar),
+      duration: 1500,
+      easing: Easing.bezier(0.2, 1, 0.68, 1),
+      useNativeDriver: false,
+    }).start();
+  }, [
+    animatedWidth,
+    calculateStatusBar,
+    active,
+    advert?.status,
+    currentStatusBar,
+  ]);
 
   const textForStatusBar = isLessor ? lessorActiveStatus : tenantActiveStatus;
 
   const handleFavorite = () => {
     toggleFavorite(advert?.id ?? 0);
+  };
+
+  const handleEdit = () => {
+    navigation.navigate('SettingsNavigator', {
+      screen: 'EditAdvertScreen',
+      params: {advertId: advert?.id ?? 0},
+    });
+    resetNewUserState();
   };
 
   return (
@@ -101,13 +142,14 @@ const ListFlatApplicationCard = ({
       <View style={styles.advertCardImage}>
         <LofftHeaderPhoto
           imageContainerHeight={size(300)}
-          images={advert?.flat.photos ?? []}
+          otherImages={advert?.flat.photos ?? []}
+          mainImage={advert?.flat.mainPic || null}
         />
       </View>
 
       <View style={styles.metaDataContainer}>
         <Text style={[fontStyles.headerSmall]}>
-          {advert?.monthlyRent} {advert?.currency}
+          {advert?.monthlyRent} {getCurrencySymbol(advert?.currency ?? 'eur')}
         </Text>
         <Text style={[fontStyles.headerSmall]}>
           {advert?.flat.size} {advert?.flat.measurementUnit}
@@ -118,19 +160,17 @@ const ListFlatApplicationCard = ({
             {color: isLessor ? Color.Black[50] : Color.Mint[100]},
           ]}>
           {isLessor
-            ? `Posted on ${dateFormatConverter({
-                date: advert?.createdAt ?? '',
-              })}`
-            : `Applied on ${dateFormatConverter({
-                date: application?.createdAt ?? '',
-              })}`}
+            ? `Posted on ${dayjs(advert?.createdAt).format('DD.MM.YYYY')}`
+            : `Applied on ${dayjs(application?.createdAt).format(
+                'DD.MM.YYYY',
+              )}`}
         </Text>
       </View>
 
       <View style={styles.locationContainer}>
         {advert?.flat.district && (
           <Text style={[fontStyles.bodySmall, styles.locationData]}>
-            {advert?.flat.district}, {advert?.flat.city}
+            {advert?.flat.district.name}, {advert?.flat.city.name}
           </Text>
         )}
       </View>
@@ -145,21 +185,24 @@ const ListFlatApplicationCard = ({
       )}
 
       <View>
-        <View
+        <Animated.View
           style={[
             styles.progressBarOutline,
             {backgroundColor: active ? Color.Mint[10] : Color.Tomato[10]},
           ]}>
-          <View
+          <Animated.View
             style={[
               styles.actualProgress,
               {
-                width: `${Number(currentStatusBar)}%` as DimensionValue,
+                width: animatedWidth.interpolate({
+                  inputRange: [0, 100],
+                  outputRange: ['0%', '100%'],
+                }) as DimensionValue,
                 backgroundColor: active ? Color.Mint[100] : Color.Tomato[100],
               },
             ]}
           />
-        </View>
+        </Animated.View>
 
         <View style={styles.statusContainer}>
           {textForStatusBar.map(el => (
@@ -179,14 +222,14 @@ const ListFlatApplicationCard = ({
       {isLessor ? (
         <View style={styles.buttonContainer}>
           <CoreButton
-            value="Edit listing"
+            value="Edit"
             textSize={fontStyles.headerExtraSmall}
-            textStyle={styles.textbutton}
             invert
             style={styles.button}
+            onPress={handleEdit}
           />
           <CoreButton
-            value="See applicants"
+            value="See Applicants"
             textSize={fontStyles.headerExtraSmall}
             style={styles.button}
             onPress={() =>
@@ -241,13 +284,12 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    maxWidth: size(183),
-    height: size(48),
+    maxWidth: size(200),
+    height: size(50),
     paddingHorizontal: size(10),
+    alignItems: 'center',
   },
-  textbutton: {
-    color: Color.Lavendar[100],
-  },
+
   metaDataContainer: {
     display: 'flex',
     flexDirection: 'row',

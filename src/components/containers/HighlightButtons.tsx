@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     paddingTop: size(7),
     paddingBottom: size(7),
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: Color.White[80],
   },
   justifyContentSpaceBetween: {
     justifyContent: 'space-between',

@@ -82,8 +82,8 @@ const ApplicantCardRound2 = ({
         />
         <View>
           <Text style={fontStyles.headerSmall}>
-            {applicant.profile.firstName &&
-              capitalize(applicant.profile.firstName)}
+            {applicant.profile?.firstName &&
+              capitalize(applicant.profile?.firstName)}
           </Text>
           <Text style={fontStyles.bodySmall}>
             🌟 {applicant.matchScore}% match

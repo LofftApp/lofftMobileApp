@@ -68,6 +68,7 @@ type SelectionButtonProps = {
   toggle: boolean;
   selectFn: (id: number) => void;
   disabled?: boolean;
+  isReady?: boolean;
 };
 
 type NewUserJourneyButtonProps = {
@@ -75,7 +76,6 @@ type NewUserJourneyButtonProps = {
   icon: string;
   style?: StyleProp<ViewStyle>;
   onPress: () => void;
-  type: 'lessor' | 'tenant';
   isActive: boolean;
 };
 
@@ -97,6 +97,13 @@ type NewUserJourneyContinueButtonProps = {
   disabled?: boolean;
 };
 
+enum ButtonValues {
+  TryAgain = 'Try Again',
+  Continue = 'Continue',
+  Save = 'Save',
+  Cancel = 'Cancel',
+}
+
 export type {
   HeaderPageContentSwitchProps,
   CoreButtonProps,
@@ -110,3 +117,5 @@ export type {
   IconButtonProps,
   NewUserJourneyContinueButtonProps,
 };
+
+export {ButtonValues};

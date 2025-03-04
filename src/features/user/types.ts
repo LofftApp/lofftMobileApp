@@ -1,3 +1,13 @@
+import {City, District, Language, SafeSpace} from 'reduxFeatures/assets/types';
+import {
+  ImageRecord,
+  EditImagesToBackend,
+} from 'reduxFeatures/imageHandling/types';
+import {
+  NewUserLessorDetails,
+  NewUserTenantDetails,
+} from 'reduxFeatures/registration/types';
+
 interface UserCharacteristics {
   emoji: string;
   name: string;
@@ -13,7 +23,12 @@ interface UserProfile {
   firstName: string;
   lastName: string;
   genderIdentity: string;
-  userPhotos: string[];
+  avatar: ImageRecord;
+  userPhotos: ImageRecord[];
+  city: City;
+  districts: District[];
+  profileLanguages: Language[];
+  safeSpaces: SafeSpace[];
 }
 interface User {
   admin: boolean;
@@ -21,7 +36,7 @@ interface User {
   id: number;
   email: string;
   termsAccepted: boolean;
-  userType: 'newuser' | 'tenant' | 'lessor' | 'admin';
+  userType: UserType;
   profile: UserProfile;
   confirmedEmail: boolean;
 }
@@ -32,7 +47,7 @@ interface IncomingUser {
   id: number;
   email: string;
   terms_accepted: boolean;
-  user_type: 'newuser' | 'tenant' | 'lessor' | 'admin';
+  user_type: UserType;
   profile: IncomingUserProfile;
   confirmedEmail: boolean;
 }
@@ -65,6 +80,36 @@ interface IncomingSpecificUser {
   id: number;
   profile: IncomingUserProfile;
 }
+
+enum EditProfileActions {
+  matchTags = 'matchTags',
+  personalInfo = 'personalInfo',
+  genderIdentity = 'genderIdentity',
+  searchPreferences = 'searchPreferences',
+  languages = 'languages',
+  images = 'images',
+}
+type EditProfileParams<T extends UserType.TENANT | UserType.LESSOR> = {
+  userId: number;
+  actionMethod: EditProfileActions;
+  userType: T;
+} & (T extends UserType.LESSOR
+  ? Partial<NewUserLessorDetails>
+  : Partial<NewUserTenantDetails>) & {data?: EditImagesToBackend};
+
+type EditProfileImageParams<T extends UserType.TENANT | UserType.LESSOR> = {
+  userId: number;
+  actionMethod: EditProfileActions;
+  userType: T;
+} & {data: EditImagesToBackend};
+
+enum UserType {
+  NEWUSER = 'newuser',
+  TENANT = 'tenant',
+  LESSOR = 'lessor',
+  ADMIN = 'admin',
+}
+
 export type {
   User,
   UserProfile,
@@ -73,4 +118,9 @@ export type {
   IncomingUser,
   IncomingSpecificUser,
   SpecificUser,
+  IncomingUserProfile,
+  EditProfileParams,
+  EditProfileImageParams,
 };
+
+export {EditProfileActions, UserType};

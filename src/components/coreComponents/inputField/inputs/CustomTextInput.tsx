@@ -9,7 +9,7 @@ import Color from 'styleSheets/lofftColorPallet.json';
 type CustomTextInputProps = {
   text: string;
   textFocus: boolean;
-  error: string;
+  error?: string;
   handleOnChange: (text: string) => void;
   handleOnFocus: () => void;
   handleOnBlur: () => void;

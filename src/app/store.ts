@@ -16,6 +16,7 @@ import newUserReducer from 'reduxFeatures/registration/newUserSlice';
 import imageUploadReducer from 'reduxFeatures/imageHandling/imageUploadSlice';
 import {lofftApi} from 'reduxFeatures/api/lofftApi';
 import applicationsReducer from 'reduxFeatures/applications/applicationSlice';
+import settingsReducer from 'reduxFeatures/settings/settingsSlice';
 
 const persistConfig = {
   key: 'root',
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   newUser: newUserReducer,
   imageUpload: imageUploadReducer,
   applications: applicationsReducer,
+  settings: settingsReducer,
   [lofftApi.reducerPath]: lofftApi.reducer,
 });
 
@@ -42,6 +44,7 @@ export const setupStore = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
+      immutableCheck: false,
     }).concat(lofftApi.middleware),
 });
 
