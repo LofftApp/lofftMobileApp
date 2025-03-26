@@ -49,6 +49,9 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
   const currentAdvertStatus = advertStatusIndex(
     advert?.status ?? AdvertStatus.Open,
   );
+
+  console.log('🐊', currentAdvertStatus);
+
   const round1 = application?.round1;
   const round2 = application?.round2;
   const round3 = application?.round3;
@@ -204,6 +207,21 @@ const StatusBarComponent = ({application, _advert}: StatusBarProps) => {
                 onPress={() =>
                   navigation.navigate('ChatroomsNavigator', {
                     screen: 'ChatIndex',
+                  })
+                }
+                icon={
+                  <LofftIcon name="send" size={20} color={Color.White[100]} />
+                }
+              />
+            )}
+
+            {currentAdvertStatus === 3 && currentAdvertStatus === index && (
+              <CoreButton
+                value="Make an Offer"
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('OfferApplicantsScreen', {
+                    advertId: advert?.id ?? 0,
                   })
                 }
                 icon={

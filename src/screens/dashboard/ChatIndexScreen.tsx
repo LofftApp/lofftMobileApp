@@ -26,6 +26,7 @@ import BackButton from 'components/buttons/BackButton';
 // Types 🦄
 import {useGetUserQuery} from 'reduxFeatures/user/userApi';
 import {ChatroomNavigationProps} from 'navigationStacks/types';
+import {CoreButton} from 'components/buttons/CoreButton';
 
 const ChatIndexScreen = () => {
   const {data: currentUser} = useGetUserQuery();
@@ -45,8 +46,14 @@ const ChatIndexScreen = () => {
     return <LoadingComponent />;
   }
 
+  console.log('hehehe', data);
+
   return (
-    <SafeAreaView style={CoreStyleSheet.safeAreaViewShowContainer}>
+    <SafeAreaView
+      style={[
+        CoreStyleSheet.safeAreaViewShowContainer,
+        styles.centerContainer,
+      ]}>
       <BackButton title="Chats" onPress={() => navigation.goBack()} />
       {data?.chatrooms.length === 0 ? (
         <View style={styles.containerNoChatrooms}>
@@ -78,11 +85,17 @@ const ChatIndexScreen = () => {
           style={styles.flatlist}
         />
       )}
+      {data?.canOffer && (
+        <CoreButton value={'Make an Offer'} style={styles.offerButton} />
+      )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  centerContainer: {
+    alignItems: 'center',
+  },
   containerNoChatrooms: {
     flex: 1,
     backgroundColor: Color.White[100],
@@ -102,6 +115,9 @@ const styles = StyleSheet.create({
   centerText: {
     textAlign: 'center',
     marginTop: 15,
+  },
+  offerButton: {
+    width: '90%',
   },
 });
 

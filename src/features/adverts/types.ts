@@ -67,6 +67,7 @@ enum AdvertStatus {
   Open = 'open',
   Review = 'review',
   Viewing = 'viewing',
+  PreOffer = 'pre_offer',
   Offered = 'offered',
   Closed = 'closed',
 }

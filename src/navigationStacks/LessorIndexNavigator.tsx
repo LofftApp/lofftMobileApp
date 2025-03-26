@@ -13,6 +13,7 @@ import ChatroomsNavigator from './ChatroomsNavigator';
 import SettingsNavigator from './SettingsNavigator';
 
 import type {LessorNavigatorStackParamsList} from './types';
+import OfferApplicantsScreen from 'screens/dashboard/landlord/SubScreens/OfferApplicantsScreen';
 
 const Lessor = createNativeStackNavigator<LessorNavigatorStackParamsList>();
 const LessorIndexNavigator = () => {
@@ -42,6 +43,11 @@ const LessorIndexNavigator = () => {
       <Lessor.Screen
         name="ApplicantProfileScreen"
         component={ApplicantProfileScreen}
+      />
+
+      <Lessor.Screen
+        name="OfferApplicantsScreen"
+        component={OfferApplicantsScreen}
       />
 
       <Lessor.Screen
