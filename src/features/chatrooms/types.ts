@@ -36,6 +36,7 @@ type ChatCardProps = {
 
 interface ChatroomsState {
   chatrooms: Chatroom[];
+  canOffer?: boolean;
 }
 
 interface MessagesState {

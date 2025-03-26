@@ -152,6 +152,15 @@ export const advertApi = lofftApi.injectEndpoints({
       ],
     }),
 
+    finalRound: builder.query<Adverts, number>({
+      query: id => `/api/adverts/${id}/see_applications_by_advert_id`,
+      transformResponse: response => {
+        console.log('finalRound called 🚨');
+
+        return toCamelCaseKeys(response as Adverts);
+      },
+    }),
+
     applyForFlat: builder.mutation<{credits: number; status: string}, number>({
       query: id => ({
         url: `/api/adverts/${id}/advert_applications`,
@@ -415,6 +424,7 @@ export const advertApi = lofftApi.injectEndpoints({
 export const {
   useGetAdvertsQuery,
   useGetAdvertByIdQuery,
+  useFinalRoundQuery,
   useSeeApplicationsByAdvertIdQuery,
   useToggleFavoriteMutation,
   useApplyForFlatMutation,

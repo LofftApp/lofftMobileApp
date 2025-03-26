@@ -5,6 +5,7 @@ export const advertStatusIndex = (status: AdvertStatus) => {
     AdvertStatus.Open,
     AdvertStatus.Review,
     AdvertStatus.Viewing,
+    AdvertStatus.PreOffer,
     AdvertStatus.Offered,
     AdvertStatus.Closed,
   ].indexOf(status ?? AdvertStatus.Open);
