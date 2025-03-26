@@ -92,7 +92,9 @@ type LessorNavigatorStackParamsList = {
     applicantId: number;
     applicationId: number;
   };
-  LessorChatScreen: undefined;
+  LessorChatScreen: {
+    advertId: number;
+  };
   ChatroomsNavigator: {
     screen: keyof ChatroomsStackParamsList;
     params?: {chatroomId?: number};
