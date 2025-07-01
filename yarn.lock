@@ -6618,16 +6618,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:26.2.4":
-  version: 26.2.4
-  resolution: "electron@npm:26.2.4"
+"electron@npm:28.3.2":
+  version: 28.3.2
+  resolution: "electron@npm:28.3.2"
   dependencies:
     "@electron/get": "npm:^2.0.0"
     "@types/node": "npm:^18.11.18"
     extract-zip: "npm:^2.0.1"
   bin:
     electron: cli.js
-  checksum: 10/f6c047d3f6f884ba9651ab410e8fb5e06ac9199d588838eaa02a5cdfe8fc2d6a011a43bf197e0608f4be9d4e93d3fd5be3ca85f4944215df8f0108be19cb744a
+  checksum: 10/2d81d97c6d41249e191b8b530cb0ddb2395a39c0b3e580bcc7f842e895672ca6aa66e4f4868df78f2c46da509f095e68e8c33b950adb0291c0e9dde50cf5c11d
   languageName: node
   linkType: hard
 
@@ -9653,7 +9653,7 @@ __metadata:
     babel-plugin-module-resolver: "npm:^5.0.2"
     cross-spawn: "npm:^6.0.6"
     dayjs: "npm:^1.11.13"
-    electron: "npm:26.2.4"
+    electron: "npm:28.3.2"
     eslint: "npm:^8.19.0"
     jest: "npm:^29.6.3"
     metro-react-native-babel-preset: "npm:^0.76.9"
